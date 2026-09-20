@@ -73,8 +73,9 @@ export const PROJECT_NAV_ROUTES = {
   documents: 'project-documents', // existing
   boq: 'project-boq', // renders ProjectBoqScreen — deliberately distinct from the homeowner New-Build BOQ flow (boq-overview/detailed-boq/...), which is estimate-authoring, not a project-workspace record
   team: 'project-team', // existing
-  customer: 'project-customer', // NEW placeholder
-  reports: 'project-reports', // NEW placeholder
+  customer: 'project-customer',
+  photos: 'project-photos',
+  reports: 'project-reports',
   settings: 'project-settings', // NEW placeholder
 } as const
 
@@ -118,7 +119,7 @@ export const NAV_PLACEHOLDER_CONTENT: Record<string, NavPlaceholderContent> = {
   'project-workforce': { title: 'Workforce', description: "This project's on-site crew will appear here." },
   'project-live-site': { title: 'Live Site', description: 'Live camera feeds and real-time status for this project site.' },
   'project-boq': { title: 'Bill of Quantities', description: "This project's Bill of Quantities — sections, quantities and amounts — lives here." },
-  'project-customer': { title: 'Customer', description: "This project's customer details and communication history will appear here." },
+  'project-customer': { title: 'Customer', description: "Invite the homeowner and manage what they can see on this project." },
   'project-reports': { title: 'Reports', description: 'Progress and cost reports for this project.' },
   'project-settings': { title: 'Settings', description: 'Project-level settings and preferences.' },
   'project-photos': { title: 'Photos', description: 'Photos and videos shared from your project site will appear here.' },

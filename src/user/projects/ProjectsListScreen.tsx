@@ -26,6 +26,7 @@ import Sidebar from '@/shared/components/Sidebar'
 import { resolveProjectStatus, isCompletedStatus, type ProjectType } from '@/data/projects'
 import type { Project } from '@/data/projectApi'
 import { useProjects } from '@/data/projectState'
+import { useCustomerProjects } from '@/data/customerProjectsState'
 import { projectStageLabel } from '@/data/homeownerDashboard'
 import { getHouseRequirementsForProject } from '@/data/houseRequirements'
 // 12H-C — see projectSubtitle()'s own comment and the cache-warming effect
@@ -142,6 +143,7 @@ export default function ProjectsListScreen({
   // loading" from a genuinely empty list — the empty state below must never
   // flash for a homeowner who actually has real projects still in flight.
   const { status, projects } = useProjects()
+  const shared = useCustomerProjects()
   const activeProjects = projects.filter(p => !isCompletedStatus(resolveProjectStatus(p.id, p.stage ?? undefined)))
   const completedProjects = projects.filter(p => isCompletedStatus(resolveProjectStatus(p.id, p.stage ?? undefined)))
 
@@ -244,6 +246,33 @@ export default function ProjectsListScreen({
                 <div className="flex flex-col gap-7">
                   <ProjectGroup label="Active" projects={activeProjects} onOpen={openProject} />
                   <ProjectGroup label="Completed" projects={completedProjects} onOpen={openProject} />
+                </div>
+              )}
+
+              {shared.status === 'loading' || shared.status === 'idle' ? null : shared.projects.length > 0 && (
+                <div className="flex flex-col gap-3">
+                  <span className="text-[11px] tracking-[0.08em] uppercase text-[#68636D]" style={{ fontFamily: FONT_MONO }}>Shared with you ({shared.projects.length})</span>
+                  <div className="flex flex-col gap-3">
+                    {shared.projects.map(item => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => onNavigate(item.customerStatus === 'invited' ? 'dashboard-home' : 'project-overview', {
+                          project_id: item.id,
+                          project_name: item.name,
+                          location: item.location ?? '',
+                          project_stage: item.stage ?? '',
+                        })}
+                        className="w-full flex items-center justify-between gap-3 rounded-[14px] bg-white p-4 text-left cursor-pointer min-h-11"
+                        style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
+                      >
+                        <div className="min-w-0">
+                          <span className="text-[14.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{item.name}</span>
+                          <p className="text-[12.5px] text-[#68636D] m-0 mt-1">{item.customerStatus === 'invited' ? 'Invite pending' : (item.organizationName ?? 'Shared project')}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
 

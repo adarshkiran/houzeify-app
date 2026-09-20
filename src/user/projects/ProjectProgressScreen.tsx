@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import HIcon from '@/shared/components/HIcon'
@@ -10,6 +10,9 @@ import type { AccountType } from '@/data/accountType'
 import { getContractorListingById, type ContractorDirectoryInput } from '@/data/contractorDirectory'
 import { getAwardedBid } from '@/data/bids'
 import { useDailyProgress } from '@/data/dailyProgressState'
+import { updateDailyProgress } from '@/data/dailyProgressApi'
+import { useProjectAudience } from '@/data/customerProjectsState'
+import { listCustomerViewProgress } from '@/data/customerViewApi'
 import { constructionStages } from '@/data/constructionStages'
 import type { DailyProgress } from '@/data/dailyProgressApi'
 
@@ -221,7 +224,47 @@ export default function ProjectProgressScreen({
   )
   const contractorName = listing?.name
 
-  const { status: progressStatus, progress, errorMessage } = useDailyProgress(projectId)
+  const audience = useProjectAudience(projectId)
+  const isCustomer = audience === 'customer'
+  const { status: progressStatus, progress: companyProgress, errorMessage, refresh } = useDailyProgress(isCustomer ? undefined : projectId)
+  const [sharedProgress, setSharedProgress] = useState<DailyProgress[]>([])
+  const [shareBusyId, setShareBusyId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!isCustomer || !projectId) return
+    let cancelled = false
+    listCustomerViewProgress(projectId).then(rows => {
+      if (cancelled) return
+      setSharedProgress(rows.map(row => ({
+        id: row.id,
+        projectId: row.projectId,
+        createdBy: '',
+        date: row.date,
+        stage: row.stage,
+        title: row.title,
+        description: row.description,
+        photos: row.photos.map(photo => ({
+          id: photo.id,
+          dailyProgressId: row.id,
+          fileName: photo.fileName,
+          mimeType: photo.mimeType,
+          size: photo.size,
+          uploadedBy: '',
+          storageRef: '',
+          createdAt: photo.createdAt,
+        })),
+        visibility: 'customer' as const,
+        publishedAt: row.publishedAt,
+        createdAt: row.createdAt,
+        updatedAt: row.updatedAt,
+      })))
+    }).catch(() => {
+      if (!cancelled) setSharedProgress([])
+    })
+    return () => { cancelled = true }
+  }, [isCustomer, projectId])
+
+  const progress = isCustomer ? sharedProgress : companyProgress
   const latestEntry = progress[0]
 
   // Per the ticket's own formula: prefer the latest real entry's stage,
@@ -271,6 +314,7 @@ export default function ProjectProgressScreen({
           <button type="button" onClick={goToWorkspace} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Project Workspace
           </button>
+          {!isCustomer && (
           <button
             type="button"
             onClick={() => onNavigate('create-daily-progress', projectId ? { project_id: projectId } : undefined)}
@@ -279,10 +323,11 @@ export default function ProjectProgressScreen({
           >
             Add Progress Update
           </button>
+          )}
         </div>
       </header>
 
-      <ProjectSubNav active="progress" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
+      <ProjectSubNav active="progress" projectId={projectId} projectName={projectName} variant={isCustomer ? 'customer' : 'company'} onNavigate={onNavigate} />
 
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[820px] mx-auto flex flex-col gap-6">
@@ -361,8 +406,9 @@ export default function ProjectProgressScreen({
                 <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
                   <IcoProgress />
                 </span>
-                <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No progress updates yet</p>
-                <p className="text-[13px] text-[#9A949D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>Start documenting construction progress to build your project's digital record.</p>
+                <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{isCustomer ? 'Nothing shared yet' : 'No progress updates yet'}</p>
+                <p className="text-[13px] text-[#9A949D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>{isCustomer ? 'Your builder has not published a progress update yet.' : "Start documenting construction progress to build your project's digital record."}</p>
+                {!isCustomer && (
                 <button
                   type="button"
                   onClick={() => onNavigate('create-daily-progress', projectId ? { project_id: projectId } : undefined)}
@@ -371,6 +417,7 @@ export default function ProjectProgressScreen({
                 >
                   Add Progress Update
                 </button>
+                )}
               </div>
             </SectionCard>
           ) : (
@@ -407,6 +454,27 @@ export default function ProjectProgressScreen({
                             )}
                           </div>
                           <p className="text-[12px] text-[#9A949D] m-0 shrink-0" style={{ fontFamily: FONT_BODY }}>{formatEntryDate(entry.date)}</p>
+                        </div>
+                        {!isCustomer && projectId && (
+                          <button
+                            type="button"
+                            disabled={shareBusyId === entry.id}
+                            onClick={() => {
+                              const next = entry.visibility === 'customer' ? 'internal' : 'customer'
+                              setShareBusyId(entry.id)
+                              updateDailyProgress(projectId, entry.id, { visibility: next })
+                                .then(() => refresh())
+                                .finally(() => setShareBusyId(null))
+                            }}
+                            className="mt-3 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold cursor-pointer border-0"
+                            style={{ backgroundColor: entry.visibility === 'customer' ? '#C6F6D5' : '#F3EAFF', color: '#242326', fontFamily: FONT_BODY }}
+                          >
+                            {entry.visibility === 'customer' ? 'Shared' : 'Share with customer'}
+                          </button>
+                        )}
+                        {isCustomer && (
+                          <p className="text-[11px] tracking-[0.04em] uppercase text-[#15803D] m-0 mt-2" style={{ fontFamily: FONT_MONO }}>Shared with you</p>
+                        )}
                         </div>
                       </div>
                     ))}

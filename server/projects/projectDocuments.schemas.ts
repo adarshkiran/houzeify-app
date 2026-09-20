@@ -31,5 +31,6 @@ export const patchProjectDocumentBodySchema = {
     title: { type: 'string', minLength: 1, maxLength: 200, pattern: '\\S' },
     description: { type: 'string', maxLength: 2000 },
     category: { type: 'string', enum: categoryEnum },
+    visibility: { type: 'string', enum: ['internal', 'customer'] },
   },
 } as const

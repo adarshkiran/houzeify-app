@@ -31,18 +31,30 @@ const PROJECT_NAV_ITEMS: { id: ProjectNavId; label: string }[] = [
   { id: 'settings', label: 'Settings' },
 ]
 
+const CUSTOMER_PROJECT_NAV_ITEMS: { id: ProjectNavId; label: string }[] = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'progress', label: 'Progress' },
+  { id: 'timeline', label: 'Timeline' },
+  { id: 'photos', label: 'Photos' },
+  { id: 'documents', label: 'Documents' },
+  { id: 'workforce', label: 'Workforce' },
+]
+
 export default function ProjectSubNav({
   active,
   projectId,
   projectName,
+  variant = 'company',
   onNavigate,
 }: {
   active: ProjectNavId
   projectId?: string
   projectName?: string
+  variant?: 'company' | 'customer'
   onNavigate: (s: string, data?: Record<string, string>) => void
 }) {
   const go = (dest: string) => onNavigate(dest, projectId ? { project_id: projectId } : undefined)
+  const items = variant === 'customer' ? CUSTOMER_PROJECT_NAV_ITEMS : PROJECT_NAV_ITEMS
 
   return (
     <div
@@ -51,7 +63,7 @@ export default function ProjectSubNav({
       aria-label={projectName ? `${projectName} navigation` : 'Project navigation'}
     >
       <div className="flex items-center gap-1 px-4 sm:px-6 min-w-max">
-        {PROJECT_NAV_ITEMS.map(item => {
+        {items.map(item => {
           const isActive = active === item.id
           return (
             <button

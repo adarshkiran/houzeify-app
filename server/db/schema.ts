@@ -474,6 +474,10 @@ export const dailyProgress = pgTable(
     stage: text('stage'),
     title: text('title').notNull(),
     description: text('description'),
+    // Module 08 — default-deny customer feed. 'internal' | 'customer'.
+    visibility: text('visibility').notNull().default('internal'),
+    publishedAt: timestamp('published_at', { withTimezone: true }),
+    publishedBy: text('published_by').references(() => users.id, { onDelete: 'set null' }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
@@ -680,6 +684,8 @@ export const projectDocuments = pgTable(
     size: integer('size').notNull(),
     storageRef: text('storage_ref').notNull(),
     status: text('status').notNull().default('active'),
+    // Module 08 — default-deny customer documents. 'internal' | 'customer'.
+    visibility: text('visibility').notNull().default('internal'),
     archivedAt: timestamp('archived_at', { withTimezone: true }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
@@ -692,6 +698,41 @@ export const projectDocuments = pgTable(
 
 export type ProjectDocumentRow = typeof projectDocuments.$inferSelect
 export type NewProjectDocumentRow = typeof projectDocuments.$inferInsert
+
+// ─── project_customers ──────────────────────────────────────────────────
+// Module 08 — one linked homeowner per company project. Not org membership.
+// Unique on project_id: invite replaces the same row (including after a
+// soft remove). status is 'invited' | 'active' | 'removed'.
+export const projectCustomers = pgTable(
+  'project_customers',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    projectId: text('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    status: text('status').notNull().default('invited'),
+    invitedBy: text('invited_by')
+      .notNull()
+      .references(() => users.id, { onDelete: 'restrict' }),
+    invitedAt: timestamp('invited_at', { withTimezone: true }).notNull().defaultNow(),
+    acceptedAt: timestamp('accepted_at', { withTimezone: true }),
+    removedAt: timestamp('removed_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  table => [
+    uniqueIndex('project_customers_project_id_unique').on(table.projectId),
+    index('project_customers_user_id_idx').on(table.userId),
+  ],
+)
+
+export type ProjectCustomerRow = typeof projectCustomers.$inferSelect
+export type NewProjectCustomerRow = typeof projectCustomers.$inferInsert
 
 // ─── boq_sections / boq_items ───────────────────────────────────────────
 // Module 07 (Slice 2) — the project-workspace Bill of Quantities: a

@@ -18,6 +18,7 @@ export interface ProjectDocumentPatch {
   title?: string
   description?: string
   category?: string
+  visibility?: 'internal' | 'customer'
 }
 
 export function serializeProjectDocument(row: ProjectDocumentRow) {
@@ -32,6 +33,7 @@ export function serializeProjectDocument(row: ProjectDocumentRow) {
     mimeType: row.mimeType,
     size: row.size,
     fileAvailable: !row.storageRef.startsWith('internal://'),
+    visibility: row.visibility,
     status: row.status,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),

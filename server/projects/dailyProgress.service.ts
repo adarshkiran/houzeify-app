@@ -32,6 +32,7 @@ import {
 } from '../db/schema.js'
 import { HttpError } from '../errors/httpError.js'
 import { getProjectForAccess } from './project.service.js'
+import { canMutateAtProjectLevel } from './projectAccess.js'
 import { ORGANIZATION_MUTATION_ROLES, type OrganizationMemberRole } from '../organizations/organization.service.js'
 
 export interface DailyProgressInput {
@@ -39,6 +40,14 @@ export interface DailyProgressInput {
   stage?: string
   title: string
   description?: string
+}
+
+export interface DailyProgressPatch {
+  date?: string
+  stage?: string
+  title?: string
+  description?: string
+  visibility?: 'internal' | 'customer'
 }
 
 export interface DailyProgressPhotoInput {
@@ -139,7 +148,7 @@ export async function updateDailyProgress(
   projectId: string,
   progressId: string,
   userId: string,
-  patch: Partial<DailyProgressInput>,
+  patch: Partial<DailyProgressPatch>,
 ): Promise<DailyProgressRow> {
   const project = await requireProjectAccess(env, projectId, userId)
   const existing = await requireDailyProgressRow(env, projectId, progressId)
@@ -148,12 +157,25 @@ export async function updateDailyProgress(
     throw new HttpError('EMPTY_PATCH', 'Provide at least one field to update.', 400)
   }
 
+  if (patch.visibility !== undefined) {
+    if (!(await canMutateAtProjectLevel(env, project, userId))) {
+      throw new HttpError('NOT_FOUND', 'Progress update not found.', 404)
+    }
+  }
+
   const db = getDb(env)
   const values: Partial<typeof dailyProgress.$inferInsert> = { updatedAt: new Date() }
   if (patch.date !== undefined) values.date = patch.date
   if (patch.stage !== undefined) values.stage = patch.stage.trim() || null
   if (patch.title !== undefined) values.title = patch.title.trim()
   if (patch.description !== undefined) values.description = patch.description.trim() || null
+  if (patch.visibility !== undefined) {
+    values.visibility = patch.visibility
+    if (patch.visibility === 'customer') {
+      values.publishedAt = new Date()
+      values.publishedBy = userId
+    }
+  }
 
   const updated = await db.update(dailyProgress).set(values).where(eq(dailyProgress.id, progressId)).returning()
   return updated[0]

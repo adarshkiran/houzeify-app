@@ -16,6 +16,8 @@ import { describeDocumentError, type ProjectDocumentDto, type UpdateProjectDocum
 import { ApiError } from '@/data/apiClient'
 import { isServerProjectId } from '@/data/projectIds'
 import { useAuth } from '@/data/authState'
+import { useProjectAudience } from '@/data/customerProjectsState'
+import { listCustomerViewDocuments, type CustomerViewDocument } from '@/data/customerViewApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -533,8 +535,16 @@ function ServerDocuments({
 }) {
   const auth = useAuth()
   const currentUserId = auth.user?.id || userId || CURRENT_USER_ID
+  const audience = useProjectAudience(projectId)
+  const isCustomer = audience === 'customer'
+  const [sharedDocs, setSharedDocs] = useState<CustomerViewDocument[]>([])
 
-  const { status, documents, error, addDocument, updateDocument, archiveDocument, refetch } = useProjectDocuments(projectId)
+  useEffect(() => {
+    if (!isCustomer) return
+    listCustomerViewDocuments(projectId).then(setSharedDocs).catch(() => setSharedDocs([]))
+  }, [isCustomer, projectId])
+
+  const { status, documents, error, addDocument, updateDocument, archiveDocument, refetch } = useProjectDocuments(isCustomer ? undefined : projectId)
   const isLoading = status === 'idle' || status === 'loading'
 
   const [filter, setFilter] = useState<FilterTab>('all')
@@ -703,7 +713,7 @@ function ServerDocuments({
         </div>
       </header>
 
-      <ProjectSubNav active="documents" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
+      <ProjectSubNav active="documents" projectId={projectId} projectName={projectName} variant={isCustomer ? 'customer' : 'company'} onNavigate={onNavigate} />
 
       <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8">
         <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
@@ -720,6 +730,7 @@ function ServerDocuments({
             </div>
             {/* Disabled mid-submit so it can't close (and wipe) or reopen the
                 form while a create request is in flight. */}
+            {!isCustomer && (
             <button
               type="button"
               onClick={() => (showForm ? closeForm() : openForm())}
@@ -735,6 +746,7 @@ function ServerDocuments({
             >
               Add document
             </button>
+            )}
           </div>
 
           {/* Persistent live region so screen readers announce the
@@ -913,7 +925,18 @@ function ServerDocuments({
           )}
 
           {/* Document list */}
-          {isLoading ? (
+          {isCustomer ? (
+            <div className="flex flex-col gap-3">
+              {sharedDocs.length === 0 ? (
+                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No documents have been shared with you yet.</p>
+              ) : sharedDocs.map(doc => (
+                <div key={doc.id} className="rounded-[14px] bg-white p-4" style={{ border: '1px solid #E3DDD7' }}>
+                  <p className="text-[14px] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>{doc.title}</p>
+                  <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{doc.fileName}{doc.fileAvailable ? '' : ' · File isn’t stored yet'}</p>
+                </div>
+              ))}
+            </div>
+          ) : isLoading ? (
             <ServerCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
                 <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>

@@ -27,6 +27,7 @@ import {
   updateProject,
   type ProjectInput,
 } from './project.service.js'
+import { listCustomerProjectsForUser } from './projectCustomer.service.js'
 import { serializeProject } from './project.types.js'
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -42,8 +43,19 @@ export async function projectRoutes(app: FastifyInstance, opts: { env: Env }) {
   const { env } = opts
   const requireAuth = createRequireAuth(env)
 
-  app.get<{ Querystring: { organizationId?: string } }>('/', { preHandler: requireAuth }, async request => {
+  app.get<{ Querystring: { organizationId?: string; as?: string } }>('/', { preHandler: requireAuth }, async request => {
     const organizationId = request.query.organizationId
+    const as = request.query.as
+    if (as !== undefined && as !== 'customer') {
+      throw new HttpError('INVALID_QUERY', 'Unknown list mode.', 400)
+    }
+    if (as === 'customer' && organizationId) {
+      throw new HttpError('INVALID_QUERY', 'as=customer cannot be combined with organizationId.', 400)
+    }
+    if (as === 'customer') {
+      const rows = await listCustomerProjectsForUser(env, request.user!.id)
+      return { data: { projects: rows } }
+    }
     if (organizationId) {
       if (!UUID_PATTERN.test(organizationId)) {
         throw new HttpError('INVALID_ID', 'Invalid organization id.', 400)

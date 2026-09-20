@@ -71,6 +71,13 @@
       "when": 1789895911368,
       "tag": "0009_chemical_tana_nile",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1789944000000,
+      "tag": "0010_module_08_customer",
+      "breakpoints": true
     }
   ]
 }

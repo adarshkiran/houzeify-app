@@ -28,6 +28,8 @@ import { resolveServiceEntry } from '@/data/serviceEntry'
 // card use), never the ambient projectData bag.
 import { resolveProjectStatus } from '@/data/projects'
 import { useProjects } from '@/data/projectState'
+import { useCustomerProjects } from '@/data/customerProjectsState'
+import { acceptProjectCustomerInvite, describeCustomerError } from '@/data/projectCustomerApi'
 import { getEstimateVersionsForProject } from '@/data/estimateVersions'
 
 // ─── Sidebar Icons ─────────────────────────────────────────────────────────────
@@ -905,6 +907,11 @@ export default function HomeDashboardScreen({
   // (rules of hooks), only consulted below for the build-home canonical
   // project shortcut.
   const projectsCtx = useProjects()
+  const sharedProjects = useCustomerProjects()
+  const [inviteBusy, setInviteBusy] = useState(false)
+  const [inviteError, setInviteError] = useState<string | null>(null)
+  const pendingInvite = sharedProjects.projects.find(p => p.customerStatus === 'invited')
+  const activeShared = sharedProjects.projects.find(p => p.customerStatus === 'active')
 
   // Lightweight simulated workspace load — skeleton only, never fake data.
   useEffect(() => {
@@ -1099,6 +1106,53 @@ export default function HomeDashboardScreen({
                 <div style={{ animation: 'welcomeFadeUp 0.45s ease-out 0.24s both' }}>
                   <SelectAServiceSection tiles={selectAServiceTiles} />
                 </div>
+
+                {(pendingInvite || activeShared) && (
+                  <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7', animation: 'welcomeFadeUp 0.45s ease-out 0.18s both' }}>
+                    <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-2" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Construction</p>
+                    {pendingInvite ? (
+                      <>
+                        <h2 className="text-[18px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Join {pendingInvite.name}</h2>
+                        <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                          {pendingInvite.organizationName ?? 'Your builder'} invited you to follow this project.
+                        </p>
+                        {inviteError && <p className="text-[13px] text-[#B91C1C] m-0 mt-2">{inviteError}</p>}
+                        <button
+                          type="button"
+                          disabled={inviteBusy}
+                          onClick={() => {
+                            setInviteBusy(true)
+                            setInviteError(null)
+                            acceptProjectCustomerInvite(pendingInvite.id)
+                              .then(() => sharedProjects.refresh())
+                              .catch(err => setInviteError(describeCustomerError(err)))
+                              .finally(() => setInviteBusy(false))
+                          }}
+                          className="h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
+                          style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                        >
+                          Join this project
+                        </button>
+                      </>
+                    ) : activeShared ? (
+                      <>
+                        <h2 className="text-[18px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{activeShared.name}</h2>
+                        <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                          {activeShared.stage ?? 'Construction in progress'}
+                          {activeShared.organizationName ? ` · ${activeShared.organizationName}` : ''}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => onNavigate('project-progress', { project_id: activeShared.id, project_name: activeShared.name })}
+                          className="h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
+                          style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                        >
+                          View progress
+                        </button>
+                      </>
+                    ) : null}
+                  </div>
+                )}
 
                 {/* Next best action — existing config-driven contextual CTA,
                     kept as a secondary nudge below the primary sections */}

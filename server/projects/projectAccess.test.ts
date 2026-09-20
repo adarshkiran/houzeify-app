@@ -17,7 +17,8 @@ import { closeDb, getDb } from '../db/client.js'
 import { organizationMembers, projects, type ProjectRow } from '../db/schema.js'
 import { HttpError } from '../errors/httpError.js'
 import { cleanupTestUser, createTestSessionToken, createTestUser, loadTestEnv, sessionCookieHeader, uniqueName } from '../testUtils.js'
-import { canMutateAtProjectLevel, requireProjectAccess, requireProjectMutation } from './projectAccess.js'
+import { getProjectForAccess } from './project.service.js'
+import { canMutateAtProjectLevel, requireProjectAccess, requireProjectMutation, resolveProjectAccess } from './projectAccess.js'
 
 const env = loadTestEnv()
 
@@ -165,5 +166,27 @@ test('project access helper: read vs mutate boundaries, 404 for everyone else', 
     assert.equal(await canMutateAtProjectLevel(env!, soloProject, adminMember.id), false)
     await assert.rejects(() => requireProjectMutation(env!, soloProject, adminMember.id), assertNotFound)
     await assert.rejects(() => requireProjectMutation(env!, soloProject, outsider.id), assertNotFound)
+  })
+
+  await t.test('resolveProjectAccess: creator and org members are company-kind', async () => {
+    for (const user of [creator, orgOwnerMember, adminMember, viewerMember, teamMember, managerMember]) {
+      const access = await resolveProjectAccess(env!, orgProject.id, user.id)
+      assert.ok(access)
+      assert.equal(access.kind, 'company')
+      assert.equal(access.project.id, orgProject.id)
+    }
+  })
+
+  await t.test('resolveProjectAccess: outsider is undefined; requireProjectAccess still 404', async () => {
+    assert.equal(await resolveProjectAccess(env!, orgProject.id, outsider.id), undefined)
+    await assert.rejects(() => requireProjectAccess(env!, orgProject.id, outsider.id), assertNotFound)
+  })
+
+  await t.test('getProjectForAccess is unchanged: same company rows, no outsider access', async () => {
+    assert.equal((await getProjectForAccess(env!, orgProject.id, creator.id))?.id, orgProject.id)
+    assert.equal((await getProjectForAccess(env!, orgProject.id, viewerMember.id))?.id, orgProject.id)
+    assert.equal(await getProjectForAccess(env!, orgProject.id, outsider.id), undefined)
+    assert.equal((await getProjectForAccess(env!, soloProject.id, homeowner.id))?.id, soloProject.id)
+    assert.equal(await getProjectForAccess(env!, soloProject.id, creator.id), undefined)
   })
 })

@@ -15,6 +15,7 @@ import { getPaymentsForProject } from '@/data/payments'
 import { constructionStages } from '@/data/constructionStages'
 import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
 import { useDailyProgress } from '@/data/dailyProgressState'
+import { useProjectAudience } from '@/data/customerProjectsState'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -218,7 +219,9 @@ export default function ProjectOverviewScreen({
 
   const createdLabel = useMemo(() => projectCreatedAtLabel(projectId), [projectId])
 
-  const { progress: dailyProgressEntries } = useDailyProgress(projectId)
+  const audience = useProjectAudience(projectId)
+  const isCustomer = audience === 'customer'
+  const { progress: dailyProgressEntries } = useDailyProgress(isCustomer ? undefined : projectId)
 
   useEffect(() => {
     if (!canViewProject) onNavigate('welcome')
@@ -302,7 +305,7 @@ export default function ProjectOverviewScreen({
         </div>
       </header>
 
-      <ProjectSubNav active="overview" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
+      <ProjectSubNav active="overview" projectId={projectId} projectName={projectName} variant={isCustomer ? 'customer' : 'company'} onNavigate={onNavigate} />
 
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[1000px] mx-auto flex flex-col gap-6">
@@ -465,7 +468,7 @@ export default function ProjectOverviewScreen({
                 {awardedBid ? (
                   <div className="flex flex-col gap-4">
                     <div className="grid grid-cols-2 gap-4">
-                      <Field label="Bid Amount" value={formatBidAmount(awardedBid.amount)} />
+                      <Field label="Bid Amount" value={isCustomer ? '—' : formatBidAmount(awardedBid.amount)} />
                       <Field label="Duration" value={formatBidDuration(awardedBid.duration, awardedBid.durationUnit)} />
                       <Field label="Proposed Start" value={awardedBid.proposedStartDate ? formatDate(awardedBid.proposedStartDate) : 'Not specified'} />
                       <Field label="Submitted" value={formatDate(awardedBid.createdAt)} />
@@ -496,7 +499,7 @@ export default function ProjectOverviewScreen({
           <div>
             <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>Project Actions</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {ACTION_CARDS.map(card => (
+              {(isCustomer ? ACTION_CARDS.filter(card => card.id === 'documents' || card.id === 'progress') : ACTION_CARDS).map(card => (
                 <button
                   key={card.id}
                   type="button"

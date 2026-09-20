@@ -24,6 +24,9 @@ export interface DailyProgress {
   title: string
   description: string | null
   photos: DailyProgressPhoto[]
+  visibility?: 'internal' | 'customer'
+  publishedAt?: string | null
+  publishedBy?: string | null
   createdAt: string
   updatedAt: string
 }
@@ -61,7 +64,7 @@ export async function createDailyProgress(projectId: string, input: DailyProgres
   return res.data.progress
 }
 
-export async function updateDailyProgress(projectId: string, progressId: string, patch: Partial<DailyProgressInput>): Promise<DailyProgress> {
+export async function updateDailyProgress(projectId: string, progressId: string, patch: Partial<DailyProgressInput> & { visibility?: 'internal' | 'customer' }): Promise<DailyProgress> {
   const res = await apiPatch<DailyProgressEnvelope>(`/api/v1/projects/${projectId}/daily-progress/${progressId}`, patch)
   return res.data.progress
 }
