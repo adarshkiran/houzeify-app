@@ -11,7 +11,16 @@
 
 import { randomUUID } from 'node:crypto'
 import { sql } from 'drizzle-orm'
-import { boolean, index, integer, pgTable, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
+import {
+  bigint,
+  boolean,
+  index,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+  uniqueIndex,
+} from 'drizzle-orm/pg-core'
 
 // ─── users ───────────────────────────────────────────────────────────────
 // A user is only an identity: phone number + verification timestamp.
@@ -636,3 +645,147 @@ export const projectWorkforceMembers = pgTable(
 
 export type ProjectWorkforceMemberRow = typeof projectWorkforceMembers.$inferSelect
 export type NewProjectWorkforceMemberRow = typeof projectWorkforceMembers.$inferInsert
+
+// ─── project_documents ──────────────────────────────────────────────────
+// Module 07 — a record that a file belongs to a project: who added it,
+// when, what kind it is, what it is called. METADATA ONLY — no file bytes
+// are stored anywhere in this codebase (same limitation documented on
+// daily_progress_photos above). `storage_ref` is a server-minted
+// placeholder (`internal://project-documents/<id>`), generated from this
+// row's own id (never client-supplied) and deliberately not named `url`,
+// since it is not a real, retrievable URL — same precedent as
+// daily_progress_photos.storage_ref. `category` is plain text (no DB enum,
+// same convention as projects.type/stage) — validated at the Fastify schema
+// layer against the closed category set. `status` is 'active' | 'archived'
+// — a soft archive only; archived rows are retained, never hard-deleted.
+// `uploaded_by`, `storage_ref`, `status` and `archived_at` are SERVER-SET
+// ONLY — never request body properties on any schema.
+export const projectDocuments = pgTable(
+  'project_documents',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    projectId: text('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    uploadedBy: text('uploaded_by')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    category: text('category').notNull(),
+    title: text('title').notNull(),
+    description: text('description'),
+    fileName: text('file_name').notNull(),
+    mimeType: text('mime_type').notNull(),
+    size: integer('size').notNull(),
+    storageRef: text('storage_ref').notNull(),
+    status: text('status').notNull().default('active'),
+    archivedAt: timestamp('archived_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  table => [
+    index('project_documents_project_id_idx').on(table.projectId),
+    index('project_documents_project_id_status_idx').on(table.projectId, table.status),
+  ],
+)
+
+export type ProjectDocumentRow = typeof projectDocuments.$inferSelect
+export type NewProjectDocumentRow = typeof projectDocuments.$inferInsert
+
+// ─── boq_sections / boq_items ───────────────────────────────────────────
+// Module 07 (Slice 2) — the project-workspace Bill of Quantities: a
+// construction record of what a project is built from. It is deliberately
+// SEPARATE from the homeowner estimate flow (src/data/boq*.ts), which is a
+// client-side pre-project estimator and shares no data or code with these
+// tables. There is NO BOQ header table: a project has one BOQ and it *is*
+// its sections plus their items. A future `boq_id` column would be an
+// additive migration if versioning ever arrives.
+//
+// MONEY / QUANTITY ARE SCALED INTEGERS, never floats or Postgres numeric:
+//   quantity_milli = quantity × 1000            (3 decimal places)
+//   rate_paise     = rate × 100                 (2 decimal places)
+//   amount_paise   = round_half_up(quantity_milli × rate_paise ÷ 1000)
+// `amount_paise` is computed SERVER-SIDE ONLY (server/projects/boqMoney.ts,
+// BigInt arithmetic) and is never a client-supplied value. Every stored and
+// summed value is bounded (spec §16) so it stays below
+// Number.MAX_SAFE_INTEGER, which is why the bigint columns can safely use
+// `mode: 'number'`.
+//
+// Section subtotals and the project total are computed on read and NEVER
+// stored, so they cannot drift from the items.
+//
+// Item deletion is a HARD delete, intentionally, until BOQ versioning exists
+// (spec §15) — there is no history to preserve yet. `stage` is plain text
+// (no DB enum, same convention as projects.type/stage), validated at the
+// Fastify/AJV layer against VALID_STAGE_IDS. `created_by` is SERVER-SET ONLY.
+//
+// boq_items.project_id is denormalized (it is derivable via section_id) so
+// that every query can be project-scoped directly; the service checks that
+// a section belongs to the same project as the item.
+export const boqSections = pgTable(
+  'boq_sections',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    projectId: text('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    createdBy: text('created_by')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  table => [
+    index('boq_sections_project_id_idx').on(table.projectId),
+    // A project cannot have two sections whose names differ only by case.
+    uniqueIndex('boq_sections_project_id_name_unique').on(
+      table.projectId,
+      sql`lower(${table.name})`,
+    ),
+  ],
+)
+
+export type BoqSectionRow = typeof boqSections.$inferSelect
+export type NewBoqSectionRow = typeof boqSections.$inferInsert
+
+export const boqItems = pgTable(
+  'boq_items',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    projectId: text('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    sectionId: text('section_id')
+      .notNull()
+      .references(() => boqSections.id, { onDelete: 'cascade' }),
+    createdBy: text('created_by')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    description: text('description'),
+    stage: text('stage'),
+    // quantity × 1000 (3 dp).
+    quantityMilli: bigint('quantity_milli', { mode: 'number' }).notNull(),
+    // Free-text unit ('sq ft', 'nos', 'RMT', ...). Suggestions never restrict input.
+    unit: text('unit').notNull(),
+    // rate × 100 (2 dp). 0 = unpriced item.
+    ratePaise: bigint('rate_paise', { mode: 'number' }).notNull(),
+    // SERVER-COMPUTED: round_half_up(quantity_milli × rate_paise ÷ 1000).
+    amountPaise: bigint('amount_paise', { mode: 'number' }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  table => [
+    index('boq_items_project_id_idx').on(table.projectId),
+    index('boq_items_section_id_idx').on(table.sectionId),
+  ],
+)
+
+export type BoqItemRow = typeof boqItems.$inferSelect
+export type NewBoqItemRow = typeof boqItems.$inferInsert

@@ -76,6 +76,7 @@ import ProjectOverviewScreen from '@/user/projects/ProjectOverviewScreen'
 import ProjectTeamScreen from '@/user/projects/ProjectTeamScreen'
 import ProjectMessagesScreen from '@/user/projects/ProjectMessagesScreen'
 import ProjectDocumentsScreen from '@/user/projects/ProjectDocumentsScreen'
+import ProjectBoqScreen from '@/user/projects/ProjectBoqScreen'
 import ProjectTasksScreen from '@/user/projects/ProjectTasksScreen'
 import ProjectIssuesScreen from '@/user/projects/ProjectIssuesScreen'
 import ProjectProgressScreen from '@/user/projects/ProjectProgressScreen'
@@ -2090,6 +2091,37 @@ export default function App() {
             location={projectData.location}
             fullName={projectData.full_name}
             preferredName={projectData.preferred_name}
+            organizationId={projectData.organization_id}
+            companyName={projectData.company_name}
+            accountType={projectData.account_type}
+            professionalType={projectData.professional_type}
+            verificationStatus={projectData.verification_status}
+            serviceCategories={projectData.service_categories}
+            serviceLocations={projectData.service_locations}
+            portfolioProjectCount={projectData.portfolio_project_count}
+            serviceDescription={projectData.service_description}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'project-boq' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <ProjectBoqScreen
+            role={resolvedRole}
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            location={projectData.location}
+            fullName={projectData.full_name}
+            preferredName={projectData.preferred_name}
+            organizationId={projectData.organization_id}
+            companyName={projectData.company_name}
+            accountType={projectData.account_type}
+            professionalType={projectData.professional_type}
+            verificationStatus={projectData.verification_status}
+            serviceCategories={projectData.service_categories}
+            serviceLocations={projectData.service_locations}
+            portfolioProjectCount={projectData.portfolio_project_count}
+            serviceDescription={projectData.service_description}
             onNavigate={navigateTo}
           />
         </div>
@@ -2187,7 +2219,7 @@ export default function App() {
           Reachable from both the project sub-screens' own ProjectSubNav and
           the customer Sidebar's new Timeline/Live Site items. */}
       {(screen === 'project-timeline'
-        || screen === 'project-live-site' || screen === 'project-boq' || screen === 'project-customer'
+        || screen === 'project-live-site' || screen === 'project-customer'
         || screen === 'project-reports' || screen === 'project-settings') && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ComingSoonScreen
@@ -2196,7 +2228,6 @@ export default function App() {
             activeProjectId={
               screen === 'project-timeline' ? 'timeline'
               : screen === 'project-live-site' ? 'liveSite'
-              : screen === 'project-boq' ? 'boq'
               : screen === 'project-customer' ? 'customer'
               : screen === 'project-reports' ? 'reports'
               : 'settings'

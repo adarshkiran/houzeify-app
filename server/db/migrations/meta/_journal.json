@@ -57,6 +57,20 @@
       "when": 1789658929033,
       "tag": "0007_stormy_ted_forrester",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1789892331910,
+      "tag": "0008_dry_stepford_cuckoos",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1789895911368,
+      "tag": "0009_chemical_tana_nile",
+      "breakpoints": true
     }
   ]
 }

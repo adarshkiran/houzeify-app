@@ -71,7 +71,7 @@ export const PROJECT_NAV_ROUTES = {
   workforce: 'project-workforce', // NEW placeholder
   liveSite: 'project-live-site', // NEW placeholder
   documents: 'project-documents', // existing
-  boq: 'project-boq', // NEW placeholder — deliberately distinct from the homeowner New-Build BOQ flow (boq-overview/detailed-boq/...), which is estimate-authoring, not a project-workspace record
+  boq: 'project-boq', // renders ProjectBoqScreen — deliberately distinct from the homeowner New-Build BOQ flow (boq-overview/detailed-boq/...), which is estimate-authoring, not a project-workspace record
   team: 'project-team', // existing
   customer: 'project-customer', // NEW placeholder
   reports: 'project-reports', // NEW placeholder
@@ -117,7 +117,7 @@ export const NAV_PLACEHOLDER_CONTENT: Record<string, NavPlaceholderContent> = {
   'project-timeline': { title: 'Timeline', description: 'The construction timeline for this project — planned vs. actual — will appear here.' },
   'project-workforce': { title: 'Workforce', description: "This project's on-site crew will appear here." },
   'project-live-site': { title: 'Live Site', description: 'Live camera feeds and real-time status for this project site.' },
-  'project-boq': { title: 'Bill of Quantities', description: "This project's approved Bill of Quantities will be tracked here." },
+  'project-boq': { title: 'Bill of Quantities', description: "This project's Bill of Quantities — sections, quantities and amounts — lives here." },
   'project-customer': { title: 'Customer', description: "This project's customer details and communication history will appear here." },
   'project-reports': { title: 'Reports', description: 'Progress and cost reports for this project.' },
   'project-settings': { title: 'Settings', description: 'Project-level settings and preferences.' },
