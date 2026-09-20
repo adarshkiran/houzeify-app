@@ -1,0 +1,337 @@
+@import 'tailwindcss';
+
+/* Houzeify Design Tokens.
+ * Single source of truth for the Houzeify colour system, using Tailwind
+ * v4's native theme mechanism below. Colour entries generate the matching
+ * bg, text, border and ring utilities automatically. This consolidates the
+ * token block introduced in the previous colour migration into the
+ * four-layer model documented here; no second, competing token system
+ * exists anywhere else in the project.
+ *
+ * Layers, kept deliberately distinct, never merged:
+ *   BRAND. Houzeify identity itself: primary, black, white.
+ *   PRODUCT SEMANTIC. What the colour means in the product: Build, AI,
+ *     Progress, Services. Named for that meaning, never for the literal
+ *     colour such as lavender or mint.
+ *   IMPLEMENTATION. Derived, non-brand surface tints existing screens
+ *     already depend on. Not part of the official palette.
+ *   FUNCTIONAL. Success, warning, error, info, rating. These remain
+ *     screen-local hex values, unchanged by this task, no token-level
+ *     refactor was required for them, and are intentionally not
+ *     centralised here so brand colours can never accidentally stand in
+ *     for them.
+ *
+ * Existing screens still reference most colours as inline hex or arbitrary
+ * value literals, this project's established per-screen convention from
+ * before any token file existed. That is untouched by this task. These
+ * tokens are the reference values for new code, not a rewrite of old code.
+ */
+
+@theme {
+  /* Brand: Houzeify identity */
+  --color-brand-primary: #722ED1; /* Action. Primary CTAs, important actions, active or highlight moments, key brand accents. */
+  --color-brand-black: #1E1E1E;   /* Core / contrast. True black — dark surfaces, text on light accent fills. Brand accent roles (CTA backgrounds, active states, focus rings, headings, icons) belong to `brand-primary`, not this. */
+  --color-brand-white: #FFFFFF;   /* Foundation. Main surfaces, cards, clean backgrounds, text on dark surfaces. */
+
+  /* Product semantic: Houzeify product meaning, never generic colour names */
+  --color-build: #F8E3BD;    /* Build / home. Homes, construction, materials, rooms, estimates, budgets, contractors. */
+  --color-ai: #F3EAFF;       /* AI / intelligence. Hozie, AI recommendations, AI insights, smart suggestions, risk detection. */
+  --color-progress: #C6F6D5; /* Progress. Project progress, completed milestones, approvals, positive project health. */
+  --color-services: #CAEBFF; /* Services / planning. Contractors, scheduling, site visits, documents, timelines. */
+
+  /* Implementation-only: a paler tint of `ai`, produced for hover and
+   * subtle-surface states. Not an official Houzeify brand colour and
+   * deliberately excluded from the product semantic list above. Kept only
+   * because roughly 65 existing call sites already reference it; new work
+   * should reach for `ai` directly instead. */
+  --color-surface-lavender-tint: #F9F5FF;
+}
+
+/* Houzeify Atmospheric Gradients.
+ * Decorative background washes only, not additional brand colours, built
+ * exclusively from the tokens above using color-mix so a gradient can
+ * never silently drift from the real palette. Soft, large, diffused,
+ * low-opacity, no sharp transitions, an atmosphere behind the interface,
+ * not a background competing with it.
+ *
+ * Not applied to any existing screen in this task. This establishes the
+ * system for a later, deliberate refinement pass. Consume either as a
+ * background image referencing the custom property directly, or via the
+ * matching utility class defined further below.
+ */
+
+:root {
+  /* Global app atmosphere: Purple, Lavender, Blue */
+  --gradient-global:
+    radial-gradient(ellipse 60% 50% at 8% 8%,    color-mix(in srgb, var(--color-brand-primary) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 50% at 92% 15%,  color-mix(in srgb, var(--color-ai) 16%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 55% at 50% 100%, color-mix(in srgb, var(--color-services) 14%, transparent) 0%, transparent 70%);
+
+  /* AI / Hozie: Lavender, Purple */
+  --gradient-ai:
+    radial-gradient(ellipse 60% 55% at 15% 10%, color-mix(in srgb, var(--color-ai) 20%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 45% at 90% 90%, color-mix(in srgb, var(--color-brand-primary) 14%, transparent) 0%, transparent 70%);
+
+  /* Project / Construction: Cream, Purple */
+  --gradient-build:
+    radial-gradient(ellipse 60% 55% at 10% 15%, color-mix(in srgb, var(--color-build) 22%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 45% at 90% 85%, color-mix(in srgb, var(--color-brand-primary) 14%, transparent) 0%, transparent 70%);
+
+  /* Services / Planning: Blue, Purple */
+  --gradient-services:
+    radial-gradient(ellipse 60% 55% at 12% 12%, color-mix(in srgb, var(--color-services) 20%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 45% at 88% 88%, color-mix(in srgb, var(--color-brand-primary) 14%, transparent) 0%, transparent 70%);
+
+  /* Progress / Celebration: Mint, Purple */
+  --gradient-progress:
+    radial-gradient(ellipse 60% 55% at 88% 12%, color-mix(in srgb, var(--color-progress) 22%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 45% at 12% 88%, color-mix(in srgb, var(--color-brand-primary) 14%, transparent) 0%, transparent 70%);
+
+  /* Dark brand moment: Black, Purple. A high-contrast section background,
+   * not a subtle wash on white, deliberately different in character. */
+  --gradient-dark:
+    radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in srgb, var(--color-brand-primary) 18%, transparent) 0%, transparent 70%);
+}
+
+@utility gradient-global { background-image: var(--gradient-global); }
+@utility gradient-ai { background-image: var(--gradient-ai); }
+@utility gradient-build { background-image: var(--gradient-build); }
+@utility gradient-services { background-image: var(--gradient-services); }
+@utility gradient-progress { background-image: var(--gradient-progress); }
+@utility gradient-dark { background-image: var(--gradient-dark); background-color: var(--color-brand-black); }
+
+html, body, #root {
+  height: 100%;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex:Bold';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('https://static.figma.com/font/GoogleSansFlex-VariableFont_GRAD_ROND_opsz_slnt_wdth_wght_1') format('woff2');
+}
+
+@font-face {
+  font-family: 'Google Sans Flex:Medium';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('https://static.figma.com/font/GoogleSansFlex-VariableFont_GRAD_ROND_opsz_slnt_wdth_wght_1') format('woff2');
+}
+
+@font-face {
+  font-family: 'Google Sans Flex:SemiBold';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('https://static.figma.com/font/GoogleSansFlex-VariableFont_GRAD_ROND_opsz_slnt_wdth_wght_1') format('woff2');
+}
+
+@font-face {
+  font-family: 'Geist:Medium';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('https://static.figma.com/font/Geist_wght__1') format('woff2');
+}
+
+@font-face {
+  font-family: 'Sometype Mono:SemiBold';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('https://static.figma.com/font/SometypeMono_wght__1') format('woff2');
+}
+
+@font-face {
+  font-family: 'Open Sans:Regular';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('https://static.figma.com/font/OpenSans_wdth_wght__2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Geist Mono:SemiBold';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('https://static.figma.com/font/GeistMono_wght__1') format('woff2');
+}
+
+@font-face {
+  font-family: 'Geist Mono:Regular';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('https://static.figma.com/font/GeistMono_wght__1') format('woff2');
+}
+
+/* Welcome screen background — plain white base; the atmospheric colour
+   layer now comes from <AtmosphericBackground variant="global" /> rendered
+   in WelcomeScreen.tsx itself (matches the approved reference exactly), not
+   from this mesh gradient. */
+[data-name="welcome-screen"] {
+  background-color: #FFFFFF;
+}
+
+/* Entrance animations for welcome screen */
+@keyframes welcomeFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes welcomeFadeDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hozieCardReveal {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Gentle, continuous bob for the Welcome screen's floating badge cards
+   (Project Estimate + the solution chips) — slow and subtle, never a
+   distraction. Applied to an inner wrapper so it composes cleanly with
+   each card's one-shot entrance animation on the outer element. */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* Splash screen entrance animations */
+@keyframes splashFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blueprintReveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes progressAnimate {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes pingRipple {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+
+@keyframes loginCardFloat {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(-8px); }
+}
+
+@keyframes successIconReveal {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes successBadgePop {
+  0%   { opacity: 0; transform: scale(0.4); }
+  70%  { transform: scale(1.18); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes hozieStatusPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+@keyframes aiIconGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(243,234,255,0); }
+  50%       { box-shadow: 0 0 22px 6px rgba(243,234,255,0.20); }
+}
+
+@keyframes estimateRingExpand {
+  0%   { transform: scale(0.92); opacity: 0.30; }
+  100% { transform: scale(1.60); opacity: 0; }
+}
+
+@keyframes estimatePulse {
+  0%, 100% { opacity: 1;    transform: scale(1); }
+  50%       { opacity: 0.55; transform: scale(0.97); }
+}
+
+@keyframes estimateReveal {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes estimateButtonPop {
+  0%   { opacity: 0; transform: scale(0.92); }
+  70%  { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Plan-analysis scanning line — sweeps down over a plan preview to signal
+   "actively reading this drawing" without obscuring it. */
+@keyframes planScanSweep {
+  0%   { top: 0%;   opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Blueprint image overlay hidden — replaced with CSS grid below */
+[data-name="blueprint-overlay"] {
+  display: none;
+}
+
+/* Plain white/cream base — the colour accent is now the soft yellow (lime)
+   glow rendered directly behind the logo mark in HouzeifySplashPage/index.tsx,
+   not a page-wide mesh gradient. */
+[data-name="houzeify-splash-page"] {
+  background-color: #fcfbf9;
+}
+
+[data-name="splash-card"] {
+  animation: splashFadeIn 0.5s ease-out 0.3s both;
+}
+
+[data-name="progress-fill"] {
+  animation: progressAnimate 1.6s cubic-bezier(0.4, 0, 0.2, 1) 1.1s both;
+}
+
+/* Dot: circular ping ripple via pseudo-element */
+[data-name="Ellipse"] {
+  overflow: visible;
+}
+
+[data-name="Ellipse"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #722ED1;
+  animation: pingRipple 1.8s ease-out 1.2s infinite;
+}
+
+/* Hides the scrollbar track on an otherwise-scrollable element — pair with
+   `scrollbarWidth: 'none'` inline (Firefox) for the non-WebKit half; this
+   covers Chrome/Safari, which ignore scrollbar-width and need the
+   pseudo-element hidden explicitly. Already referenced by Sidebar.tsx
+   before this rule existed to back it. */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Minimal, low-contrast scrollbar — a slim grey thumb with no visible
+   track, rather than the browser's default heavy bar. Pair with
+   `scrollbarWidth: 'thin'` inline (Firefox) for the non-WebKit half;
+   this covers Chrome/Safari, which ignore scrollbar-width and need the
+   pseudo-elements styled explicitly. */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #E3DDD7;
+  border-radius: 999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #C9C2BB;
+}

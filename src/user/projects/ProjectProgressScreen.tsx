@@ -1,0 +1,448 @@
+import { useEffect, useMemo } from 'react'
+import Sidebar from '@/shared/components/Sidebar'
+import ProjectSubNav from '@/shared/components/ProjectSubNav'
+import HIcon from '@/shared/components/HIcon'
+import { projectStageLabel } from '@/data/homeownerDashboard'
+import { PROFESSIONAL_TYPE_CONTENT, type ProfessionalType } from '@/data/professionalType'
+import { companyInitials } from '@/data/companyInformation'
+import { profileInitials } from '@/data/professionalProfile'
+import type { AccountType } from '@/data/accountType'
+import { getContractorListingById, type ContractorDirectoryInput } from '@/data/contractorDirectory'
+import { getAwardedBid } from '@/data/bids'
+import { useDailyProgress } from '@/data/dailyProgressState'
+import { constructionStages } from '@/data/constructionStages'
+import type { DailyProgress } from '@/data/dailyProgressApi'
+
+const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
+const FONT_BODY = '"Open Sans:Regular", sans-serif'
+const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+
+// ─── Screen 074 — Project Progress ──────────────────────────────────────────
+// Shared between the homeowner and professional viewers (reached from
+// 068-073 for the homeowner). Answers "how is construction progressing" —
+// NOT 073 (Project Tasks), which answers "what needs to be done". Per its
+// own explicit rule, task completion is never converted into construction
+// progress here. Both roles can view progress here, and (as of Module 04)
+// both can create a new Daily Progress entry via the "Add Progress Update"
+// action: creation is gated by project-level authorization, not by role —
+// getProjectForAccess (reused from Module 03) always authorizes a project's
+// own creator, so a homeowner logging progress on their own project is
+// legitimate. There is no separate role-based permission system here.
+//
+// Module 04 / Task 6 — this screen's body is now driven entirely by the
+// real daily_progress backend (useDailyProgress) instead of the old static
+// projectProgress.ts fixtures. constructionStages.ts supplies the stage
+// taxonomy and ordering for the stage strip below; its own per-stage
+// `status` field is illustrative demo data only (see that file's header
+// comment) and is deliberately never read here — a project's real current
+// stage is derived from the latest real Daily Progress entry instead.
+
+const CURRENT_USER_ID = 'user-demo-001' // established demo-identity convention
+
+const IcoBack = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3L5 8l5 5" /></svg>
+)
+const IcoMapPin = ({ size = 13 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
+)
+const IcoProgress = ({ size = 28 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="9" r="7" /><path d="M9 5v4l3 2" /></svg>
+)
+const IcoPhoto = ({ size = 14 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="1.5" y="3.5" width="13" height="10" rx="1.5" />
+    <circle cx="8" cy="8.5" r="2.4" />
+    <path d="M5.5 3.5l1-1.5h3l1 1.5" />
+  </svg>
+)
+
+function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
+  return (
+    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+      {children}
+    </div>
+  )
+}
+
+function SummaryRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{label}</p>
+      <p className="text-[13px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
+    </div>
+  )
+}
+
+// Resolves a stage value to its display name. A Daily Progress entry's own
+// `stage` is always a real constructionStages.ts id, but the `projectStage`
+// fallback (used only when no entry exists yet) can instead be a homeowner
+// project's LIFECYCLE vocabulary value (e.g. 'contractor-selected') — a
+// completely different taxonomy. Mirrors ProjectOverviewScreen.tsx's own
+// resolvedStageLabel() exactly: try the real construction-stage taxonomy
+// first, then fall back to projectStageLabel()'s lifecycle vocabulary
+// (which itself falls back to the raw string as an absolute last resort —
+// never silently drops real data).
+function stageLabel(stage: string | null | undefined): string | undefined {
+  if (!stage) return undefined
+  const realStage = constructionStages.find(s => s.id === stage)
+  if (realStage) return realStage.name
+  return projectStageLabel(stage)
+}
+
+type FeedBucketKey = 'today' | 'yesterday' | 'earlier'
+const FEED_BUCKET_LABELS: Record<FeedBucketKey, string> = { today: 'Today', yesterday: 'Yesterday', earlier: 'Earlier' }
+
+function feedBucketKey(dateStr: string): FeedBucketKey {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const yesterday = new Date(today)
+  yesterday.setDate(yesterday.getDate() - 1)
+  const entryDay = new Date(`${dateStr}T00:00:00`)
+  entryDay.setHours(0, 0, 0, 0)
+  if (entryDay.getTime() === today.getTime()) return 'today'
+  if (entryDay.getTime() === yesterday.getTime()) return 'yesterday'
+  return 'earlier'
+}
+
+function formatEntryDate(dateStr: string): string {
+  const d = new Date(`${dateStr}T00:00:00`)
+  // 'en-IN' to match ProjectOverviewScreen.tsx's own formatDate() — this
+  // codebase's established date-format convention — so the same
+  // DailyProgress.date reads identically on both screens.
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+// Module 04 / Task 9 fix round 1 (Finding 5) — server/projects/
+// dailyProgress.routes.ts's requireValidId() rejects any non-UUID
+// projectId with exactly `HttpError('INVALID_ID', 'Invalid project id.', 400)`.
+// CreateProjectScreen.tsx mints local project ids as
+// `project-<epoch-ms>-<n>` (never a UUID), so any such project hits this
+// 400 on every real Daily Progress fetch — not a genuine network/server
+// failure, just a project that will never have real Daily Progress data.
+// useDailyProgress (dailyProgressState.ts) only surfaces the raw
+// `ApiError.message` string, not its `code`, so matching this exact
+// literal is the most reliable signal available here without touching the
+// hook (out of scope for this fix). A genuine network/server error
+// (NETWORK_ERROR, 5xx, NOT_FOUND, etc.) never produces this exact string,
+// so this can't misclassify those.
+const INVALID_PROJECT_ID_MESSAGE = 'Invalid project id.'
+function isInvalidProjectIdError(message: string | null): boolean {
+  return message === INVALID_PROJECT_ID_MESSAGE
+}
+
+interface FeedGroup {
+  key: FeedBucketKey
+  label: string
+  entries: DailyProgress[]
+}
+
+// `entries` is already sorted newest-first by the backend (Task 3's
+// listDailyProgressForProject), so a stable per-bucket partition preserves
+// that order within each group — no re-sort needed.
+function groupFeedByDate(entries: DailyProgress[]): FeedGroup[] {
+  const buckets: Record<FeedBucketKey, DailyProgress[]> = { today: [], yesterday: [], earlier: [] }
+  for (const entry of entries) buckets[feedBucketKey(entry.date)].push(entry)
+  return (['today', 'yesterday', 'earlier'] as const)
+    .filter(key => buckets[key].length > 0)
+    .map(key => ({ key, label: FEED_BUCKET_LABELS[key], entries: buckets[key] }))
+}
+
+interface ProjectProgressScreenProps {
+  role?: string
+  userId?: string
+  projectId?: string
+  projectName?: string
+  location?: string
+  projectStage?: string
+  organizationId?: string
+  companyName?: string
+  accountType?: string
+  professionalType?: string
+  verificationStatus?: string
+  serviceCategories?: string
+  serviceLocations?: string
+  portfolioProjectCount?: string
+  serviceDescription?: string
+  onNavigate: (screen: string, data?: Record<string, string>) => void
+}
+
+export default function ProjectProgressScreen({
+  role,
+  userId,
+  projectId,
+  projectName,
+  location,
+  projectStage,
+  organizationId,
+  companyName,
+  accountType,
+  professionalType,
+  verificationStatus,
+  serviceCategories,
+  serviceLocations,
+  portfolioProjectCount,
+  serviceDescription,
+  onNavigate,
+}: ProjectProgressScreenProps) {
+  // Houzeify 2.0 Module 03 — see ProjectWorkspaceScreen.tsx's identical
+  // comment: a project can now belong to a company, so a professional
+  // must be able to open one of their organization's real projects here
+  // too, not just a homeowner.
+  const canViewProject = role === 'homeowner' || role === 'professional'
+  useEffect(() => {
+    if (!canViewProject) onNavigate('welcome')
+  }, [canViewProject, onNavigate])
+  if (!canViewProject) return null
+
+  const hasProject = Boolean(projectId && projectName)
+
+  const awardedBid = useMemo(() => (projectId ? getAwardedBid(projectId) : undefined), [projectId])
+
+  const directoryInput: ContractorDirectoryInput = {
+    userId: userId || CURRENT_USER_ID,
+    accountType: accountType as AccountType | undefined,
+    organizationId,
+    companyName,
+    professionalType: professionalType as ProfessionalType | undefined,
+    location,
+    serviceCategories,
+    serviceLocations,
+    verificationStatus,
+    portfolioProjectCount,
+    serviceDescription,
+  }
+
+  const listing = useMemo(
+    () => (awardedBid ? getContractorListingById(awardedBid.organizationId ?? awardedBid.userId, directoryInput) : undefined),
+    [awardedBid, directoryInput.accountType, directoryInput.organizationId, directoryInput.companyName, directoryInput.professionalType,
+      directoryInput.location, directoryInput.serviceCategories, directoryInput.serviceLocations, directoryInput.verificationStatus,
+      directoryInput.portfolioProjectCount, directoryInput.serviceDescription]
+  )
+  const contractorName = listing?.name
+
+  const { status: progressStatus, progress, errorMessage } = useDailyProgress(projectId)
+  const latestEntry = progress[0]
+
+  // Per the ticket's own formula: prefer the latest real entry's stage,
+  // falling back to the project's own Project.stage only when no entry
+  // exists yet at all (not when an entry exists with a null stage).
+  const currentStageLabel = latestEntry ? stageLabel(latestEntry.stage) : stageLabel(projectStage)
+  const currentStageId = latestEntry ? latestEntry.stage : projectStage
+  const currentStageIdx = currentStageId ? constructionStages.findIndex(s => s.id === currentStageId) : -1
+
+  const feedGroups = useMemo(() => groupFeedByDate(progress), [progress])
+
+  const statusLabel = awardedBid ? 'Contractor Selected' : (projectStageLabel(projectStage) ?? 'Not started')
+  const selectClass = 'h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0'
+
+  function goToWorkspace() {
+    onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)
+  }
+
+  if (!hasProject) {
+    return (
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+        <div className="relative z-10 flex flex-col items-center gap-4 text-center">
+          <HIcon size={36} />
+          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+            Back to Workspace
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  function navTo(dest: string) {
+    onNavigate(dest, { project_id: projectId as string })
+  }
+
+  const isLoading = progressStatus === 'idle' || progressStatus === 'loading'
+
+  return (
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+      <div className="flex flex-1 min-h-0 relative z-10">
+        <Sidebar active="projects" onNavigate={onNavigate} />
+        <div className="flex flex-col flex-1 min-h-0">
+
+      <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+        <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
+          <button type="button" onClick={goToWorkspace} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <IcoBack /> Project Workspace
+          </button>
+          <button
+            type="button"
+            onClick={() => onNavigate('create-daily-progress', projectId ? { project_id: projectId } : undefined)}
+            className="h-9 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0"
+            style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+          >
+            Add Progress Update
+          </button>
+        </div>
+      </header>
+
+      <ProjectSubNav active="progress" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
+
+      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
+        <div className="max-w-[820px] mx-auto flex flex-col gap-6">
+          <div>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Progress</p>
+            <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+            <div className="flex items-center gap-3 mt-1.5 flex-wrap">
+              {location && (
+                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                  <IcoMapPin /> {location}
+                </span>
+              )}
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: awardedBid ? '#DCFCE7' : '#CAC7C6', color: awardedBid ? '#16A34A' : '#808080', fontFamily: FONT_MONO }}>
+                {statusLabel.toUpperCase()}
+              </span>
+              {currentStageLabel && (
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+                  {currentStageLabel.toUpperCase()}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Construction-stage strip — position within constructionStages.ts's
+              existing order, derived from the latest real entry (or the
+              project's own stage when nothing has been logged yet). Reuses
+              the same filled-bar visual language as the old "Overall
+              Progress" bar, just segmented per stage. */}
+          <SectionCard title="Construction Stage">
+            <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
+              <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{currentStageLabel ?? 'Not started yet'}</p>
+              {currentStageIdx >= 0 && (
+                <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Stage {currentStageIdx + 1} of {constructionStages.length}</span>
+              )}
+            </div>
+            <div className="flex items-center gap-1">
+              {constructionStages.map((s, i) => (
+                <div
+                  key={s.id}
+                  title={s.name}
+                  className="flex-1 h-1.5 rounded-full"
+                  style={{ backgroundColor: currentStageIdx >= 0 && i <= currentStageIdx ? '#722ED1' : '#F4F0EC' }}
+                />
+              ))}
+            </div>
+          </SectionCard>
+
+          {/* Finding 5 fix — a malformed/local project id (e.g. a
+              homeowner project that was never given a real backend UUID)
+              will never have real Daily Progress data; that's not an
+              alarming failure worth a red banner, just the same empty
+              state as "no entries yet" (rendered below, since `progress`
+              stays [] on any fetch error). A genuine network/server error
+              still surfaces here, matching ProjectOverviewScreen.tsx's own
+              handling of this exact failure class. */}
+          {progressStatus === 'error' && errorMessage && !isInvalidProjectIdError(errorMessage) && (
+            <div className="rounded-[12px] px-4 py-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+              <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{errorMessage}</p>
+            </div>
+          )}
+
+          {/* Progress feed — real Daily Progress entries only, grouped by
+              date (Today / Yesterday / Earlier). */}
+          {isLoading ? (
+            <SectionCard>
+              <div className="flex flex-col items-center text-center gap-2 py-6">
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                  <IcoProgress />
+                </span>
+                <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Loading progress…</p>
+              </div>
+            </SectionCard>
+          ) : progress.length === 0 ? (
+            <SectionCard>
+              <div className="flex flex-col items-center text-center gap-2 py-8">
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                  <IcoProgress />
+                </span>
+                <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No progress updates yet</p>
+                <p className="text-[13px] text-[#9A949D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>Start documenting construction progress to build your project's digital record.</p>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('create-daily-progress', projectId ? { project_id: projectId } : undefined)}
+                  className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 mt-2"
+                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                >
+                  Add Progress Update
+                </button>
+              </div>
+            </SectionCard>
+          ) : (
+            <div className="flex flex-col gap-6">
+              {feedGroups.map(group => (
+                <SectionCard key={group.key} title={group.label}>
+                  <div className="flex flex-col gap-4">
+                    {group.entries.map((entry, i) => (
+                      <div
+                        key={entry.id}
+                        className={i < group.entries.length - 1 ? 'pb-4' : ''}
+                        style={i < group.entries.length - 1 ? { borderBottom: '1px solid #F4F0EC' } : undefined}
+                      >
+                        <div className="flex items-start justify-between gap-3 flex-wrap">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{entry.title}</p>
+                              {stageLabel(entry.stage) && (
+                                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+                                  {stageLabel(entry.stage)!.toUpperCase()}
+                                </span>
+                              )}
+                            </div>
+                            {entry.description && (
+                              <p className="text-[12.5px] text-[#68636D] m-0 mt-1 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>{entry.description}</p>
+                            )}
+                            {entry.photos.length > 0 && (
+                              <div className="flex items-center gap-1.5 mt-2 text-[#9A949D]">
+                                <IcoPhoto />
+                                <span className="text-[12px]" style={{ fontFamily: FONT_BODY }}>
+                                  {entry.photos.length} photo{entry.photos.length === 1 ? '' : 's'}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <p className="text-[12px] text-[#9A949D] m-0 shrink-0" style={{ fontFamily: FONT_BODY }}>{formatEntryDate(entry.date)}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </SectionCard>
+              ))}
+            </div>
+          )}
+
+          {/* Project summary */}
+          <SectionCard title="Project Summary">
+            <div className="flex flex-col gap-3">
+              <SummaryRow label="Project" value={projectName as string} />
+              <SummaryRow label="Selected Contractor" value={contractorName ?? 'Not selected yet'} />
+              <SummaryRow label="Current Stage" value={currentStageLabel ?? 'Not started yet'} />
+              <SummaryRow label="Progress Entries" value={String(progress.length)} />
+              <SummaryRow label="Expected Completion" value="Not available" />
+            </div>
+          </SectionCard>
+
+          {/* Connections — nav-only, no duplicated data */}
+          <div className="flex items-center gap-4 flex-wrap">
+            <button type="button" onClick={() => navTo('project-tasks')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              View Project Tasks →
+            </button>
+            <button type="button" onClick={() => navTo('project-documents')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              Project Documents →
+            </button>
+            <button type="button" onClick={() => navTo('project-team')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              Project Team →
+            </button>
+          </div>
+        </div>
+      </main>
+        </div>
+      </div>
+    </div>
+  )
+}
