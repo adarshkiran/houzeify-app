@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import HIcon from '@/shared/components/HIcon'
@@ -15,6 +15,8 @@ import { getPaymentsForProject } from '@/data/payments'
 import { constructionStages } from '@/data/constructionStages'
 import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
 import { useDailyProgress } from '@/data/dailyProgressState'
+import { useProjectAudience } from '@/data/customerProjectsState'
+import { describeCustomerViewError, getCustomerView, type CustomerViewHeader } from '@/data/customerViewApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -156,7 +158,7 @@ interface ProjectOverviewScreenProps {
   onNavigate: (screen: string, data?: Record<string, string>) => void
 }
 
-export default function ProjectOverviewScreen({
+function CompanyProjectOverview({
   role,
   userId,
   projectId,
@@ -218,7 +220,9 @@ export default function ProjectOverviewScreen({
 
   const createdLabel = useMemo(() => projectCreatedAtLabel(projectId), [projectId])
 
-  const { progress: dailyProgressEntries } = useDailyProgress(projectId)
+  const audience = useProjectAudience(projectId)
+  const isCustomer = audience === 'customer'
+  const { progress: dailyProgressEntries } = useDailyProgress(isCustomer ? undefined : projectId)
 
   useEffect(() => {
     if (!canViewProject) onNavigate('welcome')
@@ -302,7 +306,7 @@ export default function ProjectOverviewScreen({
         </div>
       </header>
 
-      <ProjectSubNav active="overview" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
+      <ProjectSubNav active="overview" projectId={projectId} projectName={projectName} variant={isCustomer ? 'customer' : 'company'} onNavigate={onNavigate} />
 
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[1000px] mx-auto flex flex-col gap-6">
@@ -465,7 +469,7 @@ export default function ProjectOverviewScreen({
                 {awardedBid ? (
                   <div className="flex flex-col gap-4">
                     <div className="grid grid-cols-2 gap-4">
-                      <Field label="Bid Amount" value={formatBidAmount(awardedBid.amount)} />
+                      <Field label="Bid Amount" value={isCustomer ? '—' : formatBidAmount(awardedBid.amount)} />
                       <Field label="Duration" value={formatBidDuration(awardedBid.duration, awardedBid.durationUnit)} />
                       <Field label="Proposed Start" value={awardedBid.proposedStartDate ? formatDate(awardedBid.proposedStartDate) : 'Not specified'} />
                       <Field label="Submitted" value={formatDate(awardedBid.createdAt)} />
@@ -496,7 +500,7 @@ export default function ProjectOverviewScreen({
           <div>
             <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>Project Actions</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {ACTION_CARDS.map(card => (
+              {(isCustomer ? ACTION_CARDS.filter(card => card.id === 'documents' || card.id === 'progress') : ACTION_CARDS).map(card => (
                 <button
                   key={card.id}
                   type="button"
@@ -518,4 +522,146 @@ export default function ProjectOverviewScreen({
       </div>
     </div>
   )
+}
+
+// ─── Customer Overview (Module 08 §8 / §12) ─────────────────────────────────
+// A linked customer never sees the estimate / bid / payments / contractor
+// shell above — only the customer-safe header served by
+// GET /projects/:id/customer-view, restricted to the spec §8 allow-list:
+// name, location, property type, status, stage, timeline dates and the
+// organization's display name. No project `summary`, no organizationId.
+
+function formatCustomerDate(value: string | null): string {
+  if (!value) return '—'
+  return Number.isNaN(Date.parse(value)) ? value : formatDate(value)
+}
+
+function CustomerField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="min-w-0">
+      <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
+      <p className="text-[13.5px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{value}</p>
+    </div>
+  )
+}
+
+function CustomerOverview({
+  projectId,
+  projectName,
+  onNavigate,
+}: {
+  projectId?: string
+  projectName?: string
+  onNavigate: (screen: string, data?: Record<string, string>) => void
+}) {
+  const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>('loading')
+  const [header, setHeader] = useState<CustomerViewHeader | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [attempt, setAttempt] = useState(0)
+
+  useEffect(() => {
+    if (!projectId) return
+    let cancelled = false
+    setStatus('loading')
+    getCustomerView(projectId)
+      .then(row => {
+        if (cancelled) return
+        setHeader(row)
+        setStatus('loaded')
+      })
+      .catch(err => {
+        if (cancelled) return
+        setError(describeCustomerViewError(err))
+        setStatus('error')
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [projectId, attempt])
+
+  function goToWorkspace() {
+    onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)
+  }
+
+  const title = header?.name ?? projectName ?? 'Project'
+  const stageLabel = header?.stage ? resolvedStageLabel(header.stage) ?? header.stage : null
+  const statusLabel = header?.status
+    ? (isProjectStatus(header.status) ? PROJECT_STATUS_LABELS[header.status] : header.status)
+    : null
+
+  return (
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+      <div className="flex flex-1 min-h-0 relative z-10">
+        <Sidebar active="projects" onNavigate={onNavigate} />
+        <div className="flex flex-col flex-1 min-h-0 min-w-0">
+          <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+            <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
+              <button type="button" onClick={goToWorkspace} className="flex items-center gap-1.5 min-h-11 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                <IcoBack /> Project Workspace
+              </button>
+            </div>
+          </header>
+
+          <ProjectSubNav active="overview" projectId={projectId} projectName={projectName} variant="customer" onNavigate={onNavigate} />
+
+          <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
+            <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
+              <div>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Overview</p>
+                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{title}</h1>
+              </div>
+
+              {!projectId ? (
+                <SectionCard>
+                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Project not found.</p>
+                </SectionCard>
+              ) : status === 'loading' ? (
+                <SectionCard>
+                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading project…</p>
+                </SectionCard>
+              ) : status === 'error' ? (
+                <div className="rounded-[12px] px-4 py-3 flex flex-col items-start gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{error}</p>
+                  <button
+                    type="button"
+                    onClick={() => setAttempt(n => n + 1)}
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
+                    style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                  >
+                    Try again
+                  </button>
+                </div>
+              ) : !header ? (
+                <SectionCard>
+                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No project details have been shared with you yet.</p>
+                </SectionCard>
+              ) : (
+                <SectionCard title="Project Details">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+                    <CustomerField label="Project" value={header.name} />
+                    <CustomerField label="Builder" value={header.organizationName ?? '—'} />
+                    <CustomerField label="Location" value={header.location ?? '—'} />
+                    <CustomerField label="Property Type" value={header.propertyType ?? '—'} />
+                    <CustomerField label="Status" value={statusLabel ?? '—'} />
+                    <CustomerField label="Current Stage" value={stageLabel ?? '—'} />
+                    <CustomerField label="Start Date" value={formatCustomerDate(header.timelineStart)} />
+                    <CustomerField label="Expected Completion" value={formatCustomerDate(header.timelineCompletion)} />
+                  </div>
+                </SectionCard>
+              )}
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function ProjectOverviewScreen(props: ProjectOverviewScreenProps) {
+  const audience = useProjectAudience(props.projectId)
+  const canViewProject = props.role === 'homeowner' || props.role === 'professional'
+  if (audience === 'customer' && canViewProject) {
+    return <CustomerOverview projectId={props.projectId} projectName={props.projectName} onNavigate={props.onNavigate} />
+  }
+  return <CompanyProjectOverview {...props} />
 }

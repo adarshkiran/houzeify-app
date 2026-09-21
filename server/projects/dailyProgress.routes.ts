@@ -21,6 +21,7 @@ import {
   listDailyProgressForProject,
   updateDailyProgress,
   type DailyProgressInput,
+  type DailyProgressPatch,
   type DailyProgressPhotoInput,
 } from './dailyProgress.service.js'
 import { serializeDailyProgress, serializeDailyProgressPhoto } from './dailyProgress.types.js'
@@ -62,7 +63,7 @@ export async function dailyProgressRoutes(app: FastifyInstance, opts: { env: Env
     async request => {
       const projectId = requireValidId(request.params.projectId, 'project')
       const progressId = requireValidId(request.params.progressId, 'progress')
-      const patch = request.body as Partial<DailyProgressInput>
+      const patch = request.body as Partial<DailyProgressPatch>
       const row = await updateDailyProgress(env, projectId, progressId, request.user!.id, patch)
       return { data: { progress: serializeDailyProgress(row) } }
     },

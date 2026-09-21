@@ -27,6 +27,8 @@ import { constructionIssuesRoutes } from './projects/constructionIssues.routes.j
 import { projectDocumentsRoutes } from './projects/projectDocuments.routes.js'
 import { projectWorkforceRoutes } from './projects/projectWorkforce.routes.js'
 import { projectBoqRoutes } from './projects/projectBoq.routes.js'
+import { projectCustomerRoutes } from './projects/projectCustomer.routes.js'
+import { customerViewRoutes } from './projects/customerView.routes.js'
 import { healthRoutes } from './routes/health.js'
 
 export async function buildApp(env: Env): Promise<FastifyInstance> {
@@ -55,6 +57,8 @@ export async function buildApp(env: Env): Promise<FastifyInstance> {
       await v1.register(projectWorkforceRoutes, { env, prefix: '/projects' })
       await v1.register(projectDocumentsRoutes, { env, prefix: '/projects' })
       await v1.register(projectBoqRoutes, { env, prefix: '/projects' })
+      await v1.register(projectCustomerRoutes, { env, prefix: '/projects' })
+      await v1.register(customerViewRoutes, { env, prefix: '/projects' })
     },
     { prefix: '/api/v1' },
   )

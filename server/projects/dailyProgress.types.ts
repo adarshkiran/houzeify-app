@@ -25,6 +25,9 @@ export function serializeDailyProgress(row: DailyProgressRow, photos: DailyProgr
     title: row.title,
     description: row.description,
     photos: photos.map(serializeDailyProgressPhoto),
+    visibility: row.visibility,
+    publishedAt: row.publishedAt ? row.publishedAt.toISOString() : null,
+    publishedBy: row.publishedBy,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   }

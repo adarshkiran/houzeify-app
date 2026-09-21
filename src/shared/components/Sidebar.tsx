@@ -20,6 +20,7 @@
 
 import { DASHBOARD_ROUTES } from '@/data/homeownerDashboard'
 import { CUSTOMER_NAV_ROUTES } from '@/data/constructionNav'
+import { useSoleActiveCustomerProjectId } from '@/data/customerProjectsState'
 import logoHorizontal from '@/imports/Logo/Houzeify HLogo.svg'
 import HIcon from './HIcon'
 
@@ -231,6 +232,7 @@ export default function Sidebar({
   active: SidebarNavId
   onNavigate: (s: string, data?: Record<string, string>) => void
 }) {
+  const soleCustomerProjectId = useSoleActiveCustomerProjectId()
   const navMain = [
     { id: 'home' as const, icon: <IcoHome />, label: 'Home', dest: 'dashboard-home' },
     { id: 'build' as const, icon: <IcoBuild />, label: 'Build', dest: DASHBOARD_ROUTES.buildOrImprove },
@@ -329,7 +331,12 @@ export default function Sidebar({
                 icon={item.icon}
                 label={item.label}
                 active={active === item.id}
-                onClick={() => onNavigate(item.dest)}
+                onClick={() => {
+                  const needsProject = item.id === 'progress' || item.id === 'timeline' || item.id === 'photos' || item.id === 'documents' || item.id === 'live-site'
+                  if (needsProject && soleCustomerProjectId) onNavigate(item.dest, { project_id: soleCustomerProjectId })
+                  else if (needsProject) onNavigate('projects-list')
+                  else onNavigate(item.dest)
+                }}
               />
             ))}
           </div>

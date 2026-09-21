@@ -16,7 +16,7 @@ import { eq } from 'drizzle-orm'
 import { generateSessionToken, hashSessionToken } from './auth/session.js'
 import { loadEnv, type Env } from './config/env.js'
 import { getDb } from './db/client.js'
-import { organizations, sessions, users, type UserRow } from './db/schema.js'
+import { organizations, projectCustomers, sessions, users, type UserRow } from './db/schema.js'
 
 /** Returns a usable Env only when DATABASE_URL is actually configured —
  *  every DB-backed test in this phase calls this first and skips cleanly
@@ -60,9 +60,12 @@ export function sessionCookieHeader(token: string): string {
  *  ON DELETE RESTRICT by design (see schema.ts), so deleting the user
  *  before their owned organizations would fail, not cascade. Everything
  *  else (sessions, customer_profiles, partner_profiles, memberships in
- *  other people's organizations) cascades from the user delete itself. */
+ *  other people's organizations) cascades from the user delete itself.
+ *  project_customers.invited_by is ON DELETE RESTRICT (Module 08), so links
+ *  this user created are removed first. */
 export async function cleanupTestUser(env: Env, userId: string): Promise<void> {
   const db = getDb(env)
+  await db.delete(projectCustomers).where(eq(projectCustomers.invitedBy, userId))
   await db.delete(organizations).where(eq(organizations.ownerId, userId))
   await db.delete(users).where(eq(users.id, userId))
 }

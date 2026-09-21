@@ -16,6 +16,7 @@ export interface ProjectDocumentDto {
   mimeType: string
   size: number
   fileAvailable: boolean
+  visibility?: 'internal' | 'customer'
   status: 'active' | 'archived'
   createdAt: string
   updatedAt: string
@@ -34,6 +35,7 @@ export interface UpdateProjectDocumentInput {
   title?: string
   description?: string
   category?: DocumentCategory
+  visibility?: 'internal' | 'customer'
 }
 
 interface ProjectDocumentListEnvelope {

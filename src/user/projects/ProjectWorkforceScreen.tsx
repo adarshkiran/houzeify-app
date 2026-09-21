@@ -6,6 +6,8 @@ import { useProjectWorkforce, type ProjectWorkforceMember } from '@/data/project
 import { listOrganizationMembers, type OrganizationMember } from '@/data/organizationApi'
 import { ApiError } from '@/data/apiClient'
 import { useAuth } from '@/data/authState'
+import { useProjectAudience } from '@/data/customerProjectsState'
+import { listCustomerViewWorkforce, type CustomerViewWorkforceMember } from '@/data/customerViewApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -158,7 +160,14 @@ export default function ProjectWorkforceScreen({
   const auth = useAuth()
   const currentUserId = auth.user?.id || userId || CURRENT_USER_ID
 
-  const { status: workforceStatus, members, error, addMember, updateRole, removeMember } = useProjectWorkforce(projectId)
+  const audience = useProjectAudience(projectId)
+  const isCustomer = audience === 'customer'
+  const { status: workforceStatus, members, error, addMember, updateRole, removeMember } = useProjectWorkforce(isCustomer ? undefined : projectId)
+  const [customerRoster, setCustomerRoster] = useState<CustomerViewWorkforceMember[]>([])
+  useEffect(() => {
+    if (!isCustomer || !projectId) return
+    listCustomerViewWorkforce(projectId).then(setCustomerRoster).catch(() => setCustomerRoster([]))
+  }, [isCustomer, projectId])
 
   // Assignable members — real organization roster only, same
   // listOrganizationMembers() direct-call pattern as ProjectTasksScreen.tsx/
@@ -179,7 +188,7 @@ export default function ProjectWorkforceScreen({
   // See header comment — reuses the exact same client-side gate
   // ProjectTasksScreen.tsx/ProjectIssuesScreen.tsx already use to decide
   // whether the signed-in user can mutate.
-  const canManageWorkforce = canViewProject
+  const canManageWorkforce = canViewProject && !isCustomer
 
   const [showForm, setShowForm] = useState(false)
   const [selectedUserId, setSelectedUserId] = useState('')
@@ -266,7 +275,7 @@ export default function ProjectWorkforceScreen({
         </div>
       </header>
 
-      <ProjectSubNav active="workforce" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
+      <ProjectSubNav active="workforce" projectId={projectId} projectName={projectName} variant={isCustomer ? 'customer' : 'company'} onNavigate={onNavigate} />
 
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[820px] mx-auto flex flex-col gap-6">
@@ -355,7 +364,18 @@ export default function ProjectWorkforceScreen({
           )}
 
           {/* Site team list */}
-          {isLoading ? (
+          {isCustomer ? (
+            <div className="flex flex-col gap-3">
+              {customerRoster.length === 0 ? (
+                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No site team has been added for this project yet.</p>
+              ) : customerRoster.map(member => (
+                <div key={`${member.displayName}-${member.role}`} className="rounded-[14px] bg-white p-4" style={{ border: '1px solid #E3DDD7' }}>
+                  <p className="text-[14px] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>{member.displayName}</p>
+                  <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{member.role}</p>
+                </div>
+              ))}
+            </div>
+          ) : isLoading ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
                 <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>

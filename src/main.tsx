@@ -7,6 +7,7 @@ import { PartnerProfileProvider } from './data/partnerProfileState'
 import { OrganizationProvider } from './data/organizationState'
 import { ProjectProvider } from './data/projectState'
 import { HouseRequirementsProvider } from './data/houseRequirementsState'
+import { CustomerProjectsProvider } from './data/customerProjectsState'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -30,9 +31,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <PartnerProfileProvider>
           <OrganizationProvider>
             <ProjectProvider>
-              <HouseRequirementsProvider>
-                <App />
-              </HouseRequirementsProvider>
+              <CustomerProjectsProvider>
+                <HouseRequirementsProvider>
+                  <App />
+                </HouseRequirementsProvider>
+              </CustomerProjectsProvider>
             </ProjectProvider>
           </OrganizationProvider>
         </PartnerProfileProvider>

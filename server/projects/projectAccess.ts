@@ -14,15 +14,52 @@
 import { and, eq } from 'drizzle-orm'
 import type { Env } from '../config/env.js'
 import { getDb } from '../db/client.js'
-import { organizationMembers, type ProjectRow } from '../db/schema.js'
+import { organizationMembers, projectCustomers, projects, type ProjectRow } from '../db/schema.js'
 import { HttpError } from '../errors/httpError.js'
 import { ORGANIZATION_MUTATION_ROLES, type OrganizationMemberRole } from '../organizations/organization.service.js'
 import { getProjectForAccess } from './project.service.js'
+
+export type ProjectAccessKind = 'company' | 'customer'
+
+export interface ProjectAccess {
+  project: ProjectRow
+  kind: ProjectAccessKind
+}
+
+export async function resolveProjectAccess(env: Env, projectId: string, userId: string): Promise<ProjectAccess | undefined> {
+  const companyProject = await getProjectForAccess(env, projectId, userId)
+  if (companyProject) return { project: companyProject, kind: 'company' }
+
+  const db = getDb(env)
+  const links = await db
+    .select({ project: projects, link: projectCustomers })
+    .from(projectCustomers)
+    .innerJoin(projects, eq(projects.id, projectCustomers.projectId))
+    .where(
+      and(
+        eq(projectCustomers.projectId, projectId),
+        eq(projectCustomers.userId, userId),
+        eq(projectCustomers.status, 'active'),
+      ),
+    )
+    .limit(1)
+  const hit = links[0]
+  if (!hit?.project.organizationId) return undefined
+  return { project: hit.project, kind: 'customer' }
+}
 
 export async function requireProjectAccess(env: Env, projectId: string, userId: string): Promise<ProjectRow> {
   const project = await getProjectForAccess(env, projectId, userId)
   if (!project) throw new HttpError('NOT_FOUND', 'Project not found.', 404)
   return project
+}
+
+export const requireCompanyRead = requireProjectAccess
+
+export async function requireCompanyOrCustomerRead(env: Env, projectId: string, userId: string): Promise<ProjectAccess> {
+  const access = await resolveProjectAccess(env, projectId, userId)
+  if (!access) throw new HttpError('NOT_FOUND', 'Project not found.', 404)
+  return access
 }
 
 export async function canMutateAtProjectLevel(env: Env, project: ProjectRow, userId: string): Promise<boolean> {

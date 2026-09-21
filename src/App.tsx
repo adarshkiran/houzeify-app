@@ -81,6 +81,9 @@ import ProjectTasksScreen from '@/user/projects/ProjectTasksScreen'
 import ProjectIssuesScreen from '@/user/projects/ProjectIssuesScreen'
 import ProjectProgressScreen from '@/user/projects/ProjectProgressScreen'
 import ProjectWorkforceScreen from '@/user/projects/ProjectWorkforceScreen'
+import ProjectCustomerScreen from '@/user/projects/ProjectCustomerScreen'
+import ProjectPhotosScreen from '@/user/projects/ProjectPhotosScreen'
+import ProjectTimelineScreen from '@/user/projects/ProjectTimelineScreen'
 import AIAdvisorScreen from '@/user/dashboard/AIAdvisorScreen'
 import HomeServicesScreen from '@/user/home-services/HomeServicesScreen'
 import HoziehelperGoldScreen from '@/user/home-services/categories/HoziehelperGoldScreen'
@@ -2218,17 +2221,13 @@ export default function App() {
           constructionNav.ts's PROJECT_NAV_ROUTES / NAV_PLACEHOLDER_CONTENT).
           Reachable from both the project sub-screens' own ProjectSubNav and
           the customer Sidebar's new Timeline/Live Site items. */}
-      {(screen === 'project-timeline'
-        || screen === 'project-live-site' || screen === 'project-customer'
-        || screen === 'project-reports' || screen === 'project-settings') && (
+      {(screen === 'project-live-site' || screen === 'project-reports' || screen === 'project-settings') && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ComingSoonScreen
             placeholderId={screen}
             shell="project"
             activeProjectId={
-              screen === 'project-timeline' ? 'timeline'
-              : screen === 'project-live-site' ? 'liveSite'
-              : screen === 'project-customer' ? 'customer'
+              screen === 'project-live-site' ? 'liveSite'
               : screen === 'project-reports' ? 'reports'
               : 'settings'
             }
@@ -2241,9 +2240,31 @@ export default function App() {
       {/* Houzeify 2.0 Module 01 — customer-only placeholder (not one of
           ProjectSubNav's project tabs; reached only from the customer
           Sidebar's new Photos item). */}
+      {screen === 'project-customer' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <ProjectCustomerScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'project-timeline' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <ProjectTimelineScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
       {screen === 'project-photos' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
-          <ComingSoonScreen placeholderId="project-photos" shell="customer" activeCustomerId="photos" onNavigate={navigateTo} />
+          <ProjectPhotosScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            onNavigate={navigateTo}
+          />
         </div>
       )}
       {/* Houzeify 2.0 Module 02 — Home Services hidden-navigation

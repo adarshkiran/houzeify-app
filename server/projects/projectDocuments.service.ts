@@ -126,12 +126,20 @@ export async function updateDocument(
   const row = await requireActiveDocumentRow(env, projectId, documentId)
   await requireUploaderOrProjectMutation(env, project, row, userId)
 
-  const changes: Partial<Pick<ProjectDocumentRow, 'title' | 'description' | 'category'>> = {}
+  // Publishing to the customer is a project-level decision: an uploader who
+  // cannot mutate at project level (org viewer/team) may edit their own
+  // document but never change its visibility. 404, never 403.
+  if (patch.visibility !== undefined && !(await canMutateAtProjectLevel(env, project, userId))) {
+    throw new HttpError('NOT_FOUND', 'Document not found.', 404)
+  }
+
+  const changes: Partial<Pick<ProjectDocumentRow, 'title' | 'description' | 'category' | 'visibility'>> = {}
   if (patch.title !== undefined) changes.title = patch.title.trim()
   if (patch.description !== undefined) changes.description = patch.description
   if (patch.category !== undefined) changes.category = patch.category
+  if (patch.visibility !== undefined) changes.visibility = patch.visibility
   if (Object.keys(changes).length === 0) {
-    throw new HttpError('EMPTY_PATCH', 'Provide a title, description or category to update.', 400)
+    throw new HttpError('EMPTY_PATCH', 'Provide a title, description, category or visibility to update.', 400)
   }
 
   const db = getDb(env)
