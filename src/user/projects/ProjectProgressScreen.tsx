@@ -12,7 +12,7 @@ import { getAwardedBid } from '@/data/bids'
 import { useDailyProgress } from '@/data/dailyProgressState'
 import { updateDailyProgress } from '@/data/dailyProgressApi'
 import { useProjectAudience } from '@/data/customerProjectsState'
-import { listCustomerViewProgress } from '@/data/customerViewApi'
+import { describeCustomerViewError, listCustomerViewProgress } from '@/data/customerViewApi'
 import { constructionStages } from '@/data/constructionStages'
 import type { DailyProgress } from '@/data/dailyProgressApi'
 
@@ -229,10 +229,17 @@ export default function ProjectProgressScreen({
   const { status: progressStatus, progress: companyProgress, errorMessage, refresh } = useDailyProgress(isCustomer ? undefined : projectId)
   const [sharedProgress, setSharedProgress] = useState<DailyProgress[]>([])
   const [shareBusyId, setShareBusyId] = useState<string | null>(null)
+  // The customer fetch below is independent of useDailyProgress (inert for
+  // customers), so it tracks its own loading / error state.
+  const [customerStatus, setCustomerStatus] = useState<'loading' | 'loaded' | 'error'>('loading')
+  const [customerError, setCustomerError] = useState<string | null>(null)
+  const [customerAttempt, setCustomerAttempt] = useState(0)
 
   useEffect(() => {
     if (!isCustomer || !projectId) return
     let cancelled = false
+    setCustomerStatus('loading')
+    setCustomerError(null)
     listCustomerViewProgress(projectId).then(rows => {
       if (cancelled) return
       setSharedProgress(rows.map(row => ({
@@ -258,11 +265,15 @@ export default function ProjectProgressScreen({
         createdAt: row.createdAt,
         updatedAt: row.updatedAt,
       })))
-    }).catch(() => {
-      if (!cancelled) setSharedProgress([])
+      setCustomerStatus('loaded')
+    }).catch(err => {
+      if (cancelled) return
+      setSharedProgress([])
+      setCustomerError(describeCustomerViewError(err))
+      setCustomerStatus('error')
     })
     return () => { cancelled = true }
-  }, [isCustomer, projectId])
+  }, [isCustomer, projectId, customerAttempt])
 
   const progress = isCustomer ? sharedProgress : companyProgress
   const latestEntry = progress[0]
@@ -301,7 +312,9 @@ export default function ProjectProgressScreen({
     onNavigate(dest, { project_id: projectId as string })
   }
 
-  const isLoading = progressStatus === 'idle' || progressStatus === 'loading'
+  const isLoading = isCustomer
+    ? customerStatus === 'loading'
+    : progressStatus === 'idle' || progressStatus === 'loading'
 
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
@@ -389,6 +402,20 @@ export default function ProjectProgressScreen({
             </div>
           )}
 
+          {isCustomer && customerStatus === 'error' && customerError && (
+            <div className="rounded-[12px] px-4 py-3 flex flex-col items-start gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+              <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{customerError}</p>
+              <button
+                type="button"
+                onClick={() => setCustomerAttempt(n => n + 1)}
+                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
+                style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+              >
+                Try again
+              </button>
+            </div>
+          )}
+
           {/* Progress feed — real Daily Progress entries only, grouped by
               date (Today / Yesterday / Earlier). */}
           {isLoading ? (
@@ -400,7 +427,7 @@ export default function ProjectProgressScreen({
                 <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Loading progress…</p>
               </div>
             </SectionCard>
-          ) : progress.length === 0 ? (
+          ) : isCustomer && customerStatus === 'error' ? null : progress.length === 0 ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-8">
                 <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
@@ -487,7 +514,7 @@ export default function ProjectProgressScreen({
           <SectionCard title="Project Summary">
             <div className="flex flex-col gap-3">
               <SummaryRow label="Project" value={projectName as string} />
-              <SummaryRow label="Selected Contractor" value={contractorName ?? 'Not selected yet'} />
+              {!isCustomer && <SummaryRow label="Selected Contractor" value={contractorName ?? 'Not selected yet'} />}
               <SummaryRow label="Current Stage" value={currentStageLabel ?? 'Not started yet'} />
               <SummaryRow label="Progress Entries" value={String(progress.length)} />
               <SummaryRow label="Expected Completion" value="Not available" />
@@ -496,15 +523,19 @@ export default function ProjectProgressScreen({
 
           {/* Connections — nav-only, no duplicated data */}
           <div className="flex items-center gap-4 flex-wrap">
-            <button type="button" onClick={() => navTo('project-tasks')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
-              View Project Tasks →
-            </button>
+            {!isCustomer && (
+              <button type="button" onClick={() => navTo('project-tasks')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                View Project Tasks →
+              </button>
+            )}
             <button type="button" onClick={() => navTo('project-documents')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Project Documents →
             </button>
-            <button type="button" onClick={() => navTo('project-team')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
-              Project Team →
-            </button>
+            {!isCustomer && (
+              <button type="button" onClick={() => navTo('project-team')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                Project Team →
+              </button>
+            )}
           </div>
         </div>
       </main>
