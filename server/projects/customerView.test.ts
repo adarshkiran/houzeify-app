@@ -19,10 +19,12 @@ test('customer-view: published progress, documents, isolation, no BOQ leak', { s
   const customerCookie = sessionCookieHeader(await createTestSessionToken(env!, customer.id))
   const other = await createTestUser(env!)
   const otherCookie = sessionCookieHeader(await createTestSessionToken(env!, other.id))
+  const ownerB = await createTestUser(env!)
+  const ownerBCookie = sessionCookieHeader(await createTestSessionToken(env!, ownerB.id))
 
-  const users = [owner, viewer, customer, other]
+  const users = [owner, viewer, customer, other, ownerB]
   let projectId = ''
-  const email = `view-${uniqueName('m08')}@example.com`
+  const email = `view-${uniqueName('m08').replace(' ', '-')}@example.com`
 
   after(async () => {
     await app.close()
@@ -140,6 +142,8 @@ test('customer-view: published progress, documents, isolation, no BOQ leak', { s
     })
     assert.equal(header.statusCode, 200)
     assert.equal(header.json().data.project.summary, undefined)
+    assert.equal(header.json().data.project.organizationId, undefined)
+    assert.ok(header.json().data.project.organizationName)
     assert.equal(header.json().data.project.latestProgress.title, 'Slab poured')
 
     const companyPreview = await app.inject({
@@ -234,5 +238,147 @@ test('customer-view: published progress, documents, isolation, no BOQ leak', { s
       headers: { cookie: otherCookie },
     })
     assert.equal(stranger.statusCode, 404)
+  })
+
+  await t.test('document publishing: non-mutator uploader gets 404, mutator can publish and unpublish', async () => {
+    const doc = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/documents`,
+      headers: { cookie: viewerCookie },
+      payload: { category: 'plans', fileName: 'internal-costs.pdf', mimeType: 'application/pdf', size: 2048, title: 'Internal costs' },
+    })
+    assert.equal(doc.statusCode, 201)
+    const documentId = doc.json().data.document.id
+    assert.equal(doc.json().data.document.visibility, 'internal')
+
+    const publishAttempt = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/projects/${projectId}/documents/${documentId}`,
+      headers: { cookie: viewerCookie },
+      payload: { visibility: 'customer' },
+    })
+    assert.equal(publishAttempt.statusCode, 404)
+    assert.equal(publishAttempt.json().error.code, 'NOT_FOUND')
+
+    // Ordinary uploader edits still work.
+    const rename = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/projects/${projectId}/documents/${documentId}`,
+      headers: { cookie: viewerCookie },
+      payload: { title: 'Internal costs v2' },
+    })
+    assert.equal(rename.statusCode, 200)
+    assert.equal(rename.json().data.document.title, 'Internal costs v2')
+    assert.equal(rename.json().data.document.visibility, 'internal')
+
+    // A mixed patch that includes visibility is rejected as a whole.
+    const mixed = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/projects/${projectId}/documents/${documentId}`,
+      headers: { cookie: viewerCookie },
+      payload: { title: 'Sneaky', visibility: 'customer' },
+    })
+    assert.equal(mixed.statusCode, 404)
+
+    // Still internal, and the customer cannot see it.
+    const listed = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/documents`,
+      headers: { cookie: ownerCookie },
+    })
+    const listedDoc = listed.json().data.documents.find((d: { id: string }) => d.id === documentId)
+    assert.equal(listedDoc.visibility, 'internal')
+    assert.equal(listedDoc.title, 'Internal costs v2')
+    const customerDocs = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/customer-view/documents`,
+      headers: { cookie: customerCookie },
+    })
+    assert.ok(!customerDocs.json().data.documents.some((d: { id: string }) => d.id === documentId))
+
+    // The owner (mutator) can publish and unpublish it.
+    const publish = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/projects/${projectId}/documents/${documentId}`,
+      headers: { cookie: ownerCookie },
+      payload: { visibility: 'customer' },
+    })
+    assert.equal(publish.statusCode, 200)
+    assert.equal(publish.json().data.document.visibility, 'customer')
+    const unpublish = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/projects/${projectId}/documents/${documentId}`,
+      headers: { cookie: ownerCookie },
+      payload: { visibility: 'internal' },
+    })
+    assert.equal(unpublish.statusCode, 200)
+    assert.equal(unpublish.json().data.document.visibility, 'internal')
+  })
+
+  await t.test('customer cannot create daily progress (404, nothing created)', async () => {
+    const before = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/daily-progress`,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(before.statusCode, 200)
+    const countBefore = before.json().data.progress.length
+
+    const attempt = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress`,
+      headers: { cookie: customerCookie },
+      payload: { date: '2026-04-02', stage: 'structure', title: 'Customer injected update' },
+    })
+    assert.equal(attempt.statusCode, 404)
+
+    const after = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/daily-progress`,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(after.json().data.progress.length, countBefore)
+    assert.ok(!after.json().data.progress.some((p: { title: string }) => p.title === 'Customer injected update'))
+  })
+
+  await t.test('active customer of project A gets 404 on project B customer-view', async () => {
+    const orgB = await app.inject({
+      method: 'POST',
+      url: '/api/v1/organizations',
+      headers: { cookie: ownerBCookie },
+      payload: { name: uniqueName('Org View B') },
+    })
+    assert.equal(orgB.statusCode, 201)
+    const projectB = await app.inject({
+      method: 'POST',
+      url: '/api/v1/projects',
+      headers: { cookie: ownerBCookie },
+      payload: { name: uniqueName('Site B'), organizationId: orgB.json().data.organization.id, stage: 'masonry' },
+    })
+    assert.equal(projectB.statusCode, 201)
+    const projectBId = projectB.json().data.project.id
+
+    // Control: project B's own owner reaches the view; the customer of A is still active on A.
+    const control = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectBId}/customer-view`,
+      headers: { cookie: ownerBCookie },
+    })
+    assert.equal(control.statusCode, 200)
+    const stillA = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/customer-view`,
+      headers: { cookie: customerCookie },
+    })
+    assert.equal(stillA.statusCode, 200)
+
+    for (const suffix of ['', '/progress', '/documents', '/workforce', '/timeline']) {
+      const res = await app.inject({
+        method: 'GET',
+        url: `/api/v1/projects/${projectBId}/customer-view${suffix}`,
+        headers: { cookie: customerCookie },
+      })
+      assert.equal(res.statusCode, 404, `customer-view${suffix}`)
+    }
   })
 })

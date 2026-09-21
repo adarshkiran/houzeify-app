@@ -19,6 +19,8 @@ import {
   USER_NOT_FOUND_MESSAGE,
 } from './projectCustomer.types.js'
 
+/** Rows with customerStatus 'invited' carry only id, name, organizationName,
+ *  customerStatus and invitedAt; every other field is null (spec §11). */
 export interface CustomerProjectListItem {
   id: string
   name: string
@@ -147,12 +149,18 @@ export async function acceptProjectCustomerInvite(env: Env, projectId: string, u
   const row = rows[0]
   if (!row) throw new HttpError('NOT_FOUND', 'Project not found.', 404)
 
+  // Re-assert the company-owned invariant on this path too: a project that
+  // no longer belongs to an organization cannot be accepted into.
+  const projectRows = await db.select({ organizationId: projects.organizationId }).from(projects).where(eq(projects.id, projectId)).limit(1)
+  if (!projectRows[0]?.organizationId) throw new HttpError('NOT_FOUND', 'Project not found.', 404)
+
   const now = new Date()
   const updated = await db
     .update(projectCustomers)
     .set({ status: 'active', acceptedAt: now, updatedAt: now })
-    .where(eq(projectCustomers.id, row.id))
+    .where(and(eq(projectCustomers.id, row.id), eq(projectCustomers.projectId, projectId), eq(projectCustomers.status, 'invited')))
     .returning()
+  if (!updated[0]) throw new HttpError('NOT_FOUND', 'Project not found.', 404)
   return updated[0]
 }
 
@@ -170,21 +178,44 @@ export async function listCustomerProjectsForUser(env: Env, userId: string): Pro
     .where(and(eq(projectCustomers.userId, userId), inArray(projectCustomers.status, ['invited', 'active'])))
     .orderBy(desc(projectCustomers.updatedAt), desc(projectCustomers.id))
 
-  return rows.map(({ project, link, organizationName }) => ({
-    id: project.id,
-    name: project.name,
-    location: project.location,
-    propertyType: project.propertyType,
-    stage: project.stage,
-    status: project.status,
-    timelineStart: project.timelineStart,
-    timelineCompletion: project.timelineCompletion,
-    organizationId: project.organizationId,
-    organizationName: organizationName ?? null,
-    customerStatus: link.status,
-    invitedAt: link.invitedAt.toISOString(),
-    acceptedAt: link.acceptedAt ? link.acceptedAt.toISOString() : null,
-  }))
+  return rows.map(({ project, link, organizationName }) => {
+    const invitedAt = link.invitedAt.toISOString()
+    if (link.status === 'invited') {
+      // Pre-acceptance the invitee sees an invitation only (spec §11): name,
+      // organization display name and invitedAt. Every other key is present
+      // (so the client type stays stable) but withheld.
+      return {
+        id: project.id,
+        name: project.name,
+        location: null,
+        propertyType: null,
+        stage: null,
+        status: null,
+        timelineStart: null,
+        timelineCompletion: null,
+        organizationId: null,
+        organizationName: organizationName ?? null,
+        customerStatus: link.status,
+        invitedAt,
+        acceptedAt: null,
+      }
+    }
+    return {
+      id: project.id,
+      name: project.name,
+      location: project.location,
+      propertyType: project.propertyType,
+      stage: project.stage,
+      status: project.status,
+      timelineStart: project.timelineStart,
+      timelineCompletion: project.timelineCompletion,
+      organizationId: project.organizationId,
+      organizationName: organizationName ?? null,
+      customerStatus: link.status,
+      invitedAt,
+      acceptedAt: link.acceptedAt ? link.acceptedAt.toISOString() : null,
+    }
+  })
 }
 
 export async function loadCustomerProfileForUser(env: Env, userId: string): Promise<CustomerProfileRow | undefined> {

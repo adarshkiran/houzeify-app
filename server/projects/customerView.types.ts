@@ -68,7 +68,6 @@ export function serializeCustomerHeader(
     status: project.status,
     timelineStart: project.timelineStart,
     timelineCompletion: project.timelineCompletion,
-    organizationId: project.organizationId,
     organizationName,
     latestProgress: latest
       ? { id: latest.id, date: latest.date, title: latest.title, stage: latest.stage }

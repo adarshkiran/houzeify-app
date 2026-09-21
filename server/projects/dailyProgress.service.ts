@@ -177,7 +177,12 @@ export async function updateDailyProgress(
     }
   }
 
-  const updated = await db.update(dailyProgress).set(values).where(eq(dailyProgress.id, progressId)).returning()
+  const updated = await db
+    .update(dailyProgress)
+    .set(values)
+    .where(and(eq(dailyProgress.id, progressId), eq(dailyProgress.projectId, projectId)))
+    .returning()
+  if (!updated[0]) throw new HttpError('NOT_FOUND', 'Progress update not found.', 404)
   return updated[0]
 }
 

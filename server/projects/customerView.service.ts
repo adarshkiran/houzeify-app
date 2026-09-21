@@ -94,22 +94,28 @@ export async function listCustomerViewWorkforce(env: Env, projectId: string, use
     .where(and(eq(projectWorkforceMembers.projectId, projectId), eq(projectWorkforceMembers.status, 'active')))
     .orderBy(projectWorkforceMembers.createdAt)
 
-  return Promise.all(
-    members.map(async member => {
-      const partner = await db
-        .select({ displayName: partnerProfiles.displayName, fullName: partnerProfiles.fullName })
-        .from(partnerProfiles)
-        .where(eq(partnerProfiles.userId, member.userId))
-        .limit(1)
-      const customer = await db
-        .select({ fullName: customerProfiles.fullName })
-        .from(customerProfiles)
-        .where(eq(customerProfiles.userId, member.userId))
-        .limit(1)
-      const displayName = partner[0]?.displayName?.trim() || partner[0]?.fullName || customer[0]?.fullName || 'Team member'
-      return { displayName, role: member.role }
-    }),
-  )
+  if (members.length === 0) return []
+
+  // Two batched lookups instead of two per member. Only the name columns are
+  // selected; nothing else about a member ever reaches the response.
+  const userIds = [...new Set(members.map(member => member.userId))]
+  const partners = await db
+    .select({ userId: partnerProfiles.userId, displayName: partnerProfiles.displayName, fullName: partnerProfiles.fullName })
+    .from(partnerProfiles)
+    .where(inArray(partnerProfiles.userId, userIds))
+  const customers = await db
+    .select({ userId: customerProfiles.userId, fullName: customerProfiles.fullName })
+    .from(customerProfiles)
+    .where(inArray(customerProfiles.userId, userIds))
+  const partnerByUser = new Map(partners.map(p => [p.userId, p]))
+  const customerByUser = new Map(customers.map(c => [c.userId, c]))
+
+  return members.map(member => {
+    const partner = partnerByUser.get(member.userId)
+    const customer = customerByUser.get(member.userId)
+    const displayName = partner?.displayName?.trim() || partner?.fullName || customer?.fullName || 'Team member'
+    return { displayName, role: member.role }
+  })
 }
 
 export async function getCustomerViewTimeline(env: Env, projectId: string, userId: string) {

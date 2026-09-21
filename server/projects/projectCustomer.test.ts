@@ -3,7 +3,8 @@ import { after, test } from 'node:test'
 
 import { buildApp } from '../app.js'
 import { closeDb, getDb } from '../db/client.js'
-import { organizationMembers, partnerProfiles } from '../db/schema.js'
+import { eq } from 'drizzle-orm'
+import { organizationMembers, partnerProfiles, projects } from '../db/schema.js'
 import { cleanupTestUser, createTestSessionToken, createTestUser, loadTestEnv, sessionCookieHeader, uniqueName } from '../testUtils.js'
 import { USER_NOT_FOUND_MESSAGE } from './projectCustomer.types.js'
 
@@ -29,8 +30,8 @@ test('project customer: invite, get, replace, accept, list, remove', { skip: !en
   let organizationId = ''
   let projectId = ''
   let soloProjectId = ''
-  const customerEmail = `cust-${uniqueName('m08')}@example.com`
-  const customerBEmail = `custb-${uniqueName('m08')}@example.com`
+  const customerEmail = `cust-${uniqueName('m08').replace(' ', '-')}@example.com`
+  const customerBEmail = `custb-${uniqueName('m08').replace(' ', '-')}@example.com`
 
   after(async () => {
     await app.close()
@@ -162,7 +163,7 @@ test('project customer: invite, get, replace, accept, list, remove', { skip: !en
   })
 
   await t.test('org member email is ALREADY_PARTICIPANT', async () => {
-    const viewerEmail = `viewer-${uniqueName('m08')}@example.com`
+    const viewerEmail = `viewer-${uniqueName('m08').replace(' ', '-')}@example.com`
     const profile = await app.inject({
       method: 'POST',
       url: '/api/v1/customer-profile',
@@ -261,5 +262,64 @@ test('project customer: invite, get, replace, accept, list, remove', { skip: !en
     })
     const ids = list.json().data.projects.map((p: { id: string }) => p.id)
     assert.equal(ids.includes(projectId), false)
+  })
+
+  await t.test('pending invite lists as an invitation only; accept re-asserts company ownership', async () => {
+    const reinvite = await app.inject({
+      method: 'PUT',
+      url: `/api/v1/projects/${projectId}/customer`,
+      headers: { cookie: ownerCookie },
+      payload: { email: customerBEmail },
+    })
+    assert.equal(reinvite.statusCode, 200)
+    assert.equal(reinvite.json().data.customer.status, 'invited')
+
+    const pending = await app.inject({
+      method: 'GET',
+      url: '/api/v1/projects?as=customer',
+      headers: { cookie: customerBCookie },
+    })
+    assert.equal(pending.statusCode, 200)
+    const invited = pending.json().data.projects.find((p: { id: string }) => p.id === projectId)
+    assert.equal(invited.customerStatus, 'invited')
+    assert.ok(invited.name)
+    assert.ok(invited.organizationName)
+    assert.ok(invited.invitedAt)
+    for (const key of ['location', 'propertyType', 'stage', 'status', 'timelineStart', 'timelineCompletion', 'organizationId', 'acceptedAt']) {
+      assert.equal(invited[key], null, key)
+    }
+    assert.equal(invited.summary, undefined)
+
+    // The project stops being company-owned: accept must 404 and change nothing.
+    const db = getDb(env!)
+    await db.update(projects).set({ organizationId: null }).where(eq(projects.id, projectId))
+    try {
+      const blocked = await app.inject({
+        method: 'POST',
+        url: `/api/v1/projects/${projectId}/customer/accept`,
+        headers: { cookie: customerBCookie },
+      })
+      assert.equal(blocked.statusCode, 404)
+    } finally {
+      await db.update(projects).set({ organizationId }).where(eq(projects.id, projectId))
+    }
+
+    const accept = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/customer/accept`,
+      headers: { cookie: customerBCookie },
+    })
+    assert.equal(accept.statusCode, 200)
+    assert.equal(accept.json().data.customer.status, 'active')
+
+    const active = await app.inject({
+      method: 'GET',
+      url: '/api/v1/projects?as=customer',
+      headers: { cookie: customerBCookie },
+    })
+    const full = active.json().data.projects.find((p: { id: string }) => p.id === projectId)
+    assert.equal(full.customerStatus, 'active')
+    assert.equal(full.stage, 'foundation')
+    assert.equal(full.organizationId, organizationId)
   })
 })
