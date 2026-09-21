@@ -40,7 +40,6 @@ import TeamSetupScreen from '@/partner/onboarding/TeamSetupScreen'
 import OrganizationSubmittedScreen from '@/shared/screens/OrganizationSubmittedScreen'
 import HomeDashboardScreen from '@/user/dashboard/HomeDashboardScreen'
 import ProfessionalDashboardScreen from '@/partner/dashboard/ProfessionalDashboardScreen'
-import UpdateProgressScreen from '@/partner/jobs/UpdateProgressScreen'
 import CompanyProfileScreen from '@/partner/organization/CompanyProfileScreen'
 import EditServicesScreen from '@/partner/organization/EditServicesScreen'
 import EditServiceLocationsScreen from '@/partner/organization/EditServiceLocationsScreen'
@@ -227,7 +226,6 @@ type AppScreen =
   | 'homeowner-profile'
   | 'dashboard-home'
   | 'professional-dashboard'
-  | 'update-progress'
   | 'discover-projects'
   | 'project-opportunity-detail'
   | 'submit-bid'
@@ -1444,16 +1442,6 @@ export default function App() {
             projectName={projectData.project_name}
             propertyType={projectData.property_type}
             onNavigate={navigateTo}
-          />
-        </div>
-      )}
-      {screen === 'update-progress' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <UpdateProgressScreen
-            onNavigate={navigateTo}
-            projectId={projectData.project_id}
-            projectName={projectData.project_name}
-            companyName={projectData.company_name}
           />
         </div>
       )}
