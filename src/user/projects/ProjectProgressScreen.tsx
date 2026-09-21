@@ -407,7 +407,7 @@ export default function ProjectProgressScreen({
                   <IcoProgress />
                 </span>
                 <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{isCustomer ? 'Nothing shared yet' : 'No progress updates yet'}</p>
-                <p className="text-[13px] text-[#9A949D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>{isCustomer ? 'Your builder has not published a progress update yet.' : "Start documenting construction progress to build your project's digital record."}</p>
+                <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>{isCustomer ? 'Your builder has not published a progress update yet.' : "Start documenting construction progress to build your project's digital record."}</p>
                 {!isCustomer && (
                 <button
                   type="button"
@@ -475,7 +475,6 @@ export default function ProjectProgressScreen({
                         {isCustomer && (
                           <p className="text-[11px] tracking-[0.04em] uppercase text-[#15803D] m-0 mt-2" style={{ fontFamily: FONT_MONO }}>Shared with you</p>
                         )}
-                        </div>
                       </div>
                     ))}
                   </div>

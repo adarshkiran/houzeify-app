@@ -32,9 +32,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <OrganizationProvider>
             <ProjectProvider>
               <CustomerProjectsProvider>
-              <HouseRequirementsProvider>
-                <App />
-              </HouseRequirementsProvider>
+                <HouseRequirementsProvider>
+                  <App />
+                </HouseRequirementsProvider>
               </CustomerProjectsProvider>
             </ProjectProvider>
           </OrganizationProvider>

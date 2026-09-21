@@ -9,7 +9,6 @@ export interface CustomerViewHeader {
   status: string | null
   timelineStart: string | null
   timelineCompletion: string | null
-  organizationId: string | null
   organizationName: string | null
   latestProgress: { id: string; date: string; title: string; stage: string | null } | null
 }
