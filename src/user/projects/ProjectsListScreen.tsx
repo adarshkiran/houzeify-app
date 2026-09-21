@@ -171,19 +171,6 @@ export default function ProjectsListScreen({
     })
   }
 
-  // Explicitly clears whatever project was last active in projectData
-  // (its cumulative bag never resets on its own) before starting House
-  // Requirements — otherwise a homeowner who already has a project open
-  // this session would have House Requirements reuse THAT project's id
-  // (its own "resume an existing project" convention) and silently
-  // overwrite it instead of minting a genuinely new, separate project.
-  function startNewProject() {
-    onNavigate('house-requirements', {
-      project_id: '', project_name: '', project_type: '', project_stage: '',
-      location: '', property_type: '',
-    })
-  }
-
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
       <MobileTopBar onNavigate={onNavigate} />
@@ -201,14 +188,6 @@ export default function ProjectsListScreen({
               >
                 <IcoBack /> Back
               </button>
-              <button
-                type="button"
-                onClick={startNewProject}
-                className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
-                style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
-              >
-                Create a Project
-              </button>
             </div>
           </header>
 
@@ -220,7 +199,7 @@ export default function ProjectsListScreen({
                   {projects.length > 0 ? `${projects.length} project${projects.length === 1 ? '' : 's'}` : 'No projects yet'}
                 </h2>
                 <p className="text-[13.5px] text-[#68636D] m-0 max-w-[520px]" style={{ fontFamily: FONT_BODY }}>
-                  Every project you start with Houzeify shows up here — pick one up where you left off, or start something new.
+                  Every project you're part of on Houzeify shows up here — pick one up where you left off.
                 </p>
               </div>
 
@@ -232,15 +211,7 @@ export default function ProjectsListScreen({
                 <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
                   <HIcon size={36} />
                   <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No active project yet.</p>
-                  <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Start a new project to begin planning, estimating and finding professionals.</p>
-                  <button
-                    type="button"
-                    onClick={startNewProject}
-                    className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
-                    style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
-                  >
-                    Create a Project
-                  </button>
+                  <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Projects your builder shares with you will show up here.</p>
                 </div>
               ) : (
                 <div className="flex flex-col gap-7">
@@ -275,18 +246,6 @@ export default function ProjectsListScreen({
                   </div>
                 </div>
               )}
-
-              {/* Mobile-only actions (desktop has them in the header) */}
-              <div className="flex md:hidden items-center gap-3">
-                <button
-                  type="button"
-                  onClick={startNewProject}
-                  className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 flex-1"
-                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
-                >
-                  Create a Project
-                </button>
-              </div>
             </div>
           </main>
         </div>

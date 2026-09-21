@@ -10,19 +10,27 @@
 // of destinations, used everywhere, so the rail never changes shape across
 // a homeowner's screens — only which item is highlighted changes.
 //
-// IA: Home / Build / Services / Projects / Profile as primary nav, with
-// Hozie / Contractors / Bids / BOQ / Plan Analysis / Material Calculator
-// under "Tools" — matching the dashboard's own target customer IA.
+// IA (customer transparency): Home / Projects / Profile as primary nav, the
+// Project group (Progress / Timeline / Photos / Live Site / Documents /
+// Questions), and Hozie under "Assistant". The pre-2.0 Build / Contractors /
+// Bids / BOQ / Plan Analysis / Material Calculator / Services entries were
+// removed from this rail (their screens still exist, reachable only through
+// the dev screen switcher).
 //
-// Not used by the professional-role screens (ProfessionalDashboardScreen,
-// DiscoverProjectsScreen, MyBidsScreen), which have a distinct nav for a
-// distinct role and stay as their own local components.
+// Company (professional-role) users: this component is mounted by every
+// project sub-screen, so for the 'partner' subscription audience (the same
+// app-wide role App.tsx resolves via resolveUserRole and hands to
+// SubscriptionProvider) it renders the shared PartnerNavRail instead, so
+// company users keep the construction-platform nav while inside a project.
 
 import { DASHBOARD_ROUTES } from '@/data/homeownerDashboard'
 import { CUSTOMER_NAV_ROUTES } from '@/data/constructionNav'
 import { useSoleActiveCustomerProjectId } from '@/data/customerProjectsState'
+import { useSubscription } from '@/data/subscriptionState'
+import { useOrganizations } from '@/data/organizationState'
 import logoHorizontal from '@/imports/Logo/Houzeify HLogo.svg'
 import HIcon from './HIcon'
+import PartnerNavRail, { type PartnerNavId } from './PartnerNavRail'
 
 export type SidebarNavId =
   | 'home'
@@ -53,21 +61,6 @@ const IcoHome = () => (
     <path d="M4 8v8h3.5v-4h3v4H14V8" />
   </svg>
 )
-const IcoBuild = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3 13h12" />
-    <path d="M5 13V9a4 4 0 018 0v4" />
-    <line x1="9" y1="4" x2="9" y2="6.5" />
-  </svg>
-)
-const IcoServices = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="2" width="12" height="14" rx="1.5" />
-    <line x1="6" y1="6.5" x2="12" y2="6.5" />
-    <line x1="6" y1="9.5" x2="12" y2="9.5" />
-    <line x1="6" y1="12.5" x2="10" y2="12.5" />
-  </svg>
-)
 const IcoProjects = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M2 6a1.5 1.5 0 011.5-1.5H7l1.5 2H16a1.5 1.5 0 011.5 1.5V14A1.5 1.5 0 0116 15.5H2A1.5 1.5 0 01.5 14V6z" />
@@ -83,49 +76,6 @@ const IcoAdvisor = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M9 1.5L10.6 5.4L14.5 7 10.6 8.6 9 12.5 7.4 8.6 3.5 7l3.9-1.6L9 1.5z" />
     <path d="M14 12l.9 1.9 1.6.6-1.6.6-.9 1.9-.9-1.9-1.6-.6 1.6-.6.9-1.9z" strokeWidth="1.2" />
-  </svg>
-)
-const IcoContractors = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="6.5" cy="5.5" r="2.25" />
-    <path d="M2 15v-1a4.5 4.5 0 019 0v1" />
-    <circle cx="13" cy="6.5" r="1.9" />
-    <path d="M11.5 8.6a3.6 3.6 0 014.5 3.5V13" />
-  </svg>
-)
-const IcoBids = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3 15.5V9.5L9 3l6 6.5v6" />
-    <path d="M6.5 15.5V11h5v4.5" />
-  </svg>
-)
-const IcoBOQ = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="3.5" cy="5" r="0.8" fill="currentColor" stroke="none" />
-    <line x1="6.5" y1="5" x2="15" y2="5" />
-    <circle cx="3.5" cy="9" r="0.8" fill="currentColor" stroke="none" />
-    <line x1="6.5" y1="9" x2="15" y2="9" />
-    <circle cx="3.5" cy="13" r="0.8" fill="currentColor" stroke="none" />
-    <line x1="6.5" y1="13" x2="15" y2="13" />
-  </svg>
-)
-const IcoPlan = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="14" height="14" rx="2" />
-    <line x1="2" y1="7.5" x2="16" y2="7.5" />
-    <line x1="7.5" y1="7.5" x2="7.5" y2="16" />
-  </svg>
-)
-const IcoCalc = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="2" width="12" height="14" rx="1.5" />
-    <rect x="5.5" y="4.5" width="7" height="2.5" rx="0.5" />
-    <circle cx="6" cy="10" r="0.7" fill="currentColor" stroke="none" />
-    <circle cx="9" cy="10" r="0.7" fill="currentColor" stroke="none" />
-    <circle cx="12" cy="10" r="0.7" fill="currentColor" stroke="none" />
-    <circle cx="6" cy="13" r="0.7" fill="currentColor" stroke="none" />
-    <circle cx="9" cy="13" r="0.7" fill="currentColor" stroke="none" />
-    <circle cx="12" cy="13" r="0.7" fill="currentColor" stroke="none" />
   </svg>
 )
 const IcoHelp = () => (
@@ -225,6 +175,19 @@ function NavItem({
   )
 }
 
+// Maps this rail's active ids onto the company rail's. Anything without a
+// direct equivalent (project sub-screens, Photos, Timeline, ...) is
+// highlighted as 'projects', since the company user is inside a project.
+function toPartnerActive(active: SidebarNavId): PartnerNavId {
+  switch (active) {
+    case 'home': return 'home'
+    case 'profile': return 'profile'
+    case 'advisor': return 'advisor'
+    case 'billing': return 'billing'
+    default: return 'projects'
+  }
+}
+
 export default function Sidebar({
   active,
   onNavigate,
@@ -233,9 +196,13 @@ export default function Sidebar({
   onNavigate: (s: string, data?: Record<string, string>) => void
 }) {
   const soleCustomerProjectId = useSoleActiveCustomerProjectId()
+  const { audience } = useSubscription()
+  const { currentOrganization } = useOrganizations()
+  if (audience === 'partner') {
+    return <PartnerNavRail active={toPartnerActive(active)} onNavigate={onNavigate} organizationId={currentOrganization?.id} />
+  }
   const navMain = [
     { id: 'home' as const, icon: <IcoHome />, label: 'Home', dest: 'dashboard-home' },
-    { id: 'build' as const, icon: <IcoBuild />, label: 'Build', dest: DASHBOARD_ROUTES.buildOrImprove },
     { id: 'projects' as const, icon: <IcoProjects />, label: 'Projects', dest: 'projects-list' },
     { id: 'profile' as const, icon: <IcoProfile />, label: 'Profile', dest: 'homeowner-profile' },
   ]
@@ -254,20 +221,6 @@ export default function Sidebar({
   ]
   const navTools = [
     { id: 'advisor' as const, icon: <IcoAdvisor />, label: 'Hozie', dest: DASHBOARD_ROUTES.aiAdvisor },
-    { id: 'contractors' as const, icon: <IcoContractors />, label: 'Contractors', dest: DASHBOARD_ROUTES.findContractors },
-    { id: 'bids' as const, icon: <IcoBids />, label: 'Bids', dest: DASHBOARD_ROUTES.bidsReceived },
-    { id: 'boq' as const, icon: <IcoBOQ />, label: 'BOQ', dest: DASHBOARD_ROUTES.boqOverview },
-    { id: 'plan' as const, icon: <IcoPlan />, label: 'Plan Analysis', dest: DASHBOARD_ROUTES.uploadPlan },
-    { id: 'calc' as const, icon: <IcoCalc />, label: 'Material Calculator', dest: 'material-calculator' },
-    // Houzeify 2.0 Module 01 — Home Services is now LEGACY: the "Home
-    // Services marketplace" concept this app started as is being replaced
-    // by the construction-progress-transparency platform (see
-    // constructionNav.ts's header comment). Demoted out of the primary
-    // nav section into Tools per the module brief ("remove from PRIMARY
-    // navigation only, without deleting or breaking shared code") — every
-    // Home Services screen, booking flow and store is untouched and still
-    // fully reachable from here.
-    { id: 'services' as const, icon: <IcoServices />, label: 'Services', dest: DASHBOARD_ROUTES.homeServices, data: { service_entry: '', service_group: '', open_picker: '', search_query: '' } },
   ]
   const navBottom = [
     // Customer Implementation 08E — Settings now reaches the existing
@@ -343,7 +296,7 @@ export default function Sidebar({
 
           <div className="my-3 border-t border-[#E3DDD7]" />
           <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-[#9A949D] px-3 mb-1.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
-            Tools
+            Assistant
           </p>
           <div className="flex flex-col gap-0.5">
             {navTools.map(item => (
@@ -352,7 +305,7 @@ export default function Sidebar({
                 icon={item.icon}
                 label={item.label}
                 active={active === item.id}
-                onClick={() => onNavigate(item.dest, 'data' in item ? item.data : undefined)}
+                onClick={() => onNavigate(item.dest)}
               />
             ))}
           </div>

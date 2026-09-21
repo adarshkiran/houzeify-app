@@ -269,20 +269,6 @@ function CompanyProjectOverview({
   const initials = kind === 'organization' ? companyInitials(name) : profileInitials(name)
   const typeLabel = listing?.professionalType ? PROFESSIONAL_TYPE_CONTENT[listing.professionalType].title : (kind === 'organization' ? 'Organization' : 'Individual Professional')
 
-  function viewContractor() {
-    if (!awardedBid) return
-    onNavigate('contractor-profile', {
-      professional_id: awardedBid.organizationId ? '' : awardedBid.userId,
-      organization_id: awardedBid.organizationId ?? '',
-      project_id: projectId as string,
-    })
-  }
-
-  function viewBid() {
-    if (!awardedBid) return
-    onNavigate('bid-detail', { bid_id: awardedBid.id, project_id: projectId as string })
-  }
-
   function navTo(dest: string) {
     onNavigate(dest, { project_id: projectId as string })
   }
@@ -456,9 +442,6 @@ function CompanyProjectOverview({
                         <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{typeLabel} · {kind === 'organization' ? 'Organization' : 'Individual'}</p>
                       </div>
                     </div>
-                    <button type="button" onClick={viewContractor} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0 shrink-0" style={{ fontFamily: FONT_BODY }}>
-                      View Contractor →
-                    </button>
                   </div>
                 ) : (
                   <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No contractor selected yet.</p>
@@ -474,9 +457,6 @@ function CompanyProjectOverview({
                       <Field label="Proposed Start" value={awardedBid.proposedStartDate ? formatDate(awardedBid.proposedStartDate) : 'Not specified'} />
                       <Field label="Submitted" value={formatDate(awardedBid.createdAt)} />
                     </div>
-                    <button type="button" onClick={viewBid} className="self-start text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
-                      View Bid →
-                    </button>
                   </div>
                 ) : (
                   <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No bid awarded yet.</p>

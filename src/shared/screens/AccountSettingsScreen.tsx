@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
+import PartnerNavRail from '@/shared/components/PartnerNavRail'
+import { useOrganizations } from '@/data/organizationState'
 import { useCustomerProfile } from '@/data/customerProfileState'
 import { usePartnerProfile } from '@/data/partnerProfileState'
 import { PROFESSIONAL_TYPE_CONTENT, type ProfessionalType } from '@/data/professionalType'
@@ -114,6 +116,7 @@ export default function AccountSettingsScreen({
   const isOrganization = accountType === 'organization'
   const customerProfile = useCustomerProfile()
   const partnerProfile = usePartnerProfile()
+  const { currentOrganization } = useOrganizations()
 
   const professionalTypeLabel = professionalType === 'other'
     ? (professionalTypeOther || 'Other')
@@ -146,14 +149,13 @@ export default function AccountSettingsScreen({
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
-        {/* Shared screen (see header comment), but the shared homeowner
-            Sidebar is homeowner-only by its own convention — professional
-            screens use their own distinct local nav instead, so it's
-            deliberately omitted on the professional branch rather than
-            mixing the two roles' navigation. "profile" is the closest
-            shared-rail item since Account Settings is a profile sub-page,
-            not its own top-level nav destination. */}
-        {!isProfessional && <Sidebar active="profile" onNavigate={onNavigate} />}
+        {/* Shared screen (see header comment): professionals get the
+            company PartnerNavRail (Settings highlighted), homeowners get the
+            customer Sidebar ("profile" is the closest item there since
+            Account Settings is a profile sub-page). */}
+        {isProfessional
+          ? <PartnerNavRail active="settings" onNavigate={onNavigate} organizationId={currentOrganization?.id} />
+          : <Sidebar active="profile" onNavigate={onNavigate} />}
 
         <div className="flex flex-col flex-1 min-h-0">
           <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>

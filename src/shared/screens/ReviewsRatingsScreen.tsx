@@ -120,13 +120,6 @@ export default function ReviewsRatingsScreen({
     ? (professionalTypeOther || 'Other')
     : (professionalType ? PROFESSIONAL_TYPE_CONTENT[professionalType as ProfessionalType]?.title : undefined)
 
-  function viewPublicProfile() {
-    onNavigate('contractor-profile', {
-      professional_id: isOrganization ? '' : resolvedUserId,
-      organization_id: isOrganization ? (organizationId ?? '') : '',
-    })
-  }
-
   return (
     <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
 
@@ -165,11 +158,6 @@ export default function ReviewsRatingsScreen({
             </div>
           </SectionCard>
 
-          <div className="flex items-center justify-center">
-            <button type="button" onClick={viewPublicProfile} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
-              View Public Profile →
-            </button>
-          </div>
         </div>
       </main>
     </div>

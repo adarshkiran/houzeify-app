@@ -9,9 +9,6 @@ import { profileInitials } from '@/data/professionalProfile'
 import type { AccountType } from '@/data/accountType'
 import { getContractorListingById, type ContractorDirectoryInput } from '@/data/contractorDirectory'
 import { getAwardedBid, formatBidDuration } from '@/data/bids'
-import { getAgreementForProject } from '@/data/agreements'
-import { getEstimateVersionsForProject } from '@/data/estimateVersions'
-import { getPaymentsForProject } from '@/data/payments'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -58,18 +55,6 @@ const IcoTasks = () => (
 )
 const IcoProgress = () => (
   <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="9" r="7" /><path d="M9 5v4l3 2" /></svg>
-)
-const IcoAgreement = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 2h6l3 3v9a1.5 1.5 0 01-1.5 1.5h-7A1.5 1.5 0 014 14.5v-11A1.5 1.5 0 015.5 2z" /><path d="M6.5 8.5l2 2 3.5-4" /></svg>
-)
-const IcoFinalEstimate = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="2" width="12" height="14" rx="1.5" /><line x1="6" y1="6.5" x2="12" y2="6.5" /><line x1="6" y1="9.5" x2="12" y2="9.5" /><line x1="6" y1="12.5" x2="10" y2="12.5" /></svg>
-)
-const IcoStages = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 13h12" /><path d="M5 13V9a4 4 0 018 0v4" /><line x1="9" y1="4" x2="9" y2="6.5" /></svg>
-)
-const IcoPayments = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 15.5V9.5L9 3l6 6.5v6" /><path d="M6.5 15.5V11h5v4.5" /></svg>
 )
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
@@ -191,27 +176,16 @@ export default function ProjectWorkspaceScreen({
   )
 
   const statusLabel = awardedBid ? 'Contractor Selected' : (projectStageLabel(projectStage) ?? 'Not started')
-  const selectClass = 'h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0'
 
   // "Back" now returns to the real Projects list (projects-list) — the
   // list is the natural place every project-workspace visit is reached
   // from now (Sidebar "Projects" → list → click a project → here), so
   // this is a better "back" than the old single-ambient-project's
   // contractor-selected detour.
+  // Company users (role 'professional', from the props this screen already
+  // receives) return to the company Projects list instead.
   function goBack() {
-    onNavigate('projects-list')
-  }
-  // Explicitly clears the currently-open project from projectData before
-  // starting House Requirements — otherwise (its bag never resets itself)
-  // House Requirements would reuse THIS project's id (its own "resume an
-  // existing project" convention) and silently overwrite it instead of
-  // minting a genuinely new, separate project. Same fix as Projects List's
-  // own "Create a Project" button.
-  function createProject() {
-    onNavigate('house-requirements', {
-      project_id: '', project_name: '', project_type: '', project_stage: '',
-      location: '', property_type: '',
-    })
+    onNavigate(role === 'professional' ? 'company-projects' : 'projects-list')
   }
 
   if (!hasProject) {
@@ -225,13 +199,10 @@ export default function ProjectWorkspaceScreen({
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
           <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No active project yet.</p>
-          <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Start a new project to begin planning, estimating and finding professionals.</p>
+          <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Open a project from your Projects list to see its workspace.</p>
           <div className="flex items-center gap-3">
             <button type="button" onClick={goBack} className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white" style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}>
               Back
-            </button>
-            <button type="button" onClick={createProject} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
-              Create a Project
             </button>
           </div>
         </div>
@@ -244,32 +215,9 @@ export default function ProjectWorkspaceScreen({
   const initials = kind === 'organization' ? companyInitials(name) : profileInitials(name)
   const typeLabel = listing?.professionalType ? PROFESSIONAL_TYPE_CONTENT[listing.professionalType].title : (kind === 'organization' ? 'Organization' : 'Individual Professional')
 
-  function viewContractor() {
-    if (!awardedBid) return
-    onNavigate('contractor-profile', {
-      professional_id: awardedBid.organizationId ? '' : awardedBid.userId,
-      organization_id: awardedBid.organizationId ?? '',
-      project_id: projectId as string,
-    })
-  }
-
   function navTo(dest: string) {
     onNavigate(dest, { project_id: projectId as string })
   }
-
-  // Agreement + Final Estimate only appear once they genuinely exist for
-  // this project (Flow 04 — New Build) — never dead cards for a project
-  // that never went through Award Contractor/Estimate Revision (e.g. a
-  // Home Services booking), matching this screen's own "never invent what
-  // isn't real" convention elsewhere.
-  const hasAgreement = Boolean(projectId && getAgreementForProject(projectId))
-  const hasEstimateVersions = Boolean(projectId && getEstimateVersionsForProject(projectId).length > 0)
-  const hasPayments = Boolean(projectId && getPaymentsForProject(projectId).length > 0)
-  // Construction Stages is a New Build-specific concept (Foundation,
-  // Roofing, etc.) — showing it for a Renovation project would be exactly
-  // the "force renovation into an unrelated system" this flow is meant to
-  // avoid, so it's gated on the real project type set at creation time.
-  const showStages = projectType === 'new-build'
 
   const workspaceCards: WorkspaceCard[] = [
     { id: 'overview', label: 'Project Overview', icon: <IcoOverview />, dest: 'project-overview' },
@@ -278,10 +226,6 @@ export default function ProjectWorkspaceScreen({
     { id: 'documents', label: 'Documents', icon: <IcoDocuments />, dest: 'project-documents' },
     { id: 'tasks', label: 'Tasks', icon: <IcoTasks />, dest: 'project-tasks' },
     { id: 'progress', label: 'Progress', icon: <IcoProgress />, dest: 'project-progress' },
-    ...(showStages ? [{ id: 'stages', label: 'Construction Stages', icon: <IcoStages />, dest: 'construction-stages' }] : []),
-    ...(hasAgreement ? [{ id: 'agreement', label: 'Agreement', icon: <IcoAgreement />, dest: 'project-agreement' }] : []),
-    ...(hasEstimateVersions ? [{ id: 'final-estimate', label: 'Final Estimate', icon: <IcoFinalEstimate />, dest: 'final-estimate' }] : []),
-    ...(hasAgreement || hasPayments ? [{ id: 'payments', label: 'Payments', icon: <IcoPayments />, dest: 'payment-advance' }] : []),
   ]
 
   return (
@@ -294,14 +238,6 @@ export default function ProjectWorkspaceScreen({
         <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
           <button type="button" onClick={goBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Back
-          </button>
-          <button
-            type="button"
-            onClick={createProject}
-            className="h-9 px-4 rounded-[10px] text-[12.5px] font-semibold cursor-pointer border-0"
-            style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
-          >
-            Create a Project
           </button>
         </div>
       </header>
@@ -344,9 +280,6 @@ export default function ProjectWorkspaceScreen({
                     <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{typeLabel} · {kind === 'organization' ? 'Organization' : 'Individual'}</p>
                   </div>
                 </div>
-                <button type="button" onClick={viewContractor} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0 shrink-0" style={{ fontFamily: FONT_BODY }}>
-                  View Contractor →
-                </button>
               </div>
             </SectionCard>
           )}

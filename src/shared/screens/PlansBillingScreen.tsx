@@ -33,6 +33,8 @@
 
 import { useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
+import PartnerNavRail from '@/shared/components/PartnerNavRail'
+import { useOrganizations } from '@/data/organizationState'
 import {
   HOMEOWNER_PLANS,
   PARTNER_PLANS,
@@ -327,6 +329,7 @@ export default function PlansBillingScreen({
   onNavigate: (screen: string, data?: Record<string, string>) => void
 }) {
   const isProfessional = role === 'professional'
+  const { currentOrganization } = useOrganizations()
   const [cycle, setCycle] = useState<BillingCycle>('monthly')
   const [notice, setNotice] = useState<string | null>(null)
 
@@ -374,11 +377,11 @@ export default function PlansBillingScreen({
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
-        {/* Shared screen — the homeowner Sidebar is homeowner-only by its own
-            convention (professional screens use their own distinct local
-            nav), so it's omitted on the professional branch rather than
-            mixing the two roles' navigation, same as AccountSettingsScreen. */}
-        {!isProfessional && <Sidebar active="billing" onNavigate={onNavigate} />}
+        {/* Shared screen — professionals get the company PartnerNavRail
+            (Plans & Billing highlighted), homeowners the customer Sidebar. */}
+        {isProfessional
+          ? <PartnerNavRail active="billing" onNavigate={onNavigate} organizationId={currentOrganization?.id} />
+          : <Sidebar active="billing" onNavigate={onNavigate} />}
 
         <div className="flex flex-col flex-1 min-h-0">
           <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
