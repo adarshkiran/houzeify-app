@@ -320,7 +320,7 @@ export default function ProjectProgressScreen({
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
-        <div className="flex flex-col flex-1 min-h-0">
+        <div className="flex flex-col flex-1 min-h-0 min-w-0">
 
       <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
         <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
