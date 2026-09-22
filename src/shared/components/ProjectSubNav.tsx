@@ -10,6 +10,25 @@
 // is removed. New tabs with no built screen yet route to the shared
 // ComingSoonScreen placeholder (see constructionNav.ts's PROJECT_NAV_ROUTES /
 // NAV_PLACEHOLDER_CONTENT) — never a dead '' stub.
+//
+// ── Back-row ownership (read before adding a project screen) ──────────────
+// This component also owns the "< Project Workspace" back row. It renders by
+// default (showWorkspaceHeader = true), so every project screen gets it from
+// this one place — never from a local copy. Before this was centralised,
+// each screen carried its own slightly different copy and several had none.
+//
+//   Screen type                              Back row
+//   Project tabs whose parent is Workspace   this shared row (the default)
+//   ProjectWorkspaceScreen                   its own "< Back" -> Projects list;
+//                                            showWorkspaceHeader={false}
+//   CreateDailyProgressScreen                its own "< Progress";
+//                                            showWorkspaceHeader={false}
+//
+// Rule: if a screen's parent is NOT the Workspace, it keeps its own back row
+// and passes showWorkspaceHeader={false}. Doing both — a local back row with
+// the shared row left on — stacks two contradictory back buttons (this
+// exact duplication was found and fixed in the customer Overview).
+// A right-hand header button goes in the `action` slot, not a local header.
 
 import type { ReactNode } from 'react'
 import { PROJECT_NAV_ROUTES, type ProjectNavId } from '@/data/constructionNav'
