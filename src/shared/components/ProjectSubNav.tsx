@@ -73,7 +73,7 @@ export default function ProjectSubNav({
             <button
               type="button"
               onClick={() => onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)}
-              className="flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0"
+              className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
               style={{ fontFamily: FONT_BODY }}
             >
               <IcoBack /> Project Workspace
