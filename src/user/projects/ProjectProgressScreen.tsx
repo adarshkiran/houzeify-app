@@ -3,12 +3,8 @@ import Sidebar from '@/shared/components/Sidebar'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import HIcon from '@/shared/components/HIcon'
 import { projectStageLabel } from '@/data/homeownerDashboard'
-import { PROFESSIONAL_TYPE_CONTENT, type ProfessionalType } from '@/data/professionalType'
-import { companyInitials } from '@/data/companyInformation'
-import { profileInitials } from '@/data/professionalProfile'
-import type { AccountType } from '@/data/accountType'
-import { getContractorListingById, type ContractorDirectoryInput } from '@/data/contractorDirectory'
-import { getAwardedBid } from '@/data/bids'
+import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
+import { useProjects } from '@/data/projectState'
 import { useDailyProgress } from '@/data/dailyProgressState'
 import { updateDailyProgress } from '@/data/dailyProgressApi'
 import { useProjectAudience } from '@/data/customerProjectsState'
@@ -33,14 +29,16 @@ const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
 // legitimate. There is no separate role-based permission system here.
 //
 // Module 04 / Task 6 — this screen's body is now driven entirely by the
-// real daily_progress backend (useDailyProgress) instead of the old static
-// projectProgress.ts fixtures. constructionStages.ts supplies the stage
-// taxonomy and ordering for the stage strip below; its own per-stage
-// `status` field is illustrative demo data only (see that file's header
-// comment) and is deliberately never read here — a project's real current
-// stage is derived from the latest real Daily Progress entry instead.
-
-const CURRENT_USER_ID = 'user-demo-001' // established demo-identity convention
+// real daily_progress backend (useDailyProgress). constructionStages.ts
+// supplies the stage taxonomy and ordering for the stage strip below; its
+// own per-stage `status` field is illustrative demo data only (see that
+// file's header comment) and is deliberately never read here — a project's
+// real current stage is derived from the latest real Daily Progress entry
+// instead.
+//
+// C12 — removed getAwardedBid / contractorDirectory. Project status comes
+// from the canonical Project.status field (or stage fallback), never from
+// legacy bid/award/payment state.
 
 const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
@@ -169,20 +167,10 @@ interface ProjectProgressScreenProps {
 
 export default function ProjectProgressScreen({
   role,
-  userId,
   projectId,
   projectName,
   location,
   projectStage,
-  organizationId,
-  companyName,
-  accountType,
-  professionalType,
-  verificationStatus,
-  serviceCategories,
-  serviceLocations,
-  portfolioProjectCount,
-  serviceDescription,
   onNavigate,
 }: ProjectProgressScreenProps) {
   // Houzeify 2.0 Module 03 — see ProjectWorkspaceScreen.tsx's identical
@@ -193,33 +181,16 @@ export default function ProjectProgressScreen({
   useEffect(() => {
     if (!canViewProject) onNavigate('welcome')
   }, [canViewProject, onNavigate])
-  if (!canViewProject) return null
 
   const hasProject = Boolean(projectId && projectName)
 
-  const awardedBid = useMemo(() => (projectId ? getAwardedBid(projectId) : undefined), [projectId])
-
-  const directoryInput: ContractorDirectoryInput = {
-    userId: userId || CURRENT_USER_ID,
-    accountType: accountType as AccountType | undefined,
-    organizationId,
-    companyName,
-    professionalType: professionalType as ProfessionalType | undefined,
-    location,
-    serviceCategories,
-    serviceLocations,
-    verificationStatus,
-    portfolioProjectCount,
-    serviceDescription,
-  }
-
-  const listing = useMemo(
-    () => (awardedBid ? getContractorListingById(awardedBid.organizationId ?? awardedBid.userId, directoryInput) : undefined),
-    [awardedBid, directoryInput.accountType, directoryInput.organizationId, directoryInput.companyName, directoryInput.professionalType,
-      directoryInput.location, directoryInput.serviceCategories, directoryInput.serviceLocations, directoryInput.verificationStatus,
-      directoryInput.portfolioProjectCount, directoryInput.serviceDescription]
-  )
-  const contractorName = listing?.name
+  const { getProject } = useProjects()
+  const projectRecord = projectId ? getProject(projectId) : undefined
+  const recordStatus = projectRecord?.status ?? null
+  const recordStage = projectRecord?.stage ?? projectStage
+  const statusLabel = isProjectStatus(recordStatus)
+    ? PROJECT_STATUS_LABELS[recordStatus]
+    : (projectStageLabel(recordStage) ?? (recordStatus ? String(recordStatus) : 'Status not set'))
 
   const audience = useProjectAudience(projectId)
   const isCustomer = audience === 'customer'
@@ -278,18 +249,20 @@ export default function ProjectProgressScreen({
   // Per the ticket's own formula: prefer the latest real entry's stage,
   // falling back to the project's own Project.stage only when no entry
   // exists yet at all (not when an entry exists with a null stage).
-  const currentStageLabel = latestEntry ? stageLabel(latestEntry.stage) : stageLabel(projectStage)
-  const currentStageId = latestEntry ? latestEntry.stage : projectStage
+  const currentStageLabel = latestEntry ? stageLabel(latestEntry.stage) : stageLabel(recordStage)
+  const currentStageId = latestEntry ? latestEntry.stage : recordStage
   const currentStageIdx = currentStageId ? constructionStages.findIndex(s => s.id === currentStageId) : -1
 
   const feedGroups = useMemo(() => groupFeedByDate(progress), [progress])
 
-  const statusLabel = awardedBid ? 'Contractor Selected' : (projectStageLabel(projectStage) ?? 'Not started')
   const selectClass = 'h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0'
 
   function goToWorkspace() {
     onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)
   }
+
+  // Hooks above this point must run on every render (Module 05 Task 8 pattern).
+  if (!canViewProject) return null
 
   if (!hasProject) {
     return (
@@ -348,7 +321,7 @@ export default function ProjectProgressScreen({
                   <IcoMapPin /> {location}
                 </span>
               )}
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: awardedBid ? '#DCFCE7' : '#CAC7C6', color: awardedBid ? '#16A34A' : '#808080', fontFamily: FONT_MONO }}>
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: isProjectStatus(recordStatus) ? '#F3EAFF' : '#F4F0EC', color: isProjectStatus(recordStatus) ? '#722ED1' : '#68636D', fontFamily: FONT_MONO }}>
                 {statusLabel.toUpperCase()}
               </span>
               {currentStageLabel && (
@@ -509,7 +482,7 @@ export default function ProjectProgressScreen({
           <SectionCard title="Project Summary">
             <div className="flex flex-col gap-3">
               <SummaryRow label="Project" value={projectName as string} />
-              {!isCustomer && <SummaryRow label="Selected Contractor" value={contractorName ?? 'Not selected yet'} />}
+              <SummaryRow label="Status" value={statusLabel} />
               <SummaryRow label="Current Stage" value={currentStageLabel ?? 'Not started yet'} />
               <SummaryRow label="Progress Entries" value={String(progress.length)} />
               <SummaryRow label="Expected Completion" value="Not available" />

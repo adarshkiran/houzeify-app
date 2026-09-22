@@ -7,27 +7,21 @@
 // honest empty state when the list is empty, matching this codebase's own
 // "never invent what isn't real" convention.
 //
-// Status shown per project is LIVE (projects.ts's resolveProjectStatus),
-// derived from the same real bids/agreements/payments stores the Project
-// Workspace itself already reads — never the stale value stored at project-
-// creation time — so a project correctly moves through its lifecycle here
-// too, not just inside its own workspace. Active/Completed is a plain
-// two-section grouping of the existing card, not a new tab system.
+// Status shown per project is the canonical Project.status (C12), with
+// stage as fallback — never derived from bids/agreements/payments.
 
 import { useEffect } from 'react'
 import HIcon from '@/shared/components/HIcon'
 import Sidebar from '@/shared/components/Sidebar'
 // 12H-B — the real project LIST now comes from useProjects() (backend-
-// backed, owner-scoped — see src/data/projectState.tsx). resolveProjectStatus/
-// isCompletedStatus stay imported from the old projects.ts unchanged: both
-// are pure, derived functions (never store reads) over bids/agreements/
-// payments, which are untouched this phase — they work identically on a
-// real backend project id, matching 12H-A's own migration recommendation.
+// backed, owner-scoped — see src/data/projectState.tsx). C12 —
+// resolveProjectStatus reads canonical project.status / stage only.
 import { resolveProjectStatus, isCompletedStatus, type ProjectType } from '@/data/projects'
 import type { Project } from '@/data/projectApi'
 import { useProjects } from '@/data/projectState'
 import { useCustomerProjects } from '@/data/customerProjectsState'
 import { projectStageLabel } from '@/data/homeownerDashboard'
+import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
 import { getHouseRequirementsForProject } from '@/data/houseRequirements'
 // 12H-C — see projectSubtitle()'s own comment and the cache-warming effect
 // below for why this is consulted here.
@@ -78,11 +72,16 @@ function projectSubtitle(project: Project): string | undefined {
   return project.summary ?? undefined
 }
 
+function statusDisplayLabel(statusId: string): string {
+  if (isProjectStatus(statusId)) return PROJECT_STATUS_LABELS[statusId]
+  return projectStageLabel(statusId) ?? statusId
+}
+
 function ProjectRow({ project, onClick }: {
   project: Project
   onClick: () => void
 }) {
-  const status = resolveProjectStatus(project.id, project.stage ?? undefined)
+  const status = resolveProjectStatus(project.status, project.stage)
   const subtitle = projectSubtitle(project)
   return (
     <button
@@ -112,7 +111,7 @@ function ProjectRow({ project, onClick }: {
       </div>
       <div className="flex items-center gap-3 shrink-0">
         <span className="px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-[0.03em] whitespace-nowrap" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
-          {(projectStageLabel(status) ?? status).toUpperCase()}
+          {statusDisplayLabel(status).toUpperCase()}
         </span>
         <span className="text-[#9A949D]"><IcoChevronRight /></span>
       </div>
@@ -144,8 +143,8 @@ export default function ProjectsListScreen({
   // flash for a homeowner who actually has real projects still in flight.
   const { status, projects } = useProjects()
   const shared = useCustomerProjects()
-  const activeProjects = projects.filter(p => !isCompletedStatus(resolveProjectStatus(p.id, p.stage ?? undefined)))
-  const completedProjects = projects.filter(p => isCompletedStatus(resolveProjectStatus(p.id, p.stage ?? undefined)))
+  const activeProjects = projects.filter(p => !isCompletedStatus(resolveProjectStatus(p.status, p.stage)))
+  const completedProjects = projects.filter(p => isCompletedStatus(resolveProjectStatus(p.status, p.stage)))
 
   // 12H-C — projectSubtitle() below reads House Requirements synchronously
   // from the legacy mirror store (unchanged), which is only ever real after
