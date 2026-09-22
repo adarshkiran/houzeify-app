@@ -13,7 +13,8 @@
     "server:build": "tsc -p tsconfig.server.json",
     "server:start": "node dist-server/index.js",
     "server:test": "tsx --test server/**/*.test.ts",
-    "server:migrate": "drizzle-kit migrate"
+    "server:migrate": "drizzle-kit migrate",
+    "server:seed:m08": "tsx server/scripts/seedModule08TestAccounts.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.1.2",
