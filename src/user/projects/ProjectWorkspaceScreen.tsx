@@ -306,7 +306,7 @@ export default function ProjectWorkspaceScreen({
         </div>
       </header>
 
-      <ProjectSubNav active="overview" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
+      <ProjectSubNav active="overview" projectId={projectId} projectName={projectName} onNavigate={onNavigate} showWorkspaceHeader={false} />
 
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
         <div className="max-w-[1000px] mx-auto flex flex-col gap-6">

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createContext, createElement, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useAuth } from './authState'
 import { listCustomerProjects, type CustomerProjectListItem } from './projectCustomerApi'
 import { useProjects } from './projectState'
@@ -43,7 +43,7 @@ export function CustomerProjectsProvider({ children }: { children: ReactNode }) 
   }, [refresh])
 
   const value = useMemo(() => ({ status, projects, errorMessage, refresh }), [status, projects, errorMessage, refresh])
-  return <CustomerProjectsContext.Provider value={value}>{children}</CustomerProjectsContext.Provider>
+  return createElement(CustomerProjectsContext.Provider, { value }, children)
 }
 
 export function useCustomerProjects(): CustomerProjectsContextValue {

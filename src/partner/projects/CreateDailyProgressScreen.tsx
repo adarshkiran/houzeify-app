@@ -158,7 +158,7 @@ export default function CreateDailyProgressScreen({
           </div>
         </header>
 
-        <ProjectSubNav active="progress" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
+        <ProjectSubNav active="progress" projectId={projectId} projectName={projectName} onNavigate={onNavigate} showWorkspaceHeader={false} />
 
         <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
           <div className="max-w-[620px] mx-auto flex flex-col gap-6">
