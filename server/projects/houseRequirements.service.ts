@@ -1,19 +1,18 @@
-// ─── House Requirements business logic — 12H-C ─────────────────────────────
-// Authorization boundary for every function here: House Requirements have
-// no independent owner — ownership is resolved exclusively through
-// `project_id -> projects.owner_id`. Every read/write first verifies
-// `projects.id = projectId AND projects.owner_id = ownerId` and only then
-// touches house_requirements; a non-owner (or a projectId that doesn't
-// exist at all) gets 404, never 403 — same "don't reveal more than
-// necessary" principle organization.service.ts/project.service.ts already
-// use. This mirrors project.service.ts's own getProjectForOwner() pattern,
-// one join-level deeper.
+// ─── House Requirements business logic — 12H-C / C13 ───────────────────────
+// Authorization (C13): aligned with the Table C project ACL used by
+// documents/BOQ/tasks — never creator-only.
+//   READ  — requireProjectAccess (creator OR active org member)
+//   WRITE — requireProjectAccess + requireProjectMutation
+//           (creator OR active org owner/admin)
+// Customers, inactive members, and unrelated users get 404 (never 403).
+// Client-supplied organizationId / ownerId / userId in the body are never
+// consulted for authorization.
 
-import { eq, and } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import type { Env } from '../config/env.js'
 import { getDb } from '../db/client.js'
-import { houseRequirements, projects, type HouseRequirementsRow } from '../db/schema.js'
-import { HttpError } from '../errors/httpError.js'
+import { houseRequirements, type HouseRequirementsRow } from '../db/schema.js'
+import { requireProjectAccess, requireProjectMutation } from './projectAccess.js'
 
 export interface HouseRequirementsInput {
   buildingType: string
@@ -42,50 +41,30 @@ export interface HouseRequirementsInput {
   timelineCompletion?: string
 }
 
-/** Throws 404 ('Project not found.') for a project that doesn't exist or
- *  isn't owned by `ownerId` — never reveals which. Every function below
- *  calls this first. */
-async function requireOwnedProject(env: Env, projectId: string, ownerId: string): Promise<void> {
-  const db = getDb(env)
-  const rows = await db
-    .select({ id: projects.id })
-    .from(projects)
-    .where(and(eq(projects.id, projectId), eq(projects.ownerId, ownerId)))
-    .limit(1)
-  if (rows.length === 0) {
-    throw new HttpError('NOT_FOUND', 'Project not found.', 404)
-  }
-}
-
-/** Returns the requirements for `projectId` only if `ownerId` owns that
- *  project — undefined when the project has no requirements yet (a
- *  legitimate, expected state for a brand-new project, not an error).
- *  Throws 404 first if the project itself doesn't exist/isn't owned. */
-export async function getHouseRequirementsForOwnedProject(
+/** Returns the requirements for `projectId` when the caller has company
+ *  project read access — undefined when no requirements row exists yet.
+ *  Throws 404 if the project does not exist or the caller cannot access it. */
+export async function getHouseRequirementsForProject(
   env: Env,
   projectId: string,
-  ownerId: string,
+  userId: string,
 ): Promise<HouseRequirementsRow | undefined> {
-  await requireOwnedProject(env, projectId, ownerId)
+  await requireProjectAccess(env, projectId, userId)
   const db = getDb(env)
   const rows = await db.select().from(houseRequirements).where(eq(houseRequirements.projectId, projectId)).limit(1)
   return rows[0]
 }
 
-/** Create-or-replace, strictly 1:1 with the project — a native Postgres
- *  upsert on the project_id unique constraint, so two concurrent PUTs for
- *  the same project can never race into two rows (matching
- *  houseRequirements.ts's own "revisiting always supersedes" semantics,
- *  now race-safe at the database level too). Throws 404 first if the
- *  project itself doesn't exist/isn't owned — a requirements record can
- *  never be created for a project that isn't real or isn't the caller's. */
-export async function putHouseRequirementsForOwnedProject(
+/** Create-or-replace, strictly 1:1 with the project — Postgres upsert on
+ *  project_id. Requires project-level mutation (creator or org owner/admin). */
+export async function putHouseRequirementsForProject(
   env: Env,
   projectId: string,
-  ownerId: string,
+  userId: string,
   input: HouseRequirementsInput,
 ): Promise<HouseRequirementsRow> {
-  await requireOwnedProject(env, projectId, ownerId)
+  const project = await requireProjectAccess(env, projectId, userId)
+  await requireProjectMutation(env, project, userId)
 
   const db = getDb(env)
   const now = new Date()

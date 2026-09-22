@@ -1,14 +1,13 @@
-// ─── House Requirements route tests — 12H-C ────────────────────────────────
-// Real database-backed, via app.inject(). Projects are created through the
-// real 12H-B API (never inserted directly) so these tests exercise the
-// exact same ownership chain (project_id -> projects.owner_id) the real
-// frontend flow depends on.
+// ─── House Requirements route tests — 12H-C / C13 ──────────────────────────
+// Real database-backed, via app.inject(). C13: authorization is org-aware
+// (requireProjectAccess / requireProjectMutation), not creator-only.
 
 import assert from 'node:assert/strict'
 import { after, test } from 'node:test'
 
 import { buildApp } from '../app.js'
-import { closeDb } from '../db/client.js'
+import { closeDb, getDb } from '../db/client.js'
+import { organizationMembers } from '../db/schema.js'
 import { cleanupTestUser, createTestSessionToken, createTestUser, loadTestEnv, sessionCookieHeader, uniqueName } from '../testUtils.js'
 
 const env = loadTestEnv()
@@ -87,7 +86,6 @@ test('house requirements: 1:1 with project, owner-scoped access, upsert, isolati
     assert.equal(reqs.plotArea, 3000)
     assert.equal(reqs.bedrooms, 3)
     assert.deepEqual(reqs.specialRequirements, ['pooja-room', 'lift'])
-    // Default booleans, never persisted as null/undefined.
     assert.equal(reqs.hasLivingRoom, true)
     assert.equal(reqs.hasUtilityArea, false)
   })
@@ -129,9 +127,6 @@ test('house requirements: 1:1 with project, owner-scoped access, upsert, isolati
     assert.equal(updated.finishLevel, 'premium')
 
     const list = await app.inject({ method: 'GET', url: `/api/v1/projects/${projectAId}/requirements`, headers: { cookie: cookieA } })
-    // Only one record exists for this project — confirmed by the GET
-    // itself returning a single object (the API has no "list" shape), and
-    // that it reflects the update, not a stale first insert.
     assert.equal(list.json().data.houseRequirements.builtUpArea, 2800)
   })
 
@@ -140,7 +135,7 @@ test('house requirements: 1:1 with project, owner-scoped access, upsert, isolati
       method: 'PUT',
       url: `/api/v1/projects/${projectAId}/requirements`,
       headers: { cookie: cookieA },
-      payload: { buildingType: 'independent-house', floors: 'G+1', finishLevel: 'standard' }, // missing builtUpArea
+      payload: { buildingType: 'independent-house', floors: 'G+1', finishLevel: 'standard' },
     })
     assert.equal(res.statusCode, 400)
   })
@@ -181,10 +176,174 @@ test('house requirements: 1:1 with project, owner-scoped access, upsert, isolati
       app.inject({ method: 'GET', url: `/api/v1/projects/${projectAId}/requirements`, headers: { cookie: cookieA } }),
       app.inject({ method: 'GET', url: `/api/v1/projects/${projectBId}/requirements`, headers: { cookie: cookieA } }),
     ])
-    // No cross-project contamination — A still shows its own (updated)
-    // 2800/premium values, B shows its own distinct 1500/apartment values.
     assert.equal(getA.json().data.houseRequirements.builtUpArea, 2800)
     assert.equal(getB.json().data.houseRequirements.builtUpArea, 1500)
     assert.equal(getB.json().data.houseRequirements.buildingType, 'apartment')
+  })
+})
+
+test('house requirements C13: org-aware access, inactive denied, cross-org denied', { skip: !env && 'DATABASE_URL not configured' }, async t => {
+  const app = await buildApp(env!)
+  const creator = await createTestUser(env!)
+  const creatorCookie = sessionCookieHeader(await createTestSessionToken(env!, creator.id))
+  const adminMember = await createTestUser(env!)
+  const adminCookie = sessionCookieHeader(await createTestSessionToken(env!, adminMember.id))
+  const viewerMember = await createTestUser(env!)
+  const viewerCookie = sessionCookieHeader(await createTestSessionToken(env!, viewerMember.id))
+  const inactiveMember = await createTestUser(env!)
+  const inactiveCookie = sessionCookieHeader(await createTestSessionToken(env!, inactiveMember.id))
+  const orgBUser = await createTestUser(env!)
+  const orgBCookie = sessionCookieHeader(await createTestSessionToken(env!, orgBUser.id))
+  const customer = await createTestUser(env!)
+  const customerCookie = sessionCookieHeader(await createTestSessionToken(env!, customer.id))
+
+  const users = [creator, adminMember, viewerMember, inactiveMember, orgBUser, customer]
+  let projectId = ''
+  let organizationId = ''
+
+  after(async () => {
+    await app.close()
+    for (const user of users) await cleanupTestUser(env!, user.id)
+    await closeDb()
+  })
+
+  await t.test('setup: org project + members', async () => {
+    const orgRes = await app.inject({
+      method: 'POST',
+      url: '/api/v1/organizations',
+      headers: { cookie: creatorCookie },
+      payload: { name: uniqueName('HR Org') },
+    })
+    assert.equal(orgRes.statusCode, 201)
+    organizationId = orgRes.json().data.organization.id
+
+    const now = new Date()
+    await getDb(env!).insert(organizationMembers).values([
+      { organizationId, userId: adminMember.id, role: 'admin', status: 'active', joinedAt: now },
+      { organizationId, userId: viewerMember.id, role: 'viewer', status: 'active', joinedAt: now },
+      { organizationId, userId: inactiveMember.id, role: 'admin', status: 'suspended', joinedAt: now },
+    ])
+
+    const projectRes = await app.inject({
+      method: 'POST',
+      url: '/api/v1/projects',
+      headers: { cookie: creatorCookie },
+      payload: { name: uniqueName('HR Site'), organizationId, type: 'new-build' },
+    })
+    assert.equal(projectRes.statusCode, 201)
+    projectId = projectRes.json().data.project.id
+
+    // Seed requirements as creator so GET tests have a row.
+    const putRes = await app.inject({
+      method: 'PUT',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: creatorCookie },
+      payload: VALID_REQUIREMENTS,
+    })
+    assert.equal(putRes.statusCode, 200)
+
+    // Org B exists but is unrelated.
+    const orgBRes = await app.inject({
+      method: 'POST',
+      url: '/api/v1/organizations',
+      headers: { cookie: orgBCookie },
+      payload: { name: uniqueName('Other Org') },
+    })
+    assert.equal(orgBRes.statusCode, 201)
+  })
+
+  await t.test('active org admin can GET and PUT requirements (non-creator)', async () => {
+    const getRes = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: adminCookie },
+    })
+    assert.equal(getRes.statusCode, 200)
+    assert.equal(getRes.json().data.houseRequirements.builtUpArea, 2400)
+
+    const putRes = await app.inject({
+      method: 'PUT',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: adminCookie },
+      payload: { ...VALID_REQUIREMENTS, builtUpArea: 2600 },
+    })
+    assert.equal(putRes.statusCode, 200)
+    assert.equal(putRes.json().data.houseRequirements.builtUpArea, 2600)
+  })
+
+  await t.test('active org viewer can GET but cannot PUT (mutation roles only)', async () => {
+    const getRes = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: viewerCookie },
+    })
+    assert.equal(getRes.statusCode, 200)
+
+    const putRes = await app.inject({
+      method: 'PUT',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: viewerCookie },
+      payload: { ...VALID_REQUIREMENTS, builtUpArea: 9999 },
+    })
+    assert.equal(putRes.statusCode, 404)
+
+    const check = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: creatorCookie },
+    })
+    assert.equal(check.json().data.houseRequirements.builtUpArea, 2600)
+  })
+
+  await t.test('suspended org member is denied GET and PUT (404)', async () => {
+    const getRes = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: inactiveCookie },
+    })
+    assert.equal(getRes.statusCode, 404)
+
+    const putRes = await app.inject({
+      method: 'PUT',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: inactiveCookie },
+      payload: VALID_REQUIREMENTS,
+    })
+    assert.equal(putRes.statusCode, 404)
+  })
+
+  await t.test('unrelated organization member is denied (404)', async () => {
+    const getRes = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: orgBCookie },
+    })
+    assert.equal(getRes.statusCode, 404)
+
+    const putRes = await app.inject({
+      method: 'PUT',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: orgBCookie },
+      payload: VALID_REQUIREMENTS,
+    })
+    assert.equal(putRes.statusCode, 404)
+  })
+
+  await t.test('customer (no company access) is denied house requirements (404)', async () => {
+    const getRes = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/requirements`,
+      headers: { cookie: customerCookie },
+    })
+    assert.equal(getRes.statusCode, 404)
+  })
+
+  await t.test('project UUID tampering remains 404', async () => {
+    const res = await app.inject({
+      method: 'GET',
+      url: '/api/v1/projects/00000000-0000-4000-8000-000000000099/requirements',
+      headers: { cookie: adminCookie },
+    })
+    assert.equal(res.statusCode, 404)
   })
 })
