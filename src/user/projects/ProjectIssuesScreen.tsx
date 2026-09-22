@@ -355,7 +355,7 @@ export default function ProjectIssuesScreen({
                   key={tab.id}
                   type="button"
                   onClick={() => setFilter(tab.id)}
-                  className="h-8 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0"
+                  className="min-h-11 h-11 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
                   style={{
                     fontFamily: FONT_BODY,
                     backgroundColor: filter === tab.id ? '#722ED1' : '#CAC7C6',

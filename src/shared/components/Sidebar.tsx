@@ -30,6 +30,7 @@ import { useSubscription } from '@/data/subscriptionState'
 import { useOrganizations } from '@/data/organizationState'
 import logoHorizontal from '@/imports/Logo/Houzeify HLogo.svg'
 import HIcon from './HIcon'
+import { MobilePrimaryNav, type MobilePrimaryNavItemId } from './MobilePrimaryNav'
 import PartnerNavRail, { type PartnerNavId } from './PartnerNavRail'
 
 export type SidebarNavId =
@@ -76,13 +77,6 @@ const IcoAdvisor = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M9 1.5L10.6 5.4L14.5 7 10.6 8.6 9 12.5 7.4 8.6 3.5 7l3.9-1.6L9 1.5z" />
     <path d="M14 12l.9 1.9 1.6.6-1.6.6-.9 1.9-.9-1.9-1.6-.6 1.6-.6.9-1.9z" strokeWidth="1.2" />
-  </svg>
-)
-const IcoHelp = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="9" cy="9" r="7" />
-    <path d="M6.5 6.5a2.5 2.5 0 015 0c0 2-2.5 2.5-2.5 3.5" />
-    <circle cx="9" cy="14" r="0.6" fill="currentColor" stroke="none" />
   </svg>
 )
 const IcoSettings = () => (
@@ -144,25 +138,37 @@ const IcoNotifications = () => (
   </svg>
 )
 
+function toMobileActive(active: SidebarNavId): MobilePrimaryNavItemId {
+  if (active === 'home') return 'home'
+  if (active === 'profile') return 'profile'
+  return 'projects'
+}
+
 function NavItem({
-  icon, label, active, onClick,
+  icon, label, active, onClick, disabled,
 }: {
-  icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void
+  icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void; disabled?: boolean
 }) {
   return (
     <button
+      type="button"
       title={label}
+      aria-label={label}
+      aria-current={active ? 'page' : undefined}
       onClick={onClick}
+      disabled={disabled || !onClick}
       className={[
-        'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
-        'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
-        'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
+        'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150',
+        'outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2',
+        'md:justify-center md:min-w-11 md:min-h-11 md:w-11 md:h-11 md:mx-auto md:p-0',
+        'lg:justify-start lg:w-full lg:h-auto lg:min-w-0 lg:min-h-0 lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
+        disabled || !onClick ? 'cursor-not-allowed opacity-40' : '',
         active
           ? 'bg-[#F3EAFF] text-[#722ED1]'
           : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
       ].join(' ')}
     >
-      <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">
+      <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center" aria-hidden="true">
         {icon}
       </span>
       <span
@@ -227,9 +233,9 @@ export default function Sidebar({
     // shared Account Settings screen (App.tsx routes it with
     // role={resolvedRole}, so a homeowner lands on the homeowner branch;
     // this rail is homeowner-only and never rendered for Partner). Help
-    // stays intentionally inert — no Help screen exists to wire it to.
-    { id: 'help', icon: <IcoHelp />, label: 'Help', dest: '' },
-    // 15B — Plans & Billing. Same "never highlighted" convention as Help/
+    // stays intentionally inert — no Help screen exists; omit from tab
+    // order until a destination exists (C14 A4).
+    // 15B — Plans & Billing. Same "never highlighted" convention as
     // Settings above (navBottom items don't pass `active` to NavItem);
     // matches this rail's own existing behavior rather than fixing it here.
     { id: 'billing', icon: <IcoBilling />, label: 'Plans & Billing', dest: 'plans-billing' },
@@ -240,88 +246,97 @@ export default function Sidebar({
     { id: 'settings', icon: <IcoSettings />, label: 'Settings', dest: 'account-settings' },
   ]
 
+  const onMobileNavigate = (id: MobilePrimaryNavItemId) => {
+    if (id === 'home') onNavigate('dashboard-home')
+    else if (id === 'projects') onNavigate('projects-list')
+    else onNavigate('homeowner-profile')
+  }
+
   return (
-    <aside
-      className="hidden md:flex flex-col shrink-0 bg-white z-10"
-      style={{ borderRight: '1px solid #F4F0EC' }}
-    >
-      <div className="flex flex-col h-full md:w-[72px] lg:w-[240px]">
-        {/* Logo */}
-        <div className="h-[64px] shrink-0 flex items-center border-b border-[#E3DDD7] md:justify-center lg:justify-start lg:px-5">
-          <img
-            src={logoHorizontal}
-            alt="Houzeify"
-            className="hidden lg:block w-[150px] h-auto"
-            style={{ mixBlendMode: 'multiply' }}
-          />
-          <div className="flex lg:hidden">
-            <HIcon size={31} />
-          </div>
-        </div>
-
-        {/* Main nav */}
-        <nav className="flex-1 overflow-y-auto md:p-2 lg:p-3 flex flex-col gap-0.5 scrollbar-hide">
-          <div className="flex flex-col gap-0.5">
-            {navMain.map(item => (
-              <NavItem
-                key={item.id}
-                icon={item.icon}
-                label={item.label}
-                active={active === item.id}
-                onClick={() => onNavigate(item.dest)}
-              />
-            ))}
-          </div>
-
-          <div className="my-3 border-t border-[#E3DDD7]" />
-          <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-[#9A949D] px-3 mb-1.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
-            Project
-          </p>
-          <div className="flex flex-col gap-0.5">
-            {navProject.map(item => (
-              <NavItem
-                key={item.id}
-                icon={item.icon}
-                label={item.label}
-                active={active === item.id}
-                onClick={() => {
-                  const needsProject = item.id === 'progress' || item.id === 'timeline' || item.id === 'photos' || item.id === 'documents' || item.id === 'live-site'
-                  if (needsProject && soleCustomerProjectId) onNavigate(item.dest, { project_id: soleCustomerProjectId })
-                  else if (needsProject) onNavigate('projects-list')
-                  else onNavigate(item.dest)
-                }}
-              />
-            ))}
-          </div>
-
-          <div className="my-3 border-t border-[#E3DDD7]" />
-          <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-[#9A949D] px-3 mb-1.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
-            Assistant
-          </p>
-          <div className="flex flex-col gap-0.5">
-            {navTools.map(item => (
-              <NavItem
-                key={item.id}
-                icon={item.icon}
-                label={item.label}
-                active={active === item.id}
-                onClick={() => onNavigate(item.dest)}
-              />
-            ))}
-          </div>
-        </nav>
-
-        <div className="shrink-0 border-t border-[#E3DDD7] md:p-2 lg:p-3 flex flex-col gap-0.5">
-          {navBottom.map(item => (
-            <NavItem
-              key={item.id}
-              icon={item.icon}
-              label={item.label}
-              onClick={item.dest ? () => onNavigate(item.dest) : undefined}
+    <>
+      <aside
+        className="hidden md:flex flex-col shrink-0 bg-white z-10"
+        style={{ borderRight: '1px solid #F4F0EC' }}
+      >
+        <div className="flex flex-col h-full md:w-[72px] lg:w-[240px]">
+          {/* Logo */}
+          <div className="h-[64px] shrink-0 flex items-center border-b border-[#E3DDD7] md:justify-center lg:justify-start lg:px-5">
+            <img
+              src={logoHorizontal}
+              alt="Houzeify"
+              className="hidden lg:block w-[150px] h-auto"
+              style={{ mixBlendMode: 'multiply' }}
             />
-          ))}
+            <div className="flex lg:hidden">
+              <HIcon size={31} />
+            </div>
+          </div>
+
+          {/* Main nav */}
+          <nav className="flex-1 overflow-y-auto md:p-2 lg:p-3 flex flex-col gap-0.5 scrollbar-hide" aria-label="Customer">
+            <div className="flex flex-col gap-0.5">
+              {navMain.map(item => (
+                <NavItem
+                  key={item.id}
+                  icon={item.icon}
+                  label={item.label}
+                  active={active === item.id}
+                  onClick={() => onNavigate(item.dest)}
+                />
+              ))}
+            </div>
+
+            <div className="my-3 border-t border-[#E3DDD7]" />
+            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-[#9A949D] px-3 mb-1.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+              Project
+            </p>
+            <div className="flex flex-col gap-0.5">
+              {navProject.map(item => (
+                <NavItem
+                  key={item.id}
+                  icon={item.icon}
+                  label={item.label}
+                  active={active === item.id}
+                  onClick={() => {
+                    const needsProject = item.id === 'progress' || item.id === 'timeline' || item.id === 'photos' || item.id === 'documents' || item.id === 'live-site'
+                    if (needsProject && soleCustomerProjectId) onNavigate(item.dest, { project_id: soleCustomerProjectId })
+                    else if (needsProject) onNavigate('projects-list')
+                    else onNavigate(item.dest)
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="my-3 border-t border-[#E3DDD7]" />
+            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-[#9A949D] px-3 mb-1.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+              Assistant
+            </p>
+            <div className="flex flex-col gap-0.5">
+              {navTools.map(item => (
+                <NavItem
+                  key={item.id}
+                  icon={item.icon}
+                  label={item.label}
+                  active={active === item.id}
+                  onClick={() => onNavigate(item.dest)}
+                />
+              ))}
+            </div>
+          </nav>
+
+          <div className="shrink-0 border-t border-[#E3DDD7] md:p-2 lg:p-3 flex flex-col gap-0.5">
+            {navBottom.map(item => (
+              <NavItem
+                key={item.id}
+                icon={item.icon}
+                label={item.label}
+                onClick={item.dest ? () => onNavigate(item.dest) : undefined}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+      <MobilePrimaryNav active={toMobileActive(active)} onNavigate={onMobileNavigate} />
+    </>
   )
 }

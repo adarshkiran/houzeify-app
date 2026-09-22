@@ -44,7 +44,7 @@ const PROJECT_NAV_ITEMS: { id: ProjectNavId; label: string }[] = [
   { id: 'workforce', label: 'Workforce' },
   { id: 'liveSite', label: 'Live Site' },
   { id: 'documents', label: 'Documents' },
-  { id: 'boq', label: 'Bill of Quantities' },
+  { id: 'boq', label: 'BOQ' },
   { id: 'team', label: 'Team' },
   { id: 'customer', label: 'Customer' },
   { id: 'reports', label: 'Reports' },
@@ -73,7 +73,8 @@ export default function ProjectSubNav({
   action,
   onNavigate,
 }: {
-  active: ProjectNavId
+  /** When omitted (e.g. Messages/Questions), no tab is highlighted. */
+  active?: ProjectNavId
   projectId?: string
   projectName?: string
   variant?: 'company' | 'customer'
@@ -88,47 +89,64 @@ export default function ProjectSubNav({
     <div className="shrink-0 bg-white">
       {showWorkspaceHeader && (
         <header style={{ borderBottom: '1px solid #F4F0EC' }}>
-          <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-2 h-14 px-4 sm:px-6 lg:px-8 min-w-0">
             <button
               type="button"
               onClick={() => onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)}
-              className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+              className="inline-flex items-center gap-1.5 min-h-[44px] min-w-0 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
               style={{ fontFamily: FONT_BODY }}
             >
-              <IcoBack /> Project Workspace
+              <IcoBack />
+              <span className={action ? 'truncate max-w-[12rem] sm:max-w-none' : undefined}>Project Workspace</span>
             </button>
-            {action}
+            {action ? <div className="shrink-0">{action}</div> : null}
           </div>
         </header>
       )}
       <div
-        className="w-full overflow-x-auto scrollbar-hide border-b"
+        className="relative w-full border-b"
         style={{ borderColor: '#E3DDD7' }}
-        aria-label={projectName ? `${projectName} navigation` : 'Project navigation'}
       >
-        <div className="flex items-center gap-1 px-4 sm:px-6 min-w-max">
-          {items.map(item => {
-            const isActive = active === item.id
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => go(PROJECT_NAV_ROUTES[item.id])}
-                aria-current={isActive ? 'page' : undefined}
-                className="relative h-11 px-3 text-[13px] font-semibold cursor-pointer border-0 bg-transparent whitespace-nowrap transition-colors"
-                style={{
-                  fontFamily: FONT_BODY,
-                  color: isActive ? '#722ED1' : '#68636D',
-                }}
-              >
-                {item.label}
-                {isActive && (
-                  <span className="absolute left-0 right-0 bottom-0 h-[2px]" style={{ backgroundColor: '#722ED1' }} />
-                )}
-              </button>
-            )
-          })}
+        <div
+          className="w-full overflow-x-auto scrollbar-thin"
+          style={{ scrollbarWidth: 'thin' }}
+          aria-label={projectName ? `${projectName} navigation` : 'Project navigation'}
+        >
+          <div className="flex items-center gap-1 px-4 sm:px-6 min-w-max">
+            {items.map(item => {
+              const isActive = active === item.id
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => go(PROJECT_NAV_ROUTES[item.id])}
+                  aria-current={isActive ? 'page' : undefined}
+                  className="relative h-11 min-h-11 px-3 text-[13px] font-semibold cursor-pointer border-0 bg-transparent whitespace-nowrap transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2 rounded-[6px]"
+                  style={{
+                    fontFamily: FONT_BODY,
+                    color: isActive ? '#722ED1' : '#68636D',
+                  }}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute left-0 right-0 bottom-0 h-[2px]" style={{ backgroundColor: '#722ED1' }} />
+                  )}
+                </button>
+              )
+            })}
+          </div>
         </div>
+        {/* Edge fades — SubNav overflow discoverability (C14 H1) */}
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 w-6 md:hidden"
+          style={{ background: 'linear-gradient(to right, #FFFFFF, transparent)' }}
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 w-8 md:hidden"
+          style={{ background: 'linear-gradient(to left, #FFFFFF, transparent)' }}
+          aria-hidden="true"
+        />
       </div>
     </div>
   )

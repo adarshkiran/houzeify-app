@@ -107,6 +107,28 @@ export default function ProjectCustomerScreen({
                 </div>
               ) : status === 'idle' || status === 'loading' ? (
                 <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading customer…</p>
+              ) : status === 'error' ? (
+                <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+                  <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Couldn’t load customer</p>
+                  <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Something went wrong fetching this project’s customer link. Try again in a moment.</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!projectId) return
+                      setStatus('loading')
+                      getProjectCustomer(projectId)
+                        .then(row => {
+                          setCustomer(row)
+                          setStatus('loaded')
+                        })
+                        .catch(() => setStatus('error'))
+                    }}
+                    className="h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
+                    style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                  >
+                    Retry
+                  </button>
+                </div>
               ) : customer ? (
                 <div className="rounded-[16px] bg-white p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }}>
                   <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0" style={{ fontFamily: FONT_MONO }}>
