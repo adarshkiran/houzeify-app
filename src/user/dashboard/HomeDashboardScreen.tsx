@@ -35,17 +35,6 @@ const ACTIVE_DASHBOARD_DESTS: ReadonlySet<string> = new Set([
 
 // ─── Sidebar Icons ─────────────────────────────────────────────────────────────
 
-const IcoHome = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M2 9L9 3l7 6"/>
-    <path d="M4 8v8h3.5v-4h3v4H14V8"/>
-  </svg>
-)
-const IcoProjects = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M2 6a1.5 1.5 0 011.5-1.5H7l1.5 2H16a1.5 1.5 0 011.5 1.5V14A1.5 1.5 0 0116 15.5H2A1.5 1.5 0 01.5 14V6z"/>
-  </svg>
-)
 const IcoBell = () => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M10 2a6 6 0 016 6v2.5l1.5 3h-15L4 10.5V8a6 6 0 016-6z"/>
@@ -72,16 +61,11 @@ const IcoMapPin = () => (
   </svg>
 )
 
-const IcoProfile = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="9" cy="6" r="3"/>
-    <path d="M3.5 15.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/>
-  </svg>
-)
-
 // Sidebar (desktop left rail) now lives in ../components/Sidebar — a single
 // shared component used by every homeowner screen so the rail never drifts
 // or changes shape as you navigate (see that file's header comment for why).
+// C14 — mobile primary nav is MobilePrimaryNav inside Sidebar (not a
+// Home-only bottom bar).
 
 // ─── Mobile Top Bar ────────────────────────────────────────────────────────────
 // Mobile header per brief: Logo, Notifications, Profile.
@@ -96,57 +80,14 @@ function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNa
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <button onClick={() => onNavigate('notifications')} aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent">
+        <button type="button" onClick={() => onNavigate('notifications')} aria-label="Notifications" className="min-w-11 min-h-11 w-11 h-11 flex items-center justify-center text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent rounded-[10px] outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
           <IcoBell />
         </button>
-        <button onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>
+        <button type="button" onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="min-w-11 min-h-11 w-11 h-11 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>
           {userInitials}
         </button>
       </div>
     </div>
-  )
-}
-
-// ─── Mobile Bottom Nav ─────────────────────────────────────────────────────
-// The only primary navigation mobile had until now was the top bar's back/
-// profile controls. Fixed 3-item bar (Home / Projects / Profile) mirrors the
-// desktop Sidebar's primary items exactly (same ids/destinations), mobile
-// only. Build and Services were removed with the pre-2.0 product areas.
-
-function MobileBottomNav({ activeNav, onNav, onNavigate }: { activeNav: string; onNav: (id: string) => void; onNavigate: (s: string, data?: Record<string, string>) => void }) {
-  const items = [
-    { id: 'home', icon: <IcoHome />, label: 'Home', dest: '' },
-    // Customer Implementation 09D — canonical customer Projects hub is
-    // 'projects-list' (ProjectsListScreen, the getAllProjects() list), the
-    // same destination the desktop Sidebar's Projects item uses. Previously
-    // this pointed at 'project-workspace', a project-SPECIFIC screen, so
-    // mobile and desktop disagreed. Project Workspace stays project-specific
-    // and is still reached by opening a project from the list.
-    { id: 'projects', icon: <IcoProjects />, label: 'Projects', dest: 'projects-list' },
-    { id: 'profile', icon: <IcoProfile />, label: 'Profile', dest: 'homeowner-profile' },
-  ]
-  return (
-    <nav
-      className="flex md:hidden items-stretch justify-between bg-white border-t border-[#E3DDD7] shrink-0 z-10"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
-    >
-      {items.map(item => {
-        const active = activeNav === item.id
-        return (
-          <button
-            key={item.id}
-            onClick={() => { item.dest ? onNavigate(item.dest) : onNav(item.id) }}
-            className="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 border-0 bg-transparent cursor-pointer"
-            style={{ color: active ? '#722ED1' : '#808080' }}
-          >
-            <span className="w-[20px] h-[20px] flex items-center justify-center">{item.icon}</span>
-            <span className="text-[11px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif', fontWeight: active ? 600 : 400 }}>
-              {item.label}
-            </span>
-          </button>
-        )
-      })}
-    </nav>
   )
 }
 
@@ -162,13 +103,13 @@ function TopHeader({ userInitials, onNavigate }: { userInitials: string; onNavig
         Home
       </h1>
       <div className="flex items-center gap-3">
-        <button onClick={() => onNavigate('notifications')} aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent">
+        <button type="button" onClick={() => onNavigate('notifications')} aria-label="Notifications" className="min-w-11 min-h-11 w-11 h-11 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
           <IcoBell />
         </button>
-        <button aria-label="Help" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all">
+        <button type="button" aria-label="Help" className="min-w-11 min-h-11 w-11 h-11 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
           <IcoCircleHelp />
         </button>
-        <button onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="flex items-center gap-2 ml-1 px-2 py-1 rounded-[10px] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent">
+        <button type="button" onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="flex items-center gap-2 ml-1 min-h-11 px-2 py-1 rounded-[10px] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
           <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>
             {userInitials}
           </div>
@@ -490,7 +431,6 @@ export default function HomeDashboardScreen({
    *  entered through — only meaningful when resolvedIntent === 'home-service'. */
   serviceEntry?: string
 }) {
-  const [activeNav, setActiveNav] = useState('home')
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const [attempt, setAttempt] = useState(0)
@@ -636,7 +576,7 @@ export default function HomeDashboardScreen({
         <div className="flex flex-col flex-1 min-w-0">
           <TopHeader userInitials={userInitials} onNavigate={onNavigate} />
 
-          <main className="flex-1 overflow-y-auto px-6 py-7 pb-24 md:pb-7" style={{ scrollbarWidth: 'none' }}>
+          <main className="flex-1 overflow-y-auto px-6 py-7" style={{ scrollbarWidth: 'none' }}>
             {loading && <DashboardSkeleton />}
 
             {!loading && (loadError || !config) && (
@@ -746,8 +686,6 @@ export default function HomeDashboardScreen({
           </main>
         </div>
       </div>
-
-      <MobileBottomNav activeNav={activeNav} onNav={setActiveNav} onNavigate={onNavigate} />
     </div>
   )
 }

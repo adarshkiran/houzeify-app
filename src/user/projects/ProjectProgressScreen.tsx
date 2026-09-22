@@ -301,7 +301,7 @@ export default function ProjectProgressScreen({
           <button
             type="button"
             onClick={() => onNavigate('create-daily-progress', projectId ? { project_id: projectId } : undefined)}
-            className="h-9 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0"
+            className="min-h-11 h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
             style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
           >
             Add Progress Update

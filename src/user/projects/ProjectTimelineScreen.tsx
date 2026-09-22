@@ -54,6 +54,8 @@ export default function ProjectTimelineScreen({
                 <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading timeline…</p>
               ) : status === 'error' ? (
                 <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{error}</p>
+              ) : timeline.length === 0 ? (
+                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No timeline stages yet for this project.</p>
               ) : (
                 <ol className="flex flex-col md:flex-row md:overflow-x-auto gap-3 m-0 p-0 list-decimal md:list-none">
                   {timeline.map(stage => {

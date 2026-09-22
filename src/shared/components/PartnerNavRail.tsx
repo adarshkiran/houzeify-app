@@ -17,6 +17,7 @@
 import { COMPANY_NAV_ROUTES } from '@/data/constructionNav'
 import logoHorizontal from '@/imports/Logo/Houzeify HLogo.svg'
 import HIcon from './HIcon'
+import { MobilePrimaryNav, type MobilePrimaryNavItemId } from './MobilePrimaryNav'
 
 export type PartnerNavId =
   | 'home' | 'projects' | 'progress' | 'site-operations' | 'workforce' | 'live-site'
@@ -75,6 +76,12 @@ const LockIcon = ({ size = 10 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="6.5" width="8" height="6" rx="1.2" /><path d="M4.7 6.5V4.5a2.3 2.3 0 0 1 4.6 0v2" /></svg>
 )
 
+function toMobileActive(active: PartnerNavId): MobilePrimaryNavItemId {
+  if (active === 'home') return 'home'
+  if (active === 'profile') return 'profile'
+  return 'projects'
+}
+
 function NavItem({
   icon, label, active, disabled, locked, onClick,
 }: {
@@ -82,20 +89,24 @@ function NavItem({
 }) {
   return (
     <button
+      type="button"
       title={locked ? `${label} — locked until your identity is verified` : label}
+      aria-label={locked ? `${label} — locked until your identity is verified` : label}
+      aria-current={active ? 'page' : undefined}
       onClick={onClick}
       disabled={disabled}
       className={[
-        'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none text-left',
-        'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
-        'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
+        'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 text-left',
+        'outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2',
+        'md:justify-center md:min-w-11 md:min-h-11 md:w-11 md:h-11 md:mx-auto md:p-0',
+        'lg:justify-start lg:w-full lg:h-auto lg:min-w-0 lg:min-h-0 lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
         disabled ? 'cursor-not-allowed opacity-40' : '',
         active
           ? 'bg-[#F3EAFF] text-[#722ED1]'
           : disabled ? 'bg-transparent text-[#9A949D]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
       ].join(' ')}
     >
-      <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
+      <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center" aria-hidden="true">{icon}</span>
       <span className="hidden lg:flex items-center gap-1.5 text-[13px] leading-none" style={{ fontFamily: FONT_BODY }}>
         {label}
         {locked && <LockIcon />}
@@ -153,49 +164,60 @@ export default function PartnerNavRail({
 
   const go = (dest: string) => onNavigate(dest, organizationId ? { organization_id: organizationId } : undefined)
 
-  return (
-    <aside className="hidden md:flex flex-col shrink-0 bg-white z-10" style={{ borderRight: '1px solid #F4F0EC' }}>
-      <div className="flex flex-col h-full md:w-[72px] lg:w-[240px]">
-        <div className="h-[64px] shrink-0 flex items-center border-b border-[#E3DDD7] md:justify-center lg:justify-start lg:px-5">
-          <img src={logoHorizontal} alt="Houzeify" className="hidden lg:block w-[150px] h-auto" style={{ mixBlendMode: 'multiply' }} />
-          <div className="flex lg:hidden"><HIcon size={31} /></div>
-        </div>
+  const onMobileNavigate = (id: MobilePrimaryNavItemId) => {
+    if (id === 'home') go(COMPANY_NAV_ROUTES.home)
+    else if (id === 'projects') go(COMPANY_NAV_ROUTES.projects)
+    else go(COMPANY_NAV_ROUTES.profile)
+  }
 
-        <nav className="flex-1 overflow-y-auto md:p-2 lg:p-3 flex flex-col gap-0.5 scrollbar-hide">
-          <div className="flex flex-col gap-0.5">
-            {navMain.map(item => (
+  return (
+    <>
+      <aside className="hidden md:flex flex-col shrink-0 bg-white z-10" style={{ borderRight: '1px solid #F4F0EC' }}>
+        <div className="flex flex-col h-full md:w-[72px] lg:w-[240px]">
+          <div className="h-[64px] shrink-0 flex items-center border-b border-[#E3DDD7] md:justify-center lg:justify-start lg:px-5">
+            <img src={logoHorizontal} alt="Houzeify" className="hidden lg:block w-[150px] h-auto" style={{ mixBlendMode: 'multiply' }} />
+            <div className="flex lg:hidden"><HIcon size={31} /></div>
+          </div>
+
+          <nav className="flex-1 overflow-y-auto md:p-2 lg:p-3 flex flex-col gap-0.5 scrollbar-hide" aria-label="Company">
+            <div className="flex flex-col gap-0.5">
+              {navMain.map(item => (
+                <NavItem key={item.id} icon={item.icon} label={item.label} active={active === item.id} onClick={() => go(item.dest)} />
+              ))}
+            </div>
+
+            <div className="my-3 border-t border-[#E3DDD7]" />
+            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-[#9A949D] px-3 mb-1.5" style={{ fontFamily: FONT_MONO }}>
+              Business Development
+            </p>
+            <div className="flex flex-col gap-0.5">
+              {navBusiness.map(item => (
+                <NavItem key={item.id} icon={item.icon} label={item.label} active={active === item.id} locked={item.locked} onClick={() => { if (item.locked) return; go(item.dest) }} />
+              ))}
+            </div>
+          </nav>
+
+          <div className="shrink-0 border-t border-[#E3DDD7] md:p-2 lg:p-3 flex flex-col gap-0.5">
+            {navBottom.map(item => (
               <NavItem key={item.id} icon={item.icon} label={item.label} active={active === item.id} onClick={() => go(item.dest)} />
             ))}
+            {onSignOut && (
+              <button
+                type="button"
+                onClick={onSignOut}
+                aria-label="Sign out"
+                className="w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2 md:justify-center md:min-w-11 md:min-h-11 md:w-11 md:h-11 md:mx-auto md:p-0 lg:justify-start lg:w-full lg:h-auto lg:min-w-0 lg:min-h-0 lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3 bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#DC2626]"
+              >
+                <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 15.5H4a1.5 1.5 0 01-1.5-1.5V4A1.5 1.5 0 014 2.5h3" /><path d="M12 12.5l4-3.5-4-3.5" /><line x1="16" y1="9" x2="6.5" y2="9" /></svg>
+                </span>
+                <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: FONT_BODY }}>Sign out</span>
+              </button>
+            )}
           </div>
-
-          <div className="my-3 border-t border-[#E3DDD7]" />
-          <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-[#9A949D] px-3 mb-1.5" style={{ fontFamily: FONT_MONO }}>
-            Business Development
-          </p>
-          <div className="flex flex-col gap-0.5">
-            {navBusiness.map(item => (
-              <NavItem key={item.id} icon={item.icon} label={item.label} active={active === item.id} locked={item.locked} onClick={() => { if (item.locked) return; go(item.dest) }} />
-            ))}
-          </div>
-        </nav>
-
-        <div className="shrink-0 border-t border-[#E3DDD7] md:p-2 lg:p-3 flex flex-col gap-0.5">
-          {navBottom.map(item => (
-            <NavItem key={item.id} icon={item.icon} label={item.label} active={active === item.id} onClick={() => go(item.dest)} />
-          ))}
-          {onSignOut && (
-            <button
-              onClick={onSignOut}
-              className="w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none text-left md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0 lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3 bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#DC2626]"
-            >
-              <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 15.5H4a1.5 1.5 0 01-1.5-1.5V4A1.5 1.5 0 014 2.5h3" /><path d="M12 12.5l4-3.5-4-3.5" /><line x1="16" y1="9" x2="6.5" y2="9" /></svg>
-              </span>
-              <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: FONT_BODY }}>Sign out</span>
-            </button>
-          )}
         </div>
-      </div>
-    </aside>
+      </aside>
+      <MobilePrimaryNav active={toMobileActive(active)} onNavigate={onMobileNavigate} />
+    </>
   )
 }

@@ -156,7 +156,7 @@ export default function ProjectTeamScreen({
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
 
-      <ProjectSubNav active="team" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
+      <ProjectSubNav active="team" projectId={projectId} projectName={projectName} variant={isCustomer ? 'customer' : 'company'} onNavigate={onNavigate} />
 
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[760px] mx-auto flex flex-col gap-6">

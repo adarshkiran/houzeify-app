@@ -152,7 +152,12 @@ export default function CreateDailyProgressScreen({
       <div className="flex-1 flex flex-col min-w-0">
         <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
           <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-            <button type="button" onClick={goBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button
+              type="button"
+              onClick={goBack}
+              className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+              style={{ fontFamily: FONT_BODY }}
+            >
               <IcoBack /> Progress
             </button>
           </div>
@@ -224,8 +229,8 @@ export default function CreateDailyProgressScreen({
                           type="button"
                           onClick={() => removePendingPhoto(i)}
                           aria-label={`Remove ${p.file.name}`}
-                          className="absolute top-1 right-1 w-5 h-5 rounded-full flex items-center justify-center cursor-pointer border-0"
-                          style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: 'white', fontSize: 12 }}
+                          className="absolute top-1 right-1 min-w-11 min-h-11 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-white"
+                          style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: 'white', fontSize: 16 }}
                         >
                           ×
                         </button>

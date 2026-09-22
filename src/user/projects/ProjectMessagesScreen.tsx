@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
+import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import HIcon from '@/shared/components/HIcon'
+import { useProjectAudience } from '@/data/customerProjectsState'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -11,10 +13,8 @@ const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
 // conversation store in this codebase (only Hozie's AI chat model). C12
 // removes the awarded-bid / contractorDirectory participant card — Messages
 // must not require an awarded bid to render. Honest empty state only.
+// C14 — mounts ProjectSubNav with audience variant (was missing).
 
-const IcoBack = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3L5 8l5 5" /></svg>
-)
 const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
@@ -57,6 +57,8 @@ export default function ProjectMessagesScreen({
   onNavigate,
 }: ProjectMessagesScreenProps) {
   const canViewProject = role === 'homeowner' || role === 'professional'
+  const audience = useProjectAudience(projectId)
+  const variant = audience === 'customer' ? 'customer' : 'company'
   useEffect(() => {
     if (!canViewProject) onNavigate('welcome')
   }, [canViewProject, onNavigate])
@@ -86,41 +88,34 @@ export default function ProjectMessagesScreen({
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
-        <Sidebar active="projects" onNavigate={onNavigate} />
-        <div className="flex flex-col flex-1 min-h-0">
+        <Sidebar active="questions" onNavigate={onNavigate} />
+        <div className="flex flex-col flex-1 min-h-0 min-w-0">
+          <ProjectSubNav projectId={projectId} projectName={projectName} variant={variant} onNavigate={onNavigate} />
 
-      <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
-        <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goToWorkspace} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
-            <IcoBack /> Project Workspace
-          </button>
-        </div>
-      </header>
+          <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
+            <div className="max-w-[760px] mx-auto flex flex-col gap-6 min-w-0">
+              <div>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Messages</p>
+                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+                {location && (
+                  <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                    <IcoMapPin /> {location}
+                  </span>
+                )}
+                <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Messages and conversations related to this project.</p>
+              </div>
 
-      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
-        <div className="max-w-[760px] mx-auto flex flex-col gap-6">
-          <div>
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Messages</p>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
-            {location && (
-              <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
-                <IcoMapPin /> {location}
-              </span>
-            )}
-            <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Messages and conversations related to this project.</p>
-          </div>
-
-          <SectionCard>
-            <div className="flex flex-col items-center text-center gap-2 py-6">
-              <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
-                <IcoMessages />
-              </span>
-              <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No messages yet</p>
-              <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Your project conversations will appear here.</p>
+              <SectionCard>
+                <div className="flex flex-col items-center text-center gap-2 py-6">
+                  <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                    <IcoMessages />
+                  </span>
+                  <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No messages yet</p>
+                  <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Your project conversations will appear here.</p>
+                </div>
+              </SectionCard>
             </div>
-          </SectionCard>
-        </div>
-      </main>
+          </main>
         </div>
       </div>
     </div>
