@@ -10,7 +10,27 @@
 // is removed. New tabs with no built screen yet route to the shared
 // ComingSoonScreen placeholder (see constructionNav.ts's PROJECT_NAV_ROUTES /
 // NAV_PLACEHOLDER_CONTENT) — never a dead '' stub.
+//
+// ── Back-row ownership (read before adding a project screen) ──────────────
+// This component also owns the "< Project Workspace" back row. It renders by
+// default (showWorkspaceHeader = true), so every project screen gets it from
+// this one place — never from a local copy. Before this was centralised,
+// each screen carried its own slightly different copy and several had none.
+//
+//   Screen type                              Back row
+//   Project tabs whose parent is Workspace   this shared row (the default)
+//   ProjectWorkspaceScreen                   its own "< Back" -> Projects list;
+//                                            showWorkspaceHeader={false}
+//   CreateDailyProgressScreen                its own "< Progress";
+//                                            showWorkspaceHeader={false}
+//
+// Rule: if a screen's parent is NOT the Workspace, it keeps its own back row
+// and passes showWorkspaceHeader={false}. Doing both — a local back row with
+// the shared row left on — stacks two contradictory back buttons (this
+// exact duplication was found and fixed in the customer Overview).
+// A right-hand header button goes in the `action` slot, not a local header.
 
+import type { ReactNode } from 'react'
 import { PROJECT_NAV_ROUTES, type ProjectNavId } from '@/data/constructionNav'
 
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -40,50 +60,75 @@ const CUSTOMER_PROJECT_NAV_ITEMS: { id: ProjectNavId; label: string }[] = [
   { id: 'workforce', label: 'Workforce' },
 ]
 
+const IcoBack = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3L5 8l5 5" /></svg>
+)
+
 export default function ProjectSubNav({
   active,
   projectId,
   projectName,
   variant = 'company',
+  showWorkspaceHeader = true,
+  action,
   onNavigate,
 }: {
   active: ProjectNavId
   projectId?: string
   projectName?: string
   variant?: 'company' | 'customer'
+  showWorkspaceHeader?: boolean
+  action?: ReactNode
   onNavigate: (s: string, data?: Record<string, string>) => void
 }) {
   const go = (dest: string) => onNavigate(dest, projectId ? { project_id: projectId } : undefined)
   const items = variant === 'customer' ? CUSTOMER_PROJECT_NAV_ITEMS : PROJECT_NAV_ITEMS
 
   return (
-    <div
-      className="w-full overflow-x-auto scrollbar-hide border-b bg-white shrink-0"
-      style={{ borderColor: '#E3DDD7' }}
-      aria-label={projectName ? `${projectName} navigation` : 'Project navigation'}
-    >
-      <div className="flex items-center gap-1 px-4 sm:px-6 min-w-max">
-        {items.map(item => {
-          const isActive = active === item.id
-          return (
+    <div className="shrink-0 bg-white">
+      {showWorkspaceHeader && (
+        <header style={{ borderBottom: '1px solid #F4F0EC' }}>
+          <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
             <button
-              key={item.id}
               type="button"
-              onClick={() => go(PROJECT_NAV_ROUTES[item.id])}
-              aria-current={isActive ? 'page' : undefined}
-              className="relative h-11 px-3 text-[13px] font-semibold cursor-pointer border-0 bg-transparent whitespace-nowrap transition-colors"
-              style={{
-                fontFamily: FONT_BODY,
-                color: isActive ? '#722ED1' : '#68636D',
-              }}
+              onClick={() => onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)}
+              className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+              style={{ fontFamily: FONT_BODY }}
             >
-              {item.label}
-              {isActive && (
-                <span className="absolute left-0 right-0 bottom-0 h-[2px]" style={{ backgroundColor: '#722ED1' }} />
-              )}
+              <IcoBack /> Project Workspace
             </button>
-          )
-        })}
+            {action}
+          </div>
+        </header>
+      )}
+      <div
+        className="w-full overflow-x-auto scrollbar-hide border-b"
+        style={{ borderColor: '#E3DDD7' }}
+        aria-label={projectName ? `${projectName} navigation` : 'Project navigation'}
+      >
+        <div className="flex items-center gap-1 px-4 sm:px-6 min-w-max">
+          {items.map(item => {
+            const isActive = active === item.id
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => go(PROJECT_NAV_ROUTES[item.id])}
+                aria-current={isActive ? 'page' : undefined}
+                className="relative h-11 px-3 text-[13px] font-semibold cursor-pointer border-0 bg-transparent whitespace-nowrap transition-colors"
+                style={{
+                  fontFamily: FONT_BODY,
+                  color: isActive ? '#722ED1' : '#68636D',
+                }}
+              >
+                {item.label}
+                {isActive && (
+                  <span className="absolute left-0 right-0 bottom-0 h-[2px]" style={{ backgroundColor: '#722ED1' }} />
+                )}
+              </button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

@@ -51,10 +51,6 @@ export default function ProjectCustomerScreen({
     }
   }, [projectId])
 
-  function goWorkspace() {
-    onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)
-  }
-
   async function onInvite(e: React.FormEvent) {
     e.preventDefault()
     if (!projectId) return
@@ -93,13 +89,6 @@ export default function ProjectCustomerScreen({
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
-          <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
-            <div className="flex items-center h-14 px-4 sm:px-6">
-              <button type="button" onClick={goWorkspace} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] border-0 bg-transparent p-0 cursor-pointer" style={{ fontFamily: FONT_BODY }}>
-                ← Project Workspace
-              </button>
-            </div>
-          </header>
           <ProjectSubNav active="customer" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
           <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
             <div className="max-w-[560px] mx-auto flex flex-col gap-6 min-w-0">
