@@ -1,7 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { companyInitials } from '@/data/companyInformation'
 import { ROLE_LABELS, ROLE_DESCRIPTIONS, type MemberRole } from '@/data/teamSetup'
-import { listOrganizationMembers, type OrganizationMember } from '@/data/organizationApi'
+import {
+  addOrganizationMember,
+  describeOrganizationError,
+  listOrganizationMembers,
+  removeOrganizationMember,
+  updateOrganizationMember,
+  type InvitableOrganizationMemberRole,
+  type OrganizationMember,
+} from '@/data/organizationApi'
 import { useAuth } from '@/data/authState'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
 
@@ -15,14 +23,17 @@ const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
 //
 // Houzeify 2.0 Module 02 — a real backend organization_members table (and a
 // working GET /:organizationId/members route) now exists (12G-B), so
-// "Confirmed Members" below is real, live data — never fabricated. It
-// currently ever shows exactly one row (the owner, created atomically with
-// the organization; see organization.service.ts's createOrganization()),
-// since no invite-a-member API exists yet — invitations still only ever
-// produce the session-local snapshot Screen 027 (Team Setup) forwards
-// forward: invited_count, invited_emails, team_summary. "Invited People"
-// stays deliberately distinct from "Confirmed Members" — inviting someone
-// is not the same as them being an active, persisted member. Role
+// "Confirmed Members" below is real, live data — never fabricated.
+//
+// TABLE C adds the real member-management endpoints (POST/PATCH/DELETE
+// .../members[/:memberId]) — an owner/admin can now add someone by their
+// partner-profile email directly as an active member (no separate accept
+// step; see organization.service.ts's addOrganizationMember comment),
+// change their role, suspend/reactivate them, or remove them. The
+// session-local "Invited People" block below (Screen 027 Team Setup's
+// invited_count/invited_emails/team_summary) is untouched and stays
+// deliberately distinct — it was never wired to a backend and still isn't;
+// it just no longer describes the *only* way to add someone. Role
 // definitions (Section 4) are teamSetup.ts's own static reference table.
 
 
@@ -52,6 +63,7 @@ function SectionCard({ icon, title, children }: { icon?: React.ReactNode; title:
 }
 
 const ROLE_ORDER: MemberRole[] = ['owner', 'admin', 'project-manager', 'team-member', 'viewer']
+const INVITABLE_ROLE_ORDER: InvitableOrganizationMemberRole[] = ['admin', 'project-manager', 'team-member', 'viewer']
 
 interface TeamManagementScreenProps {
   role?: string
@@ -82,21 +94,110 @@ export default function TeamManagementScreen({
   const auth = useAuth()
   const [members, setMembers] = useState<OrganizationMember[] | null>(null)
   const [membersStatus, setMembersStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
-  useEffect(() => {
-    if (!organizationId) return
-    let cancelled = false
-    setMembersStatus('loading')
-    listOrganizationMembers(organizationId)
+
+  const loadMembers = useCallback((orgId: string, silent = false) => {
+    if (!silent) setMembersStatus('loading')
+    return listOrganizationMembers(orgId)
       .then(result => {
-        if (cancelled) return
         setMembers(result)
         setMembersStatus('loaded')
       })
       .catch(() => {
-        if (!cancelled) setMembersStatus('error')
+        setMembersStatus('error')
       })
-    return () => { cancelled = true }
-  }, [organizationId])
+  }, [])
+
+  useEffect(() => {
+    if (!organizationId) return
+    void loadMembers(organizationId)
+  }, [organizationId, loadMembers])
+
+  // Only an active owner/admin sees member-management controls. Unknown
+  // (members not loaded yet) means no controls, never a guess.
+  const ownRole = members?.find(m => m.userId === auth.user?.id)?.role
+  const canManageMembers = ownRole === 'owner' || ownRole === 'admin'
+
+  const [addOpen, setAddOpen] = useState(false)
+  const [addEmail, setAddEmail] = useState('')
+  const [addRole, setAddRole] = useState<InvitableOrganizationMemberRole>('team-member')
+  const [addBusy, setAddBusy] = useState(false)
+  const [addError, setAddError] = useState<string | null>(null)
+
+  async function submitAddMember() {
+    if (!organizationId || !addEmail.trim()) return
+    setAddBusy(true)
+    setAddError(null)
+    try {
+      await addOrganizationMember(organizationId, addEmail.trim(), addRole)
+      await loadMembers(organizationId, true)
+      setAddOpen(false)
+      setAddEmail('')
+      setAddRole('team-member')
+    } catch (err) {
+      setAddError(describeOrganizationError(err))
+    } finally {
+      setAddBusy(false)
+    }
+  }
+
+  const [memberActionBusyId, setMemberActionBusyId] = useState<string | null>(null)
+  const [memberActionError, setMemberActionError] = useState<{ id: string; message: string } | null>(null)
+  const [confirmRemoveId, setConfirmRemoveId] = useState<string | null>(null)
+
+  async function changeMemberRole(memberId: string, role: InvitableOrganizationMemberRole) {
+    if (!organizationId) return
+    setMemberActionBusyId(memberId)
+    setMemberActionError(null)
+    try {
+      await updateOrganizationMember(organizationId, memberId, { role })
+      await loadMembers(organizationId, true)
+    } catch (err) {
+      setMemberActionError({ id: memberId, message: describeOrganizationError(err) })
+    } finally {
+      setMemberActionBusyId(null)
+    }
+  }
+
+  async function changeMemberStatus(memberId: string, status: 'active' | 'suspended') {
+    if (!organizationId) return
+    setMemberActionBusyId(memberId)
+    setMemberActionError(null)
+    try {
+      await updateOrganizationMember(organizationId, memberId, { status })
+      await loadMembers(organizationId, true)
+    } catch (err) {
+      setMemberActionError({ id: memberId, message: describeOrganizationError(err) })
+    } finally {
+      setMemberActionBusyId(null)
+    }
+  }
+
+  async function confirmRemoveMember(memberId: string) {
+    if (!organizationId) return
+    setMemberActionBusyId(memberId)
+    setMemberActionError(null)
+    try {
+      await removeOrganizationMember(organizationId, memberId)
+      await loadMembers(organizationId, true)
+      setConfirmRemoveId(null)
+    } catch (err) {
+      setMemberActionError({ id: memberId, message: describeOrganizationError(err) })
+    } finally {
+      setMemberActionBusyId(null)
+    }
+  }
+
+  // Pre-existing bug, surfaced by TABLE C's own live testing (a render
+  // where `hasOrganization` starts false before the org/profile bridge
+  // effects populate projectData, then flips true): this useMemo used to
+  // sit after the early returns below, so the two render paths called a
+  // different number of hooks and React threw "Rendered more hooks than
+  // during the previous render." Hooks must never be conditional — moved
+  // above every early return.
+  const emails = useMemo(
+    () => (invitedEmails ?? '').split(',').map(e => e.trim()).filter(Boolean),
+    [invitedEmails]
+  )
 
   if (!isProfessional) return null
 
@@ -120,13 +221,6 @@ export default function TeamManagementScreen({
   }
 
   const initials = companyInitials(companyName as string)
-
-  // Real emails only — trimmed, empties dropped. Never a reconstructed
-  // member list; these are exactly the strings 027 forwarded.
-  const emails = useMemo(
-    () => (invitedEmails ?? '').split(',').map(e => e.trim()).filter(Boolean),
-    [invitedEmails]
-  )
 
   const hasInvitedCount = invitedCount !== undefined && invitedCount !== ''
   const hasTeamSummary = Boolean(teamSummary)
@@ -178,7 +272,9 @@ export default function TeamManagementScreen({
           </SectionCard>
 
           {/* Confirmed Members — real organization_members backend data
-              (Module 02), never the session-local invite snapshot below. */}
+              (Module 02), never the session-local invite snapshot below.
+              TABLE C: owner/admin can add, change role/status, and remove
+              a member here for real. */}
           <SectionCard icon={<IcoTeam />} title="Confirmed Members">
             {membersStatus === 'loading' && (
               <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Loading members…</p>
@@ -188,19 +284,123 @@ export default function TeamManagementScreen({
             )}
             {membersStatus === 'loaded' && members && (
               <div className="flex flex-col gap-2">
-                {members.map(member => (
-                  <div key={member.id} className="flex items-center justify-between gap-3 rounded-[10px] px-3.5 py-2.5" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7' }}>
-                    <span className="text-[13px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>
-                      {member.userId === auth.user?.id ? 'You' : `Member ${member.userId.slice(0, 8)}`}
-                    </span>
-                    <span className="flex items-center gap-2 shrink-0">
-                      <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
-                        {ROLE_LABELS[member.role as MemberRole] ?? member.role}
-                      </span>
-                      <span className="text-[11px] font-semibold" style={{ color: '#68636D', fontFamily: FONT_MONO }}>{member.status}</span>
-                    </span>
+                {members.map(member => {
+                  const isSelf = member.userId === auth.user?.id
+                  const canEditThisMember = canManageMembers && !isSelf && member.role !== 'owner'
+                  const busy = memberActionBusyId === member.id
+                  return (
+                    <div key={member.id} className="flex flex-col gap-2 rounded-[10px] px-3.5 py-2.5" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7' }}>
+                      <div className="flex items-center justify-between gap-3 flex-wrap">
+                        <span className="text-[13px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>
+                          {isSelf ? 'You' : `Member ${member.userId.slice(0, 8)}`}
+                        </span>
+                        <span className="flex items-center gap-2 shrink-0 flex-wrap">
+                          {canEditThisMember ? (
+                            <select
+                              aria-label={`Role for ${isSelf ? 'you' : 'this member'}`}
+                              value={member.role}
+                              disabled={busy}
+                              onChange={e => changeMemberRole(member.id, e.target.value as InvitableOrganizationMemberRole)}
+                              className="h-8 px-2 rounded-full text-[11px] font-semibold border-0 cursor-pointer"
+                              style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}
+                            >
+                              {INVITABLE_ROLE_ORDER.map(r => (
+                                <option key={r} value={r}>{ROLE_LABELS[r]}</option>
+                              ))}
+                            </select>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
+                              {ROLE_LABELS[member.role as MemberRole] ?? member.role}
+                            </span>
+                          )}
+                          <span className="text-[11px] font-semibold" style={{ color: '#68636D', fontFamily: FONT_MONO }}>{member.status}</span>
+                        </span>
+                      </div>
+
+                      {canEditThisMember && (
+                        <div className="flex items-center gap-3 flex-wrap">
+                          {member.status === 'active' && (
+                            <button type="button" disabled={busy} onClick={() => changeMemberStatus(member.id, 'suspended')} className="min-h-[44px] text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0" style={{ color: '#68636D', fontFamily: FONT_BODY }}>
+                              Suspend
+                            </button>
+                          )}
+                          {member.status === 'suspended' && (
+                            <button type="button" disabled={busy} onClick={() => changeMemberStatus(member.id, 'active')} className="min-h-[44px] text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+                              Reactivate
+                            </button>
+                          )}
+                          {confirmRemoveId === member.id ? (
+                            <span className="flex items-center gap-3">
+                              <span className="text-[12px]" style={{ color: '#68636D', fontFamily: FONT_BODY }}>Remove this member?</span>
+                              <button type="button" disabled={busy} onClick={() => confirmRemoveMember(member.id)} className="min-h-[44px] text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>
+                                {busy ? 'Removing…' : 'Confirm remove'}
+                              </button>
+                              <button type="button" disabled={busy} onClick={() => setConfirmRemoveId(null)} className="min-h-[44px] text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0" style={{ color: '#68636D', fontFamily: FONT_BODY }}>
+                                Cancel
+                              </button>
+                            </span>
+                          ) : (
+                            <button type="button" disabled={busy} onClick={() => setConfirmRemoveId(member.id)} className="min-h-[44px] text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>
+                              Remove
+                            </button>
+                          )}
+                        </div>
+                      )}
+
+                      {memberActionError?.id === member.id && (
+                        <p role="alert" className="text-[12px] m-0" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>{memberActionError.message}</p>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
+            {membersStatus === 'loaded' && canManageMembers && (
+              <div className="mt-4 pt-4" style={{ borderTop: '1px solid #F4F0EC' }}>
+                {addOpen ? (
+                  <div className="flex flex-col gap-3">
+                    <div>
+                      <label htmlFor="add-member-email" className="block text-[12px] font-semibold text-[#242326] mb-1" style={{ fontFamily: FONT_BODY }}>Email</label>
+                      <input
+                        id="add-member-email"
+                        type="email"
+                        value={addEmail}
+                        onChange={e => setAddEmail(e.target.value)}
+                        placeholder="name@example.com"
+                        className="w-full h-11 px-3 rounded-[10px] text-[13.5px]"
+                        style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="add-member-role" className="block text-[12px] font-semibold text-[#242326] mb-1" style={{ fontFamily: FONT_BODY }}>Role</label>
+                      <select
+                        id="add-member-role"
+                        value={addRole}
+                        onChange={e => setAddRole(e.target.value as InvitableOrganizationMemberRole)}
+                        className="w-full h-11 px-3 rounded-[10px] text-[13.5px]"
+                        style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
+                      >
+                        {INVITABLE_ROLE_ORDER.map(r => (
+                          <option key={r} value={r}>{ROLE_LABELS[r]}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {addError && <p role="alert" className="text-[12px] m-0" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>{addError}</p>}
+                    <div className="flex items-center gap-4">
+                      <button type="button" disabled={addBusy || !addEmail.trim()} onClick={submitAddMember} className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 cursor-pointer" style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY, opacity: addBusy ? 0.6 : 1 }}>
+                        {addBusy ? 'Adding…' : 'Add member'}
+                      </button>
+                      <button type="button" disabled={addBusy} onClick={() => { setAddOpen(false); setAddError(null) }} className="min-h-[44px] text-[13px] font-medium cursor-pointer border-0 bg-transparent p-0" style={{ color: '#68636D', fontFamily: FONT_BODY }}>
+                        Cancel
+                      </button>
+                    </div>
                   </div>
-                ))}
+                ) : (
+                  <button type="button" onClick={() => setAddOpen(true)} className={linkClass} style={{ fontFamily: FONT_BODY }}>
+                    + Add member
+                  </button>
+                )}
               </div>
             )}
           </SectionCard>

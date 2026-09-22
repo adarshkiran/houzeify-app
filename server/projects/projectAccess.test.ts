@@ -189,4 +189,31 @@ test('project access helper: read vs mutate boundaries, 404 for everyone else', 
     assert.equal((await getProjectForAccess(env!, soloProject.id, homeowner.id))?.id, soloProject.id)
     assert.equal(await getProjectForAccess(env!, soloProject.id, creator.id), undefined)
   })
+
+  // TABLE C: an invited/suspended/removed membership row must not continue
+  // granting access merely because it exists — every membership lookup in
+  // this codebase now filters on status:'active'.
+  await t.test('TABLE C: a suspended admin loses read AND mutate access; reactivating restores both', async () => {
+    const db = getDb(env!)
+    await db.update(organizationMembers).set({ status: 'suspended' }).where(eq(organizationMembers.userId, adminMember.id))
+
+    await assert.rejects(() => requireProjectAccess(env!, orgProject.id, adminMember.id), assertNotFound)
+    assert.equal(await getProjectForAccess(env!, orgProject.id, adminMember.id), undefined)
+    assert.equal(await canMutateAtProjectLevel(env!, orgProject, adminMember.id), false)
+    await assert.rejects(() => requireProjectMutation(env!, orgProject, adminMember.id), assertNotFound)
+    assert.equal(await resolveProjectAccess(env!, orgProject.id, adminMember.id), undefined)
+
+    await db.update(organizationMembers).set({ status: 'active' }).where(eq(organizationMembers.userId, adminMember.id))
+    const project = await requireProjectAccess(env!, orgProject.id, adminMember.id)
+    assert.equal(project.id, orgProject.id)
+    assert.equal(await canMutateAtProjectLevel(env!, project, adminMember.id), true)
+  })
+
+  await t.test('TABLE C: a removed viewer loses read access', async () => {
+    const db = getDb(env!)
+    await db.update(organizationMembers).set({ status: 'removed' }).where(eq(organizationMembers.userId, viewerMember.id))
+
+    await assert.rejects(() => requireProjectAccess(env!, orgProject.id, viewerMember.id), assertNotFound)
+    assert.equal(await getProjectForAccess(env!, orgProject.id, viewerMember.id), undefined)
+  })
 })

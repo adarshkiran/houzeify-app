@@ -210,7 +210,13 @@ export default function OtpScreen({
 
     setStage('success')
     await new Promise(r => setTimeout(r, 900))
-    onNavigate('create-account')
+    // TABLE C: routing to 'create-account' unconditionally forced every
+    // returning user through the onboarding chain on every login. 'splash'
+    // now does the real routing (App.tsx's splash effect resolves the
+    // authenticated user's real customer/partner profile status and lands
+    // them on their real home, or on 'account-created' only if neither
+    // profile exists yet).
+    onNavigate('splash')
   }
 
   const buttonLabel = () => {

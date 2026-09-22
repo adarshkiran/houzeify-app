@@ -10,7 +10,7 @@
 // server-side from request.user.id — this layer never sends an ownerId of
 // its own.
 
-import { ApiError, apiGet, apiPatch, apiPost } from './apiClient'
+import { ApiError, apiDelete, apiGet, apiPatch, apiPost } from './apiClient'
 
 /** Mirrors server/organizations/organization.types.ts's
  *  serializeOrganization() output exactly. `type` is deliberately a plain
@@ -60,6 +60,13 @@ export interface OrganizationMember {
   updatedAt: string
 }
 
+/** TABLE C — the roles addOrganizationMember/updateOrganizationMember will
+ *  accept; 'owner' is excluded everywhere on this path (mirrors
+ *  server/organizations/organization.schemas.ts's enum exactly —
+ *  ownership transfer isn't built). */
+export type InvitableOrganizationMemberRole = 'admin' | 'project-manager' | 'team-member' | 'viewer'
+export type SettableOrganizationMemberStatus = 'active' | 'suspended' | 'removed'
+
 interface OrganizationListEnvelope {
   data: { organizations: Organization[] }
 }
@@ -68,6 +75,9 @@ interface OrganizationEnvelope {
 }
 interface OrganizationMemberListEnvelope {
   data: { members: OrganizationMember[] }
+}
+interface OrganizationMemberEnvelope {
+  data: { member: OrganizationMember }
 }
 
 /** Every organization the authenticated user is a member of (any role) —
@@ -98,6 +108,39 @@ export async function listOrganizationMembers(organizationId: string): Promise<O
   return res.data.members
 }
 
+/** POST /:organizationId/members (TABLE C) — adds the person with this
+ *  partner-profile email to the roster, or reactivates a previously
+ *  suspended/removed membership, immediately as `status:'active'` (no
+ *  separate accept step — see organization.service.ts's own comment on
+ *  addOrganizationMember). Owner/admin only; the server 404s for anyone
+ *  else, same convention as every other mutation here. */
+export async function addOrganizationMember(
+  organizationId: string,
+  email: string,
+  role: InvitableOrganizationMemberRole,
+): Promise<OrganizationMember> {
+  const res = await apiPost<OrganizationMemberEnvelope>(`/api/v1/organizations/${organizationId}/members`, { email, role })
+  return res.data.member
+}
+
+/** PATCH /:organizationId/members/:memberId (TABLE C) — role and/or status
+ *  change. The server rejects a change that would leave zero active
+ *  owners with `LAST_OWNER` (409). */
+export async function updateOrganizationMember(
+  organizationId: string,
+  memberId: string,
+  patch: { role?: InvitableOrganizationMemberRole; status?: SettableOrganizationMemberStatus },
+): Promise<OrganizationMember> {
+  const res = await apiPatch<OrganizationMemberEnvelope>(`/api/v1/organizations/${organizationId}/members/${memberId}`, patch)
+  return res.data.member
+}
+
+/** DELETE /:organizationId/members/:memberId (TABLE C) — soft-removes the
+ *  member (`status:'removed'`); same `LAST_OWNER` protection as above. */
+export async function removeOrganizationMember(organizationId: string, memberId: string): Promise<void> {
+  await apiDelete<void>(`/api/v1/organizations/${organizationId}/members/${memberId}`)
+}
+
 /** Same convention as describeCustomerProfileError()/describePartnerProfileError().
  *  FORBIDDEN/NOT_FOUND are real, user-facing outcomes here (a non-owner/
  *  non-admin member attempting to edit, or a stale organization id) —
@@ -112,6 +155,12 @@ export function describeOrganizationError(err: unknown): string {
     case 'NOT_FOUND':
     case 'FORBIDDEN':
     case 'INVALID_ID':
+    // TABLE C — member management error codes; each backend message is
+    // already written to be shown directly (see organization.service.ts).
+    case 'USER_NOT_FOUND':
+    case 'ALREADY_MEMBER':
+    case 'LAST_OWNER':
+    case 'VALIDATION_ERROR':
       return err.message
     default:
       return 'Something went wrong. Please try again.'

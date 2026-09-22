@@ -201,4 +201,25 @@ test('project workforce: add/list/edit/remove, organization authorization, valid
     const res = await app.inject({ method: 'GET', url: `/api/v1/projects/${projectId}/workforce`, headers: { cookie: orgBCookie } })
     assert.equal(res.statusCode, 404)
   })
+
+  await t.test('TABLE C: a suspended admin loses workforce mutation access; reactivating restores it', async () => {
+    const db = getDb(env!)
+    await db.update(organizationMembers).set({ status: 'suspended' }).where(eq(organizationMembers.userId, admin.id))
+
+    // Target is admin's own (active-org-member) id — while admin is
+    // suspended the actor-level mutation check must fail first, before
+    // the target-participant check is ever reached.
+    const whileSuspended = await app.inject({
+      method: 'POST', url: `/api/v1/projects/${projectId}/workforce`, headers: { cookie: adminCookie },
+      payload: { userId: admin.id, role: 'Site Engineer' },
+    })
+    assert.equal(whileSuspended.statusCode, 404)
+
+    await db.update(organizationMembers).set({ status: 'active' }).where(eq(organizationMembers.userId, admin.id))
+    const afterReactivate = await app.inject({
+      method: 'POST', url: `/api/v1/projects/${projectId}/workforce`, headers: { cookie: adminCookie },
+      payload: { userId: admin.id, role: 'Site Engineer' },
+    })
+    assert.equal(afterReactivate.statusCode, 201)
+  })
 })

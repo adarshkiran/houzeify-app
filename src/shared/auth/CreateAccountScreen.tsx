@@ -150,14 +150,19 @@ export default function CreateAccountScreen({
       ? 'Please enter a valid email address.'
       : ''
 
-  const handleCreate = async () => {
+  // TABLE C: this screen collects a name/email prefill only — nothing here
+  // is persisted (the real account/profile is created later, for real, at
+  // HomeownerProfileScreen or CompanyInformationScreen). It used to fake
+  // 1.6s + 0.9s of "creating your workspace" / "success" work that never
+  // happened; that's removed. 'creating'/'success' stay as instantaneous
+  // transitions so the existing success-state visuals still render for a
+  // moment before navigating, without claiming any work occurred.
+  const handleCreate = () => {
     setNameTouched(true)
     setEmailTouched(true)
     if (nameError || emailError) return
     setStage('creating')
-    await new Promise(r => setTimeout(r, 1600))
     setStage('success')
-    await new Promise(r => setTimeout(r, 900))
     onNavigate('account-created', { full_name: name.trim() })
   }
 

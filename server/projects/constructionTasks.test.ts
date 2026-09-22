@@ -8,6 +8,8 @@
 import assert from 'node:assert/strict'
 import { after, test } from 'node:test'
 
+import { eq } from 'drizzle-orm'
+
 import { buildApp } from '../app.js'
 import { closeDb, getDb } from '../db/client.js'
 import { organizationMembers } from '../db/schema.js'
@@ -213,5 +215,22 @@ test('construction tasks: create/list/update/delete, organization authorization,
     assert.equal(res.statusCode, 204)
     const listRes = await app.inject({ method: 'GET', url: `/api/v1/projects/${projectId}/tasks`, headers: { cookie: ownerCookie } })
     assert.equal(listRes.json().data.tasks.length, 0)
+  })
+
+  await t.test('TABLE C: a suspended admin loses tasks access; reactivating restores it', async () => {
+    const db = getDb(env!)
+    await db.update(organizationMembers).set({ status: 'suspended' }).where(eq(organizationMembers.userId, admin.id))
+
+    const listWhileSuspended = await app.inject({ method: 'GET', url: `/api/v1/projects/${projectId}/tasks`, headers: { cookie: adminCookie } })
+    assert.equal(listWhileSuspended.statusCode, 404)
+    const createWhileSuspended = await app.inject({
+      method: 'POST', url: `/api/v1/projects/${projectId}/tasks`, headers: { cookie: adminCookie },
+      payload: { title: 'Should be rejected' },
+    })
+    assert.equal(createWhileSuspended.statusCode, 404)
+
+    await db.update(organizationMembers).set({ status: 'active' }).where(eq(organizationMembers.userId, admin.id))
+    const listAfterReactivate = await app.inject({ method: 'GET', url: `/api/v1/projects/${projectId}/tasks`, headers: { cookie: adminCookie } })
+    assert.equal(listAfterReactivate.statusCode, 200)
   })
 })

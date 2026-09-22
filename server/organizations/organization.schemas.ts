@@ -37,3 +37,25 @@ export const patchOrganizationBodySchema = {
     logoUrl: { type: 'string', maxLength: 2000 },
   },
 } as const
+
+// 'owner' is deliberately excluded from both — see
+// organization.service.ts's INVITABLE_ORGANIZATION_MEMBER_ROLES /
+// updateOrganizationMember (ownership transfer is out of scope).
+export const addOrganizationMemberBodySchema = {
+  type: 'object',
+  required: ['email', 'role'],
+  additionalProperties: false,
+  properties: {
+    email: { type: 'string', minLength: 1, maxLength: 254 },
+    role: { type: 'string', enum: ['admin', 'project-manager', 'team-member', 'viewer'] },
+  },
+} as const
+
+export const patchOrganizationMemberBodySchema = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    role: { type: 'string', enum: ['admin', 'project-manager', 'team-member', 'viewer'] },
+    status: { type: 'string', enum: ['active', 'suspended', 'removed'] },
+  },
+} as const

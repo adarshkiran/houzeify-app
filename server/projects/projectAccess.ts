@@ -6,9 +6,11 @@
 //     project's organization (any role, including 'viewer').
 //   - MUTATE: the creator, OR an organization member whose role is in
 //     ORGANIZATION_MUTATION_ROLES.
-// A non-owner/non-member/non-existent id is 404, never 403. There is
-// deliberately no status filter on the membership lookup — that matches
-// the existing behavior (inherited debt, recorded).
+// A non-owner/non-member/non-existent id is 404, never 403. TABLE C: the
+// membership lookup now requires status:'active' — an invited/suspended/
+// removed row no longer grants access (previously recorded as inherited
+// debt; fixed uniformly across every membership-lookup copy in this
+// codebase, see the TABLE C plan/audit).
 // The existing services are not refactored onto this helper yet.
 
 import { and, eq } from 'drizzle-orm'
@@ -69,7 +71,13 @@ export async function canMutateAtProjectLevel(env: Env, project: ProjectRow, use
   const rows = await db
     .select()
     .from(organizationMembers)
-    .where(and(eq(organizationMembers.organizationId, project.organizationId), eq(organizationMembers.userId, userId)))
+    .where(
+      and(
+        eq(organizationMembers.organizationId, project.organizationId),
+        eq(organizationMembers.userId, userId),
+        eq(organizationMembers.status, 'active'),
+      ),
+    )
     .limit(1)
   const membership = rows[0]
   return Boolean(membership) && ORGANIZATION_MUTATION_ROLES.includes(membership.role as OrganizationMemberRole)

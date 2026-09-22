@@ -6,12 +6,13 @@
 // honest way to prove it, not a guessed HTTP flow that doesn't exist.
 
 import assert from 'node:assert/strict'
+import { randomUUID } from 'node:crypto'
 import { after, test } from 'node:test'
 import { eq } from 'drizzle-orm'
 
 import { buildApp } from '../app.js'
 import { closeDb, getDb } from '../db/client.js'
-import { organizationMembers } from '../db/schema.js'
+import { organizationMembers, partnerProfiles } from '../db/schema.js'
 import { cleanupTestUser, createTestSessionToken, createTestUser, loadTestEnv, sessionCookieHeader, uniqueName } from '../testUtils.js'
 
 const env = loadTestEnv()
@@ -171,5 +172,242 @@ test('organizations: create, owner membership, membership-scoped access, multi-o
         status: 'active',
       }),
     )
+  })
+})
+
+// ─── TABLE C: member management (add/patch/remove) + status enforcement ────
+test('organizations: TABLE C member management and status enforcement', { skip: !env && 'DATABASE_URL not configured' }, async t => {
+  const app = await buildApp(env!)
+  const owner = await createTestUser(env!)
+  const ownerCookie = sessionCookieHeader(await createTestSessionToken(env!, owner.id))
+  const member = await createTestUser(env!)
+  const memberCookie = sessionCookieHeader(await createTestSessionToken(env!, member.id))
+  const outsider = await createTestUser(env!)
+  const outsiderCookie = sessionCookieHeader(await createTestSessionToken(env!, outsider.id))
+
+  const memberEmail = `table-c-member-${randomUUID().slice(0, 8)}@example.com`
+  const db = getDb(env!)
+  await db.insert(partnerProfiles).values({
+    userId: member.id,
+    professionalType: 'builder-construction-company',
+    fullName: 'Table C Member',
+    accountType: 'individual',
+    contactEmail: memberEmail,
+  })
+
+  let organizationId = ''
+  let ownerMemberId = ''
+  let memberRowId = ''
+
+  after(async () => {
+    await app.close()
+    await cleanupTestUser(env!, owner.id)
+    await cleanupTestUser(env!, member.id)
+    await cleanupTestUser(env!, outsider.id)
+    await closeDb()
+  })
+
+  await t.test('owner creates the organization', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/v1/organizations',
+      headers: { cookie: ownerCookie },
+      payload: { name: uniqueName('Table C Org') },
+    })
+    assert.equal(res.statusCode, 201)
+    organizationId = res.json().data.organization.id
+    const members = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}/members`, headers: { cookie: ownerCookie } })
+    ownerMemberId = members.json().data.members[0].id
+  })
+
+  await t.test('a non-member cannot add a member (404)', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: `/api/v1/organizations/${organizationId}/members`,
+      headers: { cookie: outsiderCookie },
+      payload: { email: memberEmail, role: 'viewer' },
+    })
+    assert.equal(res.statusCode, 404)
+  })
+
+  await t.test('adding an unknown email 404s (USER_NOT_FOUND)', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: `/api/v1/organizations/${organizationId}/members`,
+      headers: { cookie: ownerCookie },
+      payload: { email: `no-such-partner-${randomUUID().slice(0, 8)}@example.com`, role: 'viewer' },
+    })
+    assert.equal(res.statusCode, 404)
+    assert.equal(res.json().error.code, 'USER_NOT_FOUND')
+  })
+
+  await t.test('the owner adds the real member — active immediately, no accept step', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: `/api/v1/organizations/${organizationId}/members`,
+      headers: { cookie: ownerCookie },
+      payload: { email: memberEmail.toUpperCase(), role: 'team-member' },
+    })
+    assert.equal(res.statusCode, 201)
+    const added = res.json().data.member
+    assert.equal(added.userId, member.id)
+    assert.equal(added.role, 'team-member')
+    assert.equal(added.status, 'active')
+    memberRowId = added.id
+
+    const list = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}/members`, headers: { cookie: ownerCookie } })
+    assert.equal(list.json().data.members.length, 2)
+
+    const asMember = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}`, headers: { cookie: memberCookie } })
+    assert.equal(asMember.statusCode, 200, 'the newly added member can read immediately')
+  })
+
+  await t.test('adding the same person again is rejected (409 ALREADY_MEMBER)', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: `/api/v1/organizations/${organizationId}/members`,
+      headers: { cookie: ownerCookie },
+      payload: { email: memberEmail, role: 'viewer' },
+    })
+    assert.equal(res.statusCode, 409)
+    assert.equal(res.json().error.code, 'ALREADY_MEMBER')
+  })
+
+  await t.test('a team-member cannot add or patch members (403)', async () => {
+    const add = await app.inject({
+      method: 'POST',
+      url: `/api/v1/organizations/${organizationId}/members`,
+      headers: { cookie: memberCookie },
+      payload: { email: memberEmail, role: 'viewer' },
+    })
+    assert.equal(add.statusCode, 403)
+
+    const patch = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/organizations/${organizationId}/members/${memberRowId}`,
+      headers: { cookie: memberCookie },
+      payload: { role: 'admin' },
+    })
+    assert.equal(patch.statusCode, 403)
+  })
+
+  await t.test('the owner promotes the member to admin', async () => {
+    const res = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/organizations/${organizationId}/members/${memberRowId}`,
+      headers: { cookie: ownerCookie },
+      payload: { role: 'admin' },
+    })
+    assert.equal(res.statusCode, 200)
+    assert.equal(res.json().data.member.role, 'admin')
+  })
+
+  await t.test('role cannot be set to owner through this endpoint (400)', async () => {
+    const res = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/organizations/${organizationId}/members/${memberRowId}`,
+      headers: { cookie: ownerCookie },
+      payload: { role: 'owner' },
+    })
+    assert.equal(res.statusCode, 400)
+  })
+
+  await t.test('suspending a member revokes their access (status enforcement)', async () => {
+    const suspend = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/organizations/${organizationId}/members/${memberRowId}`,
+      headers: { cookie: ownerCookie },
+      payload: { status: 'suspended' },
+    })
+    assert.equal(suspend.statusCode, 200)
+    assert.equal(suspend.json().data.member.status, 'suspended')
+
+    const read = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}`, headers: { cookie: memberCookie } })
+    assert.equal(read.statusCode, 404, 'a suspended membership row must not continue granting access')
+
+    const members = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}/members`, headers: { cookie: memberCookie } })
+    assert.equal(members.statusCode, 404, 'suspended member cannot even list the roster')
+
+    // TABLE C final validation: the org list is an access-scoped read too.
+    // This regressed the whole point of the status fix — the detail read
+    // 404'd, but GET /organizations still handed a suspended member the
+    // organization's live phone/email/website/location.
+    const list = await app.inject({ method: 'GET', url: '/api/v1/organizations', headers: { cookie: memberCookie } })
+    assert.equal(list.statusCode, 200)
+    const listedIds = list.json().data.organizations.map((o: { id: string }) => o.id)
+    assert.ok(!listedIds.includes(organizationId), 'a suspended member must not still see the organization in GET /organizations')
+  })
+
+  await t.test('reactivating restores access', async () => {
+    const reactivate = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/organizations/${organizationId}/members/${memberRowId}`,
+      headers: { cookie: ownerCookie },
+      payload: { status: 'active' },
+    })
+    assert.equal(reactivate.statusCode, 200)
+
+    const read = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}`, headers: { cookie: memberCookie } })
+    assert.equal(read.statusCode, 200)
+
+    const list = await app.inject({ method: 'GET', url: '/api/v1/organizations', headers: { cookie: memberCookie } })
+    assert.equal(list.statusCode, 200)
+    const listedIds = list.json().data.organizations.map((o: { id: string }) => o.id)
+    assert.ok(listedIds.includes(organizationId), 'reactivating must restore the organization to GET /organizations')
+  })
+
+  await t.test('the sole owner cannot be demoted or removed (409 LAST_OWNER)', async () => {
+    const demote = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/organizations/${organizationId}/members/${ownerMemberId}`,
+      headers: { cookie: ownerCookie },
+      payload: { status: 'suspended' },
+    })
+    assert.equal(demote.statusCode, 409)
+    assert.equal(demote.json().error.code, 'LAST_OWNER')
+
+    const remove = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/organizations/${organizationId}/members/${ownerMemberId}`,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(remove.statusCode, 409)
+    assert.equal(remove.json().error.code, 'LAST_OWNER')
+  })
+
+  await t.test('removing a non-owner member succeeds and revokes access', async () => {
+    const res = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/organizations/${organizationId}/members/${memberRowId}`,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(res.statusCode, 204)
+
+    const read = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}`, headers: { cookie: memberCookie } })
+    assert.equal(read.statusCode, 404)
+
+    // listOrganizationMembers is intentionally unfiltered by status (the
+    // roster shows removed rows too, for audit/reactivation purposes) —
+    // it's the ACCESS check (findMembership, asserted above) that enforces
+    // status:'active', not the listing itself.
+    const members = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}/members`, headers: { cookie: ownerCookie } })
+    const rows = members.json().data.members as { id: string; status: string }[]
+    assert.equal(rows.length, 2, 'the removed row is still listed, soft-deleted')
+    const removedRow = rows.find(r => r.id === memberRowId)
+    assert.equal(removedRow?.status, 'removed')
+  })
+
+  await t.test('re-adding a previously removed member reactivates their row', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: `/api/v1/organizations/${organizationId}/members`,
+      headers: { cookie: ownerCookie },
+      payload: { email: memberEmail, role: 'viewer' },
+    })
+    assert.equal(res.statusCode, 201)
+    const readded = res.json().data.member
+    assert.equal(readded.id, memberRowId, 'the same row is reactivated, not a duplicate')
+    assert.equal(readded.status, 'active')
+    assert.equal(readded.role, 'viewer')
   })
 })

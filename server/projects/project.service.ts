@@ -42,12 +42,21 @@ export interface ProjectInput {
   summary?: string
 }
 
+// TABLE C: status must be 'active' — an invited/suspended/removed
+// membership row must not continue granting access merely because it
+// exists (mirrors organization.service.ts's own findMembership fix).
 async function findMembership(env: Env, organizationId: string, userId: string) {
   const db = getDb(env)
   const rows = await db
     .select()
     .from(organizationMembers)
-    .where(and(eq(organizationMembers.organizationId, organizationId), eq(organizationMembers.userId, userId)))
+    .where(
+      and(
+        eq(organizationMembers.organizationId, organizationId),
+        eq(organizationMembers.userId, userId),
+        eq(organizationMembers.status, 'active'),
+      ),
+    )
     .limit(1)
   return rows[0]
 }
@@ -118,7 +127,11 @@ export async function getProjectForAccess(env: Env, projectId: string, userId: s
     .from(projects)
     .leftJoin(
       organizationMembers,
-      and(eq(organizationMembers.organizationId, projects.organizationId), eq(organizationMembers.userId, userId)),
+      and(
+        eq(organizationMembers.organizationId, projects.organizationId),
+        eq(organizationMembers.userId, userId),
+        eq(organizationMembers.status, 'active'),
+      ),
     )
     .where(and(eq(projects.id, projectId), or(eq(projects.ownerId, userId), eq(organizationMembers.userId, userId))))
     .limit(1)
@@ -137,7 +150,13 @@ export async function isAuthorizedProjectParticipant(env: Env, project: ProjectR
   const rows = await db
     .select()
     .from(organizationMembers)
-    .where(and(eq(organizationMembers.organizationId, project.organizationId), eq(organizationMembers.userId, candidateUserId)))
+    .where(
+      and(
+        eq(organizationMembers.organizationId, project.organizationId),
+        eq(organizationMembers.userId, candidateUserId),
+        eq(organizationMembers.status, 'active'),
+      ),
+    )
     .limit(1)
   return rows.length > 0
 }
@@ -153,7 +172,11 @@ export async function updateProject(env: Env, projectId: string, userId: string,
     .from(projects)
     .leftJoin(
       organizationMembers,
-      and(eq(organizationMembers.organizationId, projects.organizationId), eq(organizationMembers.userId, userId)),
+      and(
+        eq(organizationMembers.organizationId, projects.organizationId),
+        eq(organizationMembers.userId, userId),
+        eq(organizationMembers.status, 'active'),
+      ),
     )
     .where(eq(projects.id, projectId))
     .limit(1)

@@ -786,12 +786,49 @@ export default function App() {
     syncScreenUrl(s)
   }
 
+  // TABLE C — real post-auth routing. Splash is now the single place that
+  // decides where an authenticated visitor lands, on both a fresh OTP
+  // login (OtpScreen navigates here on success) and a page refresh
+  // (getInitialScreen() always starts production at 'splash' — see its
+  // own comment). Previously this effect only ever timed out to
+  // 'welcome', so a returning user with a fully valid session cookie
+  // still dead-ended at the marketing page, and OtpScreen separately
+  // forced every login through the fake 'create-account' step regardless
+  // of whether the user already had a profile.
   useEffect(() => {
     if (screen !== 'splash') return
-    const t1 = setTimeout(() => setFading(true), 2600)
-    const t2 = setTimeout(() => setScreen('welcome'), 3000)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
-  }, [screen])
+
+    if (auth.status === 'loading') return // wait for the GET /auth/me bootstrap
+
+    if (auth.status !== 'authenticated') {
+      // Unchanged from before TABLE C: the timed fade into the marketing page.
+      const t1 = setTimeout(() => setFading(true), 2600)
+      const t2 = setTimeout(() => setScreen('welcome'), 3000)
+      return () => { clearTimeout(t1); clearTimeout(t2) }
+    }
+
+    const stillResolving =
+      customerProfile.status === 'idle' || customerProfile.status === 'loading' ||
+      partnerProfile.status === 'idle' || partnerProfile.status === 'loading'
+
+    if (stillResolving) {
+      // Bounded wait — a network hang must never strand an authenticated
+      // user on the splash screen forever.
+      const t = setTimeout(() => setScreen('welcome'), 6000)
+      return () => clearTimeout(t)
+    }
+
+    // Both profile providers are resolved: route straight to the real
+    // destination, skipping 'welcome' and 'create-account' entirely.
+    // 'error' is treated the same as 'not-found' for routing purposes
+    // only — the destination screen still surfaces its own real error.
+    const destination: AppScreen =
+      customerProfile.status === 'loaded' ? 'dashboard-home' :
+      partnerProfile.status === 'loaded' ? 'professional-dashboard' :
+      'account-created'
+    const t = setTimeout(() => setScreen(destination), 900)
+    return () => clearTimeout(t)
+  }, [screen, auth.status, customerProfile.status, partnerProfile.status])
 
   // Persists the identity-critical fields on every change so a refresh
   // mid-session doesn't silently drop back to the homeowner default (see
