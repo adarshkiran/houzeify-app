@@ -904,6 +904,38 @@ export default function App() {
     setProjectData(prev => (prev.company_name === companyName ? prev : { ...prev, company_name: companyName }))
   }, [partnerProfile.status, partnerProfile.profile])
 
+  // TABLE C follow-up — restore the canonical `role` for a returning
+  // professional. Before TABLE C, every login passed through
+  // AccountCreatedScreen, which set `role` explicitly; TABLE C's real
+  // post-auth routing sends a returning user with a PartnerProfile straight
+  // to their dashboard instead, so nothing set `role` any more. It then fell
+  // back to the homeowner default, and every company screen that guards on
+  // role === 'professional' bounced the user to the homeowner dashboard
+  // (CompanyProjectsListScreen's own redirect is the one that made this
+  // visible: a real company user could not reach their own Projects list).
+  // This was masked in testing because `role` IS in SESSION_FIELDS, so it
+  // survives a refresh — only a genuinely new browser session loses it.
+  //
+  // Same bridge pattern as company_name above: restores a real, already-
+  // persisted backend fact, never fabricates one. Deliberately narrow, and
+  // mirrors the splash router's own precedence (a CustomerProfile wins):
+  //   - waits until BOTH profile lookups have resolved, so it never acts on
+  //     a half-loaded state;
+  //   - a user with a CustomerProfile keeps the homeowner role the router
+  //     sends them to, even if they also have a PartnerProfile;
+  //   - only ever writes 'professional', never 'homeowner' — so an explicit
+  //     choice already in projectData is never overwritten by this bridge.
+  useEffect(() => {
+    if (partnerProfile.status !== 'loaded') return
+    const customerResolved =
+      customerProfile.status === 'loaded' ||
+      customerProfile.status === 'not-found' ||
+      customerProfile.status === 'error'
+    if (!customerResolved) return
+    if (customerProfile.status === 'loaded') return
+    setProjectData(prev => (prev.role === 'professional' ? prev : { ...prev, role: 'professional' }))
+  }, [partnerProfile.status, customerProfile.status])
+
   // 12G-C3 — once the real backend Organization list finishes loading,
   // sync the resolved "current organization"'s real id into
   // projectData.organization_id, the one key every organization-scoped
