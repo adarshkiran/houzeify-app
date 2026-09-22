@@ -327,6 +327,15 @@ test('organizations: TABLE C member management and status enforcement', { skip: 
 
     const members = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}/members`, headers: { cookie: memberCookie } })
     assert.equal(members.statusCode, 404, 'suspended member cannot even list the roster')
+
+    // TABLE C final validation: the org list is an access-scoped read too.
+    // This regressed the whole point of the status fix — the detail read
+    // 404'd, but GET /organizations still handed a suspended member the
+    // organization's live phone/email/website/location.
+    const list = await app.inject({ method: 'GET', url: '/api/v1/organizations', headers: { cookie: memberCookie } })
+    assert.equal(list.statusCode, 200)
+    const listedIds = list.json().data.organizations.map((o: { id: string }) => o.id)
+    assert.ok(!listedIds.includes(organizationId), 'a suspended member must not still see the organization in GET /organizations')
   })
 
   await t.test('reactivating restores access', async () => {
@@ -340,6 +349,11 @@ test('organizations: TABLE C member management and status enforcement', { skip: 
 
     const read = await app.inject({ method: 'GET', url: `/api/v1/organizations/${organizationId}`, headers: { cookie: memberCookie } })
     assert.equal(read.statusCode, 200)
+
+    const list = await app.inject({ method: 'GET', url: '/api/v1/organizations', headers: { cookie: memberCookie } })
+    assert.equal(list.statusCode, 200)
+    const listedIds = list.json().data.organizations.map((o: { id: string }) => o.id)
+    assert.ok(listedIds.includes(organizationId), 'reactivating must restore the organization to GET /organizations')
   })
 
   await t.test('the sole owner cannot be demoted or removed (409 LAST_OWNER)', async () => {

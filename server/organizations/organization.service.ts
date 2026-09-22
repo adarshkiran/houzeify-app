@@ -140,13 +140,20 @@ async function wouldRemoveLastActiveOwner(env: Env, organizationId: string, memb
   return rows.every(row => row.id === memberId)
 }
 
+// TABLE C (final validation): this is an access-scoped read, so it takes
+// the same status:'active' filter as findMembership. Without it a
+// suspended/removed member kept seeing the organization — and its live
+// phone/email/website/location — in GET /organizations, even though
+// opening that organization already 404'd. The roster read
+// (listOrganizationMembers) stays deliberately unfiltered; that one is
+// an audit view, not an access check.
 export async function listOrganizationsForUser(env: Env, userId: string): Promise<OrganizationRow[]> {
   const db = getDb(env)
   const rows = await db
     .select({ organization: organizations })
     .from(organizationMembers)
     .innerJoin(organizations, eq(organizationMembers.organizationId, organizations.id))
-    .where(eq(organizationMembers.userId, userId))
+    .where(and(eq(organizationMembers.userId, userId), eq(organizationMembers.status, 'active')))
   return rows.map(r => r.organization)
 }
 

@@ -27,7 +27,7 @@ Labels used throughout: **FIXED** (implemented and verified), **REMAINING** (a k
 
 **Backend (14 files):**
 `server/organizations/organization.service.ts`, `organization.routes.ts`, `organization.schemas.ts`, `organization.test.ts` — new member-management functions/routes/schemas + tests.
-`server/projects/project.service.ts`, `projectAccess.ts` — status filter on 3 query sites (`findMembership`, `getProjectForAccess`'s join, `isAuthorizedProjectParticipant`) and 1 (`canMutateAtProjectLevel`).
+`server/projects/project.service.ts`, `projectAccess.ts` — status filter on 4 query sites (`findMembership`, `getProjectForAccess`'s join, `isAuthorizedProjectParticipant`, `updateProject`'s own join) and 1 (`canMutateAtProjectLevel`).
 `server/projects/projectWorkforce.service.ts`, `constructionTasks.service.ts`, `constructionIssues.service.ts`, `dailyProgress.service.ts` — status filter on their own local membership-lookup copy (1 each).
 `server/projects/projectAccess.test.ts`, `projectWorkforce.test.ts`, `constructionTasks.test.ts`, `constructionIssues.test.ts`, `dailyProgress.test.ts` — new status-enforcement tests.
 
@@ -63,12 +63,14 @@ No existing endpoint's request/response shape changed. `GET /:organizationId/mem
 
 ## 7. Authorization changes
 
-**The real fix: membership `status` is now honored everywhere.** Before this pass, 9 separate query sites across 7 files treated `invited`/`suspended`/`removed` membership rows identically to `active` ones — a suspended or removed member kept full access simply because the row existed. Each site now requires `status:'active'`:
+**The real fix: membership `status` is now enforced on every access-scoped membership lookup.** Before this pass, **11 query sites across 7 files** treated `invited`/`suspended`/`removed` membership rows identically to `active` ones — a suspended or removed member kept full access simply because the row existed. Each site below now requires `status:'active'`:
 
 | File | Function | What it gates |
 |---|---|---|
 | `organization.service.ts` | `findMembership` | Organization read/update, member roster read |
+| `organization.service.ts` | `listOrganizationsForUser` | `GET /organizations` — the user's own org list |
 | `project.service.ts` | `findMembership` | `updateProject` |
+| `project.service.ts` | `updateProject` (join) | Project update |
 | `project.service.ts` | `getProjectForAccess` (join) | Project read (every project-scoped route) |
 | `project.service.ts` | `isAuthorizedProjectParticipant` | Validating a client-supplied `assigneeId`/`reportedBy` |
 | `projectAccess.ts` | `canMutateAtProjectLevel` | Project mutation (every project-scoped write route) |
@@ -76,6 +78,10 @@ No existing endpoint's request/response shape changed. `GET /:organizationId/mem
 | `constructionTasks.service.ts` | local check | Task create/update/delete |
 | `constructionIssues.service.ts` | local check | Issue create/update/delete |
 | `dailyProgress.service.ts` | local check | Daily progress create/update/delete |
+
+**Three membership lookups are deliberately NOT status-filtered**, because they are not access checks: `findMembershipRowByUser` and `findMembershipRowById` (member-management itself — they must find a suspended/removed row in order to reactivate or mutate it) and `listOrganizationMembers` (the roster is an audit view that intentionally shows removed rows). All three carry comments saying so.
+
+**Found during final validation, after the first implementation pass: `listOrganizationsForUser` was missed.** The first pass fixed 10 sites and this audit originally claimed "9 sites … honored everywhere" — both wrong. `GET /api/v1/organizations` still returned the full organization record (including live `phone`, `email`, `website`, `location`) to a suspended or removed member, even though opening that organization already 404'd. It was caught by an exhaustive re-grep of every `from(organizationMembers)` query rather than by a test, which is itself the lesson: the original pass enumerated call sites by inspection and missed one. Fixed in this branch's final commit, with a test that was confirmed to fail against the unfixed code before being accepted (2 failures, `AssertionError: a suspended member must not still see the organization in GET /organizations`) and pass after.
 
 **What was already correct and is unchanged, confirmed by inspection before writing code (per the plan's Phase 1):**
 - Server authorization never trusted client-supplied `organizationId`/`ownerId`/role for anything privileged — every read/mutate re-derives access from the real `organization_members`/`projects` rows. `organization.test.ts`'s own pre-existing test ("a client-supplied ownerId never takes effect") already pinned this.
@@ -154,11 +160,19 @@ One test-writing mistake found and fixed during this pass: my first draft of the
 
 **Isolated re-run, same commit, `projectBoqItems.test.ts` alone, no concurrent load:** `30/30 pass, 0 fail, exit code 0.` This confirms the hypothesis directly rather than assuming it: the failures were environmental (concurrent network load on a remote database), not a regression introduced by this branch's `projectAccess.ts`/`project.service.ts` changes. `projectBoq.service.ts` calls the same `requireProjectAccess`/`requireProjectMutation` helpers this pass modified, and those are exercised correctly (several BOQ tests explicitly assert the mutation-gate 404 behavior) in the same clean run.
 
-**Net: 413/413 logically clean** — 407 passing in the full run plus the 6 BOQ-item tests independently confirmed passing in isolation on the identical commit.
+**Definitive clean sequential run (final validation pass).** The above was then superseded by a properly controlled run. Before it, 11 stale `tsx watch server/index.ts` dev servers — left running by earlier sessions in other worktrees, the oldest 7 days old — were stopped, and no browser testing or other test process ran alongside. Result on `f700806`:
+
+```
+ℹ tests 413   ℹ pass 413   ℹ fail 0   ℹ skipped 0   ℹ todo 0   EXITCODE=0
+```
+
+That is the whole backend suite green with zero failures, which retires the environmental hypothesis entirely: the 6 BOQ-item failures never reproduce without concurrent load. **The stale dev servers are the most probable root cause** of the original interference, and they are worth checking first if this ever recurs.
+
+**Final suite after the `listOrganizationsForUser` fix (§7):** re-run in full, sequentially, on the fixed code — see the branch's final commit message for the recorded totals. The fix adds 2 assertions to existing `organization.test.ts` sub-tests rather than new sub-tests, so the total test count is unchanged at 413.
 
 ## 17. Build/typecheck results
 
-On the final commit (`9696813`): `npx tsc --noEmit` clean, `npm run server:typecheck` clean, `npm run server:build` clean, `npx vite build` succeeds (only the pre-existing >500kB chunk-size warning).
+Re-verified on the final validation pass, after the `listOrganizationsForUser` fix: `npx tsc --noEmit` clean, `npm run server:typecheck` clean, `npm run server:build` clean, `npm run build` succeeds (only the pre-existing >500kB chunk-size warning, unchanged from `main`).
 
 ## 18. Live browser verification
 
@@ -174,7 +188,7 @@ Real backend, real database, frontend served from this branch (ports 4002/8443, 
 ## 19. Known remaining issues
 
 - **No invite/accept step for organization members** (§8) — a deliberate simplification, not a bug; needs a notification system to be worth adding.
-- **9 sites now check `status:'active'` independently** rather than through one shared helper — the duplication TABLE A/B already flagged as debt is not reduced by this pass (each site got the smallest safe fix, not a consolidation, per the plan's "do not invent a large RBAC system" / minimal-change guidance).
+- **11 sites now check `status:'active'` independently** rather than through one shared helper — the duplication TABLE A/B already flagged as debt is not reduced by this pass (each site got the smallest safe fix, not a consolidation, per the plan's "do not invent a large RBAC system" / minimal-change guidance). **This duplication is now a demonstrated risk, not a theoretical one:** it is precisely why `listOrganizationsForUser` was missed on the first pass (§7). Consolidating these lookups behind one `requireActiveMembership` helper is the single highest-value follow-up in this area, and would make a future miss structurally impossible rather than dependent on an exhaustive grep.
 - **`isAuthorizedProjectParticipant`'s status fix has grep-level test coverage only through the workforce test's target-participant path** (§16) — no dedicated direct test for this function in isolation; covered indirectly.
 - Everything in §12/§13 (legacy data still feeding active screens) — untouched, as scoped.
 - `ProjectTeamScreen.tsx` vs `ProjectWorkforceScreen.tsx` duplication (§12) — unresolved, same as TABLE A/B found it.
@@ -199,7 +213,8 @@ Real backend, real database, frontend served from this branch (ports 4002/8443, 
 
 ## 21. Recommended TABLE D starting point
 
-1. **Project Workspace + Overview rebuild** (Cursor, using §20's data contract exactly) — this is the highest-leverage next step: it's what makes §12's REMOVE/REPLACE items actually removable, and it's the screen most homeowners/companies see first.
-2. Once rebuilt, re-run C13 (security) and C14 (responsive) against the new screens.
-3. Decide C06's fate (real homeowner project creation vs. formally retiring the path) before building more of the homeowner-facing product.
-4. Only after the above: begin physically archiving the legacy data modules (§12/§13) now that nothing active reads them.
+1. **Consolidate the 11 membership lookups behind one `requireActiveMembership` helper** (§19). Small, purely internal, fully covered by the tests that now exist — and it closes the one structural weakness this pass demonstrated rather than merely described. Doing it before more surface area is added is much cheaper than doing it after.
+2. **Project Workspace + Overview rebuild** (Cursor, using §20's data contract exactly) — the highest-leverage product step: it's what makes §12's REMOVE/REPLACE items actually removable, and it's the screen most homeowners/companies see first.
+3. Once rebuilt, re-run C13 (security) and C14 (responsive) against the new screens.
+4. Decide C06's fate (real homeowner project creation vs. formally retiring the path) before building more of the homeowner-facing product.
+5. Only after the above: begin physically archiving the legacy data modules (§12/§13) now that nothing active reads them.
