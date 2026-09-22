@@ -8,10 +8,12 @@
 // BOTH journeys that mint a real project — HouseRequirementsScreen (New
 // Build) and RenovateProjectCreatedScreen (Renovation) — never fabricated,
 // never pre-seeded with demo rows.
+//
+// C12 — resolveProjectStatus no longer bridges bids/agreements/payments.
+// Canonical project status lives on the real Project record (`status` from
+// projectApi / projectState). Bid status remains a separate BD concept.
 
-import { getAwardedBid } from './bids'
-import { getAgreementForProject } from './agreements'
-import { getPaymentsForProject } from './payments'
+import { isProjectStatus } from './projectStatus'
 
 export type ProjectType = 'new-build' | 'renovation'
 
@@ -91,30 +93,25 @@ export function updateProject(id: string, patch: Partial<Omit<Project, 'id' | 'c
 /** Statuses that count as "done" for the Active/Completed split in
  *  ProjectsListScreen. Kept here (not duplicated per-screen) since it's
  *  also what resolveProjectStatus below can return. */
-export function isCompletedStatus(stage?: string): boolean {
-  return stage === 'completed'
+export function isCompletedStatus(status?: string | null): boolean {
+  return status === 'completed' || status === 'archived'
 }
 
-/** Live project status — computed from the SAME per-project stores
- *  (bids.ts/agreements.ts/payments.ts) that ProjectWorkspaceScreen and
- *  ProjectOverviewScreen already each independently check via their own
- *  `awardedBid ? 'Contractor Selected' : projectStageLabel(stage)` logic —
- *  this is that exact pattern, extended one step further (agreement/
- *  payment) and centralized so the Projects list — which has no single
- *  "current project" of its own to react to — shows the same real status
- *  those screens do, rather than the stale value stored at creation time.
- *  Never writes back to the stored `stage` field; nothing needs to remember
- *  to call updateProject() at every lifecycle step, avoiding N screens each
- *  becoming a second source of truth for status. `completed` is the one
- *  status nothing else can derive (it's a deliberate homeowner action, e.g.
- *  from Project Progress) — always honored as-is once stored. */
-export function resolveProjectStatus(projectId: string, fallbackStage?: string): string {
-  if (fallbackStage === 'completed') return 'completed'
-  const payments = getPaymentsForProject(projectId)
-  if (payments.some(p => p.status === 'completed')) return 'project-ready'
-  const agreement = getAgreementForProject(projectId)
-  if (agreement?.status === 'accepted') return 'agreement-accepted'
-  if (agreement) return 'agreement-pending'
-  if (getAwardedBid(projectId)) return 'contractor-selected'
-  return fallbackStage ?? 'planning'
+/** Canonical project status for Houzeify 2.0 list / home / profile.
+ *
+ *  Prefer the project's own `status` field (projects.status / projectApi).
+ *  Fall back to `stage` only when it is itself a known ProjectStatus, or
+ *  when it is the literal `completed` value historically stored on stage.
+ *  Never derives status from bids, agreements, or payments — BD bid status
+ *  stays separate.
+ *
+ *  Callers pass `(project.status, project.stage)`, not a project id. */
+export function resolveProjectStatus(
+  status?: string | null,
+  fallbackStage?: string | null,
+): string {
+  if (isProjectStatus(status)) return status
+  if (fallbackStage === 'completed' || fallbackStage === 'archived') return fallbackStage
+  if (isProjectStatus(fallbackStage)) return fallbackStage
+  return status ?? fallbackStage ?? 'planning'
 }

@@ -551,7 +551,7 @@ export default function HomeDashboardScreen({
   // project" (12H-A's own explicit warning).
   const canonicalProject = resolvedIntent === 'build-home' ? projectsCtx.projects[0] : undefined
   const canonicalProjectStatus = canonicalProject
-    ? resolveProjectStatus(canonicalProject.id, canonicalProject.stage ?? undefined)
+    ? resolveProjectStatus(canonicalProject.status, canonicalProject.stage)
     : undefined
   const hasRealEstimate = Boolean(
     canonicalProject && getEstimateVersionsForProject(canonicalProject.id).length > 0,

@@ -15,13 +15,13 @@ import { getCustomerBookingsForUser, summarizeBookingItems } from '@/data/custom
 // Customer Implementation 08C — the Current Project card reads the real
 // project store now, not the hardcoded currentProjectSummary fixture.
 // 12H-B — the real project list now comes from useProjects() (backend-
-// backed, owner-scoped — see src/data/projectState.tsx); resolveProjectStatus
-// stays imported from the old projects.ts unchanged (a pure, derived
-// function over bids/agreements/payments, not a store read).
+// backed, owner-scoped — see src/data/projectState.tsx). C12 —
+// resolveProjectStatus prefers canonical project.status.
 import { resolveProjectStatus, type ProjectType } from '@/data/projects'
 import type { Project } from '@/data/projectApi'
 import { useProjects } from '@/data/projectState'
 import { projectStageLabel } from '@/data/homeownerDashboard'
+import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
 // Customer Implementation 08D — the Saved Addresses card reads the one
 // shared customer address book (same store the booking flow uses).
 import { useCustomerAddress } from '@/data/customerAddress'
@@ -513,14 +513,17 @@ function ProjectSummary({ onViewProject, className }: {
     )
   }
 
-  const status = resolveProjectStatus(current.id, current.stage ?? undefined)
+  const status = resolveProjectStatus(current.status, current.stage)
+  const statusLabel = isProjectStatus(status)
+    ? PROJECT_STATUS_LABELS[status]
+    : (projectStageLabel(status) ?? status)
   const rows = ([
     current.type && (current.type === 'new-build' || current.type === 'renovation')
       ? { label: 'Type', value: PROJECT_TYPE_LABELS[current.type] }
       : null,
     current.location ? { label: 'Location', value: current.location } : null,
     current.propertyType ? { label: 'Property', value: current.propertyType } : null,
-    { label: 'Stage', value: projectStageLabel(status) ?? status },
+    { label: 'Status', value: statusLabel },
   ].filter(Boolean)) as { label: string; value: string }[]
 
   return (
