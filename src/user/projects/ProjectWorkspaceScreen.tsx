@@ -1,33 +1,27 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import PartnerNavRail from '@/shared/components/PartnerNavRail'
 import Sidebar from '@/shared/components/Sidebar'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import HIcon from '@/shared/components/HIcon'
-import { projectStageLabel } from '@/data/homeownerDashboard'
-import { PROFESSIONAL_TYPE_CONTENT, type ProfessionalType } from '@/data/professionalType'
-import { companyInitials } from '@/data/companyInformation'
-import { profileInitials } from '@/data/professionalProfile'
-import type { AccountType } from '@/data/accountType'
-import { getContractorListingById, type ContractorDirectoryInput } from '@/data/contractorDirectory'
-import { getAwardedBid, formatBidDuration } from '@/data/bids'
+import { useProjects } from '@/data/projectState'
+import { useProjectAudience } from '@/data/customerProjectsState'
+import { useDailyProgress } from '@/data/dailyProgressState'
+import { useTasks } from '@/data/tasksState'
+import { useIssues } from '@/data/issuesState'
+import { useProjectWorkforce } from '@/data/projectWorkforceState'
+import { useProjectDocuments } from '@/data/projectDocumentsState'
+import { useProjectBoq } from '@/data/projectBoqState'
+import { getProjectCustomer, type ProjectCustomer } from '@/data/projectCustomerApi'
+import { getCustomerViewTimeline, type CustomerViewTimelineStage } from '@/data/customerViewApi'
+import { stageById } from '@/data/constructionStages'
+import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
+import { formatInr } from '@/data/boqFormat'
+import { isServerProjectId } from '@/data/projectIds'
+import { PROJECT_NAV_ROUTES } from '@/data/constructionNav'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
 const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
-
-// ─── Screen 068 — Project Workspace (shell) ─────────────────────────────────
-// A HOMEOWNER screen — the command center reached after 067 confirms an
-// award. This is a UI SHELL over the existing project fields (projectData)
-// and the existing Bid/contractor stores — no WorkspaceProject/
-// ProjectWorkspace/WorkspaceStore model exists or is created here. "The
-// project" is exactly what 062-067 already treat it as: projectId/
-// projectName/propertyType/location threaded through projectData, plus
-// whichever bid on that project (if any) has reached status 'accepted'
-// (bids.ts's own getAwardedBid()). Navigation into 069-074 is registered
-// but their contents are never built here — every one of those routes is a
-// safe forward reference, matching this app's established convention.
-
-const CURRENT_USER_ID = 'user-demo-001' // established demo-identity convention
-
 
 const IcoBack = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3L5 8l5 5" /></svg>
@@ -35,58 +29,61 @@ const IcoBack = () => (
 const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
-const CheckBadgeIcon = ({ size = 12 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-)
-const IcoOverview = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="14" height="14" rx="2" /><line x1="2" y1="7" x2="16" y2="7" /><line x1="7" y1="7" x2="7" y2="16" /></svg>
-)
-const IcoTeam = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="6.5" cy="5.5" r="2.25" /><path d="M2 15v-1a4.5 4.5 0 019 0v1" /><circle cx="13" cy="6.5" r="1.9" /><path d="M11.5 8.6a3.6 3.6 0 014.5 3.5V13" /></svg>
-)
-const IcoMessages = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 4.5A1.5 1.5 0 013.5 3h11A1.5 1.5 0 0116 4.5v7a1.5 1.5 0 01-1.5 1.5H6l-3.5 3v-3H3.5A1.5 1.5 0 012 11.5v-7z" /></svg>
-)
-const IcoDocuments = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 2h7l4 4v9a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" /><path d="M11 2v4h4" /></svg>
-)
-const IcoTasks = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="12" height="12" rx="2" /><path d="M6 9l2 2 4-4" /></svg>
-)
-const IcoProgress = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="9" r="7" /><path d="M9 5v4l3 2" /></svg>
-)
 
-function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
+function SectionCard({ title, children }: { title?: string; children: ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7' }}>
       {title && <h2 className="text-[13px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
       {children}
     </div>
   )
 }
 
-interface WorkspaceCard {
-  id: string
-  label: string
-  icon: React.ReactNode
-  dest: string
-}
-
-function NavCard({ card, onClick }: { card: WorkspaceCard; onClick: () => void }) {
+function TextLink({ label, onClick }: { label: string; onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-3 rounded-[14px] bg-white p-4 text-left cursor-pointer hover:border-[#722ED1] transition-colors"
-      style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
+      className="mt-3 inline-flex items-center min-h-[44px] text-[13px] font-semibold text-[#722ED1] cursor-pointer border-0 bg-transparent p-0"
+      style={{ fontFamily: FONT_BODY }}
     >
-      <span className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>
-        {card.icon}
-      </span>
-      <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{card.label}</span>
+      {label}
     </button>
   )
+}
+
+function SkeletonLines({ rows = 3 }: { rows?: number }) {
+  return (
+    <div className="flex flex-col gap-2" aria-hidden="true">
+      {Array.from({ length: rows }, (_, i) => (
+        <div key={i} className="h-3 rounded-full bg-[#F4F0EC]" style={{ width: i === rows - 1 ? '55%' : '100%' }} />
+      ))}
+    </div>
+  )
+}
+
+function formatDisplayDate(value: string | null | undefined): string | undefined {
+  if (!value) return undefined
+  const d = new Date(value.length <= 10 ? `${value}T00:00:00` : value)
+  if (Number.isNaN(d.getTime())) return undefined
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+function stageName(stage: string | null | undefined): string | undefined {
+  if (!stage) return undefined
+  return stageById(stage)?.name ?? stage
+}
+
+function todayIsoDate(): string {
+  const now = new Date()
+  const y = now.getFullYear()
+  const m = String(now.getMonth() + 1).padStart(2, '0')
+  const d = String(now.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
+function isPending(status: string): boolean {
+  return status === 'idle' || status === 'loading'
 }
 
 interface ProjectWorkspaceScreenProps {
@@ -94,11 +91,6 @@ interface ProjectWorkspaceScreenProps {
   userId?: string
   projectId?: string
   projectName?: string
-  /** 'new-build' | 'renovation' — real value set at project-creation time
-   *  (HouseRequirementsScreen / RenovateProjectCreatedScreen) via
-   *  projects.ts's own Project.type. Only used here to decide whether the
-   *  Construction Stages card makes sense to show; never changes anything
-   *  else about this screen. */
   projectType?: string
   propertyType?: string
   location?: string
@@ -117,220 +109,437 @@ interface ProjectWorkspaceScreenProps {
 
 export default function ProjectWorkspaceScreen({
   role,
-  userId,
   projectId,
   projectName,
-  projectType,
   propertyType,
   location,
   projectStage,
   organizationId,
-  companyName,
-  accountType,
-  professionalType,
-  verificationStatus,
-  serviceCategories,
-  serviceLocations,
-  portfolioProjectCount,
-  serviceDescription,
   onNavigate,
 }: ProjectWorkspaceScreenProps) {
-  // Houzeify 2.0 Module 03 — a project can now belong to a company
-  // (organizationId set), so a professional opening one of their
-  // organization's real projects must reach this screen too, not just a
-  // homeowner opening their own. The real authorization boundary is the
-  // backend project API (project.service.ts's getProjectForAccess/
-  // listProjectsForOrganization) — this screen itself only ever renders
-  // whatever project fields were legitimately threaded through
-  // navigation, same as before; this gate just stops a genuinely invalid
-  // role (neither) from landing here, never a homeowner-only wall.
   const canViewProject = role === 'homeowner' || role === 'professional'
+  const isCompany = role === 'professional'
+  const serverProject = isServerProjectId(projectId)
+
+  const { status: projectsStatus, getProject, errorMessage: projectsError } = useProjects()
+  const audience = useProjectAudience(projectId)
+  const record = projectId ? getProject(projectId) : undefined
+
+  const progressHook = useDailyProgress(serverProject ? projectId : undefined)
+  const tasksHook = useTasks(serverProject ? projectId : undefined)
+  const issuesHook = useIssues(serverProject ? projectId : undefined)
+  const workforceHook = useProjectWorkforce(serverProject && isCompany ? projectId : undefined)
+  const documentsHook = useProjectDocuments(serverProject ? projectId : undefined)
+  const boqHook = useProjectBoq(serverProject ? projectId : undefined)
+
+  const [timelineStatus, setTimelineStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
+  const [timeline, setTimeline] = useState<CustomerViewTimelineStage[]>([])
+  const [customerStatus, setCustomerStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
+  const [customer, setCustomer] = useState<ProjectCustomer | null>(null)
+
   useEffect(() => {
     if (!canViewProject) onNavigate('welcome')
   }, [canViewProject, onNavigate])
+
+  useEffect(() => {
+    if (!serverProject || !projectId) {
+      setTimeline([])
+      setTimelineStatus('loaded')
+      return
+    }
+    let cancelled = false
+    setTimelineStatus('loading')
+    getCustomerViewTimeline(projectId)
+      .then(rows => {
+        if (!cancelled) {
+          setTimeline(rows)
+          setTimelineStatus('loaded')
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setTimelineStatus('error')
+      })
+    return () => { cancelled = true }
+  }, [serverProject, projectId])
+
+  useEffect(() => {
+    if (!serverProject || !projectId || !isCompany) {
+      setCustomer(null)
+      setCustomerStatus('loaded')
+      return
+    }
+    let cancelled = false
+    setCustomerStatus('loading')
+    getProjectCustomer(projectId)
+      .then(row => {
+        if (!cancelled) {
+          setCustomer(row)
+          setCustomerStatus('loaded')
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setCustomerStatus('error')
+      })
+    return () => { cancelled = true }
+  }, [serverProject, projectId, isCompany])
+
+  const name = record?.name ?? projectName
+  const loc = record?.location ?? location
+  const type = record?.propertyType ?? propertyType
+  const stage = record?.stage ?? projectStage
+  const status = record?.status ?? null
+  const startDate = formatDisplayDate(record?.timelineStart)
+  const completionDate = formatDisplayDate(record?.timelineCompletion)
+  const resolvedStage = stageName(stage)
+  const resolvedStatus = isProjectStatus(status) ? PROJECT_STATUS_LABELS[status] : undefined
+
+  const latestProgress = progressHook.progress[0]
+  const latestProgressDate = formatDisplayDate(latestProgress?.date)
+  const latestActivity = latestProgressDate ?? formatDisplayDate(record?.updatedAt)
+
+  const activeTasks = useMemo(() => tasksHook.tasks.filter(t => t.status !== 'completed'), [tasksHook.tasks])
+  const overdueTasks = useMemo(() => {
+    const today = todayIsoDate()
+    return activeTasks.filter(t => t.dueDate && t.dueDate < today)
+  }, [activeTasks])
+  const openIssues = useMemo(() => issuesHook.issues.filter(i => i.status !== 'resolved'), [issuesHook.issues])
+  const highOpenIssues = useMemo(() => openIssues.filter(i => i.priority === 'high'), [openIssues])
+  const activeWorkforce = useMemo(() => workforceHook.members.filter(m => m.status === 'active'), [workforceHook.members])
+
   if (!canViewProject) return null
 
-  const hasProject = Boolean(projectId && projectName)
-
-  const awardedBid = useMemo(() => (projectId ? getAwardedBid(projectId) : undefined), [projectId])
-
-  const directoryInput: ContractorDirectoryInput = {
-    userId: userId || CURRENT_USER_ID,
-    accountType: accountType as AccountType | undefined,
-    organizationId,
-    companyName,
-    professionalType: professionalType as ProfessionalType | undefined,
-    location,
-    serviceCategories,
-    serviceLocations,
-    verificationStatus,
-    portfolioProjectCount,
-    serviceDescription,
-  }
-
-  const listing = useMemo(
-    () => (awardedBid ? getContractorListingById(awardedBid.organizationId ?? awardedBid.userId, directoryInput) : undefined),
-    [awardedBid, directoryInput.accountType, directoryInput.organizationId, directoryInput.companyName, directoryInput.professionalType,
-      directoryInput.location, directoryInput.serviceCategories, directoryInput.serviceLocations, directoryInput.verificationStatus,
-      directoryInput.portfolioProjectCount, directoryInput.serviceDescription]
-  )
-
-  const statusLabel = awardedBid ? 'Contractor Selected' : (projectStageLabel(projectStage) ?? 'Not started')
-
-  // "Back" now returns to the real Projects list (projects-list) — the
-  // list is the natural place every project-workspace visit is reached
-  // from now (Sidebar "Projects" → list → click a project → here), so
-  // this is a better "back" than the old single-ambient-project's
-  // contractor-selected detour.
-  // Company users (role 'professional', from the props this screen already
-  // receives) return to the company Projects list instead.
   function goBack() {
-    onNavigate(role === 'professional' ? 'company-projects' : 'projects-list')
+    onNavigate(isCompany ? 'company-projects' : 'projects-list', organizationId ? { organization_id: organizationId } : undefined)
   }
+
+  function navTo(dest: string) {
+    onNavigate(dest, projectId ? { project_id: projectId } : undefined)
+  }
+
+  const hasProject = Boolean(projectId && name)
 
   if (!hasProject) {
-    // The Projects list's own empty state, reached directly if a homeowner
-    // somehow lands here with no project selected. Create Project (035) is
-    // still fully intact; it's just no longer part of the guided New Build
-    // journey (Flow 04 starts at House Requirements instead) — this is its
-    // other real entry point.
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
-        <div className="relative z-10 flex flex-col items-center gap-4 text-center">
+      <div className="h-full flex min-w-0" style={{ backgroundColor: '#FFFFFF' }}>
+        {isCompany
+          ? <PartnerNavRail active="projects" onNavigate={onNavigate} organizationId={organizationId} />
+          : <Sidebar active="projects" onNavigate={onNavigate} />}
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6 min-w-0">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No active project yet.</p>
-          <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Open a project from your Projects list to see its workspace.</p>
-          <div className="flex items-center gap-3">
-            <button type="button" onClick={goBack} className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white" style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}>
-              Back
-            </button>
-          </div>
+          <p className="text-[15px] font-semibold text-[#242326] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>No active project yet.</p>
+          <p className="text-[13px] text-[#68636D] m-0 max-w-[320px] text-center" style={{ fontFamily: FONT_BODY }}>Open a project from your Projects list to see its workspace.</p>
+          <button type="button" onClick={goBack} className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white min-h-[44px]" style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}>
+            Back to Projects
+          </button>
         </div>
       </div>
     )
   }
 
-  const name = listing?.name ?? 'Professional'
-  const kind = listing?.kind ?? (awardedBid?.organizationId ? 'organization' : 'individual')
-  const initials = kind === 'organization' ? companyInitials(name) : profileInitials(name)
-  const typeLabel = listing?.professionalType ? PROFESSIONAL_TYPE_CONTENT[listing.professionalType].title : (kind === 'organization' ? 'Organization' : 'Individual Professional')
-
-  function navTo(dest: string) {
-    onNavigate(dest, { project_id: projectId as string })
-  }
-
-  const workspaceCards: WorkspaceCard[] = [
-    { id: 'overview', label: 'Project Overview', icon: <IcoOverview />, dest: 'project-overview' },
-    { id: 'team', label: 'Project Team', icon: <IcoTeam />, dest: 'project-team' },
-    { id: 'messages', label: 'Messages', icon: <IcoMessages />, dest: 'project-messages' },
-    { id: 'documents', label: 'Documents', icon: <IcoDocuments />, dest: 'project-documents' },
-    { id: 'tasks', label: 'Tasks', icon: <IcoTasks />, dest: 'project-tasks' },
-    { id: 'progress', label: 'Progress', icon: <IcoProgress />, dest: 'project-progress' },
-  ]
+  const projectMissingAfterLoad = Boolean(projectId && serverProject && projectsStatus === 'loaded' && !record)
 
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
-        <Sidebar active="projects" onNavigate={onNavigate} />
+        {isCompany
+          ? <PartnerNavRail active="projects" onNavigate={onNavigate} organizationId={organizationId || record?.organizationId || undefined} />
+          : <Sidebar active="projects" onNavigate={onNavigate} />}
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
 
-      <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
-        <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
-            <IcoBack /> Back
-          </button>
-        </div>
-      </header>
-
-      <ProjectSubNav active="overview" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
-
-      <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
-        <div className="max-w-[1000px] mx-auto flex flex-col gap-6">
-          <div>
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Workspace</p>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
-            <div className="flex items-center gap-3 mt-1.5 flex-wrap">
-              {propertyType && <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{propertyType}</span>}
-              {location && (
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-                  <IcoMapPin /> {location}
-                </span>
-              )}
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: awardedBid ? '#DCFCE7' : '#CAC7C6', color: awardedBid ? '#16A34A' : '#808080', fontFamily: FONT_MONO }}>
-                {statusLabel.toUpperCase()}
-              </span>
+          <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+            <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8 min-w-0">
+              <button type="button" onClick={goBack} className="flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                <IcoBack /> Back
+              </button>
             </div>
-          </div>
+          </header>
 
-          {/* Selected contractor */}
-          {awardedBid && (
-            <SectionCard title="Selected Contractor">
-              <div className="flex items-center justify-between gap-3 flex-wrap">
-                <div className="flex items-start gap-3">
-                  <div className="w-11 h-11 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
-                    {initials}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{name}</p>
-                      {listing?.verificationStatus === 'verified' && (
-                        <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
-                      )}
-                    </div>
-                    <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{typeLabel} · {kind === 'organization' ? 'Organization' : 'Individual'}</p>
-                  </div>
+          <ProjectSubNav active="overview" projectId={projectId} projectName={name} variant={audience === 'customer' ? 'customer' : 'company'} onNavigate={onNavigate} />
+
+          <main className="flex-1 overflow-y-auto overflow-x-hidden relative z-10 px-4 sm:px-6 py-8">
+            <div className="max-w-[1000px] mx-auto flex flex-col gap-6 min-w-0">
+              {projectsStatus === 'error' && projectsError && (
+                <div className="rounded-[12px] px-4 py-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{projectsError}</p>
+                </div>
+              )}
+              {projectMissingAfterLoad && (
+                <div className="rounded-[12px] px-4 py-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>This project is no longer available.</p>
+                </div>
+              )}
+
+              <div className="min-w-0">
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Workspace</p>
+                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{name}</h1>
+                <div className="flex items-center gap-3 mt-1.5 flex-wrap min-w-0">
+                  {loc && (
+                    <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] min-w-0" style={{ fontFamily: FONT_BODY }}>
+                      <IcoMapPin /> <span className="min-w-0 break-words">{loc}</span>
+                    </span>
+                  )}
+                  {type && <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{type}</span>}
+                  {resolvedStatus && (
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
+                      {resolvedStatus.toUpperCase()}
+                    </span>
+                  )}
+                  {resolvedStage && (
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+                      {resolvedStage.toUpperCase()}
+                    </span>
+                  )}
                 </div>
               </div>
-            </SectionCard>
-          )}
 
-          {/* Overview preview — compact, never duplicating 069 */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <SectionCard>
-              <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Status</p>
-              <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{statusLabel}</p>
-            </SectionCard>
-            <SectionCard>
-              <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Estimated Duration</p>
-              <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{awardedBid ? formatBidDuration(awardedBid.duration, awardedBid.durationUnit) : '—'}</p>
-            </SectionCard>
-            <SectionCard>
-              <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Location</p>
-              <p className="text-[13.5px] font-semibold text-[#242326] m-0 truncate">{location || '—'}</p>
-            </SectionCard>
-            <SectionCard>
-              <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Progress</p>
-              <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Not started</p>
-            </SectionCard>
-          </div>
+              <SectionCard title="Project status">
+                {isPending(projectsStatus) ? (
+                  <SkeletonLines />
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+                    {resolvedStatus && (
+                      <div className="min-w-0">
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Status</p>
+                        <p className="text-[15px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{resolvedStatus}</p>
+                      </div>
+                    )}
+                    {resolvedStage && (
+                      <div className="min-w-0">
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Construction stage</p>
+                        <p className="text-[15px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{resolvedStage}</p>
+                      </div>
+                    )}
+                    {startDate && (
+                      <div className="min-w-0">
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Start</p>
+                        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{startDate}</p>
+                      </div>
+                    )}
+                    {completionDate && (
+                      <div className="min-w-0">
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Expected completion</p>
+                        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{completionDate}</p>
+                      </div>
+                    )}
+                    {latestActivity && (
+                      <div className="min-w-0">
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Latest activity</p>
+                        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{latestActivity}</p>
+                      </div>
+                    )}
+                    {!resolvedStatus && !resolvedStage && !startDate && !completionDate && !latestActivity && (
+                      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No status details are recorded for this project yet.</p>
+                    )}
+                  </div>
+                )}
+              </SectionCard>
 
-          {/* Workspace navigation */}
-          <div>
-            <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>Workspace</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {workspaceCards.map(card => (
-                <NavCard key={card.id} card={card} onClick={() => navTo(card.dest)} />
-              ))}
+              <SectionCard title="Construction progress">
+                {isPending(timelineStatus) ? (
+                  <SkeletonLines rows={4} />
+                ) : timelineStatus === 'error' ? (
+                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>Stage progression could not be loaded.</p>
+                ) : timeline.length === 0 ? (
+                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                    {resolvedStage ? `Current stage: ${resolvedStage}. Stage progression is not available yet.` : 'No construction stage has been set yet.'}
+                  </p>
+                ) : (
+                  <ol className="flex flex-col md:flex-row md:overflow-x-auto gap-3 m-0 p-0 list-none min-w-0">
+                    {timeline.map(item => {
+                      const color = item.state === 'current' ? '#722ED1' : item.state === 'completed' ? '#15803D' : '#68636D'
+                      const bg = item.state === 'current' ? '#F8E3BD' : item.state === 'completed' ? '#C6F6D5' : '#F4F0EC'
+                      return (
+                        <li key={item.id} className="md:min-w-[148px] rounded-[14px] p-4 min-w-0" style={{ backgroundColor: bg }}>
+                          <p className="text-[11px] tracking-[0.06em] uppercase m-0" style={{ fontFamily: FONT_MONO, color }}>{item.state}</p>
+                          <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{item.name}</p>
+                          {item.latestPublishedDate && (
+                            <p className="text-[12px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{formatDisplayDate(item.latestPublishedDate)}</p>
+                          )}
+                        </li>
+                      )
+                    })}
+                  </ol>
+                )}
+                {latestProgress && (
+                  <p className="text-[12.5px] text-[#68636D] m-0 mt-3" style={{ fontFamily: FONT_BODY }}>
+                    Latest update{latestProgressDate ? ` ${latestProgressDate}` : ''}: {latestProgress.title}
+                  </p>
+                )}
+                <TextLink label="View timeline →" onClick={() => navTo(PROJECT_NAV_ROUTES.timeline)} />
+              </SectionCard>
+
+              <SectionCard title="Latest daily progress">
+                {serverProject && isPending(progressHook.status) ? (
+                  <SkeletonLines />
+                ) : progressHook.status === 'error' ? (
+                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{progressHook.errorMessage ?? 'Unable to load daily progress.'}</p>
+                ) : !latestProgress ? (
+                  <>
+                    <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No daily progress recorded yet</p>
+                    <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Record your first daily update to keep the project construction record up to date.</p>
+                    {isCompany && (
+                      <button
+                        type="button"
+                        onClick={() => navTo('create-daily-progress')}
+                        className="mt-3 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 min-h-[44px]"
+                        style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                      >
+                        Add progress update
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{latestProgressDate}</p>
+                    <p className="text-[15px] font-semibold text-[#242326] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{latestProgress.title}</p>
+                    {stageName(latestProgress.stage) && (
+                      <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{stageName(latestProgress.stage)}</p>
+                    )}
+                    {latestProgress.description && (
+                      <p className="text-[13px] text-[#68636D] m-0 mt-2 break-words" style={{ fontFamily: FONT_BODY }}>{latestProgress.description}</p>
+                    )}
+                    {latestProgress.photos.length > 0 && (
+                      <p className="text-[12.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                        {latestProgress.photos.length} photo{latestProgress.photos.length === 1 ? '' : 's'} attached
+                      </p>
+                    )}
+                    <TextLink label="View all progress →" onClick={() => navTo(PROJECT_NAV_ROUTES.progress)} />
+                  </>
+                )}
+              </SectionCard>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+                <SectionCard title="Tasks">
+                  {serverProject && isPending(tasksHook.status) ? (
+                    <SkeletonLines rows={2} />
+                  ) : tasksHook.status === 'error' ? (
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{tasksHook.errorMessage ?? 'Unable to load tasks.'}</p>
+                  ) : (
+                    <>
+                      <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{activeTasks.length}</p>
+                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                        {activeTasks.length === 1 ? 'active task' : 'active tasks'}
+                        {overdueTasks.length > 0 ? ` · ${overdueTasks.length} overdue` : ''}
+                      </p>
+                      <TextLink label="Open tasks →" onClick={() => navTo(PROJECT_NAV_ROUTES.tasks)} />
+                    </>
+                  )}
+                </SectionCard>
+                <SectionCard title="Issues">
+                  {serverProject && isPending(issuesHook.status) ? (
+                    <SkeletonLines rows={2} />
+                  ) : issuesHook.status === 'error' ? (
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{issuesHook.errorMessage ?? 'Unable to load issues.'}</p>
+                  ) : (
+                    <>
+                      <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{openIssues.length}</p>
+                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                        {openIssues.length === 1 ? 'open issue' : 'open issues'}
+                        {highOpenIssues.length > 0 ? ` · ${highOpenIssues.length} high priority` : ''}
+                      </p>
+                      <TextLink label="Open issues →" onClick={() => navTo(PROJECT_NAV_ROUTES.issues)} />
+                    </>
+                  )}
+                </SectionCard>
+              </div>
+
+              {isCompany && (
+                <SectionCard title="Workforce">
+                  {serverProject && isPending(workforceHook.status) ? (
+                    <SkeletonLines />
+                  ) : workforceHook.status === 'error' ? (
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{workforceHook.error ?? 'Unable to load workforce.'}</p>
+                  ) : activeWorkforce.length === 0 ? (
+                    <>
+                      <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No site team recorded yet</p>
+                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Add people to the site team so the project has a live workforce record.</p>
+                      <TextLink label="Manage workforce →" onClick={() => navTo(PROJECT_NAV_ROUTES.workforce)} />
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{activeWorkforce.length}</p>
+                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                        {activeWorkforce.length === 1 ? 'active site team member' : 'active site team members'}
+                      </p>
+                      <ul className="mt-3 m-0 pl-5 flex flex-col gap-1">
+                        {activeWorkforce.slice(0, 6).map(member => (
+                          <li key={member.id} className="text-[13px] text-[#242326] break-words" style={{ fontFamily: FONT_BODY }}>{member.role}</li>
+                        ))}
+                      </ul>
+                      {activeWorkforce.length > 6 && (
+                        <p className="text-[12.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>+{activeWorkforce.length - 6} more</p>
+                      )}
+                      <TextLink label="View workforce →" onClick={() => navTo(PROJECT_NAV_ROUTES.workforce)} />
+                    </>
+                  )}
+                </SectionCard>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+                <SectionCard title="Documents">
+                  {serverProject && isPending(documentsHook.status) ? (
+                    <SkeletonLines rows={2} />
+                  ) : documentsHook.status === 'error' ? (
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{documentsHook.error ?? 'Unable to load documents.'}</p>
+                  ) : (
+                    <>
+                      <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{documentsHook.documents.length}</p>
+                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                        {documentsHook.documents.length === 1 ? 'document' : 'documents'}
+                      </p>
+                      <TextLink label="Open documents →" onClick={() => navTo(PROJECT_NAV_ROUTES.documents)} />
+                    </>
+                  )}
+                </SectionCard>
+                <SectionCard title="Bill of Quantities">
+                  {serverProject && isPending(boqHook.status) ? (
+                    <SkeletonLines rows={2} />
+                  ) : boqHook.status === 'error' ? (
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{boqHook.error ?? 'Unable to load the Bill of Quantities.'}</p>
+                  ) : !boqHook.hasLoaded || boqHook.boq.totals.itemCount === 0 ? (
+                    <>
+                      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No Bill of Quantities items recorded yet.</p>
+                      <TextLink label="Open Bill of Quantities →" onClick={() => navTo(PROJECT_NAV_ROUTES.boq)} />
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{formatInr(boqHook.boq.totals.total)}</p>
+                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                        {boqHook.boq.totals.itemCount} {boqHook.boq.totals.itemCount === 1 ? 'item' : 'items'}
+                      </p>
+                      <TextLink label="Open Bill of Quantities →" onClick={() => navTo(PROJECT_NAV_ROUTES.boq)} />
+                    </>
+                  )}
+                </SectionCard>
+              </div>
+
+              {isCompany && (
+                <SectionCard title="Customer">
+                  {isPending(customerStatus) ? (
+                    <SkeletonLines rows={2} />
+                  ) : customerStatus === 'error' ? (
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>Customer status could not be loaded.</p>
+                  ) : customer?.status === 'active' ? (
+                    <>
+                      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Customer connected</p>
+                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>A homeowner is linked and can see published progress and shared documents.</p>
+                    </>
+                  ) : customer?.status === 'invited' ? (
+                    <>
+                      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Customer invite pending</p>
+                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>An invite has been sent. They are not connected until they accept.</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No customer connected</p>
+                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Link a homeowner so they can follow published construction progress.</p>
+                    </>
+                  )}
+                  <TextLink label="Manage customer →" onClick={() => navTo(PROJECT_NAV_ROUTES.customer)} />
+                </SectionCard>
+              )}
             </div>
-          </div>
-
-          {/* Quick summaries — honest empty states, no fabricated counts */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <SectionCard title="Messages">
-              <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No messages yet.</p>
-              <button type="button" onClick={() => navTo('project-messages')} className="mt-2 text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>View Messages →</button>
-            </SectionCard>
-            <SectionCard title="Documents">
-              <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No documents yet.</p>
-              <button type="button" onClick={() => navTo('project-documents')} className="mt-2 text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>View Documents →</button>
-            </SectionCard>
-            <SectionCard title="Tasks">
-              <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No tasks yet.</p>
-              <button type="button" onClick={() => navTo('project-tasks')} className="mt-2 text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>View Tasks →</button>
-            </SectionCard>
-          </div>
-        </div>
-      </main>
+          </main>
         </div>
       </div>
     </div>
