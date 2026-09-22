@@ -187,6 +187,18 @@ export default function TeamManagementScreen({
     }
   }
 
+  // Pre-existing bug, surfaced by TABLE C's own live testing (a render
+  // where `hasOrganization` starts false before the org/profile bridge
+  // effects populate projectData, then flips true): this useMemo used to
+  // sit after the early returns below, so the two render paths called a
+  // different number of hooks and React threw "Rendered more hooks than
+  // during the previous render." Hooks must never be conditional — moved
+  // above every early return.
+  const emails = useMemo(
+    () => (invitedEmails ?? '').split(',').map(e => e.trim()).filter(Boolean),
+    [invitedEmails]
+  )
+
   if (!isProfessional) return null
 
   function goToSettings() {
@@ -209,13 +221,6 @@ export default function TeamManagementScreen({
   }
 
   const initials = companyInitials(companyName as string)
-
-  // Real emails only — trimmed, empties dropped. Never a reconstructed
-  // member list; these are exactly the strings 027 forwarded.
-  const emails = useMemo(
-    () => (invitedEmails ?? '').split(',').map(e => e.trim()).filter(Boolean),
-    [invitedEmails]
-  )
 
   const hasInvitedCount = invitedCount !== undefined && invitedCount !== ''
   const hasTeamSummary = Boolean(teamSummary)
