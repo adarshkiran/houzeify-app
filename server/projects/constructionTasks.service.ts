@@ -55,7 +55,14 @@ async function canMutateTask(env: Env, project: ProjectRow, row: ConstructionTas
   const rows = await db
     .select()
     .from(organizationMembers)
-    .where(and(eq(organizationMembers.organizationId, project.organizationId), eq(organizationMembers.userId, userId)))
+    // TABLE C: status must be 'active' — see organization.service.ts's findMembership.
+    .where(
+      and(
+        eq(organizationMembers.organizationId, project.organizationId),
+        eq(organizationMembers.userId, userId),
+        eq(organizationMembers.status, 'active'),
+      ),
+    )
     .limit(1)
   const membership = rows[0]
   return Boolean(membership) && ORGANIZATION_MUTATION_ROLES.includes(membership.role as OrganizationMemberRole)

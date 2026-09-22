@@ -9,6 +9,8 @@
 import assert from 'node:assert/strict'
 import { after, test } from 'node:test'
 
+import { eq } from 'drizzle-orm'
+
 import { buildApp } from '../app.js'
 import { closeDb, getDb } from '../db/client.js'
 import { organizationMembers } from '../db/schema.js'
@@ -181,5 +183,17 @@ test('daily progress: create/list/update/delete, organization authorization, pho
   await t.test('malformed project id is rejected with 400', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/projects/not-a-uuid/daily-progress', headers: { cookie: ownerCookie } })
     assert.equal(res.statusCode, 400)
+  })
+
+  await t.test('TABLE C: a suspended admin loses daily-progress access; reactivating restores it', async () => {
+    const db = getDb(env!)
+    await db.update(organizationMembers).set({ status: 'suspended' }).where(eq(organizationMembers.userId, admin.id))
+
+    const listWhileSuspended = await app.inject({ method: 'GET', url: `/api/v1/projects/${projectId}/daily-progress`, headers: { cookie: adminCookie } })
+    assert.equal(listWhileSuspended.statusCode, 404)
+
+    await db.update(organizationMembers).set({ status: 'active' }).where(eq(organizationMembers.userId, admin.id))
+    const listAfterReactivate = await app.inject({ method: 'GET', url: `/api/v1/projects/${projectId}/daily-progress`, headers: { cookie: adminCookie } })
+    assert.equal(listAfterReactivate.statusCode, 200)
   })
 })
