@@ -493,9 +493,8 @@ const PROJECT_TYPE_LABELS: Record<ProjectType, string> = {
   renovation: 'Renovation',
 }
 
-function ProjectSummary({ onViewProject, onStartProject, className }: {
+function ProjectSummary({ onViewProject, className }: {
   onViewProject: (project: Project) => void
-  onStartProject: () => void
   className?: string
 }) {
   // 12H-B — real, owner-scoped backend project list, sorted most-recently-
@@ -510,9 +509,6 @@ function ProjectSummary({ onViewProject, onStartProject, className }: {
         <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           You haven&apos;t started a project yet. Once you do, it&apos;ll show up here.
         </p>
-        <button onClick={onStartProject} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
-          Start a project →
-        </button>
       </SectionCard>
     )
   }
@@ -1328,15 +1324,6 @@ function FullSettingsProfileView({
     location: project.location ?? '',
     project_stage: project.stage ?? '',
   })
-  // Mirrors ProjectsListScreen.startNewProject — clears the cumulative
-  // projectData project keys so House Requirements mints a genuinely new
-  // project rather than resuming whatever was last open this session.
-  const startProject = () => onNavigate('house-requirements', {
-    project_id: '', project_name: '', project_type: '', project_stage: '',
-    location: '', property_type: '',
-  })
-  const viewBookings = () => onNavigate('my-bookings')
-  const manageAddresses = () => onNavigate('saved-addresses')
   // Customer Implementation 08E — the real screens already exist and are
   // already routed in App.tsx (with role={resolvedRole}); these actions used
   // to fire a "coming soon" toast even though the screens were live.
@@ -1414,15 +1401,13 @@ return (
                     onChangeEmail={() => showNotice('Changing your email requires re-verification — this will be available soon.')}
                     onChangeMobile={() => showNotice('Changing your mobile number requires re-verification — this will be available soon.')}
                   />
-                  <SavedAddresses onManage={manageAddresses} />
                   <AccountActions onOpenAccountSettings={openAccountSettings} onAction={label => showNotice(`${label} will be available soon.`)} onSignOut={() => setShowSignOutModal(true)} />
                 </div>
 
                 <div className="flex flex-col gap-6">
                   <HoziePersonalization onManage={() => showNotice('AI preferences are managed from Settings — coming soon.')} />
                   <RoleCard onChangeRole={() => setShowRoleModal(true)} />
-                  <ProjectSummary onViewProject={viewProject} onStartProject={startProject} />
-                  <BookingsSummary onViewBookings={viewBookings} />
+                  <ProjectSummary onViewProject={viewProject} />
                   <Preferences profile={profile} onOpenPreference={openPreferences} />
                 </div>
               </div>

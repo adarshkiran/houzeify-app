@@ -140,7 +140,7 @@ export default function OrganizationSubmittedScreen({
     onNavigate('professional-dashboard', { organization_id: organizationId, company_name: resolvedCompanyName })
   }
   function createProject() {
-    onNavigate('create-project', { organization_id: organizationId, company_name: resolvedCompanyName })
+    onNavigate('create-construction-project')
   }
   function inviteTeam() {
     onNavigate('team-setup', { organization_id: organizationId, company_name: resolvedCompanyName })

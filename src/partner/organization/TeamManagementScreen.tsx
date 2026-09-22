@@ -3,6 +3,7 @@ import { companyInitials } from '@/data/companyInformation'
 import { ROLE_LABELS, ROLE_DESCRIPTIONS, type MemberRole } from '@/data/teamSetup'
 import { listOrganizationMembers, type OrganizationMember } from '@/data/organizationApi'
 import { useAuth } from '@/data/authState'
+import PartnerNavRail from '@/shared/components/PartnerNavRail'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -137,7 +138,9 @@ export default function TeamManagementScreen({
   const linkClass = 'text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0'
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+      <PartnerNavRail active="team" onNavigate={onNavigate} organizationId={organizationId} />
+      <div className="flex-1 flex flex-col min-w-0 relative">
 
       <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
@@ -272,6 +275,7 @@ export default function TeamManagementScreen({
           </div>
         </div>
       </main>
+      </div>
     </div>
   )
 }

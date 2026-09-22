@@ -47,3 +47,27 @@ it genuinely obsolete, not merely disconnected:
 
 Removed from `App.tsx`: its import, the `'role'` `AppScreen` member, its
 `SCREEN_GROUPS` entry, and its render block.
+
+## Update — TABLE B legacy cleanup
+
+### `UpdateProgressScreen.tsx` (moved from `src/partner/jobs/`)
+
+Moved here (not deleted) after a dependency trace showed it is superseded and
+unreachable:
+
+- Its `'update-progress'` id was in the `AppScreen` union and had a render
+  block, but was in no `SCREEN_GROUPS` entry and had no `onNavigate('update-progress')`
+  caller anywhere (the dashboard "Update Progress" action already points at
+  `create-daily-progress`).
+- It wrote to the in-memory `src/data/projectProgress.ts` store, which
+  `ProjectProgressScreen` no longer reads (Module 04 moved daily progress to
+  the database). `projectProgress.ts` is imported only by this screen, so it
+  stays in `src/data/` untouched next to it, also unreferenced from any
+  active screen.
+- Replaced by `CreateDailyProgressScreen` (`create-daily-progress`) and the
+  `daily_progress` backend.
+
+Removed from `App.tsx`: its import, the `'update-progress'` `AppScreen` member
+and its render block. Safe to delete together with `projectProgress.ts` in a
+later cleanup once nothing outside this folder references either.
+

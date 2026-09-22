@@ -215,13 +215,6 @@ export default function CompanyProfileScreen({
     onNavigate(isOrganization ? 'company-information' : 'professional-profile-setup')
   }
 
-  function viewPublicProfile() {
-    onNavigate('contractor-profile', {
-      professional_id: isOrganization ? '' : resolvedUserId,
-      organization_id: isOrganization ? (organizationId ?? '') : '',
-    })
-  }
-
   return (
     <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
       <PartnerNavRail active="profile" onNavigate={onNavigate} organizationId={organizationId} />
@@ -276,9 +269,6 @@ export default function CompanyProfileScreen({
                     Company Settings
                   </button>
                 )}
-                <button type="button" onClick={viewPublicProfile} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
-                  View Public Profile →
-                </button>
               </div>
             </div>
           </div>

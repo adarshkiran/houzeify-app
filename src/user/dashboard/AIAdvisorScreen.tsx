@@ -385,7 +385,8 @@ function ChatComposer({ value, onChange, onSubmit, onAttach, disabled }: {
   value: string
   onChange: (v: string) => void
   onSubmit: () => void
-  onAttach: () => void
+  /** Omitted on the active product — plan upload is a pre-2.0 flow. */
+  onAttach?: () => void
   disabled?: boolean
 }) {
   const handleKey = (e: React.KeyboardEvent) => {
@@ -414,14 +415,16 @@ function ChatComposer({ value, onChange, onSubmit, onAttach, disabled }: {
           disabled={disabled}
         />
         <div className="flex items-center gap-1.5 h-9">
-          <button
-            onClick={onAttach}
-            aria-label="Upload your house plan"
-            title="Upload plan"
-            className="w-8 h-8 flex items-center justify-center rounded-[8px] text-[#9A949D] hover:text-[#68636D] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent"
-          >
-            <IcoAttachment />
-          </button>
+          {onAttach && (
+            <button
+              onClick={onAttach}
+              aria-label="Upload your house plan"
+              title="Upload plan"
+              className="w-8 h-8 flex items-center justify-center rounded-[8px] text-[#9A949D] hover:text-[#68636D] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent"
+            >
+              <IcoAttachment />
+            </button>
+          )}
           <button
             onClick={onSubmit}
             disabled={!value.trim() || disabled}
@@ -491,13 +494,6 @@ function RightContextPanel({
     state.hasProject ? 'Project details' : null,
   ].filter((x): x is string => Boolean(x))
 
-  const tools = [
-    { label: 'View Estimate', icon: <IcoBarChart />, dest: DASHBOARD_ROUTES.estimateDashboard },
-    { label: 'Material Calculator', icon: <IcoCalcSm />, dest: 'material-calculator' },
-    { label: 'View BOQ', icon: <IcoList />, dest: DASHBOARD_ROUTES.boqOverview },
-    { label: 'Plan Analysis', icon: <IcoPlanSm />, dest: DASHBOARD_ROUTES.uploadPlan },
-  ]
-
   return (
     <aside className="hidden xl:flex flex-col shrink-0 overflow-y-auto gap-4 p-4 border-l border-[#E3DDD7] bg-white" style={{ width: 296, scrollbarWidth: 'none' }}>
       <div className="flex flex-col gap-3">
@@ -540,25 +536,6 @@ function RightContextPanel({
               <div className="w-5 h-5 rounded-full bg-[#F3EAFF] flex items-center justify-center shrink-0"><IcoCheck /></div>
               <span className="text-[12px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item}</span>
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="border-t border-[#E3DDD7]" />
-
-      <div className="flex flex-col gap-2.5">
-        <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Tools</span>
-        <div className="flex flex-col gap-0.5">
-          {tools.map(tool => (
-            <button
-              key={tool.label}
-              onClick={() => onNavigate(tool.dest)}
-              className="flex items-center gap-3 h-10 px-3 rounded-[10px] border-0 bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] cursor-pointer transition-all text-left"
-            >
-              <span className="shrink-0 w-4 h-4 flex items-center justify-center text-[#9A949D]">{tool.icon}</span>
-              <span className="flex-1 text-[13px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{tool.label}</span>
-              <span className="text-[#CAC7C6]"><IcoArrow /></span>
-            </button>
           ))}
         </div>
       </div>
@@ -712,6 +689,11 @@ export default function AIAdvisorScreen({
     setShowNewConvoModal(false)
   }
 
+  // Table B navigation cleanup — Hozie's reply actions still carry pre-2.0
+  // destinations (estimate, BOQ, plan upload, contractors, bids, Home
+  // Services). Only actions with no destination or one that belongs to the
+  // active product are offered.
+  const isActiveAdvisorAction = (action: AdvisorAction) => !action.dest || action.dest === DASHBOARD_ROUTES.aiAdvisor
   const handleAction = (action: AdvisorAction) => {
     if (!action.dest) return
     onNavigate(action.dest)
@@ -765,7 +747,7 @@ export default function AIAdvisorScreen({
 
                   {messages.map(msg => (
                     msg.role === 'assistant' ? (
-                      <HozieMessage key={msg.id} content={msg.content} actions={actionsByMessageId[msg.id]} onAction={handleAction} />
+                      <HozieMessage key={msg.id} content={msg.content} actions={actionsByMessageId[msg.id]?.filter(isActiveAdvisorAction)} onAction={handleAction} />
                     ) : (
                       <UserMessage key={msg.id} content={msg.content} />
                     )
@@ -782,7 +764,6 @@ export default function AIAdvisorScreen({
                 value={input}
                 onChange={setInput}
                 onSubmit={handleSubmit}
-                onAttach={() => onNavigate(DASHBOARD_ROUTES.uploadPlan)}
                 disabled={replyState === 'thinking'}
               />
             </div>

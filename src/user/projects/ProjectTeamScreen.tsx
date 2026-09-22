@@ -157,15 +157,6 @@ export default function ProjectTeamScreen({
   const initials = kind === 'organization' ? companyInitials(name) : profileInitials(name)
   const typeLabel = listing?.professionalType ? PROFESSIONAL_TYPE_CONTENT[listing.professionalType].title : (kind === 'organization' ? 'Organization' : 'Individual Professional')
 
-  function viewContractorProfile() {
-    if (!awardedBid) return
-    onNavigate('contractor-profile', {
-      professional_id: awardedBid.organizationId ? '' : awardedBid.userId,
-      organization_id: awardedBid.organizationId ?? '',
-      project_id: projectId as string,
-    })
-  }
-
   function goToMessages() {
     onNavigate('project-messages', { project_id: projectId as string })
   }
@@ -174,7 +165,7 @@ export default function ProjectTeamScreen({
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
-        <div className="flex flex-col flex-1 min-h-0">
+        <div className="flex flex-col flex-1 min-h-0 min-w-0">
 
       <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
@@ -234,9 +225,6 @@ export default function ProjectTeamScreen({
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2 shrink-0">
-                  <button type="button" onClick={viewContractorProfile} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
-                    View Profile →
-                  </button>
                   <button type="button" onClick={goToMessages} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                     Message →
                   </button>

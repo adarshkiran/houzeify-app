@@ -40,7 +40,6 @@ import TeamSetupScreen from '@/partner/onboarding/TeamSetupScreen'
 import OrganizationSubmittedScreen from '@/shared/screens/OrganizationSubmittedScreen'
 import HomeDashboardScreen from '@/user/dashboard/HomeDashboardScreen'
 import ProfessionalDashboardScreen from '@/partner/dashboard/ProfessionalDashboardScreen'
-import UpdateProgressScreen from '@/partner/jobs/UpdateProgressScreen'
 import CompanyProfileScreen from '@/partner/organization/CompanyProfileScreen'
 import EditServicesScreen from '@/partner/organization/EditServicesScreen'
 import EditServiceLocationsScreen from '@/partner/organization/EditServiceLocationsScreen'
@@ -227,7 +226,6 @@ type AppScreen =
   | 'homeowner-profile'
   | 'dashboard-home'
   | 'professional-dashboard'
-  | 'update-progress'
   | 'discover-projects'
   | 'project-opportunity-detail'
   | 'submit-bid'
@@ -569,8 +567,14 @@ const SCREEN_GROUPS: { label: string; screens: { id: AppScreen; label: string }[
 
 const ALL_SCREEN_IDS = SCREEN_GROUPS.flatMap(g => g.screens.map(s => s.id))
 
+// Developer tooling: the floating "Jump to screen" switcher and `?screen=` deep
+// links bypass every client-side role guard, so they are on for `vite dev` and
+// opt-in elsewhere via VITE_ENABLE_DEV_SCREEN_SWITCHER=true (see .env.example).
+const DEV_SCREEN_TOOLS =
+  import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEV_SCREEN_SWITCHER === 'true'
+
 function getInitialScreen(): AppScreen {
-  if (typeof window === 'undefined') return 'splash'
+  if (typeof window === 'undefined' || !DEV_SCREEN_TOOLS) return 'splash'
   const param = new URLSearchParams(window.location.search).get('screen')
   return (ALL_SCREEN_IDS as string[]).includes(param ?? '') ? (param as AppScreen) : 'splash'
 }
@@ -637,7 +641,7 @@ const INITIAL_PROJECT_DATA: Record<string, string> = {
 }
 
 function syncScreenUrl(s: AppScreen) {
-  if (typeof window === 'undefined') return
+  if (typeof window === 'undefined' || !DEV_SCREEN_TOOLS) return
   const url = new URL(window.location.href)
   if (s === 'splash') url.searchParams.delete('screen')
   else url.searchParams.set('screen', s)
@@ -1438,16 +1442,6 @@ export default function App() {
             projectName={projectData.project_name}
             propertyType={projectData.property_type}
             onNavigate={navigateTo}
-          />
-        </div>
-      )}
-      {screen === 'update-progress' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <UpdateProgressScreen
-            onNavigate={navigateTo}
-            projectId={projectData.project_id}
-            projectName={projectData.project_name}
-            companyName={projectData.company_name}
           />
         </div>
       )}
@@ -2857,7 +2851,7 @@ export default function App() {
         </div>
       )}
 
-      <DevScreenSwitcher current={screen} onJump={setScreen} />
+      {DEV_SCREEN_TOOLS && <DevScreenSwitcher current={screen} onJump={setScreen} />}
     </div>
     </SubscriptionProvider>
     </CustomerAddressProvider>
