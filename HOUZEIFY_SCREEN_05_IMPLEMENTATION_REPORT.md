@@ -236,4 +236,8 @@ dd65880 Implement Houzeify Screen 05
 
 ## 19. Origin Synchronization
 
-Pending push + FF-merge into `main` (this docs tip commit follows if needed).
+```text
+origin/main @ d049dc6 — synchronized (FF-merge from cursor/screen-05-project-overview)
+Implement commit: dd65880
+Docs tip:         d049dc6
+```
