@@ -17,7 +17,9 @@
 
 ## 2. Final commit
 
-See branch tip / merge section after commits.
+```text
+ff08871 Implement C20 company Reports Construction Record index.
+```
 
 ---
 
