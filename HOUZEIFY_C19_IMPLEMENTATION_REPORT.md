@@ -19,9 +19,11 @@ Confirmed `HEAD == origin/main` before branching.
 
 ## 2. Final commit
 
+```text
+e21cc0d Document C19 final commit hash after implementation.
 ```
-b0f197c5f7a0b8578dd2540088704f2d5814a8cb
-```
+
+Implementation commit: `b0f197c Implement C19 company Progress rollup across organization projects.`
 
 ---
 
