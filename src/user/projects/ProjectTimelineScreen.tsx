@@ -1,3 +1,5 @@
+// ─── Screen 07 — Project Timeline (SHARED KEEP polish) ───────────────────────
+// Stages + Project activity on one screen — do not split Activity.
 import { useEffect, useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
@@ -7,6 +9,7 @@ import { useProjectAudience } from '@/data/customerProjectsState'
 import { useProjects } from '@/data/projectState'
 import { isServerProjectId } from '@/data/projectIds'
 import { describeCustomerViewError, getCustomerViewTimeline, type CustomerViewTimelineStage } from '@/data/customerViewApi'
+import { stageById } from '@/data/constructionStages'
 import {
   describeProjectActivityError,
   formatActivityKind,
@@ -63,6 +66,11 @@ function ActivityList({ events, audience }: { events: ProjectActivityEvent[]; au
           {event.summary && (
             <p className="text-[13px] text-[#68636D] m-0 break-words" style={{ fontFamily: FONT_BODY }}>
               {event.summary}
+            </p>
+          )}
+          {event.stage && (
+            <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+              Stage · {stageById(event.stage)?.name ?? event.stage}
             </p>
           )}
           <p className="text-[12px] text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>
@@ -147,7 +155,7 @@ export default function ProjectTimelineScreen({
   }, [projectId, timelineRefresh])
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         {variant === 'company' ? (
           <PartnerNavRail active="projects" onNavigate={onNavigate} organizationId={organizationId} />
@@ -156,11 +164,11 @@ export default function ProjectTimelineScreen({
         )}
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
           <ProjectSubNav active="timeline" projectId={projectId} projectName={projectName} variant={variant} onNavigate={onNavigate} />
-          <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
+          <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
             <div className="max-w-[820px] mx-auto flex flex-col gap-8 min-w-0">
-              <div>
+              <div className="min-w-0">
                 <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Timeline</p>
-                <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
+                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
                 <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                   {variant === 'customer'
                     ? 'Construction stage journey and shared project activity from the Digital Construction Record.'
@@ -175,11 +183,21 @@ export default function ProjectTimelineScreen({
                 {status === 'idle' || status === 'loading' ? (
                   <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading timeline…</p>
                 ) : status === 'error' ? (
-                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{error}</p>
+                  <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{error}</p>
+                    <button
+                      type="button"
+                      onClick={() => setTimelineRefresh(n => n + 1)}
+                      className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                      style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                    >
+                      Try again
+                    </button>
+                  </div>
                 ) : timeline.length === 0 ? (
                   <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No timeline stages yet for this project.</p>
                 ) : (
-                  <ol className="flex flex-col md:flex-row md:overflow-x-auto gap-3 m-0 p-0 list-decimal md:list-none">
+                  <ol className="flex flex-col md:flex-row md:overflow-x-auto gap-3 m-0 p-0 list-none">
                     {timeline.map(stage => {
                       const color = stage.state === 'current' ? '#722ED1' : stage.state === 'completed' ? '#15803D' : '#68636D'
                       const bg = stage.state === 'current' ? '#F8E3BD' : stage.state === 'completed' ? '#C6F6D5' : '#F4F0EC'
@@ -228,7 +246,17 @@ export default function ProjectTimelineScreen({
                 ) : activityStatus === 'idle' || activityStatus === 'loading' ? (
                   <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading project activity…</p>
                 ) : activityStatus === 'error' ? (
-                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{activityError}</p>
+                  <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{activityError}</p>
+                    <button
+                      type="button"
+                      onClick={() => setTimelineRefresh(n => n + 1)}
+                      className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                      style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                    >
+                      Try again
+                    </button>
+                  </div>
                 ) : (
                   <ActivityList events={activity?.events ?? []} audience={variant} />
                 )}
