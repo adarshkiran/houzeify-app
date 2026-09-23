@@ -86,6 +86,7 @@ import ProjectTimelineScreen from '@/user/projects/ProjectTimelineScreen'
 import ProjectConstructionRecordScreen from '@/user/projects/ProjectConstructionRecordScreen'
 import CompanyProgressScreen from '@/partner/projects/CompanyProgressScreen'
 import CompanyReportsScreen from '@/partner/projects/CompanyReportsScreen'
+import CompanyWorkforceScreen from '@/partner/projects/CompanyWorkforceScreen'
 import AIAdvisorScreen from '@/user/dashboard/AIAdvisorScreen'
 import HomeServicesScreen from '@/user/home-services/HomeServicesScreen'
 import HoziehelperGoldScreen from '@/user/home-services/categories/HoziehelperGoldScreen'
@@ -1832,15 +1833,19 @@ export default function App() {
           <CompanyReportsScreen role={resolvedRole} onNavigate={navigateTo} />
         </div>
       )}
+      {screen === 'workforce' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <CompanyWorkforceScreen role={resolvedRole} onNavigate={navigateTo} />
+        </div>
+      )}
       {(screen === 'site-operations'
-        || screen === 'workforce' || screen === 'live-site' || screen === 'company-documents') && (
+        || screen === 'live-site' || screen === 'company-documents') && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ComingSoonScreen
             placeholderId={screen}
             shell="company"
             activeCompanyId={
               screen === 'site-operations' ? 'site-operations'
-              : screen === 'workforce' ? 'workforce'
               : screen === 'live-site' ? 'live-site'
               : 'documents'
             }

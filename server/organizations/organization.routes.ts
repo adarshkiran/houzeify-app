@@ -29,6 +29,7 @@ import {
 } from './organization.service.js'
 import { getOrganizationProgressSummary } from './organizationProgress.service.js'
 import { getOrganizationReportsSummary } from './organizationReports.service.js'
+import { getOrganizationWorkforceSummary } from './organizationWorkforce.service.js'
 import { serializeOrganization, serializeOrganizationMember } from './organization.types.js'
 
 interface AddOrganizationMemberBody {
@@ -111,6 +112,17 @@ export async function organizationRoutes(app: FastifyInstance, opts: { env: Env 
     async request => {
       const organizationId = requireValidOrganizationId(request.params.organizationId)
       const summary = await getOrganizationReportsSummary(env, organizationId, request.user!.id)
+      return { data: { summary } }
+    },
+  )
+
+  // C21 — company Workforce rail: active site-team roster rollup (read-only).
+  app.get<{ Params: { organizationId: string } }>(
+    '/:organizationId/workforce-summary',
+    { preHandler: requireAuth },
+    async request => {
+      const organizationId = requireValidOrganizationId(request.params.organizationId)
+      const summary = await getOrganizationWorkforceSummary(env, organizationId, request.user!.id)
       return { data: { summary } }
     },
   )
