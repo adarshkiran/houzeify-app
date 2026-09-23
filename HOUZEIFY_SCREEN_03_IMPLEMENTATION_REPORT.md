@@ -223,4 +223,11 @@ Full SHA: `24ba896362e691be2ea783b75b0af2f1d539241c`
 
 ## 17. Origin Synchronization
 
-**Confirmed after FF-merge** — see tip SHA below.
+`origin/main` synchronized at tip:
+
+```text
+bb0338d docs: record screen 03 validation
+```
+
+Full tip SHA: `bb0338d46ddeb3461db6dd87c63ceb266da98b8d`
+
