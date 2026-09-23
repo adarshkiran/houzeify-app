@@ -11,6 +11,7 @@ import { useProjectAudience } from '@/data/customerProjectsState'
 import { describeCustomerViewError, listCustomerViewProgress } from '@/data/customerViewApi'
 import { constructionStages } from '@/data/constructionStages'
 import type { DailyProgress } from '@/data/dailyProgressApi'
+import AuthenticatedImage from '@/shared/components/AuthenticatedImage'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -197,6 +198,14 @@ export default function ProjectProgressScreen({
   const { status: progressStatus, progress: companyProgress, errorMessage, refresh } = useDailyProgress(isCustomer ? undefined : projectId)
   const [sharedProgress, setSharedProgress] = useState<DailyProgress[]>([])
   const [shareBusyId, setShareBusyId] = useState<string | null>(null)
+  const [openPhoto, setOpenPhoto] = useState<{
+    title: string
+    date: string
+    stage: string | null
+    fileName: string
+    fileAvailable: boolean
+    contentUrl: string | null
+  } | null>(null)
   // The customer fetch below is independent of useDailyProgress (inert for
   // customers), so it tracks its own loading / error state.
   const [customerStatus, setCustomerStatus] = useState<'loading' | 'loaded' | 'error'>('loading')
@@ -226,6 +235,8 @@ export default function ProjectProgressScreen({
           size: photo.size,
           uploadedBy: '',
           storageRef: '',
+          fileAvailable: photo.fileAvailable,
+          contentUrl: photo.contentUrl,
           createdAt: photo.createdAt,
         })),
         visibility: 'customer' as const,
@@ -242,6 +253,15 @@ export default function ProjectProgressScreen({
     })
     return () => { cancelled = true }
   }, [isCustomer, projectId, customerAttempt])
+
+  useEffect(() => {
+    if (!openPhoto) return
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpenPhoto(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [openPhoto])
 
   const progress = isCustomer ? sharedProgress : companyProgress
   const latestEntry = progress[0]
@@ -440,11 +460,40 @@ export default function ProjectProgressScreen({
                               <p className="text-[12.5px] text-[#68636D] m-0 mt-1 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>{entry.description}</p>
                             )}
                             {entry.photos.length > 0 && (
-                              <div className="flex items-center gap-1.5 mt-2 text-[#9A949D]">
-                                <IcoPhoto />
-                                <span className="text-[12px]" style={{ fontFamily: FONT_BODY }}>
-                                  {entry.photos.length} photo{entry.photos.length === 1 ? '' : 's'}
-                                </span>
+                              <div className="mt-3">
+                                <div className="flex items-center gap-1.5 text-[#9A949D] mb-2">
+                                  <IcoPhoto />
+                                  <span className="text-[12px]" style={{ fontFamily: FONT_BODY }}>
+                                    {entry.photos.length} construction photo{entry.photos.length === 1 ? '' : 's'}
+                                  </span>
+                                </div>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                  {entry.photos.map(photo => (
+                                    <button
+                                      key={photo.id}
+                                      type="button"
+                                      onClick={() =>
+                                        setOpenPhoto({
+                                          title: entry.title,
+                                          date: entry.date,
+                                          stage: entry.stage,
+                                          fileName: photo.fileName,
+                                          fileAvailable: photo.fileAvailable,
+                                          contentUrl: photo.contentUrl,
+                                        })
+                                      }
+                                      aria-label={`Open construction photo for ${entry.title}`}
+                                      className="p-0 border-0 bg-transparent cursor-pointer rounded-[10px] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] min-h-11"
+                                    >
+                                      <AuthenticatedImage
+                                        contentUrl={photo.fileAvailable ? photo.contentUrl : null}
+                                        alt={`Construction evidence: ${entry.title}`}
+                                        className="w-full aspect-square object-cover rounded-[10px]"
+                                        unavailableLabel={photo.fileAvailable === false ? 'Historical photo unavailable' : 'Photo unavailable'}
+                                      />
+                                    </button>
+                                  ))}
+                                </div>
                               </div>
                             )}
                           </div>
@@ -509,6 +558,40 @@ export default function ProjectProgressScreen({
       </main>
         </div>
       </div>
+      {openPhoto && (
+        <div
+          className="fixed inset-0 z-40 flex items-end sm:items-center justify-center bg-black/40 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="progress-photo-title"
+          onClick={e => {
+            if (e.target === e.currentTarget) setOpenPhoto(null)
+          }}
+        >
+          <div className="w-full max-w-[520px] rounded-[16px] bg-white p-5 min-w-0">
+            <h2 id="progress-photo-title" className="text-[16px] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>{openPhoto.title}</h2>
+            <p className="text-[13px] text-[#68636D] mt-2 mb-3" style={{ fontFamily: FONT_BODY }}>
+              {formatEntryDate(openPhoto.date)}
+              {stageLabel(openPhoto.stage) ? ` · ${stageLabel(openPhoto.stage)}` : ''}
+              {' · Daily progress evidence'}
+            </p>
+            <AuthenticatedImage
+              contentUrl={openPhoto.fileAvailable ? openPhoto.contentUrl : null}
+              alt={`Construction evidence: ${openPhoto.title}`}
+              className="w-full max-h-[60vh] object-contain rounded-[12px] bg-[#F4F0EC]"
+              unavailableLabel={openPhoto.fileAvailable === false ? 'Historical photo unavailable' : 'Photo unavailable'}
+            />
+            <button
+              type="button"
+              onClick={() => setOpenPhoto(null)}
+              className="mt-4 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+              style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

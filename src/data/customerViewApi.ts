@@ -18,6 +18,8 @@ export interface CustomerViewPhoto {
   fileName: string
   mimeType: string
   size: number
+  fileAvailable: boolean
+  contentUrl: string | null
   createdAt: string
 }
 

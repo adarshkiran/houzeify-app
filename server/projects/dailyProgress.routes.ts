@@ -1,16 +1,13 @@
-// ─── /api/v1/projects/:projectId/daily-progress routes — Module 04 ────────
-// Registered at the same '/api/v1/projects' prefix as project.routes.ts
-// and houseRequirements.routes.ts — mounted as its own plugin sharing that
-// prefix (server/app.ts), not a second top-level route tree. Every route
-// requires authentication; every authorization decision is resolved in
-// dailyProgress.service.ts, never here.
+// ─── /api/v1/projects/:projectId/daily-progress routes — Module 04 / C15 ───
+// Photo upload is multipart (real bytes). JSON metadata-only upload is no
+ // longer accepted — C15 requires persistent object storage.
 
 import type { FastifyInstance } from 'fastify'
+import multipart from '@fastify/multipart'
 import type { Env } from '../config/env.js'
 import { createRequireAuth } from '../auth/session.js'
 import { HttpError } from '../errors/httpError.js'
 import {
-  addDailyProgressPhotoBodySchema,
   createDailyProgressBodySchema,
   patchDailyProgressBodySchema,
 } from './dailyProgress.schemas.js'
@@ -18,13 +15,14 @@ import {
   addDailyProgressPhoto,
   createDailyProgress,
   deleteDailyProgress,
+  getDailyProgressPhotoContent,
   listDailyProgressForProject,
   updateDailyProgress,
   type DailyProgressInput,
   type DailyProgressPatch,
-  type DailyProgressPhotoInput,
 } from './dailyProgress.service.js'
 import { serializeDailyProgress, serializeDailyProgressPhoto } from './dailyProgress.types.js'
+import { MAX_CONSTRUCTION_PHOTO_BYTES } from '../storage/imageValidation.js'
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -38,6 +36,13 @@ function requireValidId(value: string, label: string): string {
 export async function dailyProgressRoutes(app: FastifyInstance, opts: { env: Env }) {
   const { env } = opts
   const requireAuth = createRequireAuth(env)
+
+  await app.register(multipart, {
+    limits: {
+      fileSize: MAX_CONSTRUCTION_PHOTO_BYTES,
+      files: 1,
+    },
+  })
 
   app.get<{ Params: { projectId: string } }>('/:projectId/daily-progress', { preHandler: requireAuth }, async request => {
     const projectId = requireValidId(request.params.projectId, 'project')
@@ -83,14 +88,47 @@ export async function dailyProgressRoutes(app: FastifyInstance, opts: { env: Env
 
   app.post<{ Params: { projectId: string; progressId: string } }>(
     '/:projectId/daily-progress/:progressId/photos',
-    { schema: { body: addDailyProgressPhotoBodySchema }, preHandler: requireAuth },
+    { preHandler: requireAuth },
     async (request, reply) => {
       const projectId = requireValidId(request.params.projectId, 'project')
       const progressId = requireValidId(request.params.progressId, 'progress')
-      const input = request.body as DailyProgressPhotoInput
-      const row = await addDailyProgressPhoto(env, projectId, progressId, request.user!.id, input)
+
+      const file = await request.file()
+      if (!file) {
+        throw new HttpError('INVALID_FILE', 'A photo file is required.', 400)
+      }
+      let buffer: Buffer
+      try {
+        buffer = await file.toBuffer()
+      } catch (err) {
+        const e = err as { code?: string; statusCode?: number }
+        if (e.code === 'FST_REQ_FILE_TOO_LARGE' || e.statusCode === 413) {
+          throw new HttpError('FILE_TOO_LARGE', 'Photo exceeds the 15 MB upload limit.', 400)
+        }
+        throw err
+      }
+      const row = await addDailyProgressPhoto(env, projectId, progressId, request.user!.id, {
+        fileName: file.filename || 'photo',
+        buffer,
+        claimedMimeType: file.mimetype,
+      })
       reply.code(201)
-      return { data: { photo: serializeDailyProgressPhoto(row) } }
+      return { data: { photo: serializeDailyProgressPhoto(row, projectId) } }
+    },
+  )
+
+  app.get<{ Params: { projectId: string; photoId: string } }>(
+    '/:projectId/daily-progress-photos/:photoId/content',
+    { preHandler: requireAuth },
+    async (request, reply) => {
+      const projectId = requireValidId(request.params.projectId, 'project')
+      const photoId = requireValidId(request.params.photoId, 'photo')
+      const content = await getDailyProgressPhotoContent(env, projectId, photoId, request.user!.id)
+      reply
+        .header('Content-Type', content.contentType)
+        .header('Content-Disposition', `inline; filename="${content.fileName.replace(/"/g, '')}"`)
+        .header('Cache-Control', 'private, max-age=300')
+      return reply.send(content.body)
     },
   )
 }

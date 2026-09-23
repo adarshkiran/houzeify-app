@@ -1,8 +1,8 @@
-// ─── Daily Progress API layer — Module 04 ──────────────────────────────────
-// Mirrors projectApi.ts's shape exactly. Backend contract read directly
-// from server/projects/dailyProgress.routes.ts and dailyProgress.types.ts.
+// ─── Daily Progress API layer — Module 04 / C15 ─────────────────────────────
+// Photo upload is multipart FormData (real bytes). JSON metadata-only upload
+// is no longer accepted by the server.
 
-import { ApiError, apiDelete, apiGet, apiPatch, apiPost } from './apiClient'
+import { ApiError, apiDelete, apiGet, apiPatch, apiPost, apiPostFormData } from './apiClient'
 
 export interface DailyProgressPhoto {
   id: string
@@ -12,6 +12,8 @@ export interface DailyProgressPhoto {
   size: number
   uploadedBy: string
   storageRef: string
+  fileAvailable: boolean
+  contentUrl: string | null
   createdAt: string
 }
 
@@ -36,12 +38,6 @@ export interface DailyProgressInput {
   stage?: string
   title: string
   description?: string
-}
-
-export interface DailyProgressPhotoInput {
-  fileName: string
-  mimeType: string
-  size: number
 }
 
 interface DailyProgressListEnvelope {
@@ -73,10 +69,14 @@ export async function deleteDailyProgress(projectId: string, progressId: string)
   await apiDelete<null>(`/api/v1/projects/${projectId}/daily-progress/${progressId}`)
 }
 
-/** `input` never has a storageRef field — the server always mints it from
- *  the new photo row's own id (dailyProgress.service.ts). */
-export async function addDailyProgressPhoto(projectId: string, progressId: string, input: DailyProgressPhotoInput): Promise<DailyProgressPhoto> {
-  const res = await apiPost<DailyProgressPhotoEnvelope>(`/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`, input)
+/** C15 — upload real image bytes. Field name must be `file`. */
+export async function addDailyProgressPhoto(projectId: string, progressId: string, file: File): Promise<DailyProgressPhoto> {
+  const form = new FormData()
+  form.append('file', file, file.name)
+  const res = await apiPostFormData<DailyProgressPhotoEnvelope>(
+    `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+    form,
+  )
   return res.data.photo
 }
 
@@ -88,6 +88,11 @@ export function describeDailyProgressError(err: unknown): string {
     case 'NETWORK_ERROR':
     case 'NOT_FOUND':
     case 'INVALID_ID':
+    case 'INVALID_FILE':
+    case 'UNSUPPORTED_FILE_TYPE':
+    case 'FILE_TOO_LARGE':
+    case 'MIME_MISMATCH':
+    case 'MEDIA_UNAVAILABLE':
       return err.message
     default:
       return 'Something went wrong. Please try again.'

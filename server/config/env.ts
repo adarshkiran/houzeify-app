@@ -47,6 +47,18 @@ export interface Env {
   MSG91_AUTH_KEY: string | undefined
   MSG91_TEMPLATE_ID: string | undefined
   MSG91_SENDER_ID: string | undefined
+
+  // ── C15 construction media storage ─────────────────────────────────────
+  /** `local` (default) writes real files under MEDIA_LOCAL_ROOT.
+   *  `s3` uses S3-compatible object storage (AWS S3 / R2 / MinIO). */
+  STORAGE_PROVIDER: 'local' | 's3'
+  /** Absolute or relative directory for local object storage. */
+  MEDIA_LOCAL_ROOT: string
+  S3_BUCKET: string | undefined
+  S3_REGION: string
+  S3_ENDPOINT: string | undefined
+  S3_ACCESS_KEY_ID: string | undefined
+  S3_SECRET_ACCESS_KEY: string | undefined
 }
 
 function parseNodeEnv(value: string | undefined): NodeEnv {
@@ -90,5 +102,13 @@ export function loadEnv(): Env {
     MSG91_AUTH_KEY: process.env.MSG91_AUTH_KEY || undefined,
     MSG91_TEMPLATE_ID: process.env.MSG91_TEMPLATE_ID || undefined,
     MSG91_SENDER_ID: process.env.MSG91_SENDER_ID || undefined,
+
+    STORAGE_PROVIDER: process.env.STORAGE_PROVIDER === 's3' ? 's3' : 'local',
+    MEDIA_LOCAL_ROOT: process.env.MEDIA_LOCAL_ROOT || '.media',
+    S3_BUCKET: process.env.S3_BUCKET || undefined,
+    S3_REGION: process.env.S3_REGION || 'auto',
+    S3_ENDPOINT: process.env.S3_ENDPOINT || undefined,
+    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID || undefined,
+    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY || undefined,
   }
 }

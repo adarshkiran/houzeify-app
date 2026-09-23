@@ -7,6 +7,9 @@
 // validation.
 
 import assert from 'node:assert/strict'
+import { mkdtempSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { after, test } from 'node:test'
 
 import { eq } from 'drizzle-orm'
@@ -14,7 +17,35 @@ import { eq } from 'drizzle-orm'
 import { buildApp } from '../app.js'
 import { closeDb, getDb } from '../db/client.js'
 import { organizationMembers } from '../db/schema.js'
+import { resetObjectStorageCache } from '../storage/objectStorage.js'
 import { cleanupTestUser, createTestSessionToken, createTestUser, loadTestEnv, sessionCookieHeader, uniqueName } from '../testUtils.js'
+
+const TINY_PNG = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+  'base64',
+)
+
+function multipartFile(filename: string, body: Buffer, contentType: string) {
+  const boundary = '----HouzefiyTestBoundary7MA4YWxkTrZu0gW'
+  const head = Buffer.from(
+    `--${boundary}\r\n` +
+      `Content-Disposition: form-data; name="file"; filename="${filename}"\r\n` +
+      `Content-Type: ${contentType}\r\n\r\n`,
+  )
+  const tail = Buffer.from(`\r\n--${boundary}--\r\n`)
+  return {
+    headers: { 'content-type': `multipart/form-data; boundary=${boundary}` },
+    payload: Buffer.concat([head, body, tail]),
+  }
+}
+
+function multipartPng(filename: string) {
+  return multipartFile(filename, TINY_PNG, 'image/png')
+}
+
+process.env.STORAGE_PROVIDER = 'local'
+process.env.MEDIA_LOCAL_ROOT = mkdtempSync(path.join(tmpdir(), 'houzeify-dp-'))
+resetObjectStorageCache()
 
 const env = loadTestEnv()
 
@@ -40,6 +71,7 @@ test('daily progress: create/list/update/delete, organization authorization, pho
     await cleanupTestUser(env!, admin.id)
     await cleanupTestUser(env!, outsider.id)
     await closeDb()
+    resetObjectStorageCache()
   })
 
   await t.test('setup: create Organization A + a project under it, add viewer and admin members', async () => {
@@ -133,35 +165,55 @@ test('daily progress: create/list/update/delete, organization authorization, pho
     assert.equal(res.json().data.progress.stage, 'structure')
   })
 
-  await t.test('add photo metadata — storageRef is server-generated, never client-supplied', async () => {
+  await t.test('add real photo via multipart — stored persistently, not internal://', async () => {
+    const { headers, payload } = multipartPng('footing-01.png')
     const res = await app.inject({
-      method: 'POST', url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`, headers: { cookie: viewerCookie },
-      payload: { fileName: 'footing-01.jpg', mimeType: 'image/jpeg', size: 204800, storageRef: 'https://evil.example/hijack' },
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+      headers: { cookie: viewerCookie, ...headers },
+      payload,
     })
     assert.equal(res.statusCode, 201)
     const photo = res.json().data.photo
-    assert.equal(photo.fileName, 'footing-01.jpg')
-    assert.ok(photo.storageRef.startsWith('internal://daily-progress-photos/'))
-    assert.notEqual(photo.storageRef, 'https://evil.example/hijack')
+    assert.equal(photo.fileName, 'footing-01.png')
+    assert.equal(photo.fileAvailable, true)
+    assert.ok(photo.storageRef.startsWith('local://'))
+    assert.ok(photo.contentUrl)
+
+    const content = await app.inject({
+      method: 'GET',
+      url: photo.contentUrl,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(content.statusCode, 200)
+    assert.equal(content.headers['content-type'], 'image/png')
+    assert.ok(Buffer.from(content.rawPayload).equals(TINY_PNG))
 
     const listRes = await app.inject({ method: 'GET', url: `/api/v1/projects/${projectId}/daily-progress`, headers: { cookie: ownerCookie } })
     const entry = listRes.json().data.progress.find((p: { id: string }) => p.id === progressId)
     assert.equal(entry.photos.length, 1)
-    assert.equal(entry.photos[0].fileName, 'footing-01.jpg')
+    assert.equal(entry.photos[0].fileName, 'footing-01.png')
   })
 
-  await t.test('non-image mimeType is rejected with 400', async () => {
+  await t.test('non-image multipart payload is rejected with 400', async () => {
+    const { headers, payload } = multipartFile('site.pdf', Buffer.from('%PDF-1.4'), 'application/pdf')
     const res = await app.inject({
-      method: 'POST', url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`, headers: { cookie: viewerCookie },
-      payload: { fileName: 'site.pdf', mimeType: 'application/pdf', size: 1024 },
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+      headers: { cookie: viewerCookie, ...headers },
+      payload,
     })
     assert.equal(res.statusCode, 400)
   })
 
   await t.test('oversized photo is rejected with 400', async () => {
+    const huge = Buffer.concat([TINY_PNG, Buffer.alloc(15 * 1024 * 1024)])
+    const { headers, payload } = multipartFile('huge.png', huge, 'image/png')
     const res = await app.inject({
-      method: 'POST', url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`, headers: { cookie: viewerCookie },
-      payload: { fileName: 'huge.jpg', mimeType: 'image/jpeg', size: 20 * 1024 * 1024 },
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+      headers: { cookie: viewerCookie, ...headers },
+      payload,
     })
     assert.equal(res.statusCode, 400)
   })

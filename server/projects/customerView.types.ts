@@ -1,4 +1,6 @@
 import type { DailyProgressPhotoRow, DailyProgressRow, ProjectDocumentRow, ProjectRow } from '../db/schema.js'
+import { isRetrievableStorageRef } from '../storage/objectStorage.js'
+import { progressPhotoContentPath } from './dailyProgress.types.js'
 
 export const CONSTRUCTION_STAGE_ORDER = [
   { id: 'pre-construction', name: 'Pre-Construction' },
@@ -13,12 +15,15 @@ export const CONSTRUCTION_STAGE_ORDER = [
   { id: 'final-finishing', name: 'Final Finishing' },
 ] as const
 
-export function serializeCustomerProgressPhoto(row: DailyProgressPhotoRow) {
+export function serializeCustomerProgressPhoto(row: DailyProgressPhotoRow, projectId: string) {
+  const fileAvailable = isRetrievableStorageRef(row.storageRef)
   return {
     id: row.id,
     fileName: row.fileName,
     mimeType: row.mimeType,
     size: row.size,
+    fileAvailable,
+    contentUrl: fileAvailable ? progressPhotoContentPath(projectId, row.id) : null,
     createdAt: row.createdAt.toISOString(),
   }
 }
@@ -32,7 +37,7 @@ export function serializeCustomerProgress(row: DailyProgressRow, photos: DailyPr
     title: row.title,
     description: row.description,
     publishedAt: row.publishedAt ? row.publishedAt.toISOString() : null,
-    photos: photos.map(serializeCustomerProgressPhoto),
+    photos: photos.map(photo => serializeCustomerProgressPhoto(photo, row.projectId)),
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   }

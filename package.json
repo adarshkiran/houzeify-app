@@ -17,8 +17,10 @@
     "server:seed:m08": "tsx server/scripts/seedModule08TestAccounts.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1137.0",
     "@fastify/cookie": "^11.1.2",
     "@fastify/cors": "^11.3.0",
+    "@fastify/multipart": "^10.1.1",
     "@fastify/rate-limit": "^10.3.0",
     "@gsap/react": "^2.1.2",
     "dotenv": "^17.4.2",
