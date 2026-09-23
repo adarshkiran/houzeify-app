@@ -18,6 +18,7 @@ import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
 import { formatInr } from '@/data/boqFormat'
 import { isServerProjectId } from '@/data/projectIds'
 import { PROJECT_NAV_ROUTES } from '@/data/constructionNav'
+import ConstructionStageProgression from '@/shared/components/ConstructionStageProgression'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -134,6 +135,7 @@ export default function ProjectWorkspaceScreen({
 
   const [timelineStatus, setTimelineStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
   const [timeline, setTimeline] = useState<CustomerViewTimelineStage[]>([])
+  const [timelineRefresh, setTimelineRefresh] = useState(0)
   const [customerStatus, setCustomerStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
   const [customer, setCustomer] = useState<ProjectCustomer | null>(null)
 
@@ -160,7 +162,7 @@ export default function ProjectWorkspaceScreen({
         if (!cancelled) setTimelineStatus('error')
       })
     return () => { cancelled = true }
-  }, [serverProject, projectId])
+  }, [serverProject, projectId, timelineRefresh])
 
   useEffect(() => {
     if (!serverProject || !projectId || !isCompany) {
@@ -341,7 +343,9 @@ export default function ProjectWorkspaceScreen({
                   <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>Stage progression could not be loaded.</p>
                 ) : timeline.length === 0 ? (
                   <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
-                    {resolvedStage ? `Current stage: ${resolvedStage}. Stage progression is not available yet.` : 'No construction stage has been set yet.'}
+                    {resolvedStage
+                      ? `Current stage: ${resolvedStage}. Timeline stages will appear once this project uses a construction stage.`
+                      : 'No construction stage has been set yet.'}
                   </p>
                 ) : (
                   <ol className="flex flex-col md:flex-row md:overflow-x-auto gap-3 m-0 p-0 list-none min-w-0">
@@ -364,6 +368,13 @@ export default function ProjectWorkspaceScreen({
                   <p className="text-[12.5px] text-[#68636D] m-0 mt-3" style={{ fontFamily: FONT_BODY }}>
                     Latest update{latestProgressDate ? ` ${latestProgressDate}` : ''}: {latestProgress.title}
                   </p>
+                )}
+                {isCompany && serverProject && projectId && (
+                  <ConstructionStageProgression
+                    projectId={projectId}
+                    currentStage={stage}
+                    onStageChanged={() => setTimelineRefresh(n => n + 1)}
+                  />
                 )}
                 <TextLink label="View timeline →" onClick={() => navTo(PROJECT_NAV_ROUTES.timeline)} />
               </SectionCard>

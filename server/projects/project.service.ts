@@ -28,6 +28,24 @@ import { getDb } from '../db/client.js'
 import { organizationMembers, projects, type ProjectRow } from '../db/schema.js'
 import { HttpError } from '../errors/httpError.js'
 import { ORGANIZATION_MUTATION_ROLES } from '../organizations/organization.service.js'
+import { VALID_STAGE_IDS } from './constructionStageIds.js'
+
+/** Organization construction projects must use the shared 10-id taxonomy.
+ *  Personal/homeowner projects keep open-string stages (e.g. New Build
+ *  `requirements-completed`) — never force the construction enum there. */
+function assertOrgConstructionStage(stage: string | undefined | null, isOrganizationProject: boolean): void {
+  if (!isOrganizationProject) return
+  if (stage === undefined || stage === null) return
+  const trimmed = stage.trim()
+  if (!trimmed) return
+  if (!(VALID_STAGE_IDS as readonly string[]).includes(trimmed)) {
+    throw new HttpError(
+      'VALIDATION_ERROR',
+      `Invalid construction stage. Use one of: ${VALID_STAGE_IDS.join(', ')}.`,
+      400,
+    )
+  }
+}
 
 export interface ProjectInput {
   name: string
@@ -95,6 +113,7 @@ export async function createProject(env: Env, ownerId: string, input: ProjectInp
       throw new HttpError('NOT_FOUND', 'Organization not found.', 404)
     }
   }
+  assertOrgConstructionStage(input.stage, Boolean(input.organizationId))
 
   const db = getDb(env)
   const created = await db
@@ -192,6 +211,8 @@ export async function updateProject(env: Env, projectId: string, userId: string,
   if (Object.keys(patch).length === 0) {
     throw new HttpError('EMPTY_PATCH', 'Provide at least one field to update.', 400)
   }
+
+  assertOrgConstructionStage(patch.stage, Boolean(existing.project.organizationId))
 
   const values: Partial<typeof projects.$inferInsert> = { updatedAt: new Date() }
   if (patch.name !== undefined) values.name = patch.name.trim()

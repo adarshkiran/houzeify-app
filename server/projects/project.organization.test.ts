@@ -153,6 +153,41 @@ test('projects: organization-scoped create/list/access, membership authorization
     assert.equal(res.json().data.project.timelineCompletion, '2026-12-01')
   })
 
+  await t.test('C17: org project rejects an unknown construction stage on PATCH', async () => {
+    const res = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/projects/${projectId}`,
+      headers: { cookie: ownerCookie },
+      payload: { stage: 'requirements-completed' },
+    })
+    assert.equal(res.statusCode, 400)
+    assert.equal(res.json().error.code, 'VALIDATION_ERROR')
+    const check = await app.inject({ method: 'GET', url: `/api/v1/projects/${projectId}`, headers: { cookie: ownerCookie } })
+    assert.equal(check.json().data.project.stage, 'foundation')
+  })
+
+  await t.test('C17: org project accepts a valid construction stage advance on PATCH', async () => {
+    const res = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/projects/${projectId}`,
+      headers: { cookie: ownerCookie },
+      payload: { stage: 'structure' },
+    })
+    assert.equal(res.statusCode, 200)
+    assert.equal(res.json().data.project.stage, 'structure')
+  })
+
+  await t.test('C17: org project create rejects an unknown construction stage', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/v1/projects',
+      headers: { cookie: ownerCookie },
+      payload: { name: uniqueName('Bad Stage'), organizationId, stage: 'not-a-real-stage' },
+    })
+    assert.equal(res.statusCode, 400)
+    assert.equal(res.json().error.code, 'VALIDATION_ERROR')
+  })
+
   await t.test("owner's default (no organizationId query) project list is unaffected — still their own owner-scoped list, unchanged from 12H-B", async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/projects', headers: { cookie: ownerCookie } })
     assert.equal(res.statusCode, 200)

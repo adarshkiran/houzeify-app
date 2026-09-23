@@ -143,9 +143,11 @@ function OverviewChrome({
 function StageInPlan({
   stage,
   onViewTimeline,
+  canUpdateStage,
 }: {
   stage: string | null | undefined
   onViewTimeline: () => void
+  canUpdateStage?: boolean
 }) {
   return (
     <SectionCard title="Stage in Plan">
@@ -153,7 +155,7 @@ function StageInPlan({
         {stageInPlanLabel(stage)}
       </p>
       <button type="button" onClick={onViewTimeline} className={`mt-1 ${TEXT_ACTION}`} style={{ fontFamily: FONT_BODY }}>
-        View timeline
+        {canUpdateStage ? 'View timeline & update stage' : 'View timeline'}
       </button>
     </SectionCard>
   )
@@ -267,7 +269,7 @@ function CompanyProjectOverview({
             )}
           </SectionCard>
 
-          <StageInPlan stage={stage} onViewTimeline={() => navTo(PROJECT_NAV_ROUTES.timeline)} />
+          <StageInPlan stage={stage} onViewTimeline={() => navTo(PROJECT_NAV_ROUTES.timeline)} canUpdateStage={isCompanyUser} />
         </div>
       </main>
     </OverviewChrome>

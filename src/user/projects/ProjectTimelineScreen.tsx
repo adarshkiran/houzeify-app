@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
+import ConstructionStageProgression from '@/shared/components/ConstructionStageProgression'
 import { useProjectAudience } from '@/data/customerProjectsState'
+import { useProjects } from '@/data/projectState'
+import { isServerProjectId } from '@/data/projectIds'
 import { describeCustomerViewError, getCustomerViewTimeline, type CustomerViewTimelineStage } from '@/data/customerViewApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
@@ -19,23 +22,34 @@ export default function ProjectTimelineScreen({
 }) {
   const audience = useProjectAudience(projectId)
   const variant = audience === 'customer' ? 'customer' : 'company'
+  const { getProject } = useProjects()
+  const record = projectId ? getProject(projectId) : undefined
+  const canEditStage = variant === 'company' && isServerProjectId(projectId)
+
   const [status, setStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
   const [timeline, setTimeline] = useState<CustomerViewTimelineStage[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [timelineRefresh, setTimelineRefresh] = useState(0)
 
   useEffect(() => {
     if (!projectId) return
+    let cancelled = false
     setStatus('loading')
     getCustomerViewTimeline(projectId)
       .then(rows => {
-        setTimeline(rows)
-        setStatus('loaded')
+        if (!cancelled) {
+          setTimeline(rows)
+          setStatus('loaded')
+        }
       })
       .catch(err => {
-        setError(describeCustomerViewError(err))
-        setStatus('error')
+        if (!cancelled) {
+          setError(describeCustomerViewError(err))
+          setStatus('error')
+        }
       })
-  }, [projectId])
+    return () => { cancelled = true }
+  }, [projectId, timelineRefresh])
 
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
@@ -48,7 +62,11 @@ export default function ProjectTimelineScreen({
               <div>
                 <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Timeline</p>
                 <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
-                <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Stage order follows this project’s current stage — not demo statuses.</p>
+                <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                  {variant === 'customer'
+                    ? 'Your project’s construction journey — updated when the company advances the stage.'
+                    : 'Stage order follows this project’s current stage. Advance or set the stage below to update the construction record.'}
+                </p>
               </div>
               {status === 'idle' || status === 'loading' ? (
                 <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading timeline…</p>
@@ -72,6 +90,19 @@ export default function ProjectTimelineScreen({
                     )
                   })}
                 </ol>
+              )}
+              {canEditStage && projectId && (
+                <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7' }}>
+                  <h2 className="text-[13px] font-semibold text-[#242326] m-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Construction stage</h2>
+                  <p className="text-[13px] text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_BODY }}>
+                    Changes update the project record and what customers see on Timeline.
+                  </p>
+                  <ConstructionStageProgression
+                    projectId={projectId}
+                    currentStage={record?.stage}
+                    onStageChanged={() => setTimelineRefresh(n => n + 1)}
+                  />
+                </div>
               )}
             </div>
           </main>

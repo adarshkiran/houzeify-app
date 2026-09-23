@@ -98,6 +98,7 @@ export function describeProjectError(err: unknown): string {
 
   switch (err.code) {
     case 'EMPTY_PATCH':
+    case 'VALIDATION_ERROR':
     case 'UNAUTHENTICATED':
     case 'NETWORK_ERROR':
     case 'NOT_FOUND':

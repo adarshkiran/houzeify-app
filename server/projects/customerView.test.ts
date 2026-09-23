@@ -1,13 +1,46 @@
 import assert from 'node:assert/strict'
+import { mkdtempSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { after, test } from 'node:test'
 
 import { buildApp } from '../app.js'
 import { closeDb, getDb } from '../db/client.js'
 import { organizationMembers } from '../db/schema.js'
+import { resetObjectStorageCache } from '../storage/objectStorage.js'
 import { cleanupTestUser, createTestSessionToken, createTestUser, loadTestEnv, sessionCookieHeader, uniqueName } from '../testUtils.js'
 import { resolveProjectAccess } from './projectAccess.js'
 
+process.env.STORAGE_PROVIDER = 'local'
+process.env.MEDIA_LOCAL_ROOT = mkdtempSync(path.join(tmpdir(), 'houzeify-c17-cv-'))
+resetObjectStorageCache()
+
 const env = loadTestEnv()
+
+const TINY_PDF = Buffer.from('%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n')
+
+function multipartDoc(fields: { fileName?: string; category?: string; title?: string }) {
+  const boundary = '----HouzefiyC17CvDoc'
+  const fileName = fields.fileName ?? `${uniqueName('plan')}.pdf`
+  const category = fields.category ?? 'plans'
+  const chunks: Buffer[] = []
+  function addField(name: string, value: string) {
+    chunks.push(Buffer.from(
+      `--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${value}\r\n`,
+    ))
+  }
+  addField('category', category)
+  if (fields.title !== undefined) addField('title', fields.title)
+  chunks.push(Buffer.from(
+    `--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="${fileName}"\r\nContent-Type: application/pdf\r\n\r\n`,
+  ))
+  chunks.push(TINY_PDF)
+  chunks.push(Buffer.from(`\r\n--${boundary}--\r\n`))
+  return {
+    headers: { 'content-type': `multipart/form-data; boundary=${boundary}` },
+    payload: Buffer.concat(chunks),
+  }
+}
 
 test('customer-view: published progress, documents, isolation, no BOQ leak', { skip: !env && 'DATABASE_URL not configured' }, async t => {
   const app = await buildApp(env!)
@@ -169,11 +202,12 @@ test('customer-view: published progress, documents, isolation, no BOQ leak', { s
   })
 
   await t.test('documents default internal; shared visible; timeline current; BOQ/tasks 404', async () => {
+    const form = multipartDoc({ fileName: 'plan.pdf', category: 'plans', title: 'GA Plan' })
     const doc = await app.inject({
       method: 'POST',
       url: `/api/v1/projects/${projectId}/documents`,
-      headers: { cookie: ownerCookie },
-      payload: { category: 'plans', fileName: 'plan.pdf', mimeType: 'application/pdf', size: 1024, title: 'GA Plan' },
+      headers: { cookie: ownerCookie, ...form.headers },
+      payload: form.payload,
     })
     assert.equal(doc.statusCode, 201)
     assert.equal(doc.json().data.document.visibility, 'internal')
@@ -240,12 +274,41 @@ test('customer-view: published progress, documents, isolation, no BOQ leak', { s
     assert.equal(stranger.statusCode, 404)
   })
 
+  await t.test('C17: advancing projects.stage updates customer timeline current stage', async () => {
+    const patch = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/projects/${projectId}`,
+      headers: { cookie: ownerCookie },
+      payload: { stage: 'masonry' },
+    })
+    assert.equal(patch.statusCode, 200)
+    assert.equal(patch.json().data.project.stage, 'masonry')
+
+    const timeline = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/customer-view/timeline`,
+      headers: { cookie: customerCookie },
+    })
+    assert.equal(timeline.statusCode, 200)
+    const current = timeline.json().data.timeline.find((s: { state: string }) => s.state === 'current')
+    assert.equal(current.id, 'masonry')
+
+    const customerCannotPatch = await app.inject({
+      method: 'PATCH',
+      url: `/api/v1/projects/${projectId}`,
+      headers: { cookie: customerCookie },
+      payload: { stage: 'mep' },
+    })
+    assert.equal(customerCannotPatch.statusCode, 404)
+  })
+
   await t.test('document publishing: non-mutator uploader gets 404, mutator can publish and unpublish', async () => {
+    const form = multipartDoc({ fileName: 'internal-costs.pdf', category: 'plans', title: 'Internal costs' })
     const doc = await app.inject({
       method: 'POST',
       url: `/api/v1/projects/${projectId}/documents`,
-      headers: { cookie: viewerCookie },
-      payload: { category: 'plans', fileName: 'internal-costs.pdf', mimeType: 'application/pdf', size: 2048, title: 'Internal costs' },
+      headers: { cookie: viewerCookie, ...form.headers },
+      payload: form.payload,
     })
     assert.equal(doc.statusCode, 201)
     const documentId = doc.json().data.document.id
