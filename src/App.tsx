@@ -1500,6 +1500,7 @@ export default function App() {
       {screen === 'professional-dashboard' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ProfessionalDashboardScreen
+            role={resolvedRole}
             organizationId={projectData.organization_id}
             companyName={projectData.company_name}
             location={projectData.location}
@@ -1513,9 +1514,6 @@ export default function App() {
             serviceLocations={projectData.service_locations}
             portfolioProjectCount={projectData.portfolio_project_count}
             invitedCount={projectData.invited_count}
-            projectId={projectData.project_id}
-            projectName={projectData.project_name}
-            propertyType={projectData.property_type}
             onNavigate={navigateTo}
           />
         </div>

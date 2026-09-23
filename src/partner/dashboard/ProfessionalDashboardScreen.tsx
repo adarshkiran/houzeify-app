@@ -1,3 +1,9 @@
+// ─── Screen 01 — Company Home (MODIFY) ───────────────────────────────────────
+// PartnerNavRail Home. Construction Record landing for the company:
+// real org rollups from C19 progress-summary + C23 ops-summary.
+// Business Development (invitations/bids/opportunities) stays reachable but
+// is demoted — never the hero when the org has real projects (C12 protect).
+
 import { useEffect, useRef, useState } from 'react'
 import HIcon from '@/shared/components/HIcon'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
@@ -13,66 +19,61 @@ import {
 } from '@/data/identityVerification'
 import {
   PROFESSIONAL_DASHBOARD_ROUTES,
-  getProfessionalDashboardStats,
   buildProfileChecklist,
   profileCompletionPercent,
   nextIncompleteProfileScreen,
-  opportunityLabelForProfessionalType,
 } from '@/data/professionalDashboard'
-import { getInvitationsForProfessional, INVITATION_STATUS_LABELS } from '@/data/invitations'
-import { getBidsForProfessional } from '@/data/bids'
+import { useOrganizations } from '@/data/organizationState'
+import {
+  describeOrganizationProgressError,
+  getOrganizationProgressSummary,
+  type OrganizationProgressSummary,
+} from '@/data/organizationProgressApi'
+import {
+  describeOrganizationOpsError,
+  formatOpsPriority,
+  formatOpsStatus,
+  getOrganizationOpsSummary,
+  type OrganizationOpsSummary,
+} from '@/data/organizationOpsApi'
+import {
+  buildCompanyHomeOpenItems,
+  buildCompanyHomeRecentProgress,
+  buildCompanyHomeStats,
+} from '@/data/companyHomeRollup'
+import { constructionStages } from '@/data/constructionStages'
+import { COMPANY_NAV_ROUTES } from '@/data/constructionNav'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
 const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
 
-// ─── Screen 029 — Professional AI Dashboard ─────────────────────────────────
-// Replaces the earlier temporary placeholder (which existed only to fix
-// professional routing). role stays the sole decision for which dashboard a
-// user lands on — this screen never re-derives or overrides it; it only
-// personalizes content using professionalType/accountType, exactly as its
-// brief requires.
-//
-// No Opportunity/Message/Notification model exists yet anywhere in this
-// codebase, so those sections always show their real empty state — never
-// fabricated counts or cards.
-//
-// "Project Invitations" (added alongside the 062/063 invitation flow) is
-// one exception — invitations.ts is real, and getInvitationsForProfessional()
-// reads this professional's own real, active invitations. Never a second
-// invitation model.
-//
-// "Active Projects" is the other exception — an accepted Bid (bids.ts's own
-// getBidsForProfessional(), filtered to status 'accepted') already IS this
-// professional's real active-project record (see bids.ts's own comment: no
-// separate Award/ActiveProject model exists, or is needed). Each card links
-// into UpdateProgressScreen.tsx, the seam projectProgress.ts's own
-// createProgressUpdate() was reserved for.
-
-const CURRENT_USER_ID = 'user-demo-001' // established demo-identity convention
-
-
-// ─── Icons ──────────────────────────────────────────────────────────────
+/** Demo identity used only for local identity-verification gating of BD. */
+const IDENTITY_USER_ID = 'user-demo-001'
 
 const PinIcon = ({ size = 13 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M8 14S2 9.6 2 6a6 6 0 1 1 12 0c0 3.6-6 8-6 8Z" /><circle cx="8" cy="6" r="2" /></svg>
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 14S2 9.6 2 6a6 6 0 1 1 12 0c0 3.6-6 8-6 8Z" /><circle cx="8" cy="6" r="2" /></svg>
 )
 const CheckIcon = ({ size = 9 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8.5 2.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 5L4.5 7.5L8.5 2.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const ArrowRightIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7h10M8 3l4 4-4 4" /></svg>
+  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" /></svg>
 )
 const LockIcon = ({ size = 11 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="6.5" width="8" height="6" rx="1.2" /><path d="M4.7 6.5V4.5a2.3 2.3 0 0 1 4.6 0v2" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="6.5" width="8" height="6" rx="1.2" /><path d="M4.7 6.5V4.5a2.3 2.3 0 0 1 4.6 0v2" /></svg>
 )
 
-// ─── Sidebar ────────────────────────────────────────────────────────────
-// Houzeify 2.0 Module 01 — this screen's own local Sidebar/NavItem (byte-
-// different from DiscoverProjectsScreen's and MyBidsScreen's own copies)
-// has been replaced by the shared PartnerNavRail, the same consolidation
-// the homeowner side already went through for shared/components/Sidebar.tsx.
-// See PartnerNavRail.tsx for the new construction-platform primary nav.
+function stageLabel(stage: string | null): string {
+  if (!stage) return 'Stage not set'
+  return constructionStages.find(s => s.id === stage)?.name ?? stage
+}
+
+function formatDate(isoDate: string): string {
+  const d = new Date(`${isoDate}T12:00:00`)
+  if (Number.isNaN(d.getTime())) return isoDate
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+}
 
 function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNavigate: (s: string) => void }) {
   return (
@@ -81,59 +82,81 @@ function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNa
         <HIcon size={26} />
         <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Home</span>
       </div>
-      <button onClick={() => onNavigate(PROFESSIONAL_DASHBOARD_ROUTES.manageProfile)} aria-label="Open profile" className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>
+      <button
+        type="button"
+        onClick={() => onNavigate(COMPANY_NAV_ROUTES.profile)}
+        aria-label="Open company profile"
+        className="min-w-11 min-h-11 w-11 h-11 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0"
+        style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}
+      >
         {userInitials}
       </button>
     </div>
   )
 }
 
-// ─── Shared bits ────────────────────────────────────────────────────────
-
-function StatCard({ value, label }: { value: string; label: string }) {
+function StatCard({
+  value,
+  label,
+  onOpen,
+}: {
+  value: string
+  label: string
+  onOpen: () => void
+}) {
   return (
-    <div className="flex flex-col gap-1 rounded-[14px] bg-white border border-[#E3DDD7] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <button
+      type="button"
+      onClick={onOpen}
+      className="flex flex-col gap-1 rounded-[14px] bg-white border border-[#E3DDD7] p-4 text-left cursor-pointer min-h-[88px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] hover:border-[#722ED1] transition-colors"
+      style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}
+    >
       <span className="text-[22px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{value}</span>
       <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-    </div>
+    </button>
   )
 }
 
-function SectionCard({ title, action, children }: { title: string; action?: React.ReactNode; children: React.ReactNode }) {
+function SectionCard({
+  title,
+  action,
+  children,
+}: {
+  title: string
+  action?: React.ReactNode
+  children: React.ReactNode
+}) {
   return (
-    <div className="rounded-[16px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <section className="rounded-[16px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{title}</span>
+        <h2 className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h2>
         {action}
       </div>
       {children}
-    </div>
+    </section>
   )
 }
 
-// 11G — onCtaClick lets a caller wire this button to a real, already-existing
-// destination (Discover Projects) instead of the default "Coming soon" stub.
-// Callers that don't pass it (Project Invitations, Active Projects) are
-// completely unaffected.
-function EmptyState({ message, ctaLabel, onCtaClick, ctaLocked }: { message: string; ctaLabel?: string; onCtaClick?: () => void; ctaLocked?: boolean }) {
-  const isDisabled = !onCtaClick || ctaLocked
+function EmptyState({
+  message,
+  ctaLabel,
+  onCtaClick,
+}: {
+  message: string
+  ctaLabel?: string
+  onCtaClick?: () => void
+}) {
   return (
     <div className="flex flex-col items-center text-center gap-2.5 py-6">
       <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{message}</p>
-      {ctaLabel && (
+      {ctaLabel && onCtaClick && (
         <button
           type="button"
-          disabled={isDisabled}
-          aria-disabled={isDisabled}
-          title={ctaLocked ? 'Locked until your identity is verified' : onCtaClick ? undefined : 'Coming soon'}
-          onClick={onCtaClick && !ctaLocked ? onCtaClick : undefined}
-          className={[
-            'h-9 px-3.5 rounded-[9px] text-[12.5px] font-semibold border transition-colors',
-            !isDisabled ? 'cursor-pointer border-[#E3DDD7] bg-white text-[#722ED1] hover:border-[#722ED1]' : 'cursor-not-allowed border-[#E3DDD7] bg-[#FFFFFF] text-[#9A949D]',
-          ].join(' ')}
+          onClick={onCtaClick}
+          className="min-h-11 h-11 px-4 rounded-[10px] text-[12.5px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#722ED1] hover:border-[#722ED1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
           style={{ fontFamily: FONT_BODY }}
         >
-          {ctaLabel}{!onCtaClick && ' · Coming soon'}
+          {ctaLabel}
         </button>
       )}
     </div>
@@ -157,11 +180,6 @@ function ChecklistRow({ item }: { item: ChecklistItemView }) {
   )
 }
 
-// ─── Sign out — Flow 05 (Partner Authentication & Entry) ───────────────────
-// Same confirm-modal pattern as HomeownerProfileScreen's own SignOutModal
-// (this codebase's established per-file-duplication convention), not a
-// shared component — copy adjusted for the professional context.
-
 function SignOutModal({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: () => void }) {
   const confirmRef = useRef<HTMLButtonElement>(null)
   useEffect(() => {
@@ -173,25 +191,27 @@ function SignOutModal({ onCancel, onConfirm }: { onCancel: () => void; onConfirm
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-30 z-40" aria-hidden="true" onClick={onCancel} />
-      <div role="dialog" aria-modal="true" aria-labelledby="partner-signout-title" aria-describedby="partner-signout-desc"
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="partner-signout-title"
+        aria-describedby="partner-signout-desc"
         className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
         <h2 id="partner-signout-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Sign out of Houzeify?</h2>
-        <p id="partner-signout-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can sign back in anytime to access your professional workspace.</p>
+        <p id="partner-signout-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can sign back in anytime to access your company workspace.</p>
         <div className="flex gap-2.5 justify-end">
-          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#DC2626', fontFamily: FONT_BODY }}>Sign out</button>
+          <button type="button" onClick={onCancel} className="min-h-11 h-11 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+          <button ref={confirmRef} type="button" onClick={onConfirm} className="min-h-11 h-11 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#DC2626', fontFamily: FONT_BODY }}>Sign out</button>
         </div>
       </div>
     </>
   )
 }
 
-// ─── Main screen ──────────────────────────────────────────────────────────
-
 export default function ProfessionalDashboardScreen({
-  organizationId = 'org-demo-001',
+  organizationId: organizationIdProp,
   companyName,
   location,
   accountType,
@@ -204,9 +224,7 @@ export default function ProfessionalDashboardScreen({
   serviceLocations,
   portfolioProjectCount,
   invitedCount,
-  projectId,
-  projectName,
-  propertyType,
+  role,
   onNavigate,
 }: {
   organizationId?: string
@@ -215,10 +233,6 @@ export default function ProfessionalDashboardScreen({
   accountType?: string
   professionalType?: string
   professionalTypeOther?: string
-  /** Real value from the Professional Specialization step — only set for
-   *  the 4 professional types that have one. Absent otherwise, in which
-   *  case the badge below falls back to the professional-type label
-   *  exactly as it always has. */
   specialization?: string
   specializationOther?: string
   verificationStatus?: string
@@ -226,36 +240,70 @@ export default function ProfessionalDashboardScreen({
   serviceLocations?: string
   portfolioProjectCount?: string
   invitedCount?: string
-  /** The current session's own homeowner project context (same shared
-   *  projectData bag, same single-persona-demo convention already used by
-   *  contractorDirectory.ts) — used only to render real project name/type
-   *  for this professional's real invitations below. */
-  projectId?: string
-  projectName?: string
-  propertyType?: string
+  role?: string
   onNavigate: (screen: string, data?: Record<string, string>) => void
 }) {
+  const isProfessional = role === undefined || role === 'professional'
+  useEffect(() => {
+    if (role !== undefined && !isProfessional) onNavigate('dashboard-home')
+  }, [isProfessional, onNavigate, role])
+
+  const organizations = useOrganizations()
+  const currentOrganization = organizations.currentOrganization
+  const organizationId = currentOrganization?.id ?? organizationIdProp ?? null
+  const orgName = currentOrganization?.name ?? companyName ?? 'Your company'
+
   const [askInput, setAskInput] = useState('')
   const [showSignOutModal, setShowSignOutModal] = useState(false)
   const signOutConfirmed = () => { setShowSignOutModal(false); onNavigate('welcome') }
 
-  // Part 3 — access gating. Identity verification (a separate, real-ID
-  // check — not the existing Business `verificationStatus` prop above)
-  // gates only the Discover Projects/Opportunities surface. Loaded the
-  // same way BusinessVerificationScreen loads its own identity status.
-  const [identityStatus, setIdentityStatus] = useState(() => getIdentityVerificationStatus(CURRENT_USER_ID).status)
+  const [identityStatus, setIdentityStatus] = useState(() => getIdentityVerificationStatus(IDENTITY_USER_ID).status)
   const accessLevel = resolvePartnerAccessLevel(identityStatus)
   const opportunitiesLocked = accessLevel === 'limited'
   function handleSimulateIdentityApproval() {
-    const record = devSimulateIdentityApproval(CURRENT_USER_ID)
+    const record = devSimulateIdentityApproval(IDENTITY_USER_ID)
     setIdentityStatus(record.status)
   }
 
+  const [progress, setProgress] = useState<OrganizationProgressSummary | null>(null)
+  const [ops, setOps] = useState<OrganizationOpsSummary | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!organizationId) {
+      setProgress(null)
+      setOps(null)
+      setError(null)
+      setLoading(false)
+      return
+    }
+    let cancelled = false
+    setLoading(true)
+    setError(null)
+    Promise.all([
+      getOrganizationProgressSummary(organizationId),
+      getOrganizationOpsSummary(organizationId),
+    ])
+      .then(([progressRow, opsRow]) => {
+        if (cancelled) return
+        setProgress(progressRow)
+        setOps(opsRow)
+        setLoading(false)
+      })
+      .catch(err => {
+        if (cancelled) return
+        setProgress(null)
+        setOps(null)
+        const progressMsg = describeOrganizationProgressError(err)
+        const opsMsg = describeOrganizationOpsError(err)
+        setError(progressMsg || opsMsg)
+        setLoading(false)
+      })
+    return () => { cancelled = true }
+  }, [organizationId])
+
   const isOrganization = accountType === 'organization'
-  const invitations = getInvitationsForProfessional(isOrganization ? null : CURRENT_USER_ID, isOrganization ? organizationId : null)
-  // This session's own accepted bids — each one is a real active project
-  // this professional is currently working (see the header comment above).
-  const activeProjectBids = getBidsForProfessional(CURRENT_USER_ID).filter(b => b.status === 'accepted')
   const resolvedVerification = parseVerificationStatus(verificationStatus)
   const professionalTypeLabel = professionalType === 'other'
     ? (professionalTypeOther || 'Other')
@@ -264,13 +312,13 @@ export default function ProfessionalDashboardScreen({
     ? (specializationOther || 'Other')
     : specialization ? SPECIALIZATION_LABELS[specialization as Specialization] : undefined
   const displayProfessionLabel = specializationLabel ?? professionalTypeLabel
-  const displayName = companyName || (isOrganization ? 'Your organization' : 'there')
+  const displayName = orgName || (isOrganization ? 'Your organization' : 'there')
   const initials = companyInitials(displayName)
 
   const checklist = buildProfileChecklist({
     hasProfessionalType: Boolean(professionalType),
     isOrganization,
-    hasCompanyName: Boolean(companyName),
+    hasCompanyName: Boolean(companyName || currentOrganization?.name),
     verificationStatus: resolvedVerification,
     hasServices: Boolean(serviceCategories),
     hasServiceLocations: Boolean(serviceLocations),
@@ -278,293 +326,441 @@ export default function ProfessionalDashboardScreen({
     hasTeamMembers: Number(invitedCount) > 0,
   })
   const strengthPct = profileCompletionPercent(checklist)
-  const stats = getProfessionalDashboardStats(strengthPct)
   const nextProfileScreen = nextIncompleteProfileScreen(checklist)
-  const opportunitiesLabel = opportunityLabelForProfessionalType(professionalType as ProfessionalType | undefined)
+
+  const stats = buildCompanyHomeStats(progress, ops)
+  const recentProgress = buildCompanyHomeRecentProgress(progress)
+  const openItems = buildCompanyHomeOpenItems(ops)
+  const projectCount = progress?.totals.projectCount ?? ops?.totals.projectCount ?? 0
+
+  function orgNav(screen: string, extra?: Record<string, string>) {
+    onNavigate(screen, {
+      organization_id: organizationId ?? '',
+      company_name: orgName,
+      ...extra,
+    })
+  }
+
+  function openProject(
+    screen: string,
+    project: {
+      projectId: string
+      projectName: string
+      location: string | null
+      propertyType: string | null
+      type: string | null
+      stage: string | null
+      status: string | null
+    },
+  ) {
+    onNavigate(screen, {
+      project_id: project.projectId,
+      project_name: project.projectName,
+      project_type: project.type ?? '',
+      location: project.location ?? '',
+      property_type: project.propertyType ?? '',
+      project_stage: project.stage ?? '',
+      project_status: project.status ?? '',
+      organization_id: organizationId ?? '',
+      company_name: orgName,
+    })
+  }
 
   function handleAskHozie(prompt?: string) {
     onNavigate(PROFESSIONAL_DASHBOARD_ROUTES.aiAdvisor, {
       onboarding_context: 'professional-dashboard',
-      organization_id: organizationId,
+      organization_id: organizationId ?? '',
       ...(professionalType ? { professional_type: professionalType } : {}),
       ...(prompt ? { prompt } : {}),
     })
   }
 
-  // Bridges a direct invitation into the existing Submit Bid screen (032) —
-  // opportunity_id carries the invitation's own real projectId, so the
-  // resulting Bid.opportunityId equals ProjectInvitation.projectId, never a
-  // fabricated id. invitation_id lets 032 source its header from real
-  // project context instead of a ProjectOpportunity lookup.
-  function handleSubmitProposal(invitationId: string, invitationProjectId: string) {
-    onNavigate('submit-bid', { opportunity_id: invitationProjectId, invitation_id: invitationId })
-  }
+  if (role !== undefined && !isProfessional) return null
 
   return (
     <>
-    <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
-      <PartnerNavRail active="home" onNavigate={onNavigate} organizationId={organizationId} opportunitiesLocked={opportunitiesLocked} onSignOut={() => setShowSignOutModal(true)} />
+      <div className="h-full flex" style={{ backgroundColor: '#FBF9F7' }}>
+        <PartnerNavRail
+          active="home"
+          onNavigate={onNavigate}
+          organizationId={organizationId ?? undefined}
+          opportunitiesLocked={opportunitiesLocked}
+          onSignOut={() => setShowSignOutModal(true)}
+        />
 
-      <div className="flex-1 flex flex-col min-w-0 relative overflow-y-auto">
-        <MobileTopBar userInitials={initials} onNavigate={onNavigate} />
+        <div className="flex-1 flex flex-col min-w-0 relative overflow-y-auto">
+          <MobileTopBar userInitials={initials} onNavigate={onNavigate} />
 
-        <main className="flex-1 relative z-10 px-5 sm:px-8 lg:px-10 py-6 sm:py-8 w-full">
-          <div className="w-full flex flex-col gap-6" style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <main className="flex-1 relative z-10 px-5 sm:px-8 lg:px-10 py-6 sm:py-8 w-full">
+            <div className="w-full flex flex-col gap-6" style={{ maxWidth: 1100, margin: '0 auto' }}>
 
-            {/* Greeting */}
-            <div className="flex flex-col gap-2">
-              <h1 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
-                {greetingWord()}, {displayName}.
-              </h1>
-              <div className="flex items-center gap-2 flex-wrap">
-                {displayProfessionLabel && (
-                  <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#242326] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
-                    {displayProfessionLabel}
+              <header className="flex flex-col gap-2">
+                <p className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1] m-0" style={{ fontFamily: FONT_MONO }}>
+                  Company Home
+                </p>
+                <h1 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                  {greetingWord()}, {displayName}.
+                </h1>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {displayProfessionLabel && (
+                    <span className="flex items-center gap-1.5 min-h-7 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#242326] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
+                      {displayProfessionLabel}
+                    </span>
+                  )}
+                  <span className="flex items-center gap-1.5 min-h-7 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#242326] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
+                    {isOrganization ? 'Organization' : 'Individual Professional'}
                   </span>
-                )}
-                <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#242326] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
-                  {isOrganization ? 'Organization' : 'Individual Professional'}
-                </span>
-                {location && (
-                  <span className="flex items-center gap-1 text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-                    <PinIcon /> {location}
-                  </span>
-                )}
-              </div>
-            </div>
+                  {(location || currentOrganization) && (
+                    <span className="flex items-center gap-1 text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                      <PinIcon /> {location || 'Company workspace'}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[13.5px] text-[#68636D] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+                  Construction progress, open site work, and project records across your organization.
+                </p>
+              </header>
 
-            {/* Identity verification gate — Part 3 of the access-gating plan.
-                Shown whenever accessLevel is 'limited'; disappears the moment
-                identity status becomes 'verified'. The dev-only affordance is
-                the sole way to reach 'verified' in this backend-less demo. */}
-            {opportunitiesLocked && (
-              <div className="flex items-center justify-between gap-3 flex-wrap rounded-[12px] border border-[#F5CD7C] bg-[#FFF8E8] px-4 py-3">
-                <div className="flex items-center gap-2.5">
-                  <LockIcon size={14} />
-                  <p className="text-[12.5px] text-[#8A6116] m-0" style={{ fontFamily: FONT_BODY }}>
-                    Verification pending — Houzeify is reviewing your identity. Some features are limited until you're verified.
+              {opportunitiesLocked && (
+                <div className="flex items-center justify-between gap-3 flex-wrap rounded-[12px] border border-[#F5CD7C] bg-[#FFF8E8] px-4 py-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <LockIcon size={14} />
+                    <p className="text-[12.5px] text-[#8A6116] m-0" style={{ fontFamily: FONT_BODY }}>
+                      Verification pending — Business Development opportunities stay limited until identity is verified. Construction Record screens remain available.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSimulateIdentityApproval}
+                    className="shrink-0 min-h-11 h-11 px-3 rounded-[10px] text-[12px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:text-[#722ED1] hover:border-[#722ED1] transition-colors"
+                    style={{ fontFamily: FONT_BODY }}
+                    title="Development-only affordance — simulates identity verification approval."
+                  >
+                    DEV · Simulate approval
+                  </button>
+                </div>
+              )}
+
+              {!organizationId ? (
+                <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+                  <HIcon size={36} />
+                  <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                    Organization information unavailable.
+                  </p>
+                  <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+                    Company Home belongs to your organization workspace — set up your organization first.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate('create-organization')}
+                    className="min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 text-white"
+                    style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                  >
+                    Set up organization
+                  </button>
+                </div>
+              ) : loading ? (
+                <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} aria-live="polite">
+                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                    Loading company construction record…
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleSimulateIdentityApproval}
-                  className="shrink-0 h-7 px-2.5 rounded-full text-[10.5px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:text-[#722ED1] hover:border-[#722ED1] transition-colors"
-                  style={{ fontFamily: FONT_BODY }}
-                  title="Development-only affordance — simulates a backend approving your identity verification."
-                >
-                  DEV · Simulate approval
-                </button>
-              </div>
-            )}
-
-            {/* Hozie AI card */}
-            <div className="rounded-[18px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, #F3EAFF 100%)', border: '1px solid rgba(243,234,255,0.10)' }}>
-              <div className="flex items-center gap-3">
-                <HIcon size={36} />
-                <div className="flex flex-col">
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Hozie</span>
-                  <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Your AI construction assistant</span>
-                </div>
-              </div>
-              <p className="text-[14px] text-[#242326] m-0" style={{ fontFamily: FONT_BODY }}>What would you like to work on today?</p>
-              <div className="flex items-center border rounded-[12px] bg-white h-[48px] overflow-hidden border-[#E3DDD7] focus-within:border-[#722ED1] transition-colors">
-                <input
-                  type="text"
-                  value={askInput}
-                  onChange={e => setAskInput(e.target.value)}
-                  placeholder="Ask Hozie..."
-                  className="flex-1 h-full px-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
-                  style={{ fontFamily: FONT_BODY }}
-                />
-                <button
-                  type="button"
-                  onClick={() => handleAskHozie(askInput.trim() || undefined)}
-                  className="h-full px-5 shrink-0 text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all flex items-center gap-1.5"
-                  style={{ fontFamily: FONT_BODY }}
-                >
-                  Ask Hozie <ArrowRightIcon />
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {['Review my opportunities', 'Help me prepare a bid', 'Analyze a project', 'Help me improve my profile'].map(suggestion => (
+              ) : error ? (
+                <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} role="alert">
+                  <HIcon size={36} />
+                  <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                    Couldn’t load company home
+                  </p>
+                  <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
+                    {error}
+                  </p>
                   <button
-                    key={suggestion}
                     type="button"
-                    onClick={() => handleAskHozie(suggestion)}
-                    className="h-8 px-3 rounded-full text-[12px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] hover:text-[#722ED1] transition-colors"
+                    onClick={() => {
+                      setLoading(true)
+                      setError(null)
+                      Promise.all([
+                        getOrganizationProgressSummary(organizationId),
+                        getOrganizationOpsSummary(organizationId),
+                      ])
+                        .then(([progressRow, opsRow]) => {
+                          setProgress(progressRow)
+                          setOps(opsRow)
+                          setLoading(false)
+                        })
+                        .catch(err => {
+                          setError(describeOrganizationProgressError(err))
+                          setLoading(false)
+                        })
+                    }}
+                    className="min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 text-white"
+                    style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                  >
+                    Try again
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3" aria-label="Company construction summary">
+                    {stats.map(stat => (
+                      <StatCard
+                        key={stat.label}
+                        value={stat.value}
+                        label={stat.label}
+                        onOpen={() => orgNav(stat.dest)}
+                      />
+                    ))}
+                  </div>
+
+                  {projectCount === 0 ? (
+                    <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+                      <HIcon size={36} />
+                      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                        No construction projects yet.
+                      </p>
+                      <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
+                        Create a project to start the Digital Construction Record for your company.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => orgNav('create-construction-project')}
+                        className="min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 text-white"
+                        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                      >
+                        Create Project
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <SectionCard
+                        title="Recent progress"
+                        action={(
+                          <button
+                            type="button"
+                            onClick={() => orgNav(COMPANY_NAV_ROUTES.progress)}
+                            className="min-h-11 px-2 text-[12.5px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline"
+                            style={{ fontFamily: FONT_BODY }}
+                          >
+                            View all
+                          </button>
+                        )}
+                      >
+                        {recentProgress.length === 0 ? (
+                          <EmptyState
+                            message="No progress updates yet across your projects."
+                            ctaLabel="Open Progress"
+                            onCtaClick={() => orgNav(COMPANY_NAV_ROUTES.progress)}
+                          />
+                        ) : (
+                          <ul className="flex flex-col gap-2.5 m-0 p-0 list-none">
+                            {recentProgress.map(item => (
+                              <li key={`${item.projectId}-${item.date}-${item.title}`}>
+                                <button
+                                  type="button"
+                                  onClick={() => openProject('project-progress', item)}
+                                  className="w-full flex items-start justify-between gap-3 rounded-[12px] border border-[#E3DDD7] p-3 text-left cursor-pointer bg-white hover:border-[#722ED1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                                >
+                                  <div className="min-w-0 flex flex-col gap-0.5">
+                                    <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+                                    <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                                      {item.projectName} · {formatDate(item.date)}
+                                      {item.visibility === 'customer' ? ' · Shared' : ' · Internal'}
+                                    </span>
+                                    <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>
+                                      {stageLabel(item.stage)}
+                                    </span>
+                                  </div>
+                                  <span className="shrink-0 text-[#722ED1] mt-1" aria-hidden="true"><ArrowRightIcon /></span>
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </SectionCard>
+
+                      <SectionCard
+                        title="Open site work"
+                        action={(
+                          <button
+                            type="button"
+                            onClick={() => orgNav(COMPANY_NAV_ROUTES.siteOperations)}
+                            className="min-h-11 px-2 text-[12.5px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline"
+                            style={{ fontFamily: FONT_BODY }}
+                          >
+                            Site Operations
+                          </button>
+                        )}
+                      >
+                        {openItems.length === 0 ? (
+                          <EmptyState
+                            message="No open tasks or issues right now."
+                            ctaLabel="Open Site Operations"
+                            onCtaClick={() => orgNav(COMPANY_NAV_ROUTES.siteOperations)}
+                          />
+                        ) : (
+                          <ul className="flex flex-col gap-2.5 m-0 p-0 list-none">
+                            {openItems.map(item => (
+                              <li key={`${item.kind}-${item.id}`}>
+                                <button
+                                  type="button"
+                                  onClick={() => openProject(item.kind === 'task' ? 'project-tasks' : 'project-issues', {
+                                    projectId: item.projectId,
+                                    projectName: item.projectName,
+                                    location: item.location,
+                                    propertyType: item.propertyType,
+                                    type: item.type,
+                                    stage: item.stage,
+                                    status: item.projectStatus,
+                                  })}
+                                  className="w-full flex items-start justify-between gap-3 rounded-[12px] border border-[#E3DDD7] p-3 text-left cursor-pointer bg-white hover:border-[#722ED1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                                >
+                                  <div className="min-w-0 flex flex-col gap-0.5">
+                                    <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+                                    <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                                      {item.projectName} · {item.kind === 'task' ? 'Task' : 'Issue'} · {formatOpsStatus(item.status)}
+                                    </span>
+                                    <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>
+                                      {formatOpsPriority(item.priority)}
+                                    </span>
+                                  </div>
+                                  <span className="shrink-0 text-[#722ED1] mt-1" aria-hidden="true"><ArrowRightIcon /></span>
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </SectionCard>
+                    </div>
+                  )}
+
+                  <SectionCard title="Construction Record shortcuts">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                      {[
+                        { label: 'Projects', dest: COMPANY_NAV_ROUTES.projects },
+                        { label: 'Progress', dest: COMPANY_NAV_ROUTES.progress },
+                        { label: 'Site Operations', dest: COMPANY_NAV_ROUTES.siteOperations },
+                        { label: 'Workforce', dest: COMPANY_NAV_ROUTES.workforce },
+                        { label: 'Documents', dest: COMPANY_NAV_ROUTES.documents },
+                        { label: 'Reports', dest: COMPANY_NAV_ROUTES.reports },
+                      ].map(action => (
+                        <button
+                          key={action.label}
+                          type="button"
+                          onClick={() => orgNav(action.dest)}
+                          className="min-h-11 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold border border-[#E3DDD7] bg-white text-[#242326] cursor-pointer hover:border-[#722ED1] hover:text-[#722ED1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] text-left"
+                          style={{ fontFamily: FONT_BODY }}
+                        >
+                          {action.label}
+                        </button>
+                      ))}
+                    </div>
+                  </SectionCard>
+                </>
+              )}
+
+              <div className="rounded-[18px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, #F3EAFF 100%)', border: '1px solid rgba(114,46,209,0.12)' }}>
+                <div className="flex items-center gap-3">
+                  <HIcon size={36} />
+                  <div className="flex flex-col">
+                    <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Hozie</span>
+                    <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Your AI construction assistant</span>
+                  </div>
+                </div>
+                <p className="text-[14px] text-[#242326] m-0" style={{ fontFamily: FONT_BODY }}>What would you like to work on today?</p>
+                <div className="flex items-center border rounded-[12px] bg-white min-h-[48px] overflow-hidden border-[#E3DDD7] focus-within:border-[#722ED1] transition-colors">
+                  <input
+                    type="text"
+                    value={askInput}
+                    onChange={e => setAskInput(e.target.value)}
+                    placeholder="Ask Hozie..."
+                    aria-label="Ask Hozie"
+                    className="flex-1 min-h-[48px] h-full px-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    style={{ fontFamily: FONT_BODY }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleAskHozie(askInput.trim() || undefined)}
+                    className="min-h-[48px] h-full px-5 shrink-0 text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all flex items-center gap-1.5"
                     style={{ fontFamily: FONT_BODY }}
                   >
-                    {suggestion}
+                    Ask Hozie <ArrowRightIcon />
                   </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              <StatCard value={String(stats.newOpportunities)} label="New Opportunities" />
-              <StatCard value={String(stats.activeBids)} label="Active Bids" />
-              {/* Real count from activeProjectBids — not stats.activeProjects,
-                  whose own module still honestly zeros it (see that
-                  function's comment); this screen now has a real source. */}
-              <StatCard value={String(activeProjectBids.length)} label="Active Projects" />
-              <StatCard value={stats.profileStrengthPct !== null ? `${stats.profileStrengthPct}%` : '—'} label="Profile Strength" />
-            </div>
-
-            {/* Opportunities + Bids */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <SectionCard title="Project Opportunities">
-                <p className="text-[12px] text-[#9A949D] -mt-1 m-0" style={{ fontFamily: FONT_BODY }}>{opportunitiesLabel}</p>
-                <EmptyState
-                  message="No new opportunities yet."
-                  ctaLabel="Discover Projects"
-                  onCtaClick={() => onNavigate('discover-projects', { organization_id: organizationId })}
-                  ctaLocked={opportunitiesLocked}
-                />
-              </SectionCard>
-              <SectionCard title="My Bids">
-                <EmptyState
-                  message="You haven't submitted any bids yet."
-                  ctaLabel="Find Projects"
-                  onCtaClick={() => onNavigate('discover-projects', { organization_id: organizationId })}
-                  ctaLocked={opportunitiesLocked}
-                />
-              </SectionCard>
-            </div>
-
-            {/* Project Invitations — real invitations.ts data, never fabricated */}
-            <SectionCard title="Project Invitations">
-              {invitations.length === 0 ? (
-                <EmptyState message="No project invitations yet." />
-              ) : (
-                <div className="flex flex-col gap-2.5">
-                  {invitations.map(inv => (
-                    <div key={inv.id} className="flex items-center justify-between gap-3 rounded-[12px] border border-[#E3DDD7] p-3">
-                      <div className="flex flex-col gap-0.5 min-w-0">
-                        <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Homeowner Project'}</span>
-                        <div className="flex items-center gap-1.5 flex-wrap text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-                          {location && <span className="flex items-center gap-1"><PinIcon /> {location}</span>}
-                          <span className="text-[#9A949D]">{INVITATION_STATUS_LABELS[inv.status]}</span>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleSubmitProposal(inv.id, inv.projectId)}
-                        className="shrink-0 flex items-center gap-1.5 h-9 px-3.5 rounded-[9px] text-[12.5px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all"
-                        style={{ fontFamily: FONT_BODY }}
-                      >
-                        Submit Proposal <ArrowRightIcon />
-                      </button>
-                    </div>
-                  ))}
                 </div>
-              )}
-            </SectionCard>
-
-            {/* Active Projects — one card per accepted bid (real, see the
-                header comment above) */}
-            <SectionCard title="Active Projects">
-              {activeProjectBids.length === 0 ? (
-                <EmptyState message="No active projects yet." />
-              ) : (
-                <div className="flex flex-col gap-2.5">
-                  {activeProjectBids.map(bid => (
-                    <div key={bid.id} className="flex items-center justify-between gap-3 rounded-[12px] border border-[#E3DDD7] p-3">
-                      <div className="flex flex-col gap-0.5 min-w-0">
-                        <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Homeowner Project'}</span>
-                        <div className="flex items-center gap-1.5 flex-wrap text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-                          {location && <span className="flex items-center gap-1"><PinIcon /> {location}</span>}
-                          <span className="text-[#9A949D]">Contractor Selected</span>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        // Finding 4 fix (Task 9 round 1) — 'update-progress'
-                        // (UpdateProgressScreen.tsx) writes to the old
-                        // in-memory projectProgress.ts store, which
-                        // ProjectProgressScreen.tsx no longer reads from
-                        // (Task 6 rewired it to the real daily_progress
-                        // backend via useDailyProgress). Routing here
-                        // instead, matching the param shape
-                        // CreateDailyProgressScreen.tsx/App.tsx's
-                        // 'create-daily-progress' registration expects
-                        // (project_id/project_name merge straight into
-                        // projectData, same as every other project nav
-                        // call in this file).
-                        onClick={() => onNavigate('create-daily-progress', { project_id: bid.opportunityId, project_name: projectName || 'Homeowner Project' })}
-                        className="shrink-0 flex items-center gap-1.5 h-9 px-3.5 rounded-[9px] text-[12.5px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all"
-                        style={{ fontFamily: FONT_BODY }}
-                      >
-                        Update Progress <ArrowRightIcon />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </SectionCard>
-
-            {/* Profile completion + Quick actions */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <SectionCard
-                title="Complete your professional profile"
-                action={<span className="text-[12px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>{strengthPct}%</span>}
-              >
-                <div className="flex flex-col divide-y divide-[#CAC7C6]">
-                  {checklist.map(item => <ChecklistRow key={item.id} item={item} />)}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => onNavigate(nextProfileScreen, { organization_id: organizationId })}
-                  className="self-start mt-1 text-[13px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline p-0"
-                  style={{ fontFamily: FONT_BODY }}
-                >
-                  Complete profile →
-                </button>
-              </SectionCard>
-
-              <SectionCard title="Quick Actions">
-                <div className="grid grid-cols-2 gap-2.5">
-                  {[
-                    { label: 'Discover Projects', dest: 'discover-projects', locked: opportunitiesLocked },
-                    { label: 'My Bids', dest: PROFESSIONAL_DASHBOARD_ROUTES.myBids },
-                    { label: 'My Projects', dest: null },
-                    { label: 'Manage Profile', dest: PROFESSIONAL_DASHBOARD_ROUTES.manageProfile },
-                    { label: 'Team', dest: PROFESSIONAL_DASHBOARD_ROUTES.team },
-                    { label: 'Messages', dest: null },
-                  ].map(action => {
-                    const isDisabled = !action.dest || action.locked
-                    return (
+                <div className="flex flex-wrap gap-2">
+                  {['Summarize company progress', 'What open site work needs attention?', 'Help me improve my profile'].map(suggestion => (
                     <button
-                      key={action.label}
+                      key={suggestion}
                       type="button"
-                      disabled={isDisabled}
-                      title={action.locked ? 'Locked until your identity is verified' : action.dest ? undefined : 'Coming soon'}
-                      onClick={() => action.dest && !action.locked && onNavigate(action.dest, { organization_id: organizationId })}
+                      onClick={() => handleAskHozie(suggestion)}
+                      className="min-h-11 h-11 px-3 rounded-full text-[12px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] hover:text-[#722ED1] transition-colors"
+                      style={{ fontFamily: FONT_BODY }}
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <SectionCard
+                  title="Complete your professional profile"
+                  action={<span className="text-[12px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>{strengthPct}%</span>}
+                >
+                  <div className="flex flex-col divide-y divide-[#E3DDD7]">
+                    {checklist.map(item => <ChecklistRow key={item.id} item={item} />)}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate(nextProfileScreen, { organization_id: organizationId ?? '' })}
+                    className="self-start mt-1 min-h-11 text-[13px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline p-0"
+                    style={{ fontFamily: FONT_BODY }}
+                  >
+                    Complete profile →
+                  </button>
+                </SectionCard>
+
+                <SectionCard title="Business Development">
+                  <p className="text-[12.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                    Opportunities and bids remain available under Business Development. They are not part of the Construction Record home.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1">
+                    <button
+                      type="button"
+                      disabled={opportunitiesLocked}
+                      title={opportunitiesLocked ? 'Locked until your identity is verified' : undefined}
+                      onClick={() => !opportunitiesLocked && orgNav(COMPANY_NAV_ROUTES.discoverProjects)}
                       className={[
-                        'h-10 px-3 rounded-[10px] text-[12.5px] font-semibold border transition-colors text-left',
-                        !isDisabled ? 'cursor-pointer border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] hover:text-[#722ED1]' : 'cursor-not-allowed border-[#E3DDD7] bg-[#FFFFFF] text-[#9A949D]',
+                        'min-h-11 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold border text-left',
+                        opportunitiesLocked
+                          ? 'cursor-not-allowed border-[#E3DDD7] text-[#9A949D] bg-white'
+                          : 'cursor-pointer border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] hover:text-[#722ED1]',
                       ].join(' ')}
                       style={{ fontFamily: FONT_BODY }}
                     >
-                      <span className="flex items-center gap-1.5">{action.label}{action.locked && <LockIcon size={10} />}</span>
-                      {!action.dest && <span className="block text-[10px] text-[#CAC7C6]">Coming soon</span>}
+                      <span className="flex items-center gap-1.5">Discover Projects{opportunitiesLocked && <LockIcon size={10} />}</span>
                     </button>
-                    )
-                  })}
-                </div>
-              </SectionCard>
-            </div>
+                    <button
+                      type="button"
+                      onClick={() => orgNav(COMPANY_NAV_ROUTES.myBids)}
+                      className="min-h-11 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold border border-[#E3DDD7] bg-white text-[#242326] cursor-pointer hover:border-[#722ED1] hover:text-[#722ED1] text-left"
+                      style={{ fontFamily: FONT_BODY }}
+                    >
+                      My Bids
+                    </button>
+                  </div>
+                </SectionCard>
+              </div>
 
-            {resolvedVerification !== 'verified' && (
-              <p className="text-[12px] text-[#9A949D] text-center m-0" style={{ fontFamily: FONT_BODY }}>
-                Verification status: {VERIFICATION_STATUS_LABELS[resolvedVerification]}
-              </p>
-            )}
-          </div>
-        </main>
+              {resolvedVerification !== 'verified' && (
+                <p className="text-[12px] text-[#9A949D] text-center m-0" style={{ fontFamily: FONT_BODY }}>
+                  Verification status: {VERIFICATION_STATUS_LABELS[resolvedVerification]}
+                </p>
+              )}
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
-    {showSignOutModal && <SignOutModal onCancel={() => setShowSignOutModal(false)} onConfirm={signOutConfirmed} />}
+      {showSignOutModal && <SignOutModal onCancel={() => setShowSignOutModal(false)} onConfirm={signOutConfirmed} />}
     </>
   )
 }
