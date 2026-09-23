@@ -1,3 +1,8 @@
+// ─── Screen 04 — Project Workspace hub (SHARED KEEP polish) ─────────────────
+// C10 project hub: real project + progress/tasks/issues/workforce/docs/BOQ/
+// customer summaries. Company vs customer via PartnerNavRail / Sidebar +
+// ProjectSubNav. Preset/shadcn components are not used here.
+
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
 import Sidebar from '@/shared/components/Sidebar'
@@ -18,17 +23,21 @@ import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
 import { formatInr } from '@/data/boqFormat'
 import { isServerProjectId } from '@/data/projectIds'
 import { PROJECT_NAV_ROUTES } from '@/data/constructionNav'
+import { projectWorkspaceSectionVisibility } from '@/data/projectWorkspaceSections'
 import ConstructionStageProgression from '@/shared/components/ConstructionStageProgression'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
 const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const CANVAS = '#FBF9F7'
+const focusRing =
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
 
 const IcoBack = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3L5 8l5 5" /></svg>
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5" /></svg>
 )
 const IcoMapPin = ({ size = 13 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 
 function SectionCard({ title, children }: { title?: string; children: ReactNode }) {
@@ -45,7 +54,7 @@ function TextLink({ label, onClick }: { label: string; onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="mt-3 inline-flex items-center min-h-[44px] text-[13px] font-semibold text-[#722ED1] cursor-pointer border-0 bg-transparent p-0"
+      className={`mt-3 inline-flex items-center min-h-11 text-[13px] font-semibold text-[#722ED1] cursor-pointer border-0 bg-transparent p-0 rounded-sm ${focusRing}`}
       style={{ fontFamily: FONT_BODY }}
     >
       {label}
@@ -122,22 +131,24 @@ export default function ProjectWorkspaceScreen({
   const isCompany = role === 'professional'
   const serverProject = isServerProjectId(projectId)
 
-  const { status: projectsStatus, getProject, errorMessage: projectsError } = useProjects()
+  const { status: projectsStatus, getProject, errorMessage: projectsError, refreshProjects } = useProjects()
   const audience = useProjectAudience(projectId)
   const record = projectId ? getProject(projectId) : undefined
+  const sections = projectWorkspaceSectionVisibility(isCompany)
 
   const progressHook = useDailyProgress(serverProject ? projectId : undefined)
-  const tasksHook = useTasks(serverProject ? projectId : undefined)
-  const issuesHook = useIssues(serverProject ? projectId : undefined)
-  const workforceHook = useProjectWorkforce(serverProject && isCompany ? projectId : undefined)
+  const tasksHook = useTasks(serverProject && sections.showTasksIssues ? projectId : undefined)
+  const issuesHook = useIssues(serverProject && sections.showTasksIssues ? projectId : undefined)
+  const workforceHook = useProjectWorkforce(serverProject && sections.showWorkforce ? projectId : undefined)
   const documentsHook = useProjectDocuments(serverProject ? projectId : undefined)
-  const boqHook = useProjectBoq(serverProject ? projectId : undefined)
+  const boqHook = useProjectBoq(serverProject && sections.showBoq ? projectId : undefined)
 
   const [timelineStatus, setTimelineStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
   const [timeline, setTimeline] = useState<CustomerViewTimelineStage[]>([])
   const [timelineRefresh, setTimelineRefresh] = useState(0)
   const [customerStatus, setCustomerStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
   const [customer, setCustomer] = useState<ProjectCustomer | null>(null)
+  const [customerRefresh, setCustomerRefresh] = useState(0)
 
   useEffect(() => {
     if (!canViewProject) onNavigate('welcome')
@@ -183,7 +194,7 @@ export default function ProjectWorkspaceScreen({
         if (!cancelled) setCustomerStatus('error')
       })
     return () => { cancelled = true }
-  }, [serverProject, projectId, isCompany])
+  }, [serverProject, projectId, isCompany, customerRefresh])
 
   const name = record?.name ?? projectName
   const loc = record?.location ?? location
@@ -222,15 +233,20 @@ export default function ProjectWorkspaceScreen({
 
   if (!hasProject) {
     return (
-      <div className="h-full flex min-w-0" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="h-full flex min-w-0" style={{ backgroundColor: CANVAS }}>
         {isCompany
           ? <PartnerNavRail active="projects" onNavigate={onNavigate} organizationId={organizationId} />
           : <Sidebar active="projects" onNavigate={onNavigate} />}
-        <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6 min-w-0">
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6 min-w-0 pb-24 md:pb-6">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>No active project yet.</p>
+          <h1 className="text-[15px] font-semibold text-[#242326] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>No active project yet.</h1>
           <p className="text-[13px] text-[#68636D] m-0 max-w-[320px] text-center" style={{ fontFamily: FONT_BODY }}>Open a project from your Projects list to see its workspace.</p>
-          <button type="button" onClick={goBack} className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white min-h-[44px]" style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}>
+          <button
+            type="button"
+            onClick={goBack}
+            className={`h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white min-h-11 ${focusRing}`}
+            style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+          >
             Back to Projects
           </button>
         </div>
@@ -241,7 +257,7 @@ export default function ProjectWorkspaceScreen({
   const projectMissingAfterLoad = Boolean(projectId && serverProject && projectsStatus === 'loaded' && !record)
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: CANVAS }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         {isCompany
           ? <PartnerNavRail active="projects" onNavigate={onNavigate} organizationId={organizationId || record?.organizationId || undefined} />
@@ -250,7 +266,12 @@ export default function ProjectWorkspaceScreen({
 
           <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
             <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8 min-w-0">
-              <button type="button" onClick={goBack} className="flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              <button
+                type="button"
+                onClick={goBack}
+                className={`flex items-center gap-1.5 min-h-11 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-sm ${focusRing}`}
+                style={{ fontFamily: FONT_BODY }}
+              >
                 <IcoBack /> Back
               </button>
             </div>
@@ -258,15 +279,23 @@ export default function ProjectWorkspaceScreen({
 
           <ProjectSubNav active="overview" projectId={projectId} projectName={name} variant={audience === 'customer' ? 'customer' : 'company'} onNavigate={onNavigate} showWorkspaceHeader={false} />
 
-          <main className="flex-1 overflow-y-auto overflow-x-hidden relative z-10 px-4 sm:px-6 py-8">
+          <main className="flex-1 overflow-y-auto overflow-x-hidden relative z-10 px-4 sm:px-6 py-8 pb-24 md:pb-8">
             <div className="max-w-[1000px] mx-auto flex flex-col gap-6 min-w-0">
               {projectsStatus === 'error' && projectsError && (
-                <div className="rounded-[12px] px-4 py-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+                <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
                   <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{projectsError}</p>
+                  <button
+                    type="button"
+                    onClick={() => { void refreshProjects() }}
+                    className={`min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 text-white shrink-0 ${focusRing}`}
+                    style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                  >
+                    Try again
+                  </button>
                 </div>
               )}
               {projectMissingAfterLoad && (
-                <div className="rounded-[12px] px-4 py-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+                <div className="rounded-[12px] px-4 py-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
                   <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>This project is no longer available.</p>
                 </div>
               )}
@@ -340,7 +369,17 @@ export default function ProjectWorkspaceScreen({
                 {isPending(timelineStatus) ? (
                   <SkeletonLines rows={4} />
                 ) : timelineStatus === 'error' ? (
-                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>Stage progression could not be loaded.</p>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" role="alert">
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>Stage progression could not be loaded.</p>
+                    <button
+                      type="button"
+                      onClick={() => setTimelineRefresh(n => n + 1)}
+                      className={`min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 text-white shrink-0 ${focusRing}`}
+                      style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                    >
+                      Try again
+                    </button>
+                  </div>
                 ) : timeline.length === 0 ? (
                   <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
                     {resolvedStage
@@ -369,7 +408,7 @@ export default function ProjectWorkspaceScreen({
                     Latest update{latestProgressDate ? ` ${latestProgressDate}` : ''}: {latestProgress.title}
                   </p>
                 )}
-                {isCompany && serverProject && projectId && (
+                {sections.showStageProgression && serverProject && projectId && (
                   <ConstructionStageProgression
                     projectId={projectId}
                     currentStage={stage}
@@ -383,16 +422,16 @@ export default function ProjectWorkspaceScreen({
                 {serverProject && isPending(progressHook.status) ? (
                   <SkeletonLines />
                 ) : progressHook.status === 'error' ? (
-                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{progressHook.errorMessage ?? 'Unable to load daily progress.'}</p>
+                  <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{progressHook.errorMessage ?? 'Unable to load daily progress.'}</p>
                 ) : !latestProgress ? (
                   <>
                     <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No daily progress recorded yet</p>
                     <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Record your first daily update to keep the project construction record up to date.</p>
-                    {isCompany && (
+                    {sections.showAddProgress && (
                       <button
                         type="button"
                         onClick={() => navTo('create-daily-progress')}
-                        className="mt-3 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 min-h-[44px]"
+                        className={`mt-3 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 min-h-11 ${focusRing}`}
                         style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
                       >
                         Add progress update
@@ -419,12 +458,13 @@ export default function ProjectWorkspaceScreen({
                 )}
               </SectionCard>
 
+              {sections.showTasksIssues && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
                 <SectionCard title="Tasks">
                   {serverProject && isPending(tasksHook.status) ? (
                     <SkeletonLines rows={2} />
                   ) : tasksHook.status === 'error' ? (
-                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{tasksHook.errorMessage ?? 'Unable to load tasks.'}</p>
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{tasksHook.errorMessage ?? 'Unable to load tasks.'}</p>
                   ) : (
                     <>
                       <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{activeTasks.length}</p>
@@ -440,7 +480,7 @@ export default function ProjectWorkspaceScreen({
                   {serverProject && isPending(issuesHook.status) ? (
                     <SkeletonLines rows={2} />
                   ) : issuesHook.status === 'error' ? (
-                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{issuesHook.errorMessage ?? 'Unable to load issues.'}</p>
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{issuesHook.errorMessage ?? 'Unable to load issues.'}</p>
                   ) : (
                     <>
                       <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{openIssues.length}</p>
@@ -453,13 +493,14 @@ export default function ProjectWorkspaceScreen({
                   )}
                 </SectionCard>
               </div>
+              )}
 
-              {isCompany && (
+              {sections.showWorkforce && (
                 <SectionCard title="Workforce">
                   {serverProject && isPending(workforceHook.status) ? (
                     <SkeletonLines />
                   ) : workforceHook.status === 'error' ? (
-                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{workforceHook.error ?? 'Unable to load workforce.'}</p>
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{workforceHook.error ?? 'Unable to load workforce.'}</p>
                   ) : activeWorkforce.length === 0 ? (
                     <>
                       <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No site team recorded yet</p>
@@ -486,12 +527,12 @@ export default function ProjectWorkspaceScreen({
                 </SectionCard>
               )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+              <div className={`grid grid-cols-1 ${sections.showBoq ? 'sm:grid-cols-2' : ''} gap-4 min-w-0`}>
                 <SectionCard title="Documents">
                   {serverProject && isPending(documentsHook.status) ? (
                     <SkeletonLines rows={2} />
                   ) : documentsHook.status === 'error' ? (
-                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{documentsHook.error ?? 'Unable to load documents.'}</p>
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{documentsHook.error ?? 'Unable to load documents.'}</p>
                   ) : (
                     <>
                       <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{documentsHook.documents.length}</p>
@@ -502,11 +543,12 @@ export default function ProjectWorkspaceScreen({
                     </>
                   )}
                 </SectionCard>
+                {sections.showBoq && (
                 <SectionCard title="Bill of Quantities">
                   {serverProject && isPending(boqHook.status) ? (
                     <SkeletonLines rows={2} />
                   ) : boqHook.status === 'error' ? (
-                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{boqHook.error ?? 'Unable to load the Bill of Quantities.'}</p>
+                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{boqHook.error ?? 'Unable to load the Bill of Quantities.'}</p>
                   ) : !boqHook.hasLoaded || boqHook.boq.totals.itemCount === 0 ? (
                     <>
                       <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No Bill of Quantities items recorded yet.</p>
@@ -522,14 +564,25 @@ export default function ProjectWorkspaceScreen({
                     </>
                   )}
                 </SectionCard>
+                )}
               </div>
 
-              {isCompany && (
+              {sections.showCustomer && (
                 <SectionCard title="Customer">
                   {isPending(customerStatus) ? (
                     <SkeletonLines rows={2} />
                   ) : customerStatus === 'error' ? (
-                    <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>Customer status could not be loaded.</p>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" role="alert">
+                      <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>Customer status could not be loaded.</p>
+                      <button
+                        type="button"
+                        onClick={() => setCustomerRefresh(n => n + 1)}
+                        className={`min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 text-white shrink-0 ${focusRing}`}
+                        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                      >
+                        Try again
+                      </button>
+                    </div>
                   ) : customer?.status === 'active' ? (
                     <>
                       <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Customer connected</p>
