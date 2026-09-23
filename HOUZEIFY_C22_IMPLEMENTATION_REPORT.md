@@ -18,10 +18,10 @@
 ## 2. Final commit
 
 ```text
-0799b63 feat: implement C22 company Documents rollup
+5997ee5 Clarify C22 tip commit on main after merge.
 ```
 
-*(docs tip commit recorded after merge)*
+Implementation commit: `0799b63 feat: implement C22 company Documents rollup.`
 
 ---
 
@@ -183,4 +183,10 @@ Company Tasks/Issues index; attendance / Site Ops; Live Site; activity feed; Tas
 
 ## 19. Merge result
 
+```text
+Fast-forward merge: 46fe5a5..7ee72b5 → main
+Clarify tip: 5997ee5
+Pushed origin/main
+origin/main synchronized: YES
+```
 
