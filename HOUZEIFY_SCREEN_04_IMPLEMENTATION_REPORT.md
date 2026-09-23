@@ -26,7 +26,7 @@
 f4fe5f2 docs: record screen 03 origin tip SHA
 ```
 
-**Final commit:** filled after merge (§17).
+**Final implement commit:** `b21ad01`
 
 ---
 
@@ -221,10 +221,14 @@ Houzeify design tokens remain authoritative.
 
 ## 17. Final Commit
 
-Pending.
+```text
+b21ad01 Implement Houzeify Screen 04
+```
+
+Full SHA: `b21ad0159934b6d0a69080450f98f10229794924`
 
 ---
 
 ## 18. Origin Synchronization
 
-Pending after push.
+Will confirm tip after FF-merge / push.
