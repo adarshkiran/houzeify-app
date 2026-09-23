@@ -11,6 +11,7 @@ import { useProjectAudience } from '@/data/customerProjectsState'
 import { describeCustomerViewError, listCustomerViewProgress } from '@/data/customerViewApi'
 import { constructionStages } from '@/data/constructionStages'
 import type { DailyProgress } from '@/data/dailyProgressApi'
+import AuthenticatedImage from '@/shared/components/AuthenticatedImage'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -226,6 +227,8 @@ export default function ProjectProgressScreen({
           size: photo.size,
           uploadedBy: '',
           storageRef: '',
+          fileAvailable: photo.fileAvailable,
+          contentUrl: photo.contentUrl,
           createdAt: photo.createdAt,
         })),
         visibility: 'customer' as const,
@@ -440,11 +443,24 @@ export default function ProjectProgressScreen({
                               <p className="text-[12.5px] text-[#68636D] m-0 mt-1 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>{entry.description}</p>
                             )}
                             {entry.photos.length > 0 && (
-                              <div className="flex items-center gap-1.5 mt-2 text-[#9A949D]">
-                                <IcoPhoto />
-                                <span className="text-[12px]" style={{ fontFamily: FONT_BODY }}>
-                                  {entry.photos.length} photo{entry.photos.length === 1 ? '' : 's'}
-                                </span>
+                              <div className="mt-3">
+                                <div className="flex items-center gap-1.5 text-[#9A949D] mb-2">
+                                  <IcoPhoto />
+                                  <span className="text-[12px]" style={{ fontFamily: FONT_BODY }}>
+                                    {entry.photos.length} photo{entry.photos.length === 1 ? '' : 's'}
+                                  </span>
+                                </div>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                  {entry.photos.map(photo => (
+                                    <AuthenticatedImage
+                                      key={photo.id}
+                                      contentUrl={photo.fileAvailable ? photo.contentUrl : null}
+                                      alt={photo.fileName}
+                                      className="w-full aspect-square object-cover rounded-[10px]"
+                                      unavailableLabel={photo.fileAvailable === false ? 'Historical photo unavailable' : 'Photo unavailable'}
+                                    />
+                                  ))}
+                                </div>
                               </div>
                             )}
                           </div>

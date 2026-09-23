@@ -32,8 +32,16 @@ import {
 } from '../db/schema.js'
 import { HttpError } from '../errors/httpError.js'
 import { getProjectForAccess } from './project.service.js'
-import { canMutateAtProjectLevel } from './projectAccess.js'
+import { canMutateAtProjectLevel, requireCompanyOrCustomerRead } from './projectAccess.js'
 import { ORGANIZATION_MUTATION_ROLES, type OrganizationMemberRole } from '../organizations/organization.service.js'
+import {
+  buildStorageRef,
+  createObjectStorage,
+  getObjectStorage,
+  isRetrievableStorageRef,
+  parseStorageRef,
+} from '../storage/objectStorage.js'
+import { sanitizeOriginalFileName, validateConstructionPhotoBuffer } from '../storage/imageValidation.js'
 
 export interface DailyProgressInput {
   date: string
@@ -52,8 +60,8 @@ export interface DailyProgressPatch {
 
 export interface DailyProgressPhotoInput {
   fileName: string
-  mimeType: string
-  size: number
+  buffer: Buffer
+  claimedMimeType?: string
 }
 
 async function requireProjectAccess(env: Env, projectId: string, userId: string): Promise<ProjectRow> {
@@ -201,10 +209,9 @@ export async function deleteDailyProgress(env: Env, projectId: string, progressI
   await db.delete(dailyProgress).where(eq(dailyProgress.id, progressId))
 }
 
-/** storageRef is always minted here, from this new row's own id — never
- *  accepted from the caller (see dailyProgress.schemas.ts's own comment;
- *  the input type below has no storageRef field at all, so there is
- *  nothing for a caller to even attempt to pass through). */
+/** C15 — store real image bytes via object storage; mint a retrievable
+ *  storageRef (`local://…` or `s3://…`). Legacy `internal://` rows are never
+ *  created by this path. */
 export async function addDailyProgressPhoto(
   env: Env,
   projectId: string,
@@ -216,19 +223,105 @@ export async function addDailyProgressPhoto(
   const existing = await requireDailyProgressRow(env, projectId, progressId)
   await requireMutationAccess(env, project, existing, userId)
 
-  const db = getDb(env)
+  let validated
+  try {
+    validated = validateConstructionPhotoBuffer(input.buffer, input.claimedMimeType)
+  } catch (err) {
+    const e = err as { code?: string; message?: string; statusCode?: number }
+    throw new HttpError(e.code || 'INVALID_FILE', e.message || 'Invalid file.', e.statusCode || 400)
+  }
+
   const id = randomUUID()
+  const orgSegment = project.organizationId ?? 'personal'
+  const key = [
+    'media',
+    orgSegment,
+    projectId,
+    'daily-progress',
+    progressId,
+    `${id}.${validated.extension}`,
+  ].join('/')
+
+  const storage = getObjectStorage(env)
+  await storage.putObject({
+    key,
+    body: input.buffer,
+    contentType: validated.mimeType,
+  })
+
+  const db = getDb(env)
   const created = await db
     .insert(dailyProgressPhotos)
     .values({
       id,
       dailyProgressId: progressId,
-      fileName: input.fileName.trim(),
-      mimeType: input.mimeType,
-      size: input.size,
+      fileName: sanitizeOriginalFileName(input.fileName),
+      mimeType: validated.mimeType,
+      size: validated.size,
       uploadedBy: userId,
-      storageRef: `internal://daily-progress-photos/${id}`,
+      storageRef: buildStorageRef(storage.providerId, key),
     })
     .returning()
   return created[0]
 }
+
+export type ProgressPhotoContent = {
+  body: Buffer
+  contentType: string
+  fileName: string
+}
+
+/** Authorized byte retrieval for a progress photo. Company members with
+ *  project access may always read. Customers may only read photos on
+ *  published (`visibility=customer`) progress entries. Invited customers
+ *  are denied by requireCompanyOrCustomerRead. */
+export async function getDailyProgressPhotoContent(
+  env: Env,
+  projectId: string,
+  photoId: string,
+  userId: string,
+): Promise<ProgressPhotoContent> {
+  const access = await requireCompanyOrCustomerRead(env, projectId, userId)
+  const db = getDb(env)
+  const rows = await db
+    .select({
+      photo: dailyProgressPhotos,
+      progress: dailyProgress,
+    })
+    .from(dailyProgressPhotos)
+    .innerJoin(dailyProgress, eq(dailyProgressPhotos.dailyProgressId, dailyProgress.id))
+    .where(and(eq(dailyProgressPhotos.id, photoId), eq(dailyProgress.projectId, projectId)))
+    .limit(1)
+  const row = rows[0]
+  if (!row) throw new HttpError('NOT_FOUND', 'Photo not found.', 404)
+
+  if (access.kind === 'customer' && row.progress.visibility !== 'customer') {
+    throw new HttpError('NOT_FOUND', 'Photo not found.', 404)
+  }
+
+  if (!isRetrievableStorageRef(row.photo.storageRef)) {
+    throw new HttpError('MEDIA_UNAVAILABLE', 'This historical photo is no longer available.', 404)
+  }
+
+  const parsed = parseStorageRef(row.photo.storageRef)
+  if (!parsed) throw new HttpError('MEDIA_UNAVAILABLE', 'This historical photo is no longer available.', 404)
+
+  let storage = getObjectStorage(env)
+  if (storage.providerId !== parsed.providerId) {
+    storage = createObjectStorage({
+      ...env,
+      STORAGE_PROVIDER: parsed.providerId,
+    })
+  }
+  const object = await storage.getObject(parsed.key)
+  if (!object) {
+    throw new HttpError('MEDIA_UNAVAILABLE', 'Photo file could not be retrieved.', 404)
+  }
+
+  return {
+    body: object.body,
+    contentType: object.contentType || row.photo.mimeType,
+    fileName: row.photo.fileName,
+  }
+}
+

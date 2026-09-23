@@ -493,14 +493,10 @@ export type DailyProgressRow = typeof dailyProgress.$inferSelect
 export type NewDailyProgressRow = typeof dailyProgress.$inferInsert
 
 // ─── daily_progress_photos ───────────────────────────────────────────────
-// Evidence metadata only — see documentUpload.ts's own header comment and
-// this module's spec: no real file/blob storage exists anywhere in this
-// codebase yet. `storageRef` is a placeholder reference
-// (`internal://daily-progress-photos/<id>`), server-generated from this
-// row's own id (dailyProgress.service.ts) — never a client-supplied
-// value, and never named `storageUrl`, since it is not a real, retrievable
-// URL. Mirrors businessVerification.ts's VerificationDocument precedent
-// with corrected, honest naming.
+// C15 construction evidence metadata. New uploads store real bytes via
+// object storage (`local://…` or `s3://…` storageRef). Legacy rows may still
+// use `internal://…` placeholders with no retrievable file — those are
+// preserved and surfaced as unavailable, never deleted by C15.
 export const dailyProgressPhotos = pgTable(
   'daily_progress_photos',
   {

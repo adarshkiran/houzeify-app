@@ -45,7 +45,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     // is rejected by Fastify's default parser (FST_ERR_CTP_EMPTY_JSON_BODY)
     // before it ever reaches the route handler.
     const headers: Record<string, string> = { ...(init?.headers as Record<string, string> | undefined) }
-    if (init?.body !== undefined && !('Content-Type' in headers)) {
+    const isFormData = typeof FormData !== 'undefined' && init?.body instanceof FormData
+    // FormData must keep the browser-generated multipart boundary — never
+    // force application/json on those requests.
+    if (init?.body !== undefined && !isFormData && !('Content-Type' in headers)) {
       headers['Content-Type'] = 'application/json'
     }
     response = await fetch(`${API_BASE_URL}${path}`, {
@@ -89,6 +92,21 @@ export function apiPost<T>(path: string, data?: unknown): Promise<T> {
     method: 'POST',
     body: JSON.stringify(data ?? {}),
   })
+}
+
+/** Multipart POST — do not set Content-Type; the browser supplies the
+ *  boundary. Used by C15 construction photo upload. */
+export function apiPostFormData<T>(path: string, formData: FormData): Promise<T> {
+  return request<T>(path, {
+    method: 'POST',
+    body: formData,
+    headers: {},
+  })
+}
+
+/** Absolute API URL for authenticated media fetch (blob URLs / img). */
+export function apiUrl(path: string): string {
+  return `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`
 }
 
 export function apiPatch<T>(path: string, data: unknown): Promise<T> {

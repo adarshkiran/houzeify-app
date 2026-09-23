@@ -1,16 +1,8 @@
-// ─── Create Daily Progress — Houzeify 2.0 Module 04 ─────────────────────────
-// Reached from ProjectProgressScreen's "Add Progress Update". Collects
-// exactly the fields the real backend supports (server/projects/
-// dailyProgress.schemas.ts) — date (defaults to today), construction
-// stage (defaults to the project's own current Project.stage, reusing
-// constructionStages.ts's existing taxonomy — never a new one), title,
-// description, and photo evidence. Photos are attached as METADATA ONLY
-// after the progress entry itself is created — this codebase has no real
-// file storage anywhere (see documentUpload.ts's own header comment); the
-// selected files are only ever previewed client-side via
-// URL.createObjectURL, never uploaded as bytes. Reuses the same Sidebar +
-// ProjectSubNav shell every other project screen already uses, for
-// consistency — no new nav pattern introduced.
+// ─── Create Daily Progress — Houzeify 2.0 Module 04 / C15 ───────────────────
+// Collects date, stage, title, description, and construction photo evidence.
+// Photos are uploaded as real multipart bytes after the progress entry is
+// created (C15 persistent object storage). Client-side type/size checks are
+// UX only — the server re-validates.
 
 import { useEffect, useRef, useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
@@ -18,6 +10,9 @@ import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import { useDailyProgress } from '@/data/dailyProgressState'
 import { describeDailyProgressError } from '@/data/dailyProgressApi'
 import { constructionStages } from '@/data/constructionStages'
+
+const MAX_PHOTO_BYTES = 15 * 1024 * 1024
+const ALLOWED_PHOTO_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/jpg'])
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -97,9 +92,23 @@ export default function CreateDailyProgressScreen({
 
   function onFilesSelected(fileList: FileList | null) {
     if (!fileList) return
-    const files = Array.from(fileList).filter(f => f.type.startsWith('image/'))
-    const next = files.map(file => ({ file, previewUrl: URL.createObjectURL(file) }))
-    setPendingPhotos(prev => [...prev, ...next])
+    const accepted: PendingPhoto[] = []
+    const rejected: string[] = []
+    for (const file of Array.from(fileList)) {
+      const type = file.type === 'image/jpg' ? 'image/jpeg' : file.type
+      if (!ALLOWED_PHOTO_TYPES.has(type)) {
+        rejected.push(`${file.name}: use JPEG, PNG, or WebP`)
+        continue
+      }
+      if (file.size > MAX_PHOTO_BYTES) {
+        rejected.push(`${file.name}: exceeds 15 MB`)
+        continue
+      }
+      accepted.push({ file, previewUrl: URL.createObjectURL(file) })
+    }
+    if (rejected.length) setError(rejected.join('. '))
+    else if (accepted.length) setError(null)
+    if (accepted.length) setPendingPhotos(prev => [...prev, ...accepted])
   }
 
   function removePendingPhoto(index: number) {
@@ -121,11 +130,7 @@ export default function CreateDailyProgressScreen({
         description: description.trim() || undefined,
       })
       for (const pending of pendingPhotos) {
-        await dailyProgress.addPhoto(entry.id, {
-          fileName: pending.file.name,
-          mimeType: pending.file.type,
-          size: pending.file.size,
-        })
+        await dailyProgress.addPhoto(entry.id, pending.file)
       }
       for (const pending of pendingPhotos) {
         URL.revokeObjectURL(pending.previewUrl)
@@ -217,9 +222,17 @@ export default function CreateDailyProgressScreen({
 
               <div>
                 <label className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_HEAD }}>
-                  Photos <span className="text-[#9A949D] font-normal">Optional</span>
+                  Photos <span className="text-[#9A949D] font-normal">Optional · JPEG, PNG, WebP · max 15 MB</span>
                 </label>
-                <input type="file" accept="image/*" multiple onChange={e => onFilesSelected(e.target.files)} className="text-[13px]" style={{ fontFamily: FONT_BODY }} />
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  capture="environment"
+                  multiple
+                  onChange={e => onFilesSelected(e.target.files)}
+                  className="text-[13px] min-h-11"
+                  style={{ fontFamily: FONT_BODY }}
+                />
                 {pendingPhotos.length > 0 && (
                   <div className="grid grid-cols-4 gap-2 mt-3">
                     {pendingPhotos.map((p, i) => (

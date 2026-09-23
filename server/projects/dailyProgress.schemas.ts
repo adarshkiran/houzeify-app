@@ -38,6 +38,9 @@ export const patchDailyProgressBodySchema = {
   },
 } as const
 
+// Photo upload is multipart (see dailyProgress.routes.ts). The JSON body
+// schema below is retained only as documentation of legacy metadata fields;
+// the route no longer accepts JSON photo uploads.
 export const addDailyProgressPhotoBodySchema = {
   type: 'object',
   required: ['fileName', 'mimeType', 'size'],
