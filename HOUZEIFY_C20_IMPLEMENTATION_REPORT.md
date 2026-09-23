@@ -18,8 +18,10 @@
 ## 2. Final commit
 
 ```text
-ff08871 Implement C20 company Reports Construction Record index.
+292cbeb Document C20 final commit hash.
 ```
+
+Implementation commit: `ff08871 Implement C20 company Reports Construction Record index.`
 
 ---
 
