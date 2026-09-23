@@ -1,9 +1,8 @@
-// ─── Project Documents types + response serialization — Module 07 ─────────
-// Documents are METADATA ONLY: no file bytes are stored, so `storageRef` is
-// a server-internal placeholder and is NEVER part of a response.
-// `fileAvailable` derives from it: true only once a real (non-`internal://`)
-// storage reference exists.
+// ─── Project Documents types + response serialization — Module 07 / C16 ───
+// `storageRef` is NEVER part of a response. `fileAvailable` / `contentUrl`
+// derive from retrievable local:// or s3:// refs. Legacy internal:// → unavailable.
 import type { ProjectDocumentRow } from '../db/schema.js'
+import { isRetrievableStorageRef } from '../storage/objectStorage.js'
 
 export interface ProjectDocumentInput {
   category: string
@@ -21,7 +20,12 @@ export interface ProjectDocumentPatch {
   visibility?: 'internal' | 'customer'
 }
 
+export function documentContentPath(projectId: string, documentId: string): string {
+  return `/api/v1/projects/${projectId}/documents/${documentId}/content`
+}
+
 export function serializeProjectDocument(row: ProjectDocumentRow) {
+  const fileAvailable = isRetrievableStorageRef(row.storageRef)
   return {
     id: row.id,
     projectId: row.projectId,
@@ -32,7 +36,8 @@ export function serializeProjectDocument(row: ProjectDocumentRow) {
     fileName: row.fileName,
     mimeType: row.mimeType,
     size: row.size,
-    fileAvailable: !row.storageRef.startsWith('internal://'),
+    fileAvailable,
+    contentUrl: fileAvailable ? documentContentPath(row.projectId, row.id) : null,
     visibility: row.visibility,
     status: row.status,
     createdAt: row.createdAt.toISOString(),

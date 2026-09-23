@@ -13,7 +13,7 @@ import {
 } from '@/data/projectDocumentsStore'
 import { useProjectDocuments } from '@/data/projectDocumentsState'
 import { describeDocumentError, type ProjectDocumentDto, type UpdateProjectDocumentInput } from '@/data/projectDocumentsApi'
-import { ApiError } from '@/data/apiClient'
+import { ApiError, apiUrl } from '@/data/apiClient'
 import { isServerProjectId } from '@/data/projectIds'
 import { useAuth } from '@/data/authState'
 import { useProjectAudience } from '@/data/customerProjectsState'
@@ -633,12 +633,8 @@ function ServerDocuments({
     setIsSubmitting(true)
     setFormError(null)
     try {
-      // Metadata only — the File's bytes are never sent, and the File is
-      // dropped from state on success (resetForm).
       await addDocument({
-        fileName: selectedFile.name,
-        mimeType: selectedFile.type || 'application/octet-stream',
-        size: selectedFile.size,
+        file: selectedFile,
         category,
         title: trimmedTitle,
         description: description.trim() || undefined,
@@ -905,7 +901,21 @@ function ServerDocuments({
               ) : sharedDocs.map(doc => (
                 <div key={doc.id} className="rounded-[14px] bg-white p-4" style={{ border: '1px solid #E3DDD7' }}>
                   <p className="text-[14px] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>{doc.title}</p>
-                  <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{doc.fileName}{doc.fileAvailable ? '' : ' · File isn’t stored yet'}</p>
+                  <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                    {doc.fileName}{doc.fileAvailable ? '' : ' · File isn’t stored yet'}
+                  </p>
+                  {doc.fileAvailable && doc.contentUrl && (
+                    <a
+                      href={apiUrl(doc.contentUrl)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[#722ED1] hover:underline mt-2`}
+                      style={{ fontFamily: FONT_BODY }}
+                      aria-label={`Open shared document ${doc.title}`}
+                    >
+                      Open file
+                    </a>
+                  )}
                 </div>
               ))}
             </div>
@@ -988,6 +998,7 @@ function ServerDocumentCard({
   const [editDescription, setEditDescription] = useState(doc.description ?? '')
   const [actionError, setActionError] = useState<string | null>(null)
   const [isBusy, setIsBusy] = useState(false)
+  const [shareBusy, setShareBusy] = useState(false)
 
   // Return keyboard focus to the button that opened the editor / confirmation
   // once it closes (those buttons are unmounted while a panel is open).
@@ -1107,13 +1118,21 @@ function ServerDocumentCard({
             <span className="px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
               {DOCUMENT_CATEGORY_LABELS[doc.category].toUpperCase()}
             </span>
+            <span
+              className="px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-[0.03em]"
+              style={{
+                backgroundColor: doc.visibility === 'customer' ? '#C6F6D5' : '#F3EAFF',
+                color: '#242326',
+                fontFamily: FONT_MONO,
+              }}
+            >
+              {doc.visibility === 'customer' ? 'SHARED' : 'INTERNAL'}
+            </span>
             <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{fileTypeLabel(doc.fileName, doc.mimeType)}</span>
             <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{formatFileSize(doc.size)}</span>
             <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Added {formatDate(doc.createdAt)}</span>
             <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>by {memberLabel(doc.uploadedBy, currentUserId)}</span>
           </div>
-          {/* Metadata only in this module: no View/Download while the file
-              isn't stored (fileAvailable is false), and never a blob URL. */}
           {!doc.fileAvailable && (
             <p className="text-[12px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>File isn&apos;t stored yet</p>
           )}
@@ -1122,6 +1141,39 @@ function ServerDocumentCard({
 
       {mode === 'view' && (
         <div className="flex items-center flex-wrap gap-x-4 mt-2 sm:pl-[52px]">
+          {doc.fileAvailable && doc.contentUrl && (
+            <a
+              href={apiUrl(doc.contentUrl)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[#722ED1] hover:underline`}
+              style={{ fontFamily: FONT_BODY }}
+              aria-label={`Open document file ${doc.title}`}
+            >
+              Open file
+            </a>
+          )}
+          <button
+            type="button"
+            disabled={shareBusy}
+            onClick={() => {
+              const next = doc.visibility === 'customer' ? 'internal' : 'customer'
+              setShareBusy(true)
+              setActionError(null)
+              onUpdate(doc.id, { visibility: next })
+                .then(() => onNotice(next === 'customer' ? 'Shared with customer' : 'Marked internal'))
+                .catch(err => {
+                  setActionError(describeDocumentError(err))
+                  if (err instanceof ApiError && err.code === 'NOT_FOUND') void onStale()
+                })
+                .finally(() => setShareBusy(false))
+            }}
+            className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[#242326] hover:underline disabled:opacity-50`}
+            style={{ fontFamily: FONT_BODY }}
+            aria-label={doc.visibility === 'customer' ? `Stop sharing ${doc.title} with customer` : `Share ${doc.title} with customer`}
+          >
+            {shareBusy ? 'Updating…' : doc.visibility === 'customer' ? 'Shared' : 'Share with customer'}
+          </button>
           <button
             ref={editButtonRef}
             type="button"
@@ -1141,6 +1193,10 @@ function ServerDocumentCard({
             Archive
           </button>
         </div>
+      )}
+
+      {mode === 'view' && actionError && (
+        <p role="alert" className="text-[12.5px] text-[#DC2626] m-0 mt-2 sm:pl-[52px] break-words" style={{ fontFamily: FONT_BODY }}>{actionError}</p>
       )}
 
       {mode === 'edit' && (

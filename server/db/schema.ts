@@ -650,19 +650,13 @@ export type ProjectWorkforceMemberRow = typeof projectWorkforceMembers.$inferSel
 export type NewProjectWorkforceMemberRow = typeof projectWorkforceMembers.$inferInsert
 
 // ─── project_documents ──────────────────────────────────────────────────
-// Module 07 — a record that a file belongs to a project: who added it,
-// when, what kind it is, what it is called. METADATA ONLY — no file bytes
-// are stored anywhere in this codebase (same limitation documented on
-// daily_progress_photos above). `storage_ref` is a server-minted
-// placeholder (`internal://project-documents/<id>`), generated from this
-// row's own id (never client-supplied) and deliberately not named `url`,
-// since it is not a real, retrievable URL — same precedent as
-// daily_progress_photos.storage_ref. `category` is plain text (no DB enum,
-// same convention as projects.type/stage) — validated at the Fastify schema
-// layer against the closed category set. `status` is 'active' | 'archived'
-// — a soft archive only; archived rows are retained, never hard-deleted.
+// Module 07 / C16 — project construction documents (plans, contracts, etc.).
+// C16 stores real bytes via object storage (`local://…` or `s3://…`).
+// Legacy Module 07 rows may still use `internal://project-documents/<id>`
+// placeholders with no retrievable file — preserved as unavailable.
+// Soft archive only (`status=archived`); storage objects are retained.
 // `uploaded_by`, `storage_ref`, `status` and `archived_at` are SERVER-SET
-// ONLY — never request body properties on any schema.
+// ONLY. `visibility` is 'internal' | 'customer' (default-deny for customers).
 export const projectDocuments = pgTable(
   'project_documents',
   {

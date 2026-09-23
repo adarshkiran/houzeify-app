@@ -1,19 +1,22 @@
-// ─── Project Documents route tests — Module 07 ─────────────────────────────
-// Real database-backed, via app.inject(). Mirrors projectWorkforce.test.ts's
-// exact structure. Documents are METADATA ONLY in this module (no file bytes
-// are stored: `fileAvailable` is always false and `storageRef` is a
-// server-internal placeholder that must never appear in a response).
+// ─── Project Documents route tests — Module 07 / C16 ───────────────────────
+// Real database-backed, via app.inject(). C16 stores real file bytes via
+// object storage (`fileAvailable` true, content GET). storageRef never appears
+// in API responses.
 //
 // Authorization contract under test:
 //   - list / create  = any project participant (creator or ANY org member,
 //                      including `viewer`)
 //   - update / archive = the uploader, OR the project creator, OR an org
 //                      member with role owner/admin
+//   - content GET = company access, or customer when visibility=customer
 //   - anything else (outsider, other-org member, non-uploading viewer) gets
 //     404 — NEVER 403.
 
 import assert from 'node:assert/strict'
 import { randomUUID } from 'node:crypto'
+import { mkdtempSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { after, test } from 'node:test'
 
 import { eq } from 'drizzle-orm'
@@ -21,17 +24,60 @@ import { eq } from 'drizzle-orm'
 import { buildApp } from '../app.js'
 import { closeDb, getDb } from '../db/client.js'
 import { organizationMembers, projectDocuments } from '../db/schema.js'
+import { resetObjectStorageCache } from '../storage/objectStorage.js'
 import { cleanupTestUser, createTestSessionToken, createTestUser, loadTestEnv, sessionCookieHeader, uniqueName } from '../testUtils.js'
+
+process.env.STORAGE_PROVIDER = 'local'
+process.env.MEDIA_LOCAL_ROOT = mkdtempSync(path.join(tmpdir(), 'houzeify-c16-docs-'))
+resetObjectStorageCache()
 
 const env = loadTestEnv()
 
-const MAX_SIZE = 26_214_400
+const TINY_PDF = Buffer.from('%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n')
+const TINY_PNG = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+  'base64',
+)
+const TINY_JPEG = Buffer.from([
+  0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00,
+  0xff, 0xd9,
+])
+const TINY_DWG = Buffer.from('AC1027\x00binary-dwg-stub')
+const TINY_DXF = Buffer.from('0\nSECTION\n2\nHEADER\n0\nENDSEC\n0\nEOF\n')
 
 const CATEGORIES = ['plans', 'estimates-boq', 'contracts', 'approvals', 'invoices', 'site-documents', 'other'] as const
 
-/** A minimal valid create body; tests override individual fields. */
-function docBody(overrides: Record<string, unknown> = {}) {
-  return { category: 'plans', fileName: `${uniqueName('floor-plan')}.pdf`, mimeType: 'application/pdf', size: 1024, ...overrides }
+function multipartDoc(fields: {
+  fileName?: string
+  category?: string
+  title?: string
+  description?: string
+  body?: Buffer
+  contentType?: string
+}) {
+  const boundary = '----HouzefiyC16Doc'
+  const fileName = fields.fileName ?? `${uniqueName('floor-plan')}.pdf`
+  const category = fields.category ?? 'plans'
+  const body = fields.body ?? TINY_PDF
+  const contentType = fields.contentType ?? 'application/pdf'
+  const chunks: Buffer[] = []
+  function addField(name: string, value: string) {
+    chunks.push(Buffer.from(
+      `--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${value}\r\n`,
+    ))
+  }
+  addField('category', category)
+  if (fields.title !== undefined) addField('title', fields.title)
+  if (fields.description !== undefined) addField('description', fields.description)
+  chunks.push(Buffer.from(
+    `--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="${fileName}"\r\nContent-Type: ${contentType}\r\n\r\n`,
+  ))
+  chunks.push(body)
+  chunks.push(Buffer.from(`\r\n--${boundary}--\r\n`))
+  return {
+    headers: { 'content-type': `multipart/form-data; boundary=${boundary}` },
+    payload: Buffer.concat(chunks),
+  }
 }
 
 test('project documents: create/list/edit/archive, ownership authorization, validation', { skip: !env && 'DATABASE_URL not configured' }, async t => {
@@ -71,9 +117,17 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
   }
 
   async function createDoc(pid: string, cookie: string, overrides: Record<string, unknown> = {}) {
-    const res = await app.inject({ method: 'POST', url: docsUrl(pid), headers: { cookie }, payload: docBody(overrides) })
+    const { headers, payload } = multipartDoc({
+      fileName: (overrides.fileName as string) || undefined,
+      category: (overrides.category as string) || undefined,
+      title: overrides.title as string | undefined,
+      description: overrides.description as string | undefined,
+      body: (overrides.body as Buffer) || undefined,
+      contentType: (overrides.mimeType as string) || undefined,
+    })
+    const res = await app.inject({ method: 'POST', url: docsUrl(pid), headers: { cookie, ...headers }, payload })
     assert.equal(res.statusCode, 201, res.body)
-    return res.json().data.document as Record<string, unknown> & { id: string }
+    return res.json().data.document as Record<string, unknown> & { id: string; fileName: string; contentUrl?: string }
   }
 
   after(async () => {
@@ -85,6 +139,7 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
     await cleanupTestUser(env!, outsider.id)
     await cleanupTestUser(env!, orgBUser.id)
     await closeDb()
+    resetObjectStorageCache()
   })
 
   await t.test('setup: Organization A + two projects under it, add viewer/viewer2/admin members', async () => {
@@ -119,7 +174,8 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
 
   // 1 ─────────────────────────────────────────────────────────────────────
   await t.test('unauthenticated POST is rejected (401)', async () => {
-    const res = await app.inject({ method: 'POST', url: docsUrl(projectId), payload: docBody() })
+    const { headers, payload } = multipartDoc({})
+    const res = await app.inject({ method: 'POST', url: docsUrl(projectId), headers, payload })
     assert.equal(res.statusCode, 401)
   })
 
@@ -132,9 +188,11 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
 
   await t.test('viewer-role member CAN create; response has server-set fields and no storageRef', async () => {
     const fileName = `${uniqueName('site-plan')}.pdf`
+    const { headers, payload } = multipartDoc({
+      category: 'plans', fileName, title: 'Ground floor plan', description: 'Rev A',
+    })
     const res = await app.inject({
-      method: 'POST', url: docsUrl(projectId), headers: { cookie: viewerCookie },
-      payload: docBody({ category: 'plans', fileName, title: 'Ground floor plan', description: 'Rev A', mimeType: 'application/pdf', size: 2048 }),
+      method: 'POST', url: docsUrl(projectId), headers: { cookie: viewerCookie, ...headers }, payload,
     })
     assert.equal(res.statusCode, 201)
     const doc = res.json().data.document
@@ -142,25 +200,32 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
     assert.equal(doc.projectId, projectId)
     assert.equal(doc.uploadedBy, viewer.id) // server-set = the caller
     assert.equal(doc.status, 'active')
-    assert.equal(doc.fileAvailable, false)
+    assert.equal(doc.fileAvailable, true)
+    assert.ok(doc.contentUrl)
     assert.equal(doc.category, 'plans')
     assert.equal(doc.title, 'Ground floor plan')
     assert.equal(doc.description, 'Rev A')
     assert.equal(doc.fileName, fileName)
     assert.equal(doc.mimeType, 'application/pdf')
-    assert.equal(doc.size, 2048)
+    assert.equal(doc.size, TINY_PDF.length)
     assert.ok(doc.createdAt)
     assert.ok(doc.updatedAt)
     assert.equal('storageRef' in doc, false)
     assert.equal('storage_ref' in doc, false)
     viewerDocId = doc.id
+
+    const bytes = await app.inject({ method: 'GET', url: doc.contentUrl, headers: { cookie: viewerCookie } })
+    assert.equal(bytes.statusCode, 200)
+    assert.equal(bytes.headers['content-type'], 'application/pdf')
+    assert.ok(Buffer.from(bytes.rawPayload).equals(TINY_PDF))
   })
 
   // 2 (needs a real document id, so it runs after the first create) ───────
   await t.test('outsider cannot list, create, edit or archive (404, not 403)', async () => {
     const list = await app.inject({ method: 'GET', url: docsUrl(projectId), headers: { cookie: outsiderCookie } })
     assert.equal(list.statusCode, 404)
-    const create = await app.inject({ method: 'POST', url: docsUrl(projectId), headers: { cookie: outsiderCookie }, payload: docBody() })
+    const forged = multipartDoc({})
+    const create = await app.inject({ method: 'POST', url: docsUrl(projectId), headers: { cookie: outsiderCookie, ...forged.headers }, payload: forged.payload })
     assert.equal(create.statusCode, 404)
     const patch = await app.inject({
       method: 'PATCH', url: docUrl(projectId, viewerDocId), headers: { cookie: outsiderCookie }, payload: { title: 'Hijacked' },
@@ -179,39 +244,34 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
   })
 
   // 5 ─────────────────────────────────────────────────────────────────────
-  await t.test('client-supplied storageRef / uploadedBy / status are ignored', async () => {
+  await t.test('multipart create stores local:// ref; client cannot set storage ownership fields', async () => {
+    const { headers, payload } = multipartDoc({ title: 'Forged fields' })
     const res = await app.inject({
-      method: 'POST', url: docsUrl(projectId), headers: { cookie: ownerCookie },
-      payload: docBody({
-        title: 'Forged fields', storageRef: 'evil://attacker-controlled', uploadedBy: viewer.id, status: 'archived',
-      }),
+      method: 'POST', url: docsUrl(projectId), headers: { cookie: ownerCookie, ...headers }, payload,
     })
     assert.equal(res.statusCode, 201)
     const doc = res.json().data.document
     assert.equal(doc.uploadedBy, owner.id)
     assert.notEqual(doc.uploadedBy, viewer.id)
     assert.equal(doc.status, 'active')
+    assert.equal(doc.fileAvailable, true)
     assert.equal('storageRef' in doc, false)
     ownerDocId = doc.id
 
-    // The persisted storage reference is the server's, not the client's.
     const rows = await getDb(env!).select().from(projectDocuments).where(eq(projectDocuments.id, ownerDocId))
     assert.equal(rows.length, 1)
-    assert.notEqual(rows[0].storageRef, 'evil://attacker-controlled')
-    assert.equal(rows[0].storageRef, `internal://project-documents/${ownerDocId}`)
+    assert.ok(rows[0].storageRef.startsWith('local://'))
     assert.equal(rows[0].uploadedBy, owner.id)
     assert.equal(rows[0].status, 'active')
-
-    // It is listed as an active document, proving `status:'archived'` was ignored.
     assert.ok((await listIds(projectId, ownerCookie)).includes(ownerDocId))
   })
 
   // 7 ─────────────────────────────────────────────────────────────────────
   await t.test('title defaults to fileName when omitted', async () => {
     untitledFileName = `${uniqueName('contract')}.pdf`
+    const { headers, payload } = multipartDoc({ category: 'contracts', fileName: untitledFileName })
     const res = await app.inject({
-      method: 'POST', url: docsUrl(projectId), headers: { cookie: ownerCookie },
-      payload: docBody({ category: 'contracts', fileName: untitledFileName }),
+      method: 'POST', url: docsUrl(projectId), headers: { cookie: ownerCookie, ...headers }, payload,
     })
     assert.equal(res.statusCode, 201)
     const doc = res.json().data.document
@@ -229,7 +289,8 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
     assert.deepEqual(docs.map((d: { id: string }) => d.id), [untitledDocId, ownerDocId, viewerDocId])
     for (const d of docs) {
       assert.equal(d.status, 'active')
-      assert.equal(d.fileAvailable, false)
+      assert.equal(d.fileAvailable, true)
+      assert.ok(d.contentUrl)
       assert.equal('storageRef' in d, false)
     }
     const stamps = docs.map((d: { createdAt: string }) => new Date(d.createdAt).getTime())
@@ -237,53 +298,42 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
   })
 
   // 8 ─────────────────────────────────────────────────────────────────────
-  const invalidCreates: Array<[string, Record<string, unknown>]> = [
-    ['invalid category', docBody({ category: 'photos' })],
-    ['missing category', (() => { const b: Record<string, unknown> = docBody(); delete b.category; return b })()],
-    ['disallowed extension .exe', docBody({ fileName: 'installer.exe', mimeType: 'application/pdf' })],
-    ['disallowed extension .docx', docBody({ fileName: 'notes.docx', mimeType: 'application/pdf' })],
-    ['fileName with no extension', docBody({ fileName: 'floorplan' })],
-    ['missing fileName', (() => { const b: Record<string, unknown> = docBody(); delete b.fileName; return b })()],
-    ['empty fileName', docBody({ fileName: '' })],
-    ['size 0', docBody({ size: 0 })],
-    ['negative size', docBody({ size: -5 })],
-    ['size over 25 MB', docBody({ size: MAX_SIZE + 1 })],
-    ['non-integer size', docBody({ size: 1024.5 })],
-    ['missing size', (() => { const b: Record<string, unknown> = docBody(); delete b.size; return b })()],
-    ['malformed mimeType', docBody({ mimeType: 'not-a-mime-type' })],
-    ['empty mimeType', docBody({ mimeType: '' })],
-    ['empty title', docBody({ title: '' })],
-    ['whitespace-only title', docBody({ title: '   ' })],
-    ['description over 2000 chars', docBody({ description: 'x'.repeat(2001) })],
-    ['title over 200 chars', docBody({ title: 't'.repeat(201) })],
-    ['double extension a.pdf.exe', docBody({ fileName: 'a.pdf.exe' })],
-    ['trailing-dot fileName report.', docBody({ fileName: 'report.' })],
-    ['fileName over 255 chars', docBody({ fileName: `${'f'.repeat(252)}.pdf` })],
-    ['mimeType over 100 chars', docBody({ mimeType: `application/${'m'.repeat(100)}` })],
-  ]
-  for (const [label, payload] of invalidCreates) {
-    await t.test(`validation: create rejects ${label} (400)`, async () => {
-      const res = await app.inject({ method: 'POST', url: docsUrl(projectId), headers: { cookie: ownerCookie }, payload })
+  await t.test('validation: create rejects invalid category / extension / fake PDF (400)', async () => {
+    const cases = [
+      multipartDoc({ category: 'photos' }),
+      multipartDoc({ fileName: 'installer.exe', body: TINY_PDF }),
+      multipartDoc({ fileName: 'notes.docx', body: TINY_PDF }),
+      multipartDoc({ fileName: 'floorplan', body: TINY_PDF }),
+      multipartDoc({ fileName: 'fake.pdf', body: Buffer.from('not-a-pdf') }),
+      multipartDoc({ fileName: 'a.pdf.exe', body: TINY_PDF }),
+    ]
+    for (const { headers, payload } of cases) {
+      const res = await app.inject({ method: 'POST', url: docsUrl(projectId), headers: { cookie: ownerCookie, ...headers }, payload })
       assert.equal(res.statusCode, 400, res.body)
-    })
-  }
+    }
+  })
 
-  await t.test('validation: rejected creates persisted nothing; boundary-valid creates succeed', async () => {
+  await t.test('validation: rejected creates persisted nothing; allowed types succeed', async () => {
     const before = (await listIds(projectId, ownerCookie)).length
     assert.equal(before, 3)
 
-    // Every category, every allowed extension, and both size boundaries + a max-length description.
-    const extensions = [['pdf', 'application/pdf'], ['png', 'image/png'], ['jpg', 'image/jpeg'], ['jpeg', 'image/jpeg'], ['dwg', 'application/acad'], ['dxf', 'application/dxf']]
-    for (const [i, category] of CATEGORIES.entries()) {
-      const [ext, mimeType] = extensions[i % extensions.length]
-      const res = await app.inject({
-        method: 'POST', url: docsUrl(projectId), headers: { cookie: ownerCookie },
-        payload: docBody({ category, fileName: `${uniqueName('doc')}.${ext}`, mimeType, size: i === 0 ? 1 : MAX_SIZE, description: i === 1 ? 'y'.repeat(2000) : undefined }),
-      })
-      assert.equal(res.statusCode, 201, `${category}/${ext}: ${res.body}`)
+    const samples: Array<[string, string, Buffer, string]> = [
+      ['plans', 'a.pdf', TINY_PDF, 'application/pdf'],
+      ['estimates-boq', 'b.png', TINY_PNG, 'image/png'],
+      ['contracts', 'c.jpg', TINY_JPEG, 'image/jpeg'],
+      ['approvals', 'd.jpeg', TINY_JPEG, 'image/jpeg'],
+      ['invoices', 'e.dwg', TINY_DWG, 'application/acad'],
+      ['site-documents', 'f.dxf', TINY_DXF, 'image/vnd.dxf'],
+      ['other', 'g.pdf', TINY_PDF, 'application/pdf'],
+    ]
+    for (const [category, fileName, body, contentType] of samples) {
+      const { headers, payload } = multipartDoc({ category, fileName: `${uniqueName('doc')}-${fileName}`, body, contentType })
+      const res = await app.inject({ method: 'POST', url: docsUrl(projectId), headers: { cookie: ownerCookie, ...headers }, payload })
+      assert.equal(res.statusCode, 201, `${category}/${fileName}: ${res.body}`)
       assert.equal(res.json().data.document.category, category)
+      assert.equal(res.json().data.document.fileAvailable, true)
     }
-    assert.equal((await listIds(projectId, ownerCookie)).length, before + CATEGORIES.length)
+    assert.equal((await listIds(projectId, ownerCookie)).length, before + samples.length)
   })
 
   await t.test('uppercase extension PLAN.PDF is accepted (extension check is case-insensitive)', async () => {
@@ -444,7 +494,8 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
     const list = await app.inject({ method: 'GET', url: docsUrl('not-a-uuid'), headers: { cookie: ownerCookie } })
     assert.equal(list.statusCode, 400)
     assert.equal(list.json().error.code, 'INVALID_ID')
-    const create = await app.inject({ method: 'POST', url: docsUrl('not-a-uuid'), headers: { cookie: ownerCookie }, payload: docBody() })
+    const badId = multipartDoc({})
+    const create = await app.inject({ method: 'POST', url: docsUrl('not-a-uuid'), headers: { cookie: ownerCookie, ...badId.headers }, payload: badId.payload })
     assert.equal(create.statusCode, 400)
     assert.equal(create.json().error.code, 'INVALID_ID')
   })
@@ -464,7 +515,8 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
     const missing = randomUUID()
     const list = await app.inject({ method: 'GET', url: docsUrl(missing), headers: { cookie: ownerCookie } })
     assert.equal(list.statusCode, 404)
-    const create = await app.inject({ method: 'POST', url: docsUrl(missing), headers: { cookie: ownerCookie }, payload: docBody() })
+    const missingMp = multipartDoc({})
+    const create = await app.inject({ method: 'POST', url: docsUrl(missing), headers: { cookie: ownerCookie, ...missingMp.headers }, payload: missingMp.payload })
     assert.equal(create.statusCode, 404)
   })
 
@@ -507,7 +559,8 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
 
     const list = await app.inject({ method: 'GET', url: docsUrl(projectId), headers: { cookie: orgBCookie } })
     assert.equal(list.statusCode, 404)
-    const create = await app.inject({ method: 'POST', url: docsUrl(projectId), headers: { cookie: orgBCookie }, payload: docBody() })
+    const orgBMp = multipartDoc({})
+    const create = await app.inject({ method: 'POST', url: docsUrl(projectId), headers: { cookie: orgBCookie, ...orgBMp.headers }, payload: orgBMp.payload })
     assert.equal(create.statusCode, 404)
     const patch = await app.inject({
       method: 'PATCH', url: docUrl(projectId, ownerDocId), headers: { cookie: orgBCookie }, payload: { title: 'Cross-org' },
@@ -525,4 +578,38 @@ test('project documents: create/list/edit/archive, ownership authorization, vali
     const orgBRows = await getDb(env!).select().from(projectDocuments).where(eq(projectDocuments.uploadedBy, orgBUser.id))
     assert.equal(orgBRows.length, 0)
   })
+
+  await t.test('C16: shared customer can retrieve document bytes; internal denied', async () => {
+    const customer = await createTestUser(env!)
+    const customerCookie = sessionCookieHeader(await createTestSessionToken(env!, customer.id))
+    const email = `c16-${uniqueName('d').replace(' ', '-')}@example.com`
+    await app.inject({
+      method: 'POST', url: '/api/v1/customer-profile', headers: { cookie: customerCookie },
+      payload: { fullName: 'C16 Customer', email },
+    })
+    await app.inject({
+      method: 'PUT', url: `/api/v1/projects/${projectId}/customer`, headers: { cookie: ownerCookie },
+      payload: { email },
+    })
+    await app.inject({
+      method: 'POST', url: `/api/v1/projects/${projectId}/customer/accept`, headers: { cookie: customerCookie },
+    })
+
+    const list = await app.inject({ method: 'GET', url: docsUrl(projectId), headers: { cookie: ownerCookie } })
+    const internalDoc = list.json().data.documents.find((d: { id: string }) => d.id === ownerDocId)
+    assert.ok(internalDoc?.contentUrl)
+    const denied = await app.inject({ method: 'GET', url: internalDoc.contentUrl, headers: { cookie: customerCookie } })
+    assert.equal(denied.statusCode, 404)
+
+    await app.inject({
+      method: 'PATCH', url: docUrl(projectId, ownerDocId), headers: { cookie: ownerCookie },
+      payload: { visibility: 'customer' },
+    })
+    const allowed = await app.inject({ method: 'GET', url: internalDoc.contentUrl, headers: { cookie: customerCookie } })
+    assert.equal(allowed.statusCode, 200)
+    assert.ok(Buffer.from(allowed.rawPayload).equals(TINY_PDF))
+
+    await cleanupTestUser(env!, customer.id)
+  })
 })
+

@@ -47,6 +47,7 @@ export interface CustomerViewDocument {
   mimeType: string
   size: number
   fileAvailable: boolean
+  contentUrl: string | null
   createdAt: string
   updatedAt: string
 }

@@ -2,6 +2,7 @@ import type { DailyProgressPhotoRow, DailyProgressRow, ProjectDocumentRow, Proje
 import { mediaKindFromMime } from '../storage/mediaValidation.js'
 import { isRetrievableStorageRef } from '../storage/objectStorage.js'
 import { progressPhotoContentPath } from './dailyProgress.types.js'
+import { documentContentPath } from './projectDocuments.types.js'
 
 export const CONSTRUCTION_STAGE_ORDER = [
   { id: 'pre-construction', name: 'Pre-Construction' },
@@ -46,6 +47,7 @@ export function serializeCustomerProgress(row: DailyProgressRow, photos: DailyPr
 }
 
 export function serializeCustomerDocument(row: ProjectDocumentRow) {
+  const fileAvailable = isRetrievableStorageRef(row.storageRef)
   return {
     id: row.id,
     projectId: row.projectId,
@@ -55,7 +57,8 @@ export function serializeCustomerDocument(row: ProjectDocumentRow) {
     fileName: row.fileName,
     mimeType: row.mimeType,
     size: row.size,
-    fileAvailable: !row.storageRef.startsWith('internal://'),
+    fileAvailable,
+    contentUrl: fileAvailable ? documentContentPath(row.projectId, row.id) : null,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   }
