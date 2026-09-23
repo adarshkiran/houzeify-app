@@ -1,4 +1,10 @@
-import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+  type S3ServiceException,
+} from '@aws-sdk/client-s3'
 import type { Env } from '../config/env.js'
 import { HttpError } from '../errors/httpError.js'
 import type { GetObjectResult, ObjectStorage, PutObjectInput } from './objectStorage.js'
@@ -59,7 +65,9 @@ export class S3ObjectStorage implements ObjectStorage {
     }
   }
 
-  async deleteObject(key: string): Promise<void> {
+  async deleteObject(key: string): Promise<'deleted' | 'already_absent'> {
+    // S3 DeleteObject is idempotent for missing keys (returns success).
+    // Real provider/network failures must surface to callers.
     try {
       await this.client.send(
         new DeleteObjectCommand({
@@ -67,8 +75,13 @@ export class S3ObjectStorage implements ObjectStorage {
           Key: key,
         }),
       )
-    } catch {
-      /* ignore */
+      return 'deleted'
+    } catch (err) {
+      const e = err as S3ServiceException
+      if (e.name === 'NoSuchKey' || e.$metadata?.httpStatusCode === 404) {
+        return 'already_absent'
+      }
+      throw err
     }
   }
 }

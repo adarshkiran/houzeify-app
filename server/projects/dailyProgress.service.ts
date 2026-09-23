@@ -42,6 +42,10 @@ import {
   parseStorageRef,
 } from '../storage/objectStorage.js'
 import {
+  deleteTrustedStorageRef,
+  logMediaLifecycle,
+} from '../storage/mediaLifecycle.js'
+import {
   sanitizeOriginalFileName,
   validateConstructionEvidenceBuffer,
 } from '../storage/mediaValidation.js'
@@ -209,7 +213,88 @@ export async function deleteDailyProgress(env: Env, projectId: string, progressI
   const existing = await requireDailyProgressRow(env, projectId, progressId)
   await requireMutationAccess(env, project, existing, userId)
   const db = getDb(env)
+
+  // C15D — collect trusted storage refs BEFORE the FK cascade drops media rows.
+  const mediaRows = await db
+    .select()
+    .from(dailyProgressPhotos)
+    .where(eq(dailyProgressPhotos.dailyProgressId, progressId))
+
+  for (const media of mediaRows) {
+    await deleteTrustedStorageRef(env, media.storageRef, {
+      mediaId: media.id,
+      projectId,
+      progressId,
+    })
+  }
+
   await db.delete(dailyProgress).where(eq(dailyProgress.id, progressId))
+  logMediaLifecycle('info', 'daily_progress_deleted_with_media_cleanup', {
+    projectId,
+    progressId,
+    actorUserId: userId,
+    mediaCount: mediaRows.length,
+  })
+}
+
+/**
+ * C15D — remove a single construction evidence item (photo or video).
+ * Order: authorize → load trusted storageRef → delete storage → delete DB row.
+ * Storage failure keeps the DB row so the operation can be retried.
+ * Missing storage objects are treated as already cleaned (idempotent).
+ * Repeated DELETE after success returns 404 (same as other resources).
+ */
+export async function deleteDailyProgressPhoto(
+  env: Env,
+  projectId: string,
+  photoId: string,
+  userId: string,
+): Promise<void> {
+  const project = await requireProjectAccess(env, projectId, userId)
+  const db = getDb(env)
+  const rows = await db
+    .select({
+      photo: dailyProgressPhotos,
+      progress: dailyProgress,
+    })
+    .from(dailyProgressPhotos)
+    .innerJoin(dailyProgress, eq(dailyProgressPhotos.dailyProgressId, dailyProgress.id))
+    .where(and(eq(dailyProgressPhotos.id, photoId), eq(dailyProgress.projectId, projectId)))
+    .limit(1)
+  const row = rows[0]
+  if (!row) throw new HttpError('NOT_FOUND', 'Photo not found.', 404)
+
+  await requireMutationAccess(env, project, row.progress, userId)
+
+  await deleteTrustedStorageRef(env, row.photo.storageRef, {
+    mediaId: row.photo.id,
+    projectId,
+    progressId: row.progress.id,
+  })
+
+  const deleted = await db
+    .delete(dailyProgressPhotos)
+    .where(and(eq(dailyProgressPhotos.id, photoId), eq(dailyProgressPhotos.dailyProgressId, row.progress.id)))
+    .returning({ id: dailyProgressPhotos.id })
+
+  if (!deleted[0]) {
+    // Storage already cleaned; DB race — treat as success (idempotent intent).
+    logMediaLifecycle('warn', 'media_db_row_already_absent_after_storage_delete', {
+      mediaId: photoId,
+      projectId,
+      progressId: row.progress.id,
+      actorUserId: userId,
+    })
+    return
+  }
+
+  logMediaLifecycle('info', 'media_deleted', {
+    mediaId: photoId,
+    projectId,
+    progressId: row.progress.id,
+    actorUserId: userId,
+    mimeType: row.photo.mimeType,
+  })
 }
 
 /** C15/C15C — store real photo or video bytes via object storage; mint a
@@ -270,8 +355,18 @@ export async function addDailyProgressPhoto(
       .returning()
     return created[0]
   } catch (err) {
-    // Avoid orphaned objects when the DB insert fails after a successful put.
-    await storage.deleteObject(key).catch(() => undefined)
+    // C15D — avoid orphaned objects when DB insert fails after a successful put.
+    try {
+      await storage.deleteObject(key)
+    } catch (cleanupErr) {
+      logMediaLifecycle('error', 'upload_rollback_storage_cleanup_failed', {
+        projectId,
+        progressId,
+        key,
+        provider: storage.providerId,
+        error: cleanupErr instanceof Error ? cleanupErr.message : String(cleanupErr),
+      })
+    }
     throw err
   }
 }

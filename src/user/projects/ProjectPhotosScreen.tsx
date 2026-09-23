@@ -5,7 +5,7 @@ import AuthenticatedImage from '@/shared/components/AuthenticatedImage'
 import AuthenticatedVideo from '@/shared/components/AuthenticatedVideo'
 import { useProjectAudience } from '@/data/customerProjectsState'
 import { describeCustomerViewError, listCustomerViewProgress, type CustomerViewPhoto, type CustomerViewProgress } from '@/data/customerViewApi'
-import { listDailyProgress, type DailyProgressPhoto } from '@/data/dailyProgressApi'
+import { deleteDailyProgressPhoto, describeDailyProgressError, listDailyProgress, type DailyProgressPhoto } from '@/data/dailyProgressApi'
 import { constructionStages } from '@/data/constructionStages'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
@@ -14,6 +14,7 @@ const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
 
 type GalleryItem = {
   id: string
+  progressId: string
   fileName: string
   size: number
   date: string
@@ -53,6 +54,7 @@ function fromCustomer(rows: CustomerViewProgress[]): GalleryItem[] {
   return rows.flatMap(entry =>
     entry.photos.map((photo: CustomerViewPhoto) => ({
       id: photo.id,
+      progressId: entry.id,
       fileName: photo.fileName,
       size: photo.size,
       date: entry.date,
@@ -70,6 +72,7 @@ function fromCompany(rows: Awaited<ReturnType<typeof listDailyProgress>>): Galle
   return rows.flatMap(entry =>
     entry.photos.map((photo: DailyProgressPhoto) => ({
       id: photo.id,
+      progressId: entry.id,
       fileName: photo.fileName,
       size: photo.size,
       date: entry.date,
@@ -98,6 +101,9 @@ export default function ProjectPhotosScreen({
   const [photos, setPhotos] = useState<GalleryItem[]>([])
   const [error, setError] = useState<string | null>(null)
   const [open, setOpen] = useState<GalleryItem | null>(null)
+  const [confirmRemove, setConfirmRemove] = useState(false)
+  const [removeBusy, setRemoveBusy] = useState(false)
+  const [removeError, setRemoveError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!projectId) return
@@ -125,11 +131,17 @@ export default function ProjectPhotosScreen({
   useEffect(() => {
     if (!open) return
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(null)
+      if (e.key !== 'Escape' || removeBusy) return
+      if (confirmRemove) {
+        setConfirmRemove(false)
+        setRemoveError(null)
+      } else {
+        setOpen(null)
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [open])
+  }, [open, confirmRemove, removeBusy])
 
   const groups = useMemo(() => {
     const map = new Map<string, GalleryItem[]>()
@@ -237,7 +249,11 @@ export default function ProjectPhotosScreen({
           aria-modal="true"
           aria-labelledby="photo-detail-title"
           onClick={e => {
-            if (e.target === e.currentTarget) setOpen(null)
+            if (e.target === e.currentTarget && !removeBusy) {
+              setConfirmRemove(false)
+              setRemoveError(null)
+              setOpen(null)
+            }
           }}
         >
           <div className="w-full max-w-[520px] rounded-[16px] bg-white p-5 min-w-0">
@@ -264,14 +280,84 @@ export default function ProjectPhotosScreen({
                 unavailableLabel={open.fileAvailable ? 'Photo unavailable' : 'Historical photo unavailable'}
               />
             )}
-            <button
-              type="button"
-              onClick={() => setOpen(null)}
-              className="mt-4 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-              style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
-            >
-              Close
-            </button>
+            {confirmRemove && audience !== 'customer' && projectId ? (
+              <div className="mt-4 rounded-[12px] p-4" style={{ backgroundColor: '#FFF5F5', border: '1px solid #FECACA' }} role="alertdialog" aria-labelledby="photos-remove-title" aria-describedby="photos-remove-desc">
+                <p id="photos-remove-title" className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                  Remove this evidence?
+                </p>
+                <p id="photos-remove-desc" className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                  This construction {open.mediaKind === 'video' ? 'video' : 'photo'} will be removed from this Daily Progress record.
+                </p>
+                {removeError && (
+                  <p className="text-[12.5px] text-[#B91C1C] m-0 mt-2" style={{ fontFamily: FONT_BODY }} role="alert">{removeError}</p>
+                )}
+                <div className="flex flex-wrap gap-2 mt-4">
+                  <button
+                    type="button"
+                    disabled={removeBusy}
+                    onClick={() => {
+                      setConfirmRemove(false)
+                      setRemoveError(null)
+                    }}
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
+                    style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    disabled={removeBusy}
+                    onClick={() => {
+                      setRemoveBusy(true)
+                      setRemoveError(null)
+                      deleteDailyProgressPhoto(projectId, open.id)
+                        .then(() => {
+                          setPhotos(prev => prev.filter(p => p.id !== open.id))
+                          setConfirmRemove(false)
+                          setOpen(null)
+                        })
+                        .catch(err => {
+                          setRemoveError(describeDailyProgressError(err))
+                        })
+                        .finally(() => setRemoveBusy(false))
+                    }}
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C] disabled:opacity-50"
+                    style={{ backgroundColor: '#DC2626', color: 'white', fontFamily: FONT_BODY }}
+                  >
+                    {removeBusy ? 'Removing…' : 'Remove'}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setConfirmRemove(false)
+                    setRemoveError(null)
+                    setOpen(null)
+                  }}
+                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                >
+                  Close
+                </button>
+                {audience !== 'customer' && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRemoveError(null)
+                      setConfirmRemove(true)
+                    }}
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C]"
+                    style={{ border: '1px solid #FECACA', color: '#B91C1C', fontFamily: FONT_BODY }}
+                    aria-label={`Remove this construction ${open.mediaKind}`}
+                  >
+                    Remove evidence
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

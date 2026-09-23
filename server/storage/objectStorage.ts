@@ -22,7 +22,12 @@ export interface ObjectStorage {
   readonly providerId: 'local' | 's3'
   putObject(input: PutObjectInput): Promise<void>
   getObject(key: string): Promise<GetObjectResult | null>
-  deleteObject(key: string): Promise<void>
+  /**
+   * Remove an object by trusted server-side key.
+   * Missing objects return `already_absent` (idempotent).
+   * Path/provider failures throw — callers must not swallow them silently.
+   */
+  deleteObject(key: string): Promise<'deleted' | 'already_absent'>
 }
 
 let cached: ObjectStorage | null = null

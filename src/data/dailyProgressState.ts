@@ -10,6 +10,7 @@ import {
   addDailyProgressPhoto as apiAddPhoto,
   createDailyProgress as apiCreate,
   deleteDailyProgress as apiDeleteProgress,
+  deleteDailyProgressPhoto as apiDeletePhoto,
   listDailyProgress,
   updateDailyProgress as apiUpdate,
   type DailyProgress,
@@ -28,6 +29,7 @@ export interface UseDailyProgressResult {
   update: (progressId: string, patch: Partial<DailyProgressInput>) => Promise<DailyProgress>
   remove: (progressId: string) => Promise<void>
   addPhoto: (progressId: string, file: File) => Promise<DailyProgressPhoto>
+  removePhoto: (progressId: string, photoId: string) => Promise<void>
 }
 
 export function useDailyProgress(projectId: string | undefined): UseDailyProgressResult {
@@ -92,5 +94,18 @@ export function useDailyProgress(projectId: string | undefined): UseDailyProgres
     [projectId],
   )
 
-  return { status, progress, errorMessage, refresh, create, update, remove, addPhoto }
+  const removePhoto = useCallback(
+    async (progressId: string, photoId: string) => {
+      if (!projectId) throw new Error('No project selected.')
+      await apiDeletePhoto(projectId, photoId)
+      setProgress(prev =>
+        prev.map(p =>
+          p.id === progressId ? { ...p, photos: p.photos.filter(photo => photo.id !== photoId) } : p,
+        ),
+      )
+    },
+    [projectId],
+  )
+
+  return { status, progress, errorMessage, refresh, create, update, remove, addPhoto, removePhoto }
 }

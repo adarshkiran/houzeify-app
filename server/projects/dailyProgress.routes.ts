@@ -15,6 +15,7 @@ import {
   addDailyProgressPhoto,
   createDailyProgress,
   deleteDailyProgress,
+  deleteDailyProgressPhoto,
   getDailyProgressPhotoContent,
   listDailyProgressForProject,
   updateDailyProgress,
@@ -139,6 +140,20 @@ export async function dailyProgressRoutes(app: FastifyInstance, opts: { env: Env
         .header('Content-Disposition', `inline; filename="${content.fileName.replace(/"/g, '')}"`)
         .header('Cache-Control', 'private, max-age=300')
       return reply.send(content.body)
+    },
+  )
+
+  // C15D — granular evidence removal (photo or video). Client never supplies
+  // storage keys; server loads the trusted storageRef from the media row.
+  app.delete<{ Params: { projectId: string; photoId: string } }>(
+    '/:projectId/daily-progress-photos/:photoId',
+    { preHandler: requireAuth },
+    async (request, reply) => {
+      const projectId = requireValidId(request.params.projectId, 'project')
+      const photoId = requireValidId(request.params.photoId, 'photo')
+      await deleteDailyProgressPhoto(env, projectId, photoId, request.user!.id)
+      reply.code(204)
+      return null
     },
   )
 }

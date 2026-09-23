@@ -81,6 +81,11 @@ export async function addDailyProgressPhoto(projectId: string, progressId: strin
   return res.data.photo
 }
 
+/** C15D — remove a single construction evidence item (photo or video). */
+export async function deleteDailyProgressPhoto(projectId: string, photoId: string): Promise<void> {
+  await apiDelete<null>(`/api/v1/projects/${projectId}/daily-progress-photos/${photoId}`)
+}
+
 export function describeDailyProgressError(err: unknown): string {
   if (!(err instanceof ApiError)) return 'Something went wrong. Please try again.'
   switch (err.code) {
@@ -94,6 +99,7 @@ export function describeDailyProgressError(err: unknown): string {
     case 'FILE_TOO_LARGE':
     case 'MIME_MISMATCH':
     case 'MEDIA_UNAVAILABLE':
+    case 'STORAGE_DELETE_FAILED':
       return err.message
     default:
       return 'Something went wrong. Please try again.'

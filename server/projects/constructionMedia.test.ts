@@ -1,7 +1,7 @@
 // ─── C15 construction media authorization tests ─────────────────────────────
 
 import assert from 'node:assert/strict'
-import { mkdtempSync } from 'node:fs'
+import { existsSync, mkdtempSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { after, test } from 'node:test'
@@ -49,6 +49,7 @@ test('C15 construction media: upload, retrieve, customer ACL', { skip: !env && '
 
   let organizationId = ''
   let projectId = ''
+  let otherProjectId = ''
   let progressId = ''
   let photoId = ''
   let contentUrl = ''
@@ -192,7 +193,7 @@ test('C15 construction media: upload, retrieve, customer ACL', { skip: !env && '
       headers: { cookie: ownerCookie },
       payload: { name: uniqueName('Other Site'), organizationId },
     })
-    const otherProjectId = otherProject.json().data.project.id
+    otherProjectId = otherProject.json().data.project.id
     const tamper = await app.inject({
       method: 'GET',
       url: `/api/v1/projects/${otherProjectId}/daily-progress-photos/${photoId}/content`,
@@ -348,5 +349,110 @@ test('C15 construction media: upload, retrieve, customer ACL', { skip: !env && '
       payload: Buffer.concat([head2, tinyMp4, tail]),
     })
     assert.equal(customerUpload.statusCode, 404)
+  })
+
+  await t.test('C15D: authorized company can delete media; storage object removed; idempotent second delete', async () => {
+    const { headers, payload } = multipartPng('to-delete.png')
+    const up = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+      headers: { cookie: ownerCookie, ...headers },
+      payload,
+    })
+    assert.equal(up.statusCode, 201)
+    const photo = up.json().data.photo
+    assert.ok(photo.storageRef.startsWith('local://'))
+    const key = photo.storageRef.slice('local://'.length)
+    const full = path.join(process.env.MEDIA_LOCAL_ROOT!, key)
+    assert.equal(existsSync(full), true)
+
+    const del = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/projects/${projectId}/daily-progress-photos/${photo.id}`,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(del.statusCode, 204)
+    assert.equal(existsSync(full), false)
+
+    const again = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/projects/${projectId}/daily-progress-photos/${photo.id}`,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(again.statusCode, 404)
+
+    const getGone = await app.inject({
+      method: 'GET',
+      url: photo.contentUrl,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(getGone.statusCode, 404)
+  })
+
+  await t.test('C15D: customer, unauthenticated, and cross-project cannot delete media', async () => {
+    const { headers, payload } = multipartPng('keep.png')
+    const up = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+      headers: { cookie: ownerCookie, ...headers },
+      payload,
+    })
+    const photoId = up.json().data.photo.id
+
+    const customerDel = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/projects/${projectId}/daily-progress-photos/${photoId}`,
+      headers: { cookie: customerCookie },
+    })
+    assert.equal(customerDel.statusCode, 404)
+
+    const anon = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/projects/${projectId}/daily-progress-photos/${photoId}`,
+    })
+    assert.equal(anon.statusCode, 401)
+
+    const cross = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/projects/${otherProjectId}/daily-progress-photos/${photoId}`,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(cross.statusCode, 404)
+
+    const crossOrg = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/projects/${projectId}/daily-progress-photos/${photoId}`,
+      headers: { cookie: ownerBCookie },
+    })
+    assert.equal(crossOrg.statusCode, 404)
+  })
+
+  await t.test('C15D: deleting Daily Progress removes associated storage objects', async () => {
+    const progressRes = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress`,
+      headers: { cookie: ownerCookie },
+      payload: { date: '2026-03-09', stage: 'foundation', title: 'Cleanup check' },
+    })
+    const pid = progressRes.json().data.progress.id
+    const { headers, payload } = multipartPng('cascade.png')
+    const up = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${pid}/photos`,
+      headers: { cookie: ownerCookie, ...headers },
+      payload,
+    })
+    assert.equal(up.statusCode, 201)
+    const storageRef = up.json().data.photo.storageRef as string
+    const full = path.join(process.env.MEDIA_LOCAL_ROOT!, storageRef.slice('local://'.length))
+    assert.equal(existsSync(full), true)
+
+    const del = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/projects/${projectId}/daily-progress/${pid}`,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(del.statusCode, 204)
+    assert.equal(existsSync(full), false)
   })
 })

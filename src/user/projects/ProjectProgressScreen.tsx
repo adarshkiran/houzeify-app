@@ -6,7 +6,7 @@ import { projectStageLabel } from '@/data/homeownerDashboard'
 import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
 import { useProjects } from '@/data/projectState'
 import { useDailyProgress } from '@/data/dailyProgressState'
-import { updateDailyProgress } from '@/data/dailyProgressApi'
+import { describeDailyProgressError, updateDailyProgress } from '@/data/dailyProgressApi'
 import { useProjectAudience } from '@/data/customerProjectsState'
 import { describeCustomerViewError, listCustomerViewProgress } from '@/data/customerViewApi'
 import { constructionStages } from '@/data/constructionStages'
@@ -196,10 +196,12 @@ export default function ProjectProgressScreen({
 
   const audience = useProjectAudience(projectId)
   const isCustomer = audience === 'customer'
-  const { status: progressStatus, progress: companyProgress, errorMessage, refresh } = useDailyProgress(isCustomer ? undefined : projectId)
+  const { status: progressStatus, progress: companyProgress, errorMessage, refresh, removePhoto } = useDailyProgress(isCustomer ? undefined : projectId)
   const [sharedProgress, setSharedProgress] = useState<DailyProgress[]>([])
   const [shareBusyId, setShareBusyId] = useState<string | null>(null)
   const [openPhoto, setOpenPhoto] = useState<{
+    photoId: string
+    progressId: string
     title: string
     date: string
     stage: string | null
@@ -208,6 +210,9 @@ export default function ProjectProgressScreen({
     fileAvailable: boolean
     contentUrl: string | null
   } | null>(null)
+  const [confirmRemove, setConfirmRemove] = useState(false)
+  const [removeBusy, setRemoveBusy] = useState(false)
+  const [removeError, setRemoveError] = useState<string | null>(null)
   // The customer fetch below is independent of useDailyProgress (inert for
   // customers), so it tracks its own loading / error state.
   const [customerStatus, setCustomerStatus] = useState<'loading' | 'loaded' | 'error'>('loading')
@@ -477,6 +482,8 @@ export default function ProjectProgressScreen({
                                       type="button"
                                       onClick={() =>
                                         setOpenPhoto({
+                                          photoId: photo.id,
+                                          progressId: entry.id,
                                           title: entry.title,
                                           date: entry.date,
                                           stage: entry.stage,
@@ -575,7 +582,21 @@ export default function ProjectProgressScreen({
           aria-modal="true"
           aria-labelledby="progress-photo-title"
           onClick={e => {
-            if (e.target === e.currentTarget) setOpenPhoto(null)
+            if (e.target === e.currentTarget && !removeBusy) {
+              setConfirmRemove(false)
+              setRemoveError(null)
+              setOpenPhoto(null)
+            }
+          }}
+          onKeyDown={e => {
+            if (e.key === 'Escape' && !removeBusy) {
+              if (confirmRemove) {
+                setConfirmRemove(false)
+                setRemoveError(null)
+              } else {
+                setOpenPhoto(null)
+              }
+            }
           }}
         >
           <div className="w-full max-w-[520px] rounded-[16px] bg-white p-5 min-w-0">
@@ -600,14 +621,83 @@ export default function ProjectProgressScreen({
                 unavailableLabel={openPhoto.fileAvailable === false ? 'Historical photo unavailable' : 'Photo unavailable'}
               />
             )}
-            <button
-              type="button"
-              onClick={() => setOpenPhoto(null)}
-              className="mt-4 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-              style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
-            >
-              Close
-            </button>
+            {confirmRemove && !isCustomer ? (
+              <div className="mt-4 rounded-[12px] p-4" style={{ backgroundColor: '#FFF5F5', border: '1px solid #FECACA' }} role="alertdialog" aria-labelledby="remove-evidence-title" aria-describedby="remove-evidence-desc">
+                <p id="remove-evidence-title" className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                  Remove this evidence?
+                </p>
+                <p id="remove-evidence-desc" className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                  This construction {openPhoto.mediaKind === 'video' ? 'video' : 'photo'} will be removed from this Daily Progress record.
+                </p>
+                {removeError && (
+                  <p className="text-[12.5px] text-[#B91C1C] m-0 mt-2" style={{ fontFamily: FONT_BODY }} role="alert">{removeError}</p>
+                )}
+                <div className="flex flex-wrap gap-2 mt-4">
+                  <button
+                    type="button"
+                    disabled={removeBusy}
+                    onClick={() => {
+                      setConfirmRemove(false)
+                      setRemoveError(null)
+                    }}
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
+                    style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    disabled={removeBusy}
+                    onClick={() => {
+                      setRemoveBusy(true)
+                      setRemoveError(null)
+                      removePhoto(openPhoto.progressId, openPhoto.photoId)
+                        .then(() => {
+                          setConfirmRemove(false)
+                          setOpenPhoto(null)
+                        })
+                        .catch(err => {
+                          setRemoveError(describeDailyProgressError(err))
+                        })
+                        .finally(() => setRemoveBusy(false))
+                    }}
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C] disabled:opacity-50"
+                    style={{ backgroundColor: '#DC2626', color: 'white', fontFamily: FONT_BODY }}
+                  >
+                    {removeBusy ? 'Removing…' : 'Remove'}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setConfirmRemove(false)
+                    setRemoveError(null)
+                    setOpenPhoto(null)
+                  }}
+                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                >
+                  Close
+                </button>
+                {!isCustomer && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRemoveError(null)
+                      setConfirmRemove(true)
+                    }}
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C]"
+                    style={{ border: '1px solid #FECACA', color: '#B91C1C', fontFamily: FONT_BODY }}
+                    aria-label={`Remove this construction ${openPhoto.mediaKind}`}
+                  >
+                    Remove evidence
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

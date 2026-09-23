@@ -497,7 +497,9 @@ export type NewDailyProgressRow = typeof dailyProgress.$inferInsert
 // store real bytes via object storage (`local://…` or `s3://…` storageRef).
 // MIME type distinguishes photo vs video. Legacy rows may still use
 // `internal://…` placeholders with no retrievable file — those are preserved
-// and surfaced as unavailable, never deleted by C15.
+// and surfaced as unavailable, never auto-migrated by C15.
+// C15D: deleting a media row or its Daily Progress parent also removes the
+// trusted storage object when the storageRef is local:// or s3://.
 export const dailyProgressPhotos = pgTable(
   'daily_progress_photos',
   {

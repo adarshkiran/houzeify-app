@@ -12,13 +12,25 @@ export class LocalObjectStorage implements ObjectStorage {
     this.root = path.resolve(env.MEDIA_LOCAL_ROOT)
   }
 
+  /** Resolve a relative object key under MEDIA_LOCAL_ROOT — never escapes root. */
   private resolveKey(key: string): string {
-    const normalized = key.replace(/^\/+/, '')
-    if (normalized.includes('..') || path.isAbsolute(normalized)) {
+    if (typeof key !== 'string' || key.length === 0 || key.includes('\0')) {
       throw new Error('Invalid storage key')
     }
-    const full = path.resolve(this.root, normalized)
-    if (!full.startsWith(this.root)) {
+    // Reject absolute paths before normalizing away leading slashes.
+    if (path.isAbsolute(key) || path.win32.isAbsolute(key)) {
+      throw new Error('Invalid storage key')
+    }
+    const normalized = key.replace(/\\/g, '/').replace(/^\/+/, '')
+    if (
+      !normalized ||
+      normalized.split('/').some(seg => seg === '..' || seg === '')
+    ) {
+      throw new Error('Invalid storage key')
+    }
+    const full = path.resolve(this.root, ...normalized.split('/'))
+    const rootPrefix = this.root.endsWith(path.sep) ? this.root : `${this.root}${path.sep}`
+    if (full !== this.root && !full.startsWith(rootPrefix)) {
       throw new Error('Invalid storage key')
     }
     return full
@@ -48,17 +60,22 @@ export class LocalObjectStorage implements ObjectStorage {
     }
   }
 
-  async deleteObject(key: string): Promise<void> {
+  async deleteObject(key: string): Promise<'deleted' | 'already_absent'> {
     const full = this.resolveKey(key)
+    let outcome: 'deleted' | 'already_absent' = 'already_absent'
     try {
       await unlink(full)
-    } catch {
-      /* ignore missing */
+      outcome = 'deleted'
+    } catch (err) {
+      const code = (err as NodeJS.ErrnoException).code
+      if (code !== 'ENOENT') throw err
     }
     try {
       await unlink(`${full}.contentType`)
-    } catch {
-      /* ignore */
+    } catch (err) {
+      const code = (err as NodeJS.ErrnoException).code
+      if (code !== 'ENOENT') throw err
     }
+    return outcome
   }
 }
