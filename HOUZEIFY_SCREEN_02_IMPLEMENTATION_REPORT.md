@@ -220,4 +220,10 @@ npm run server:test
 
 ## 12. Final commit
 
-Filled after git commit / FF-merge in this session.
+```text
+cb4e74c Implement Houzeify Screen 02
+```
+
+Full SHA: `cb4e74c14aa097856c446d2dee6ec25cdf3f0f26`
+
+**Merge:** FF-merge `cursor/screen-02-company-projects` → `main`; confirm `origin/main` synchronized.
