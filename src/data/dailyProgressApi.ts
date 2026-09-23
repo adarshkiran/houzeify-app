@@ -9,6 +9,7 @@ export interface DailyProgressPhoto {
   dailyProgressId: string
   fileName: string
   mimeType: string
+  mediaKind: 'photo' | 'video'
   size: number
   uploadedBy: string
   storageRef: string
@@ -69,7 +70,7 @@ export async function deleteDailyProgress(projectId: string, progressId: string)
   await apiDelete<null>(`/api/v1/projects/${projectId}/daily-progress/${progressId}`)
 }
 
-/** C15 — upload real image bytes. Field name must be `file`. */
+/** C15/C15C — upload real photo or video bytes. Field name must be `file`. */
 export async function addDailyProgressPhoto(projectId: string, progressId: string, file: File): Promise<DailyProgressPhoto> {
   const form = new FormData()
   form.append('file', file, file.name)

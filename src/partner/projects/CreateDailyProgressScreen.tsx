@@ -1,5 +1,5 @@
-// ─── Create Daily Progress — Houzeify 2.0 Module 04 / C15B ──────────────────
-// Daily Progress → Evidence workflow. Photos are selected, reviewed, then
+// ─── Create Daily Progress — Houzeify 2.0 Module 04 / C15B/C15C ──────────────────
+// Daily Progress → Evidence workflow. Photos and short videos are selected, reviewed, then
 // uploaded only after the progress row exists (C15A API). Upload states are
 // truthful — Selected / Uploading / Uploaded / Failed / Retrying — and never
 // marked uploaded before the server confirms persistence.
@@ -12,19 +12,23 @@ import { describeDailyProgressError, updateDailyProgress } from '@/data/dailyPro
 import { constructionStages } from '@/data/constructionStages'
 
 const MAX_PHOTO_BYTES = 15 * 1024 * 1024
+const MAX_VIDEO_BYTES = 100 * 1024 * 1024
 const ALLOWED_PHOTO_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/jpg'])
+const ALLOWED_VIDEO_TYPES = new Set(['video/mp4', 'video/webm', 'video/quicktime'])
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
 const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
 
-type PhotoUploadStatus = 'selected' | 'uploading' | 'uploaded' | 'failed' | 'retrying'
+type EvidenceUploadStatus = 'selected' | 'uploading' | 'uploaded' | 'failed' | 'retrying'
+type EvidenceKind = 'photo' | 'video'
 
-interface PendingPhoto {
+interface PendingEvidence {
   localId: string
+  kind: EvidenceKind
   file: File
   previewUrl: string
-  status: PhotoUploadStatus
+  status: EvidenceUploadStatus
   errorMessage: string | null
 }
 
@@ -40,6 +44,13 @@ const IcoPhoto = () => (
   </svg>
 )
 
+const IcoVideo = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="2" y="4" width="10" height="10" rx="1.5" />
+    <path d="M12 7.5l4-2.5v8l-4-2.5V7.5z" />
+  </svg>
+)
+
 function todayIso(): string {
   const now = new Date()
   const year = now.getFullYear()
@@ -52,7 +63,7 @@ function newLocalId(): string {
   return `local-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
 }
 
-function statusLabel(status: PhotoUploadStatus): string {
+function statusLabel(status: EvidenceUploadStatus): string {
   switch (status) {
     case 'selected':
       return 'Selected'
@@ -67,6 +78,11 @@ function statusLabel(status: PhotoUploadStatus): string {
   }
 }
 
+function formatBytes(bytes: number): string {
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
 export default function CreateDailyProgressScreen({
   projectId,
   projectName,
@@ -79,15 +95,17 @@ export default function CreateDailyProgressScreen({
   onNavigate: (screen: string, data?: Record<string, string>) => void
 }) {
   const dailyProgress = useDailyProgress(projectId)
-  const fileInputId = useId()
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const photoInputId = useId()
+  const videoInputId = useId()
+  const photoInputRef = useRef<HTMLInputElement>(null)
+  const videoInputRef = useRef<HTMLInputElement>(null)
 
   const [date, setDate] = useState(todayIso())
   const [stage, setStage] = useState(currentStage && constructionStages.some(s => s.id === currentStage) ? currentStage : constructionStages[0]?.id ?? '')
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [shareWithCustomer, setShareWithCustomer] = useState(false)
-  const [pendingPhotos, setPendingPhotos] = useState<PendingPhoto[]>([])
+  const [pendingEvidence, setPendingEvidence] = useState<PendingEvidence[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   /** Once the progress row is created, retries upload against this id — never create a duplicate row. */
@@ -100,27 +118,27 @@ export default function CreateDailyProgressScreen({
     date.length > 0 &&
     !busy
 
-  const pendingPhotosRef = useRef(pendingPhotos)
-  pendingPhotosRef.current = pendingPhotos
+  const pendingEvidenceRef = useRef(pendingEvidence)
+  pendingEvidenceRef.current = pendingEvidence
 
   useEffect(() => {
     return () => {
-      for (const pending of pendingPhotosRef.current) {
+      for (const pending of pendingEvidenceRef.current) {
         URL.revokeObjectURL(pending.previewUrl)
       }
     }
   }, [])
 
   function goBack() {
-    for (const pending of pendingPhotos) {
+    for (const pending of pendingEvidence) {
       URL.revokeObjectURL(pending.previewUrl)
     }
     onNavigate('project-progress', projectId ? { project_id: projectId } : undefined)
   }
 
-  function onFilesSelected(fileList: FileList | null) {
+  function onPhotosSelected(fileList: FileList | null) {
     if (!fileList || busy) return
-    const accepted: PendingPhoto[] = []
+    const accepted: PendingEvidence[] = []
     const rejected: string[] = []
     for (const file of Array.from(fileList)) {
       const type = file.type === 'image/jpg' ? 'image/jpeg' : file.type
@@ -134,6 +152,7 @@ export default function CreateDailyProgressScreen({
       }
       accepted.push({
         localId: newLocalId(),
+        kind: 'photo',
         file,
         previewUrl: URL.createObjectURL(file),
         status: 'selected',
@@ -142,36 +161,65 @@ export default function CreateDailyProgressScreen({
     }
     if (rejected.length) setError(rejected.join('. '))
     else if (accepted.length) setError(null)
-    if (accepted.length) setPendingPhotos(prev => [...prev, ...accepted])
-    if (fileInputRef.current) fileInputRef.current.value = ''
+    if (accepted.length) setPendingEvidence(prev => [...prev, ...accepted])
+    if (photoInputRef.current) photoInputRef.current.value = ''
   }
 
-  function removePendingPhoto(localId: string) {
+  function onVideosSelected(fileList: FileList | null) {
+    if (!fileList || busy) return
+    const accepted: PendingEvidence[] = []
+    const rejected: string[] = []
+    for (const file of Array.from(fileList)) {
+      const type = file.type === 'video/mov' ? 'video/quicktime' : file.type
+      if (!ALLOWED_VIDEO_TYPES.has(type)) {
+        rejected.push(`${file.name}: use MP4, WebM, or QuickTime`)
+        continue
+      }
+      if (file.size > MAX_VIDEO_BYTES) {
+        rejected.push(`${file.name}: exceeds 100 MB`)
+        continue
+      }
+      accepted.push({
+        localId: newLocalId(),
+        kind: 'video',
+        file,
+        previewUrl: URL.createObjectURL(file),
+        status: 'selected',
+        errorMessage: null,
+      })
+    }
+    if (rejected.length) setError(rejected.join('. '))
+    else if (accepted.length) setError(null)
+    if (accepted.length) setPendingEvidence(prev => [...prev, ...accepted])
+    if (videoInputRef.current) videoInputRef.current.value = ''
+  }
+
+  function removePending(localId: string) {
     if (busy) return
-    setPendingPhotos(prev => {
+    setPendingEvidence(prev => {
       const target = prev.find(p => p.localId === localId)
       if (target) URL.revokeObjectURL(target.previewUrl)
       return prev.filter(p => p.localId !== localId)
     })
   }
 
-  function setPhotoStatus(localId: string, status: PhotoUploadStatus, errorMessage: string | null = null) {
-    setPendingPhotos(prev =>
+  function setEvidenceStatus(localId: string, status: EvidenceUploadStatus, errorMessage: string | null = null) {
+    setPendingEvidence(prev =>
       prev.map(p => (p.localId === localId ? { ...p, status, errorMessage } : p)),
     )
   }
 
-  async function uploadPendingPhotos(progressId: string, photos: PendingPhoto[], asRetry: boolean) {
+  async function uploadPendingEvidence(progressId: string, items: PendingEvidence[], asRetry: boolean) {
     let failures = 0
-    for (const pending of photos) {
+    for (const pending of items) {
       if (pending.status === 'uploaded') continue
-      setPhotoStatus(pending.localId, asRetry ? 'retrying' : 'uploading')
+      setEvidenceStatus(pending.localId, asRetry ? 'retrying' : 'uploading')
       try {
         await dailyProgress.addPhoto(progressId, pending.file)
-        setPhotoStatus(pending.localId, 'uploaded')
+        setEvidenceStatus(pending.localId, 'uploaded')
       } catch (err) {
         failures += 1
-        setPhotoStatus(pending.localId, 'failed', describeDailyProgressError(err))
+        setEvidenceStatus(pending.localId, 'failed', describeDailyProgressError(err))
       }
     }
     return failures
@@ -194,15 +242,15 @@ export default function CreateDailyProgressScreen({
         setSavedProgressId(progressId)
       }
 
-      const toUpload = pendingPhotos.filter(p => p.status !== 'uploaded')
-      const failures = await uploadPendingPhotos(progressId, toUpload, Boolean(savedProgressId))
+      const toUpload = pendingEvidence.filter(p => p.status !== 'uploaded')
+      const failures = await uploadPendingEvidence(progressId, toUpload, Boolean(savedProgressId))
 
       if (shareWithCustomer) {
         try {
           await updateDailyProgress(projectId, progressId, { visibility: 'customer' })
         } catch (err) {
           setError(
-            `Progress and photos were saved, but sharing with the customer failed: ${describeDailyProgressError(err)}. You can share from the Progress screen.`,
+            `Progress and evidence were saved, but sharing with the customer failed: ${describeDailyProgressError(err)}. You can share from the Progress screen.`,
           )
           return
         }
@@ -210,12 +258,12 @@ export default function CreateDailyProgressScreen({
 
       if (failures > 0) {
         setError(
-          `Progress was saved, but ${failures} photo${failures === 1 ? '' : 's'} failed to upload. Retry failed photos or remove them, then save again.`,
+          `Progress was saved, but ${failures} file${failures === 1 ? '' : 's'} failed to upload. Retry failed evidence or remove them, then save again.`,
         )
         return
       }
 
-      for (const pending of pendingPhotosRef.current) {
+      for (const pending of pendingEvidenceRef.current) {
         URL.revokeObjectURL(pending.previewUrl)
       }
       onNavigate('project-progress', { project_id: projectId })
@@ -226,22 +274,22 @@ export default function CreateDailyProgressScreen({
     }
   }
 
-  async function retryFailedPhotos() {
+  async function retryFailedEvidence() {
     if (!projectId || !savedProgressId || busy) return
-    const failed = pendingPhotos.filter(p => p.status === 'failed')
+    const failed = pendingEvidence.filter(p => p.status === 'failed')
     if (failed.length === 0) return
     setSubmitting(true)
     setError(null)
     try {
-      const failures = await uploadPendingPhotos(savedProgressId, failed, true)
+      const failures = await uploadPendingEvidence(savedProgressId, failed, true)
       if (failures > 0) {
-        setError(`${failures} photo${failures === 1 ? '' : 's'} still failed. Check the files and try again.`)
+        setError(`${failures} file${failures === 1 ? '' : 's'} still failed. Check the files and try again.`)
         return
       }
       if (shareWithCustomer) {
         await updateDailyProgress(projectId, savedProgressId, { visibility: 'customer' }).catch(() => undefined)
       }
-      for (const pending of pendingPhotosRef.current) {
+      for (const pending of pendingEvidenceRef.current) {
         URL.revokeObjectURL(pending.previewUrl)
       }
       onNavigate('project-progress', { project_id: projectId })
@@ -260,16 +308,16 @@ export default function CreateDailyProgressScreen({
     )
   }
 
-  const failedCount = pendingPhotos.filter(p => p.status === 'failed').length
-  const uploadedCount = pendingPhotos.filter(p => p.status === 'uploaded').length
+  const failedCount = pendingEvidence.filter(p => p.status === 'failed').length
+  const uploadedCount = pendingEvidence.filter(p => p.status === 'uploaded').length
   const submitLabel = (() => {
     if (!busy) {
-      if (savedProgressId && failedCount > 0) return 'Retry failed photos'
+      if (savedProgressId && failedCount > 0) return 'Retry failed evidence'
       if (savedProgressId) return 'Finish saving'
       return 'Save Progress Update'
     }
-    if (pendingPhotos.some(p => p.status === 'uploading' || p.status === 'retrying')) {
-      return `Uploading photos… (${uploadedCount}/${pendingPhotos.length})`
+    if (pendingEvidence.some(p => p.status === 'uploading' || p.status === 'retrying')) {
+      return `Uploading evidence… (${uploadedCount}/${pendingEvidence.length})`
     }
     return savedProgressId ? 'Saving…' : 'Creating progress…'
   })()
@@ -300,7 +348,7 @@ export default function CreateDailyProgressScreen({
               <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Add progress update</h1>
               {projectName && <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{projectName}</p>}
               <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
-                Record what happened today and attach construction photos as project evidence.
+                Record what happened today and attach construction photos or short videos as project evidence.
               </p>
             </div>
 
@@ -351,50 +399,82 @@ export default function CreateDailyProgressScreen({
               </div>
 
               <div>
-                <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
-                  <label className="text-[13px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }} htmlFor={fileInputId}>
-                    Construction photos
-                  </label>
+                <p className="text-[13px] font-semibold text-[#242326] m-0 mb-2" style={{ fontFamily: FONT_HEAD }}>
+                  Construction evidence
+                </p>
+                <div className="flex flex-wrap gap-2 mb-2">
                   <button
                     type="button"
                     disabled={busy}
-                    onClick={() => fileInputRef.current?.click()}
+                    onClick={() => photoInputRef.current?.click()}
                     className="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{ border: '1px solid #E3DDD7', color: '#722ED1', fontFamily: FONT_BODY }}
                   >
                     <IcoPhoto /> Add Photos
                   </button>
+                  <button
+                    type="button"
+                    disabled={busy}
+                    onClick={() => videoInputRef.current?.click()}
+                    className="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ border: '1px solid #E3DDD7', color: '#722ED1', fontFamily: FONT_BODY }}
+                  >
+                    <IcoVideo /> Add Video
+                  </button>
                 </div>
                 <p className="text-[12.5px] text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
-                  Optional · JPEG, PNG, or WebP · max 15 MB each. Photos attach to this progress record as evidence.
+                  Optional · Photos: JPEG/PNG/WebP ≤15 MB · Videos: MP4/WebM/QuickTime ≤100 MB.
                 </p>
                 <input
-                  ref={fileInputRef}
-                  id={fileInputId}
+                  ref={photoInputRef}
+                  id={photoInputId}
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
                   capture="environment"
                   multiple
                   disabled={busy}
-                  onChange={e => onFilesSelected(e.target.files)}
+                  onChange={e => onPhotosSelected(e.target.files)}
                   className="sr-only"
                 />
-                {pendingPhotos.length > 0 && (
-                  <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3 m-0 p-0 list-none" aria-label="Selected construction photos">
-                    {pendingPhotos.map(p => (
+                <input
+                  ref={videoInputRef}
+                  id={videoInputId}
+                  type="file"
+                  accept="video/mp4,video/webm,video/quicktime"
+                  capture="environment"
+                  disabled={busy}
+                  onChange={e => onVideosSelected(e.target.files)}
+                  className="sr-only"
+                />
+                {pendingEvidence.length > 0 && (
+                  <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3 m-0 p-0 list-none" aria-label="Selected construction evidence">
+                    {pendingEvidence.map(p => (
                       <li key={p.localId} className="relative rounded-[12px] overflow-hidden" style={{ border: '1px solid #E3DDD7' }}>
-                        <img
-                          src={p.previewUrl}
-                          alt={`Construction photo: ${p.file.name}`}
-                          className="w-full aspect-square object-cover"
-                        />
+                        {p.kind === 'photo' ? (
+                          <img
+                            src={p.previewUrl}
+                            alt={`Construction photo: ${p.file.name}`}
+                            className="w-full aspect-square object-cover"
+                          />
+                        ) : (
+                          <video
+                            src={p.previewUrl}
+                            className="w-full aspect-square object-cover bg-[#242326]"
+                            muted
+                            playsInline
+                            preload="metadata"
+                            aria-label={`Construction video preview: ${p.file.name}, ${formatBytes(p.file.size)}`}
+                          />
+                        )}
                         <div className="absolute inset-x-0 bottom-0 px-2 py-1.5 flex items-center justify-between gap-1" style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}>
-                          <span className="text-[11px] text-white truncate" style={{ fontFamily: FONT_MONO }}>{statusLabel(p.status)}</span>
+                          <span className="text-[11px] text-white truncate" style={{ fontFamily: FONT_MONO }}>
+                            {p.kind === 'video' ? 'Video · ' : ''}{statusLabel(p.status)}
+                          </span>
                           {p.status !== 'uploading' && p.status !== 'retrying' && p.status !== 'uploaded' && (
                             <button
                               type="button"
-                              onClick={() => removePendingPhoto(p.localId)}
-                              aria-label={`Remove construction photo ${p.file.name}`}
+                              onClick={() => removePending(p.localId)}
+                              aria-label={`Remove construction ${p.kind} ${p.file.name}`}
                               className="min-w-11 min-h-11 w-11 h-11 -mr-1 -my-1 rounded-full flex items-center justify-center cursor-pointer border-0 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                               style={{ backgroundColor: 'transparent', fontSize: 18 }}
                             >
@@ -402,6 +482,11 @@ export default function CreateDailyProgressScreen({
                             </button>
                           )}
                         </div>
+                        {p.kind === 'video' && (
+                          <p className="absolute top-1 left-1 m-0 px-1.5 py-0.5 rounded text-[10px] text-white" style={{ backgroundColor: 'rgba(0,0,0,0.6)', fontFamily: FONT_MONO }}>
+                            {formatBytes(p.file.size)}
+                          </p>
+                        )}
                         {p.status === 'failed' && p.errorMessage && (
                           <p className="sr-only">{p.errorMessage}</p>
                         )}
@@ -414,11 +499,11 @@ export default function CreateDailyProgressScreen({
                     <button
                       type="button"
                       disabled={busy}
-                      onClick={retryFailedPhotos}
+                      onClick={retryFailedEvidence}
                       className="h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
                       style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
                     >
-                      Retry failed photos
+                      Retry failed evidence
                     </button>
                   </div>
                 )}
@@ -449,7 +534,7 @@ export default function CreateDailyProgressScreen({
 
             {savedProgressId && failedCount === 0 && uploadedCount > 0 && !busy && (
               <p className="text-[13px] text-[#15803D] m-0" style={{ fontFamily: FONT_BODY }}>
-                Progress and photos are saved. You can return to Progress.
+                Progress and evidence are saved. You can return to Progress.
               </p>
             )}
 
@@ -457,7 +542,7 @@ export default function CreateDailyProgressScreen({
               <button
                 type="button"
                 disabled={!canSubmit && !(savedProgressId && failedCount > 0 && !busy)}
-                onClick={savedProgressId && failedCount > 0 ? retryFailedPhotos : handleSubmit}
+                onClick={savedProgressId && failedCount > 0 ? retryFailedEvidence : handleSubmit}
                 className="h-11 px-6 rounded-[12px] text-[13.5px] font-semibold border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
                 style={{
                   backgroundColor: (canSubmit || (savedProgressId && failedCount > 0 && !busy)) ? '#722ED1' : '#E3DDD7',

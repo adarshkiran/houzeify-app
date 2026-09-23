@@ -12,6 +12,7 @@ import { describeCustomerViewError, listCustomerViewProgress } from '@/data/cust
 import { constructionStages } from '@/data/constructionStages'
 import type { DailyProgress } from '@/data/dailyProgressApi'
 import AuthenticatedImage from '@/shared/components/AuthenticatedImage'
+import AuthenticatedVideo from '@/shared/components/AuthenticatedVideo'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -203,6 +204,7 @@ export default function ProjectProgressScreen({
     date: string
     stage: string | null
     fileName: string
+    mediaKind: 'photo' | 'video'
     fileAvailable: boolean
     contentUrl: string | null
   } | null>(null)
@@ -237,6 +239,7 @@ export default function ProjectProgressScreen({
           storageRef: '',
           fileAvailable: photo.fileAvailable,
           contentUrl: photo.contentUrl,
+          mediaKind: photo.mediaKind ?? (photo.mimeType?.startsWith('video/') ? 'video' : 'photo'),
           createdAt: photo.createdAt,
         })),
         visibility: 'customer' as const,
@@ -478,19 +481,26 @@ export default function ProjectProgressScreen({
                                           date: entry.date,
                                           stage: entry.stage,
                                           fileName: photo.fileName,
+                                          mediaKind: photo.mediaKind ?? (photo.mimeType?.startsWith('video/') ? 'video' : 'photo'),
                                           fileAvailable: photo.fileAvailable,
                                           contentUrl: photo.contentUrl,
                                         })
                                       }
-                                      aria-label={`Open construction photo for ${entry.title}`}
-                                      className="p-0 border-0 bg-transparent cursor-pointer rounded-[10px] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] min-h-11"
+                                      aria-label={`Open construction ${(photo.mediaKind ?? 'photo') === 'video' ? 'video' : 'photo'} for ${entry.title}`}
+                                      className="p-0 border-0 bg-transparent cursor-pointer rounded-[10px] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] min-h-11 relative"
                                     >
-                                      <AuthenticatedImage
-                                        contentUrl={photo.fileAvailable ? photo.contentUrl : null}
-                                        alt={`Construction evidence: ${entry.title}`}
-                                        className="w-full aspect-square object-cover rounded-[10px]"
-                                        unavailableLabel={photo.fileAvailable === false ? 'Historical photo unavailable' : 'Photo unavailable'}
-                                      />
+                                      {(photo.mediaKind ?? (photo.mimeType?.startsWith('video/') ? 'video' : 'photo')) === 'video' ? (
+                                        <div className="w-full aspect-square flex items-center justify-center bg-[#242326] rounded-[10px]">
+                                          <span className="text-[11px] text-white" style={{ fontFamily: FONT_MONO }}>VIDEO</span>
+                                        </div>
+                                      ) : (
+                                        <AuthenticatedImage
+                                          contentUrl={photo.fileAvailable ? photo.contentUrl : null}
+                                          alt={`Construction evidence: ${entry.title}`}
+                                          className="w-full aspect-square object-cover rounded-[10px]"
+                                          unavailableLabel={photo.fileAvailable === false ? 'Historical photo unavailable' : 'Photo unavailable'}
+                                        />
+                                      )}
                                     </button>
                                   ))}
                                 </div>
@@ -575,12 +585,21 @@ export default function ProjectProgressScreen({
               {stageLabel(openPhoto.stage) ? ` · ${stageLabel(openPhoto.stage)}` : ''}
               {' · Daily progress evidence'}
             </p>
-            <AuthenticatedImage
-              contentUrl={openPhoto.fileAvailable ? openPhoto.contentUrl : null}
-              alt={`Construction evidence: ${openPhoto.title}`}
-              className="w-full max-h-[60vh] object-contain rounded-[12px] bg-[#F4F0EC]"
-              unavailableLabel={openPhoto.fileAvailable === false ? 'Historical photo unavailable' : 'Photo unavailable'}
-            />
+            {openPhoto.mediaKind === 'video' ? (
+              <AuthenticatedVideo
+                contentUrl={openPhoto.fileAvailable ? openPhoto.contentUrl : null}
+                title={`Construction video: ${openPhoto.title}`}
+                className="w-full max-h-[60vh] rounded-[12px] bg-[#242326]"
+                unavailableLabel={openPhoto.fileAvailable === false ? 'Historical video unavailable' : 'Video unavailable'}
+              />
+            ) : (
+              <AuthenticatedImage
+                contentUrl={openPhoto.fileAvailable ? openPhoto.contentUrl : null}
+                alt={`Construction evidence: ${openPhoto.title}`}
+                className="w-full max-h-[60vh] object-contain rounded-[12px] bg-[#F4F0EC]"
+                unavailableLabel={openPhoto.fileAvailable === false ? 'Historical photo unavailable' : 'Photo unavailable'}
+              />
+            )}
             <button
               type="button"
               onClick={() => setOpenPhoto(null)}

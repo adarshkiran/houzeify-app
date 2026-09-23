@@ -17,6 +17,7 @@ export interface CustomerViewPhoto {
   id: string
   fileName: string
   mimeType: string
+  mediaKind: 'photo' | 'video'
   size: number
   fileAvailable: boolean
   contentUrl: string | null

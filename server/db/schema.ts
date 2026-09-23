@@ -493,10 +493,11 @@ export type DailyProgressRow = typeof dailyProgress.$inferSelect
 export type NewDailyProgressRow = typeof dailyProgress.$inferInsert
 
 // ─── daily_progress_photos ───────────────────────────────────────────────
-// C15 construction evidence metadata. New uploads store real bytes via
-// object storage (`local://…` or `s3://…` storageRef). Legacy rows may still
-// use `internal://…` placeholders with no retrievable file — those are
-// preserved and surfaced as unavailable, never deleted by C15.
+// C15 construction evidence metadata (photos and short videos). New uploads
+// store real bytes via object storage (`local://…` or `s3://…` storageRef).
+// MIME type distinguishes photo vs video. Legacy rows may still use
+// `internal://…` placeholders with no retrievable file — those are preserved
+// and surfaced as unavailable, never deleted by C15.
 export const dailyProgressPhotos = pgTable(
   'daily_progress_photos',
   {

@@ -270,6 +270,83 @@ test('C15 construction media: upload, retrieve, customer ACL', { skip: !env && '
     assert.equal(photo.dailyProgressId, progressId)
     assert.equal(photo.uploadedBy, owner.id)
     assert.equal(photo.fileAvailable, true)
+    assert.equal(photo.mediaKind, 'photo')
     assert.ok(photo.contentUrl)
+  })
+
+  await t.test('C15C: valid MP4 video uploads, persists, and retrieves under same ACL', async () => {
+    // Minimal ISO BMFF ftyp box (isom) — enough for magic-byte detection.
+    const tinyMp4 = Buffer.from([
+      0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0x69, 0x73, 0x6f, 0x6d, 0x00, 0x00, 0x02, 0x00, 0x69, 0x73, 0x6f, 0x6d, 0x69, 0x73, 0x6f, 0x32,
+    ])
+    const boundary = '----HouzefiyC15Video'
+    const head = Buffer.from(
+      `--${boundary}\r\n` +
+        `Content-Disposition: form-data; name="file"; filename="site.mp4"\r\n` +
+        `Content-Type: video/mp4\r\n\r\n`,
+    )
+    const tail = Buffer.from(`\r\n--${boundary}--\r\n`)
+    const videoRes = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+      headers: { cookie: ownerCookie, 'content-type': `multipart/form-data; boundary=${boundary}` },
+      payload: Buffer.concat([head, tinyMp4, tail]),
+    })
+    assert.equal(videoRes.statusCode, 201)
+    const video = videoRes.json().data.photo
+    assert.equal(video.mediaKind, 'video')
+    assert.equal(video.mimeType, 'video/mp4')
+    assert.ok(video.storageRef.includes('/video/'))
+    assert.ok(video.contentUrl)
+
+    const bytes = await app.inject({
+      method: 'GET',
+      url: video.contentUrl,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(bytes.statusCode, 200)
+    assert.equal(bytes.headers['content-type'], 'video/mp4')
+    assert.ok(Buffer.from(bytes.rawPayload).equals(tinyMp4))
+
+    const customerOk = await app.inject({
+      method: 'GET',
+      url: video.contentUrl,
+      headers: { cookie: customerCookie },
+    })
+    assert.equal(customerOk.statusCode, 200)
+  })
+
+  await t.test('C15C: fake video extension / non-video bytes rejected; customer cannot upload', async () => {
+    const boundary = '----HouzefiyC15FakeVid'
+    const fake = Buffer.from('not-a-video')
+    const head = Buffer.from(
+      `--${boundary}\r\n` +
+        `Content-Disposition: form-data; name="file"; filename="clip.mp4"\r\n` +
+        `Content-Type: video/mp4\r\n\r\n`,
+    )
+    const tail = Buffer.from(`\r\n--${boundary}--\r\n`)
+    const bad = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+      headers: { cookie: ownerCookie, 'content-type': `multipart/form-data; boundary=${boundary}` },
+      payload: Buffer.concat([head, fake, tail]),
+    })
+    assert.equal(bad.statusCode, 400)
+
+    const tinyMp4 = Buffer.from([
+      0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0x69, 0x73, 0x6f, 0x6d, 0x00, 0x00, 0x02, 0x00, 0x69, 0x73, 0x6f, 0x6d, 0x69, 0x73, 0x6f, 0x32,
+    ])
+    const head2 = Buffer.from(
+      `--${boundary}\r\n` +
+        `Content-Disposition: form-data; name="file"; filename="clip.mp4"\r\n` +
+        `Content-Type: video/mp4\r\n\r\n`,
+    )
+    const customerUpload = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+      headers: { cookie: customerCookie, 'content-type': `multipart/form-data; boundary=${boundary}` },
+      payload: Buffer.concat([head2, tinyMp4, tail]),
+    })
+    assert.equal(customerUpload.statusCode, 404)
   })
 })

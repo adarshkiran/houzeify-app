@@ -1,4 +1,5 @@
 import type { DailyProgressPhotoRow, DailyProgressRow, ProjectDocumentRow, ProjectRow } from '../db/schema.js'
+import { mediaKindFromMime } from '../storage/mediaValidation.js'
 import { isRetrievableStorageRef } from '../storage/objectStorage.js'
 import { progressPhotoContentPath } from './dailyProgress.types.js'
 
@@ -21,6 +22,7 @@ export function serializeCustomerProgressPhoto(row: DailyProgressPhotoRow, proje
     id: row.id,
     fileName: row.fileName,
     mimeType: row.mimeType,
+    mediaKind: mediaKindFromMime(row.mimeType),
     size: row.size,
     fileAvailable,
     contentUrl: fileAvailable ? progressPhotoContentPath(projectId, row.id) : null,

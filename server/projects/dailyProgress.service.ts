@@ -41,7 +41,10 @@ import {
   isRetrievableStorageRef,
   parseStorageRef,
 } from '../storage/objectStorage.js'
-import { sanitizeOriginalFileName, validateConstructionPhotoBuffer } from '../storage/imageValidation.js'
+import {
+  sanitizeOriginalFileName,
+  validateConstructionEvidenceBuffer,
+} from '../storage/mediaValidation.js'
 
 export interface DailyProgressInput {
   date: string
@@ -209,9 +212,9 @@ export async function deleteDailyProgress(env: Env, projectId: string, progressI
   await db.delete(dailyProgress).where(eq(dailyProgress.id, progressId))
 }
 
-/** C15 — store real image bytes via object storage; mint a retrievable
- *  storageRef (`local://…` or `s3://…`). Legacy `internal://` rows are never
- *  created by this path. */
+/** C15/C15C — store real photo or video bytes via object storage; mint a
+ *  retrievable storageRef (`local://…` or `s3://…`). Legacy `internal://`
+ *  rows are never created by this path. */
 export async function addDailyProgressPhoto(
   env: Env,
   projectId: string,
@@ -225,7 +228,7 @@ export async function addDailyProgressPhoto(
 
   let validated
   try {
-    validated = validateConstructionPhotoBuffer(input.buffer, input.claimedMimeType)
+    validated = validateConstructionEvidenceBuffer(input.buffer, input.claimedMimeType)
   } catch (err) {
     const e = err as { code?: string; message?: string; statusCode?: number }
     throw new HttpError(e.code || 'INVALID_FILE', e.message || 'Invalid file.', e.statusCode || 400)
@@ -233,12 +236,14 @@ export async function addDailyProgressPhoto(
 
   const id = randomUUID()
   const orgSegment = project.organizationId ?? 'personal'
+  const mediaFolder = validated.kind === 'video' ? 'video' : 'photo'
   const key = [
     'media',
     orgSegment,
     projectId,
     'daily-progress',
     progressId,
+    mediaFolder,
     `${id}.${validated.extension}`,
   ].join('/')
 
@@ -250,19 +255,25 @@ export async function addDailyProgressPhoto(
   })
 
   const db = getDb(env)
-  const created = await db
-    .insert(dailyProgressPhotos)
-    .values({
-      id,
-      dailyProgressId: progressId,
-      fileName: sanitizeOriginalFileName(input.fileName),
-      mimeType: validated.mimeType,
-      size: validated.size,
-      uploadedBy: userId,
-      storageRef: buildStorageRef(storage.providerId, key),
-    })
-    .returning()
-  return created[0]
+  try {
+    const created = await db
+      .insert(dailyProgressPhotos)
+      .values({
+        id,
+        dailyProgressId: progressId,
+        fileName: sanitizeOriginalFileName(input.fileName),
+        mimeType: validated.mimeType,
+        size: validated.size,
+        uploadedBy: userId,
+        storageRef: buildStorageRef(storage.providerId, key),
+      })
+      .returning()
+    return created[0]
+  } catch (err) {
+    // Avoid orphaned objects when the DB insert fails after a successful put.
+    await storage.deleteObject(key).catch(() => undefined)
+    throw err
+  }
 }
 
 export type ProgressPhotoContent = {

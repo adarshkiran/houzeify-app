@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import AuthenticatedImage from '@/shared/components/AuthenticatedImage'
+import AuthenticatedVideo from '@/shared/components/AuthenticatedVideo'
 import { useProjectAudience } from '@/data/customerProjectsState'
 import { describeCustomerViewError, listCustomerViewProgress, type CustomerViewPhoto, type CustomerViewProgress } from '@/data/customerViewApi'
 import { listDailyProgress, type DailyProgressPhoto } from '@/data/dailyProgressApi'
@@ -18,6 +19,7 @@ type GalleryItem = {
   date: string
   title: string
   stage: string | null
+  mediaKind: 'photo' | 'video'
   fileAvailable: boolean
   contentUrl: string | null
   visibility?: 'internal' | 'customer'
@@ -56,6 +58,7 @@ function fromCustomer(rows: CustomerViewProgress[]): GalleryItem[] {
       date: entry.date,
       title: entry.title,
       stage: entry.stage,
+      mediaKind: photo.mediaKind ?? (photo.mimeType?.startsWith('video/') ? 'video' : 'photo'),
       fileAvailable: photo.fileAvailable,
       contentUrl: photo.contentUrl,
       visibility: 'customer' as const,
@@ -72,6 +75,7 @@ function fromCompany(rows: Awaited<ReturnType<typeof listDailyProgress>>): Galle
       date: entry.date,
       title: entry.title,
       stage: entry.stage,
+      mediaKind: photo.mediaKind ?? (photo.mimeType?.startsWith('video/') ? 'video' : 'photo'),
       fileAvailable: photo.fileAvailable,
       contentUrl: photo.contentUrl,
       visibility: entry.visibility,
@@ -182,20 +186,33 @@ export default function ProjectPhotosScreen({
                               <button
                                 type="button"
                                 onClick={() => setOpen(item)}
-                                aria-label={`Open construction photo from ${item.title}${stage ? `, ${stage}` : ''}, ${item.date}`}
-                                className="w-full text-left rounded-[14px] overflow-hidden bg-white cursor-pointer min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                                aria-label={`Open construction ${item.mediaKind === 'video' ? 'video' : 'photo'} from ${item.title}${stage ? `, ${stage}` : ''}, ${item.date}`}
+                                className="w-full text-left rounded-[14px] overflow-hidden bg-white cursor-pointer min-h-11 relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
                                 style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
                               >
-                                <AuthenticatedImage
-                                  contentUrl={item.fileAvailable ? item.contentUrl : null}
-                                  alt={`Construction evidence: ${item.title}`}
-                                  className="w-full aspect-square object-cover"
-                                  unavailableLabel={item.fileAvailable ? 'Photo unavailable' : 'Historical photo unavailable'}
-                                />
+                                {item.mediaKind === 'video' ? (
+                                  <div className="w-full aspect-square flex items-center justify-center bg-[#242326] relative">
+                                    {item.fileAvailable ? (
+                                      <span className="text-[12px] text-white" style={{ fontFamily: FONT_MONO }}>VIDEO</span>
+                                    ) : (
+                                      <span className="text-[12px] text-[#9A949D] px-2 text-center" style={{ fontFamily: FONT_BODY }}>
+                                        {item.fileAvailable === false ? 'Historical video unavailable' : 'Video unavailable'}
+                                      </span>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <AuthenticatedImage
+                                    contentUrl={item.fileAvailable ? item.contentUrl : null}
+                                    alt={`Construction evidence: ${item.title}`}
+                                    className="w-full aspect-square object-cover"
+                                    unavailableLabel={item.fileAvailable ? 'Photo unavailable' : 'Historical photo unavailable'}
+                                  />
+                                )}
                                 <div className="p-3">
                                   <p className="text-[13px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</p>
                                   <p className="text-[12px] text-[#68636D] m-0 mt-1">
                                     {stage ?? 'Stage not set'}
+                                    {item.mediaKind === 'video' ? ' · Video' : ''}
                                     {audience !== 'customer' && item.visibility === 'customer' ? ' · Shared' : ''}
                                     {audience !== 'customer' && item.visibility === 'internal' ? ' · Internal' : ''}
                                   </p>
@@ -232,12 +249,21 @@ export default function ProjectPhotosScreen({
               {audience !== 'customer' && open.visibility === 'customer' ? ' · Shared with customer' : ''}
               {audience !== 'customer' && open.visibility === 'internal' ? ' · Internal' : ''}
             </p>
-            <AuthenticatedImage
-              contentUrl={open.fileAvailable ? open.contentUrl : null}
-              alt={`Construction evidence: ${open.title}`}
-              className="w-full max-h-[60vh] object-contain rounded-[12px] bg-[#F4F0EC]"
-              unavailableLabel={open.fileAvailable ? 'Photo unavailable' : 'Historical photo unavailable'}
-            />
+            {open.mediaKind === 'video' ? (
+              <AuthenticatedVideo
+                contentUrl={open.fileAvailable ? open.contentUrl : null}
+                title={`Construction video: ${open.title}`}
+                className="w-full max-h-[60vh] rounded-[12px] bg-[#242326]"
+                unavailableLabel={open.fileAvailable ? 'Video unavailable' : 'Historical video unavailable'}
+              />
+            ) : (
+              <AuthenticatedImage
+                contentUrl={open.fileAvailable ? open.contentUrl : null}
+                alt={`Construction evidence: ${open.title}`}
+                className="w-full max-h-[60vh] object-contain rounded-[12px] bg-[#F4F0EC]"
+                unavailableLabel={open.fileAvailable ? 'Photo unavailable' : 'Historical photo unavailable'}
+              />
+            )}
             <button
               type="button"
               onClick={() => setOpen(null)}

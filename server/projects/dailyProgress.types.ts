@@ -1,6 +1,7 @@
 // ─── Daily Progress DTOs — Module 04 / C15 ──────────────────────────────────
 
 import type { DailyProgressPhotoRow, DailyProgressRow } from '../db/schema.js'
+import { mediaKindFromMime } from '../storage/mediaValidation.js'
 import { isRetrievableStorageRef } from '../storage/objectStorage.js'
 
 export function progressPhotoContentPath(projectId: string, photoId: string): string {
@@ -9,11 +10,13 @@ export function progressPhotoContentPath(projectId: string, photoId: string): st
 
 export function serializeDailyProgressPhoto(row: DailyProgressPhotoRow, projectId: string) {
   const fileAvailable = isRetrievableStorageRef(row.storageRef)
+  const mediaKind = mediaKindFromMime(row.mimeType)
   return {
     id: row.id,
     dailyProgressId: row.dailyProgressId,
     fileName: row.fileName,
     mimeType: row.mimeType,
+    mediaKind,
     size: row.size,
     uploadedBy: row.uploadedBy,
     /** Opaque; clients should prefer contentUrl. Kept for company debugging. */

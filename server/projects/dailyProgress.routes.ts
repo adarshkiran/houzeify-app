@@ -22,7 +22,7 @@ import {
   type DailyProgressPatch,
 } from './dailyProgress.service.js'
 import { serializeDailyProgress, serializeDailyProgressPhoto } from './dailyProgress.types.js'
-import { MAX_CONSTRUCTION_PHOTO_BYTES } from '../storage/imageValidation.js'
+import { MAX_CONSTRUCTION_EVIDENCE_BYTES, MAX_CONSTRUCTION_PHOTO_BYTES, MAX_CONSTRUCTION_VIDEO_BYTES } from '../storage/mediaValidation.js'
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -39,7 +39,7 @@ export async function dailyProgressRoutes(app: FastifyInstance, opts: { env: Env
 
   await app.register(multipart, {
     limits: {
-      fileSize: MAX_CONSTRUCTION_PHOTO_BYTES,
+      fileSize: MAX_CONSTRUCTION_EVIDENCE_BYTES,
       files: 1,
     },
   })
@@ -95,7 +95,7 @@ export async function dailyProgressRoutes(app: FastifyInstance, opts: { env: Env
 
       const file = await request.file()
       if (!file) {
-        throw new HttpError('INVALID_FILE', 'A photo file is required.', 400)
+        throw new HttpError('INVALID_FILE', 'A construction evidence file is required.', 400)
       }
       let buffer: Buffer
       try {
@@ -103,12 +103,22 @@ export async function dailyProgressRoutes(app: FastifyInstance, opts: { env: Env
       } catch (err) {
         const e = err as { code?: string; statusCode?: number }
         if (e.code === 'FST_REQ_FILE_TOO_LARGE' || e.statusCode === 413) {
-          throw new HttpError('FILE_TOO_LARGE', 'Photo exceeds the 15 MB upload limit.', 400)
+          const isVideo = Boolean(file.mimetype?.startsWith('video/'))
+          const limitMb = Math.round(
+            (isVideo ? MAX_CONSTRUCTION_VIDEO_BYTES : MAX_CONSTRUCTION_PHOTO_BYTES) / (1024 * 1024),
+          )
+          throw new HttpError(
+            'FILE_TOO_LARGE',
+            isVideo
+              ? `Video exceeds the ${limitMb} MB upload limit.`
+              : `Photo exceeds the ${limitMb} MB upload limit.`,
+            400,
+          )
         }
         throw err
       }
       const row = await addDailyProgressPhoto(env, projectId, progressId, request.user!.id, {
-        fileName: file.filename || 'photo',
+        fileName: file.filename || 'evidence',
         buffer,
         claimedMimeType: file.mimetype,
       })
