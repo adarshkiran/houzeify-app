@@ -64,8 +64,8 @@ export default function ProjectTimelineScreen({
                 <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
                 <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                   {variant === 'customer'
-                    ? 'Your project’s construction journey — updated when the company advances the stage.'
-                    : 'Stage order follows this project’s current stage. Advance or set the stage below to update the construction record.'}
+                    ? 'Your project’s construction journey — updated when the company advances the project stage.'
+                    : 'Timeline follows the project’s overall construction stage. Daily progress entries can tag a different stage for that day’s update.'}
                 </p>
               </div>
               {status === 'idle' || status === 'loading' ? (
@@ -93,9 +93,9 @@ export default function ProjectTimelineScreen({
               )}
               {canEditStage && projectId && (
                 <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7' }}>
-                  <h2 className="text-[13px] font-semibold text-[#242326] m-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Construction stage</h2>
+                  <h2 className="text-[13px] font-semibold text-[#242326] m-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Project construction stage</h2>
                   <p className="text-[13px] text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_BODY }}>
-                    Changes update the project record and what customers see on Timeline.
+                    Changing this updates the Timeline customers see. It does not rewrite stages on past daily progress entries.
                   </p>
                   <ConstructionStageProgression
                     projectId={projectId}

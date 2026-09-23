@@ -50,10 +50,11 @@ Stage progression was the one coherent Construction Record spine gap that reused
 | `server/projects/project.organization.test.ts` | C17 org stage validation tests |
 | `server/projects/customerView.test.ts` | C17 timeline advance + C16 multipart doc create fix |
 | `src/data/projectApi.ts` | Surface `VALIDATION_ERROR` messages |
-| `src/shared/components/ConstructionStageProgression.tsx` | Shared set / advance / move-back UI (new) |
+| `src/shared/components/ConstructionStageProgression.tsx` | Shared set / advance / move-back UI; owner/admin-only controls; stage distinction copy (new) |
 | `src/user/projects/ProjectWorkspaceScreen.tsx` | Company stage controls; remove “not available yet” |
 | `src/user/projects/ProjectTimelineScreen.tsx` | Company stage controls; customer copy unchanged (read-only) |
 | `src/user/projects/ProjectOverviewScreen.tsx` | Company link copy → timeline & update |
+| `src/partner/projects/CreateDailyProgressScreen.tsx` | Clarify Daily Progress stage is entry-only |
 
 ---
 
@@ -123,10 +124,18 @@ Vite build: PASS
 
 ## 10. Browser Validation
 
-Not performed in this session (no interactive company/customer login workflow exercised via browser tooling).
+**Performed** on `http://localhost:8443` with M08 seed accounts (`9000000002` company / `9000000001` customer).
+
+| Check | Result |
+|---|---|
+| Customer Timeline (before advance) | Foundation = CURRENT; read-only copy; **no** Set/Advance/Move back controls |
+| Company Workspace | Stage controls present; Advance → Structure; notice “Stage updated to Structure.” |
+| Company Timeline | Structure = CURRENT; company controls present |
+| Customer after company advance | Home shows `structure · M08 Test Builders`; Timeline Structure = CURRENT; **no** mutation controls |
+| Responsive 375px (company Timeline) | Stages stack; controls usable; **no** horizontal overflow (`scrollWidth === clientWidth === 375`) |
 
 ```text
-Browser validation: Not available
+Browser validation: PASS
 ```
 
 ---
@@ -139,8 +148,8 @@ None. No new environment variables. Uses existing project APIs and C15/C16 stora
 
 ## 12. Known Limitations
 
-- Org `viewer` role sees company Timeline/Workspace UI but cannot mutate (server 404) — same as other project mutations; no separate “you lack permission” UX.
-- Daily Progress entry `stage` is independent of `projects.stage` (not synced in C17).
+- Daily Progress entry `stage` remains independent of `projects.stage` by design (no DB sync). UI copy on Timeline, Workspace stage controls, and Create Daily Progress makes that distinction explicit.
+- Org viewers (and other non–owner/admin roles) see the current project stage but not mutation controls; server ACL remains the authority.
 - Personal/New Build open-string stages are intentionally not forced into the 10-id taxonomy.
 
 ---

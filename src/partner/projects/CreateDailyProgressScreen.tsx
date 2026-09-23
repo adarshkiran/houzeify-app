@@ -359,12 +359,15 @@ export default function CreateDailyProgressScreen({
                   <input id="dp-date" type="date" value={date} disabled={Boolean(savedProgressId) || busy} onChange={e => setDate(e.target.value)} className="w-full h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }} />
                 </div>
                 <div>
-                  <label className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-stage">Construction Stage</label>
-                  <select id="dp-stage" value={stage} disabled={Boolean(savedProgressId) || busy} onChange={e => setStage(e.target.value)} className="w-full h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}>
+                  <label className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-stage">Stage for this update</label>
+                  <select id="dp-stage" value={stage} disabled={Boolean(savedProgressId) || busy} onChange={e => setStage(e.target.value)} className="w-full h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }} aria-describedby="dp-stage-hint">
                     {constructionStages.map(s => (
                       <option key={s.id} value={s.id}>{s.name}</option>
                     ))}
                   </select>
+                  <p id="dp-stage-hint" className="text-[12px] text-[#68636D] m-0 mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                    Tags this daily progress entry only. It does not change the project’s overall Timeline stage.
+                  </p>
                 </div>
               </div>
 
