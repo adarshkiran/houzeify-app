@@ -19,7 +19,9 @@ Confirmed `HEAD == origin/main` before branching.
 
 ## 2. Final commit
 
-Recorded on branch tip after docs commit (see `git log -1` / merge section).
+```
+b0f197c5f7a0b8578dd2540088704f2d5814a8cb
+```
 
 ---
 
