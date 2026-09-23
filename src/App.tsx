@@ -1806,7 +1806,7 @@ export default function App() {
       )}
       {screen === 'create-construction-project' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
-          <CreateConstructionProjectScreen onNavigate={navigateTo} />
+          <CreateConstructionProjectScreen role={resolvedRole} onNavigate={navigateTo} />
         </div>
       )}
       {screen === 'create-daily-progress' && (
