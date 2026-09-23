@@ -18,7 +18,7 @@ d1aff0d Clarify C20 tip commit on main after merge.
 ## 2. Final commit
 
 ```text
-e873535 Clarify C21 tip commit on main after merge.
+8b5d4d8 docs: record C21 main tip after merge
 ```
 
 Implementation commit: `8306659 feat: implement C21 company Workforce roster rollup.`
@@ -187,7 +187,7 @@ Company Documents rollup; attendance / Site Ops; Live Site; activity feed; Tasks
 
 ```text
 Fast-forward merge: d1aff0d..0d6d577 → main
-Clarify tip: e873535
+Clarify tip: e873535 · docs tip: 8b5d4d8
 Pushed origin/main
 origin/main synchronized: YES
 ```
