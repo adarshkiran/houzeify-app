@@ -1,21 +1,29 @@
-// ─── C22 — Company Documents / construction-document rollup ────────────────
+// ─── Screen 03 / C22 — Company Documents (KEEP polish) ──────────────────────
 // PartnerNavRail Documents — organization index of active project documents.
-// Replaces Coming Soon for `company-documents`. Deep-links into Documents + Record.
 // Read-only — no company-level upload.
 
-import { useEffect, useState } from 'react'
-import HIcon from '@/shared/components/HIcon'
+import { useEffect } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
 import { useOrganizations } from '@/data/organizationState'
 import { constructionStages } from '@/data/constructionStages'
 import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
+import { resolveCompanyRollupPhase } from '@/data/companyRollupPhase'
+import { useOrganizationRollup } from '@/data/useOrganizationRollup'
 import {
   describeOrganizationDocumentsError,
   formatDocumentCategory,
   getOrganizationDocumentsSummary,
   type OrganizationDocumentsProject,
-  type OrganizationDocumentsSummary,
 } from '@/data/organizationDocumentsApi'
+import {
+  COMPANY_ROLLUP_CANVAS,
+  CompanyRollupEmptyProjects,
+  CompanyRollupError,
+  CompanyRollupLoading,
+  CompanyRollupNoOrg,
+  companyRollupPrimaryBtnClass,
+  companyRollupSecondaryBtnClass,
+} from '@/partner/projects/companyRollupShell'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -54,12 +62,12 @@ function ProjectDocumentsCard({
     <article className="rounded-[14px] bg-white p-4 sm:p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex flex-col gap-1">
-          <h2 className="text-[16px] sm:text-[17px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>
+          <h2 className="text-[16px] sm:text-[17px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
             {project.name}
           </h2>
           <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
             <span>{stageLabel(project.stage)}</span>
-            {project.location && <span>· {project.location}</span>}
+            {project.location && <span className="break-words">· {project.location}</span>}
           </div>
         </div>
         <div className="flex flex-col items-end gap-2 shrink-0">
@@ -90,10 +98,10 @@ function ProjectDocumentsCard({
               style={{ backgroundColor: '#FAF8F6' }}
             >
               <div className="min-w-0 flex flex-col gap-0.5">
-                <span className="text-[14px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>
+                <span className="text-[14px] font-semibold text-[#242326] break-words" style={{ fontFamily: FONT_HEAD }}>
                   {doc.title}
                 </span>
-                <span className="text-[12px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[12px] text-[#68636D] break-words" style={{ fontFamily: FONT_BODY }}>
                   {formatDocumentCategory(doc.category)} · {doc.fileName}
                 </span>
               </div>
@@ -121,15 +129,15 @@ function ProjectDocumentsCard({
         <button
           type="button"
           onClick={onOpenDocuments}
-          className="min-h-[44px] px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
-          style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+          className={companyRollupPrimaryBtnClass}
+          style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
         >
           Open Project Documents
         </button>
         <button
           type="button"
           onClick={onOpenRecord}
-          className="min-h-[44px] px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer"
+          className={companyRollupSecondaryBtnClass}
           style={{ backgroundColor: 'white', color: '#722ED1', border: '1px solid #D4C4F0', fontFamily: FONT_BODY }}
         >
           Open Record
@@ -155,40 +163,20 @@ export default function CompanyDocumentsScreen({
   const currentOrganization = organizations.currentOrganization
   const organizationId = currentOrganization?.id ?? null
 
-  const [summary, setSummary] = useState<OrganizationDocumentsSummary | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!organizationId) {
-      setSummary(null)
-      setError(null)
-      setLoading(false)
-      return
-    }
-    let cancelled = false
-    setLoading(true)
-    setError(null)
-    getOrganizationDocumentsSummary(organizationId)
-      .then(row => {
-        if (!cancelled) {
-          setSummary(row)
-          setLoading(false)
-        }
-      })
-      .catch(err => {
-        if (!cancelled) {
-          setSummary(null)
-          setError(describeOrganizationDocumentsError(err))
-          setLoading(false)
-        }
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [organizationId])
+  const { summary, loading, error, reload } = useOrganizationRollup(
+    organizationId,
+    getOrganizationDocumentsSummary,
+    describeOrganizationDocumentsError,
+  )
 
   if (!isProfessional) return null
+
+  const phase = resolveCompanyRollupPhase({
+    hasOrganization: Boolean(currentOrganization),
+    loading,
+    error,
+    projectCount: summary ? summary.projects.length : null,
+  })
 
   function openProject(project: OrganizationDocumentsProject, screen: 'project-documents' | 'project-reports') {
     onNavigate(screen, {
@@ -205,7 +193,7 @@ export default function CompanyDocumentsScreen({
   }
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="h-full flex" style={{ backgroundColor: COMPANY_ROLLUP_CANVAS }}>
       <PartnerNavRail active="documents" onNavigate={onNavigate} organizationId={organizationId ?? undefined} />
       <div className="flex-1 flex flex-col min-w-0">
         <header className="hidden md:flex h-[64px] shrink-0 items-center px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
@@ -215,12 +203,12 @@ export default function CompanyDocumentsScreen({
         </header>
 
         <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
-          <div className="max-w-[880px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-12 flex flex-col gap-6">
+          <div className="max-w-[880px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-24 md:pb-12 flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <span className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>
+              <p className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1] m-0" style={{ fontFamily: FONT_MONO }}>
                 Company Documents
-              </span>
-              <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+              </p>
+              <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
                 {currentOrganization?.name ?? 'Your company'}
               </h2>
               <p className="text-[13.5px] text-[#68636D] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
@@ -228,51 +216,27 @@ export default function CompanyDocumentsScreen({
               </p>
             </div>
 
-            {!currentOrganization ? (
-              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
-                <HIcon size={36} />
-                <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
-                  Organization information unavailable.
-                </p>
-                <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
-                  Documents belong to your company workspace — set up your organization first.
-                </p>
-              </div>
-            ) : loading ? (
-              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
-                  Loading company documents…
-                </p>
-              </div>
-            ) : error ? (
-              <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} role="alert">
-                <HIcon size={36} />
-                <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
-                  Couldn’t load documents
-                </p>
-                <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
-                  {error}
-                </p>
-              </div>
-            ) : summary && summary.projects.length === 0 ? (
-              <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
-                <HIcon size={36} />
-                <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
-                  No construction projects yet.
-                </p>
-                <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
-                  Create a project to start storing construction documents for your company.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => onNavigate('create-construction-project')}
-                  className="min-h-[44px] px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
-                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
-                >
-                  Create Project
-                </button>
-              </div>
-            ) : summary ? (
+            {phase === 'no-org' && (
+              <CompanyRollupNoOrg
+                body="Documents belong to your company workspace — set up your organization first."
+                onSetup={() => onNavigate('create-organization')}
+              />
+            )}
+            {phase === 'loading' && <CompanyRollupLoading label="Loading company documents…" />}
+            {phase === 'error' && (
+              <CompanyRollupError
+                title="Couldn’t load documents"
+                message={error || 'Something went wrong loading company documents. Please try again.'}
+                onRetry={reload}
+              />
+            )}
+            {phase === 'empty-projects' && (
+              <CompanyRollupEmptyProjects
+                body="Create a project to start storing construction documents for your company."
+                onCreate={() => onNavigate('create-construction-project')}
+              />
+            )}
+            {phase === 'ready' && summary && (
               <>
                 <section
                   className="rounded-[14px] bg-white p-4 sm:p-5 grid grid-cols-2 sm:grid-cols-4 gap-4"
@@ -307,7 +271,7 @@ export default function CompanyDocumentsScreen({
                   ))}
                 </div>
               </>
-            ) : null}
+            )}
           </div>
         </main>
       </div>

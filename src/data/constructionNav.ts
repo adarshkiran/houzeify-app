@@ -27,7 +27,7 @@ export const COMPANY_NAV_ROUTES = {
   // ComingSoonScreen placeholder through Module 01/02).
   projects: 'company-projects',
   progress: 'company-progress', // C19 — Company Progress Rollup (real)
-  siteOperations: 'site-operations', // NEW placeholder
+  siteOperations: 'site-operations', // C23 — Company Site Operations (real)
   workforce: 'workforce', // NEW placeholder
   liveSite: 'live-site', // NEW placeholder
   documents: 'company-documents', // NEW placeholder
