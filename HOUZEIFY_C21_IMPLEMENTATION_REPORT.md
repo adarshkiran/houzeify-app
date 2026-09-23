@@ -17,7 +17,7 @@ d1aff0d Clarify C20 tip commit on main after merge.
 
 ## 2. Final commit
 
-*(filled after docs tip commit on merge)*
+`c6c8b91` (docs). Implementation: `8306659`.*
 
 Implementation commit: `8306659 feat: implement C21 company Workforce roster rollup.`
 
