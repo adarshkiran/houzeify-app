@@ -27,7 +27,7 @@ Roadmap note: S08 is **not** Workforce / Documents / BOQ (those are S09). Roadma
 629a804 Implement Houzeify Screen 07
 ```
 
-**Final implement commit:** _(after commit)_
+**Final implement commit:** `2700c62`
 
 ---
 
@@ -140,4 +140,5 @@ C19–C24 APIs: no server changes; full suite green.
 
 ## 18–19. Final commit / origin
 
-_(filled after merge)_
+Final commit: `2700c62`  
+origin/main: _(after merge)_
