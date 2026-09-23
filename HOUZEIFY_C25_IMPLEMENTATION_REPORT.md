@@ -19,8 +19,10 @@ Full SHA: recorded via `git rev-parse HEAD` at assessment start (`main == origin
 ## 2. Final commit
 
 ```text
-(pending — filled after docs commit)
+8c90599 docs: complete C25 capability assessment
 ```
+
+Full SHA: `8c90599cdebd27afa3af3f416d30d9b9fa3ad0b6`
 
 Product code unchanged from starting commit apart from C25 documentation files.
 
