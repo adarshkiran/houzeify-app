@@ -27,7 +27,7 @@ Roadmap note: S06 is **not** Project Workforce (that is S09).
 a933f39 docs: record screen 05 origin tip SHA
 ```
 
-**Final implement commit:** _(after commit)_
+**Final implement commit:** `04e42ee`
 
 ---
 
@@ -134,4 +134,5 @@ S01–S05 soft-nav via Projects / Workspace / Progress: PASS this session.
 
 ## 18–19. Final commit / origin
 
-_(filled after merge)_
+Final commit: `04e42ee`  
+origin/main: synchronized (advanced through S07/S08)

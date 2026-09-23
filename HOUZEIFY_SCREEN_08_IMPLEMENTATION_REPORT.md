@@ -141,4 +141,4 @@ C19–C24 APIs: no server changes; full suite green.
 ## 18–19. Final commit / origin
 
 Final commit: `2700c62`  
-origin/main: _(after merge)_
+origin/main: synchronized at `bd17aa5` (includes tip-hash docs)

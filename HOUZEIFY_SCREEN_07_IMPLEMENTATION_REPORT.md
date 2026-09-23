@@ -63,5 +63,5 @@ Typecheck + builds: PASS
 
 S01–S06 soft path via Projects/Workspace: PASS.  
 Known: customer timeline not live-tested.  
-Final commit: _(after commit)_  
-origin/main: _(after merge)_
+Final commit: `629a804`  
+origin/main: synchronized (advanced through S08)
