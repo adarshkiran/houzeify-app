@@ -125,30 +125,52 @@ Customer company Site Operations rail: N/A (company-only navigation). Project Ta
 
 ---
 
-## 12. Browser validation
+## 12. Browser validation (frontend integration gate)
 
-Authenticated as M08 company `9000000002` (M08 Test Builders).
+Frontend already wired on branch (`CompanyOpenWorkScreen` → `getOrganizationOpsSummary` → `GET …/ops-summary`). No mock/hardcoded task/issue arrays. No creation UI (read-only by design).
 
-| Check | Result |
-|---|---|
-| Site Operations shows C23 pour slab + C23 water seepage | PASS |
-| Open Tasks deep-link → project Tasks with C23 pour slab | PASS |
-| Clarifying copy (no attendance / Live Site) | PASS |
-| Refresh persistence (API-backed reload) | PASS |
+Authenticated as M08 company `9000000002` via real OTP → PartnerNavRail **Site Operations**.
 
-Customer: company Site Operations is company-only; membership 404 covered by tests.
+```text
+Frontend integration: PASS
 
----
+Real data:
+- C23 pour slab          PASS (In Progress · High, M08 Test Villa)
+- C23 water seepage      PASS (Open · High, M08 Test Villa)
 
-## 13. Responsive validation
+Refresh persistence: PASS
+  Soft: Documents → Site Operations reloads API data
+  Hard: location.reload on site-operations — both records remain
 
-Emulated widths `320 / 375 / 430 / 768 / 1024 / 1440`: no horizontal overflow on Site Operations. Primary CTAs at ~44px height.
+Authorization:
+- authenticated: PASS (200 + UI data)
+- unauthenticated: PASS (401)
+- wrong organization: PASS (404)
+- wrong project: N/A (org-level summary; deep-links use server project ids)
+- customer: PASS (customer session → ops-summary 404; company-only rail)
 
----
+Responsive:
+- 320: PASS (no overflow; Open Tasks 44px)
+- 375: PASS
+- 430: PASS
+- 768: PASS
+- 1024: PASS
+- 1440: PASS
 
-## 14. Accessibility
+Accessibility: PASS
+  h1 Site Operations / h2 org+project / h3 Open tasks|issues
+  region “Company open work totals”; list items; alert on error
+  Open Tasks / Issues / Record ≈ 44×44 touch targets
 
-Semantic `h1`/`h2`/`h3`, region label for totals, list items for open work, alert role on errors, min 44px action buttons, current nav state on Site Operations.
+Console/runtime: PASS (no new React/console errors during C23 flows)
+
+C19: PASS (UI Progress + API 200)
+C20: PASS (UI Reports + API 200)
+C21: PASS (UI Workforce + API 200)
+C22: PASS (UI Documents + API 200)
+```
+
+Also: Open Tasks deep-link → project Tasks shows C23 pour slab.
 
 ---
 
