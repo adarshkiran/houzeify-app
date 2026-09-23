@@ -31,8 +31,10 @@
 ## Final commit
 
 ```text
-(filled after merge tip)
+1ae22a2 feat: implement screen 01 company home
 ```
+
+Full SHA: `1ae22a2fe65922d30fdf736cb5152e753dbd09c2`
 
 ---
 
