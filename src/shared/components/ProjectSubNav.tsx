@@ -58,6 +58,7 @@ const CUSTOMER_PROJECT_NAV_ITEMS: { id: ProjectNavId; label: string }[] = [
   { id: 'photos', label: 'Photos' },
   { id: 'documents', label: 'Documents' },
   { id: 'workforce', label: 'Workforce' },
+  { id: 'reports', label: 'Record' },
 ]
 
 const IcoBack = () => (
