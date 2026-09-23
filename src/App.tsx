@@ -88,6 +88,7 @@ import CompanyProgressScreen from '@/partner/projects/CompanyProgressScreen'
 import CompanyReportsScreen from '@/partner/projects/CompanyReportsScreen'
 import CompanyWorkforceScreen from '@/partner/projects/CompanyWorkforceScreen'
 import CompanyDocumentsScreen from '@/partner/projects/CompanyDocumentsScreen'
+import CompanyOpenWorkScreen from '@/partner/projects/CompanyOpenWorkScreen'
 import AIAdvisorScreen from '@/user/dashboard/AIAdvisorScreen'
 import HomeServicesScreen from '@/user/home-services/HomeServicesScreen'
 import HoziehelperGoldScreen from '@/user/home-services/categories/HoziehelperGoldScreen'
@@ -1844,16 +1845,17 @@ export default function App() {
           <CompanyDocumentsScreen role={resolvedRole} onNavigate={navigateTo} />
         </div>
       )}
-      {(screen === 'site-operations'
-        || screen === 'live-site') && (
+      {screen === 'site-operations' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <CompanyOpenWorkScreen role={resolvedRole} onNavigate={navigateTo} />
+        </div>
+      )}
+      {screen === 'live-site' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ComingSoonScreen
             placeholderId={screen}
             shell="company"
-            activeCompanyId={
-              screen === 'site-operations' ? 'site-operations'
-              : 'live-site'
-            }
+            activeCompanyId="live-site"
             organizationId={projectData.organization_id}
             onNavigate={navigateTo}
           />

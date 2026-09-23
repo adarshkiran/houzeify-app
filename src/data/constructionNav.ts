@@ -110,7 +110,7 @@ export interface NavPlaceholderContent {
 
 export const NAV_PLACEHOLDER_CONTENT: Record<string, NavPlaceholderContent> = {
   'company-progress': { title: 'Progress', description: 'Daily progress and construction evidence across every project in your company.' },
-  'site-operations': { title: 'Site Operations', description: 'Day-to-day site operations — checklists, material requests, and site logs — will live here.' },
+  'site-operations': { title: 'Site Operations', description: 'Open tasks and issues across your company’s projects — operational site work from the Digital Construction Record.' },
   'workforce': { title: 'Workforce', description: 'Active site-team assignments across your company’s projects.' },
   'live-site': { title: 'Live Site', description: 'Live site cameras and real-time site status will appear here.' },
   'company-documents': { title: 'Documents', description: 'Active construction documents across your company’s projects — plans, contracts, and approvals.' },

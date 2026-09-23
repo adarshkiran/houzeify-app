@@ -1,0 +1,354 @@
+// ─── C23 — Company Site Operations / open work rollup ──────────────────────
+// PartnerNavRail Site Operations — organization index of open tasks & issues.
+// Replaces Coming Soon for `site-operations`. Deep-links into Tasks/Issues/Record.
+// Read-only — no attendance, checklists, or Live Site.
+
+import { useEffect, useState } from 'react'
+import HIcon from '@/shared/components/HIcon'
+import PartnerNavRail from '@/shared/components/PartnerNavRail'
+import { useOrganizations } from '@/data/organizationState'
+import { constructionStages } from '@/data/constructionStages'
+import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
+import {
+  describeOrganizationOpsError,
+  formatOpsPriority,
+  formatOpsStatus,
+  getOrganizationOpsSummary,
+  type OrganizationOpsProject,
+  type OrganizationOpsSummary,
+} from '@/data/organizationOpsApi'
+
+const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
+const FONT_BODY = '"Open Sans:Regular", sans-serif'
+const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+
+function stageLabel(stage: string | null): string {
+  if (!stage) return 'Stage not set'
+  return constructionStages.find(s => s.id === stage)?.name ?? stage
+}
+
+function Stat({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div className="flex flex-col gap-1 min-w-[72px]">
+      <span className="text-[10.5px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>
+        {label}
+      </span>
+      <span className="text-[17px] sm:text-[18px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+        {value}
+      </span>
+    </div>
+  )
+}
+
+function ProjectOpsCard({
+  project,
+  onOpenTasks,
+  onOpenIssues,
+  onOpenRecord,
+}: {
+  project: OrganizationOpsProject
+  onOpenTasks: () => void
+  onOpenIssues: () => void
+  onOpenRecord: () => void
+}) {
+  const status = isProjectStatus(project.status) ? PROJECT_STATUS_LABELS[project.status] : null
+  const openTotal = project.openTaskCount + project.openIssueCount
+
+  return (
+    <article className="rounded-[14px] bg-white p-4 sm:p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex flex-col gap-1">
+          <h2 className="text-[16px] sm:text-[17px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>
+            {project.name}
+          </h2>
+          <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+            <span>{stageLabel(project.stage)}</span>
+            {project.location && <span>· {project.location}</span>}
+          </div>
+        </div>
+        <div className="flex flex-col items-end gap-2 shrink-0">
+          {status && (
+            <span
+              className="px-2 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.03em]"
+              style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}
+            >
+              {status.toUpperCase()}
+            </span>
+          )}
+          <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_MONO }}>
+            {openTotal} open
+          </span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-3 rounded-[12px] px-3 py-3" style={{ backgroundColor: '#FAF8F6' }}>
+        <Stat label="Open tasks" value={project.openTaskCount} />
+        <Stat label="Open issues" value={project.openIssueCount} />
+        <Stat label="High issues" value={project.highOpenIssueCount} />
+      </div>
+
+      {project.openTasks.length === 0 && project.openIssues.length === 0 ? (
+        <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+          No open tasks or issues on this project.
+        </p>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {project.openTasks.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <h3 className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>
+                Open tasks
+              </h3>
+              <ul className="m-0 p-0 list-none flex flex-col gap-2" aria-label={`Open tasks on ${project.name}`}>
+                {project.openTasks.map(task => (
+                  <li
+                    key={task.id}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3 rounded-[12px] px-3 py-3 min-h-[44px]"
+                    style={{ backgroundColor: '#FAF8F6' }}
+                  >
+                    <span className="text-[14px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>
+                      {task.title}
+                    </span>
+                    <span className="text-[12px] text-[#68636D] shrink-0" style={{ fontFamily: FONT_BODY }}>
+                      {formatOpsStatus(task.status)} · {formatOpsPriority(task.priority)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {project.openIssues.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <h3 className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>
+                Open issues
+              </h3>
+              <ul className="m-0 p-0 list-none flex flex-col gap-2" aria-label={`Open issues on ${project.name}`}>
+                {project.openIssues.map(issue => (
+                  <li
+                    key={issue.id}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3 rounded-[12px] px-3 py-3 min-h-[44px]"
+                    style={{ backgroundColor: '#FAF8F6' }}
+                  >
+                    <span className="text-[14px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>
+                      {issue.title}
+                    </span>
+                    <span className="text-[12px] text-[#68636D] shrink-0" style={{ fontFamily: FONT_BODY }}>
+                      {formatOpsStatus(issue.status)} · {formatOpsPriority(issue.priority)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={onOpenTasks}
+          className="min-h-[44px] px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
+          style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+        >
+          Open Tasks
+        </button>
+        <button
+          type="button"
+          onClick={onOpenIssues}
+          className="min-h-[44px] px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer"
+          style={{ backgroundColor: 'white', color: '#722ED1', border: '1px solid #D4C4F0', fontFamily: FONT_BODY }}
+        >
+          Open Issues
+        </button>
+        <button
+          type="button"
+          onClick={onOpenRecord}
+          className="min-h-[44px] px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer"
+          style={{ backgroundColor: 'white', color: '#722ED1', border: '1px solid #D4C4F0', fontFamily: FONT_BODY }}
+        >
+          Open Record
+        </button>
+      </div>
+    </article>
+  )
+}
+
+export default function CompanyOpenWorkScreen({
+  role,
+  onNavigate,
+}: {
+  role?: string
+  onNavigate: (screen: string, data?: Record<string, string>) => void
+}) {
+  const isProfessional = role === 'professional'
+  useEffect(() => {
+    if (!isProfessional) onNavigate('dashboard-home')
+  }, [isProfessional, onNavigate])
+
+  const organizations = useOrganizations()
+  const currentOrganization = organizations.currentOrganization
+  const organizationId = currentOrganization?.id ?? null
+
+  const [summary, setSummary] = useState<OrganizationOpsSummary | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!organizationId) {
+      setSummary(null)
+      setError(null)
+      setLoading(false)
+      return
+    }
+    let cancelled = false
+    setLoading(true)
+    setError(null)
+    getOrganizationOpsSummary(organizationId)
+      .then(row => {
+        if (!cancelled) {
+          setSummary(row)
+          setLoading(false)
+        }
+      })
+      .catch(err => {
+        if (!cancelled) {
+          setSummary(null)
+          setError(describeOrganizationOpsError(err))
+          setLoading(false)
+        }
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [organizationId])
+
+  if (!isProfessional) return null
+
+  function openProject(
+    project: OrganizationOpsProject,
+    screen: 'project-tasks' | 'project-issues' | 'project-reports',
+  ) {
+    onNavigate(screen, {
+      project_id: project.id,
+      project_name: project.name,
+      project_type: project.type ?? '',
+      location: project.location ?? '',
+      property_type: project.propertyType ?? '',
+      project_stage: project.stage ?? '',
+      project_status: project.status ?? '',
+      organization_id: organizationId ?? '',
+      company_name: currentOrganization?.name ?? summary?.organizationName ?? '',
+    })
+  }
+
+  return (
+    <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+      <PartnerNavRail active="site-operations" onNavigate={onNavigate} organizationId={organizationId ?? undefined} />
+      <div className="flex-1 flex flex-col min-w-0">
+        <header className="hidden md:flex h-[64px] shrink-0 items-center px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
+          <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+            Site Operations
+          </h1>
+        </header>
+
+        <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+          <div className="max-w-[880px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-12 flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+              <span className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>
+                Open Work
+              </span>
+              <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                {currentOrganization?.name ?? 'Your company'}
+              </h2>
+              <p className="text-[13.5px] text-[#68636D] m-0 max-w-[580px]" style={{ fontFamily: FONT_BODY }}>
+                Open tasks and issues across every project in this organization. Attendance, checklists, and Live Site are not part of this view.
+              </p>
+            </div>
+
+            {!currentOrganization ? (
+              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+                <HIcon size={36} />
+                <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                  Organization information unavailable.
+                </p>
+                <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+                  Site operations belong to your company workspace — set up your organization first.
+                </p>
+              </div>
+            ) : loading ? (
+              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                  Loading site operations…
+                </p>
+              </div>
+            ) : error ? (
+              <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} role="alert">
+                <HIcon size={36} />
+                <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                  Couldn’t load site operations
+                </p>
+                <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
+                  {error}
+                </p>
+              </div>
+            ) : summary && summary.projects.length === 0 ? (
+              <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+                <HIcon size={36} />
+                <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                  No construction projects yet.
+                </p>
+                <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+                  Create a project to track open tasks and issues for your company.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('create-construction-project')}
+                  className="min-h-[44px] px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
+                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                >
+                  Create Project
+                </button>
+              </div>
+            ) : summary ? (
+              <>
+                <section
+                  className="rounded-[14px] bg-white p-4 sm:p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
+                  style={{ border: '1px solid #E3DDD7' }}
+                  aria-label="Company open work totals"
+                >
+                  <Stat label="Projects" value={summary.totals.projectCount} />
+                  <Stat label="With open work" value={summary.totals.projectsWithOpenWork} />
+                  <Stat label="Open tasks" value={summary.totals.openTasks} />
+                  <Stat label="Open issues" value={summary.totals.openIssues} />
+                  <Stat label="High issues" value={summary.totals.highOpenIssues} />
+                </section>
+
+                {summary.totals.openTasks + summary.totals.openIssues === 0 ? (
+                  <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-8" style={{ border: '1px solid #E3DDD7' }}>
+                    <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                      No open tasks or issues.
+                    </p>
+                    <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
+                      Open a project’s Tasks or Issues screen to create work items. Open items will appear here across the company.
+                    </p>
+                  </div>
+                ) : null}
+
+                <div className="flex flex-col gap-4">
+                  {summary.projects.map(project => (
+                    <ProjectOpsCard
+                      key={project.id}
+                      project={project}
+                      onOpenTasks={() => openProject(project, 'project-tasks')}
+                      onOpenIssues={() => openProject(project, 'project-issues')}
+                      onOpenRecord={() => openProject(project, 'project-reports')}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : null}
+          </div>
+        </main>
+      </div>
+    </div>
+  )
+}

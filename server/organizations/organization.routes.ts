@@ -31,6 +31,7 @@ import { getOrganizationProgressSummary } from './organizationProgress.service.j
 import { getOrganizationReportsSummary } from './organizationReports.service.js'
 import { getOrganizationWorkforceSummary } from './organizationWorkforce.service.js'
 import { getOrganizationDocumentsSummary } from './organizationDocuments.service.js'
+import { getOrganizationOpsSummary } from './organizationOps.service.js'
 import { serializeOrganization, serializeOrganizationMember } from './organization.types.js'
 
 interface AddOrganizationMemberBody {
@@ -135,6 +136,17 @@ export async function organizationRoutes(app: FastifyInstance, opts: { env: Env 
     async request => {
       const organizationId = requireValidOrganizationId(request.params.organizationId)
       const summary = await getOrganizationDocumentsSummary(env, organizationId, request.user!.id)
+      return { data: { summary } }
+    },
+  )
+
+  // C23 — company Site Operations rail: open tasks & issues rollup (read-only).
+  app.get<{ Params: { organizationId: string } }>(
+    '/:organizationId/ops-summary',
+    { preHandler: requireAuth },
+    async request => {
+      const organizationId = requireValidOrganizationId(request.params.organizationId)
+      const summary = await getOrganizationOpsSummary(env, organizationId, request.user!.id)
       return { data: { summary } }
     },
   )
