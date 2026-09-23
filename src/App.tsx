@@ -85,6 +85,7 @@ import ProjectPhotosScreen from '@/user/projects/ProjectPhotosScreen'
 import ProjectTimelineScreen from '@/user/projects/ProjectTimelineScreen'
 import ProjectConstructionRecordScreen from '@/user/projects/ProjectConstructionRecordScreen'
 import CompanyProgressScreen from '@/partner/projects/CompanyProgressScreen'
+import CompanyReportsScreen from '@/partner/projects/CompanyReportsScreen'
 import AIAdvisorScreen from '@/user/dashboard/AIAdvisorScreen'
 import HomeServicesScreen from '@/user/home-services/HomeServicesScreen'
 import HoziehelperGoldScreen from '@/user/home-services/categories/HoziehelperGoldScreen'
@@ -1826,8 +1827,13 @@ export default function App() {
           <CompanyProgressScreen role={resolvedRole} onNavigate={navigateTo} />
         </div>
       )}
+      {screen === 'company-reports' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <CompanyReportsScreen role={resolvedRole} onNavigate={navigateTo} />
+        </div>
+      )}
       {(screen === 'site-operations'
-        || screen === 'workforce' || screen === 'live-site' || screen === 'company-documents' || screen === 'company-reports') && (
+        || screen === 'workforce' || screen === 'live-site' || screen === 'company-documents') && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ComingSoonScreen
             placeholderId={screen}
@@ -1836,8 +1842,7 @@ export default function App() {
               screen === 'site-operations' ? 'site-operations'
               : screen === 'workforce' ? 'workforce'
               : screen === 'live-site' ? 'live-site'
-              : screen === 'company-documents' ? 'documents'
-              : 'reports'
+              : 'documents'
             }
             organizationId={projectData.organization_id}
             onNavigate={navigateTo}

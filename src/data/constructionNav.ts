@@ -31,7 +31,7 @@ export const COMPANY_NAV_ROUTES = {
   workforce: 'workforce', // NEW placeholder
   liveSite: 'live-site', // NEW placeholder
   documents: 'company-documents', // NEW placeholder
-  reports: 'company-reports', // NEW placeholder
+  reports: 'company-reports', // C20 — Construction Record index (real)
   // Module 02 fix — these two previously pointed at the wrong screens
   // (inherited unchanged from PROFESSIONAL_DASHBOARD_ROUTES, which predates
   // the Company Workspace concept): 'team-setup' is the invite-composer
@@ -114,7 +114,7 @@ export const NAV_PLACEHOLDER_CONTENT: Record<string, NavPlaceholderContent> = {
   'workforce': { title: 'Workforce', description: 'Manage labour, attendance, and crew assignments across your active sites.' },
   'live-site': { title: 'Live Site', description: 'Live site cameras and real-time site status will appear here.' },
   'company-documents': { title: 'Documents', description: 'Company-wide documents — contracts, drawings, and compliance records — in one place.' },
-  'company-reports': { title: 'Reports', description: 'Progress, cost, and workforce reports across your projects.' },
+  'company-reports': { title: 'Reports', description: 'Construction Record index across your company’s projects — stage, progress, documents, and operations.' },
   'project-timeline': { title: 'Timeline', description: 'The construction timeline for this project — planned vs. actual — will appear here.' },
   'project-workforce': { title: 'Workforce', description: "This project's on-site crew will appear here." },
   'project-live-site': { title: 'Live Site', description: 'Live camera feeds and real-time status for this project site.' },

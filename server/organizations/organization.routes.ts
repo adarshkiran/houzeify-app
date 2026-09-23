@@ -28,6 +28,7 @@ import {
   type OrganizationMemberStatus,
 } from './organization.service.js'
 import { getOrganizationProgressSummary } from './organizationProgress.service.js'
+import { getOrganizationReportsSummary } from './organizationReports.service.js'
 import { serializeOrganization, serializeOrganizationMember } from './organization.types.js'
 
 interface AddOrganizationMemberBody {
@@ -99,6 +100,17 @@ export async function organizationRoutes(app: FastifyInstance, opts: { env: Env 
     async request => {
       const organizationId = requireValidOrganizationId(request.params.organizationId)
       const summary = await getOrganizationProgressSummary(env, organizationId, request.user!.id)
+      return { data: { summary } }
+    },
+  )
+
+  // C20 — company Reports rail: Construction Record index (read-only).
+  app.get<{ Params: { organizationId: string } }>(
+    '/:organizationId/reports-summary',
+    { preHandler: requireAuth },
+    async request => {
+      const organizationId = requireValidOrganizationId(request.params.organizationId)
+      const summary = await getOrganizationReportsSummary(env, organizationId, request.user!.id)
       return { data: { summary } }
     },
   )
