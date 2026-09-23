@@ -30,6 +30,7 @@ import {
 import { getOrganizationProgressSummary } from './organizationProgress.service.js'
 import { getOrganizationReportsSummary } from './organizationReports.service.js'
 import { getOrganizationWorkforceSummary } from './organizationWorkforce.service.js'
+import { getOrganizationDocumentsSummary } from './organizationDocuments.service.js'
 import { serializeOrganization, serializeOrganizationMember } from './organization.types.js'
 
 interface AddOrganizationMemberBody {
@@ -123,6 +124,17 @@ export async function organizationRoutes(app: FastifyInstance, opts: { env: Env 
     async request => {
       const organizationId = requireValidOrganizationId(request.params.organizationId)
       const summary = await getOrganizationWorkforceSummary(env, organizationId, request.user!.id)
+      return { data: { summary } }
+    },
+  )
+
+  // C22 — company Documents rail: active construction-document rollup (read-only).
+  app.get<{ Params: { organizationId: string } }>(
+    '/:organizationId/documents-summary',
+    { preHandler: requireAuth },
+    async request => {
+      const organizationId = requireValidOrganizationId(request.params.organizationId)
+      const summary = await getOrganizationDocumentsSummary(env, organizationId, request.user!.id)
       return { data: { summary } }
     },
   )

@@ -113,7 +113,7 @@ export const NAV_PLACEHOLDER_CONTENT: Record<string, NavPlaceholderContent> = {
   'site-operations': { title: 'Site Operations', description: 'Day-to-day site operations — checklists, material requests, and site logs — will live here.' },
   'workforce': { title: 'Workforce', description: 'Active site-team assignments across your company’s projects.' },
   'live-site': { title: 'Live Site', description: 'Live site cameras and real-time site status will appear here.' },
-  'company-documents': { title: 'Documents', description: 'Company-wide documents — contracts, drawings, and compliance records — in one place.' },
+  'company-documents': { title: 'Documents', description: 'Active construction documents across your company’s projects — plans, contracts, and approvals.' },
   'company-reports': { title: 'Reports', description: 'Construction Record index across your company’s projects — stage, progress, documents, and operations.' },
   'project-timeline': { title: 'Timeline', description: 'The construction timeline for this project — planned vs. actual — will appear here.' },
   'project-workforce': { title: 'Workforce', description: "This project's on-site crew will appear here." },
