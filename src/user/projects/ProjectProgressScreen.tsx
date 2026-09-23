@@ -1,3 +1,5 @@
+// ─── Screen 06 — Project Progress (SHARED KEEP polish) ───────────────────────
+// Real daily-progress feed + evidence lightbox. Company create CTA → create-daily-progress.
 import { useEffect, useMemo, useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
@@ -294,7 +296,7 @@ export default function ProjectProgressScreen({
 
   if (!hasProject) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
           <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
@@ -315,7 +317,7 @@ export default function ProjectProgressScreen({
     : progressStatus === 'idle' || progressStatus === 'loading'
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
@@ -338,11 +340,11 @@ export default function ProjectProgressScreen({
         onNavigate={onNavigate}
       />
 
-      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
-        <div className="max-w-[820px] mx-auto flex flex-col gap-6">
-          <div>
+      <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
+        <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
+          <div className="min-w-0">
             <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Progress</p>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+            <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
             <div className="flex items-center gap-3 mt-1.5 flex-wrap">
               {location && (
                 <span className="flex items-center gap-1.5 text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
@@ -372,11 +374,12 @@ export default function ProjectProgressScreen({
                 <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Stage {currentStageIdx + 1} of {constructionStages.length}</span>
               )}
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1" role="img" aria-label={currentStageLabel ? `Construction stage progress: ${currentStageLabel}, stage ${currentStageIdx + 1} of ${constructionStages.length}` : 'Construction stage not started yet'}>
               {constructionStages.map((s, i) => (
                 <div
                   key={s.id}
                   title={s.name}
+                  aria-hidden="true"
                   className="flex-1 h-1.5 rounded-full"
                   style={{ backgroundColor: currentStageIdx >= 0 && i <= currentStageIdx ? '#722ED1' : '#F4F0EC' }}
                 />
@@ -393,18 +396,26 @@ export default function ProjectProgressScreen({
               still surfaces here, matching ProjectOverviewScreen.tsx's own
               handling of this exact failure class. */}
           {progressStatus === 'error' && errorMessage && !isInvalidProjectIdError(errorMessage) && (
-            <div className="rounded-[12px] px-4 py-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+            <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
               <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{errorMessage}</p>
+              <button
+                type="button"
+                onClick={() => { void refresh() }}
+                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+              >
+                Try again
+              </button>
             </div>
           )}
 
           {isCustomer && customerStatus === 'error' && customerError && (
-            <div className="rounded-[12px] px-4 py-3 flex flex-col items-start gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+            <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
               <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{customerError}</p>
               <button
                 type="button"
                 onClick={() => setCustomerAttempt(n => n + 1)}
-                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
+                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
                 style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
               >
                 Try again
@@ -472,7 +483,14 @@ export default function ProjectProgressScreen({
                                 <div className="flex items-center gap-1.5 text-[#9A949D] mb-2">
                                   <IcoPhoto />
                                   <span className="text-[12px]" style={{ fontFamily: FONT_BODY }}>
-                                    {entry.photos.length} construction photo{entry.photos.length === 1 ? '' : 's'}
+                                    {(() => {
+                                      const photoCount = entry.photos.filter(p => (p.mediaKind ?? (p.mimeType?.startsWith('video/') ? 'video' : 'photo')) !== 'video').length
+                                      const videoCount = entry.photos.length - photoCount
+                                      const parts: string[] = []
+                                      if (photoCount > 0) parts.push(`${photoCount} photo${photoCount === 1 ? '' : 's'}`)
+                                      if (videoCount > 0) parts.push(`${videoCount} video${videoCount === 1 ? '' : 's'}`)
+                                      return `${parts.join(' · ')} evidence`
+                                    })()}
                                   </span>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">

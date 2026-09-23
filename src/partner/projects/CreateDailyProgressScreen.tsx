@@ -1,8 +1,7 @@
-// ─── Create Daily Progress — Houzeify 2.0 Module 04 / C15B/C15C ──────────────────
-// Daily Progress → Evidence workflow. Photos and short videos are selected, reviewed, then
-// uploaded only after the progress row exists (C15A API). Upload states are
-// truthful — Selected / Uploading / Uploaded / Failed / Retrying — and never
-// marked uploaded before the server confirms persistence.
+// ─── Screen 06 — Create Daily Progress (KEEP polish) ─────────────────────────
+// Camera-first capture + gallery Add Photos / Add Video without forced capture.
+// Evidence uploads only after the progress row exists (C15). Upload states stay
+// truthful — Selected / Uploading / Uploaded / Failed / Retrying.
 
 import { useEffect, useId, useRef, useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
@@ -34,6 +33,13 @@ interface PendingEvidence {
 
 const IcoBack = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5" /></svg>
+)
+
+const IcoCamera = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M2.5 5.5h2.2l1.1-1.5h6.4l1.1 1.5h2.2A1.5 1.5 0 0115.5 7v7a1.5 1.5 0 01-1.5 1.5h-10A1.5 1.5 0 012.5 14V7a1.5 1.5 0 011.5-1.5z" />
+    <circle cx="9" cy="10.5" r="2.75" />
+  </svg>
 )
 
 const IcoPhoto = () => (
@@ -97,8 +103,13 @@ export default function CreateDailyProgressScreen({
   const dailyProgress = useDailyProgress(projectId)
   const photoInputId = useId()
   const videoInputId = useId()
+  const cameraPhotoInputId = useId()
+  const cameraVideoInputId = useId()
   const photoInputRef = useRef<HTMLInputElement>(null)
   const videoInputRef = useRef<HTMLInputElement>(null)
+  const cameraPhotoInputRef = useRef<HTMLInputElement>(null)
+  const cameraVideoInputRef = useRef<HTMLInputElement>(null)
+  const cameraMenuRef = useRef<HTMLDivElement>(null)
 
   const [date, setDate] = useState(todayIso())
   const [stage, setStage] = useState(currentStage && constructionStages.some(s => s.id === currentStage) ? currentStage : constructionStages[0]?.id ?? '')
@@ -108,6 +119,7 @@ export default function CreateDailyProgressScreen({
   const [pendingEvidence, setPendingEvidence] = useState<PendingEvidence[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [cameraMenuOpen, setCameraMenuOpen] = useState(false)
   /** Once the progress row is created, retries upload against this id — never create a duplicate row. */
   const [savedProgressId, setSavedProgressId] = useState<string | null>(null)
 
@@ -128,6 +140,27 @@ export default function CreateDailyProgressScreen({
       }
     }
   }, [])
+
+  useEffect(() => {
+    if (!cameraMenuOpen) return
+    function onPointerDown(event: MouseEvent | TouchEvent) {
+      const target = event.target as Node | null
+      if (cameraMenuRef.current && target && !cameraMenuRef.current.contains(target)) {
+        setCameraMenuOpen(false)
+      }
+    }
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') setCameraMenuOpen(false)
+    }
+    document.addEventListener('mousedown', onPointerDown)
+    document.addEventListener('touchstart', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown)
+      document.removeEventListener('touchstart', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [cameraMenuOpen])
 
   function goBack() {
     for (const pending of pendingEvidence) {
@@ -163,6 +196,7 @@ export default function CreateDailyProgressScreen({
     else if (accepted.length) setError(null)
     if (accepted.length) setPendingEvidence(prev => [...prev, ...accepted])
     if (photoInputRef.current) photoInputRef.current.value = ''
+    if (cameraPhotoInputRef.current) cameraPhotoInputRef.current.value = ''
   }
 
   function onVideosSelected(fileList: FileList | null) {
@@ -192,6 +226,7 @@ export default function CreateDailyProgressScreen({
     else if (accepted.length) setError(null)
     if (accepted.length) setPendingEvidence(prev => [...prev, ...accepted])
     if (videoInputRef.current) videoInputRef.current.value = ''
+    if (cameraVideoInputRef.current) cameraVideoInputRef.current.value = ''
   }
 
   function removePending(localId: string) {
@@ -302,7 +337,7 @@ export default function CreateDailyProgressScreen({
 
   if (!projectId) {
     return (
-      <div className="min-h-full flex flex-col items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
         <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
       </div>
     )
@@ -323,7 +358,7 @@ export default function CreateDailyProgressScreen({
   })()
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="h-full flex" style={{ backgroundColor: '#FBF9F7' }}>
       <Sidebar active="projects" onNavigate={onNavigate} />
       <div className="flex-1 flex flex-col min-w-0">
         <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
@@ -341,7 +376,7 @@ export default function CreateDailyProgressScreen({
 
         <ProjectSubNav active="progress" projectId={projectId} projectName={projectName} onNavigate={onNavigate} showWorkspaceHeader={false} />
 
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
           <div className="max-w-[620px] mx-auto flex flex-col gap-6">
             <div>
               <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Daily Progress</p>
@@ -406,6 +441,56 @@ export default function CreateDailyProgressScreen({
                   Construction evidence
                 </p>
                 <div className="flex flex-wrap gap-2 mb-2">
+                  <div className="relative" ref={cameraMenuRef}>
+                    <button
+                      type="button"
+                      disabled={busy}
+                      aria-haspopup="menu"
+                      aria-expanded={cameraMenuOpen}
+                      aria-controls="dp-camera-menu"
+                      onClick={() => setCameraMenuOpen(open => !open)}
+                      className="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                    >
+                      <IcoCamera /> Camera
+                    </button>
+                    {cameraMenuOpen && (
+                      <div
+                        id="dp-camera-menu"
+                        role="menu"
+                        aria-label="Camera options"
+                        className="absolute left-0 top-[calc(100%+6px)] z-20 min-w-[180px] rounded-[12px] bg-white p-1.5 shadow-lg"
+                        style={{ border: '1px solid #E3DDD7' }}
+                      >
+                        <button
+                          type="button"
+                          role="menuitem"
+                          disabled={busy}
+                          onClick={() => {
+                            setCameraMenuOpen(false)
+                            cameraPhotoInputRef.current?.click()
+                          }}
+                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[#242326] hover:bg-[#F9F5FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
+                          style={{ fontFamily: FONT_BODY }}
+                        >
+                          <IcoCamera /> Take photo
+                        </button>
+                        <button
+                          type="button"
+                          role="menuitem"
+                          disabled={busy}
+                          onClick={() => {
+                            setCameraMenuOpen(false)
+                            cameraVideoInputRef.current?.click()
+                          }}
+                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[#242326] hover:bg-[#F9F5FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
+                          style={{ fontFamily: FONT_BODY }}
+                        >
+                          <IcoVideo /> Record video
+                        </button>
+                      </div>
+                    )}
+                  </div>
                   <button
                     type="button"
                     disabled={busy}
@@ -426,14 +511,33 @@ export default function CreateDailyProgressScreen({
                   </button>
                 </div>
                 <p className="text-[12.5px] text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
-                  Optional · Photos: JPEG/PNG/WebP ≤15 MB · Videos: MP4/WebM/QuickTime ≤100 MB.
+                  Optional · Use Camera on mobile to capture on site · Photos: JPEG/PNG/WebP ≤15 MB · Videos: MP4/WebM/QuickTime ≤100 MB.
                 </p>
+                <input
+                  ref={cameraPhotoInputRef}
+                  id={cameraPhotoInputId}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  capture="environment"
+                  disabled={busy}
+                  onChange={e => onPhotosSelected(e.target.files)}
+                  className="sr-only"
+                />
+                <input
+                  ref={cameraVideoInputRef}
+                  id={cameraVideoInputId}
+                  type="file"
+                  accept="video/mp4,video/webm,video/quicktime"
+                  capture="environment"
+                  disabled={busy}
+                  onChange={e => onVideosSelected(e.target.files)}
+                  className="sr-only"
+                />
                 <input
                   ref={photoInputRef}
                   id={photoInputId}
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
-                  capture="environment"
                   multiple
                   disabled={busy}
                   onChange={e => onPhotosSelected(e.target.files)}
@@ -444,7 +548,6 @@ export default function CreateDailyProgressScreen({
                   id={videoInputId}
                   type="file"
                   accept="video/mp4,video/webm,video/quicktime"
-                  capture="environment"
                   disabled={busy}
                   onChange={e => onVideosSelected(e.target.files)}
                   className="sr-only"
