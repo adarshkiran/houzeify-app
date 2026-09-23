@@ -19,7 +19,9 @@ Branch created from `main` containing C17. Work did not proceed on `main`.
 
 ## 2. Final commit
 
-Recorded in git after this report is committed (see `git log -1` on the branch).
+```text
+cf57759 Implement C18 project Construction Record for Reports and Record tabs.
+```
 
 ---
 
@@ -128,7 +130,7 @@ Reuses PartnerNavRail / Customer Sidebar / ProjectSubNav / design tokens (`#722E
 
 Server typecheck, frontend `tsc --noEmit`, `server:build`, and Vite `build` all succeeded in the C18 validation run.
 
-Full `pnpm run server:test` regression was started in parallel; focused C18 suite is green. Prior C15–C17 suites were not weakened or removed.
+Full `pnpm run server:test` regression: **435 pass / 0 fail**. Prior C15–C17 suites were not weakened or removed.
 
 ---
 
