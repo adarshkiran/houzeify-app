@@ -17,7 +17,9 @@
 
 ## 2. Final commit
 
-*37baa67*
+```text
+adae221 docs: record C24 main tip after merge
+```
 
 Implementation commit: `9d2eb4a feat: implement C24 project activity history`
 
@@ -180,4 +182,9 @@ Live Site; Messages/Questions; Notifications; dedicated event log; Site Ops filt
 
 ## 22. Merge result
 
-*(filled after merge)*
+```text
+Fast-forward merge: 9bbfe13..37baa67 → main
+Tip docs: adae221
+Pushed origin/main
+origin/main synchronized: YES
+```
