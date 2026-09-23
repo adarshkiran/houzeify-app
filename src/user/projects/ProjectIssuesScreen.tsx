@@ -132,7 +132,7 @@ export default function ProjectIssuesScreen({
   const auth = useAuth()
   const currentUserId = auth.user?.id || userId || CURRENT_USER_ID
 
-  const { status: issuesStatus, issues, errorMessage, create, update: updateIssueApi } = useIssues(projectId)
+  const { status: issuesStatus, issues, errorMessage, refresh, create, update: updateIssueApi } = useIssues(projectId)
 
   // Assignable members — real organization roster only (see Concern in the
   // header comment above). listOrganizationMembers is a plain async
@@ -162,7 +162,7 @@ export default function ProjectIssuesScreen({
   const [createError, setCreateError] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
 
-  const selectClass = 'h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0'
+  const selectClass = 'min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
   const inputClass = 'w-full h-10 px-3 rounded-[10px] text-[13.5px] outline-none'
   const inputStyle = { border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }
 
@@ -179,7 +179,7 @@ export default function ProjectIssuesScreen({
 
   if (!hasProject) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
           <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
@@ -254,19 +254,19 @@ export default function ProjectIssuesScreen({
   const bannerError = errorMessage || actionError
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
 
       <ProjectSubNav active="issues" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
 
-      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
-        <div className="max-w-[820px] mx-auto flex flex-col gap-6">
-          <div className="flex items-start justify-between gap-3 flex-wrap">
-            <div>
+      <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
+        <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
+          <div className="flex items-start justify-between gap-3 flex-wrap min-w-0">
+            <div className="min-w-0">
               <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Issues</p>
-              <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+              <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
               {location && (
                 <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> {location}
@@ -289,16 +289,21 @@ export default function ProjectIssuesScreen({
             <SectionCard title="Report Issue">
               <div className="flex flex-col gap-3">
                 <div>
+                  <label className="sr-only" htmlFor="new-issue-title">Issue title</label>
                   <input
+                    id="new-issue-title"
                     className={inputClass}
                     style={inputStyle}
                     placeholder="Issue title"
                     value={title}
                     onChange={e => { setTitle(e.target.value); setTitleError(undefined) }}
+                    aria-invalid={Boolean(titleError)}
                   />
-                  {titleError && <p className="text-[12px] text-[#DC2626] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{titleError}</p>}
+                  {titleError && <p className="text-[12px] text-[#DC2626] m-0 mt-1" style={{ fontFamily: FONT_BODY }} role="alert">{titleError}</p>}
                 </div>
+                <label className="sr-only" htmlFor="new-issue-description">Description</label>
                 <textarea
+                  id="new-issue-description"
                   className="w-full px-3 py-2 rounded-[10px] text-[13.5px] outline-none resize-none"
                   style={{ ...inputStyle, height: 72 }}
                   placeholder="Description (optional)"
@@ -339,8 +344,18 @@ export default function ProjectIssuesScreen({
           )}
 
           {bannerError && (
-            <div className="rounded-[12px] px-4 py-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+            <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
               <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{bannerError}</p>
+              {errorMessage && (
+                <button
+                  type="button"
+                  onClick={() => { void refresh() }}
+                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                >
+                  Try again
+                </button>
+              )}
             </div>
           )}
 
@@ -348,7 +363,7 @@ export default function ProjectIssuesScreen({
               carries its own live count (Total/Open/In Progress/Resolved),
               so a separate stat-tile row would only repeat the same
               numbers. */}
-          {!isLoading && issues.length > 0 && (
+          {!isLoading && issuesStatus !== 'error' && issues.length > 0 && (
             <div className="flex items-center gap-2 flex-wrap">
               {filterTabs.map(tab => (
                 <button
@@ -378,7 +393,7 @@ export default function ProjectIssuesScreen({
                 <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Loading issues…</p>
               </div>
             </SectionCard>
-          ) : issues.length === 0 ? (
+          ) : issuesStatus === 'error' ? null : issues.length === 0 ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
                 <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
@@ -386,7 +401,7 @@ export default function ProjectIssuesScreen({
                 </span>
                 <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No issues reported</p>
                 <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Site issues and observations will appear here.</p>
-                <button type="button" onClick={() => setShowForm(true)} className={`${selectClass} mt-2`} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                <button type="button" onClick={() => setShowForm(true)} className={`${selectClass} mt-2 min-h-11`} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
                   Report Issue
                 </button>
               </div>
