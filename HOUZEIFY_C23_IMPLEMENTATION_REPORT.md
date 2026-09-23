@@ -18,10 +18,10 @@
 ## 2. Final commit
 
 ```text
-81286e1 feat: implement C23 company open work rollup
+059fdea docs: record C23 validation
 ```
 
-*(docs tip commit recorded after merge)*
+Implementation commit: `81286e1 feat: implement C23 company open work rollup`
 
 ---
 
@@ -194,4 +194,8 @@ Attendance / site logs; Live Site; Messages / Notifications; activity event feed
 
 ## 19. Merge result
 
-*(filled after merge)*
+```text
+Fast-forward merge: 1d8f5dc..059fdea → main
+Pushed origin/main
+origin/main synchronized: YES
+```
