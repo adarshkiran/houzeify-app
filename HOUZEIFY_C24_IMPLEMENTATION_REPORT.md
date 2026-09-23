@@ -17,7 +17,7 @@
 
 ## 2. Final commit
 
-*(filled after docs tip / merge)*
+*37baa67*
 
 Implementation commit: `9d2eb4a feat: implement C24 project activity history`
 
