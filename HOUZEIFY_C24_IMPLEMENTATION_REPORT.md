@@ -106,7 +106,7 @@ Does not modify C18 assembler.
 
 `server/projects/projectActivity.test.ts` — **10 pass / 0 fail**
 
-**Full suite:** see merge section (recorded after `pnpm run server:test`).
+**Full suite:** `495` pass / `0` fail
 
 ---
 
