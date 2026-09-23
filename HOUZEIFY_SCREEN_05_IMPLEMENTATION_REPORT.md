@@ -26,7 +26,7 @@
 835a877 docs: record screen 04 origin tip SHA
 ```
 
-**Final implement commit:** _(filled after commit)_
+**Final implement commit:** `dd65880`
 
 ---
 
@@ -228,10 +228,12 @@ Untracked shadcn leftover `src/lib/utils.ts` / `components.json` deleted before 
 
 ## 18. Final Commit
 
-_(filled after commit)_
+```text
+dd65880 Implement Houzeify Screen 05
+```
 
 ---
 
 ## 19. Origin Synchronization
 
-_(filled after FF-merge to main)_
+Pending push + FF-merge into `main` (this docs tip commit follows if needed).
