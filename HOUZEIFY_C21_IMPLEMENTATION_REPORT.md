@@ -18,7 +18,7 @@ d1aff0d Clarify C20 tip commit on main after merge.
 ## 2. Final commit
 
 ```text
-0d6d577 docs: set C21 final commit hash in implementation report
+e873535 Clarify C21 tip commit on main after merge.
 ```
 
 Implementation commit: `8306659 feat: implement C21 company Workforce roster rollup.`
@@ -187,8 +187,7 @@ Company Documents rollup; attendance / Site Ops; Live Site; activity feed; Tasks
 
 ```text
 Fast-forward merge: d1aff0d..0d6d577 → main
+Clarify tip: e873535
 Pushed origin/main
 origin/main synchronized: YES
 ```
-
-Tip on `main` after clarifying commit will be recorded next.
