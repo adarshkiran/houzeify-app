@@ -14,6 +14,7 @@ import {
   updateDailyProgress as apiUpdate,
   type DailyProgress,
   type DailyProgressInput,
+  type DailyProgressPhoto,
 } from './dailyProgressApi'
 
 export type DailyProgressStatus = 'idle' | 'loading' | 'loaded' | 'error'
@@ -26,7 +27,7 @@ export interface UseDailyProgressResult {
   create: (input: DailyProgressInput) => Promise<DailyProgress>
   update: (progressId: string, patch: Partial<DailyProgressInput>) => Promise<DailyProgress>
   remove: (progressId: string) => Promise<void>
-  addPhoto: (progressId: string, file: File) => Promise<void>
+  addPhoto: (progressId: string, file: File) => Promise<DailyProgressPhoto>
 }
 
 export function useDailyProgress(projectId: string | undefined): UseDailyProgressResult {
@@ -86,6 +87,7 @@ export function useDailyProgress(projectId: string | undefined): UseDailyProgres
       if (!projectId) throw new Error('No project selected.')
       const photo = await apiAddPhoto(projectId, progressId, file)
       setProgress(prev => prev.map(p => (p.id === progressId ? { ...p, photos: [...p.photos, photo] } : p)))
+      return photo
     },
     [projectId],
   )

@@ -235,4 +235,41 @@ test('C15 construction media: upload, retrieve, customer ACL', { skip: !env && '
     })
     assert.equal(denied.statusCode, 404)
   })
+
+  await t.test('C15B: unauthenticated upload and retrieve denied', async () => {
+    const { headers, payload } = multipartPng('anon.png')
+    const upload = await app.inject({
+      method: 'POST',
+      url: `/api/v1/projects/${projectId}/daily-progress/${progressId}/photos`,
+      headers,
+      payload,
+    })
+    assert.equal(upload.statusCode, 401)
+
+    const get = await app.inject({
+      method: 'GET',
+      url: contentUrl,
+    })
+    assert.equal(get.statusCode, 401)
+  })
+
+  await t.test('C15B: photo is linked to Daily Progress, project, stage, and uploader', async () => {
+    const list = await app.inject({
+      method: 'GET',
+      url: `/api/v1/projects/${projectId}/daily-progress`,
+      headers: { cookie: ownerCookie },
+    })
+    assert.equal(list.statusCode, 200)
+    const entry = list.json().data.progress.find((p: { id: string }) => p.id === progressId)
+    assert.ok(entry)
+    assert.equal(entry.projectId, projectId)
+    assert.equal(entry.stage, 'foundation')
+    assert.equal(entry.photos.length >= 1, true)
+    const photo = entry.photos.find((p: { id: string }) => p.id === photoId)
+    assert.ok(photo)
+    assert.equal(photo.dailyProgressId, progressId)
+    assert.equal(photo.uploadedBy, owner.id)
+    assert.equal(photo.fileAvailable, true)
+    assert.ok(photo.contentUrl)
+  })
 })
