@@ -26,7 +26,7 @@ export const COMPANY_NAV_ROUTES = {
   // Module 03 — real, organization-scoped company Projects List (was a
   // ComingSoonScreen placeholder through Module 01/02).
   projects: 'company-projects',
-  progress: 'company-progress', // NEW placeholder
+  progress: 'company-progress', // C19 — Company Progress Rollup (real)
   siteOperations: 'site-operations', // NEW placeholder
   workforce: 'workforce', // NEW placeholder
   liveSite: 'live-site', // NEW placeholder
@@ -109,7 +109,7 @@ export interface NavPlaceholderContent {
 }
 
 export const NAV_PLACEHOLDER_CONTENT: Record<string, NavPlaceholderContent> = {
-  'company-progress': { title: 'Progress', description: 'A company-wide rollup of daily progress across every active project.' },
+  'company-progress': { title: 'Progress', description: 'Daily progress and construction evidence across every project in your company.' },
   'site-operations': { title: 'Site Operations', description: 'Day-to-day site operations — checklists, material requests, and site logs — will live here.' },
   'workforce': { title: 'Workforce', description: 'Manage labour, attendance, and crew assignments across your active sites.' },
   'live-site': { title: 'Live Site', description: 'Live site cameras and real-time site status will appear here.' },

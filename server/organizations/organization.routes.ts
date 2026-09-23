@@ -27,6 +27,7 @@ import {
   type OrganizationMemberRole,
   type OrganizationMemberStatus,
 } from './organization.service.js'
+import { getOrganizationProgressSummary } from './organizationProgress.service.js'
 import { serializeOrganization, serializeOrganizationMember } from './organization.types.js'
 
 interface AddOrganizationMemberBody {
@@ -88,6 +89,17 @@ export async function organizationRoutes(app: FastifyInstance, opts: { env: Env 
       const patch = request.body as Partial<OrganizationInput>
       const organization = await updateOrganization(env, organizationId, request.user!.id, patch)
       return { data: { organization: serializeOrganization(organization) } }
+    },
+  )
+
+  // C19 — company Progress rail rollup (read-only; membership-gated).
+  app.get<{ Params: { organizationId: string } }>(
+    '/:organizationId/progress-summary',
+    { preHandler: requireAuth },
+    async request => {
+      const organizationId = requireValidOrganizationId(request.params.organizationId)
+      const summary = await getOrganizationProgressSummary(env, organizationId, request.user!.id)
+      return { data: { summary } }
     },
   )
 

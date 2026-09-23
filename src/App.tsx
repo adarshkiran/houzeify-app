@@ -84,6 +84,7 @@ import ProjectCustomerScreen from '@/user/projects/ProjectCustomerScreen'
 import ProjectPhotosScreen from '@/user/projects/ProjectPhotosScreen'
 import ProjectTimelineScreen from '@/user/projects/ProjectTimelineScreen'
 import ProjectConstructionRecordScreen from '@/user/projects/ProjectConstructionRecordScreen'
+import CompanyProgressScreen from '@/partner/projects/CompanyProgressScreen'
 import AIAdvisorScreen from '@/user/dashboard/AIAdvisorScreen'
 import HomeServicesScreen from '@/user/home-services/HomeServicesScreen'
 import HoziehelperGoldScreen from '@/user/home-services/categories/HoziehelperGoldScreen'
@@ -1820,15 +1821,19 @@ export default function App() {
           Every PartnerNavRail item without a real screen yet routes here
           (never a dead '' stub) — see constructionNav.ts's COMPANY_NAV_ROUTES
           and NAV_PLACEHOLDER_CONTENT. */}
-      {(screen === 'company-progress' || screen === 'site-operations'
+      {screen === 'company-progress' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <CompanyProgressScreen role={resolvedRole} onNavigate={navigateTo} />
+        </div>
+      )}
+      {(screen === 'site-operations'
         || screen === 'workforce' || screen === 'live-site' || screen === 'company-documents' || screen === 'company-reports') && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ComingSoonScreen
             placeholderId={screen}
             shell="company"
             activeCompanyId={
-              screen === 'company-progress' ? 'progress'
-              : screen === 'site-operations' ? 'site-operations'
+              screen === 'site-operations' ? 'site-operations'
               : screen === 'workforce' ? 'workforce'
               : screen === 'live-site' ? 'live-site'
               : screen === 'company-documents' ? 'documents'
