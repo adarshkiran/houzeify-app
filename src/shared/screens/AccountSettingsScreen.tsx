@@ -5,6 +5,7 @@ import { useOrganizations } from '@/data/organizationState'
 import { useCustomerProfile } from '@/data/customerProfileState'
 import { usePartnerProfile } from '@/data/partnerProfileState'
 import { PROFESSIONAL_TYPE_CONTENT, type ProfessionalType } from '@/data/professionalType'
+import { customerSidebarSettingsActive } from '@/data/customerProfileSettings'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -149,13 +150,11 @@ export default function AccountSettingsScreen({
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
-        {/* Shared screen (see header comment): professionals get the
-            company PartnerNavRail (Settings highlighted), homeowners get the
-            customer Sidebar ("profile" is the closest item there since
-            Account Settings is a profile sub-page). */}
+        {/* Shared screen: professionals → PartnerNavRail; customers → Sidebar
+            with Settings highlighted in navBottom (S13). */}
         {isProfessional
           ? <PartnerNavRail active="settings" onNavigate={onNavigate} organizationId={currentOrganization?.id} />
-          : <Sidebar active="profile" onNavigate={onNavigate} />}
+          : <Sidebar active={customerSidebarSettingsActive()} onNavigate={onNavigate} />}
 
         <div className="flex flex-col flex-1 min-h-0">
           <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>

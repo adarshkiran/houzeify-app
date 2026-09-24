@@ -46,6 +46,7 @@ export type SidebarNavId =
   | 'plan'
   | 'calc'
   | 'billing'
+  | 'settings'
   // Houzeify 2.0 Module 01 — construction-progress-transparency items, new
   // for the customer-facing nav (see constructionNav.ts's CUSTOMER_NAV_ROUTES).
   | 'progress'
@@ -190,6 +191,7 @@ function toPartnerActive(active: SidebarNavId): PartnerNavId {
     case 'profile': return 'profile'
     case 'advisor': return 'advisor'
     case 'billing': return 'billing'
+    case 'settings': return 'settings'
     default: return 'projects'
   }
 }
@@ -229,21 +231,15 @@ export default function Sidebar({
     { id: 'advisor' as const, icon: <IcoAdvisor />, label: 'Hozie', dest: DASHBOARD_ROUTES.aiAdvisor },
   ]
   const navBottom = [
-    // Customer Implementation 08E — Settings now reaches the existing
-    // shared Account Settings screen (App.tsx routes it with
-    // role={resolvedRole}, so a homeowner lands on the homeowner branch;
-    // this rail is homeowner-only and never rendered for Partner). Help
-    // stays intentionally inert — no Help screen exists; omit from tab
-    // order until a destination exists (C14 A4).
-    // 15B — Plans & Billing. Same "never highlighted" convention as
-    // Settings above (navBottom items don't pass `active` to NavItem);
-    // matches this rail's own existing behavior rather than fixing it here.
-    { id: 'billing', icon: <IcoBilling />, label: 'Plans & Billing', dest: 'plans-billing' },
+    // Customer Implementation 08E — Settings reaches shared Account Settings
+    // (App.tsx role={resolvedRole}). S13 — navBottom now highlights billing /
+    // settings / notifications like the rest of this rail.
+    { id: 'billing' as const, icon: <IcoBilling />, label: 'Plans & Billing', dest: 'plans-billing' },
     // Houzeify 2.0 Module 01 — new customer nav item; routes to the
     // existing, already-built NotificationsScreen (previously reachable
     // only via a bell icon elsewhere, never from this rail).
     { id: 'notifications' as const, icon: <IcoNotifications />, label: 'Notifications', dest: CUSTOMER_NAV_ROUTES.notifications },
-    { id: 'settings', icon: <IcoSettings />, label: 'Settings', dest: 'account-settings' },
+    { id: 'settings' as const, icon: <IcoSettings />, label: 'Settings', dest: 'account-settings' },
   ]
 
   const onMobileNavigate = (id: MobilePrimaryNavItemId) => {
@@ -330,6 +326,7 @@ export default function Sidebar({
                 key={item.id}
                 icon={item.icon}
                 label={item.label}
+                active={active === item.id}
                 onClick={item.dest ? () => onNavigate(item.dest) : undefined}
               />
             ))}

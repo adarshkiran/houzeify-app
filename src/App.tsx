@@ -2376,6 +2376,7 @@ export default function App() {
         <div style={{ ...slide }}>
           <AIAdvisorScreen
             onNavigate={navigateTo}
+            role={resolvedRole}
             primaryIntent={projectData.primary_intent}
             preferredName={projectData.preferred_name}
             fullName={projectData.full_name}

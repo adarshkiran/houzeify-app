@@ -17,6 +17,9 @@ import {
   type AdvisorAction,
 } from '@/data/aiAdvisor'
 import Sidebar from '@/shared/components/Sidebar'
+import PartnerNavRail from '@/shared/components/PartnerNavRail'
+import { useOrganizations } from '@/data/organizationState'
+import { sharedSettingsHomeRoute } from '@/data/customerProfileSettings'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -566,6 +569,7 @@ function MobileTopBar({ onBack, onNew }: { onBack: () => void; onNew: () => void
 
 export default function AIAdvisorScreen({
   onNavigate,
+  role,
   primaryIntent,
   preferredName,
   fullName,
@@ -577,6 +581,7 @@ export default function AIAdvisorScreen({
   initialQuery,
 }: {
   onNavigate: (s: string, data?: Record<string, string>) => void
+  role?: string
   primaryIntent?: string
   preferredName?: string
   fullName?: string
@@ -587,6 +592,9 @@ export default function AIAdvisorScreen({
   projectStage?: string
   initialQuery?: string
 }) {
+  const isProfessional = role === 'professional'
+  const { currentOrganization } = useOrganizations()
+  const homeRoute = sharedSettingsHomeRoute(role)
   const resolvedIntent = isHomeownerIntent(primaryIntent) ? primaryIntent : 'build-home'
   // Customer Implementation 09G — real onboarding identity only, same
   // resolution chain as Home (09B): preferred_name → first word of
@@ -705,14 +713,16 @@ export default function AIAdvisorScreen({
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
 
-      <MobileTopBar onBack={() => onNavigate('dashboard-home')} onNew={handleNewClick} />
+      <MobileTopBar onBack={() => onNavigate(homeRoute)} onNew={handleNewClick} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
-        <Sidebar active="advisor" onNavigate={onNavigate} />
+        {isProfessional
+          ? <PartnerNavRail active="advisor" onNavigate={onNavigate} organizationId={currentOrganization?.id} />
+          : <Sidebar active="advisor" onNavigate={onNavigate} />}
 
         <div className="flex flex-col flex-1 min-h-0">
           <div className="hidden md:flex flex-col">
-            <AIAdvisorHeader onBack={() => onNavigate('dashboard-home')} onNew={handleNewClick} />
+            <AIAdvisorHeader onBack={() => onNavigate(homeRoute)} onNew={handleNewClick} />
           </div>
           <ContextBar primaryLabel={context.primaryLabel} locationLabel={context.locationLabel} intentLabel={context.intentLabel} />
 

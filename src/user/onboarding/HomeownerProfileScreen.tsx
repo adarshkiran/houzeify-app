@@ -11,30 +11,21 @@ import {
   type HomeownerProfile,
   type EditableProfileFields,
 } from '@/data/homeownerProfile'
-import { getCustomerBookingsForUser, summarizeBookingItems } from '@/data/customerBooking'
-// Customer Implementation 08C — the Current Project card reads the real
-// project store now, not the hardcoded currentProjectSummary fixture.
-// 12H-B — the real project list now comes from useProjects() (backend-
-// backed, owner-scoped — see src/data/projectState.tsx). C12 —
-// resolveProjectStatus prefers canonical project.status.
-import { resolveProjectStatus, type ProjectType } from '@/data/projects'
-import type { Project } from '@/data/projectApi'
-import { useProjects } from '@/data/projectState'
 import { projectStageLabel } from '@/data/homeownerDashboard'
-import { PROJECT_STATUS_LABELS, isProjectStatus } from '@/data/projectStatus'
-// Customer Implementation 08D — the Saved Addresses card reads the one
-// shared customer address book (same store the booking flow uses).
-import { useCustomerAddress } from '@/data/customerAddress'
 import { useCustomerProfile } from '@/data/customerProfileState'
 import { describeCustomerProfileError } from '@/data/customerProfileApi'
 import { useAuth } from '@/data/authState'
+import { useCustomerProjects } from '@/data/customerProjectsState'
+import {
+  customerHomeProjectNavData,
+  type CustomerHomeProject,
+} from '@/data/customerHomeProjects'
+import {
+  CUSTOMER_PROFILE_HOZIE_USES,
+  customerProfileProjectsLoading,
+  pickCustomerProfileCurrentProject,
+} from '@/data/customerProfileSettings'
 import Sidebar from '@/shared/components/Sidebar'
-
-// Same demo-identity convention used for the (unrelated) local booking
-// fixture store below — matches serviceRequest.ts's own 'user-demo-001'.
-// Real user identity comes from AuthProvider/CustomerProfile now (12G-D);
-// this constant is scoped to customerBooking.ts's fixture lookup only.
-const DEMO_USER_ID = 'user-demo-001'
 
 // ─── Sidebar & shell icons (kept local — matches existing screen convention) ──
 
@@ -439,9 +430,14 @@ function RoleCard({ onChangeRole, className }: { onChangeRole: () => void; class
     <SectionCard eyebrow="Your Role" className={className}>
       <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Homeowner</span>
       <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
-        You're using Houzeify to plan, estimate and manage your home construction project.
+        You&apos;re using Houzeify to follow shared construction progress on linked projects.
       </p>
-      <button onClick={onChangeRole} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+      <button
+        type="button"
+        onClick={onChangeRole}
+        className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+        style={{ color: '#722ED1', fontFamily: FONT_BODY }}
+      >
         Change role
       </button>
     </SectionCard>
@@ -476,54 +472,64 @@ function ChangeRoleModal({ onCancel, onConfirm }: { onCancel: () => void; onConf
   )
 }
 
-// ─── Project summary — Customer Implementation 08C ────────────────────────
-// Wired to the real backend Project list (useProjects(), 12H-B), NOT the
-// old hardcoded `currentProjectSummary` fixture. "Current project" = the most
-// recently updated real project — the same [0]-of-sorted-list convention
-// ProjectsListScreen and the dashboard use. Stage is the LIVE status
-// (resolveProjectStatus + projectStageLabel), identical to
-// ProjectsListScreen's own rows — never the stale value stored at project
-// creation. Rows only render fields genuinely present on the Project
-// record; nothing is fabricated. Honest empty state when the homeowner has
-// no project yet, mirroring BookingsSummary above. Read-only — never writes
-// to projects.ts, and the booking / Address systems are untouched.
-
-const PROJECT_TYPE_LABELS: Record<ProjectType, string> = {
-  'new-build': 'New Build',
-  renovation: 'Renovation',
-}
+// ─── Current project — S13: linked customer projects (useCustomerProjects) ──
+// Matches S11/S12: never the owner-scoped useProjects() list. Prefers an
+// active shared project, then an invite. Honest loading / error / empty.
 
 function ProjectSummary({ onViewProject, className }: {
-  onViewProject: (project: Project) => void
+  onViewProject: (project: CustomerHomeProject) => void
   className?: string
 }) {
-  // 12H-B — real, owner-scoped backend project list, sorted most-recently-
-  // updated first by the backend itself — [0] is the same "current project"
-  // meaning this card has always used, never "the user's only project."
-  const { projects } = useProjects()
-  const current = projects[0]
+  const { status: authStatus } = useAuth()
+  const { projects, status, errorMessage, refresh } = useCustomerProjects()
+  const current = pickCustomerProfileCurrentProject(projects)
+  const loading = customerProfileProjectsLoading(authStatus, status)
 
-  if (!current) {
+  if (loading) {
     return (
       <SectionCard eyebrow="Current Project" className={className}>
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
-          You haven&apos;t started a project yet. Once you do, it&apos;ll show up here.
+        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" role="status" style={{ fontFamily: FONT_BODY }}>
+          Loading linked projects…
         </p>
       </SectionCard>
     )
   }
 
-  const status = resolveProjectStatus(current.status, current.stage)
-  const statusLabel = isProjectStatus(status)
-    ? PROJECT_STATUS_LABELS[status]
-    : (projectStageLabel(status) ?? status)
+  if (status === 'error') {
+    return (
+      <SectionCard eyebrow="Current Project" className={className}>
+        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" role="alert" style={{ fontFamily: FONT_BODY }}>
+          {errorMessage ?? "Couldn't load linked projects right now."}
+        </p>
+        <button
+          type="button"
+          onClick={() => { void refresh() }}
+          className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+          style={{ color: '#722ED1', fontFamily: FONT_BODY }}
+        >
+          Try again
+        </button>
+      </SectionCard>
+    )
+  }
+
+  if (!current) {
+    return (
+      <SectionCard eyebrow="Current Project" className={className}>
+        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+          No linked projects yet. When a builder shares a project with you, it&apos;ll show up here.
+        </p>
+      </SectionCard>
+    )
+  }
+
+  const stageLabel = current.stage ? (projectStageLabel(current.stage) ?? current.stage) : null
   const rows = ([
-    current.type && (current.type === 'new-build' || current.type === 'renovation')
-      ? { label: 'Type', value: PROJECT_TYPE_LABELS[current.type] }
-      : null,
     current.location ? { label: 'Location', value: current.location } : null,
     current.propertyType ? { label: 'Property', value: current.propertyType } : null,
-    { label: 'Status', value: statusLabel },
+    current.organizationName ? { label: 'Builder', value: current.organizationName } : null,
+    stageLabel ? { label: 'Stage', value: stageLabel } : null,
+    current.customerStatus === 'invited' ? { label: 'Status', value: 'Invite pending' } : null,
   ].filter(Boolean)) as { label: string; value: string }[]
 
   return (
@@ -537,74 +543,13 @@ function ProjectSummary({ onViewProject, className }: {
           </div>
         ))}
       </div>
-      <button onClick={() => onViewProject(current)} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
-        View project →
-      </button>
-    </SectionCard>
-  )
-}
-
-// ─── Service bookings — Customer Implementation 07E ────────────────────────
-// The one place in Profile a homeowner reaches their priced-service booking
-// history from (see the 07E inspection report §12/§20: not primary nav, not
-// folded into Projects — that's construction/renovation only, a separate
-// concept). Reads the SAME getCustomerBookingsForUser() store
-// MyBookingsScreen itself lists from — never a duplicate summary of its own.
-
-function BookingsSummary({ onViewBookings, className }: { onViewBookings: () => void; className?: string }) {
-  const bookings = getCustomerBookingsForUser(DEMO_USER_ID)
-  const mostRecent = bookings[0]
-  return (
-    <SectionCard eyebrow="Service Bookings" className={className}>
-      {mostRecent ? (
-        <>
-          <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
-            {bookings.length} booking{bookings.length === 1 ? '' : 's'}
-          </span>
-          <div className="flex flex-col gap-0.5">
-            <span className="text-[13px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{summarizeBookingItems(mostRecent)}</span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Most recent · {mostRecent.slot.label}</span>
-          </div>
-        </>
-      ) : (
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
-          You haven&apos;t booked a service yet. Once you do, it&apos;ll show up here.
-        </p>
-      )}
-      <button onClick={onViewBookings} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
-        View bookings →
-      </button>
-    </SectionCard>
-  )
-}
-
-// ─── Saved addresses — Customer Implementation 08D ────────────────────────
-// Entry point into the standalone Saved Addresses screen. Count and preview
-// come straight from the one shared customer address book (useCustomerAddress)
-// — the same store the booking Address screen reads — never fabricated. An
-// honest empty state when every saved address has been removed.
-
-function SavedAddresses({ onManage, className }: { onManage: () => void; className?: string }) {
-  const { addresses } = useCustomerAddress()
-  const hasAny = addresses.length > 0
-  return (
-    <SectionCard eyebrow="Saved Addresses" className={className}>
-      {hasAny ? (
-        <>
-          <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
-            {addresses.length} saved address{addresses.length === 1 ? '' : 'es'}
-          </span>
-          <span className="text-[13px] text-[#68636D] leading-[1.6] truncate" style={{ fontFamily: FONT_BODY }}>
-            {addresses.map(a => a.label).join(' · ')}
-          </span>
-        </>
-      ) : (
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
-          You haven&apos;t saved an address yet. Add one and it&apos;ll be ready when you book a service.
-        </p>
-      )}
-      <button onClick={onManage} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
-        {hasAny ? 'Manage addresses →' : 'Add an address →'}
+      <button
+        type="button"
+        onClick={() => onViewProject(current)}
+        className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+        style={{ color: '#722ED1', fontFamily: FONT_BODY }}
+      >
+        {current.customerStatus === 'invited' ? 'Review invite →' : 'View project →'}
       </button>
     </SectionCard>
   )
@@ -639,7 +584,7 @@ function Preferences({ profile, onOpenPreference, className }: { profile: Homeow
 
 // ─── Hozie personalization ──────────────────────────────────────────────────────
 
-const HOZIE_USES = ['AI advice', 'Cost estimates', 'Material calculations', 'Plan analysis', 'Project recommendations']
+const HOZIE_USES = CUSTOMER_PROFILE_HOZIE_USES
 
 function HoziePersonalization({ onManage, className }: { onManage: () => void; className?: string }) {
   return (
@@ -648,13 +593,18 @@ function HoziePersonalization({ onManage, className }: { onManage: () => void; c
         <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Your Hozie Experience</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Hozie uses your project information to personalize:</p>
+      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Hozie uses your linked project information to help with:</p>
       <div className="flex flex-wrap gap-1.5">
         {HOZIE_USES.map(u => (
           <span key={u} className="px-2.5 py-1 rounded-full text-[11px] font-medium text-[#242326]" style={{ backgroundColor: '#FFFFFF', fontFamily: FONT_BODY }}>{u}</span>
         ))}
       </div>
-      <button onClick={onManage} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+      <button
+        type="button"
+        onClick={onManage}
+        className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+        style={{ color: '#722ED1', fontFamily: FONT_BODY }}
+      >
         Manage AI preferences →
       </button>
     </div>
@@ -1316,17 +1266,15 @@ function FullSettingsProfileView({
 
   const showNotice = (message: string) => setNotice(message)
 
-  // Customer Implementation 08C — open the real project's workspace with the
-  // same projectData keys ProjectsListScreen.openProject passes, instead of
-  // the old blanket jump to the Create Project form.
-  const viewProject = (project: Project) => onNavigate('project-workspace', {
-    project_id: project.id,
-    project_name: project.name,
-    project_type: project.type ?? '',
-    property_type: project.propertyType ?? '',
-    location: project.location ?? '',
-    project_stage: project.stage ?? '',
-  })
+  // S13 — open shared Overview (or Home for invites) with project_id,
+  // matching S11/S12 customer navigation — never owner workspace.
+  const viewProject = (project: CustomerHomeProject) => {
+    if (project.customerStatus === 'invited') {
+      onNavigate('dashboard-home')
+      return
+    }
+    onNavigate('project-overview', customerHomeProjectNavData(project))
+  }
   // Customer Implementation 08E — the real screens already exist and are
   // already routed in App.tsx (with role={resolvedRole}); these actions used
   // to fire a "coming soon" toast even though the screens were live.

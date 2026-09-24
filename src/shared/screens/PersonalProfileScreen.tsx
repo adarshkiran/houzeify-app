@@ -1,7 +1,10 @@
 import { useEffect } from 'react'
 import { profileInitials } from '@/data/professionalProfile'
 import { usePartnerProfile } from '@/data/partnerProfileState'
+import { useOrganizations } from '@/data/organizationState'
 import { PROFESSIONAL_TYPE_CONTENT, type ProfessionalType } from '@/data/professionalType'
+import PartnerNavRail from '@/shared/components/PartnerNavRail'
+import { sharedSettingsHomeRoute } from '@/data/customerProfileSettings'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
@@ -14,16 +17,8 @@ const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
 // or 088 (organization administration).
 //
 // 12G-D — migrated off the legacy professionalProfile.ts local store
-// (getProfessionalProfile(OWNER_ID)) onto the real backend PartnerProfile
-// (usePartnerProfile()). The legacy store is an in-memory Map that resets
-// on every page refresh, so this screen used to show "Profile not set up
-// yet" for a real professional with a real, backend-persisted PartnerProfile
-// the moment they reloaded the page — the same class of bug 12G-C3 already
-// fixed for CompanyProfileScreen/organizations. profileInitials() (the pure
-// helper, not the store) is still used for the avatar. No inline editor:
-// the only real writer of this data remains Screen 020
-// (ProfessionalProfileSetupScreen), unchanged by this fix.
-
+// onto the real backend PartnerProfile (usePartnerProfile()).
+// S13 — SHARED polish: PartnerNavRail dual-rail shell + honest error state.
 
 const IcoBack = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3L5 8l5 5" /></svg>
@@ -45,6 +40,27 @@ function formatCreatedAt(iso: string): string {
   return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
 }
 
+function Shell({
+  onNavigate,
+  organizationId,
+  children,
+}: {
+  onNavigate: (screen: string, data?: Record<string, string>) => void
+  organizationId?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+      <div className="flex flex-1 min-h-0 relative z-10">
+        <PartnerNavRail active="profile" onNavigate={onNavigate} organizationId={organizationId} />
+        <div className="flex flex-col flex-1 min-h-0 min-w-0">
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 interface PersonalProfileScreenProps {
   role?: string
   accountType?: string
@@ -61,16 +77,19 @@ export default function PersonalProfileScreen({
   onNavigate,
 }: PersonalProfileScreenProps) {
   const isProfessional = role === 'professional'
-  useEffect(() => {
-    if (!isProfessional) onNavigate('dashboard-home')
-  }, [isProfessional, onNavigate])
+  const { currentOrganization } = useOrganizations()
   const partnerProfile = usePartnerProfile()
+
+  useEffect(() => {
+    if (!isProfessional) onNavigate(sharedSettingsHomeRoute(role))
+  }, [isProfessional, onNavigate, role])
+
   if (!isProfessional) return null
 
-  const selectClass = 'h-10 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 cursor-pointer'
+  const selectClass = 'h-10 min-h-11 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2'
 
   function goToDashboard() {
-    onNavigate('professional-dashboard')
+    onNavigate(sharedSettingsHomeRoute('professional'))
   }
 
   // Organization accounts never use this model — Screen 092 is their real
@@ -78,26 +97,49 @@ export default function PersonalProfileScreen({
   const isOrganization = accountType === 'organization'
   if (isOrganization) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
-        <div className="relative z-10 flex flex-col items-center gap-3 text-center max-w-[420px]">
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Personal profile is available for individual professionals.</p>
-          <button type="button" onClick={() => onNavigate('organization-profile')} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
-            View Organization Profile →
-          </button>
+      <Shell onNavigate={onNavigate} organizationId={currentOrganization?.id}>
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6">
+          <div className="flex flex-col items-center gap-3 text-center max-w-[420px]">
+            <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Personal profile is available for individual professionals.</p>
+            <button type="button" onClick={() => onNavigate('organization-profile')} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+              View Organization Profile →
+            </button>
+          </div>
         </div>
-      </div>
+      </Shell>
     )
   }
 
-  // 12G-D — 'idle'/'loading' is a real, distinct state from 'not-found':
-  // showing the "Profile not set up yet" CTA while the real PartnerProfile
-  // is still being fetched would wrongly tell an existing professional
-  // their profile doesn't exist. A brief, honest loading state instead.
   if (partnerProfile.status === 'idle' || partnerProfile.status === 'loading') {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
-        <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading your profile…</p>
-      </div>
+      <Shell onNavigate={onNavigate} organizationId={currentOrganization?.id}>
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6" role="status" aria-live="polite">
+          <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading your profile…</p>
+        </div>
+      </Shell>
+    )
+  }
+
+  if (partnerProfile.status === 'error') {
+    return (
+      <Shell onNavigate={onNavigate} organizationId={currentOrganization?.id}>
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6" role="alert">
+          <p className="text-[15px] font-semibold text-[#242326] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>
+            Couldn&apos;t load your profile
+          </p>
+          <p className="text-[13px] text-[#68636D] m-0 text-center max-w-[420px]" style={{ fontFamily: FONT_BODY }}>
+            {partnerProfile.errorMessage ?? 'Unable to load your profile right now.'}
+          </p>
+          <button
+            type="button"
+            onClick={() => { void partnerProfile.refresh() }}
+            className={selectClass}
+            style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+          >
+            Try again
+          </button>
+        </div>
+      </Shell>
     )
   }
 
@@ -105,15 +147,17 @@ export default function PersonalProfileScreen({
 
   if (!profile) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
-        <div className="relative z-10 flex flex-col items-center gap-3 text-center max-w-[420px]">
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Profile not set up yet</p>
-          <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Complete your professional profile to add your personal information.</p>
-          <button type="button" onClick={() => onNavigate('professional-profile-setup')} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
-            Set Up Profile →
-          </button>
+      <Shell onNavigate={onNavigate} organizationId={currentOrganization?.id}>
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6">
+          <div className="flex flex-col items-center gap-3 text-center max-w-[420px]">
+            <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Profile not set up yet</p>
+            <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Complete your professional profile to add your personal information.</p>
+            <button type="button" onClick={() => onNavigate('professional-profile-setup')} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+              Set Up Profile →
+            </button>
+          </div>
         </div>
-      </div>
+      </Shell>
     )
   }
 
@@ -124,23 +168,24 @@ export default function PersonalProfileScreen({
     : (professionalType ? PROFESSIONAL_TYPE_CONTENT[professionalType as ProfessionalType]?.title : undefined)
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
-
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+    <Shell onNavigate={onNavigate} organizationId={currentOrganization?.id}>
+      <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goToDashboard} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button
+            type="button"
+            onClick={goToDashboard}
+            className="flex items-center gap-1.5 min-h-11 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+            style={{ fontFamily: FONT_BODY }}
+          >
             <IcoBack /> Professional Dashboard
           </button>
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
+      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[640px] mx-auto flex flex-col gap-6">
-          {/* Identity hero — no profile-image field exists on the real
-              backend PartnerProfile (12G-B's schema), so this is always the
-              initials circle now, never a fabricated/stale photo. */}
           <div className="flex items-center gap-3">
-            <div className="w-14 h-14 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[15px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+            <div className="w-14 h-14 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[15px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }} aria-hidden="true">
               {initials}
             </div>
             <div>
@@ -152,7 +197,6 @@ export default function PersonalProfileScreen({
             </div>
           </div>
 
-          {/* Contact information */}
           {(profile.contactEmail || profile.contactPhone) && (
             <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -162,24 +206,27 @@ export default function PersonalProfileScreen({
             </div>
           )}
 
-          {/* About */}
           <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
             <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>About</p>
             <p className="text-[13.5px] text-[#242326] m-0 mb-4 leading-[1.6]" style={{ fontFamily: FONT_BODY }}>
               {profile.about ? profile.about : 'No description provided yet.'}
             </p>
-            <button type="button" onClick={() => onNavigate('professional-profile-setup')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button
+              type="button"
+              onClick={() => onNavigate('professional-profile-setup')}
+              className="min-h-11 text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+              style={{ fontFamily: FONT_BODY }}
+            >
               Edit Profile →
             </button>
           </div>
 
-          {/* Profile metadata — real createdAt only */}
           <div className="rounded-[16px] p-4" style={{ border: '1px dashed #E3DDD7', backgroundColor: '#FFFFFF' }}>
             <p className="text-[10.5px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Profile Created</p>
             <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{formatCreatedAt(profile.createdAt)}</p>
           </div>
         </div>
       </main>
-    </div>
+    </Shell>
   )
 }
