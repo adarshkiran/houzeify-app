@@ -26,7 +26,7 @@ Roadmap note: S09 is **not** Construction Record (S10). Do not invent advanced e
 0483b65 docs: record screens 06–08 origin tip SHAs
 ```
 
-**Final implement commit:** _(after commit)_
+**Final implement commit:** `be3e2d4`
 
 ---
 
@@ -140,4 +140,5 @@ C19–C24: no server changes; suite green.
 
 ## 18–19. Final commit / origin
 
-_(filled after merge)_
+Final commit: `be3e2d4`  
+origin/main: _(pending merge)_
