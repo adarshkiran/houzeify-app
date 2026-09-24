@@ -84,5 +84,5 @@ Roadmap: Phase 8 + `S21  Legacy HIDDEN REMOVE pass (family-by-family)` + §8
 
 ## 5. Final commit / origin
 
-Implementation commit: *(filled after commit)*  
+Implementation commit: `de988c3`  
 **Final `main` / `origin/main`:** *(filled after FF-merge + push)*
