@@ -95,7 +95,7 @@ export const CUSTOMER_NAV_ROUTES = {
   photos: 'project-photos', // NEW placeholder
   liveSite: 'project-live-site', // NEW placeholder — shared with the project-nav Live Site tab
   documents: 'project-documents', // existing — reused
-  questions: 'project-messages', // existing — reused (labeled "Questions" in the customer rail)
+  questions: 'project-messages', // S16 — honest empty shell until message persistence exists
   notifications: 'notifications', // existing
 } as const
 
