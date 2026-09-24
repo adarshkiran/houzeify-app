@@ -128,7 +128,7 @@ export default function ProjectDocumentsScreen({
 
   if (!hasProject) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
           <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
@@ -263,14 +263,14 @@ function LegacyDocuments({
   ]
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
 
       <ProjectSubNav active="documents" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
 
-      <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
         <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
           {/* Module 07 — these client-local projects have no server record, so
               say plainly where their documents live. */}
@@ -677,14 +677,14 @@ function ServerDocuments({
   ]
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
 
       <ProjectSubNav active="documents" projectId={projectId} projectName={projectName} variant={isCustomer ? 'customer' : 'company'} onNavigate={onNavigate} />
 
-      <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
         <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
           <div className="flex items-start justify-between gap-3 flex-wrap">
             <div className="min-w-0">

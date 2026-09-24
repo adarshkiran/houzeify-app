@@ -159,7 +159,7 @@ export default function ProjectWorkforceScreen({
 
   const audience = useProjectAudience(projectId)
   const isCustomer = audience === 'customer'
-  const { status: workforceStatus, members, error, addMember, updateRole, removeMember } = useProjectWorkforce(isCustomer ? undefined : projectId)
+  const { status: workforceStatus, members, error, addMember, updateRole, removeMember, refetch } = useProjectWorkforce(isCustomer ? undefined : projectId)
   const [customerRoster, setCustomerRoster] = useState<CustomerViewWorkforceMember[]>([])
   useEffect(() => {
     if (!isCustomer || !projectId) return
@@ -192,7 +192,7 @@ export default function ProjectWorkforceScreen({
   const [roleInput, setRoleInput] = useState('')
   const [addError, setAddError] = useState<string | null>(null)
 
-  const selectClass = 'h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0'
+  const selectClass = 'min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
   const inputClass = 'w-full h-10 px-3 rounded-[10px] text-[13.5px] outline-none'
   const inputStyle = { border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }
 
@@ -207,7 +207,7 @@ export default function ProjectWorkforceScreen({
 
   if (!hasProject) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
           <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
@@ -259,19 +259,19 @@ export default function ProjectWorkforceScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
 
       <ProjectSubNav active="workforce" projectId={projectId} projectName={projectName} variant={isCustomer ? 'customer' : 'company'} onNavigate={onNavigate} />
 
-      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
-        <div className="max-w-[820px] mx-auto flex flex-col gap-6">
-          <div className="flex items-start justify-between gap-3 flex-wrap">
-            <div>
+      <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
+        <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
+          <div className="flex items-start justify-between gap-3 flex-wrap min-w-0">
+            <div className="min-w-0">
               <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Workforce</p>
-              <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+              <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
               {location && (
                 <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> {location}
@@ -312,12 +312,15 @@ export default function ProjectWorkforceScreen({
                   </p>
                 )}
                 <div>
+                  <label className="sr-only" htmlFor="workforce-role">Role</label>
                   <input
+                    id="workforce-role"
                     className={inputClass}
                     style={inputStyle}
                     placeholder="Role (e.g. Site Supervisor)"
                     value={roleInput}
                     onChange={e => { setRoleInput(e.target.value); setAddError(null) }}
+                    aria-invalid={Boolean(addError && !roleInput.trim())}
                   />
                   <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                     {ROLE_SUGGESTIONS.map(suggestion => (
@@ -325,7 +328,7 @@ export default function ProjectWorkforceScreen({
                         key={suggestion}
                         type="button"
                         onClick={() => setRoleInput(suggestion)}
-                        className="h-7 px-2.5 rounded-full text-[11.5px] font-semibold cursor-pointer border-0"
+                        className="min-h-11 h-11 px-3 rounded-full text-[11.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
                         style={{ fontFamily: FONT_BODY, backgroundColor: '#F4F0EC', color: '#68636D' }}
                       >
                         {suggestion}
@@ -333,7 +336,7 @@ export default function ProjectWorkforceScreen({
                     ))}
                   </div>
                 </div>
-                {addError && <p className="text-[12.5px] text-[#DC2626] m-0" style={{ fontFamily: FONT_BODY }}>{addError}</p>}
+                {addError && <p className="text-[12.5px] text-[#DC2626] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{addError}</p>}
                 <div className="flex items-center gap-3">
                   <button type="button" onClick={handleAddMember} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
                     Add Member
@@ -347,8 +350,18 @@ export default function ProjectWorkforceScreen({
           )}
 
           {error && (
-            <div className="rounded-[12px] px-4 py-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+            <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
               <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{error}</p>
+              {!isCustomer && (
+                <button
+                  type="button"
+                  onClick={() => { void refetch() }}
+                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                >
+                  Try again
+                </button>
+              )}
             </div>
           )}
 
@@ -359,7 +372,7 @@ export default function ProjectWorkforceScreen({
                 <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No site team has been added for this project yet.</p>
               ) : customerRoster.map(member => (
                 <div key={`${member.displayName}-${member.role}`} className="rounded-[14px] bg-white p-4" style={{ border: '1px solid #E3DDD7' }}>
-                  <p className="text-[14px] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>{member.displayName}</p>
+                  <p className="text-[14px] font-semibold m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{member.displayName}</p>
                   <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{member.role}</p>
                 </div>
               ))}
@@ -373,7 +386,7 @@ export default function ProjectWorkforceScreen({
                 <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading site team…</p>
               </div>
             </SectionCard>
-          ) : members.length === 0 ? (
+          ) : workforceStatus === 'error' ? null : members.length === 0 ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
                 <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>

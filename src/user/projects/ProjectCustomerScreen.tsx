@@ -85,16 +85,16 @@ export default function ProjectCustomerScreen({
   const isHomeownerOwned = Boolean(project && !project.organizationId)
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
           <ProjectSubNav active="customer" projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
-          <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
+          <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
             <div className="max-w-[560px] mx-auto flex flex-col gap-6 min-w-0">
-              <div>
+              <div className="min-w-0">
                 <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Customer</p>
-                <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
+                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
                 <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                   Link one Houzeify homeowner so they can see published progress and shared documents.
                 </p>
@@ -108,7 +108,7 @@ export default function ProjectCustomerScreen({
               ) : status === 'idle' || status === 'loading' ? (
                 <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading customer…</p>
               ) : status === 'error' ? (
-                <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+                <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }} role="alert">
                   <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Couldn’t load customer</p>
                   <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Something went wrong fetching this project’s customer link. Try again in a moment.</p>
                   <button
@@ -123,10 +123,10 @@ export default function ProjectCustomerScreen({
                         })
                         .catch(() => setStatus('error'))
                     }}
-                    className="h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
+                    className="h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
                     style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
                   >
-                    Retry
+                    Try again
                   </button>
                 </div>
               ) : customer ? (
@@ -134,18 +134,18 @@ export default function ProjectCustomerScreen({
                   <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0" style={{ fontFamily: FONT_MONO }}>
                     {customer.status === 'active' ? 'Linked' : 'Invite pending'}
                   </p>
-                  <p className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{customer.fullName ?? customer.email ?? 'Customer'}</p>
-                  {customer.email && <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{customer.email}</p>}
+                  <p className="text-[16px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{customer.fullName ?? customer.email ?? 'Customer'}</p>
+                  {customer.email && <p className="text-[13px] text-[#68636D] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{customer.email}</p>}
                   {!confirmUnlink ? (
-                    <button type="button" onClick={() => setConfirmUnlink(true)} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 self-start" style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: FONT_BODY }}>
+                    <button type="button" onClick={() => setConfirmUnlink(true)} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 self-start focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: FONT_BODY }}>
                       Unlink
                     </button>
                   ) : (
                     <div className="flex flex-col sm:flex-row gap-2">
-                      <button type="button" disabled={busy} onClick={() => void onUnlink()} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                      <button type="button" disabled={busy} onClick={() => void onUnlink()} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
                         Confirm unlink
                       </button>
-                      <button type="button" onClick={() => setConfirmUnlink(false)} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white" style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}>
+                      <button type="button" onClick={() => setConfirmUnlink(false)} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}>
                         Cancel
                       </button>
                     </div>
@@ -162,17 +162,18 @@ export default function ProjectCustomerScreen({
                     required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="w-full h-11 px-3 rounded-[10px] text-[13.5px] min-w-0"
+                    className="w-full h-11 px-3 rounded-[10px] text-[13.5px] min-w-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
                     style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
                     placeholder="name@example.com"
+                    aria-invalid={Boolean(formError)}
                   />
-                  {formError && <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{formError}</p>}
-                  <button type="submit" disabled={busy} className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 self-start" style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                  {formError && <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{formError}</p>}
+                  <button type="submit" disabled={busy} className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 self-start focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
                     {busy ? 'Sending…' : 'Send invite'}
                   </button>
                 </form>
               )}
-              {formError && customer && <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{formError}</p>}
+              {formError && customer && <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{formError}</p>}
             </div>
           </main>
         </div>
