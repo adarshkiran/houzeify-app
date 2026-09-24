@@ -111,6 +111,11 @@ Phase 8 — Hozie / BD / Legacy (P3)
 Phase 9 — Final UX / Accessibility
   S22  Contrast, focus, touch targets, ProjectSubNav overflow across 320–1440
   S23  FINAL PRODUCT AUDIT
+
+Estimation module (foundation landed after Phase 9 S22 a11y):
+  Estimates list / create / workspace overview under ProjectSubNav
+  See HOUZEIFY_ESTIMATION_FOUNDATION_IMPLEMENTATION_REPORT.md
+  Next: AI Estimation Advisor (no LLM in foundation)
 ```
 
 **Screen 01 = S01 Company Home** — first implementation prompt after this roadmap.

@@ -78,6 +78,13 @@
       "when": 1789944000000,
       "tag": "0010_module_08_customer",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1790000000000,
+      "tag": "0011_estimation_foundation",
+      "breakpoints": true
     }
   ]
 }

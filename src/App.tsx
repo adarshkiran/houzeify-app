@@ -76,6 +76,9 @@ import ProjectTeamScreen from '@/user/projects/ProjectTeamScreen'
 import ProjectMessagesScreen from '@/user/projects/ProjectMessagesScreen'
 import ProjectDocumentsScreen from '@/user/projects/ProjectDocumentsScreen'
 import ProjectBoqScreen from '@/user/projects/ProjectBoqScreen'
+import ProjectEstimatesScreen from '@/user/projects/ProjectEstimatesScreen'
+import CreateEstimateScreen from '@/user/projects/CreateEstimateScreen'
+import EstimateWorkspaceScreen from '@/user/projects/EstimateWorkspaceScreen'
 import ProjectTasksScreen from '@/user/projects/ProjectTasksScreen'
 import ProjectIssuesScreen from '@/user/projects/ProjectIssuesScreen'
 import ProjectProgressScreen from '@/user/projects/ProjectProgressScreen'
@@ -260,6 +263,9 @@ type AppScreen =
   | 'project-workforce'
   | 'project-live-site'
   | 'project-boq'
+  | 'project-estimates'
+  | 'project-estimate-create'
+  | 'project-estimate-workspace'
   | 'project-customer'
   | 'project-reports'
   | 'project-settings'
@@ -438,6 +444,9 @@ const SCREEN_GROUPS: { label: string; screens: { id: AppScreen; label: string }[
       { id: 'project-workforce', label: 'Project — Workforce' },
       { id: 'project-live-site', label: 'Project — Live Site' },
       { id: 'project-boq', label: 'Project — Bill of Quantities' },
+      { id: 'project-estimates', label: 'Project — Estimates' },
+      { id: 'project-estimate-create', label: 'Project — Create Estimate' },
+      { id: 'project-estimate-workspace', label: 'Project — Estimate Workspace' },
       { id: 'project-customer', label: 'Project — Customer' },
       { id: 'project-reports', label: 'Project — Reports' },
       { id: 'project-settings', label: 'Project — Settings' },
@@ -473,6 +482,9 @@ function screenNeedsDevProject(s: AppScreen): boolean {
     s === 'project-workforce' ||
     s === 'project-documents' ||
     s === 'project-boq' ||
+    s === 'project-estimates' ||
+    s === 'project-estimate-create' ||
+    s === 'project-estimate-workspace' ||
     s === 'project-team' ||
     s === 'project-customer' ||
     s === 'project-reports' ||
@@ -2155,6 +2167,38 @@ export default function App() {
           />
         </div>
       )}
+      {screen === 'project-estimates' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <ProjectEstimatesScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            organizationId={projectData.organization_id}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'project-estimate-create' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <CreateEstimateScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            organizationId={projectData.organization_id}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'project-estimate-workspace' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <EstimateWorkspaceScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            organizationId={projectData.organization_id}
+            estimateId={projectData.estimate_id}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+
       {screen === 'project-tasks' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ProjectTasksScreen

@@ -43,6 +43,7 @@ const PROJECT_NAV_ITEMS: { id: ProjectNavId; label: string }[] = [
   { id: 'liveSite', label: 'Live Site' },
   { id: 'documents', label: 'Documents' },
   { id: 'boq', label: 'BOQ' },
+  { id: 'estimates', label: 'Estimates' },
   { id: 'team', label: 'Team' },
   { id: 'customer', label: 'Customer' },
   { id: 'reports', label: 'Reports' },

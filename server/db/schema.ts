@@ -823,3 +823,144 @@ export const boqItems = pgTable(
 
 export type BoqItemRow = typeof boqItems.$inferSelect
 export type NewBoqItemRow = typeof boqItems.$inferInsert
+
+// ─── estimates / estimate_versions / estimate_items ─────────────────────
+// Estimation foundation — SEPARATE from project BOQ (boq_sections/boq_items)
+// and from the homeowner New-Build estimator (src/data/boq*.ts). Estimates
+// are versioned from day one; BOQ mapping / AI / live pricing are out of
+// scope for this foundation. Money columns on estimate_items reuse the
+// same scaled-integer convention as BOQ (boqMoney.ts) when items are added
+// later — S22 creates the tables and Version 1 Draft only.
+
+export const estimates = pgTable(
+  'estimates',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    organizationId: text('organization_id')
+      .notNull()
+      .references(() => organizations.id, { onDelete: 'cascade' }),
+    projectId: text('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    // Optional linked homeowner (from project_customers when present). Null
+    // when the project has no customer yet — never fabricated.
+    customerUserId: text('customer_user_id').references(() => users.id, { onDelete: 'set null' }),
+    name: text('name').notNull(),
+    // draft | in_review | shared | approved | changes_requested | final | archived
+    // Create path only writes 'draft' today.
+    status: text('status').notNull().default('draft'),
+    // detailed_boq | rate_per_sqft | hybrid
+    pricingMethod: text('pricing_method').notNull(),
+    currency: text('currency').notNull().default('INR'),
+    location: text('location'),
+    // Built-up area in whole sq.ft when known (rate_per_sqft / hybrid).
+    areaSqft: integer('area_sqft'),
+    // Points at estimate_versions.id — set after Version 1 insert (no FK to
+    // avoid circular create order; service-validated).
+    currentVersionId: text('current_version_id'),
+    createdBy: text('created_by')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  table => [
+    index('estimates_project_id_idx').on(table.projectId),
+    index('estimates_organization_id_idx').on(table.organizationId),
+    index('estimates_project_id_updated_at_idx').on(table.projectId, table.updatedAt),
+  ],
+)
+
+export type EstimateRow = typeof estimates.$inferSelect
+export type NewEstimateRow = typeof estimates.$inferInsert
+
+export const estimateVersions = pgTable(
+  'estimate_versions',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    estimateId: text('estimate_id')
+      .notNull()
+      .references(() => estimates.id, { onDelete: 'cascade' }),
+    versionNumber: integer('version_number').notNull(),
+    // Mirrors estimate status at snapshot time; Version 1 starts as draft.
+    status: text('status').notNull().default('draft'),
+    createdBy: text('created_by')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  table => [
+    uniqueIndex('estimate_versions_estimate_id_version_unique').on(table.estimateId, table.versionNumber),
+    index('estimate_versions_estimate_id_idx').on(table.estimateId),
+  ],
+)
+
+export type EstimateVersionRow = typeof estimateVersions.$inferSelect
+export type NewEstimateVersionRow = typeof estimateVersions.$inferInsert
+
+export const estimateItems = pgTable(
+  'estimate_items',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    estimateVersionId: text('estimate_version_id')
+      .notNull()
+      .references(() => estimateVersions.id, { onDelete: 'cascade' }),
+    category: text('category'),
+    name: text('name').notNull(),
+    description: text('description'),
+    quantityMilli: bigint('quantity_milli', { mode: 'number' }),
+    unit: text('unit'),
+    ratePaise: bigint('rate_paise', { mode: 'number' }),
+    amountPaise: bigint('amount_paise', { mode: 'number' }),
+    // manual_override | organization_price_book | project_rate |
+    // market_reference | ai_reference — contract only; no live engines yet.
+    rateSource: text('rate_source'),
+    effectiveDate: text('effective_date'),
+    confidence: text('confidence'),
+    notes: text('notes'),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  table => [index('estimate_items_estimate_version_id_idx').on(table.estimateVersionId)],
+)
+
+export type EstimateItemRow = typeof estimateItems.$inferSelect
+export type NewEstimateItemRow = typeof estimateItems.$inferInsert
+
+// Future Organization Price Book — table only; no UI in this foundation.
+export const organizationRateEntries = pgTable(
+  'organization_rate_entries',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    organizationId: text('organization_id')
+      .notNull()
+      .references(() => organizations.id, { onDelete: 'cascade' }),
+    kind: text('kind').notNull(), // material | labour
+    name: text('name').notNull(),
+    unit: text('unit').notNull(),
+    ratePaise: bigint('rate_paise', { mode: 'number' }).notNull(),
+    effectiveFrom: text('effective_from').notNull(),
+    effectiveTo: text('effective_to'),
+    createdBy: text('created_by')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  table => [
+    index('organization_rate_entries_org_id_idx').on(table.organizationId),
+    index('organization_rate_entries_org_name_idx').on(table.organizationId, table.name),
+  ],
+)
+
+export type OrganizationRateEntryRow = typeof organizationRateEntries.$inferSelect
+export type NewOrganizationRateEntryRow = typeof organizationRateEntries.$inferInsert

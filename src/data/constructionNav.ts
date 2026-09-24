@@ -72,6 +72,7 @@ export const PROJECT_NAV_ROUTES = {
   liveSite: 'project-live-site', // S18 — KEEP COMING SOON until camera/storage infra
   documents: 'project-documents', // existing
   boq: 'project-boq', // renders ProjectBoqScreen — deliberately distinct from the homeowner New-Build BOQ flow (boq-overview/detailed-boq/...), which is estimate-authoring, not a project-workspace record
+  estimates: 'project-estimates', // Estimation foundation — list/create/workspace; not BOQ
   team: 'project-team', // existing
   customer: 'project-customer',
   photos: 'project-photos',
