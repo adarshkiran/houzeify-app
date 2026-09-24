@@ -80,9 +80,9 @@ export default function RenovateProfessionalsScreen({
                           <span className="text-[14.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{pro.name}</span>
                           <div className="flex items-center gap-3 flex-wrap text-[12.5px]" style={{ fontFamily: FONT_BODY }}>
                             <span className="flex items-center gap-1 text-[var(--hz-ink)] font-medium"><IcoStar /> {pro.rating.toFixed(1)} <span className="text-[var(--hz-ink-subtle)] font-normal">({pro.reviewCount} reviews)</span></span>
-                            <span className="text-[#CAC7C6]">·</span>
+                            <span className="text-[var(--hz-border-strong)]">·</span>
                             <span className="text-[var(--hz-ink)]">{pro.experienceYears} years experience</span>
-                            <span className="text-[#CAC7C6]">·</span>
+                            <span className="text-[var(--hz-border-strong)]">·</span>
                             <span className="text-[var(--hz-ink)]">{pro.projectsCompleted.toLocaleString('en-IN')}+ projects</span>
                           </div>
                         </div>

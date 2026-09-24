@@ -702,7 +702,7 @@ function DevScreenSwitcher({ current, onJump }: { current: AppScreen; onJump: (s
                       color: current === s.id ? 'var(--hz-black)' : 'var(--hz-black)',
                       fontWeight: current === s.id ? 600 : 400,
                     }}
-                    onMouseEnter={e => { if (current !== s.id) e.currentTarget.style.backgroundColor = '#CAC7C6' }}
+                    onMouseEnter={e => { if (current !== s.id) e.currentTarget.style.backgroundColor = 'var(--hz-border-strong)' }}
                     onMouseLeave={e => { if (current !== s.id) e.currentTarget.style.backgroundColor = 'transparent' }}
                   >
                     {s.label}

@@ -125,7 +125,7 @@ function OverviewChrome({
   children: ReactNode
 }) {
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-page)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         {isCompanyUser
           ? <PartnerNavRail active="projects" onNavigate={onNavigate} organizationId={organizationId} />
@@ -525,7 +525,7 @@ export default function ProjectOverviewScreen({
 
   if (audience === 'unknown' && listsPending) {
     return (
-      <div className="flex flex-col h-full min-w-0" style={{ backgroundColor: '#FBF9F7' }}>
+      <div className="flex flex-col h-full min-w-0" style={{ backgroundColor: 'var(--hz-page)' }}>
         <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
           <div className="max-w-[1000px] mx-auto flex flex-col gap-6 min-w-0">
             <SkeletonLines rows={6} />

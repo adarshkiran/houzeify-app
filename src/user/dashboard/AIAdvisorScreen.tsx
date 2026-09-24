@@ -205,7 +205,7 @@ function AIAdvisorHeader({ onBack, onNew }: { onBack: () => void; onNew: () => v
         >
           <IcoBack />
         </button>
-        <div className="w-10 h-10 rounded-[12px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0" style={{ boxShadow: '0 0 0 1px rgba(243,234,255,0.10)' }}>
+        <div className="w-10 h-10 rounded-[12px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0" style={{ boxShadow: '0 0 0 1px var(--hz-primary-soft)' }}>
           <HIcon size={26} />
         </div>
         <div className="flex flex-col gap-0.5 min-w-0">
@@ -250,7 +250,7 @@ function SuggestedPrompt({ label, onClick }: { label: string; onClick: () => voi
   return (
     <button
       onClick={onClick}
-      className="text-left px-4 py-3 rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] hover:bg-[#F9F5FF] hover:border-[var(--hz-primary)] cursor-pointer transition-all outline-none"
+      className="text-left px-4 py-3 rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] hover:bg-[var(--hz-primary-wash)] hover:border-[var(--hz-primary)] cursor-pointer transition-all outline-none"
       style={{ fontFamily: '"Inter Variable", sans-serif', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
     >
       {label}
@@ -332,7 +332,7 @@ function UserMessage({ content }: { content: string }) {
       <span className="sr-only">You:</span>
       <div
         className="max-w-[75%] px-4 py-3 rounded-[16px] rounded-br-[4px] text-[14px] text-[var(--hz-ink)] leading-[1.65] whitespace-pre-wrap"
-        style={{ backgroundColor: '#F9F5FF', fontFamily: '"Inter Variable", sans-serif' }}
+        style={{ backgroundColor: 'var(--hz-primary-wash)', fontFamily: '"Inter Variable", sans-serif' }}
       >
         {content}
       </div>
@@ -400,7 +400,7 @@ function ChatComposer({ value, onChange, onSubmit, onAttach, disabled }: {
   return (
     <div className="shrink-0 flex flex-col gap-2 px-4 pb-4 pt-3 bg-gradient-to-t from-[var(--hz-surface)] via-[var(--hz-surface)] to-transparent" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
       <div
-        className="flex items-end gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-4 py-2.5 focus-within:border-[var(--hz-primary)] focus-within:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all"
+        className="flex items-end gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-4 py-2.5 focus-within:border-[var(--hz-primary)] focus-within:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all"
         style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.06)', minHeight: 56 }}
       >
         <div className="shrink-0 flex items-center justify-center opacity-50 h-9">

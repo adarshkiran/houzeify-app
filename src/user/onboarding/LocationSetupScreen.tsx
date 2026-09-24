@@ -60,7 +60,7 @@ function DetailField({ label, value, onChange, placeholder, monospace }: {
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className="h-[42px] px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none focus:border-[var(--hz-primary)] transition-colors"
+        className="h-[42px] px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none focus:border-[var(--hz-primary)] transition-colors"
         style={{ fontFamily: monospace ? FONT_MONO : FONT_BODY }}
       />
     </div>
@@ -248,7 +248,7 @@ export default function LocationSetupScreen({
                   aria-expanded={searchOpen && results.length > 0}
                   aria-controls="location-results"
                   autoComplete="off"
-                  className="flex-1 h-full pr-4 text-[15px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                  className="flex-1 h-full pr-4 text-[15px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
               </div>
@@ -274,7 +274,7 @@ export default function LocationSetupScreen({
                         aria-selected={false}
                         onClick={() => selectResult(r)}
                         className="w-full flex items-center gap-3 text-left px-4 py-3 border-0 bg-transparent cursor-pointer hover:bg-[var(--hz-surface)] transition-colors"
-                        style={{ borderTop: i > 0 ? '1px solid #CAC7C6' : 'none' }}
+                        style={{ borderTop: i > 0 ? '1px solid var(--hz-border-strong)' : 'none' }}
                       >
                         <span className="text-[var(--hz-ink-subtle)] shrink-0"><PinIcon size={15} /></span>
                         <span className="flex flex-col">
@@ -338,7 +338,7 @@ export default function LocationSetupScreen({
                 </div>
 
                 {/* Map preview (decorative, non-primary) */}
-                <div className="w-full sm:w-[180px] h-[100px] sm:h-auto rounded-[12px] relative overflow-hidden shrink-0" style={{ backgroundColor: '#F9F5FF', border: '1px solid var(--hz-border)' }} aria-hidden="true">
+                <div className="w-full sm:w-[180px] h-[100px] sm:h-auto rounded-[12px] relative overflow-hidden shrink-0" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-border)' }} aria-hidden="true">
                   <svg width="100%" height="100%" className="absolute inset-0 opacity-60">
                     <defs>
                       <pattern id="loc-grid" width="18" height="18" patternUnits="userSpaceOnUse">
@@ -348,7 +348,7 @@ export default function LocationSetupScreen({
                     <rect width="100%" height="100%" fill="url(#loc-grid)" />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-                    <span className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
+                    <span className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
                       <span className="text-[var(--hz-primary)]"><PinIcon size={16} /></span>
                     </span>
                   </div>
@@ -386,13 +386,13 @@ export default function LocationSetupScreen({
                       style={{
                         fontFamily: FONT_BODY,
                         backgroundColor: locationType === opt ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-                        borderColor: locationType === opt ? 'var(--hz-primary)' : '#CAC7C6',
+                        borderColor: locationType === opt ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                         color: locationType === opt ? 'var(--hz-primary)' : 'var(--hz-black)',
                       }}
                     >
                       <span
                         className="w-[14px] h-[14px] rounded-full border flex items-center justify-center shrink-0"
-                        style={{ borderColor: locationType === opt ? 'var(--hz-primary)' : '#CAC7C6' }}
+                        style={{ borderColor: locationType === opt ? 'var(--hz-primary)' : 'var(--hz-border-strong)' }}
                         aria-hidden="true"
                       >
                         {locationType === opt && <span className="w-[7px] h-[7px] rounded-full bg-[var(--hz-primary)]" />}
@@ -410,11 +410,11 @@ export default function LocationSetupScreen({
                     className="flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11.5px] font-semibold"
                     style={{
                       fontFamily: FONT_BODY,
-                      backgroundColor: confidence === 'high' ? '#DCFCE7' : confidence === 'medium' ? '#FEF3C7' : '#CAC7C6',
-                      color: confidence === 'high' ? '#16A34A' : confidence === 'medium' ? '#D97706' : '#808080',
+                      backgroundColor: confidence === 'high' ? '#DCFCE7' : confidence === 'medium' ? '#FEF3C7' : 'var(--hz-border-strong)',
+                      color: confidence === 'high' ? 'var(--hz-success)' : confidence === 'medium' ? '#D97706' : '#808080',
                     }}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: confidence === 'high' ? '#16A34A' : confidence === 'medium' ? '#D97706' : '#A1A1A1' }} />
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: confidence === 'high' ? 'var(--hz-success)' : confidence === 'medium' ? '#D97706' : '#A1A1A1' }} />
                     {confidenceLabel(confidence)} confidence
                   </span>
                   <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>

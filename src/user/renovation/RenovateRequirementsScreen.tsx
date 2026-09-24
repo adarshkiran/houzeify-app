@@ -57,7 +57,7 @@ function MultiOptionCard({ title, description, selected, onToggle }: { title: st
       onClick={onToggle}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>

@@ -101,7 +101,7 @@ function TextInput({ id, value, onChange, placeholder, error, describedBy, type 
       placeholder={placeholder}
       aria-invalid={error}
       aria-describedby={describedBy}
-      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', error ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', error ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
       style={{ fontFamily: FONT_BODY }}
     />
   )
@@ -122,7 +122,7 @@ function ChipGroup<T extends string>({ options, labels, value, onChange, ariaLab
           style={{
             fontFamily: FONT_BODY,
             backgroundColor: value === opt ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-            borderColor: value === opt ? 'var(--hz-primary)' : '#CAC7C6',
+            borderColor: value === opt ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
             color: value === opt ? 'var(--hz-primary)' : 'var(--hz-black)',
           }}
         >
@@ -427,7 +427,7 @@ export default function AddPortfolioProjectScreen({
                       style={{
                         fontFamily: FONT_BODY,
                         backgroundColor: values.relatedServiceCategory === cat ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-                        borderColor: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : '#CAC7C6',
+                        borderColor: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                         color: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : 'var(--hz-black)',
                       }}
                     >
@@ -449,7 +449,7 @@ export default function AddPortfolioProjectScreen({
                 placeholder="Briefly describe the project, scope and your company's involvement."
                 rows={3}
                 maxLength={DESCRIPTION_MAX}
-                className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                 style={{ fontFamily: FONT_BODY }}
               />
               <div className="flex justify-end mt-1"><span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{values.description.length}/{DESCRIPTION_MAX}</span></div>
@@ -459,7 +459,7 @@ export default function AddPortfolioProjectScreen({
               <FieldLabel optional>Project images</FieldLabel>
               <div className="flex flex-wrap gap-2.5">
                 {images.map((img, i) => (
-                  <div key={img.id} className="relative w-[84px] h-[84px] rounded-[10px] overflow-hidden border" style={{ borderColor: coverId === img.id ? 'var(--hz-primary)' : '#CAC7C6', borderWidth: coverId === img.id ? 2 : 1 }}>
+                  <div key={img.id} className="relative w-[84px] h-[84px] rounded-[10px] overflow-hidden border" style={{ borderColor: coverId === img.id ? 'var(--hz-primary)' : 'var(--hz-border-strong)', borderWidth: coverId === img.id ? 2 : 1 }}>
                     <img src={img.url} alt={`Project photo ${i + 1}`} className="w-full h-full object-cover" />
                     {coverId === img.id && (
                       <span className="absolute top-1 left-1 flex items-center gap-0.5 h-[16px] px-1 rounded-full bg-[var(--hz-primary)] text-white" style={{ fontFamily: FONT_MONO, fontSize: '9px' }}>
@@ -490,7 +490,7 @@ export default function AddPortfolioProjectScreen({
                     onDragLeave={e => { e.preventDefault(); setIsDraggingPhoto(false) }}
                     onDrop={handlePhotoDrop}
                     className="w-[84px] h-[84px] rounded-[10px] border border-dashed flex flex-col items-center justify-center gap-1 cursor-pointer text-[var(--hz-primary)] transition-colors"
-                    style={{ borderColor: isDraggingPhoto ? 'var(--hz-primary)' : '#CAC7C6', backgroundColor: isDraggingPhoto ? '#F9F5FF' : 'transparent' }}
+                    style={{ borderColor: isDraggingPhoto ? 'var(--hz-primary)' : 'var(--hz-border-strong)', backgroundColor: isDraggingPhoto ? 'var(--hz-primary-wash)' : 'transparent' }}
                   >
                     {uploading ? (
                       <svg className="animate-spin" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="var(--hz-primary)" strokeWidth="2" strokeOpacity="0.25" /><path d="M8 2a6 6 0 0 1 6 6" stroke="var(--hz-primary)" strokeWidth="2" strokeLinecap="round" /></svg>
@@ -519,7 +519,7 @@ export default function AddPortfolioProjectScreen({
                     aria-checked={visibility === v}
                     onClick={() => setVisibility(v)}
                     className="relative text-left flex flex-col gap-0.5 rounded-[10px] p-3 border transition-all cursor-pointer"
-                    style={{ backgroundColor: visibility === v ? '#F9F5FF' : 'var(--hz-surface)', borderColor: visibility === v ? 'var(--hz-primary)' : '#CAC7C6', borderWidth: visibility === v ? 2 : 1 }}
+                    style={{ backgroundColor: visibility === v ? 'var(--hz-primary-wash)' : 'var(--hz-surface)', borderColor: visibility === v ? 'var(--hz-primary)' : 'var(--hz-border-strong)', borderWidth: visibility === v ? 2 : 1 }}
                   >
                     <span className="text-[13px] font-semibold" style={{ fontFamily: FONT_HEAD, color: visibility === v ? 'var(--hz-primary)' : 'var(--hz-black)' }}>{VISIBILITY_LABELS[v]}</span>
                     <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{VISIBILITY_DESCRIPTIONS[v]}</span>

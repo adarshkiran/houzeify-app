@@ -97,7 +97,7 @@ function TextInput({ id, value, onChange, placeholder, error, describedBy, type 
       placeholder={placeholder}
       aria-invalid={error}
       aria-describedby={describedBy}
-      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', error ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', error ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
       style={{ fontFamily: FONT_BODY }}
     />
   )
@@ -118,7 +118,7 @@ function ChipGroup<T extends string>({ options, labels, value, onChange, ariaLab
           style={{
             fontFamily: FONT_BODY,
             backgroundColor: value === opt ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-            borderColor: value === opt ? 'var(--hz-primary)' : '#CAC7C6',
+            borderColor: value === opt ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
             color: value === opt ? 'var(--hz-primary)' : 'var(--hz-black)',
           }}
         >
@@ -141,7 +141,7 @@ function serviceCategoryLabel(slug: string): string {
 }
 
 function statusDotColor(status: ProjectStatus): string {
-  if (status === 'completed') return '#16A34A'
+  if (status === 'completed') return 'var(--hz-success)'
   if (status === 'ongoing') return '#D97706'
   return '#A1A1A1'
 }
@@ -156,7 +156,7 @@ function ProjectCard({ project, onEdit, onRemove }: { project: PortfolioProject;
         {cover ? (
           <img src={cover.url} alt={`${project.name} cover`} className="w-full h-full object-cover" />
         ) : (
-          <span className="text-[#CAC7C6]"><ImageIcon /></span>
+          <span className="text-[var(--hz-border-strong)]"><ImageIcon /></span>
         )}
       </div>
       <div className="flex flex-col gap-2 p-4">
@@ -170,14 +170,14 @@ function ProjectCard({ project, onEdit, onRemove }: { project: PortfolioProject;
         </div>
         <div className="flex items-center gap-1.5 flex-wrap text-[12px]" style={{ fontFamily: FONT_BODY }}>
           <span className="text-[var(--hz-ink-muted)]">{PROJECT_TYPE_LABELS[project.projectType]}</span>
-          <span className="text-[#CAC7C6]">·</span>
-          <span className="flex items-center gap-1 font-semibold" style={{ color: statusDotColor(project.status) === '#16A34A' ? '#16A34A' : statusDotColor(project.status) === '#D97706' ? '#D97706' : '#808080' }}>
+          <span className="text-[var(--hz-border-strong)]">·</span>
+          <span className="flex items-center gap-1 font-semibold" style={{ color: statusDotColor(project.status) === 'var(--hz-success)' ? 'var(--hz-success)' : statusDotColor(project.status) === '#D97706' ? '#D97706' : '#808080' }}>
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: statusDotColor(project.status) }} />
             {PROJECT_STATUS_LABELS[project.status]}
           </span>
           {project.year !== null && (
             <>
-              <span className="text-[#CAC7C6]">·</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
               <span className="text-[var(--hz-ink-muted)]">{project.year}</span>
             </>
           )}
@@ -189,7 +189,7 @@ function ProjectCard({ project, onEdit, onRemove }: { project: PortfolioProject;
           <span className="text-[12px] text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_BODY }}>{COMPANY_ROLE_LABELS[project.companyRole]}</span>
           {project.relatedServiceCategory && (
             <>
-              <span className="text-[#CAC7C6] text-[12px]">·</span>
+              <span className="text-[var(--hz-border-strong)] text-[12px]">·</span>
               <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{serviceCategoryLabel(project.relatedServiceCategory)}</span>
             </>
           )}
@@ -400,7 +400,7 @@ function ProjectFormModal({
                     style={{
                       fontFamily: FONT_BODY,
                       backgroundColor: values.relatedServiceCategory === cat ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-                      borderColor: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : '#CAC7C6',
+                      borderColor: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                       color: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : 'var(--hz-black)',
                     }}
                   >
@@ -422,7 +422,7 @@ function ProjectFormModal({
               placeholder="Briefly describe the project, scope and your company's involvement."
               rows={3}
               maxLength={DESCRIPTION_MAX}
-              className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+              className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
               style={{ fontFamily: FONT_BODY }}
             />
             <div className="flex justify-end mt-1"><span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{values.description.length}/{DESCRIPTION_MAX}</span></div>
@@ -432,7 +432,7 @@ function ProjectFormModal({
             <FieldLabel optional>Project images</FieldLabel>
             <div className="flex flex-wrap gap-2.5">
               {images.map((img, i) => (
-                <div key={img.id} className="relative w-[84px] h-[84px] rounded-[10px] overflow-hidden border" style={{ borderColor: coverId === img.id ? 'var(--hz-primary)' : '#CAC7C6', borderWidth: coverId === img.id ? 2 : 1 }}>
+                <div key={img.id} className="relative w-[84px] h-[84px] rounded-[10px] overflow-hidden border" style={{ borderColor: coverId === img.id ? 'var(--hz-primary)' : 'var(--hz-border-strong)', borderWidth: coverId === img.id ? 2 : 1 }}>
                   <img src={img.url} alt={`Project photo ${i + 1}`} className="w-full h-full object-cover" />
                   {coverId === img.id && (
                     <span className="absolute top-1 left-1 flex items-center gap-0.5 h-[16px] px-1 rounded-full bg-[var(--hz-primary)] text-white" style={{ fontFamily: FONT_MONO, fontSize: '9px' }}>
@@ -463,7 +463,7 @@ function ProjectFormModal({
                   onDragLeave={e => { e.preventDefault(); setIsDraggingPhoto(false) }}
                   onDrop={handlePhotoDrop}
                   className="w-[84px] h-[84px] rounded-[10px] border border-dashed flex flex-col items-center justify-center gap-1 cursor-pointer text-[var(--hz-primary)] transition-colors"
-                  style={{ borderColor: isDraggingPhoto ? 'var(--hz-primary)' : '#CAC7C6', backgroundColor: isDraggingPhoto ? '#F9F5FF' : 'transparent' }}
+                  style={{ borderColor: isDraggingPhoto ? 'var(--hz-primary)' : 'var(--hz-border-strong)', backgroundColor: isDraggingPhoto ? 'var(--hz-primary-wash)' : 'transparent' }}
                 >
                   {uploading ? (
                     <svg className="animate-spin" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="var(--hz-primary)" strokeWidth="2" strokeOpacity="0.25" /><path d="M8 2a6 6 0 0 1 6 6" stroke="var(--hz-primary)" strokeWidth="2" strokeLinecap="round" /></svg>
@@ -492,7 +492,7 @@ function ProjectFormModal({
                   aria-checked={visibility === v}
                   onClick={() => setVisibility(v)}
                   className="relative text-left flex flex-col gap-0.5 rounded-[10px] p-3 border transition-all cursor-pointer"
-                  style={{ backgroundColor: visibility === v ? '#F9F5FF' : 'var(--hz-surface)', borderColor: visibility === v ? 'var(--hz-primary)' : '#CAC7C6', borderWidth: visibility === v ? 2 : 1 }}
+                  style={{ backgroundColor: visibility === v ? 'var(--hz-primary-wash)' : 'var(--hz-surface)', borderColor: visibility === v ? 'var(--hz-primary)' : 'var(--hz-border-strong)', borderWidth: visibility === v ? 2 : 1 }}
                 >
                   <span className="text-[13px] font-semibold" style={{ fontFamily: FONT_HEAD, color: visibility === v ? 'var(--hz-primary)' : 'var(--hz-black)' }}>{VISIBILITY_LABELS[v]}</span>
                   <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{VISIBILITY_DESCRIPTIONS[v]}</span>
@@ -883,7 +883,7 @@ export default function PortfolioSetupScreen({
                     return (
                       <div className="flex items-center gap-3 pt-1 border-t border-[var(--hz-border)]">
                         <div className="w-12 h-12 rounded-[10px] overflow-hidden shrink-0 flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
-                          {cover ? <img src={cover.url} alt={`${featured.name} cover`} className="w-full h-full object-cover" /> : <span className="text-[#CAC7C6]"><ImageIcon /></span>}
+                          {cover ? <img src={cover.url} alt={`${featured.name} cover`} className="w-full h-full object-cover" /> : <span className="text-[var(--hz-border-strong)]"><ImageIcon /></span>}
                         </div>
                         <span className="text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{featured.name}</span>
                       </div>
@@ -935,7 +935,7 @@ export default function PortfolioSetupScreen({
               {projects.length > 0 ? (
                 <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                   <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Portfolio Summary</span>
-                  <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                  <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                     <SummaryRow label="Projects" value={String(summary.totalProjects)} />
                     <SummaryRow label="Completed" value={String(summary.completed)} />
                     <SummaryRow label="Ongoing" value={String(summary.ongoing)} />
@@ -951,7 +951,7 @@ export default function PortfolioSetupScreen({
                 </div>
               )}
 
-              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
+              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'var(--hz-primary-soft)', backgroundColor: 'var(--hz-primary-wash)' }}>
                 <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
                   Your portfolio isn&apos;t required to finish setup — you can add projects any time from your organization profile.
                 </p>

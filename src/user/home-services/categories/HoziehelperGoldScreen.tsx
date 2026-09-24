@@ -465,7 +465,7 @@ function HeroBanner() {
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px]"
-      style={{ maxWidth: 990, height: 300, background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, height: 300, background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="absolute inset-0 flex items-center px-5 sm:px-10 lg:px-12">
         <h2 className="text-[22px] sm:text-[32px] lg:text-[40px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0 max-w-[150px] sm:max-w-[420px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
@@ -621,7 +621,7 @@ function OptionsRow({ options, onSelect, isInCart }: { options: DurationOption[]
 function PlanCard({ plan }: { plan: SaverPlan }) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-1.5 rounded-[14px] p-4" style={{ width: 200, border: '2px solid var(--hz-primary)', backgroundColor: '#F9F5FF' }}>
+      <div className="flex flex-col gap-1.5 rounded-[14px] p-4" style={{ width: 200, border: '2px solid var(--hz-primary)', backgroundColor: 'var(--hz-primary-wash)' }}>
         <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{plan.label}</span>
         <span className="text-[15px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
           <span className="font-semibold">₹{plan.packPrice}</span>{' '}
@@ -707,7 +707,7 @@ function SelectablePlanCard({ active, onClick, label, sublabel, price, originalP
     <button
       onClick={onClick}
       className="flex flex-col gap-1.5 rounded-[14px] p-4 text-left cursor-pointer transition-all"
-      style={{ width: 190, border: active ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)', backgroundColor: active ? '#F9F5FF' : 'var(--hz-surface)' }}
+      style={{ width: 190, border: active ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)', backgroundColor: active ? 'var(--hz-primary-wash)' : 'var(--hz-surface)' }}
     >
       <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
       {sublabel && <span className="text-[12px] text-[var(--hz-ink-muted)] -mt-1" style={{ fontFamily: FONT_BODY }}>{sublabel}</span>}

@@ -365,7 +365,7 @@ function IntentCard({ title, description, selected, multi, onSelect }: { title: 
       onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <span className={['text-[13.5px] font-semibold leading-tight pr-5', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
@@ -403,7 +403,7 @@ function HozieAssist({ onAskHozie }: { onAskHozie: () => void }) {
 function ServiceSummary({ lines }: { lines: string[] }) {
   if (lines.length === 0) return null
   return (
-    <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2">
         <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
         <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Your Service</span>
@@ -594,7 +594,7 @@ export default function ServiceCategoryDetailScreen({
                       onChange={e => setOtherDescription(e.target.value)}
                       placeholder="Describe the service you need..."
                       rows={3}
-                      className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                       style={{ fontFamily: FONT_BODY }}
                     />
                   </div>

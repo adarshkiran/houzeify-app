@@ -93,8 +93,8 @@ function ProcessingIcon({ complete }: { complete: boolean }) {
           width: 88,
           height: 88,
           boxShadow: complete
-            ? '0 0 0 4px var(--hz-primary), 0 0 40px rgba(243,234,255,0.10)'
-            : '0 0 32px rgba(243,234,255,0.10)',
+            ? '0 0 0 4px var(--hz-primary), 0 0 40px var(--hz-primary-soft)'
+            : '0 0 32px var(--hz-primary-soft)',
           animation: complete ? undefined : 'estimatePulse 2.8s ease-in-out infinite',
           transition: 'box-shadow 0.6s ease',
         }}
@@ -387,7 +387,7 @@ return (
               {item}
             </span>
             {i < arr.length - 1 && (
-              <span className="text-[12px] text-[#CAC7C6]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>/</span>
+              <span className="text-[12px] text-[var(--hz-border-strong)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>/</span>
             )}
           </span>
         ))}

@@ -31,7 +31,7 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 const CheckBadgeIcon = ({ size = 12 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
@@ -172,7 +172,7 @@ export default function ContractorSelectedScreen({
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-10">
         <div className="max-w-[720px] mx-auto flex flex-col gap-6">
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 26px rgba(243,234,255,0.10)' }}>
+            <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 26px var(--hz-primary-soft)' }}>
               <BigCheckIcon />
             </span>
             <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Contractor Selected</h1>
@@ -201,7 +201,7 @@ export default function ContractorSelectedScreen({
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <p className="text-[14.5px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{name}</p>
                   {listing?.verificationStatus === 'verified' && (
-                    <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
+                    <span className="flex items-center gap-1 text-[11px] font-medium text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
                   )}
                 </div>
                 <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{typeLabel} · {kind === 'organization' ? 'Organization' : 'Individual'}</p>

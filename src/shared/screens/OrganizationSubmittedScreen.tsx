@@ -52,8 +52,8 @@ function ChecklistRow({ label, done }: { label: string; done: boolean }) {
   return (
     <div className="flex items-center justify-between py-1.5">
       <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-        <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
+      <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+        <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
         {done ? 'Complete' : ''}
       </span>
     </div>
@@ -67,7 +67,7 @@ function NextStepCard({ icon, title, description, highlighted, onClick }: { icon
       onClick={onClick}
       className={[
         'relative text-left flex flex-col gap-2 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        highlighted ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        highlighted ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       {highlighted && (
@@ -172,8 +172,8 @@ export default function OrganizationSubmittedScreen({
           {/* Success visual */}
           <div className="flex flex-col items-center gap-5 text-center">
             <div className="relative w-[84px] h-[84px] flex items-center justify-center" aria-hidden="true">
-              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(18px)' }} />
-              <span className="relative w-[72px] h-[72px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 30px rgba(243,234,255,0.10)' }}>
+              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', filter: 'blur(18px)' }} />
+              <span className="relative w-[72px] h-[72px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 30px var(--hz-primary-soft)' }}>
                 <BigCheckIcon />
               </span>
             </div>
@@ -201,9 +201,9 @@ export default function OrganizationSubmittedScreen({
             <div className="flex items-center gap-2 pt-2 mt-1 border-t border-[var(--hz-border)] w-full justify-center flex-wrap">
               <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Owner</span>
               <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{resolvedOwnerName}</span>
-              <span className="text-[#CAC7C6]">·</span>
-              <span className="flex items-center gap-1.5 h-6 px-2 rounded-full text-[10.5px] font-semibold tracking-[0.04em] uppercase" style={{ fontFamily: FONT_MONO, backgroundColor: '#DCFCE7', color: '#16A34A' }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A]" /> Active
+              <span className="text-[var(--hz-border-strong)]">·</span>
+              <span className="flex items-center gap-1.5 h-6 px-2 rounded-full text-[10.5px] font-semibold tracking-[0.04em] uppercase" style={{ fontFamily: FONT_MONO, backgroundColor: '#DCFCE7', color: 'var(--hz-success)' }}>
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-success)]" /> Active
               </span>
             </div>
           </div>
@@ -212,7 +212,7 @@ export default function OrganizationSubmittedScreen({
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-5" style={{ maxWidth: 720 }}>
             <div className="rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-1" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
               <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] mb-1" style={{ fontFamily: FONT_MONO }}>Setup Complete</span>
-              <div className="flex flex-col divide-y divide-[#CAC7C6]">
+              <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                 {isProfessionalContext && <ChecklistRow label="Professional profile" done={setupStatus.professionalProfileComplete} />}
                 <ChecklistRow label="Organization information" done={setupStatus.companyInformationComplete} />
                 <ChecklistRow label="Services" done={setupStatus.servicesComplete} />
@@ -222,8 +222,8 @@ export default function OrganizationSubmittedScreen({
                 <div className="flex items-center justify-between py-1.5">
                   <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Business verification</span>
                   {resolvedVerification === 'verified' ? (
-                    <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-                      <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
+                    <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+                      <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
                       {VERIFICATION_STATUS_LABELS[resolvedVerification]}
                     </span>
                   ) : (
@@ -237,7 +237,7 @@ export default function OrganizationSubmittedScreen({
             </div>
 
             {resolvedVerification !== 'verified' && (
-              <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+              <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
                 <div className="flex items-center gap-2">
                   <span className="text-[var(--hz-primary)] shrink-0"><ShieldIcon /></span>
                   <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>

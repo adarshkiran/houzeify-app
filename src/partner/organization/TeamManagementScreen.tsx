@@ -450,7 +450,7 @@ export default function TeamManagementScreen({
             </p>
             <div className="flex flex-col gap-3 mb-4">
               {ROLE_ORDER.map(r => (
-                <div key={r} className="pb-3" style={{ borderBottom: r !== 'viewer' ? '1px solid #CAC7C6' : 'none' }}>
+                <div key={r} className="pb-3" style={{ borderBottom: r !== 'viewer' ? '1px solid var(--hz-border-strong)' : 'none' }}>
                   <p className="text-[13px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{ROLE_LABELS[r]}</p>
                   <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{ROLE_DESCRIPTIONS[r]}</p>
                 </div>

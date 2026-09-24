@@ -43,7 +43,7 @@ const IcoClock = () => (
 )
 
 const STATUS_STYLE: Record<CustomerBooking['status'], { bg: string; color: string }> = {
-  confirmed: { bg: '#DCFCE7', color: '#16A34A' },
+  confirmed: { bg: '#DCFCE7', color: 'var(--hz-success)' },
   cancelled: { bg: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)' },
 }
 

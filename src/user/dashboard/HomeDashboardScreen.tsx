@@ -187,7 +187,7 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
       <label htmlFor="ai-prompt-input" className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>
         Ask Hozie
       </label>
-      <div className="flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[14px] px-4 h-[52px] focus-within:border-[var(--hz-primary)] focus-within:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all">
+      <div className="flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[14px] px-4 h-[52px] focus-within:border-[var(--hz-primary)] focus-within:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all">
         <div className="shrink-0 flex items-center justify-center opacity-60">
           <HIcon size={16} />
         </div>

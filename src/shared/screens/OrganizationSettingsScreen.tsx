@@ -212,7 +212,7 @@ export default function OrganizationSettingsScreen({
             <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>Reference only — not yet assigned to any team member.</p>
             <div className="flex flex-col gap-3 mb-4">
               {ROLE_ORDER.map(role => (
-                <div key={role} className="pb-3" style={{ borderBottom: role !== 'viewer' ? '1px solid #CAC7C6' : 'none' }}>
+                <div key={role} className="pb-3" style={{ borderBottom: role !== 'viewer' ? '1px solid var(--hz-border-strong)' : 'none' }}>
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{ROLE_LABELS[role]}</span>
                     <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{ROLE_SHORT_DESCRIPTIONS[role]}</span>

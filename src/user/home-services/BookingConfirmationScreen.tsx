@@ -212,8 +212,8 @@ export default function BookingConfirmationScreen({
               Only the icon/copy vary; layout stays the same. */}
           <div className="flex flex-col items-center gap-5 text-center" role="status">
             <div className="relative w-[84px] h-[84px] flex items-center justify-center" aria-hidden="true">
-              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(18px)' }} />
-              <span className="relative w-[72px] h-[72px] rounded-full flex items-center justify-center" style={{ backgroundColor: booking ? 'var(--hz-primary)' : '#B45309', boxShadow: '0 8px 30px rgba(243,234,255,0.10)' }}>
+              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', filter: 'blur(18px)' }} />
+              <span className="relative w-[72px] h-[72px] rounded-full flex items-center justify-center" style={{ backgroundColor: booking ? 'var(--hz-primary)' : '#B45309', boxShadow: '0 8px 30px var(--hz-primary-soft)' }}>
                 {booking ? <BigCheckIcon /> : <IncompleteIcon />}
               </span>
             </div>

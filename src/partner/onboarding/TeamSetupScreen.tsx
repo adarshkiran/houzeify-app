@@ -88,7 +88,7 @@ function RoleCard({ role, selected, onSelect }: { role: MemberRole; selected: bo
       onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-0.5 rounded-[12px] p-3 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <span className={['text-[13px] font-semibold', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{ROLE_LABELS[role]}</span>
@@ -110,7 +110,7 @@ function PendingInvitationCard({ invitation, onResend, onEdit, onRemove }: { inv
         {invitation.name && <span className="text-[11.5px] text-[var(--hz-ink-subtle)] truncate" style={{ fontFamily: FONT_BODY }}>{invitation.email}</span>}
         <div className="flex items-center gap-1.5 mt-0.5">
           <span className="text-[11px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_BODY }}>{ROLE_LABELS[invitation.role]}</span>
-          <span className="text-[#CAC7C6]">·</span>
+          <span className="text-[var(--hz-border-strong)]">·</span>
           <span className="flex items-center gap-1 text-[11px] text-[#D97706]" style={{ fontFamily: FONT_BODY }}><ClockIcon /> {justResent ? 'Invitation resent' : 'Invitation pending'}</span>
         </div>
       </div>
@@ -357,8 +357,8 @@ export default function TeamSetupScreen({
                   <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{resolvedCompanyName}</span>
                 </div>
                 <div className="flex flex-col items-end gap-0.5 shrink-0">
-                  <span className="flex items-center gap-1 text-[11.5px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>
+                  <span className="flex items-center gap-1 text-[11.5px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+                    <span className="w-3.5 h-3.5 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>
                     Active
                   </span>
                   <span className="text-[10.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Full organization access</span>
@@ -386,14 +386,14 @@ export default function TeamSetupScreen({
                       placeholder="e.g. Priya Sharma"
                       aria-invalid={nameTouched && !!nameError}
                       aria-describedby={nameTouched && nameError ? 'invite-name-error' : undefined}
-                      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', nameTouched && nameError ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', nameTouched && nameError ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                       style={{ fontFamily: FONT_BODY }}
                     />
                     {nameTouched && nameError && <FieldError id="invite-name-error" message={nameError} />}
                   </div>
                   <div>
                     <FieldLabel>Email address</FieldLabel>
-                    <div className="flex items-center border rounded-[10px] bg-[var(--hz-surface)] h-[44px] overflow-hidden transition-colors" style={{ borderColor: emailTouched && emailError ? '#D97706' : '#CAC7C6' }}>
+                    <div className="flex items-center border rounded-[10px] bg-[var(--hz-surface)] h-[44px] overflow-hidden transition-colors" style={{ borderColor: emailTouched && emailError ? '#D97706' : 'var(--hz-border-strong)' }}>
                       <div className="flex items-center pl-3 pr-1.5 shrink-0 text-[var(--hz-ink-subtle)]"><MailIcon /></div>
                       <input
                         id="invite-email"
@@ -404,7 +404,7 @@ export default function TeamSetupScreen({
                         placeholder="name@company.com"
                         aria-invalid={emailTouched && !!emailError}
                         aria-describedby={emailTouched && emailError ? 'invite-email-error' : undefined}
-                        className="flex-1 h-full pr-3 text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                        className="flex-1 h-full pr-3 text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -422,7 +422,7 @@ export default function TeamSetupScreen({
                       value={phone}
                       onChange={e => setPhone(e.target.value)}
                       placeholder="+91 98765 43210"
-                      className="flex-1 h-full pr-3 text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                      className="flex-1 h-full pr-3 text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                       style={{ fontFamily: FONT_BODY }}
                     />
                   </div>
@@ -445,7 +445,7 @@ export default function TeamSetupScreen({
                     placeholder={`Welcome to ${resolvedCompanyName} on Houzeify.`}
                     rows={2}
                     maxLength={MESSAGE_MAX}
-                    className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                   <div className="flex justify-end mt-1"><span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{message.length}/{MESSAGE_MAX}</span></div>
@@ -506,7 +506,7 @@ export default function TeamSetupScreen({
             <div className="order-2 lg:sticky lg:top-6 flex flex-col gap-5">
               <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                 <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Your Team</span>
-                <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                   <SummaryRow label="Owner" value={summary.owners} />
                   <SummaryRow label="Admins" value={summary.admins} />
                   <SummaryRow label="Project Managers" value={summary.projectManagers} />

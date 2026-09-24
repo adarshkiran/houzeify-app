@@ -580,7 +580,7 @@ function ServiceTabs({ onJump }: { onJump: (id: string) => void }) {
             onClick={() => onJump(s.id)}
             className="flex flex-col items-center justify-between gap-1.5 cursor-pointer border-0 bg-transparent p-0 shrink-0 w-[86px]"
           >
-            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)] shrink-0">
+            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
               {s.icon}
             </div>
             <span className="text-[12px] text-[var(--hz-ink)] text-center leading-tight break-words w-full" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
@@ -601,7 +601,7 @@ function HeroBanner({ onExplore }: { onExplore: () => void }) {
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px]"
-      style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="relative flex flex-col gap-4 px-5 sm:px-10 lg:px-12 py-8 sm:py-10">
         <span className="text-[11px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Walls &amp; Rooms Painting</span>
@@ -635,7 +635,7 @@ function CategoryBanner({ title, subtitle, icon }: { title: string; subtitle: st
   return (
     <div
       className="w-full rounded-[16px] flex items-center gap-4 px-5 sm:px-8 py-5"
-      style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
+      style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
     >
       <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-[14px] bg-[var(--hz-surface)]/70 flex items-center justify-center text-[var(--hz-primary)] shrink-0 shadow-sm">{icon}</div>
       <div className="flex flex-col gap-1 min-w-0">
@@ -665,7 +665,7 @@ function PaintingLineItemRow({ item, cartCount, onAdd, onViewDetails }: {
 }) {
   return (
     <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 rounded-[12px] p-4" style={CARD_SURFACE}>
-      <div className="w-32 h-32 shrink-0 mx-auto sm:mx-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]">
+      <div className="w-32 h-32 shrink-0 mx-auto sm:mx-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]">
         {item.icon}
       </div>
 
@@ -726,7 +726,7 @@ function ServiceDetailModal({ item, cartCount, onAdd, onClose }: {
         </div>
 
         <div className="flex flex-col gap-3 p-5">
-          <div className="w-16 h-16 rounded-[12px] flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]">{item.icon}</div>
+          <div className="w-16 h-16 rounded-[12px] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]">{item.icon}</div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span className="text-[13.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
               {item.priceLabel === 'starts-at' && <span className="text-[var(--hz-ink-muted)]">Starts at </span>}
@@ -797,7 +797,7 @@ function OptionTile({ label, price, note, selected, onSelect }: { label: string;
     <button
       onClick={onSelect}
       className="flex flex-col gap-2 text-left rounded-[12px] p-3 cursor-pointer transition-all shrink-0 w-[140px] border"
-      style={selected ? { borderColor: 'var(--hz-primary)', background: '#F9F5FF' } : { borderColor: 'var(--hz-border)', background: 'var(--hz-surface)' }}
+      style={selected ? { borderColor: 'var(--hz-primary)', background: 'var(--hz-primary-wash)' } : { borderColor: 'var(--hz-border)', background: 'var(--hz-surface)' }}
     >
       {note && <span className="self-start px-1.5 py-[2px] rounded-[5px] bg-[var(--hz-surface-muted)] text-[10px] text-[var(--hz-ink-muted)] font-semibold" style={{ fontFamily: FONT_BODY }}>{note}</span>}
       <span className="text-[13px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{label}</span>
@@ -808,7 +808,7 @@ function OptionTile({ label, price, note, selected, onSelect }: { label: string;
 
 function AddonTile({ label, price, qty, onChangeQty }: { label: string; price: number; qty: number; onChangeQty: (qty: number) => void }) {
   return (
-    <div className="flex flex-col gap-2 text-left rounded-[12px] p-3 shrink-0 w-[150px] border" style={{ borderColor: qty > 0 ? 'var(--hz-primary)' : 'var(--hz-border)', background: qty > 0 ? '#F9F5FF' : 'var(--hz-surface)' }}>
+    <div className="flex flex-col gap-2 text-left rounded-[12px] p-3 shrink-0 w-[150px] border" style={{ borderColor: qty > 0 ? 'var(--hz-primary)' : 'var(--hz-border)', background: qty > 0 ? 'var(--hz-primary-wash)' : 'var(--hz-surface)' }}>
       <span className="text-[13px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{label}</span>
       <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>+ ₹{price.toLocaleString('en-IN')}</span>
       {qty > 0 ? (

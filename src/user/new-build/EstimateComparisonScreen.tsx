@@ -206,7 +206,7 @@ function ScenarioCard({
     <div
       className="flex-1 min-w-0 flex flex-col gap-4 p-5 sm:p-6 transition-all duration-200"
       style={{
-        background: emphasized ? 'linear-gradient(180deg, #F9F5FF 0%, var(--hz-surface) 55%)' : 'var(--hz-surface)',
+        background: emphasized ? 'linear-gradient(180deg, var(--hz-primary-wash) 0%, var(--hz-surface) 55%)' : 'var(--hz-surface)',
         border: emphasized ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)',
         borderRadius: 20,
         boxShadow: emphasized ? '0 10px 30px -12px rgba(114,46,209,0.22)' : '0 1px 8px rgba(0,0,0,0.04)',
@@ -256,7 +256,7 @@ function ScenarioCard({
           style={{
             fontFamily: '"Inter Variable", sans-serif',
             ...(selected
-              ? { backgroundColor: '#16A34A', color: 'var(--hz-on-primary)', border: 'none' }
+              ? { backgroundColor: 'var(--hz-success)', color: 'var(--hz-on-primary)', border: 'none' }
               : emphasized
                 ? { backgroundColor: 'var(--hz-primary)', color: 'var(--hz-on-primary)', border: 'none' }
                 : { backgroundColor: 'transparent', color: 'var(--hz-primary)', border: '1.5px solid var(--hz-primary)' }),
@@ -309,7 +309,7 @@ function RecommendationBar({ label, percent }: { label: string; percent: number 
   return (
     <div className="flex items-center gap-3">
       <span className="text-[12px] text-[var(--hz-ink)] w-[92px] shrink-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
-      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
+      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
         <div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: 'var(--hz-primary)' }} />
       </div>
       <span className="text-[12px] font-semibold w-[30px] text-right shrink-0" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: 'var(--hz-primary)' }}>{percent}%</span>
@@ -322,7 +322,7 @@ function HozieRecommendationCard({ scenarios, onAskWhy }: { scenarios: EstimateS
   return (
     <div
       className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4"
-      style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, var(--hz-surface) 100%)', border: '1px solid rgba(243,234,255,0.10)' }}
+      style={{ background: 'linear-gradient(135deg, var(--hz-primary-wash) 0%, var(--hz-surface) 100%)', border: '1px solid var(--hz-primary-soft)' }}
     >
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
@@ -587,7 +587,7 @@ return (
                     Compare material quality, finishes and estimated costs before you finalize your project estimate.
                   </p>
                 </div>
-                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid var(--hz-primary-soft)' }}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
                   <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>86% AI confidence</span>
                 </div>

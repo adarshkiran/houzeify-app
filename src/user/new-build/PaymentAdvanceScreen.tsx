@@ -115,7 +115,7 @@ export default function PaymentAdvanceScreen({
                 <InfoRow
                   label="Payment Status"
                   value={
-                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: remaining === 0 ? '#DCFCE7' : '#FEF3C7', color: remaining === 0 ? '#16A34A' : '#D97706', fontFamily: FONT_MONO }}>
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: remaining === 0 ? '#DCFCE7' : '#FEF3C7', color: remaining === 0 ? 'var(--hz-success)' : '#D97706', fontFamily: FONT_MONO }}>
                     {(remaining === 0 ? 'PAID IN FULL' : 'ADVANCE PAID').toUpperCase()}
                   </span>
                   }

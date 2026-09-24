@@ -489,7 +489,7 @@ function ItemDetailDrawer({ item, categoryName, onClose, onAskHozie, onViewFullD
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: '#F9F5FF' }}>
+              <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: 'var(--hz-primary-wash)' }}>
                 <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Total</span>
                 <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{formatINR(item.totalCost)}</span>
               </div>
@@ -509,7 +509,7 @@ function ItemDetailDrawer({ item, categoryName, onClose, onAskHozie, onViewFullD
                 <ConfidenceBadge level={item.confidence} />
               </div>
 
-              <div className="rounded-[12px] p-4 flex flex-col gap-2" style={{ backgroundColor: '#F9F5FF' }}>
+              <div className="rounded-[12px] p-4 flex flex-col gap-2" style={{ backgroundColor: 'var(--hz-primary-wash)' }}>
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 rounded-[8px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={14} /></span>
                   <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Note</span>
@@ -539,7 +539,7 @@ function ItemDetailDrawer({ item, categoryName, onClose, onAskHozie, onViewFullD
 
 function HozieCheckCard({ onAskHozie, onAnalyzePlan }: { onAskHozie: () => void; onAnalyzePlan: () => void }) {
   return (
-    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Check</span>
@@ -792,8 +792,8 @@ return (
 
                   {/* BOQ status */}
                   <div className="flex flex-wrap items-center gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.12s both' }}>
-                    <span className="inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-[11px] font-semibold" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: '"Inter Variable", sans-serif' }}>
-                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#16A34A' }} /> Ready for review
+                    <span className="inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-[11px] font-semibold" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: '"Inter Variable", sans-serif' }}>
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--hz-success)' }} /> Ready for review
                     </span>
                     <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Based on {estimateVersion ? `Estimate Version ${estimateVersion.versionNumber}` : 'your Estimate'}</span>
                   </div>
@@ -872,7 +872,7 @@ return (
                           </div>
                         ))}
                       </div>
-                      <div className="rounded-[12px] p-4 flex flex-col gap-1 mt-1" style={{ backgroundColor: '#F9F5FF' }}>
+                      <div className="rounded-[12px] p-4 flex flex-col gap-1 mt-1" style={{ backgroundColor: 'var(--hz-primary-wash)' }}>
                         <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Project Total</span>
                         <span className="text-[22px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{estimateVersion ? `${formatINR(estimateVersion.minCost)} — ${formatINR(estimateVersion.maxCost)}` : formatINR(overview.totalValue)}</span>
                       </div>

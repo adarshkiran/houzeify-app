@@ -170,8 +170,8 @@ function QuickCard({ icon, label, sublabel, selected, onClick }: QuickCardProps)
       className={[
         'flex flex-col items-center gap-2 py-3 px-2 flex-1 border rounded-[12px] cursor-pointer transition-all duration-200 outline-none group',
         selected
-          ? 'border-[var(--hz-primary)] bg-[#F9F5FF] text-[var(--hz-primary)]'
-          : 'border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[var(--hz-primary)] hover:bg-[#F9F5FF] hover:text-[var(--hz-primary)] hover:-translate-y-0.5',
+          ? 'border-[var(--hz-primary)] bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]'
+          : 'border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[var(--hz-primary)] hover:bg-[var(--hz-primary-wash)] hover:text-[var(--hz-primary)] hover:-translate-y-0.5',
       ].join(' ')}
     >
       <div className={selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink-muted)] group-hover:text-[var(--hz-primary)]'}>{icon}</div>
@@ -299,7 +299,7 @@ function HozieCard() {
       </div>
 
       {/* Welcome bubble */}
-      <div className="bg-[#F9F5FF] border border-[var(--hz-primary)]/30 rounded-[14px] p-4 sm:p-5">
+      <div className="bg-[var(--hz-primary-wash)] border border-[var(--hz-primary)]/30 rounded-[14px] p-4 sm:p-5">
         <div className="text-[18px] sm:text-[20px] font-bold text-[var(--hz-ink)] tracking-[-0.02em] mb-2" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hi, I&apos;m Hozie.</div>
         <div className="text-[13px] sm:text-[14px] text-[var(--hz-ink-muted)] leading-relaxed" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           I can help you plan your construction, estimate costs and understand what it takes to build your project.

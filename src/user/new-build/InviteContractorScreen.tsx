@@ -43,7 +43,7 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 const CheckBadgeIcon = ({ size = 12 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const InfoIcon = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#A1A1A1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="14" cy="14" r="11" /><line x1="14" y1="12.5" x2="14" y2="19" /><circle cx="14" cy="9" r="0.6" fill="#A1A1A1" stroke="none" /></svg>
@@ -285,7 +285,7 @@ export default function InviteContractorScreen({
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <p className="text-[14.5px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{name}</p>
                     {listing!.verificationStatus === 'verified' && (
-                      <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
+                      <span className="flex items-center gap-1 text-[11px] font-medium text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
                     )}
                   </div>
                   <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{typeLabel}</p>
@@ -325,7 +325,7 @@ export default function InviteContractorScreen({
           </SectionCard>
 
           {/* Invitation summary */}
-          <div className="rounded-[16px] p-5" style={{ backgroundColor: '#F9F5FF', border: '1px solid var(--hz-primary-soft)' }}>
+          <div className="rounded-[16px] p-5" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
             <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-primary)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>You Are Inviting</p>
             <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{name}</p>
             <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-primary)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>To Project</p>

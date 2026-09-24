@@ -1135,7 +1135,7 @@ function ServiceTabs({ onJump }: { onJump: (id: string) => void }) {
             // every label's BOTTOM flush with the same line.
             className="flex flex-col items-center justify-between gap-1.5 cursor-pointer border-0 bg-transparent p-0 shrink-0 w-[76px]"
           >
-            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)] shrink-0">
+            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
               {s.icon}
             </div>
             <span className="text-[12px] text-[var(--hz-ink)] text-center leading-tight" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
@@ -1152,7 +1152,7 @@ function HeroBanner() {
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px] h-[170px] sm:h-[200px]"
-      style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="absolute inset-0 flex items-center px-5 sm:px-10 lg:px-12">
         <h2 className="text-[20px] sm:text-[28px] lg:text-[32px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0 max-w-[150px] sm:max-w-[380px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
@@ -1181,7 +1181,7 @@ function CategoryBanner({ title, subtitle, icon }: { title: string; subtitle: st
   return (
     <div
       className="w-full rounded-[16px] flex items-center gap-4 px-5 sm:px-8 py-5"
-      style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
+      style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
     >
       <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-[14px] bg-[var(--hz-surface)]/70 flex items-center justify-center text-[var(--hz-primary)] shrink-0 shadow-sm">{icon}</div>
       <div className="flex flex-col gap-1 min-w-0">
@@ -1317,7 +1317,7 @@ function OptionsModal({ item, icon, cartCountForOption, onAddOption, onClose }: 
             const cartCount = cartCountForOption(opt.id)
             return (
               <div key={opt.id} className="flex items-center gap-3 rounded-[12px] p-3" style={CARD_SURFACE}>
-                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)] shrink-0">
+                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
                   {icon}
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col gap-1">
@@ -1409,7 +1409,7 @@ function PackageCard({ pkg, onAdd, onEdit, cartCount, editButtonRef }: {
 // list reads better than a stack of elevated cards at this density.
 const PKG_ROW_BASE = 'flex items-center gap-3 rounded-[10px] border px-3.5 py-3 transition-all'
 const PKG_ROW_DEFAULT = 'bg-[var(--hz-surface)] border-[var(--hz-border)] hover:border-[var(--hz-primary)] cursor-pointer'
-const PKG_ROW_SELECTED = 'bg-[#F9F5FF] border-[var(--hz-primary)] cursor-pointer'
+const PKG_ROW_SELECTED = 'bg-[var(--hz-primary-wash)] border-[var(--hz-primary)] cursor-pointer'
 
 /** Generic single-select sub-picker — reused for both the waxing
  *  "choose the type of waxing" list (real per-area SalonItemOption[])

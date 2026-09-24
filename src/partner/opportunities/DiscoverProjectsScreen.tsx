@@ -79,7 +79,7 @@ function FilterChip({ label, selected, onClick }: { label: string; selected: boo
       style={{
         fontFamily: FONT_BODY,
         backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-        borderColor: selected ? 'var(--hz-primary)' : '#CAC7C6',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
         color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
@@ -100,17 +100,17 @@ function OpportunityCard({ opportunity, isMatch, onView }: { opportunity: Projec
       </div>
       <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
         <span className="flex items-center gap-1"><HomeIconSmall /> {OPPORTUNITY_PROJECT_TYPE_LABELS[opportunity.projectType]}</span>
-        <span className="text-[#CAC7C6]">·</span>
+        <span className="text-[var(--hz-border-strong)]">·</span>
         <span className="flex items-center gap-1"><PinIcon /> {opportunity.location}</span>
       </div>
       <div className="flex items-center gap-1.5 flex-wrap text-[12.5px]" style={{ fontFamily: FONT_BODY }}>
         {budget && <span className="font-semibold text-[var(--hz-ink)]">Budget: {budget}</span>}
-        {budget && <span className="text-[#CAC7C6]">·</span>}
+        {budget && <span className="text-[var(--hz-border-strong)]">·</span>}
         <span className="text-[var(--hz-ink-subtle)]">{formatPostedDate(opportunity.postedAt)}</span>
       </div>
       {isMatch && (
-        <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-          <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon /></span>
+        <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+          <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon /></span>
           Matches your services
         </span>
       )}
@@ -244,7 +244,7 @@ export default function DiscoverProjectsScreen({
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Search projects..."
                 aria-label="Search projects by name, location or service"
-                className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                 style={{ fontFamily: FONT_BODY }}
               />
             </div>

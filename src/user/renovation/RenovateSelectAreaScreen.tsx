@@ -102,10 +102,10 @@ function AreaTile({ area, selected, onToggle }: { area: typeof RENOVATION_AREA_O
       onClick={onToggle}
       className={[
         'relative flex flex-col items-center gap-2 text-center rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <div className={['w-11 h-11 rounded-[10px] flex items-center justify-center', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[#F9F5FF] text-[var(--hz-primary)]'].join(' ')}>
+      <div className={['w-11 h-11 rounded-[10px] flex items-center justify-center', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]'].join(' ')}>
         {area.icon}
       </div>
       <span className={['text-[13px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>

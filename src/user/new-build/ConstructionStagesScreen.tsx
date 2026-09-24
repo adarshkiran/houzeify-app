@@ -163,9 +163,9 @@ function NavItem({ icon, label, active, onClick }: {
 // ─── Status badge (never color-only) ─────────────────────────────────────────
 
 const STATUS_META: Record<StageStatus, { label: string; bg: string; fg: string; dot: string }> = {
-  completed: { label: 'Completed', bg: '#E3FBF0', fg: '#0F7A4E', dot: '#16A34A' },
+  completed: { label: 'Completed', bg: '#E3FBF0', fg: '#0F7A4E', dot: 'var(--hz-success)' },
   'in-progress': { label: 'In Progress', bg: '#FFEEE0', fg: '#C2410C', dot: '#D97706' },
-  upcoming: { label: 'Upcoming', bg: '#CAC7C6', fg: '#808080', dot: '#A1A1A1' },
+  upcoming: { label: 'Upcoming', bg: 'var(--hz-border-strong)', fg: '#808080', dot: '#A1A1A1' },
 }
 
 function StageStatusBadge({ status }: { status: StageStatus }) {
@@ -251,7 +251,7 @@ function FilterChips({ value, onChange }: { value: 'all' | StageStatus; onChange
             fontFamily: '"Inter Variable", sans-serif',
             backgroundColor: value === opt.value ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
             color: value === opt.value ? 'var(--hz-primary)' : '#808080',
-            borderColor: value === opt.value ? 'var(--hz-primary)' : '#CAC7C6',
+            borderColor: value === opt.value ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
           }}
         >
           {opt.label}
@@ -333,7 +333,7 @@ function StageCard({ stage, expanded, onToggle, onAskHozie }: {
     <div
       className="flex-1 min-w-0 bg-[var(--hz-surface)] overflow-hidden transition-all duration-200"
       style={{
-        border: isCurrent ? '2px solid #D97706' : '1px solid #CAC7C6',
+        border: isCurrent ? '2px solid #D97706' : '1px solid var(--hz-border-strong)',
         borderRadius: 16,
         backgroundColor: isCurrent ? '#FFF7F0' : 'var(--hz-surface)',
       }}
@@ -416,7 +416,7 @@ function StageIndicator({ status, isLast }: { status: StageStatus; isLast: boole
   // The line below a stage reflects progress already made — only a completed
   // stage "fills" the segment beneath it; in-progress/upcoming stay neutral
   // since the path hasn't been travelled past that point yet.
-  const lineColor = status === 'completed' ? meta.dot : '#CAC7C6'
+  const lineColor = status === 'completed' ? meta.dot : 'var(--hz-border-strong)'
   return (
     <div className="hidden sm:flex flex-col items-center shrink-0" style={{ width: 32 }}>
       <div
@@ -424,7 +424,7 @@ function StageIndicator({ status, isLast }: { status: StageStatus; isLast: boole
         style={{
           width: 32, height: 32,
           backgroundColor: status === 'upcoming' ? 'var(--hz-surface)' : meta.dot,
-          border: status === 'upcoming' ? '2px solid #CAC7C6' : 'none',
+          border: status === 'upcoming' ? '2px solid var(--hz-border-strong)' : 'none',
         }}
       >
         {status === 'completed' && <IcoCheck />}
@@ -621,7 +621,7 @@ return (
                         Hozie has organized your project into construction stages so you can understand the sequence, time and major costs involved.
                       </p>
                     </div>
-                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid var(--hz-primary-soft)' }}>
                       <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
                       <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>78% AI confidence</span>
                     </div>

@@ -153,7 +153,7 @@ function ServiceCategoryCard({ category, selected, onToggle }: {
       onClick={onToggle}
       className={[
         'relative text-left flex items-start gap-3 rounded-[14px] p-3.5 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <div className={['w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
@@ -463,7 +463,7 @@ export default function EditServicesScreen({
               disabled={!canSave || saving}
               className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold border-0"
               style={{
-                backgroundColor: canSave && !saving ? 'var(--hz-primary)' : '#CAC7C6',
+                backgroundColor: canSave && !saving ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                 color: canSave && !saving ? 'white' : '#A1A1A1',
                 fontFamily: FONT_BODY,
                 cursor: canSave && !saving ? 'pointer' : 'not-allowed',

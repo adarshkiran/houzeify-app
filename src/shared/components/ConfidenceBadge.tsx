@@ -2,7 +2,7 @@ import type { ConfidenceLevel } from '@/data/materials'
 
 const STYLES: Record<ConfidenceLevel, { bg: string; color: string; label: string }> = {
   high: { bg: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', label: 'High' },
-  medium: { bg: '#CAC7C6', color: 'var(--hz-ink-muted)', label: 'Medium' },
+  medium: { bg: 'var(--hz-border-strong)', color: 'var(--hz-ink-muted)', label: 'Medium' },
   low: { bg: '#F7F5F3', color: 'var(--hz-ink-subtle)', label: 'Low' },
 }
 

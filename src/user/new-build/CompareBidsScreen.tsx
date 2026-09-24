@@ -31,7 +31,7 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 const CheckBadgeIcon = ({ size = 12 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const EmptyIcon = () => (
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#A1A1A1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="8" width="28" height="20" rx="2.5" /><path d="M4 14h28" /><path d="M11 21h6" /></svg>
@@ -65,7 +65,7 @@ function IncludedList({ text, empty }: { text: string; empty: string }) {
     <div className="flex flex-col gap-1">
       {lines.map((line, i) => (
         <span key={i} className="flex items-start gap-1.5 text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
-          <span className="text-[#16A34A] shrink-0">✓</span> {line}
+          <span className="text-[var(--hz-success)] shrink-0">✓</span> {line}
         </span>
       ))}
     </div>
@@ -93,7 +93,7 @@ function ContractorHeader({ item, onViewProfile }: { item: EnrichedBid; onViewPr
         <div className="flex items-center gap-1.5 flex-wrap">
           <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{item.name}</p>
           {item.listing?.verificationStatus === 'verified' && (
-            <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
+            <span className="flex items-center gap-1 text-[11px] font-medium text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
           )}
         </div>
         <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{item.typeLabel} · {item.kind === 'organization' ? 'Organization' : 'Individual'}</p>
@@ -314,18 +314,18 @@ export default function CompareBidsScreen({
                       { label: 'Bid Amount', render: (i: EnrichedBid) => (
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{formatBidAmount(i.bid.amount)}</span>
-                          {i.isLowestBid && <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_BODY }}>Lowest Bid</span>}
+                          {i.isLowestBid && <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_BODY }}>Lowest Bid</span>}
                         </div>
                       ) },
                       { label: 'Estimated Duration', render: (i: EnrichedBid) => (
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{formatBidDuration(i.bid.duration, i.bid.durationUnit)}</span>
-                          {i.isShortestDuration && <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_BODY }}>Shortest Duration</span>}
+                          {i.isShortestDuration && <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_BODY }}>Shortest Duration</span>}
                         </div>
                       ) },
                       { label: 'Proposed Start Date', render: (i: EnrichedBid) => <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{i.bid.proposedStartDate ? formatDate(i.bid.proposedStartDate) : 'Not specified'}</span> },
                       { label: 'Verification', render: (i: EnrichedBid) => i.listing?.verificationStatus === 'verified'
-                        ? <span className="flex items-center gap-1 text-[12.5px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
+                        ? <span className="flex items-center gap-1 text-[12.5px] font-medium text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
                         : <span className="text-[12.5px]" style={{ color: '#999999', fontFamily: FONT_BODY }}>Not verified</span> },
                       { label: 'Proposal', render: (i: EnrichedBid) => (
                         <div className="flex flex-col gap-1.5 max-w-[260px]">
@@ -368,7 +368,7 @@ export default function CompareBidsScreen({
                       type="button"
                       onClick={() => setMobileIndex(i)}
                       className={`shrink-0 h-9 px-3.5 rounded-[10px] text-[12.5px] font-medium cursor-pointer ${mobileIndex === i ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] text-[var(--hz-ink-muted)]'}`}
-                      style={{ border: mobileIndex === i ? '1px solid var(--hz-primary)' : '1px solid #CAC7C6', fontFamily: FONT_BODY }}
+                      style={{ border: mobileIndex === i ? '1px solid var(--hz-primary)' : '1px solid var(--hz-border-strong)', fontFamily: FONT_BODY }}
                     >
                       {item.name}
                     </button>
@@ -387,14 +387,14 @@ export default function CompareBidsScreen({
                       <AttributeBlock label="Bid Amount">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-[19px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{formatBidAmount(sorted[mobileIndex].bid.amount)}</span>
-                          {sorted[mobileIndex].isLowestBid && <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_BODY }}>Lowest Bid</span>}
+                          {sorted[mobileIndex].isLowestBid && <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_BODY }}>Lowest Bid</span>}
                         </div>
                       </AttributeBlock>
 
                       <AttributeBlock label="Estimated Duration">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{formatBidDuration(sorted[mobileIndex].bid.duration, sorted[mobileIndex].bid.durationUnit)}</span>
-                          {sorted[mobileIndex].isShortestDuration && <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_BODY }}>Shortest Duration</span>}
+                          {sorted[mobileIndex].isShortestDuration && <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_BODY }}>Shortest Duration</span>}
                         </div>
                       </AttributeBlock>
 

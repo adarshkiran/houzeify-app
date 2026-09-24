@@ -39,7 +39,7 @@ function Chip({ label, selected, onSelect }: { label: string; selected: boolean;
       style={{
         fontFamily: FONT_BODY,
         backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-        borderColor: selected ? 'var(--hz-primary)' : '#CAC7C6',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
         color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
@@ -113,7 +113,7 @@ export default function RenovateEstimateScreen({
 
               <div
                 className="rounded-[20px] p-6 sm:p-8 flex flex-col gap-3"
-                style={{ background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, var(--hz-surface) 55%)', border: '1px solid var(--hz-border)', boxShadow: '0 4px 32px rgba(114,46,209,0.08)' }}
+                style={{ background: 'linear-gradient(135deg, var(--hz-primary-soft) 0%, var(--hz-surface) 55%)', border: '1px solid var(--hz-border)', boxShadow: '0 4px 32px color-mix(in oklch, var(--hz-primary) 14%, transparent)' }}
               >
                 <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Estimated Renovation Cost</span>
                 <span className="text-[36px] sm:text-[46px] font-semibold leading-none" style={{ fontFamily: FONT_HEAD, color: 'var(--hz-primary)' }}>

@@ -99,7 +99,7 @@ export default function ReviewAcceptAgreementScreen({
           </SectionCard>
 
           {!accepted ? (
-            <div className="rounded-[16px] p-5 flex flex-col gap-4" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+            <div className="rounded-[16px] p-5 flex flex-col gap-4" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
               <label className="flex items-start gap-2.5 cursor-pointer">
                 <input
                   type="checkbox" checked={acknowledged} onChange={e => setAcknowledged(e.target.checked)}
@@ -120,7 +120,7 @@ export default function ReviewAcceptAgreementScreen({
             </div>
           ) : (
             <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#DCFCE7' }}>
-              <p className="text-[13.5px] font-semibold m-0" style={{ color: '#16A34A', fontFamily: FONT_HEAD }}>Agreement accepted ✓</p>
+              <p className="text-[13.5px] font-semibold m-0" style={{ color: 'var(--hz-success)', fontFamily: FONT_HEAD }}>Agreement accepted ✓</p>
               <button
                 onClick={handleContinue}
                 className="h-[48px] rounded-[12px] text-white text-[13.5px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"

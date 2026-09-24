@@ -78,7 +78,7 @@ function OtpInput({ otp, onChange, stage, disabled }: OtpInputProps) {
   const boxStyle = (index: number): string => {
     const filled = !!otp[index]
     if (stage === 'error') return 'border-[var(--hz-danger)] bg-[#FEF2F2] text-[var(--hz-danger)]'
-    if (stage === 'success') return 'border-[#16A34A] bg-[#F0FDF4] text-[#16A34A]'
+    if (stage === 'success') return 'border-[var(--hz-success)] bg-[#F0FDF4] text-[var(--hz-success)]'
     if (filled) return 'border-[var(--hz-primary)] bg-[var(--hz-primary-soft)] text-[var(--hz-ink)]'
     return 'border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] focus:border-[var(--hz-primary)] focus:ring-2 focus:ring-[var(--hz-primary)]/10'
   }
@@ -125,7 +125,7 @@ function ResendTimer({ seconds, onResend, resending }: { seconds: number; onRese
       {seconds > 0 ? (
         <>
           Didn&apos;t receive the code?{' '}
-          <span className="text-[#CAC7C6]">Resend in {pad(mm)}:{pad(ss)}</span>
+          <span className="text-[var(--hz-border-strong)]">Resend in {pad(mm)}:{pad(ss)}</span>
         </>
       ) : (
         <>
@@ -225,7 +225,7 @@ export default function OtpScreen({
     return 'Verify & Continue →'
   }
 
-  const buttonBg = stage === 'success' ? '#16A34A' : 'var(--hz-primary)'
+  const buttonBg = stage === 'success' ? 'var(--hz-success)' : 'var(--hz-primary)'
 
   return (
     <div

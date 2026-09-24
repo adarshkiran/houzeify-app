@@ -249,7 +249,7 @@ function BidForm({
           </div>
         </header>
         <main className="flex-1 flex flex-col items-center justify-center gap-4 px-5 py-10 text-center relative z-10">
-          <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: '#16A34A' }}>
+          <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)' }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
           </span>
           <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 max-w-[360px]" style={{ fontFamily: FONT_HEAD }}>You have already submitted a bid for this project.</p>
@@ -336,9 +336,9 @@ function BidForm({
             <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Review your proposal details before sending it to the homeowner.</p>
             <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[var(--hz-ink-muted)] mt-1" style={{ fontFamily: FONT_BODY }}>
               <span className="font-semibold text-[var(--hz-ink)]">{opportunityTitle}</span>
-              <span className="text-[#CAC7C6]">·</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
               <span className="flex items-center gap-1"><HomeIconSmall /> {opportunityProjectType}</span>
-              <span className="text-[#CAC7C6]">·</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
               <span className="flex items-center gap-1"><PinIcon /> {opportunityLocation}</span>
             </div>
           </div>
@@ -353,7 +353,7 @@ function BidForm({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <FieldLabel>Your bid amount</FieldLabel>
-                    <div className="flex items-center border rounded-[10px] bg-[var(--hz-surface)] h-[44px] overflow-hidden transition-colors" style={{ borderColor: showError('amount') ? '#D97706' : '#CAC7C6' }}>
+                    <div className="flex items-center border rounded-[10px] bg-[var(--hz-surface)] h-[44px] overflow-hidden transition-colors" style={{ borderColor: showError('amount') ? '#D97706' : 'var(--hz-border-strong)' }}>
                       <div className="flex items-center pl-3.5 pr-1 shrink-0 text-[var(--hz-ink-muted)] font-semibold text-[14px]" style={{ fontFamily: FONT_BODY }}>₹</div>
                       <input
                         id="bid-amount"
@@ -367,7 +367,7 @@ function BidForm({
                         placeholder="e.g. 4200000"
                         aria-invalid={showError('amount')}
                         aria-describedby={showError('amount') ? 'bid-amount-error' : undefined}
-                        className="flex-1 h-full pr-3 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                        className="flex-1 h-full pr-3 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -389,7 +389,7 @@ function BidForm({
                         placeholder="e.g. 12"
                         aria-invalid={showError('duration')}
                         aria-describedby={showError('duration') ? 'bid-duration-error' : undefined}
-                        className={['w-[84px] h-[44px] px-3 rounded-[10px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('duration') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                        className={['w-[84px] h-[44px] px-3 rounded-[10px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', showError('duration') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                         style={{ fontFamily: FONT_BODY }}
                       />
                       <select
@@ -432,7 +432,7 @@ function BidForm({
                   placeholder="Explain your approach, experience and what you propose to deliver."
                   rows={4}
                   maxLength={PROPOSAL_MAX}
-                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
                 <div className="flex justify-end -mt-1"><span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{values.proposal.length}/{PROPOSAL_MAX}</span></div>
@@ -445,7 +445,7 @@ function BidForm({
                   placeholder="Materials, labour, site supervision, execution..."
                   rows={3}
                   maxLength={INCLUDED_MAX}
-                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
                 <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Descriptive information only — this isn&apos;t a BOQ.</p>
@@ -458,7 +458,7 @@ function BidForm({
                   placeholder="Mention anything that is not included in your proposed price."
                   rows={3}
                   maxLength={EXCLUSIONS_MAX}
-                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
               </SectionCard>
@@ -494,14 +494,14 @@ function BidForm({
 
               <SectionCard title="Project">
                 <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{opportunityTitle}</span>
-                <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                   <SummaryRow label="Budget" value={opportunityBudget ?? 'Not specified'} />
                   <SummaryRow label="Location" value={opportunityLocation} />
                 </div>
               </SectionCard>
 
               <SectionCard title="Your Bid">
-                <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                   <SummaryRow label="Bid amount" value={amountSummary} />
                   <SummaryRow label="Duration" value={durationSummary} />
                   <SummaryRow label="Start" value={values.proposedStartDate ? values.proposedStartDate : 'Not specified'} />

@@ -270,7 +270,7 @@ function HeroBanner({ onExplore, onBookConsultation }: { onExplore: () => void; 
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px]"
-      style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="relative flex flex-col gap-4 px-5 sm:px-10 lg:px-12 py-8 sm:py-10">
         <span className="text-[11px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Wall Panels</span>
@@ -401,7 +401,7 @@ function DesignCard({ design, cartCount, onBook, onViewDetails }: {
 }) {
   return (
     <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 rounded-[12px] p-4" style={CARD_SURFACE}>
-      <div className="relative w-32 h-32 shrink-0 mx-auto sm:mx-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]">
+      <div className="relative w-32 h-32 shrink-0 mx-auto sm:mx-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]">
         <IcoPanel size={40} />
         {design.newArrival && (
           <span
@@ -467,7 +467,7 @@ function DesignDetailModal({ design, cartCount, onBook, onClose }: {
         </div>
 
         <div className="flex flex-col gap-3 p-5">
-          <div className="w-16 h-16 rounded-[12px] flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]"><IcoPanel size={32} /></div>
+          <div className="w-16 h-16 rounded-[12px] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]"><IcoPanel size={32} /></div>
           <span className="text-[13.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
             Starts at <span className="font-semibold">₹{design.price.toLocaleString('en-IN')}</span> <span className="text-[var(--hz-ink-muted)]">for {design.wallSize} wall</span>
           </span>
@@ -915,7 +915,7 @@ export default function WallPanelsScreen({
                     {activeTab === 'all-looks' || activeTab === 'pastels' ? (
                       filteredDesigns.length === 0 ? (
                         <div className="flex flex-col items-center justify-center gap-2 rounded-[12px] p-10 text-center mt-1" style={CARD_SURFACE}>
-                          <div className="w-12 h-12 rounded-[12px] bg-[#F9F5FF] flex items-center justify-center text-[var(--hz-primary)]"><IcoPanel size={26} /></div>
+                          <div className="w-12 h-12 rounded-[12px] bg-[var(--hz-primary-wash)] flex items-center justify-center text-[var(--hz-primary)]"><IcoPanel size={26} /></div>
                           <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>No designs match your filters</span>
                           <span className="text-[12.5px] text-[var(--hz-ink-muted)] max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Try widening the price range or clearing a collection filter.</span>
                           <button
@@ -951,7 +951,7 @@ export default function WallPanelsScreen({
                       )
                     ) : (
                       <div className="flex flex-col items-center justify-center gap-2 rounded-[12px] p-10 text-center" style={CARD_SURFACE}>
-                        <div className="w-12 h-12 rounded-[12px] bg-[#F9F5FF] flex items-center justify-center text-[var(--hz-primary)]"><IcoPanel size={26} /></div>
+                        <div className="w-12 h-12 rounded-[12px] bg-[var(--hz-primary-wash)] flex items-center justify-center text-[var(--hz-primary)]"><IcoPanel size={26} /></div>
                         <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>More {DESIGN_TABS.find(t => t.id === activeTab)?.label} finishes coming soon</span>
                         <span className="text-[12.5px] text-[var(--hz-ink-muted)] max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Book a free at-home consultation and our designer can show you options in this finish today.</span>
                         <button

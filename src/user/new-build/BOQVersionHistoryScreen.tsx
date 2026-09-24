@@ -208,8 +208,8 @@ function formatDate(iso: string): string {
 
 const STATUS_META: Record<BOQVersionStatus, { label: string; bg: string; fg: string; dot: string }> = {
   active: { label: 'Active', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)', dot: 'var(--hz-primary)' },
-  draft: { label: 'Draft', bg: '#CAC7C6', fg: '#808080', dot: '#A1A1A1' },
-  superseded: { label: 'Superseded', bg: '#F7F5F3', fg: '#A1A1A1', dot: '#CAC7C6' },
+  draft: { label: 'Draft', bg: 'var(--hz-border-strong)', fg: '#808080', dot: '#A1A1A1' },
+  superseded: { label: 'Superseded', bg: '#F7F5F3', fg: '#A1A1A1', dot: 'var(--hz-border-strong)' },
 }
 
 function StatusBadge({ status }: { status: BOQVersionStatus }) {
@@ -259,15 +259,15 @@ function ActiveBOQCard({ version, estimateVersionNumber, onView, onDownload }: {
         </div>
       </div>
 
-      <div className="flex items-center gap-1.5 text-[12px]" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-        <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} /> Ready for contractor review
+      <div className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+        <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} /> Ready for contractor review
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2.5">
         <button onClick={onView} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           View active BOQ →
         </button>
-        <button onClick={onDownload} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[var(--hz-primary)] text-[var(--hz-primary)] text-[13px] font-medium cursor-pointer bg-[var(--hz-surface)] hover:bg-[#F9F5FF] transition-colors" style={{ fontFamily: FONT_BODY }}>
+        <button onClick={onDownload} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[var(--hz-primary)] text-[var(--hz-primary)] text-[13px] font-medium cursor-pointer bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors" style={{ fontFamily: FONT_BODY }}>
           Download PDF
         </button>
       </div>
@@ -311,7 +311,7 @@ function BOQVersionCard({ version, versions, projectId, estimateVersionNumber, i
       <span
         aria-hidden="true"
         className="absolute left-[9px] sm:left-[11px] top-1 w-3 h-3 rounded-full"
-        style={{ backgroundColor: version.status === 'active' ? 'var(--hz-primary)' : '#CAC7C6', boxShadow: version.status === 'active' ? '0 0 0 4px var(--hz-primary-soft)' : 'none' }}
+        style={{ backgroundColor: version.status === 'active' ? 'var(--hz-primary)' : 'var(--hz-border-strong)', boxShadow: version.status === 'active' ? '0 0 0 4px var(--hz-primary-soft)' : 'none' }}
       />
       {!isFirst && (
         <span aria-hidden="true" className="absolute left-[14px] sm:left-[16px] -top-6 w-px h-6" style={{ backgroundColor: 'var(--hz-surface-muted)' }} />
@@ -319,7 +319,7 @@ function BOQVersionCard({ version, versions, projectId, estimateVersionNumber, i
 
       <div
         className="bg-[var(--hz-surface)] rounded-[16px] p-5 flex flex-col gap-4"
-        style={{ border: version.status === 'active' ? '2px solid var(--hz-primary)' : '1px solid #CAC7C6' }}
+        style={{ border: version.status === 'active' ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border-strong)' }}
       >
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2.5 flex-wrap">
@@ -481,7 +481,7 @@ function BOQReadiness({ version }: { version: BOQVersion }) {
 
 function HozieInsight({ message, onAskHozie }: { message: string; onAskHozie: () => void }) {
   return (
-    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Check</span>

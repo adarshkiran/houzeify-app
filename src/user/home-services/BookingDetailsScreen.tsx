@@ -285,7 +285,7 @@ export default function BookingDetailsScreen({
                   onChange={e => setNotes(e.target.value)}
                   placeholder="Add any details that will help the professional…"
                   rows={3}
-                  className="w-full px-3.5 py-3 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none focus:border-[var(--hz-primary)] transition-colors resize-none"
+                  className="w-full px-3.5 py-3 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none focus:border-[var(--hz-primary)] transition-colors resize-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
 

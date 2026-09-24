@@ -480,7 +480,7 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: '#F9F5FF' }}>
+              <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: 'var(--hz-primary-wash)' }}>
                 <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Cost</span>
                 <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{formatINR(item.estimatedCost)}</span>
                 <span className="text-[12px] text-[var(--hz-primary)]/70" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
@@ -533,7 +533,7 @@ function LabourCostSummary({ total, range, sharePct }: { total: string; range: s
       className="bg-[var(--hz-surface)] rounded-[20px] border border-[var(--hz-border)] p-6 sm:p-7 flex flex-col gap-4"
       style={{
         boxShadow: '0 2px 24px rgba(243,234,255,0.07), 0 1px 4px rgba(0,0,0,0.04)',
-        background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, var(--hz-surface) 55%)',
+        background: 'linear-gradient(135deg, var(--hz-primary-soft) 0%, var(--hz-surface) 55%)',
       }}
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -686,7 +686,7 @@ return (
                     Hozie estimates the workers, working days and labour cost required for your project.
                   </p>
                 </div>
-                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid var(--hz-primary-soft)' }}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
                   <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>82% AI confidence</span>
                 </div>

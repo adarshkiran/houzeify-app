@@ -207,11 +207,11 @@ function Breadcrumb({ categoryName, itemName, onBOQ, onItem }: {
   return (
     <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-[12px] flex-wrap min-w-0" style={{ fontFamily: FONT_BODY }}>
       <button onClick={onBOQ} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: 'var(--hz-ink-muted)' }}>Detailed BOQ</button>
-      <span aria-hidden="true" style={{ color: '#CAC7C6' }}>/</span>
+      <span aria-hidden="true" style={{ color: 'var(--hz-border-strong)' }}>/</span>
       <button onClick={onBOQ} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: 'var(--hz-ink-muted)' }}>{categoryName}</button>
-      <span aria-hidden="true" style={{ color: '#CAC7C6' }}>/</span>
+      <span aria-hidden="true" style={{ color: 'var(--hz-border-strong)' }}>/</span>
       <button onClick={onItem} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0 truncate max-w-[220px]" style={{ color: 'var(--hz-ink-muted)' }}>{itemName}</button>
-      <span aria-hidden="true" style={{ color: '#CAC7C6' }}>/</span>
+      <span aria-hidden="true" style={{ color: 'var(--hz-border-strong)' }}>/</span>
       <span className="font-semibold" style={{ color: 'var(--hz-ink)' }}>Edit</span>
     </nav>
   )
@@ -249,7 +249,7 @@ function BOQItemSummaryCompact({ item, categoryName }: { item: BOQItem; category
 function ValidationMessage({ warnings, onAskHozie }: { warnings: string[]; onAskHozie: () => void }) {
   if (warnings.length === 0) {
     return (
-      <div className="flex items-center gap-1.5 text-[12px]" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
+      <div className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
         <IcoCheck /> Within expected range
       </div>
     )
@@ -516,8 +516,8 @@ return (
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <span className="text-[11px] px-2.5 py-1.5 rounded-full" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>{activeVersion ? `BOQ VERSION ${activeVersion.versionNumber}` : 'BOQ VERSION'}</span>
-              <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#16A34A' }} /> ACTIVE
+              <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--hz-success)' }} /> ACTIVE
               </span>
             </div>
           </header>
@@ -614,7 +614,7 @@ return (
                                   value={form.materialRate}
                                   onChange={e => setForm(f => ({ ...f, materialRate: e.target.value === '' ? 0 : parseFloat(e.target.value) }))}
                                   className={inputClass}
-                                  style={{ borderColor: result.validationWarnings.some(w => w.includes('rate')) ? '#F0B429' : '#CAC7C6', maxWidth: 160 }}
+                                  style={{ borderColor: result.validationWarnings.some(w => w.includes('rate')) ? '#F0B429' : 'var(--hz-border-strong)', maxWidth: 160 }}
                                   aria-describedby="f-rate-range"
                                 />
                                 <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>/ {item.unit}</span>
@@ -764,7 +764,7 @@ return (
                       This is now your active BOQ. Version {createdVersion.versionNumber - 1} has been saved to your version history.
                     </p>
                   </div>
-                  <span className="text-[11px] px-2.5 py-1.5 rounded-full" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
+                  <span className="text-[11px] px-2.5 py-1.5 rounded-full" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
                     BOQ VERSION {createdVersion.versionNumber} · ACTIVE
                   </span>
                   <div className="flex flex-col sm:flex-row gap-2.5 w-full sm:w-auto pt-2">
@@ -848,7 +848,7 @@ function LiveCostImpactCard({ item, form, result, recalculating, unit }: {
         <span className="w-7 h-7 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}><IcoArrowDown /></span>
       </div>
 
-      <div className="flex flex-col gap-1.5 rounded-[12px] p-4" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="flex flex-col gap-1.5 rounded-[12px] p-4" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
         <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>Revised</span>
         <div className="flex items-center justify-between py-1">
           <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Quantity</span>
@@ -862,7 +862,7 @@ function LiveCostImpactCard({ item, form, result, recalculating, unit }: {
           <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Labour</span>
           <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{formatINR(result.labourCost)}</span>
         </div>
-        <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid rgba(243,234,255,0.10)' }}>
+        <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid var(--hz-primary-soft)' }}>
           <span className="text-[13px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>Total</span>
           <span className="text-[18px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>{formatINR(result.totalCost)}</span>
         </div>
@@ -892,7 +892,7 @@ function CalculationExplanationCard({ form, result, unit }: { form: Required<BOQ
         ].map(line => (
           <div key={line} className="text-center py-2 px-3 rounded-[10px] text-[12px]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>{line}</div>
         ))}
-        <div className="text-center py-2.5 px-3 rounded-[10px] text-[13px] font-semibold" style={{ backgroundColor: '#F9F5FF', color: 'var(--hz-primary)', fontFamily: FONT_HEAD, border: '1px solid rgba(243,234,255,0.10)' }}>
+        <div className="text-center py-2.5 px-3 rounded-[10px] text-[13px] font-semibold" style={{ backgroundColor: 'var(--hz-primary-wash)', color: 'var(--hz-primary)', fontFamily: FONT_HEAD, border: '1px solid var(--hz-primary-soft)' }}>
           = {formatINR(result.totalCost)} (Revised Item Cost)
         </div>
       </div>
@@ -904,7 +904,7 @@ function CalculationExplanationCard({ form, result, unit }: { form: Required<BOQ
 
 function HozieExplanationCard({ text, onAskHozie }: { text: string; onAskHozie: () => void }) {
   return (
-    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Explains</span>
@@ -965,7 +965,7 @@ function ReviewChangesPanel({ item, result, fieldChangeRows, nextVersionNumber, 
             <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Current</span>
             <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{formatINR(item.totalCost)}</span>
           </div>
-          <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+          <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
             <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>Revised</span>
             <span className="text-[15px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>{formatINR(result.totalCost)}</span>
           </div>

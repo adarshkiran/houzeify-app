@@ -323,8 +323,8 @@ function RecalculatingPanel() {
 function ChangeBadge({ deltaAvg, deltaPct }: { deltaAvg: number; deltaPct: number }) {
   const isUp = deltaAvg > 0
   const isFlat = deltaAvg === 0
-  const color = isFlat ? '#808080' : isUp ? 'var(--hz-danger)' : '#16A34A'
-  const bg = isFlat ? '#CAC7C6' : isUp ? '#FEE2E2' : '#DCFCE7'
+  const color = isFlat ? '#808080' : isUp ? 'var(--hz-danger)' : 'var(--hz-success)'
+  const bg = isFlat ? 'var(--hz-border-strong)' : isUp ? '#FEE2E2' : '#DCFCE7'
   const sign = isFlat ? '' : isUp ? '+' : '−'
   return (
     <span
@@ -572,7 +572,7 @@ return (
                   {showRevisionResult && (
                     <>
                       {/* Revised estimate */}
-                      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+                      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
                         <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Revised Estimate</span>
                         <span className="text-[26px] sm:text-[28px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-ink)' }}>
                           {formatINR(revised.minTotal)} — {formatINR(revised.maxTotal)}
@@ -603,7 +603,7 @@ return (
                           ].map(([label, delta]) => (
                             <div key={label as string} className="flex items-center justify-between">
                               <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
-                              <span className="text-[12px] font-semibold" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: (delta as number) === 0 ? '#A1A1A1' : (delta as number) > 0 ? 'var(--hz-danger)' : '#16A34A' }}>
+                              <span className="text-[12px] font-semibold" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: (delta as number) === 0 ? '#A1A1A1' : (delta as number) > 0 ? 'var(--hz-danger)' : 'var(--hz-success)' }}>
                                 {(delta as number) === 0 ? '—' : `${(delta as number) > 0 ? '+' : '−'}${formatINR(Math.abs(delta as number))}`}
                               </span>
                             </div>
@@ -612,7 +612,7 @@ return (
                       </div>
 
                       {/* Hozie explanation */}
-                      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+                      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
                         <div className="flex items-center gap-2.5">
                           <span className="w-7 h-7 rounded-[9px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
                           <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Explains</span>

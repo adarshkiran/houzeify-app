@@ -429,7 +429,7 @@ function ServiceTabs({ onJump }: { onJump: (id: string) => void }) {
             onClick={() => onJump(s.id)}
             className="flex flex-col items-center justify-between gap-1.5 cursor-pointer border-0 bg-transparent p-0 shrink-0 w-[76px]"
           >
-            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)] shrink-0">
+            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
               {s.icon}
             </div>
             <span className="text-[12px] text-[var(--hz-ink)] text-center leading-tight" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
@@ -448,7 +448,7 @@ function CategoryBanner({ title, subtitle, icon }: { title: string; subtitle: st
   return (
     <div
       className="w-full rounded-[16px] flex items-center gap-4 px-5 sm:px-8 py-5"
-      style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
+      style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
     >
       <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-[14px] bg-[var(--hz-surface)]/70 flex items-center justify-center text-[var(--hz-primary)] shrink-0 shadow-sm">{icon}</div>
       <div className="flex flex-col gap-1 min-w-0">
@@ -505,7 +505,7 @@ function SpaLineItemRow({ item, cartCount, onSelect, onViewDetails, getCartCount
   return (
     <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 rounded-[12px] p-4" style={CARD_SURFACE}>
       <div className="relative shrink-0 mx-auto sm:mx-0">
-        <div className="w-32 h-32 shrink-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]">
+        <div className="w-32 h-32 shrink-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]">
           {item.icon}
         </div>
         {item.badge && (
@@ -604,7 +604,7 @@ function OptionsModal({ item, cartCountForOption, onAddOption, onClose }: {
             const cartCount = cartCountForOption(opt.id)
             return (
               <div key={opt.id} className="flex items-center gap-3 rounded-[12px] p-3" style={CARD_SURFACE}>
-                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)] shrink-0">
+                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
                   {item.icon}
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col gap-1">
@@ -662,7 +662,7 @@ function ServiceDetailModal({ item, cartCount, onSelect, onClose }: {
         </div>
 
         <div className="flex flex-col gap-3 p-5">
-          <div className="w-16 h-16 rounded-[12px] flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]">{item.icon}</div>
+          <div className="w-16 h-16 rounded-[12px] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]">{item.icon}</div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <PriceBlock item={item} />
             {item.duration && <span className="text-[11px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}>{item.duration}</span>}

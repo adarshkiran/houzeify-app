@@ -122,7 +122,7 @@ function RegistrationTypeChip({ type, selected, onSelect }: { type: Registration
       style={{
         fontFamily: FONT_BODY,
         backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-        borderColor: selected ? 'var(--hz-primary)' : '#CAC7C6',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
         color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
@@ -188,7 +188,7 @@ function ChecklistRow({ label, done }: { label: string; done: boolean }) {
   return (
     <div className="flex items-center gap-2 text-[13px]" style={{ fontFamily: FONT_BODY }}>
       {done ? (
-        <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
+        <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
       ) : (
         <span className="w-4 h-4 rounded-full border border-[var(--hz-border)] shrink-0" aria-hidden="true" />
       )}
@@ -299,7 +299,7 @@ function GovernmentIdBlock({
                 fontFamily: FONT_BODY,
                 cursor: disabled ? 'not-allowed' : 'pointer',
                 backgroundColor: idType === t ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-                borderColor: idType === t ? 'var(--hz-primary)' : '#CAC7C6',
+                borderColor: idType === t ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                 color: idType === t ? 'var(--hz-primary)' : 'var(--hz-black)',
               }}
             >
@@ -316,7 +316,7 @@ function GovernmentIdBlock({
         value={idNumber}
         onChange={e => onIdNumberChange(e.target.value)}
         placeholder={idType ? GOVERNMENT_ID_TYPE_PLACEHOLDERS[idType] : 'Enter ID number'}
-        className="w-full h-[44px] px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none focus:border-[var(--hz-primary)] transition-colors"
+        className="w-full h-[44px] px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none focus:border-[var(--hz-primary)] transition-colors"
         style={{ fontFamily: FONT_BODY }}
       />
       {idNumber.trim().length > 0 && (
@@ -689,8 +689,8 @@ export default function BusinessVerificationScreen({
             </p>
             <span className="flex items-center gap-2 h-8 px-3 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
               {resolvedCompanyName}
-              <span className="flex items-center gap-1 text-[11.5px] font-medium" style={{ color: '#16A34A' }}>
-                <span className="w-3.5 h-3.5 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>
+              <span className="flex items-center gap-1 text-[11.5px] font-medium" style={{ color: 'var(--hz-success)' }}>
+                <span className="w-3.5 h-3.5 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>
                 Profile information added
               </span>
             </span>
@@ -714,13 +714,13 @@ export default function BusinessVerificationScreen({
             </StatusScaffold>
           ) : existingStatus === 'verified' ? (
             <StatusScaffold
-              icon={<CheckIcon size={26} />} iconBg="#DCFCE7" iconColor="#16A34A"
+              icon={<CheckIcon size={26} />} iconBg="#DCFCE7" iconColor="var(--hz-success)"
               eyebrow="Verified" title="Business verified"
               body="Your business verification is complete."
             >
               <div className="flex flex-col items-center gap-1">
                 <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{resolvedCompanyName}</span>
-                <span className="text-[12px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>Verified</span>
+                <span className="text-[12px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>Verified</span>
               </div>
               <button onClick={handleContinueVerified} className="h-11 px-5 rounded-[12px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0" style={{ fontFamily: FONT_BODY }}>
                 Continue →
@@ -799,7 +799,7 @@ export default function BusinessVerificationScreen({
                     </button>
                   )}
                 </div>
-                <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                   <DetailRow label={isIndividual ? 'Name' : 'Company / Organization Name'} value={resolvedCompanyName} />
                   {!isIndividual && <DetailRow label="Primary Contact" value={resolvedOwnerName} />}
                   {!isIndividual && <DetailRow label="Company type" value={COMPANY_TYPE_LABELS[resolvedCompanyType]} />}
@@ -829,7 +829,7 @@ export default function BusinessVerificationScreen({
                     placeholder={registrationType ? REGISTRATION_TYPE_PLACEHOLDERS[registrationType] : 'Enter registration number'}
                     aria-invalid={showRegError}
                     aria-describedby="registration-number-helper"
-                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showRegError ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', showRegError ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {showRegError ? <FieldError id="registration-number-helper" message="Please enter a valid registration number." /> : (
@@ -848,7 +848,7 @@ export default function BusinessVerificationScreen({
                     <label
                       htmlFor="verification-document-input"
                       className="flex items-center gap-2.5 h-[52px] px-4 rounded-[12px] border border-dashed cursor-pointer transition-colors"
-                      style={{ borderColor: attemptedSubmit && !document_ ? '#D97706' : '#CAC7C6', fontFamily: FONT_BODY }}
+                      style={{ borderColor: attemptedSubmit && !document_ ? '#D97706' : 'var(--hz-border-strong)', fontFamily: FONT_BODY }}
                     >
                       <span className="text-[var(--hz-primary)]"><UploadIcon /></span>
                       <span className="text-[13.5px] font-semibold text-[var(--hz-primary)]">Upload document</span>
@@ -865,8 +865,8 @@ export default function BusinessVerificationScreen({
                       <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{document_.fileName}</span>
                       <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{formatFileSize(document_.fileSize)}</span>
                     </div>
-                    <span className="flex items-center gap-1 text-[12px] font-semibold shrink-0" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-                      <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
+                    <span className="flex items-center gap-1 text-[12px] font-semibold shrink-0" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+                      <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
                       Uploaded
                     </span>
                     <button type="button" onClick={removeDocument} aria-label="Remove document" className="flex items-center justify-center w-8 h-8 rounded-full border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-subtle)] hover:text-[var(--hz-ink-muted)] cursor-pointer shrink-0">
@@ -886,8 +886,8 @@ export default function BusinessVerificationScreen({
                     </span>
                     <div className="flex flex-col">
                       <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{resolvedOwnerName}</span>
-                      <span className="flex items-center gap-1 text-[11.5px]" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-                        <span className="w-3.5 h-3.5 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>
+                      <span className="flex items-center gap-1 text-[11.5px]" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+                        <span className="w-3.5 h-3.5 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>
                         Account owner
                       </span>
                     </div>
@@ -926,7 +926,7 @@ export default function BusinessVerificationScreen({
               </div>
 
               {/* Important notice */}
-              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
+              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'var(--hz-primary-soft)', backgroundColor: 'var(--hz-primary-wash)' }}>
                 <span className="text-[var(--hz-primary)] mt-0.5 shrink-0"><InfoIcon /></span>
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Verification review</span>
@@ -1014,8 +1014,8 @@ export default function BusinessVerificationScreen({
                 )}
 
                 {document_ && (
-                  <div className="flex items-center gap-1.5 text-[12px]" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#16A34A] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>
+                  <div className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+                    <span className="w-3.5 h-3.5 rounded-full bg-[var(--hz-success)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>
                     Document uploaded
                   </div>
                 )}
@@ -1056,7 +1056,7 @@ export default function BusinessVerificationScreen({
               }
             >
               {existingIdentityStatus === 'pending' || existingIdentityStatus === 'verified' ? (
-                <p className="text-[12px] m-0" style={{ color: existingIdentityStatus === 'verified' ? '#16A34A' : '#D97706', fontFamily: FONT_BODY }}>
+                <p className="text-[12px] m-0" style={{ color: existingIdentityStatus === 'verified' ? 'var(--hz-success)' : '#D97706', fontFamily: FONT_BODY }}>
                   {existingIdentityStatus === 'verified' ? 'Your identity has been verified.' : 'Submitted — Houzeify will review your identity documents.'}
                 </p>
               ) : !showIdentityForm ? (
@@ -1216,7 +1216,7 @@ export default function BusinessVerificationScreen({
                     value={businessRegistrationNumber}
                     onChange={e => setBusinessRegistrationNumber(e.target.value)}
                     placeholder={businessRegistrationType ? REGISTRATION_TYPE_PLACEHOLDERS[businessRegistrationType] : 'Enter registration number'}
-                    className="w-full h-[44px] px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none focus:border-[var(--hz-primary)] transition-colors"
+                    className="w-full h-[44px] px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none focus:border-[var(--hz-primary)] transition-colors"
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {!businessDocument ? (

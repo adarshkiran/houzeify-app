@@ -142,7 +142,7 @@ function TypeCard({ type, selected, onSelect }: { type: CompanyType; selected: b
       onClick={onSelect}
       className={[
         'relative text-left flex items-center gap-2.5 rounded-[12px] p-3 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <div className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
@@ -468,7 +468,7 @@ export default function CompanyInformationScreen({
                     maxLength={120}
                     aria-invalid={showError('companyName')}
                     aria-describedby={showError('companyName') ? 'company-name-error' : undefined}
-                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('companyName') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', showError('companyName') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {showError('companyName') ? <FieldError id="company-name-error" message={errors.companyName} /> : (
@@ -488,7 +488,7 @@ export default function CompanyInformationScreen({
                     maxLength={100}
                     aria-invalid={showError('companyOwnerName')}
                     aria-describedby={showError('companyOwnerName') ? 'company-owner-error' : undefined}
-                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('companyOwnerName') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', showError('companyOwnerName') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {showError('companyOwnerName') ? <FieldError id="company-owner-error" message={errors.companyOwnerName} /> : (
@@ -529,7 +529,7 @@ export default function CompanyInformationScreen({
                     aria-invalid={showError('businessLocation')}
                     aria-describedby={showError('businessLocation') ? 'company-location-error' : undefined}
                     autoComplete="off"
-                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                 </div>
@@ -544,7 +544,7 @@ export default function CompanyInformationScreen({
                         onMouseDown={e => e.preventDefault()}
                         onClick={() => selectLocation(r)}
                         className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[var(--hz-surface)] transition-colors"
-                        style={{ borderTop: i > 0 ? '1px solid #CAC7C6' : 'none' }}
+                        style={{ borderTop: i > 0 ? '1px solid var(--hz-border-strong)' : 'none' }}
                       >
                         <span className="text-[var(--hz-ink-subtle)] shrink-0"><PinIcon /></span>
                         <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{r.city}, {r.state}</span>
@@ -574,7 +574,7 @@ export default function CompanyInformationScreen({
                         placeholder="+91 XXXXX XXXXX"
                         aria-invalid={showError('phone')}
                         aria-describedby={showError('phone') ? 'company-phone-error' : undefined}
-                        className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                        className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -593,7 +593,7 @@ export default function CompanyInformationScreen({
                         placeholder="contact@mantoordevelopers.com"
                         aria-invalid={showError('email')}
                         aria-describedby={showError('email') ? 'company-email-error' : undefined}
-                        className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                        className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -613,7 +613,7 @@ export default function CompanyInformationScreen({
                       placeholder="https://www.mantoordevelopers.com"
                       aria-invalid={showError('website')}
                       aria-describedby={showError('website') ? 'company-website-error' : undefined}
-                      className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                      className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                       style={{ fontFamily: FONT_BODY }}
                     />
                   </div>
@@ -631,7 +631,7 @@ export default function CompanyInformationScreen({
                     placeholder="e.g. 2018"
                     aria-invalid={showError('yearEstablished')}
                     aria-describedby={showError('yearEstablished') ? 'company-year-error' : undefined}
-                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('yearEstablished') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', showError('yearEstablished') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {showError('yearEstablished') && <FieldError id="company-year-error" message={errors.yearEstablished} />}
@@ -649,7 +649,7 @@ export default function CompanyInformationScreen({
                   rows={3}
                   maxLength={500}
                   aria-describedby="company-description-count"
-                  className={['w-full px-4 py-3 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none', showError('description') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                  className={['w-full px-4 py-3 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none', showError('description') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
                 <div className="flex items-center justify-between mt-1.5">
@@ -704,7 +704,7 @@ export default function CompanyInformationScreen({
               </div>
 
               {/* Why we ask */}
-              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
+              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'var(--hz-primary-soft)', backgroundColor: 'var(--hz-primary-wash)' }}>
                 <span className="text-[var(--hz-primary)] mt-0.5 shrink-0"><InfoIcon /></span>
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Why this information matters</span>
@@ -779,8 +779,8 @@ export default function CompanyInformationScreen({
                 </div>
 
                 <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: canContinue ? '#16A34A' : '#D97706' }} />
-                  <span className="text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, color: canContinue ? '#16A34A' : '#D97706' }}>
+                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: canContinue ? 'var(--hz-success)' : '#D97706' }} />
+                  <span className="text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, color: canContinue ? 'var(--hz-success)' : '#D97706' }}>
                     {canContinue ? 'Company information ready' : 'Details needed'}
                   </span>
                 </div>

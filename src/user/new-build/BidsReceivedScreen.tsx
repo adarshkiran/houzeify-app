@@ -37,7 +37,7 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 const CheckBadgeIcon = ({ size = 12 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const EmptyIcon = () => (
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#A1A1A1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="15" cy="12" r="5" /><path d="M4 32v-2.3A10 10 0 0115 20" /><circle cx="25" cy="14" r="4" /><path d="M21.5 21a7.2 7.2 0 017.5 7.2" /></svg>
@@ -107,8 +107,8 @@ function ResponseCard({ response, onViewProfile, onViewBid }: { response: Contra
 
   const statusBadge: Record<ResponseState, { label: string; bg: string; fg: string }> = {
     awaiting: { label: 'INVITED', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)' },
-    received: { label: 'BID RECEIVED', bg: '#DCFCE7', fg: '#16A34A' },
-    accepted: { label: 'BID ACCEPTED', bg: '#DCFCE7', fg: '#16A34A' },
+    received: { label: 'BID RECEIVED', bg: '#DCFCE7', fg: 'var(--hz-success)' },
+    accepted: { label: 'BID ACCEPTED', bg: '#DCFCE7', fg: 'var(--hz-success)' },
     rejected: { label: 'BID REJECTED', bg: '#FEE2E2', fg: 'var(--hz-danger)' },
   }
   const badge = statusBadge[state]
@@ -123,7 +123,7 @@ function ResponseCard({ response, onViewProfile, onViewBid }: { response: Contra
           <div className="flex items-center gap-1.5 flex-wrap">
             <p className="text-[14.5px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{name}</p>
             {response.listing?.verificationStatus === 'verified' && (
-              <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
+              <span className="flex items-center gap-1 text-[11px] font-medium text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
             )}
           </div>
           <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
@@ -399,7 +399,7 @@ export default function BidsReceivedScreen({
                   </div>
 
                   {counts.received === 0 && (
-                    <div className="rounded-[14px] p-4 flex items-center gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid var(--hz-primary-soft)' }}>
+                    <div className="rounded-[14px] p-4 flex items-center gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
                       <ClockIcon />
                       <div>
                         <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Waiting for contractor responses</p>
@@ -419,7 +419,7 @@ export default function BidsReceivedScreen({
                           type="button"
                           onClick={() => setFilter(f.id)}
                           className={`h-9 px-3.5 rounded-[10px] text-[12.5px] font-medium cursor-pointer ${filter === f.id ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] text-[var(--hz-ink-muted)]'}`}
-                          style={{ border: filter === f.id ? '1px solid var(--hz-primary)' : '1px solid #CAC7C6', fontFamily: FONT_BODY }}
+                          style={{ border: filter === f.id ? '1px solid var(--hz-primary)' : '1px solid var(--hz-border-strong)', fontFamily: FONT_BODY }}
                         >
                           {f.label}
                         </button>

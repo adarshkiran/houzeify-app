@@ -330,8 +330,8 @@ function MaterialCard({ material, result, selected, onSelect }: {
       onClick={onSelect}
       className="text-left flex flex-col gap-3 p-4 rounded-[14px] bg-[var(--hz-surface)] cursor-pointer transition-all"
       style={{
-        border: selected ? '2px solid var(--hz-primary)' : '1px solid #CAC7C6',
-        boxShadow: selected ? '0 4px 16px rgba(243,234,255,0.10)' : 'none',
+        border: selected ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border-strong)',
+        boxShadow: selected ? '0 4px 16px var(--hz-primary-soft)' : 'none',
       }}
     >
       <span className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>
@@ -383,7 +383,7 @@ function CalculationPanel({
         </span>
       </div>
 
-      <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
         <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>Estimated Quantity</span>
         <span className="text-[32px] font-semibold leading-none" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>
           {fmtQty(result.quantity)} <span className="text-[16px] font-normal">{result.unit}</span>
@@ -547,7 +547,7 @@ function MaterialSummary({ results }: { results: Map<MaterialCalcId, MaterialCal
 
 function HozieInsight({ onAnalyzePlan }: { onAnalyzePlan: () => void }) {
   return (
-    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Insight</span>
@@ -798,8 +798,8 @@ return (
 
                   {status === 'results' && (
                     <>
-                      <div className="flex items-center gap-1.5 text-[12px]" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#16A34A' }} /> Material estimate ready ✓
+                      <div className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--hz-success)' }} /> Material estimate ready ✓
                       </div>
 
                       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.1s both' }}>

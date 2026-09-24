@@ -208,9 +208,9 @@ function EstimateHero({ locked, v2 }: { locked: boolean; v2: EstimateVersion }) 
     <div
       className="rounded-[20px] p-6 sm:p-8 flex flex-col gap-4"
       style={{
-        background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, var(--hz-surface) 55%)',
+        background: 'linear-gradient(135deg, var(--hz-primary-soft) 0%, var(--hz-surface) 55%)',
         border: '1px solid var(--hz-border)',
-        boxShadow: '0 4px 32px rgba(114,46,209,0.08)',
+        boxShadow: '0 4px 32px color-mix(in oklch, var(--hz-primary) 14%, transparent)',
       }}
     >
       <div className="flex items-center justify-between flex-wrap gap-2">
@@ -302,7 +302,7 @@ function RevisionSummary({ v1, v2, changes, onViewRevision }: { v1: EstimateVers
         </div>
         <span
           className="text-[12px] font-semibold px-2 py-1 rounded-full"
-          style={{ backgroundColor: isIncrease ? '#FEE2E2' : '#DCFCE7', color: isIncrease ? 'var(--hz-danger)' : '#16A34A', fontFamily: '"Sometype Mono:SemiBold", monospace' }}
+          style={{ backgroundColor: isIncrease ? '#FEE2E2' : '#DCFCE7', color: isIncrease ? 'var(--hz-danger)' : 'var(--hz-success)', fontFamily: '"Sometype Mono:SemiBold", monospace' }}
         >
           {isIncrease ? '+' : '−'}{formatINR(Math.abs(delta))} estimated {isIncrease ? 'increase' : 'decrease'}
         </span>
@@ -322,7 +322,7 @@ function RevisionSummary({ v1, v2, changes, onViewRevision }: { v1: EstimateVers
 
 function HozieReview({ v2, onAskHozie }: { v2: EstimateVersion; onAskHozie: () => void }) {
   return (
-    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
@@ -355,7 +355,7 @@ function ReviewChecklist() {
           <div key={item.label} className="flex items-center gap-2.5">
             <span
               className="w-4.5 h-4.5 rounded-full flex items-center justify-center shrink-0"
-              style={{ width: 18, height: 18, backgroundColor: item.done ? 'var(--hz-primary)' : 'transparent', border: item.done ? 'none' : '1.5px solid #CAC7C6' }}
+              style={{ width: 18, height: 18, backgroundColor: item.done ? 'var(--hz-primary)' : 'transparent', border: item.done ? 'none' : '1.5px solid var(--hz-border-strong)' }}
             >
               {item.done && <IcoCheck />}
             </span>
@@ -379,7 +379,7 @@ function VersionHistory({ locked, versions, onCompare }: { locked: boolean; vers
     .map((v, i) => ({
       v,
       statusLabel: i === 0 ? (locked ? 'Active' : 'Draft · Ready to lock') : 'Previous',
-      badgeBg: i === 0 && locked ? 'var(--hz-primary-soft)' : '#CAC7C6',
+      badgeBg: i === 0 && locked ? 'var(--hz-primary-soft)' : 'var(--hz-border-strong)',
       badgeFg: i === 0 && locked ? 'var(--hz-primary)' : '#808080',
     }))
   return (
@@ -496,7 +496,7 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
             <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
               This version will become your active planning estimate and will be used for BOQ generation and contractor comparisons.
             </p>
-            <div className="rounded-[12px] p-4" style={{ backgroundColor: '#F9F5FF' }}>
+            <div className="rounded-[12px] p-4" style={{ backgroundColor: 'var(--hz-primary-wash)' }}>
               <span className="text-[22px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>
                 {formatINR(v2.minCost)} — {formatINR(v2.maxCost)}
               </span>
@@ -525,7 +525,7 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
           <div className="flex flex-col gap-5 p-6">
             <div className="flex flex-col items-center text-center gap-3 pt-4">
               <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', animation: 'successIconReveal 0.4s ease-out both' }}>
-                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#16A34A" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13.5l5.5 5.5L21 7"/></svg>
+                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="var(--hz-success)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13.5l5.5 5.5L21 7"/></svg>
               </div>
               <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Estimate locked ✓</h2>
               <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Version {v2.versionNumber} is now your active estimate.</p>
@@ -746,7 +746,7 @@ return (
                   </div>
 
                   {!locked ? (
-                    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+                    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
                       <div>
                         <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0 mb-1.5" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Ready to lock this estimate?</h3>
                         <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>

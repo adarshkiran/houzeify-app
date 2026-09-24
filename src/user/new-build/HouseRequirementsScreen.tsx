@@ -115,7 +115,7 @@ function OptionCard({ title, description, selected, onSelect }: { title: string;
       type="button" role="radio" aria-checked={selected} onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
@@ -130,7 +130,7 @@ function Chip({ label, selected, onToggle, multi }: { label: string; selected: b
     <button
       type="button" role={multi ? 'checkbox' : 'radio'} aria-checked={selected} onClick={onToggle}
       className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
-      style={{ fontFamily: FONT_BODY, backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)', borderColor: selected ? 'var(--hz-primary)' : '#CAC7C6', color: selected ? 'var(--hz-primary)' : 'var(--hz-black)' }}
+      style={{ fontFamily: FONT_BODY, backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)', borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)', color: selected ? 'var(--hz-primary)' : 'var(--hz-black)' }}
     >
       {selected && <span className={['flex items-center justify-center shrink-0 bg-[var(--hz-primary)]', multi ? 'w-[14px] h-[14px] rounded-[4px]' : 'w-[14px] h-[14px] rounded-full'].join(' ')} aria-hidden="true"><CheckIcon size={8} /></span>}
       {label}
@@ -149,7 +149,7 @@ function NumberField({ label, value, onChange, suffix, placeholder, optional = t
           type="text" inputMode="numeric" value={value}
           onChange={e => onChange(e.target.value.replace(/[^0-9]/g, ''))}
           placeholder={placeholder}
-          className="w-full h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors"
+          className="w-full h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors"
           style={{ fontFamily: FONT_BODY }}
         />
         {suffix && <span className="text-[12.5px] text-[var(--hz-ink-muted)] shrink-0" style={{ fontFamily: FONT_BODY }}>{suffix}</span>}
@@ -166,7 +166,7 @@ function TextField({ label, value, onChange, placeholder, optional = true, type 
       <SectionLabel optional={optional}>{label}</SectionLabel>
       <input
         type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
-        className="w-full max-w-[320px] h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors"
+        className="w-full max-w-[320px] h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors"
         style={{ fontFamily: FONT_BODY }}
       />
     </div>
@@ -449,12 +449,12 @@ export default function HouseRequirementsScreen({
                 <input
                   type="text" value={name} onChange={e => setName(e.target.value)}
                   placeholder="e.g. My Dream Home"
-                  className="w-full max-w-[400px] h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors"
+                  className="w-full max-w-[400px] h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors"
                   style={{ fontFamily: FONT_BODY }}
                 />
               </div>
 
-              <div className="flex flex-col gap-3 rounded-[14px] px-4 py-4 bg-[#F9F5FF]" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+              <div className="flex flex-col gap-3 rounded-[14px] px-4 py-4 bg-[var(--hz-primary-wash)]" style={{ border: '1px solid var(--hz-primary-soft)' }}>
                 <div className="flex items-center gap-1.5">
                   <span className="text-[var(--hz-primary)]"><IcoMapPin /></span>
                   <SectionLabel>Where are you building?</SectionLabel>
@@ -500,7 +500,7 @@ export default function HouseRequirementsScreen({
                         value={siteConditions} onChange={e => setSiteConditions(e.target.value)}
                         placeholder="Soil type, slope, existing structures, access — anything relevant."
                         rows={2}
-                        className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                        className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>

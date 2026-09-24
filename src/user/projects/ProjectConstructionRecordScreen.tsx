@@ -360,7 +360,7 @@ export default function ProjectConstructionRecordScreen({
   )
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-page)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">{chrome}</div>
     </div>
   )

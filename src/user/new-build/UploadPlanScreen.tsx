@@ -239,8 +239,8 @@ function UploadDropzone({ compact, isDragging, onDrop, onDragState, onFiles, inp
       style={{
         minHeight: compact ? 180 : 320,
         borderRadius: 20,
-        border: `1px dashed ${isDragging ? 'var(--hz-primary)' : '#CAC7C6'}`,
-        backgroundColor: isDragging ? '#F9F5FF' : 'var(--hz-surface)',
+        border: `1px dashed ${isDragging ? 'var(--hz-primary)' : 'var(--hz-border-strong)'}`,
+        backgroundColor: isDragging ? 'var(--hz-primary-wash)' : 'var(--hz-surface)',
         padding: '32px 20px',
       }}
     >
@@ -315,8 +315,8 @@ function FileCard({ doc, progress, onRemove, onTypeChange }: {
 
       {doc.status === 'ready' && (
         <>
-          <div className="flex items-center gap-1.5 text-[12px]" style={{ color: '#16A34A', fontFamily: FONT_BODY }} role="status">
-            <span className="w-4 h-4 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#16A34A' }}><IcoCheck /></span> Plan uploaded ✓
+          <div className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }} role="status">
+            <span className="w-4 h-4 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-success)' }}><IcoCheck /></span> Plan uploaded ✓
           </div>
           {doc.errorMessage && (
             <div role="alert" className="flex items-start gap-1.5 text-[11px]" style={{ color: '#D97706', fontFamily: FONT_BODY }}>
@@ -390,8 +390,8 @@ function PlanPreview({ doc }: { doc: ProjectDocument }) {
             <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Detected</span>
             <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{DOCUMENT_TYPE_LABELS[doc.type]} · likely</span>
           </div>
-          <span className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em] w-fit" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> Ready for analysis
+          <span className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em] w-fit" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" /> Ready for analysis
           </span>
         </div>
       </div>
@@ -441,7 +441,7 @@ function UploadTips({ onOpenModal }: { onOpenModal: () => void }) {
       <ul className="flex flex-col gap-2 m-0 p-0" style={{ listStyle: 'none' }}>
         {TIPS.map(t => (
           <li key={t} className="flex items-start gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
-            <span aria-hidden="true" style={{ color: '#16A34A' }}>✓</span> {t}
+            <span aria-hidden="true" style={{ color: 'var(--hz-success)' }}>✓</span> {t}
           </li>
         ))}
       </ul>
@@ -480,7 +480,7 @@ function TipsModal({ onClose }: { onClose: () => void }) {
         <ul className="flex flex-col gap-2 m-0 p-0" style={{ listStyle: 'none' }}>
           {TIPS.map(t => (
             <li key={t} className="flex items-start gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
-              <span aria-hidden="true" style={{ color: '#16A34A' }}>✓</span> {t}
+              <span aria-hidden="true" style={{ color: 'var(--hz-success)' }}>✓</span> {t}
             </li>
           ))}
         </ul>
@@ -515,7 +515,7 @@ function ProjectConnection() {
 
 function HozieCanHelp({ onAskHozie }: { onAskHozie: () => void }) {
   return (
-    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Can Help</span>

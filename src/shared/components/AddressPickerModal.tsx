@@ -253,7 +253,7 @@ export default function AddressPickerModal({ onClose, defaultCity, defaultState,
               onClick={() => { if (pendingId) selectAddress(pendingId); onClose() }}
               disabled={!pendingId}
               className="w-full h-12 rounded-[12px] text-white text-[14.5px] font-semibold transition-all border-0"
-              style={{ fontFamily: FONT_BODY, backgroundColor: pendingId ? 'var(--hz-primary)' : '#CAC7C6', cursor: pendingId ? 'pointer' : 'not-allowed', boxShadow: pendingId ? '0 2px 8px rgba(114,46,209,0.25)' : undefined }}
+              style={{ fontFamily: FONT_BODY, backgroundColor: pendingId ? 'var(--hz-primary)' : 'var(--hz-border-strong)', cursor: pendingId ? 'pointer' : 'not-allowed', boxShadow: pendingId ? '0 2px 8px rgba(114,46,209,0.25)' : undefined }}
             >
               Proceed
             </button>
@@ -286,7 +286,7 @@ function AddressField({ label, value, onChange, placeholder, optional, error }: 
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full h-11 px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors"
+        className="w-full h-11 px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors"
         style={{ fontFamily: FONT_BODY, borderColor: error ? 'var(--hz-danger)' : 'var(--hz-border)' }}
       />
       {error && <span className="text-[11.5px]" style={{ color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>{error}</span>}

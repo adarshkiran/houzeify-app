@@ -29,7 +29,7 @@ import ConstructionStageProgression from '@/shared/components/ConstructionStageP
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Inter Variable", sans-serif'
 const FONT_HEAD = '"Geist Variable", sans-serif'
-const CANVAS = '#FBF9F7'
+const CANVAS = 'var(--hz-page)'
 const focusRing =
   'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
 

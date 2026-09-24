@@ -178,7 +178,7 @@ function StatTile({ label, value }: { label: string; value: string }) {
 }
 
 const IMPACT_META: Record<Exclude<ImpactLevel, 'baseline'>, { label: string; bg: string; fg: string }> = {
-  low: { label: 'LOW', bg: '#CAC7C6', fg: '#808080' },
+  low: { label: 'LOW', bg: 'var(--hz-border-strong)', fg: '#808080' },
   medium: { label: 'MEDIUM', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)' },
   high: { label: 'HIGH', bg: 'var(--hz-primary)', fg: 'var(--hz-surface)' },
 }
@@ -205,9 +205,9 @@ function Breadcrumb({ categoryName, itemName, onBOQ }: { categoryName: string; i
   return (
     <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-[12px] flex-wrap min-w-0" style={{ fontFamily: FONT_BODY }}>
       <button onClick={onBOQ} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: 'var(--hz-ink-muted)' }}>Detailed BOQ</button>
-      <span aria-hidden="true" style={{ color: '#CAC7C6' }}>/</span>
+      <span aria-hidden="true" style={{ color: 'var(--hz-border-strong)' }}>/</span>
       <button onClick={onBOQ} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: 'var(--hz-ink-muted)' }}>{categoryName}</button>
-      <span aria-hidden="true" style={{ color: '#CAC7C6' }}>/</span>
+      <span aria-hidden="true" style={{ color: 'var(--hz-border-strong)' }}>/</span>
       <span className="font-semibold truncate" style={{ color: 'var(--hz-ink)' }}>{itemName}</span>
     </nav>
   )
@@ -258,7 +258,7 @@ function BOQItemSummary({ item }: { item: BOQItem }) {
           <StatTile label="Material Cost" value={formatINR(item.materialCost)} />
           <StatTile label="Labour Cost" value={formatINR(item.labourCost)} />
         </div>
-        <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+        <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
           <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>Total Item Cost</span>
           <span className="text-[32px] sm:text-[38px] font-semibold leading-none" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>{formatINR(item.totalCost)}</span>
         </div>
@@ -294,7 +294,7 @@ function CostCalculationCard({ item }: { item: BOQItem }) {
           </div>
         </div>
 
-        <div className="rounded-[12px] p-4 flex items-center justify-between" style={{ backgroundColor: '#F9F5FF' }}>
+        <div className="rounded-[12px] p-4 flex items-center justify-between" style={{ backgroundColor: 'var(--hz-primary-wash)' }}>
           <span className="text-[13px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>Total</span>
           <span className="text-[20px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>{formatINR(item.totalCost)}</span>
         </div>
@@ -427,7 +427,7 @@ function AIConfidenceCard({ item }: { item: BOQItem }) {
   const score = item.confidenceScore ?? 0
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.12s both' }}>
-      <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, var(--hz-surface) 100%)', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, var(--hz-primary-wash) 0%, var(--hz-surface) 100%)', border: '1px solid var(--hz-primary-soft)' }}>
         <div className="flex items-center gap-2.5">
           <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
           <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Confidence</span>
@@ -437,7 +437,7 @@ function AIConfidenceCard({ item }: { item: BOQItem }) {
           <span className="text-[40px] font-semibold leading-none" style={{ fontFamily: FONT_HEAD, color: 'var(--hz-primary)' }}>{score}%</span>
           <span className="text-[13px] text-[var(--hz-ink-muted)] mb-1" style={{ fontFamily: FONT_BODY }}>{CONFIDENCE_LABEL[item.confidence]}</span>
         </div>
-        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
+        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
           <div className="h-full rounded-full" style={{ width: `${score}%`, backgroundColor: 'var(--hz-primary)' }} />
         </div>
 
@@ -455,7 +455,7 @@ function AIConfidenceCard({ item }: { item: BOQItem }) {
         )}
 
         {!!item.confidenceImprove?.length && (
-          <div className="flex flex-col gap-1.5 pt-1" style={{ borderTop: '1px solid rgba(243,234,255,0.10)' }}>
+          <div className="flex flex-col gap-1.5 pt-1" style={{ borderTop: '1px solid var(--hz-primary-soft)' }}>
             <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>What Can Improve Accuracy</span>
             <ul className="flex flex-col gap-1.5 m-0 p-0" style={{ listStyle: 'none' }}>
               {item.confidenceImprove.map(f => (
@@ -518,7 +518,7 @@ function RelatedBOQItems({ items, onOpen }: { items: BOQItem[]; onOpen: (id: str
 function HozieAction({ item, onAskHozie }: { item: BOQItem; onAskHozie: () => void }) {
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.2s both' }}>
-      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
         <div className="flex items-center gap-2.5">
           <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
           <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Ask Hozie</span>

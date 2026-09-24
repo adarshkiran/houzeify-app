@@ -80,7 +80,7 @@ function Field({ label, required, error, hint, children }: { label: string; requ
   )
 }
 
-const inputClass = 'w-full h-11 px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all'
+const inputClass = 'w-full h-11 px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all'
 
 // ─── Chip — Partner UX Architecture (Years of Experience / Languages) ──────
 
@@ -89,7 +89,7 @@ function Chip({ label, selected, onToggle, multi }: { label: string; selected: b
     <button
       type="button" role={multi ? 'checkbox' : 'radio'} aria-checked={selected} onClick={onToggle}
       className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
-      style={{ fontFamily: FONT_BODY, backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)', borderColor: selected ? 'var(--hz-primary)' : '#CAC7C6', color: selected ? 'var(--hz-primary)' : 'var(--hz-black)' }}
+      style={{ fontFamily: FONT_BODY, backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)', borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)', color: selected ? 'var(--hz-primary)' : 'var(--hz-black)' }}
     >
       {selected && (
         <span className={['flex items-center justify-center shrink-0 bg-[var(--hz-primary)]', multi ? 'w-[14px] h-[14px] rounded-[4px]' : 'w-[14px] h-[14px] rounded-full'].join(' ')} aria-hidden="true"><CheckDot /></span>
@@ -197,8 +197,8 @@ function CompletenessRow({ label, state }: { label: string; state: 'done' | 'nex
     <div className="flex items-center justify-between">
       <span className="text-[12.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
       {state === 'done' && (
-        <span className="flex items-center gap-1.5 text-[11.5px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_MONO }}>
-          <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center"><CheckDot /></span> Complete
+        <span className="flex items-center gap-1.5 text-[11.5px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+          <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center"><CheckDot /></span> Complete
         </span>
       )}
       {state === 'next' && <span className="text-[11.5px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>● Next</span>}
@@ -510,7 +510,7 @@ export default function ProfessionalProfileSetupScreen({
                   <Field label="Full Name" required error={attemptedSubmit ? individualErrors.fullName : undefined}>
                     <input
                       type="text" value={fullName} onChange={e => setFullName(e.target.value)}
-                      className={inputClass} style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && individualErrors.fullName ? 'var(--hz-danger)' : '#CAC7C6' }}
+                      className={inputClass} style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && individualErrors.fullName ? 'var(--hz-danger)' : 'var(--hz-border-strong)' }}
                     />
                   </Field>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -536,8 +536,8 @@ export default function ProfessionalProfileSetupScreen({
                     <textarea
                       value={about} onChange={e => setAbout(e.target.value.slice(0, ABOUT_MAX))} rows={4}
                       placeholder="Tell homeowners briefly about your experience and the work you do."
-                      className="w-full px-3.5 py-2.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all resize-none"
-                      style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && individualErrors.about ? 'var(--hz-danger)' : '#CAC7C6' }}
+                      className="w-full px-3.5 py-2.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all resize-none"
+                      style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && individualErrors.about ? 'var(--hz-danger)' : 'var(--hz-border-strong)' }}
                     />
                   </Field>
                   <Field label="Years of Experience">
@@ -561,7 +561,7 @@ export default function ProfessionalProfileSetupScreen({
                     <input
                       type="text" value={companyName} onChange={e => setCompanyName(e.target.value)}
                       placeholder="e.g. Mantoor Developers" className={inputClass}
-                      style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && !organizationValid ? 'var(--hz-danger)' : '#CAC7C6' }}
+                      style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && !organizationValid ? 'var(--hz-danger)' : 'var(--hz-border-strong)' }}
                     />
                   </Field>
                   <Field label="Company Owner / Primary Contact" hint="Derived from your account — automatically set.">
@@ -583,7 +583,7 @@ export default function ProfessionalProfileSetupScreen({
                     <textarea
                       value={companyAbout} onChange={e => setCompanyAbout(e.target.value.slice(0, ABOUT_MAX))} rows={4}
                       placeholder="Briefly describe your company, experience and the type of work you undertake."
-                      className="w-full px-3.5 py-2.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all resize-none"
                       style={{ fontFamily: FONT_BODY, borderColor: 'var(--hz-border)' }}
                     />
                   </Field>

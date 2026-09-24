@@ -520,7 +520,7 @@ function ServiceTabs({ onJump }: { onJump: (id: string) => void }) {
             onClick={() => onJump(s.id)}
             className="flex flex-col items-center justify-between gap-1.5 cursor-pointer border-0 bg-transparent p-0 shrink-0 w-[76px]"
           >
-            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)] shrink-0">
+            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
               {s.icon}
             </div>
             <span className="text-[12px] text-[var(--hz-ink)] text-center leading-tight" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
@@ -539,7 +539,7 @@ function HeroBanner({ onExplore, onViewAddOns }: { onExplore: () => void; onView
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px]"
-      style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="relative flex flex-col gap-4 px-5 sm:px-10 lg:px-12 py-8 sm:py-10">
         <span className="text-[11px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Hair Studio</span>
@@ -580,7 +580,7 @@ function CategoryBanner({ title, subtitle, icon }: { title: string; subtitle: st
   return (
     <div
       className="w-full rounded-[16px] flex items-center gap-4 px-5 sm:px-8 py-5"
-      style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
+      style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
     >
       <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-[14px] bg-[var(--hz-surface)]/70 flex items-center justify-center text-[var(--hz-primary)] shrink-0 shadow-sm">{icon}</div>
       <div className="flex flex-col gap-1 min-w-0">
@@ -674,7 +674,7 @@ function PackageCard({ pkg, cartCount, onAdd, onEdit }: {
 
 const PKG_ROW_BASE = 'flex items-center gap-3 rounded-[10px] border px-3.5 py-3 transition-all cursor-pointer'
 const PKG_ROW_DEFAULT = 'bg-[var(--hz-surface)] border-[var(--hz-border)] hover:border-[var(--hz-primary)]'
-const PKG_ROW_SELECTED = 'bg-[#F9F5FF] border-[var(--hz-primary)]'
+const PKG_ROW_SELECTED = 'bg-[var(--hz-primary-wash)] border-[var(--hz-primary)]'
 
 // A customised package builds its own real total from whichever options
 // were actually picked — kept as this small, local shape (not the shared
@@ -817,7 +817,7 @@ function HairLineItemRow({ item, icon, onSelect, onViewDetails, cartCount, getCa
   return (
     <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 rounded-[12px] p-4" style={CARD_SURFACE}>
       <div className="relative shrink-0 mx-auto sm:mx-0">
-        <div className="w-32 h-32 shrink-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]">
+        <div className="w-32 h-32 shrink-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]">
           {icon}
         </div>
         {item.bestseller && (
@@ -923,7 +923,7 @@ function OptionsModal({ item, icon, cartCountForOption, onAddOption, onClose }: 
             const cartCount = cartCountForOption(opt.id)
             return (
               <div key={opt.id} className="flex items-center gap-3 rounded-[12px] p-3" style={CARD_SURFACE}>
-                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)] shrink-0">
+                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
                   {icon}
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col gap-1">

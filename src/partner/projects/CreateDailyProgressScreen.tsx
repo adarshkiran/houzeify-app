@@ -337,7 +337,7 @@ export default function CreateDailyProgressScreen({
 
   if (!projectId) {
     return (
-      <div className="min-h-full flex flex-col items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-page)' }}>
         <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
       </div>
     )
@@ -358,7 +358,7 @@ export default function CreateDailyProgressScreen({
   })()
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: '#FBF9F7' }}>
+    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-page)' }}>
       <Sidebar active="projects" onNavigate={onNavigate} />
       <div className="flex-1 flex flex-col min-w-0">
         <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
@@ -470,7 +470,7 @@ export default function CreateDailyProgressScreen({
                             setCameraMenuOpen(false)
                             cameraPhotoInputRef.current?.click()
                           }}
-                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[var(--hz-ink)] hover:bg-[#F9F5FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
+                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[var(--hz-ink)] hover:bg-[var(--hz-primary-wash)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
                           style={{ fontFamily: FONT_BODY }}
                         >
                           <IcoCamera /> Take photo
@@ -483,7 +483,7 @@ export default function CreateDailyProgressScreen({
                             setCameraMenuOpen(false)
                             cameraVideoInputRef.current?.click()
                           }}
-                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[var(--hz-ink)] hover:bg-[#F9F5FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
+                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[var(--hz-ink)] hover:bg-[var(--hz-primary-wash)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
                           style={{ fontFamily: FONT_BODY }}
                         >
                           <IcoVideo /> Record video

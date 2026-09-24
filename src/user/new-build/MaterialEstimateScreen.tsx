@@ -482,7 +482,7 @@ function MaterialDetailDrawer({ mat, onClose, onAskHozie }: { mat: MaterialEstim
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: '#F9F5FF' }}>
+              <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: 'var(--hz-primary-wash)' }}>
                 <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Cost</span>
                 <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{formatINR(mat.estimatedCost)}</span>
               </div>
@@ -655,7 +655,7 @@ return (
                     Hozie has estimated the materials, quantities and current construction costs for your project.
                   </p>
                 </div>
-                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid var(--hz-primary-soft)' }}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
                   <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{version?.confidence ?? 86}% AI confidence</span>
                 </div>

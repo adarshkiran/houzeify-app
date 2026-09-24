@@ -68,9 +68,9 @@ function AccountTypeCard({ accountType, content, selected, onSelect }: { account
       onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-4 rounded-[18px] p-5 sm:p-6 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
-      style={{ boxShadow: selected ? '0 4px 18px rgba(243,234,255,0.10)' : '0 1px 8px rgba(0,0,0,0.03)' }}
+      style={{ boxShadow: selected ? '0 4px 18px var(--hz-primary-soft)' : '0 1px 8px rgba(0,0,0,0.03)' }}
     >
       {selected && (
         <span className="absolute top-4 right-4 w-[22px] h-[22px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center" aria-hidden="true">
@@ -291,7 +291,7 @@ export default function AccountTypeScreen({
 
           {/* Dynamic preview */}
           {accountType === 'individual' && (
-            <div className="w-full rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)', animation: 'welcomeFadeUp 0.3s ease-out both' }}>
+            <div className="w-full rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)', animation: 'welcomeFadeUp 0.3s ease-out both' }}>
               <div className="flex items-center gap-2">
                 <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
                 <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Your Workspace</span>
@@ -314,7 +314,7 @@ export default function AccountTypeScreen({
           )}
 
           {accountType === 'organization' && (
-            <div className="w-full rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)', animation: 'welcomeFadeUp 0.3s ease-out both' }}>
+            <div className="w-full rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)', animation: 'welcomeFadeUp 0.3s ease-out both' }}>
               <div className="flex items-center gap-2">
                 <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
                 <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Your Next Step</span>

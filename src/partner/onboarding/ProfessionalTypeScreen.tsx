@@ -57,7 +57,7 @@ function ProfessionalTypeCard({ type, selected, onSelect }: { type: Professional
       className={[
         'relative text-left flex items-start gap-3.5 rounded-[16px] p-4 sm:p-5 transition-all duration-150 outline-none cursor-pointer',
         selected
-          ? 'bg-[#F9F5FF] border-[1.5px] border-[var(--hz-primary)]'
+          ? 'bg-[var(--hz-primary-wash)] border-[1.5px] border-[var(--hz-primary)]'
           : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-border)] hover:bg-[var(--hz-surface)]',
       ].join(' ')}
     >
@@ -78,7 +78,7 @@ function ProfessionalTypeCard({ type, selected, onSelect }: { type: Professional
       <span
         aria-hidden="true"
         className="w-[20px] h-[20px] rounded-full flex items-center justify-center shrink-0 mt-0.5"
-        style={{ backgroundColor: selected ? 'var(--hz-primary)' : 'transparent', border: selected ? 'none' : '1.5px solid #CAC7C6' }}
+        style={{ backgroundColor: selected ? 'var(--hz-primary)' : 'transparent', border: selected ? 'none' : '1.5px solid var(--hz-border-strong)' }}
       >
         {selected && <CheckIcon size={10} />}
       </span>
@@ -101,7 +101,7 @@ function OtherTypeField({ value, onChange }: { value: string; onChange: (v: stri
         maxLength={PROFESSIONAL_TYPE_OTHER_MAX}
         onChange={e => onChange(e.target.value)}
         placeholder="e.g. Civil consultant, landscape contractor..."
-        className="w-full h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:border-[var(--hz-primary)] focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all"
+        className="w-full h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:border-[var(--hz-primary)] focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all"
         style={{ fontFamily: FONT_BODY }}
       />
       <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Professional type · required</span>

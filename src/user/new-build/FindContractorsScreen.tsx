@@ -70,7 +70,7 @@ const IcoSearch = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="7" cy="7" r="5" /><line x1="10.8" y1="10.8" x2="14" y2="14" /></svg>
 )
 const CheckBadgeIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const EmptyIcon = () => (
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#A1A1A1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="17" cy="14" r="5.5" /><path d="M6 34v-2.5A11 11 0 0117 20.5" /><circle cx="28" cy="16" r="4.5" /><path d="M24 24a8 8 0 018 8" /><line x1="30" y1="30" x2="35" y2="35" /></svg>
@@ -142,7 +142,7 @@ function ContractorCard({ listing, matched, onView }: { listing: ContractorListi
           <div className="flex items-center gap-1.5 flex-wrap">
             <h3 className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{listing.name}</h3>
             {listing.verificationStatus === 'verified' && (
-              <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}>
+              <span className="flex items-center gap-1 text-[11px] font-medium text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}>
                 <CheckBadgeIcon /> Verified
               </span>
             )}
@@ -182,7 +182,7 @@ function ContractorCard({ listing, matched, onView }: { listing: ContractorListi
             </span>
           )}
           {matched && (
-            <span className="px-2 py-0.5 rounded-full text-[10.5px] font-medium" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_BODY }}>
+            <span className="px-2 py-0.5 rounded-full text-[10.5px] font-medium" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
               Matches your project
             </span>
           )}
@@ -337,7 +337,7 @@ export default function FindContractorsScreen({
                   type="button"
                   onClick={() => updateFilter('verifiedOnly', !filters.verifiedOnly)}
                   className={`h-9 rounded-[10px] px-3 text-[13px] cursor-pointer flex items-center gap-1.5 ${filters.verifiedOnly ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] text-[var(--hz-ink-muted)]'}`}
-                  style={{ border: filters.verifiedOnly ? '1px solid var(--hz-primary)' : '1px solid #CAC7C6', fontFamily: FONT_BODY }}
+                  style={{ border: filters.verifiedOnly ? '1px solid var(--hz-primary)' : '1px solid var(--hz-border-strong)', fontFamily: FONT_BODY }}
                 >
                   {filters.verifiedOnly && <CheckBadgeIcon />} Verified only
                 </button>

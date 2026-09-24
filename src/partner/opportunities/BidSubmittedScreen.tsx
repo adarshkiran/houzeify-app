@@ -120,8 +120,8 @@ export default function BidSubmittedScreen({
           {/* Success visual */}
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="relative w-[72px] h-[72px] flex items-center justify-center" aria-hidden="true">
-              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(16px)' }} />
-              <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 26px rgba(243,234,255,0.10)' }}>
+              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', filter: 'blur(16px)' }} />
+              <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 26px var(--hz-primary-soft)' }}>
                 <BigCheckIcon />
               </span>
             </div>
@@ -143,13 +143,13 @@ export default function BidSubmittedScreen({
                 <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{opportunity.title}</span>
                 <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                   <span className="flex items-center gap-1"><HomeIconSmall /> {OPPORTUNITY_PROJECT_TYPE_LABELS[opportunity.projectType]}</span>
-                  <span className="text-[#CAC7C6]">·</span>
+                  <span className="text-[var(--hz-border-strong)]">·</span>
                   <span className="flex items-center gap-1"><PinIcon /> {opportunity.location}</span>
                 </div>
               </div>
             )}
 
-            <div className="flex flex-col divide-y divide-[#CAC7C6]">
+            <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
               <SummaryRow label="Your bid" value={formatBidAmount(bid.amount)} />
               <SummaryRow label="Duration" value={formatBidDuration(bid.duration, bid.durationUnit)} />
               {bid.proposedStartDate && <SummaryRow label="Proposed start" value={formatSubmittedDate(bid.proposedStartDate)} />}
@@ -158,15 +158,15 @@ export default function BidSubmittedScreen({
             </div>
 
             <div className="flex items-center gap-1.5 pt-1">
-              <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11.5px] font-semibold" style={{ fontFamily: FONT_MONO, backgroundColor: '#DCFCE7', color: '#16A34A' }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A]" />
+              <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11.5px] font-semibold" style={{ fontFamily: FONT_MONO, backgroundColor: '#DCFCE7', color: 'var(--hz-success)' }}>
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-success)]" />
                 {BID_STATUS_LABELS[bid.status]}
               </span>
             </div>
           </div>
 
           {/* What happens next */}
-          <div className="w-full rounded-[16px] p-5 flex flex-col gap-2" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+          <div className="w-full rounded-[16px] p-5 flex flex-col gap-2" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
             <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>What happens next?</span>
             <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
               The homeowner can review your proposal and compare it with other bids. You&apos;ll be notified if they respond or select your bid.

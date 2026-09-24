@@ -218,15 +218,15 @@ function BOQHero({ overview, onViewDetailed }: { overview: BOQOverviewData; onVi
   return (
     <div
       className="rounded-[20px] p-6 sm:p-8 flex flex-col gap-5"
-      style={{ background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, var(--hz-surface) 55%)', border: '1px solid var(--hz-border)', boxShadow: '0 4px 32px rgba(114,46,209,0.08)' }}
+      style={{ background: 'linear-gradient(135deg, var(--hz-primary-soft) 0%, var(--hz-surface) 55%)', border: '1px solid var(--hz-border)', boxShadow: '0 4px 32px color-mix(in oklch, var(--hz-primary) 14%, transparent)' }}
     >
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2.5">
           <span className="w-9 h-9 rounded-[11px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', animation: 'aiIconGlow 2.4s ease-in-out infinite' }}>
             <HIcon size={20} />
           </span>
-          <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.06em]" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: '"Sometype Mono:SemiBold", monospace', padding: '4px 10px', borderRadius: 999 }}>
-            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#16A34A' }} /> BOQ Ready
+          <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.06em]" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: '"Sometype Mono:SemiBold", monospace', padding: '4px 10px', borderRadius: 999 }}>
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--hz-success)' }} /> BOQ Ready
           </span>
         </div>
       </div>
@@ -338,11 +338,11 @@ function CategoryRow({ cat, onOpen }: { cat: BOQCategory; onOpen: () => void }) 
         className="hidden sm:inline-flex items-center gap-1.5 text-[10px] font-medium px-2 py-1 rounded-full shrink-0"
         style={{
           backgroundColor: cat.status === 'ready' ? '#DCFCE7' : '#FEF3C7',
-          color: cat.status === 'ready' ? '#16A34A' : '#D97706',
+          color: cat.status === 'ready' ? 'var(--hz-success)' : '#D97706',
           fontFamily: '"Inter Variable", sans-serif',
         }}
       >
-        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: cat.status === 'ready' ? '#16A34A' : '#D97706' }} />
+        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: cat.status === 'ready' ? 'var(--hz-success)' : '#D97706' }} />
         {cat.status === 'ready' ? 'Ready' : 'Needs review'}
       </span>
       <span className="text-[var(--hz-ink-subtle)] shrink-0"><IcoArrowRight /></span>
@@ -354,7 +354,7 @@ function CategoryRow({ cat, onOpen }: { cat: BOQCategory; onOpen: () => void }) 
 
 function HozieCheckCard({ estimateVersionNumber, onAnalyzePlan }: { estimateVersionNumber?: number; onAnalyzePlan: () => void }) {
   return (
-    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Check</span>
@@ -429,8 +429,8 @@ function NextStepCard({ title, description, onClick, emphasized, muted }: {
       onClick={onClick}
       className="text-left flex flex-col gap-2 p-4 sm:p-5 rounded-[14px] cursor-pointer transition-all"
       style={{
-        backgroundColor: emphasized ? '#F9F5FF' : 'var(--hz-surface)',
-        border: emphasized ? '1.5px solid var(--hz-primary)' : '1px solid #CAC7C6',
+        backgroundColor: emphasized ? 'var(--hz-primary-wash)' : 'var(--hz-surface)',
+        border: emphasized ? '1.5px solid var(--hz-primary)' : '1px solid var(--hz-border-strong)',
         opacity: muted ? 0.72 : 1,
       }}
     >

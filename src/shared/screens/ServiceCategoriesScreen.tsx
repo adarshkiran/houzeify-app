@@ -161,7 +161,7 @@ function ServiceCategoryCard({ category, selected, isPrimary, onToggle }: {
       onClick={onToggle}
       className={[
         'relative text-left flex items-start gap-3 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <div className={['w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
@@ -213,7 +213,7 @@ function OtherServicesCard({
         aria-haspopup="true"
         className={[
           'relative text-left flex items-start gap-3 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer w-full',
-          expanded ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+          expanded ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
         ].join(' ')}
       >
         <div className={['w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0', expanded ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
@@ -251,7 +251,7 @@ function OtherServicesCard({
               >
                 <span
                   className="w-[18px] h-[18px] rounded-[5px] flex items-center justify-center shrink-0 border transition-colors"
-                  style={{ backgroundColor: checked ? 'var(--hz-primary)' : 'var(--hz-surface)', borderColor: checked ? 'var(--hz-primary)' : '#CAC7C6' }}
+                  style={{ backgroundColor: checked ? 'var(--hz-primary)' : 'var(--hz-surface)', borderColor: checked ? 'var(--hz-primary)' : 'var(--hz-border-strong)' }}
                 >
                   {checked && <CheckIcon size={10} />}
                 </span>
@@ -618,7 +618,7 @@ export default function ServiceCategoriesScreen({
                       rows={3}
                       maxLength={SERVICE_DESCRIPTION_MAX}
                       aria-describedby="service-description-count"
-                      className="w-full px-4 py-3 rounded-[12px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                      className="w-full px-4 py-3 rounded-[12px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                       style={{ fontFamily: FONT_BODY }}
                     />
                     <div className="flex items-center justify-end mt-1.5">
@@ -641,7 +641,7 @@ export default function ServiceCategoriesScreen({
                           style={{
                             fontFamily: FONT_BODY,
                             backgroundColor: serviceArea === area ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-                            borderColor: serviceArea === area ? 'var(--hz-primary)' : '#CAC7C6',
+                            borderColor: serviceArea === area ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                             color: serviceArea === area ? 'var(--hz-primary)' : 'var(--hz-black)',
                           }}
                         >
@@ -677,7 +677,7 @@ export default function ServiceCategoriesScreen({
                           style={{
                             fontFamily: FONT_BODY,
                             backgroundColor: yearsInBusiness === y ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-                            borderColor: yearsInBusiness === y ? 'var(--hz-primary)' : '#CAC7C6',
+                            borderColor: yearsInBusiness === y ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                             color: yearsInBusiness === y ? 'var(--hz-primary)' : 'var(--hz-black)',
                           }}
                         >
@@ -708,7 +708,7 @@ export default function ServiceCategoriesScreen({
                           style={{
                             fontFamily: FONT_BODY,
                             backgroundColor: serviceModes.includes(mode) ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-                            borderColor: serviceModes.includes(mode) ? 'var(--hz-primary)' : '#CAC7C6',
+                            borderColor: serviceModes.includes(mode) ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                             color: serviceModes.includes(mode) ? 'var(--hz-primary)' : 'var(--hz-black)',
                           }}
                         >
@@ -742,7 +742,7 @@ export default function ServiceCategoriesScreen({
                           style={{
                             fontFamily: FONT_BODY,
                             backgroundColor: pricingModel === model ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-                            borderColor: pricingModel === model ? 'var(--hz-primary)' : '#CAC7C6',
+                            borderColor: pricingModel === model ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                             color: pricingModel === model ? 'var(--hz-primary)' : 'var(--hz-black)',
                           }}
                         >
@@ -761,7 +761,7 @@ export default function ServiceCategoriesScreen({
               </div>
 
               {/* Why we ask */}
-              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
+              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'var(--hz-primary-soft)', backgroundColor: 'var(--hz-primary-wash)' }}>
                 <span className="text-[var(--hz-primary)] mt-0.5 shrink-0"><InfoIcon /></span>
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Why service categories matter</span>
@@ -817,8 +817,8 @@ export default function ServiceCategoriesScreen({
                   <div className="flex flex-col min-w-0 gap-0.5">
                     <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{resolvedCompanyName}</span>
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: isVerified ? '#16A34A' : '#999999', fontFamily: FONT_BODY }}>
-                        {isVerified && <span className="w-3.5 h-3.5 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>}
+                      <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: isVerified ? 'var(--hz-success)' : '#999999', fontFamily: FONT_BODY }}>
+                        {isVerified && <span className="w-3.5 h-3.5 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>}
                         {isVerified ? 'Verified' : 'Not verified'}
                       </span>
                       <span className="text-[11px] text-[var(--hz-ink-subtle)]">·</span>

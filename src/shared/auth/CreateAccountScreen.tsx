@@ -23,10 +23,10 @@ function AmbientBackground() {
 
 function VerifiedPhone({ phone }: { phone: string }) {
   return (
-    <div className="flex items-center gap-2.5 bg-[#F9F5FF] border border-[var(--hz-primary)]/15 rounded-[10px] px-3.5 py-2.5">
+    <div className="flex items-center gap-2.5 bg-[var(--hz-primary-wash)] border border-[var(--hz-primary)]/15 rounded-[10px] px-3.5 py-2.5">
       <div
         className="size-[18px] rounded-full flex items-center justify-center shrink-0"
-        style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}
+        style={{ backgroundColor: 'var(--hz-primary-soft)' }}
       >
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
           <path d="M2 5L4 7L8 3" stroke="var(--hz-primary)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
@@ -94,7 +94,7 @@ function InputField({
         placeholder={placeholder}
         disabled={disabled}
         className={[
-          'h-[52px] px-4 text-[15px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-[var(--hz-surface)] border rounded-[12px] outline-none transition-all duration-200 w-full',
+          'h-[52px] px-4 text-[15px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-[var(--hz-surface)] border rounded-[12px] outline-none transition-all duration-200 w-full',
           disabled ? 'opacity-60 cursor-not-allowed' : '',
           showError
             ? 'border-[var(--hz-danger)] ring-2 ring-[var(--hz-danger)]/10'
@@ -262,7 +262,7 @@ export default function CreateAccountScreen({
             isDisabled ? 'cursor-default' : 'cursor-pointer hover:brightness-90 active:scale-[0.99]',
           ].join(' ')}
           style={{
-            backgroundColor: stage === 'success' ? '#16A34A' : 'var(--hz-primary)',
+            backgroundColor: stage === 'success' ? 'var(--hz-success)' : 'var(--hz-primary)',
             fontFamily: '"Inter Variable", sans-serif',
           }}
         >

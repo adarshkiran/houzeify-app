@@ -9,7 +9,7 @@ interface HozieInsightCardProps {
 /** Shared Hozie AI insight panel — lavender card used across every estimate-family screen. */
 export default function HozieInsightCard({ message, actionLabel, onAction }: HozieInsightCardProps) {
   return (
-    <div className="rounded-[16px] px-5 py-4 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] px-5 py-4 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <div className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0">
           <HIcon size={20} />

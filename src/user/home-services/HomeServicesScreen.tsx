@@ -492,7 +492,7 @@ function ServiceSearch({ value, onChange }: { value: string; onChange: (v: strin
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder="Search for a service..."
-        className="w-full h-[52px] pl-11 pr-4 rounded-[14px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[14.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:border-[var(--hz-primary)] focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all"
+        className="w-full h-[52px] pl-11 pr-4 rounded-[14px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[14.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:border-[var(--hz-primary)] focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all"
         style={{ fontFamily: FONT_BODY }}
       />
     </div>
@@ -518,7 +518,7 @@ function ServiceCategoryCard({ category, onSelect }: { category: ServiceCategory
           <span className="text-[14px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{category.name}</span>
           <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{category.description}</span>
         </div>
-        <span className={`shrink-0 text-[#CAC7C6] mt-1 transition-colors ${accent === 'orange' ? 'group-hover:text-[#FF5500]' : 'group-hover:text-[var(--hz-primary)]'}`}><IcoArrow /></span>
+        <span className={`shrink-0 text-[var(--hz-border-strong)] mt-1 transition-colors ${accent === 'orange' ? 'group-hover:text-[#FF5500]' : 'group-hover:text-[var(--hz-primary)]'}`}><IcoArrow /></span>
       </div>
     </button>
   )
@@ -819,7 +819,7 @@ function HomeStoryCard({ title, icon, image, onSelect }: { title: string; icon: 
     <button
       onClick={onSelect}
       className="group relative overflow-hidden rounded-[14px] flex-1 min-w-[130px] h-[190px] flex items-end p-3 cursor-pointer border-0"
-      style={{ background: image ? undefined : 'linear-gradient(160deg, var(--hz-primary-soft) 0%, #F9F5FF 55%, #FFF3EA 100%)' }}
+      style={{ background: image ? undefined : 'linear-gradient(160deg, var(--hz-primary-soft) 0%, var(--hz-primary-wash) 55%, #FFF3EA 100%)' }}
     >
       {image ? (
         <img src={image} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" />
@@ -999,7 +999,7 @@ function ServiceGroupsLanding({
           Booking / Transparent Pricing) in place of fabricated stats. */}
       <div
         className="relative w-full overflow-hidden rounded-[20px]"
-        style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
+        style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
       >
         <div className="relative flex flex-col gap-4 px-5 sm:px-10 lg:px-12 py-8 sm:py-10">
           <span className="text-[11px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Services</span>
@@ -1058,7 +1058,7 @@ function ServiceGroupsLanding({
             subtext="Essential Home Repairs"
             ctaLabel="Book now"
             onCta={onOpenElectricianPlumberCarpenter}
-            gradient="linear-gradient(135deg, #F9F5FF 0%, var(--hz-primary-soft) 100%)"
+            gradient="linear-gradient(135deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 100%)"
             icon={<IcoTool />}
             image={electricianBannerImg}
             compact
@@ -1281,7 +1281,7 @@ function HoziehelperModal({ onClose, onSelectTier }: { onClose: () => void; onSe
               <button
                 key={tier.id}
                 onClick={() => onSelectTier(tier)}
-                className={`w-full flex items-center gap-4 text-left px-5 py-5 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[#F9F5FF] transition-colors ${i > 0 ? 'border-t border-[var(--hz-surface-muted)]' : ''}`}
+                className={`w-full flex items-center gap-4 text-left px-5 py-5 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${i > 0 ? 'border-t border-[var(--hz-surface-muted)]' : ''}`}
               >
                 <div className="relative shrink-0">
                   <div className="w-[96px] h-[128px] rounded-[14px] overflow-hidden shrink-0" aria-label={tier.title} role="img">
@@ -1452,7 +1452,7 @@ function SalonTierRow({ tier, isFirst, onSelect }: { tier: SalonTier; isFirst: b
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
+      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
       <div className="relative shrink-0">
         <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0" aria-label={tier.title} role="img">
@@ -1521,7 +1521,7 @@ function SalonForWomenModal({ onBack, onClose, onSelectTier }: { onBack: () => v
         <div className="overflow-y-auto px-5 pt-3 pb-5" style={{ scrollbarWidth: 'none' }}>
           <div
             className="relative w-full overflow-hidden rounded-[16px] h-[150px] sm:h-[140px]"
-            style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
+            style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
           >
             <div className="absolute inset-0 flex items-center px-4 sm:px-5">
               {/* max-w and font sizes shrink at this modal's own narrow
@@ -1586,10 +1586,10 @@ function SpaTierRow({ tier, isFirst, onSelect }: { tier: SpaTier; isFirst: boole
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
+      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
       <div className="relative shrink-0">
-        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]" aria-label={tier.title} role="img">
+        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]" aria-label={tier.title} role="img">
           <IcoSpaLeaf />
         </div>
         {tier.topRated && (
@@ -1930,10 +1930,10 @@ function MensSalonTierRow({ tier, isFirst, onSelect }: { tier: MensSalonTier; is
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
+      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
       <div className="relative shrink-0">
-        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]" aria-label={tier.title} role="img">
+        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]" aria-label={tier.title} role="img">
           <IcoRazor />
         </div>
         {tier.topRated && (
@@ -2036,9 +2036,9 @@ function PaintingScopeRow({ scope, isFirst, onSelect }: { scope: PaintingScope; 
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-5 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
+      className={`w-full flex items-center gap-4 text-left px-5 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
-      <div className="w-[76px] h-[76px] rounded-[14px] shrink-0 flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]">
+      <div className="w-[76px] h-[76px] rounded-[14px] shrink-0 flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]">
         {scope.icon}
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-0.5">
@@ -2129,10 +2129,10 @@ function MassageTierRow({ tier, isFirst, onSelect }: { tier: MassageTier; isFirs
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
+      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
       <div className="relative shrink-0">
-        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]" aria-label={tier.title} role="img">
+        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]" aria-label={tier.title} role="img">
           <IcoMassageTable />
         </div>
         {tier.topRated && (

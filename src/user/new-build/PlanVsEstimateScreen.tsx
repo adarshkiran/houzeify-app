@@ -183,10 +183,10 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 }
 
 const STATUS_STYLES: Record<string, { bg: string; color: string; dot: string }> = {
-  matched: { bg: '#DCFCE7', color: '#16A34A', dot: '#16A34A' },
+  matched: { bg: '#DCFCE7', color: 'var(--hz-success)', dot: 'var(--hz-success)' },
   review: { bg: '#FEF3C7', color: '#D97706', dot: '#D97706' },
   'significant-difference': { bg: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', dot: 'var(--hz-primary)' },
-  unavailable: { bg: '#CAC7C6', color: 'var(--hz-ink-subtle)', dot: '#A1A1A1' },
+  unavailable: { bg: 'var(--hz-border-strong)', color: 'var(--hz-ink-subtle)', dot: '#A1A1A1' },
 }
 
 function StatusBadge({ status }: { status: ComparisonItem['status'] }) {
@@ -411,8 +411,8 @@ function MatchedItemsSection({ items, className }: { items: ComparisonItem[]; cl
           <span className="shrink-0 flex items-center justify-center transition-transform" style={{ transform: expanded ? 'rotate(0deg)' : 'rotate(-90deg)', color: 'var(--hz-ink-muted)' }}><IcoChevronDown /></span>
           <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>No Significant Change</span>
         </div>
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.04em]" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
-          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> {items.length} matched
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.04em]" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" /> {items.length} matched
         </span>
       </button>
       {expanded && (
@@ -423,7 +423,7 @@ function MatchedItemsSection({ items, className }: { items: ComparisonItem[]; cl
           <div className="flex flex-wrap gap-2">
             {items.map(i => (
               <span key={i.id} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] text-[var(--hz-ink)]" style={{ backgroundColor: 'var(--hz-surface-muted)', fontFamily: FONT_BODY }}>
-                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" />
+                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" />
                 {i.label}
               </span>
             ))}
@@ -582,7 +582,7 @@ function ImpactBreakdown({ cmp, className }: { cmp: PlanEstimateComparison; clas
 
 function HozieExplanation({ onAskHozie, className }: { onAskHozie: () => void; className?: string }) {
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Explains</span>
@@ -614,7 +614,7 @@ function WhatShouldChange({ affectedCount, onReviewAll, onApplyRecommended, onKe
           <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Review All</span>
           <span className="text-[11px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Review each proposed change.</span>
         </button>
-        <button onClick={onApplyRecommended} className="flex flex-col items-start gap-1 rounded-[12px] p-4 text-left cursor-pointer border-2" style={{ borderColor: 'var(--hz-primary)', backgroundColor: '#F9F5FF' }}>
+        <button onClick={onApplyRecommended} className="flex flex-col items-start gap-1 rounded-[12px] p-4 text-left cursor-pointer border-2" style={{ borderColor: 'var(--hz-primary)', backgroundColor: 'var(--hz-primary-wash)' }}>
           <span className="text-[13px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>Apply Recommended</span>
           <span className="text-[11px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Apply only high-confidence changes.</span>
         </button>
@@ -676,7 +676,7 @@ function ChangeSelectionBar({ selectedCount, selectedImpact, onSelectAll, onClea
       </div>
       <div className="flex items-center gap-2.5 flex-wrap">
         <button onClick={onSelectAll} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Select all</button>
-        <span className="text-[#CAC7C6]">·</span>
+        <span className="text-[var(--hz-border-strong)]">·</span>
         <button onClick={onClearAll} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>Clear all</button>
         <button
           onClick={onReview}
@@ -700,7 +700,7 @@ function ChangeReviewPanel({ cmp, selectedCount, selectedImpact, onCreateRevisio
 }) {
   const revised = calculateRevisedRange(cmp.estimateMin, cmp.estimateMax, selectedImpact)
   return (
-    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center justify-between gap-2">
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Review Selected Changes</span>
         <button onClick={onBack} className="text-[12px] font-medium cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>← Back to selection</button>
@@ -785,7 +785,7 @@ function ComparisonError({ onRetry, onBack }: { onRetry: () => void; onBack: () 
 function NoDifferences({ onBack }: { onBack: () => void }) {
   return (
     <div className="w-full max-w-[560px] mx-auto bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: '#16A34A' }}><IcoCheck /></span>
+      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)' }}><IcoCheck /></span>
       <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Your plan measurements are consistent with the current estimate.</h2>
       <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>No changes recommended.</p>
       <button onClick={onBack} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Back to measurements</button>
@@ -933,7 +933,7 @@ export default function PlanVsEstimateScreen({
       {/* Mobile top bar */}
       <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
         <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Plan vs Estimate</span>
-        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>READY</span>
+        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>READY</span>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -945,8 +945,8 @@ export default function PlanVsEstimateScreen({
               <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Plan vs Estimate</h1>
               <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
-              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> Comparison Ready
+            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" /> Comparison Ready
             </span>
           </header>
 

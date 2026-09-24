@@ -25,7 +25,7 @@ function SuccessBadge() {
       style={{
         width: 26,
         height: 26,
-        backgroundColor: '#16A34A',
+        backgroundColor: 'var(--hz-success)',
         animation: 'successBadgePop 0.38s cubic-bezier(0.34,1.56,0.64,1) 0.60s both',
       }}
     >
@@ -55,7 +55,7 @@ function IconWithGlow({ size }: { size: number }) {
         className="absolute rounded-full pointer-events-none"
         style={{
           inset: '-70%',
-          background: 'radial-gradient(circle at center, rgba(243,234,255,0.10) 0%, transparent 68%)',
+          background: 'radial-gradient(circle at center, var(--hz-primary-soft) 0%, transparent 68%)',
           filter: 'blur(12px)',
         }}
       />
@@ -136,7 +136,7 @@ export default function AccountCreatedScreen({
             style={{ backgroundColor: 'rgba(22,163,74,0.12)' }}
           >
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-              <path d="M2 5L4 7L8 3" stroke="#16A34A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 5L4 7L8 3" stroke="var(--hz-success)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
           <span

@@ -183,7 +183,7 @@ function formatDate(iso: string): string {
 const STATUS_META: Record<PriceStatus, { label: string; bg: string; fg: string }> = {
   'within-range': { label: 'Within expected range', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)' },
   'above-range': { label: 'Above reference range', bg: '#FEF3C7', fg: '#D97706' },
-  'below-range': { label: 'Below reference range', bg: '#CAC7C6', fg: '#808080' },
+  'below-range': { label: 'Below reference range', bg: 'var(--hz-border-strong)', fg: '#808080' },
 }
 
 // ─── Header ─────────────────────────────────────────────────────────────────
@@ -230,7 +230,7 @@ function PriceHero({ price }: { price: MaterialPrice }) {
           <span className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>₹{price.estimateRate.toLocaleString('en-IN')}</span>
           <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>/ {price.unit === 'bags' ? 'bag' : price.unit}</span>
         </div>
-        <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+        <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
           <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>Current Reference</span>
           <span className="text-[24px] sm:text-[28px] font-semibold leading-none" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>₹{price.referenceMid.toLocaleString('en-IN')}</span>
           <span className="text-[11px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>/ {price.unit === 'bags' ? 'bag' : price.unit}</span>
@@ -334,7 +334,7 @@ function CostImpactCard({ price }: { price: MaterialPrice }) {
           <Row label="Revised indicative cost" value={formatINR(impact.referenceCost)} />
           <Row label="Difference" value={`${impact.difference >= 0 ? '+' : ''}${formatINR(impact.difference)}`} />
         </div>
-        <div className="rounded-[12px] p-4 flex flex-col gap-1" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+        <div className="rounded-[12px] p-4 flex flex-col gap-1" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
           <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>Project Impact</span>
           <span className="text-[26px] font-semibold leading-none" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>{impact.difference >= 0 ? '+' : ''}{formatINR(impact.difference)}</span>
         </div>
@@ -413,7 +413,7 @@ function HoziePriceInsight({ price, onAskHozie }: { price: MaterialPrice; onAskH
     : `The current reference midpoint is only ₹${Math.abs(diff)} ${diff > 0 ? 'higher' : 'lower'} than the rate used in your estimate. Your existing ${price.materialName.toLowerCase()} allowance is therefore still within a reasonable planning range.`
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.22s both' }}>
-      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
         <div className="flex items-center gap-2.5">
           <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
           <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Price Insight</span>

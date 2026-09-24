@@ -150,7 +150,7 @@ export default function RenovateProjectCreatedScreen({
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-10">
         <div className="max-w-[560px] mx-auto flex flex-col gap-6">
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 26px rgba(243,234,255,0.10)' }}>
+            <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 26px var(--hz-primary-soft)' }}>
               <BigCheckIcon />
             </span>
             <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Your renovation project is ready</h1>

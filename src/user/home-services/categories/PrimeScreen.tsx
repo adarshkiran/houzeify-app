@@ -473,7 +473,7 @@ function ServiceTabs({ onJump }: { onJump: (id: string) => void }) {
             // as ending at the same place.
             className="flex flex-col items-center justify-between gap-1.5 cursor-pointer border-0 bg-transparent p-0 shrink-0 w-[76px]"
           >
-            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)] shrink-0">
+            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
               {s.icon}
             </div>
             <span className="text-[12px] text-[var(--hz-ink)] text-center leading-tight" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
@@ -491,7 +491,7 @@ function HeroBanner({ onExplore, onViewPackages }: { onExplore: () => void; onVi
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px]"
-      style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="relative flex flex-col gap-4 px-5 sm:px-10 lg:px-12 py-8 sm:py-10">
         <span className="text-[11px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Prime</span>
@@ -539,7 +539,7 @@ function CategoryBanner({ title, subtitle, icon }: { title: string; subtitle: st
   return (
     <div
       className="w-full rounded-[16px] flex items-center gap-4 px-5 sm:px-8 py-5"
-      style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
+      style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
     >
       <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[14px] bg-[var(--hz-surface)]/70 flex items-center justify-center text-[var(--hz-primary)] shrink-0 shadow-sm">{icon}</div>
       <div className="flex flex-col gap-1 min-w-0">
@@ -660,7 +660,7 @@ function OptionsModal({ item, icon, cartCountForOption, onAddOption, onClose }: 
             const cartCount = cartCountForOption(opt.id)
             return (
               <div key={opt.id} className="flex items-center gap-3 rounded-[12px] p-3" style={CARD_SURFACE}>
-                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)] shrink-0">
+                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
                   {icon}
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col gap-1">
@@ -728,7 +728,7 @@ function EditorialFeature({ onExplore }: { onExplore: () => void }) {
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px] flex items-center"
-      style={{ minHeight: 200, background: 'linear-gradient(120deg, #FFF3EA 0%, var(--hz-primary-soft) 55%, #F9F5FF 100%)' }}
+      style={{ minHeight: 200, background: 'linear-gradient(120deg, #FFF3EA 0%, var(--hz-primary-soft) 55%, var(--hz-primary-wash) 100%)' }}
     >
       <div className="flex flex-col gap-3 px-6 sm:px-10 py-8 max-w-[420px]">
         <h2 className="text-[20px] sm:text-[26px] font-semibold text-[var(--hz-ink)] leading-[1.15] m-0" style={{ fontFamily: FONT_HEAD }}>Ready for Your Next Appointment</h2>

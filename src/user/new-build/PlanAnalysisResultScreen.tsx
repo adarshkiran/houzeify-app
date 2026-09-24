@@ -208,7 +208,7 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 }
 
 const STATUS_STYLES: Record<FindingStatus, { bg: string; color: string; dot: string }> = {
-  confirmed: { bg: '#DCFCE7', color: '#16A34A', dot: '#16A34A' },
+  confirmed: { bg: '#DCFCE7', color: 'var(--hz-success)', dot: 'var(--hz-success)' },
   likely: { bg: '#FEF3C7', color: '#D97706', dot: '#D97706' },
   'needs-review': { bg: '#FEE2E2', color: 'var(--hz-danger)', dot: 'var(--hz-danger)' },
 }
@@ -259,7 +259,7 @@ function AnalysisSummary({ result }: { result: PlanAnalysisResult }) {
         <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-3 shrink-0">
           <div className="relative flex items-center justify-center shrink-0" style={{ width: 96, height: 96 }}>
             <svg width="96" height="96" viewBox="0 0 96 96" className="-rotate-90">
-              <circle cx="48" cy="48" r="42" fill="none" stroke="#CAC7C6" strokeWidth="8" />
+              <circle cx="48" cy="48" r="42" fill="none" stroke="var(--hz-border-strong)" strokeWidth="8" />
               <circle
                 cx="48" cy="48" r="42" fill="none" stroke="var(--hz-primary)" strokeWidth="8" strokeLinecap="round"
                 strokeDasharray={`${2 * Math.PI * 42}`}
@@ -272,8 +272,8 @@ function AnalysisSummary({ result }: { result: PlanAnalysisResult }) {
           </div>
           <div className="flex flex-col items-center lg:items-center gap-1">
             <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Analysis Confidence</span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.04em]" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
-              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> High
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.04em]" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" /> High
             </span>
           </div>
         </div>
@@ -364,7 +364,7 @@ function PlanViewer({ result, className }: { result: PlanAnalysisResult; classNa
       >
         <span
           className="relative rounded-full transition-colors shrink-0"
-          style={{ width: 34, height: 20, backgroundColor: showOverlay ? 'var(--hz-primary)' : '#CAC7C6' }}
+          style={{ width: 34, height: 20, backgroundColor: showOverlay ? 'var(--hz-primary)' : 'var(--hz-border-strong)' }}
         >
           <span
             className="absolute top-[2px] w-4 h-4 rounded-full bg-[var(--hz-surface)] transition-all"
@@ -636,7 +636,7 @@ function BOQImpactPreview({ result, onCompare, className }: { result: PlanAnalys
 function HozieSummary({ result, onAskHozie, className }: { result: PlanAnalysisResult; onAskHozie: () => void; className?: string }) {
   const { deltaSqft } = areaDifference(result)
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Summary</span>
@@ -772,7 +772,7 @@ export default function PlanAnalysisResultScreen({
       {/* Mobile top bar */}
       <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
         <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Plan Analysis Result</span>
-        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>COMPLETE</span>
+        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>COMPLETE</span>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -784,8 +784,8 @@ export default function PlanAnalysisResultScreen({
               <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Plan Analysis Result</h1>
               <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
-              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> Analysis Complete
+            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" /> Analysis Complete
             </span>
           </header>
 

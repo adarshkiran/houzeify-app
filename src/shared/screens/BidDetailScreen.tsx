@@ -30,7 +30,7 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 const CheckBadgeIcon = ({ size = 12 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const IcoImage = () => (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="#808080" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="14" height="12" rx="1.5" /><circle cx="6.5" cy="7.5" r="1.3" /><path d="M2 13l4-4 3 3 3-3.5 4 4.5" /></svg>
@@ -54,9 +54,9 @@ function formatDate(iso: string): string {
 
 const STATUS_STYLE: Record<string, { bg: string; fg: string }> = {
   submitted: { bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)' },
-  accepted: { bg: '#DCFCE7', fg: '#16A34A' },
+  accepted: { bg: '#DCFCE7', fg: 'var(--hz-success)' },
   rejected: { bg: '#FEE2E2', fg: 'var(--hz-danger)' },
-  withdrawn: { bg: '#CAC7C6', fg: '#808080' },
+  withdrawn: { bg: 'var(--hz-border-strong)', fg: '#808080' },
 }
 
 interface BidDetailScreenProps {
@@ -265,7 +265,7 @@ export default function BidDetailScreen({
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{name}</p>
                       {listing?.verificationStatus === 'verified' && (
-                        <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
+                        <span className="flex items-center gap-1 text-[11px] font-medium text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
                       )}
                     </div>
                     <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{typeLabel} · {kind === 'organization' ? 'Organization' : 'Individual'}</p>

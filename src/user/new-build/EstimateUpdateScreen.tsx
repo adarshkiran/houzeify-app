@@ -162,7 +162,7 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 
 function ChangeText({ amount }: { amount: number }) {
   if (amount === 0) return <span className="text-[12px] font-medium" style={{ color: 'var(--hz-ink-subtle)', fontFamily: FONT_MONO }}>₹0</span>
-  return <span className="text-[12px] font-semibold" style={{ color: amount > 0 ? '#D97706' : '#16A34A', fontFamily: FONT_MONO }}>{formatChange(amount)}</span>
+  return <span className="text-[12px] font-semibold" style={{ color: amount > 0 ? '#D97706' : 'var(--hz-success)', fontFamily: FONT_MONO }}>{formatChange(amount)}</span>
 }
 
 // ─── Update summary ───────────────────────────────────────────────────────────
@@ -327,8 +327,8 @@ function WhatDidNotChange({ rev, className }: { rev: EstimateRevision; className
     <SectionCard eyebrow="No Change" className={className}>
       <div className="flex flex-wrap gap-2">
         {rev.unchangedCategories.map(c => (
-          <span key={c} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-medium" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_BODY }}>
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> {c}
+          <span key={c} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-medium" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" /> {c}
           </span>
         ))}
       </div>
@@ -342,7 +342,7 @@ function WhatDidNotChange({ rev, className }: { rev: EstimateRevision; className
 function HozieUpdateCard({ rev, onAskHozie, className }: { rev: EstimateRevision; onAskHozie: () => void; className?: string }) {
   const change = rev.newTotal - rev.previousTotal
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Updated Your Estimate</span>
@@ -365,13 +365,13 @@ function EstimateConfidence({ rev, className }: { rev: EstimateRevision; classNa
     <SectionCard eyebrow="Updated Estimate Confidence" className={className}>
       <div className="flex items-end gap-3">
         <span className="text-[32px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>{rev.confidenceAfter}%</span>
-        <span className="inline-flex items-center gap-1.5 mb-1 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
-          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> High
+        <span className="inline-flex items-center gap-1.5 mb-1 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" /> High
         </span>
       </div>
       <div className="flex items-center gap-4 text-[12px]" style={{ fontFamily: FONT_BODY }}>
         <span className="text-[var(--hz-ink-muted)]">Previous: <strong style={{ color: 'var(--hz-ink)' }}>{rev.confidenceBefore}%</strong></span>
-        <span style={{ color: '#16A34A' }}>Improvement: <strong>+{improvement}%</strong></span>
+        <span style={{ color: 'var(--hz-success)' }}>Improvement: <strong>+{improvement}%</strong></span>
       </div>
       <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Plan-derived measurements were incorporated into the calculation.</p>
       <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
@@ -419,20 +419,20 @@ function VersionCreation({ rev, active, className }: { rev: EstimateRevision; ac
           <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Estimate V2</span>
           <span
             className="inline-flex items-center gap-1.5 w-fit px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.04em]"
-            style={{ backgroundColor: active ? '#CAC7C6' : '#DCFCE7', color: active ? '#808080' : '#16A34A', fontFamily: FONT_MONO }}
+            style={{ backgroundColor: active ? 'var(--hz-border-strong)' : '#DCFCE7', color: active ? '#808080' : 'var(--hz-success)', fontFamily: FONT_MONO }}
           >
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: active ? '#A1A1A1' : '#16A34A' }} aria-hidden="true" />
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: active ? '#A1A1A1' : 'var(--hz-success)' }} aria-hidden="true" />
             {active ? 'Superseded' : 'Active'}
           </span>
         </div>
-        <div className="flex flex-col gap-1.5 rounded-[12px] p-4" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+        <div className="flex flex-col gap-1.5 rounded-[12px] p-4" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
           <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>New Version</span>
           <span className="text-[15px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>Estimate V3</span>
           <span
             className="inline-flex items-center gap-1.5 w-fit px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.04em]"
-            style={{ backgroundColor: active ? '#DCFCE7' : 'var(--hz-primary-soft)', color: active ? '#16A34A' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
+            style={{ backgroundColor: active ? '#DCFCE7' : 'var(--hz-primary-soft)', color: active ? 'var(--hz-success)' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
           >
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: active ? '#16A34A' : 'var(--hz-primary)' }} aria-hidden="true" />
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: active ? 'var(--hz-success)' : 'var(--hz-primary)' }} aria-hidden="true" />
             {active ? 'Active' : 'Draft'}
           </span>
         </div>
@@ -465,7 +465,7 @@ function ReviewBeforeActivating({ onCreate, onBack, className }: { onCreate: () 
       <ul className="flex flex-col gap-2 m-0 p-0" style={{ listStyle: 'none' }}>
         {READY_CHECKLIST.map(item => (
           <li key={item} className="flex items-center gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
-            <span className="shrink-0" style={{ color: '#16A34A' }}><IcoCheckOutline /></span> {item}
+            <span className="shrink-0" style={{ color: 'var(--hz-success)' }}><IcoCheckOutline /></span> {item}
           </li>
         ))}
       </ul>
@@ -541,9 +541,9 @@ function UpdateSuccess({ rev, onViewEstimate, onViewVersionHistory, className }:
   const change = rev.newTotal - rev.previousTotal
   return (
     <div className={['w-full bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-5', className].filter(Boolean).join(' ')} style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: '#16A34A' }}><IcoCheck /></span>
+      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)' }}><IcoCheck /></span>
       <div className="flex flex-col gap-1.5">
-        <span className="text-[14px] font-semibold uppercase tracking-[0.06em]" style={{ color: '#16A34A', fontFamily: FONT_MONO }}>Estimate V3 Active ✓</span>
+        <span className="text-[14px] font-semibold uppercase tracking-[0.06em]" style={{ color: 'var(--hz-success)', fontFamily: FONT_MONO }}>Estimate V3 Active ✓</span>
         <p className="text-[14px] text-[var(--hz-ink)] leading-[1.6] m-0 max-w-[440px]" style={{ fontFamily: FONT_BODY }}>Your estimate has been updated using the approved plan findings.</p>
       </div>
       <div className="grid grid-cols-3 gap-4 sm:gap-8">
@@ -694,7 +694,7 @@ export default function EstimateUpdateScreen({
       {/* Mobile top bar */}
       <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
         <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Estimate Update</span>
-        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: status === 'active' ? '#DCFCE7' : 'var(--hz-primary-soft)', color: status === 'active' ? '#16A34A' : 'var(--hz-primary)', fontFamily: FONT_MONO }}>
+        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: status === 'active' ? '#DCFCE7' : 'var(--hz-primary-soft)', color: status === 'active' ? 'var(--hz-success)' : 'var(--hz-primary)', fontFamily: FONT_MONO }}>
           {status === 'active' ? 'ACTIVE' : 'DRAFT'}
         </span>
       </div>
@@ -710,9 +710,9 @@ export default function EstimateUpdateScreen({
             </div>
             <span
               className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0"
-              style={{ backgroundColor: status === 'active' ? '#DCFCE7' : 'var(--hz-primary-soft)', color: status === 'active' ? '#16A34A' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
+              style={{ backgroundColor: status === 'active' ? '#DCFCE7' : 'var(--hz-primary-soft)', color: status === 'active' ? 'var(--hz-success)' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
             >
-              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: status === 'active' ? '#16A34A' : 'var(--hz-primary)' }} aria-hidden="true" />
+              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: status === 'active' ? 'var(--hz-success)' : 'var(--hz-primary)' }} aria-hidden="true" />
               {status === 'active' ? 'Estimate V3 Active' : 'Estimate V3 · Draft'}
             </span>
           </header>

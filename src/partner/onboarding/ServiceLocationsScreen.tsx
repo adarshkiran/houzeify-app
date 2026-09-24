@@ -131,7 +131,7 @@ function CoverageCard({ type, selected, onSelect }: { type: CoverageType; select
       onClick={onSelect}
       className={[
         'relative text-left flex items-start gap-2.5 rounded-[12px] p-3 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <div className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
@@ -156,7 +156,7 @@ function CoverageCard({ type, selected, onSelect }: { type: CoverageType; select
 
 function LocationCard({ location, onRemove, onSetPrimary }: { location: ServiceLocation; onRemove: () => void; onSetPrimary: () => void }) {
   return (
-    <div className={['flex items-center gap-3 rounded-[12px] p-3 border transition-colors', location.isPrimary ? 'bg-[#F9F5FF] border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border-[var(--hz-border)]'].join(' ')}>
+    <div className={['flex items-center gap-3 rounded-[12px] p-3 border transition-colors', location.isPrimary ? 'bg-[var(--hz-primary-wash)] border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border-[var(--hz-border)]'].join(' ')}>
       <span className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', location.isPrimary ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
         <PinIcon />
       </span>
@@ -471,7 +471,7 @@ export default function ServiceLocationsScreen({
                         aria-controls="service-location-results"
                         aria-label="Search city, locality, district or pincode"
                         autoComplete="off"
-                        className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                        className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -489,7 +489,7 @@ export default function ServiceLocationsScreen({
                               onMouseDown={e => e.preventDefault()}
                               onClick={() => addLocation(r)}
                               className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[var(--hz-surface)] transition-colors"
-                              style={{ borderTop: i > 0 ? '1px solid #CAC7C6' : 'none' }}
+                              style={{ borderTop: i > 0 ? '1px solid var(--hz-border-strong)' : 'none' }}
                             >
                               <span className="text-[var(--hz-ink-subtle)] shrink-0"><PinIcon size={13} /></span>
                               <span className="flex flex-col">
@@ -520,7 +520,7 @@ export default function ServiceLocationsScreen({
                   </div>
                 </>
               ) : (
-                <div className="flex items-center gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
+                <div className="flex items-center gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'var(--hz-primary-soft)', backgroundColor: 'var(--hz-primary-wash)' }}>
                   <span className="text-[var(--hz-primary)] shrink-0"><PanIndiaIcon /></span>
                   <p className="text-[13px] text-[var(--hz-ink)] font-semibold m-0" style={{ fontFamily: FONT_BODY }}>Services available across India.</p>
                 </div>
@@ -533,7 +533,7 @@ export default function ServiceLocationsScreen({
               {/* Map preview (decorative — every location also listed as text elsewhere) */}
               <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                 <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Service Location Map</span>
-                <div className="relative w-full h-[160px] rounded-[12px] overflow-hidden" style={{ backgroundColor: '#F9F5FF', border: '1px solid var(--hz-border)' }} aria-hidden="true">
+                <div className="relative w-full h-[160px] rounded-[12px] overflow-hidden" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-border)' }} aria-hidden="true">
                   <svg width="100%" height="100%" className="absolute inset-0 opacity-60">
                     <defs>
                       <pattern id="service-map-grid" width="18" height="18" patternUnits="userSpaceOnUse">
@@ -544,7 +544,7 @@ export default function ServiceLocationsScreen({
                   </svg>
                   {/* company base marker */}
                   <span className="absolute flex items-center justify-center" style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
-                    <span className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
+                    <span className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
                       <span className="text-[var(--hz-primary)]"><PinIcon size={15} /></span>
                     </span>
                   </span>
@@ -555,7 +555,7 @@ export default function ServiceLocationsScreen({
                     const x = 50 + Math.cos(angle) * (radius / 1.6)
                     const y = 50 + Math.sin(angle) * (radius / 3.2)
                     return (
-                      <span key={loc.id} className="absolute w-2.5 h-2.5 rounded-full" style={{ top: `${y}%`, left: `${x}%`, backgroundColor: loc.isPrimary ? 'var(--hz-primary)' : 'rgba(243,234,255,0.10)', transform: 'translate(-50%,-50%)' }} />
+                      <span key={loc.id} className="absolute w-2.5 h-2.5 rounded-full" style={{ top: `${y}%`, left: `${x}%`, backgroundColor: loc.isPrimary ? 'var(--hz-primary)' : 'var(--hz-primary-soft)', transform: 'translate(-50%,-50%)' }} />
                     )
                   })}
                 </div>
@@ -571,15 +571,15 @@ export default function ServiceLocationsScreen({
               {/* Coverage summary */}
               <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                 <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Service Coverage</span>
-                <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                   <SummaryRow label="Primary market" value={primaryLocation?.name || (requiresLocations ? '—' : 'Pan India')} />
                   <SummaryRow label="Coverage" value={requiresLocations ? `${locations.length} location${locations.length === 1 ? '' : 's'}` : 'All India'} />
                   <SummaryRow label="Region" value={requiresLocations ? (regionLabel || '—') : 'India'} />
                   <SummaryRow label="Coverage type" value={COVERAGE_TYPE_LABELS[coverageType]} />
                 </div>
                 <div className="flex items-center gap-1.5 pt-1">
-                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: canContinue ? '#16A34A' : '#D97706' }} />
-                  <span className="text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, color: canContinue ? '#16A34A' : '#D97706' }}>{coverageStatusLabel}</span>
+                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: canContinue ? 'var(--hz-success)' : '#D97706' }} />
+                  <span className="text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, color: canContinue ? 'var(--hz-success)' : '#D97706' }}>{coverageStatusLabel}</span>
                 </div>
               </div>
             </div>
@@ -615,7 +615,7 @@ export default function ServiceLocationsScreen({
                 </p>
               </div>
 
-              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
+              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'var(--hz-primary-soft)', backgroundColor: 'var(--hz-primary-wash)' }}>
                 <span className="text-[var(--hz-primary)] mt-0.5 shrink-0"><InfoIcon /></span>
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Why service locations matter</span>

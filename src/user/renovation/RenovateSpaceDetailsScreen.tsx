@@ -40,7 +40,7 @@ function Chip({ label, selected, onSelect }: { label: string; selected: boolean;
       style={{
         fontFamily: FONT_BODY,
         backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-        borderColor: selected ? 'var(--hz-primary)' : '#CAC7C6',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
         color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >

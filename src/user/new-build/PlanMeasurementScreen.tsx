@@ -219,10 +219,10 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 }
 
 const STATUS_STYLES: Record<MeasurementStatus, { bg: string; color: string; dot: string }> = {
-  confirmed: { bg: '#DCFCE7', color: '#16A34A', dot: '#16A34A' },
+  confirmed: { bg: '#DCFCE7', color: 'var(--hz-success)', dot: 'var(--hz-success)' },
   'needs-review': { bg: '#FEF3C7', color: '#D97706', dot: '#D97706' },
   'user-adjusted': { bg: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', dot: 'var(--hz-primary)' },
-  unavailable: { bg: '#CAC7C6', color: 'var(--hz-ink-subtle)', dot: '#A1A1A1' },
+  unavailable: { bg: 'var(--hz-border-strong)', color: 'var(--hz-ink-subtle)', dot: '#A1A1A1' },
 }
 
 function StatusBadge({ status }: { status: MeasurementStatus }) {
@@ -240,8 +240,8 @@ function StatusBadge({ status }: { status: MeasurementStatus }) {
 
 function SourceLevelBadge({ level }: { level: 'ai-measured' | 'user-verified' }) {
   const style = level === 'ai-measured'
-    ? { bg: '#CAC7C6', color: 'var(--hz-ink-muted)', label: 'AI Measured' }
-    : { bg: '#DCFCE7', color: '#16A34A', label: 'User Verified' }
+    ? { bg: 'var(--hz-border-strong)', color: 'var(--hz-ink-muted)', label: 'AI Measured' }
+    : { bg: '#DCFCE7', color: 'var(--hz-success)', label: 'User Verified' }
   return (
     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-[0.05em]" style={{ backgroundColor: style.bg, color: style.color, fontFamily: FONT_MONO }}>
       {style.label}
@@ -344,7 +344,7 @@ function MeasurementViewer({ result, selectedRoomId, onSelectRoom, className }: 
           { key: 'labels', label: 'Show room labels', value: showLabels, set: setShowLabels },
         ].map(t => (
           <button key={t.key} role="switch" aria-checked={t.value} onClick={() => t.set(v => !v)} className="inline-flex items-center gap-2 cursor-pointer border-0 bg-transparent p-0">
-            <span className="relative rounded-full transition-colors shrink-0" style={{ width: 30, height: 18, backgroundColor: t.value ? 'var(--hz-primary)' : '#CAC7C6' }}>
+            <span className="relative rounded-full transition-colors shrink-0" style={{ width: 30, height: 18, backgroundColor: t.value ? 'var(--hz-primary)' : 'var(--hz-border-strong)' }}>
               <span className="absolute top-[2px] w-3.5 h-3.5 rounded-full bg-[var(--hz-surface)] transition-all" style={{ left: t.value ? 14 : 2, boxShadow: '0 1px 2px rgba(0,0,0,0.2)' }} />
             </span>
             <span className="text-[12px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{t.label}</span>
@@ -367,9 +367,9 @@ function MeasurementViewer({ result, selectedRoomId, onSelectRoom, className }: 
                   className="absolute flex flex-col items-start justify-end text-left cursor-pointer border-0 p-0"
                   style={{
                     left: `${box.x * 100}%`, top: `${box.y * 100}%`, width: `${box.width * 100}%`, height: `${box.height * 100}%`,
-                    border: isSelected ? '2px solid var(--hz-primary)' : '1px solid #CAC7C6',
+                    border: isSelected ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border-strong)',
                     borderRadius: 4,
-                    backgroundColor: isSelected ? 'rgba(243,234,255,0.10)' : 'rgba(243,234,255,0.04)',
+                    backgroundColor: isSelected ? 'var(--hz-primary-soft)' : 'rgba(243,234,255,0.04)',
                     transition: 'all 0.15s ease',
                   }}
                 >
@@ -490,7 +490,7 @@ function BuiltUpAreaCard({ result, confirmed, onConfirm, adjustment, onAdjust, c
         </div>
       )}
       {!adjusting && (confirmed || adjustment) && (
-        <p className="text-[11px] leading-[1.6] m-0" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
+        <p className="text-[11px] leading-[1.6] m-0" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
           {adjustment ? "Your value is saved locally — nothing in your project has changed yet." : "Marked as reviewed — this doesn't change your project area yet."}
         </p>
       )}
@@ -550,7 +550,7 @@ function RoomMeasurementTable({ rooms, selectedRoomId, onSelectRoom, className }
             {rooms.map(r => {
               const isSelected = r.roomId === selectedRoomId
               return (
-                <tr key={r.id} style={{ backgroundColor: isSelected ? '#F9F5FF' : undefined }} className="border-b border-[var(--hz-surface)] transition-colors hover:bg-[var(--hz-surface)]">
+                <tr key={r.id} style={{ backgroundColor: isSelected ? 'var(--hz-primary-wash)' : undefined }} className="border-b border-[var(--hz-surface)] transition-colors hover:bg-[var(--hz-surface)]">
                   <td className="py-2.5 px-2">
                     <button onClick={() => onSelectRoom(r.roomId)} aria-pressed={isSelected} className="text-[13px] font-medium text-left cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>
                       {r.name}
@@ -578,7 +578,7 @@ function RoomMeasurementTable({ rooms, selectedRoomId, onSelectRoom, className }
               onClick={() => onSelectRoom(r.roomId)}
               aria-pressed={isSelected}
               className="flex flex-col gap-2 rounded-[12px] p-3.5 text-left cursor-pointer border transition-colors"
-              style={{ borderColor: isSelected ? 'var(--hz-primary)' : '#CAC7C6', backgroundColor: isSelected ? '#F9F5FF' : 'var(--hz-surface)' }}
+              style={{ borderColor: isSelected ? 'var(--hz-primary)' : 'var(--hz-border-strong)', backgroundColor: isSelected ? 'var(--hz-primary-wash)' : 'var(--hz-surface)' }}
             >
               <div className="flex items-center justify-between gap-2">
                 <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{r.name}</span>
@@ -721,7 +721,7 @@ function MeasurementSourceCard({ result, className }: { result: PlanMeasurementR
 function HozieInsight({ result, onCompare, onContinueToEstimate, className }: { result: PlanMeasurementResult; onCompare: () => void; onContinueToEstimate: () => void; className?: string }) {
   const { deltaValue } = calculateMeasurementDifference(result.currentProjectAreaSqft, result.builtUpArea.value)
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Measurement Note</span>

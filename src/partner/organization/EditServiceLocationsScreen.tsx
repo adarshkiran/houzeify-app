@@ -73,7 +73,7 @@ function hydrateLocations(organizationId: string, names: string[], primaryName: 
 
 function LocationCard({ location, onRemove, onSetPrimary }: { location: ServiceLocation; onRemove: () => void; onSetPrimary: () => void }) {
   return (
-    <div className={['flex items-center gap-3 rounded-[12px] p-3 border transition-colors', location.isPrimary ? 'bg-[#F9F5FF] border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border-[var(--hz-border)]'].join(' ')}>
+    <div className={['flex items-center gap-3 rounded-[12px] p-3 border transition-colors', location.isPrimary ? 'bg-[var(--hz-primary-wash)] border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border-[var(--hz-border)]'].join(' ')}>
       <span className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', location.isPrimary ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
         <PinIcon />
       </span>
@@ -363,7 +363,7 @@ export default function EditServiceLocationsScreen({
                     aria-expanded={searchOpen && results.length > 0}
                     aria-label="Search city, locality, district or pincode"
                     autoComplete="off"
-                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                 </div>
@@ -381,7 +381,7 @@ export default function EditServiceLocationsScreen({
                           onMouseDown={e => e.preventDefault()}
                           onClick={() => addLocation(r)}
                           className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[var(--hz-surface)] transition-colors"
-                          style={{ borderTop: i > 0 ? '1px solid #CAC7C6' : 'none' }}
+                          style={{ borderTop: i > 0 ? '1px solid var(--hz-border-strong)' : 'none' }}
                         >
                           <span className="text-[var(--hz-ink-subtle)] shrink-0"><PinIcon size={13} /></span>
                           <span className="flex flex-col">
@@ -413,7 +413,7 @@ export default function EditServiceLocationsScreen({
               disabled={!canSave || saving}
               className={selectClass}
               style={{
-                backgroundColor: canSave && !saving ? 'var(--hz-primary)' : '#CAC7C6',
+                backgroundColor: canSave && !saving ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                 color: canSave && !saving ? 'white' : '#A1A1A1',
                 fontFamily: FONT_BODY,
                 cursor: canSave && !saving ? 'pointer' : 'not-allowed',

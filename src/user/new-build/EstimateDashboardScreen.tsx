@@ -190,7 +190,7 @@ function MobileTopBar({ onNavigate }: { onNavigate: (s: string) => void }) {
 
 const DEFAULT_BREAKDOWN_ITEMS = [
   { label: 'Materials',   percent: 56, amount: '₹18.2L', color: '#7C3AED' },
-  { label: 'Labour',      percent: 26, amount: '₹8.4L',  color: '#16A34A' },
+  { label: 'Labour',      percent: 26, amount: '₹8.4L',  color: 'var(--hz-success)' },
   { label: 'Finishing',   percent: 13, amount: '₹4.1L',  color: '#D97706' },
   { label: 'Contingency', percent:  5, amount: '₹1.7L',  color: '#8C8C8C' },
 ]
@@ -255,7 +255,7 @@ function MetricCard({ label, value, sub, color }: { label: string; value: string
 
 function HozieInsightCard({ onNavigate }: { onNavigate?: (s: string) => void }) {
   return (
-    <div className="rounded-[16px] px-5 py-4 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] px-5 py-4 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <div className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0">
           <HIcon size={20} />
@@ -284,13 +284,13 @@ function ActionCard({ icon, title, desc, onClick }: {
   return (
     <button
       onClick={onClick}
-      className="flex flex-col gap-3 p-4 sm:p-5 rounded-[14px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-left cursor-pointer transition-all duration-150 hover:bg-[#F9F5FF] hover:border-[var(--hz-primary)] hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(114,46,209,0.08)] group outline-none"
+      className="flex flex-col gap-3 p-4 sm:p-5 rounded-[14px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-left cursor-pointer transition-all duration-150 hover:bg-[var(--hz-primary-wash)] hover:border-[var(--hz-primary)] hover:-translate-y-0.5 hover:shadow-[0_4px_16px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] group outline-none"
     >
       <div className="flex items-center justify-between">
         <span className="w-10 h-10 rounded-[12px] bg-[var(--hz-surface-muted)] flex items-center justify-center text-[var(--hz-ink-muted)] group-hover:bg-[var(--hz-surface)] group-hover:text-[var(--hz-primary)] transition-all">
           {icon}
         </span>
-        <span className="text-[#CAC7C6] group-hover:text-[var(--hz-primary)] transition-colors"><IcoArrow /></span>
+        <span className="text-[var(--hz-border-strong)] group-hover:text-[var(--hz-primary)] transition-colors"><IcoArrow /></span>
       </div>
       <div className="flex flex-col gap-1">
         <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{title}</span>
@@ -344,7 +344,7 @@ export default function EstimateDashboardScreen({
   const breakdownItems = breakdown
     ? [
         { label: 'Materials', percent: materialsPct, amount: materialsAmount, color: '#7C3AED' },
-        { label: 'Labour', percent: labourPct, amount: labourAmount, color: '#16A34A' },
+        { label: 'Labour', percent: labourPct, amount: labourAmount, color: 'var(--hz-success)' },
         { label: 'Finishing', percent: finishingPct, amount: finishingAmount, color: '#D97706' },
         { label: 'Contingency', percent: contingencyPct, amount: contingencyAmount, color: '#8C8C8C' },
       ]
@@ -405,7 +405,7 @@ return (
                 style={{
                   boxShadow: '0 2px 24px rgba(243,234,255,0.07), 0 1px 4px rgba(0,0,0,0.04)',
                   animation: 'welcomeFadeUp 0.45s ease-out 0.05s both',
-                  background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, var(--hz-surface) 50%)',
+                  background: 'linear-gradient(135deg, var(--hz-primary-soft) 0%, var(--hz-surface) 50%)',
                 }}
               >
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -429,7 +429,7 @@ return (
 
                   {/* Right: confidence */}
                   <div className="flex flex-col items-start sm:items-end gap-3">
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--hz-primary-soft)]" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--hz-primary-soft)]" style={{ border: '1px solid var(--hz-primary-soft)' }}>
                       <span
                         className="w-2 h-2 rounded-full bg-[var(--hz-primary)] shrink-0"
                         style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }}
@@ -462,7 +462,7 @@ return (
               >
                 <MetricCard label="Built-up Area" value={area} />
                 <MetricCard label="Materials" value={materialsAmount} sub={`${materialsPct}% of total`} color="#7C3AED" />
-                <MetricCard label="Labour" value={labourAmount} sub={`${labourPct}% of total`} color="#16A34A" />
+                <MetricCard label="Labour" value={labourAmount} sub={`${labourPct}% of total`} color="var(--hz-success)" />
                 <MetricCard label="Finishing" value={finishingAmount} sub={`${finishingPct}% of total`} color="#D97706" />
               </div>
 

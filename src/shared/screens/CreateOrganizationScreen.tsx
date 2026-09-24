@@ -97,7 +97,7 @@ function TypeCard({ type, selected, onSelect }: { type: OrganizationType; select
       onClick={onSelect}
       className={[
         'relative text-left flex items-start gap-2.5 rounded-[12px] p-3 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <div className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
@@ -360,7 +360,7 @@ export default function CreateOrganizationScreen({
                   maxLength={100}
                   aria-invalid={showError('name')}
                   aria-describedby={showError('name') ? 'org-name-error' : undefined}
-                  className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('name') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                  className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', showError('name') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
                 {showError('name') ? <FieldError id="org-name-error" message={errors.name} /> : (
@@ -382,7 +382,7 @@ export default function CreateOrganizationScreen({
                   maxLength={100}
                   aria-invalid={showError('primaryContactName')}
                   aria-describedby={showError('primaryContactName') ? 'org-primary-contact-error' : undefined}
-                  className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('primaryContactName') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                  className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', showError('primaryContactName') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
                 {showError('primaryContactName') ? <FieldError id="org-primary-contact-error" message={errors.primaryContactName} /> : (
@@ -417,7 +417,7 @@ export default function CreateOrganizationScreen({
                     aria-invalid={showError('location')}
                     aria-describedby={showError('location') ? 'org-location-error' : undefined}
                     autoComplete="off"
-                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                 </div>
@@ -432,7 +432,7 @@ export default function CreateOrganizationScreen({
                         onMouseDown={e => e.preventDefault()}
                         onClick={() => selectLocation(r)}
                         className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[var(--hz-surface)] transition-colors"
-                        style={{ borderTop: i > 0 ? '1px solid #CAC7C6' : 'none' }}
+                        style={{ borderTop: i > 0 ? '1px solid var(--hz-border-strong)' : 'none' }}
                       >
                         <span className="text-[var(--hz-ink-subtle)] shrink-0"><PinIcon /></span>
                         <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{r.city}, {r.state}</span>
@@ -458,7 +458,7 @@ export default function CreateOrganizationScreen({
                     placeholder="https://example.com"
                     aria-invalid={showError('website')}
                     aria-describedby={showError('website') ? 'org-website-error' : undefined}
-                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                 </div>
@@ -525,8 +525,8 @@ export default function CreateOrganizationScreen({
                 </div>
 
                 <div className="flex items-center gap-1.5 pt-1">
-                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: canContinue ? '#16A34A' : '#D97706' }} />
-                  <span className="text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, color: canContinue ? '#16A34A' : '#D97706' }}>
+                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: canContinue ? 'var(--hz-success)' : '#D97706' }} />
+                  <span className="text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, color: canContinue ? 'var(--hz-success)' : '#D97706' }}>
                     {canContinue ? 'Setup in progress' : 'Details needed'}
                   </span>
                 </div>

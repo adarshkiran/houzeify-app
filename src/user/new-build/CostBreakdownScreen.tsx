@@ -148,7 +148,7 @@ interface Category {
 
 const DEFAULT_CATEGORIES: Category[] = [
   { id: 'materials',   label: 'Materials',   amount: '₹18.2L', pct: 61, icon: <IcoMaterials />,   dest: 'material-estimate',       detail: 'Cement, steel, bricks, aggregates and other raw materials.',  color: '#7C3AED', bg: '#F1E9FE' },
-  { id: 'labour',      label: 'Labour',      amount: '₹8.4L',  pct: 28, icon: <IcoLabour />,      dest: 'labour-estimate',         detail: 'Civil, plumbing, electrical and finishing labour charges.',    color: '#16A34A', bg: '#E3FBF0' },
+  { id: 'labour',      label: 'Labour',      amount: '₹8.4L',  pct: 28, icon: <IcoLabour />,      dest: 'labour-estimate',         detail: 'Civil, plumbing, electrical and finishing labour charges.',    color: 'var(--hz-success)', bg: '#E3FBF0' },
   { id: 'finishing',   label: 'Finishing',   amount: '₹4.1L',  pct: 14, icon: <IcoFinishing />,   dest: 'finishing-details',       detail: 'Flooring, painting, doors, windows and interior finishes.',   color: '#D97706', bg: '#FFEEE0' },
   { id: 'services',    label: 'Services',    amount: '₹2.2L',  pct:  7, icon: <IcoServices />,    dest: 'services-details',        detail: 'Electrical, plumbing, HVAC and sanitation installations.',    color: '#FBBF24', bg: '#FFF8E1' },
   { id: 'contingency', label: 'Contingency', amount: '₹1.7L',  pct:  6, icon: <IcoContingency />, dest: 'contingency-assumptions', detail: 'Buffer for unforeseen costs and estimation variance.',        color: '#8C8C8C', bg: '#F0F0F0' },
@@ -194,7 +194,7 @@ function TotalCard({ categories, heroRange, avgLabel, confidence }: { categories
       className="bg-[var(--hz-surface)] rounded-[20px] border border-[var(--hz-border)] p-6 sm:p-7 flex flex-col gap-4"
       style={{
         boxShadow: '0 2px 24px rgba(243,234,255,0.07), 0 1px 4px rgba(0,0,0,0.04)',
-        background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, var(--hz-surface) 55%)',
+        background: 'linear-gradient(135deg, var(--hz-primary-soft) 0%, var(--hz-surface) 55%)',
       }}
     >
       <div className="flex items-start justify-between gap-4">
@@ -215,7 +215,7 @@ function TotalCard({ categories, heroRange, avgLabel, confidence }: { categories
           </div>
         </div>
         <div className="flex flex-col items-end gap-2 shrink-0">
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)]" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)]" style={{ border: '1px solid var(--hz-primary-soft)' }}>
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
             <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{confidence}% confidence</span>
           </div>
@@ -323,7 +323,7 @@ function CategoryCard({ cat, onNavigate }: { cat: Category; onNavigate: (s: stri
 
 function HozieInsightPanel() {
   return (
-    <div className="rounded-[16px] px-5 py-4 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] px-5 py-4 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <div className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0">
           <HIcon size={20} />
@@ -391,7 +391,7 @@ export default function CostBreakdownScreen({
   const categories: Category[] = breakdown
     ? [
         { id: 'materials', label: 'Materials', amount: formatLakh(breakdown.materialCost), pct: Math.round((breakdown.materialCost / avgTotal) * 100), icon: <IcoMaterials />, dest: 'material-estimate', detail: 'Cement, steel, bricks, aggregates and other raw materials.', color: '#7C3AED', bg: '#F1E9FE' },
-        { id: 'labour', label: 'Labour', amount: formatLakh(breakdown.labourCost), pct: Math.round((breakdown.labourCost / avgTotal) * 100), icon: <IcoLabour />, dest: 'labour-estimate', detail: 'Civil, plumbing, electrical and finishing labour charges.', color: '#16A34A', bg: '#E3FBF0' },
+        { id: 'labour', label: 'Labour', amount: formatLakh(breakdown.labourCost), pct: Math.round((breakdown.labourCost / avgTotal) * 100), icon: <IcoLabour />, dest: 'labour-estimate', detail: 'Civil, plumbing, electrical and finishing labour charges.', color: 'var(--hz-success)', bg: '#E3FBF0' },
         { id: 'finishing', label: 'Finishing', amount: formatLakh(breakdown.finishingCost), pct: Math.round((breakdown.finishingCost / avgTotal) * 100), icon: <IcoFinishing />, dest: 'finishing-details', detail: 'Flooring, painting, doors, windows and interior finishes.', color: '#D97706', bg: '#FFEEE0' },
         { id: 'services', label: 'Services', amount: formatLakh(breakdown.servicesCost), pct: Math.round((breakdown.servicesCost / avgTotal) * 100), icon: <IcoServices />, dest: 'services-details', detail: 'Electrical, plumbing, HVAC and sanitation installations.', color: '#FBBF24', bg: '#FFF8E1' },
         { id: 'contingency', label: 'Contingency', amount: formatLakh(breakdown.contingencyCost), pct: Math.round((breakdown.contingencyCost / avgTotal) * 100), icon: <IcoContingency />, dest: 'contingency-assumptions', detail: 'Buffer for unforeseen costs and estimation variance.', color: '#8C8C8C', bg: '#F0F0F0' },

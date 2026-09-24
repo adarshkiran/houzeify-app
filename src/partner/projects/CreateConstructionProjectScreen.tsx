@@ -120,7 +120,7 @@ export default function CreateConstructionProjectScreen({
   if (role !== undefined && !isProfessional) return null
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: '#FBF9F7' }}>
+    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-page)' }}>
       <PartnerNavRail active="projects" onNavigate={onNavigate} organizationId={currentOrganization?.id} />
       <div className="flex-1 flex flex-col min-w-0">
         <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
@@ -206,7 +206,7 @@ export default function CreateConstructionProjectScreen({
                         className="text-left rounded-[12px] p-3.5 cursor-pointer transition-colors min-h-[88px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
                         style={{
                           border: type === option.id ? '1.5px solid var(--hz-primary)' : '1px solid var(--hz-border)',
-                          backgroundColor: type === option.id ? '#F9F5FF' : 'var(--hz-surface)',
+                          backgroundColor: type === option.id ? 'var(--hz-primary-wash)' : 'var(--hz-surface)',
                         }}
                       >
                         <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{option.label}</p>

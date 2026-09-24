@@ -64,7 +64,7 @@ function OptionCard({ title, description, selected, onSelect }: { title: string;
       onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
@@ -89,7 +89,7 @@ function ServiceChip({ label, selected, onSelect }: { label: string; selected: b
       style={{
         fontFamily: FONT_BODY,
         backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-        borderColor: selected ? 'var(--hz-primary)' : '#CAC7C6',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
         color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
@@ -309,7 +309,7 @@ export default function HomeownerOnboardingScreen({
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Enter your name"
-                className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                 style={{ fontFamily: FONT_BODY }}
               />
             </div>
@@ -317,7 +317,7 @@ export default function HomeownerOnboardingScreen({
 
           {/* Personalization summary */}
           {summaryLines.length > 0 && (
-            <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+            <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
               <div className="flex items-center gap-2">
                 <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
                 <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Your Starting Point</span>

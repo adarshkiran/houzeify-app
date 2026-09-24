@@ -6,7 +6,7 @@ import HIcon from '@/shared/components/HIcon'
 const FONT_BODY = '"Inter Variable", sans-serif'
 const FONT_HEAD = '"Geist Variable", sans-serif'
 
-export const COMPANY_ROLLUP_CANVAS = '#FBF9F7'
+export const COMPANY_ROLLUP_CANVAS = 'var(--hz-page)'
 
 export const companyRollupPrimaryBtnClass =
   'min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5A22A8]'

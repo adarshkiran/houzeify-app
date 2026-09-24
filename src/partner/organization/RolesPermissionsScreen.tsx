@@ -76,7 +76,7 @@ export default function RolesPermissionsScreen({
           </div>
 
           {/* Reference-only notice */}
-          <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
+          <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'var(--hz-primary-soft)', backgroundColor: 'var(--hz-primary-wash)' }}>
             <span className="text-[var(--hz-primary)] mt-0.5 shrink-0"><IcoInfo /></span>
             <div className="flex flex-col gap-1">
               <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Reference Only</span>
@@ -100,7 +100,7 @@ export default function RolesPermissionsScreen({
                   {ROLE_PERMISSIONS[r].map(p => (
                     <li key={p} className="flex items-center gap-2">
                       <span className="w-[15px] h-[15px] rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#DCFCE7' }}>
-                        <span style={{ color: '#16A34A' }}><IcoCheck /></span>
+                        <span style={{ color: 'var(--hz-success)' }}><IcoCheck /></span>
                       </span>
                       <span className="text-[12.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{p}</span>
                     </li>

@@ -219,7 +219,7 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 }
 
 const FINDING_STATUS_STYLES: Record<FindingStatus, { bg: string; color: string; label: string }> = {
-  confirmed: { bg: '#DCFCE7', color: '#16A34A', label: 'Detected' },
+  confirmed: { bg: '#DCFCE7', color: 'var(--hz-success)', label: 'Detected' },
   likely: { bg: '#FEF3C7', color: '#D97706', label: 'Likely' },
   'needs-review': { bg: '#FEE2E2', color: 'var(--hz-danger)', label: 'Needs review' },
 }
@@ -289,7 +289,7 @@ function HozieProgress({ snapshot, currentStepLabel, reducedMotion, onReview }: 
           style={{
             width: 72,
             height: 72,
-            boxShadow: complete ? '0 0 0 4px var(--hz-primary), 0 0 32px rgba(243,234,255,0.10)' : '0 0 28px rgba(243,234,255,0.10)',
+            boxShadow: complete ? '0 0 0 4px var(--hz-primary), 0 0 32px var(--hz-primary-soft)' : '0 0 28px var(--hz-primary-soft)',
             animation: !complete && !reducedMotion ? 'estimatePulse 2.8s ease-in-out infinite' : undefined,
             transition: 'box-shadow 0.6s ease',
           }}
@@ -436,11 +436,11 @@ function PlanPreview({ documentName, isImage, isPdfDoc, isCadDoc, previewUrl, pa
       tag={
         <span
           className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em]"
-          style={{ backgroundColor: isComplete ? '#DCFCE7' : 'var(--hz-primary-soft)', color: isComplete ? '#16A34A' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
+          style={{ backgroundColor: isComplete ? '#DCFCE7' : 'var(--hz-primary-soft)', color: isComplete ? 'var(--hz-success)' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
         >
           <span
             className="w-1.5 h-1.5 rounded-full shrink-0"
-            style={{ backgroundColor: isComplete ? '#16A34A' : 'var(--hz-primary)', animation: !isComplete && !reducedMotion ? 'estimatePulse 1.6s ease-in-out infinite' : undefined }}
+            style={{ backgroundColor: isComplete ? 'var(--hz-success)' : 'var(--hz-primary)', animation: !isComplete && !reducedMotion ? 'estimatePulse 1.6s ease-in-out infinite' : undefined }}
             aria-hidden="true"
           />
           {isComplete ? 'Analysed' : 'Analysing'}
@@ -462,7 +462,7 @@ function PlanPreview({ documentName, isImage, isPdfDoc, isCadDoc, previewUrl, pa
         {!isComplete && !reducedMotion && (
           <div
             className="absolute left-0 right-0 pointer-events-none"
-            style={{ height: 2, background: 'linear-gradient(90deg, transparent, rgba(243,234,255,0.10), transparent)', animation: 'planScanSweep 2.6s ease-in-out infinite' }}
+            style={{ height: 2, background: 'linear-gradient(90deg, transparent, var(--hz-primary-soft), transparent)', animation: 'planScanSweep 2.6s ease-in-out infinite' }}
             aria-hidden="true"
           />
         )}
@@ -496,10 +496,10 @@ function AnalysisScope({ completedSteps, className }: { completedSteps: string[]
           const done = completedSteps.includes(item.stepKey)
           return (
             <div key={item.key} className="relative flex flex-col gap-1.5 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-surface)' }}>
-              <span style={{ color: done ? '#16A34A' : 'var(--hz-primary)' }}>{item.icon}</span>
+              <span style={{ color: done ? 'var(--hz-success)' : 'var(--hz-primary)' }}>{item.icon}</span>
               <span className="text-[12px] font-medium text-[var(--hz-ink)] leading-[1.3]" style={{ fontFamily: FONT_BODY }}>{item.label}</span>
               {done && (
-                <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#16A34A' }} aria-hidden="true">
+                <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true">
                   <IcoCheck />
                 </span>
               )}
@@ -515,7 +515,7 @@ function AnalysisScope({ completedSteps, className }: { completedSteps: string[]
 
 function HozieMessage({ className }: { className?: string }) {
   return (
-    <div className={['rounded-[16px] p-5 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className={['rounded-[16px] p-5 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie</span>

@@ -173,7 +173,7 @@ export default function RenovateCustomQuoteScreen({
                             {done ? (
                               <IcoCheck />
                             ) : (
-                              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: active ? 'var(--hz-primary)' : '#CAC7C6', animation: active ? 'hozieStatusPulse 1.6s ease-in-out infinite' : undefined }} />
+                              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: active ? 'var(--hz-primary)' : 'var(--hz-border-strong)', animation: active ? 'hozieStatusPulse 1.6s ease-in-out infinite' : undefined }} />
                             )}
                           </span>
                           <span className="text-[13.5px]" style={{ fontFamily: FONT_HEAD, color: done ? 'var(--hz-ink)' : active ? 'var(--hz-primary)' : 'var(--hz-ink-subtle)' }}>

@@ -217,11 +217,11 @@ function OpportunityDetail({
             <h1 className="text-[24px] sm:text-[30px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>{opportunity.title}</h1>
             <div className="flex items-center gap-1.5 flex-wrap text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
               <span className="flex items-center gap-1"><HomeIconSmall /> {OPPORTUNITY_PROJECT_TYPE_LABELS[opportunity.projectType]}</span>
-              <span className="text-[#CAC7C6]">·</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
               <span className="flex items-center gap-1"><PinIcon size={13} /> {opportunity.location}</span>
-              <span className="text-[#CAC7C6]">·</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
               <span>{formatPostedDate(opportunity.postedAt)}</span>
-              <span className="text-[#CAC7C6]">·</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
               <span className="h-6 px-2 rounded-full text-[10.5px] font-semibold tracking-[0.04em] uppercase flex items-center" style={{ fontFamily: FONT_MONO, backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)' }}>
                 {OPPORTUNITY_STATUS_LABELS[opportunity.status]}
               </span>
@@ -242,7 +242,7 @@ function OpportunityDetail({
 
               {opportunity.requirements && (
                 <SectionCard title="Project Requirements">
-                  <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                  <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                     <FactRow label="Project type" value={OPPORTUNITY_PROJECT_TYPE_LABELS[opportunity.projectType]} />
                     {opportunity.requirements.builtUpAreaSqft !== null && <FactRow label="Built-up area" value={`${opportunity.requirements.builtUpAreaSqft.toLocaleString('en-IN')} sq ft`} />}
                     {opportunity.requirements.floors !== null && <FactRow label="Number of floors" value={String(opportunity.requirements.floors)} />}
@@ -278,7 +278,7 @@ function OpportunityDetail({
 
               {opportunity.planAnalysis && (
                 <SectionCard title="Plan Analysis Available">
-                  <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                  <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                     {opportunity.planAnalysis.builtUpAreaSqft !== null && <FactRow label="Built-up area" value={`${opportunity.planAnalysis.builtUpAreaSqft.toLocaleString('en-IN')} sq ft`} />}
                     {opportunity.planAnalysis.floors !== null && <FactRow label="Floors" value={String(opportunity.planAnalysis.floors)} />}
                     {opportunity.planAnalysis.rooms !== null && <FactRow label="Rooms" value={String(opportunity.planAnalysis.rooms)} />}
@@ -309,7 +309,7 @@ function OpportunityDetail({
 
               <SectionCard title="Project Timeline">
                 {opportunity.expectedStartDate || opportunity.expectedCompletionDate ? (
-                  <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                  <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                     {opportunity.expectedStartDate && <FactRow label="Expected start" value={formatOpportunityDate(opportunity.expectedStartDate)} />}
                     {opportunity.expectedCompletionDate && <FactRow label="Expected completion" value={formatOpportunityDate(opportunity.expectedCompletionDate)} />}
                   </div>
@@ -323,7 +323,7 @@ function OpportunityDetail({
               </SectionCard>
 
               {hasAnyMatch && (
-                <div className="rounded-[16px] p-5 flex flex-col gap-2" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+                <div className="rounded-[16px] p-5 flex flex-col gap-2" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
                   <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Why This Project Matches</span>
                   <div className="flex flex-col gap-1.5">
                     {categoryMatch && <MatchRow label={SERVICE_CATEGORY_LABELS[opportunity.serviceCategory]} />}
@@ -367,7 +367,7 @@ function OpportunityDetail({
 function MatchRow({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-1.5">
-      <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon /></span>
+      <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon /></span>
       <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
     </div>
   )

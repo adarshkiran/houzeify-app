@@ -212,7 +212,7 @@ function PlanCard({
       className="flex flex-col rounded-[20px] overflow-hidden"
       style={{
         border: plan.recommended ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)',
-        background: plan.recommended ? 'linear-gradient(180deg, #F9F5FF 0%, var(--hz-surface) 55%)' : 'var(--hz-surface)',
+        background: plan.recommended ? 'linear-gradient(180deg, var(--hz-primary-wash) 0%, var(--hz-surface) 55%)' : 'var(--hz-surface)',
         boxShadow: plan.recommended ? '0 10px 30px -12px rgba(114,46,209,0.22)' : '0 1px 8px rgba(0,0,0,0.04)',
       }}
     >
@@ -444,7 +444,7 @@ export default function PlansBillingScreen({
                 </div>
               )}
 
-              <div className="flex items-start gap-2.5 px-4 py-3 rounded-[10px]" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(114,46,209,0.12)' }}>
+              <div className="flex items-start gap-2.5 px-4 py-3 rounded-[10px]" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid color-mix(in oklch, var(--hz-primary) 20%, transparent)' }}>
                 <span className="mt-0.5 shrink-0" style={{ color: 'var(--hz-primary)' }}><IcoInfo /></span>
                 <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 leading-relaxed" style={{ fontFamily: FONT_BODY }}>
                   Home Services are pay-per-booking and don&apos;t require a Houzeify subscription.

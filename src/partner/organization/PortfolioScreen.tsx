@@ -264,7 +264,7 @@ export default function PortfolioScreen({
                     className="h-8 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0"
                     style={{
                       fontFamily: FONT_BODY,
-                      backgroundColor: filter === tab.id ? 'var(--hz-primary)' : '#CAC7C6',
+                      backgroundColor: filter === tab.id ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                       color: filter === tab.id ? 'white' : '#808080',
                     }}
                   >
@@ -308,8 +308,8 @@ export default function PortfolioScreen({
                               className="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-[0.03em]"
                               style={{
                                 fontFamily: FONT_MONO,
-                                backgroundColor: p.visibility === 'public' ? '#DCFCE7' : '#CAC7C6',
-                                color: p.visibility === 'public' ? '#16A34A' : '#808080',
+                                backgroundColor: p.visibility === 'public' ? '#DCFCE7' : 'var(--hz-border-strong)',
+                                color: p.visibility === 'public' ? 'var(--hz-success)' : '#808080',
                               }}
                             >
                               {VISIBILITY_LABELS[p.visibility].toUpperCase()}

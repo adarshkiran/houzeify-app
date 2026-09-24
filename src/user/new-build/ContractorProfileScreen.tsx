@@ -37,7 +37,7 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 const CheckBadgeIcon = ({ size = 13 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const PortfolioEmptyIcon = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#A1A1A1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="6" width="22" height="17" rx="2" /><path d="M3 19l6-6 4 4 6-7 6 8" /></svg>
@@ -265,7 +265,7 @@ export default function ContractorProfileScreen({
                   <div className="flex items-center gap-2 flex-wrap">
                     <h1 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{listing.name}</h1>
                     {listing.verificationStatus === 'verified' && (
-                      <span className="flex items-center gap-1 text-[12px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}>
+                      <span className="flex items-center gap-1 text-[12px] font-medium text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}>
                         <CheckBadgeIcon /> Verified
                       </span>
                     )}
@@ -295,7 +295,7 @@ export default function ContractorProfileScreen({
 
               {/* Considering for project */}
               {hasProject && (
-                <div className="rounded-[14px] p-4 flex flex-col gap-0.5" style={{ backgroundColor: '#F9F5FF', border: '1px solid var(--hz-primary-soft)' }}>
+                <div className="rounded-[14px] p-4 flex flex-col gap-0.5" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
                   <span className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Considering for</span>
                   <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{projectName}</span>
                   <span className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>This professional can be invited to this project.</span>
@@ -385,10 +385,10 @@ export default function ContractorProfileScreen({
 
                   {matchReasons.length > 0 && (
                     <div className="rounded-[16px] p-5" style={{ backgroundColor: '#DCFCE7', border: '1px solid #D3EFDD' }}>
-                      <h2 className="text-[12px] tracking-[0.04em] font-semibold text-[#16A34A] m-0 mb-2.5" style={{ fontFamily: FONT_HEAD }}>WHY THIS PROFESSIONAL MATCHES</h2>
+                      <h2 className="text-[12px] tracking-[0.04em] font-semibold text-[var(--hz-success)] m-0 mb-2.5" style={{ fontFamily: FONT_HEAD }}>WHY THIS PROFESSIONAL MATCHES</h2>
                       <div className="flex flex-col gap-1.5">
                         {matchReasons.map(reason => (
-                          <span key={reason} className="flex items-center gap-1.5 text-[13px] text-[#16A34A]" style={{ fontFamily: FONT_BODY }}>
+                          <span key={reason} className="flex items-center gap-1.5 text-[13px] text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}>
                             <CheckBadgeIcon /> {reason}
                           </span>
                         ))}

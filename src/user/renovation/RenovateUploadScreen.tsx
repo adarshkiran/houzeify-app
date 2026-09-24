@@ -144,7 +144,7 @@ export default function RenovateUploadScreen({
                 onDragLeave={e => { e.preventDefault(); setIsDragging(false) }}
                 onDrop={e => { e.preventDefault(); setIsDragging(false); addFiles(e.dataTransfer.files) }}
                 className="flex flex-col items-center justify-center text-center gap-3 cursor-pointer transition-colors outline-none max-w-[640px]"
-                style={{ minHeight: 260, borderRadius: 20, border: `1px dashed ${isDragging ? 'var(--hz-primary)' : '#CAC7C6'}`, backgroundColor: isDragging ? '#F9F5FF' : 'var(--hz-surface)', padding: '32px 20px' }}
+                style={{ minHeight: 260, borderRadius: 20, border: `1px dashed ${isDragging ? 'var(--hz-primary)' : 'var(--hz-border-strong)'}`, backgroundColor: isDragging ? 'var(--hz-primary-wash)' : 'var(--hz-surface)', padding: '32px 20px' }}
               >
                 <input ref={photoInputRef} type="file" multiple accept="image/*,video/*,.pdf" className="sr-only" onChange={e => { addFiles(e.target.files); e.target.value = '' }} />
                 <input ref={planInputRef} type="file" multiple accept=".pdf,.dwg,.dxf,image/*" className="sr-only" onChange={e => { addFiles(e.target.files); e.target.value = '' }} />

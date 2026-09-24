@@ -63,7 +63,7 @@ export default function EntitlementUpgradePrompt(props: EntitlementUpgradePrompt
   const plan = props.audience === 'homeowner' ? getHomeownerPlan(props.requiredPlanId) : getPartnerPlan(props.requiredPlanId)
 
   return (
-    <div role="note" className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-[10px]" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(114,46,209,0.14)' }}>
+    <div role="note" className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-[10px]" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid rgba(114,46,209,0.14)' }}>
       <span className="shrink-0" style={{ color: 'var(--hz-primary)' }}><IcoLock /></span>
       <span className="text-[12.5px] text-[var(--hz-ink-muted)] flex-1 leading-snug" style={{ fontFamily: FONT_BODY }}>
         <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>{props.capabilityLabel}</span>

@@ -43,7 +43,7 @@ function CircularConfidence({ value }: { value: number }) {
   return (
     <div className="relative w-[52px] h-[52px]">
       <svg width="52" height="52" viewBox="0 0 52 52" className="absolute inset-0">
-        <circle cx="26" cy="26" r={r} fill="none" stroke="#CAC7C6" strokeWidth="4" />
+        <circle cx="26" cy="26" r={r} fill="none" stroke="var(--hz-border-strong)" strokeWidth="4" />
         <circle
           cx="26" cy="26" r={r} fill="none" stroke="var(--hz-primary)" strokeWidth="4"
           strokeDasharray={circ} strokeDashoffset={offset}
@@ -183,7 +183,7 @@ function MetadataLabels() {
       {items.map(({ key, val, highlight }) => (
         <div key={key} className="flex flex-col gap-0.5">
           <div
-            className="text-[12px] tracking-[0.14em] text-[#CAC7C6] uppercase"
+            className="text-[12px] tracking-[0.14em] text-[var(--hz-border-strong)] uppercase"
             style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
           >
             {key}
@@ -311,7 +311,7 @@ function ProductCard() {
       </div>
 
       {/* HOZIE AI message */}
-      <div className="mx-4 mb-4 bg-[#F9F5FF] border border-[var(--hz-primary)]/30 rounded-[12px] px-3.5 py-2.5 flex items-center gap-2.5">
+      <div className="mx-4 mb-4 bg-[var(--hz-primary-wash)] border border-[var(--hz-primary)]/30 rounded-[12px] px-3.5 py-2.5 flex items-center gap-2.5">
         <HIcon size={22} />
         <div>
           <div
@@ -430,7 +430,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
             }}
             onBlur={() => setTouched(true)}
             placeholder="98765 43210"
-            className="flex-1 px-3 text-[15px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+            className="flex-1 px-3 text-[15px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           />
 
@@ -438,8 +438,8 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
           {phone.length === 10 && isValid && (
             <div className="flex items-center pr-3 shrink-0">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="6.5" stroke="#16A34A" strokeWidth="1.2"/>
-                <path d="M5 8L7 10L11 6" stroke="#16A34A" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="8" cy="8" r="6.5" stroke="var(--hz-success)" strokeWidth="1.2"/>
+                <path d="M5 8L7 10L11 6" stroke="var(--hz-success)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
           )}

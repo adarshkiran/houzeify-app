@@ -144,7 +144,7 @@ function ChooserCardButton({ card, onSelect }: { card: ChooserCard; onSelect: ()
         <div
           ref={panelRef}
           className="absolute left-[3.5%] top-[8%] w-[calc(39%+20px)] min-w-[170px] min-h-[68%] rounded-[20px] overflow-hidden"
-          style={{ isolation: 'isolate', border: '1px solid rgba(255,255,255,0.5)', boxShadow: '0 8px 24px rgba(114,46,209,0.08)' }}
+          style={{ isolation: 'isolate', border: '1px solid rgba(255,255,255,0.5)', boxShadow: '0 8px 24px color-mix(in oklch, var(--hz-primary) 14%, transparent)' }}
         >
           <div
             className="absolute inset-0 pointer-events-none"

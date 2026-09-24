@@ -130,7 +130,7 @@ export default function CompanyProjectsListScreen({
   }
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: '#FBF9F7' }}>
+    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-page)' }}>
       <PartnerNavRail active="projects" onNavigate={onNavigate} organizationId={currentOrganization?.id} />
       <div className="flex-1 flex flex-col min-w-0">
         <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between gap-3 px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">

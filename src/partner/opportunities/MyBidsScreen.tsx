@@ -42,10 +42,10 @@ const ArrowRightIcon = () => (
 )
 
 function statusColor(status: BidStatus): { bg: string; fg: string; dot: string } {
-  if (status === 'accepted') return { bg: '#DCFCE7', fg: '#16A34A', dot: '#16A34A' }
+  if (status === 'accepted') return { bg: '#DCFCE7', fg: 'var(--hz-success)', dot: 'var(--hz-success)' }
   if (status === 'rejected') return { bg: '#FEE2E2', fg: 'var(--hz-danger)', dot: 'var(--hz-danger)' }
-  if (status === 'withdrawn') return { bg: '#CAC7C6', fg: '#808080', dot: '#A1A1A1' }
-  return { bg: '#CAC7C6', fg: '#808080', dot: '#A1A1A1' } // submitted
+  if (status === 'withdrawn') return { bg: 'var(--hz-border-strong)', fg: '#808080', dot: '#A1A1A1' }
+  return { bg: 'var(--hz-border-strong)', fg: '#808080', dot: '#A1A1A1' } // submitted
 }
 
 // ─── Sidebar ────────────────────────────────────────────────────────────
@@ -73,7 +73,7 @@ function FilterChip({ label, selected, onClick }: { label: string; selected: boo
       style={{
         fontFamily: FONT_BODY,
         backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-        borderColor: selected ? 'var(--hz-primary)' : '#CAC7C6',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
         color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
@@ -103,7 +103,7 @@ function BidCard({ bid, opportunity, onViewProject, onViewBid }: { bid: Bid; opp
       {opportunity && (
         <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
           <span className="flex items-center gap-1"><HomeIconSmall /> {OPPORTUNITY_PROJECT_TYPE_LABELS[opportunity.projectType]}</span>
-          <span className="text-[#CAC7C6]">·</span>
+          <span className="text-[var(--hz-border-strong)]">·</span>
           <span className="flex items-center gap-1"><PinIcon /> {opportunity.city}</span>
         </div>
       )}
@@ -273,7 +273,7 @@ export default function MyBidsScreen({
                   onChange={e => setQuery(e.target.value)}
                   placeholder="Search bids..."
                   aria-label="Search bids by project name or location"
-                  className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                  className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
               </div>

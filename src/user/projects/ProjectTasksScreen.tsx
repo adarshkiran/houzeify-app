@@ -46,7 +46,7 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 const IcoCheck = ({ size = 15 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const IcoTasks = ({ size = 28 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="12" height="12" rx="2" /><path d="M6 9l2 2 4-4" /></svg>
@@ -62,7 +62,7 @@ function SectionCard({ title, children }: { title?: string; children: React.Reac
 }
 
 const PRIORITY_COLORS: Record<TaskPriority, { bg: string; fg: string }> = {
-  low: { bg: '#CAC7C6', fg: '#808080' },
+  low: { bg: 'var(--hz-border-strong)', fg: '#808080' },
   medium: { bg: '#FEF3C7', fg: '#D97706' },
   high: { bg: '#FEE2E2', fg: 'var(--hz-danger)' },
 }
@@ -181,7 +181,7 @@ export default function ProjectTasksScreen({
 
   if (!hasProject) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-page)' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
           <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
@@ -259,7 +259,7 @@ export default function ProjectTasksScreen({
   const bannerError = errorMessage || actionError
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-page)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
@@ -385,7 +385,7 @@ export default function ProjectTasksScreen({
                   className="min-h-11 h-11 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
                   style={{
                     fontFamily: FONT_BODY,
-                    backgroundColor: filter === tab.id ? 'var(--hz-primary)' : '#CAC7C6',
+                    backgroundColor: filter === tab.id ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                     color: filter === tab.id ? 'white' : '#808080',
                   }}
                 >

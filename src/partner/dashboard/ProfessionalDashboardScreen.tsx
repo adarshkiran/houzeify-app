@@ -170,7 +170,7 @@ function ChecklistRow({ item }: { item: ChecklistItemView }) {
     <div className="flex items-center gap-2 py-1">
       <span
         className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
-        style={{ backgroundColor: item.complete ? '#16A34A' : 'transparent', border: item.complete ? 'none' : '1.5px solid #CAC7C6' }}
+        style={{ backgroundColor: item.complete ? 'var(--hz-success)' : 'transparent', border: item.complete ? 'none' : '1.5px solid var(--hz-border-strong)' }}
         aria-hidden="true"
       >
         {item.complete && <CheckIcon size={8} />}
@@ -379,7 +379,7 @@ export default function ProfessionalDashboardScreen({
 
   return (
     <>
-      <div className="h-full flex" style={{ backgroundColor: '#FBF9F7' }}>
+      <div className="h-full flex" style={{ backgroundColor: 'var(--hz-page)' }}>
         <PartnerNavRail
           active="home"
           onNavigate={onNavigate}
@@ -422,7 +422,7 @@ export default function ProfessionalDashboardScreen({
               </header>
 
               {opportunitiesLocked && (
-                <div className="flex items-center justify-between gap-3 flex-wrap rounded-[12px] border border-[#F5CD7C] bg-[#FFF8E8] px-4 py-3">
+                <div className="flex items-center justify-between gap-3 flex-wrap rounded-[12px] border border-[var(--hz-warning-border)] bg-[var(--hz-warning-soft)] px-4 py-3">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <LockIcon size={14} />
                     <p className="text-[12.5px] text-[#8A6116] m-0" style={{ fontFamily: FONT_BODY }}>
@@ -658,7 +658,7 @@ export default function ProfessionalDashboardScreen({
                 </>
               )}
 
-              <div className="rounded-[18px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, var(--hz-primary-soft) 100%)', border: '1px solid rgba(114,46,209,0.12)' }}>
+              <div className="rounded-[18px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 100%)', border: '1px solid color-mix(in oklch, var(--hz-primary) 20%, transparent)' }}>
                 <div className="flex items-center gap-3">
                   <HIcon size={36} />
                   <div className="flex flex-col">
@@ -674,7 +674,7 @@ export default function ProfessionalDashboardScreen({
                     onChange={e => setAskInput(e.target.value)}
                     placeholder="Ask Hozie..."
                     aria-label="Ask Hozie"
-                    className="flex-1 min-h-[48px] h-full px-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 min-h-[48px] h-full px-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                   <button

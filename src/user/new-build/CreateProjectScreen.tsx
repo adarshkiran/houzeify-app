@@ -210,7 +210,7 @@ function ProgressSteps({ current }: { current: number }) {
                   className="w-5 h-5 rounded-full flex items-center justify-center text-[12px] font-bold shrink-0"
                   style={{
                     fontFamily: '"Sometype Mono:SemiBold", monospace',
-                    backgroundColor: active || done ? 'var(--hz-primary)' : '#CAC7C6',
+                    backgroundColor: active || done ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                     color: active || done ? 'white' : '#A1A1A1',
                   }}
                 >
@@ -231,7 +231,7 @@ function ProgressSteps({ current }: { current: number }) {
             </div>
             {/* Connector line */}
             {i < steps.length - 1 && (
-              <div className="h-px mx-3 flex-1" style={{ width: 48, backgroundColor: done ? 'var(--hz-primary)' : '#CAC7C6' }} />
+              <div className="h-px mx-3 flex-1" style={{ width: 48, backgroundColor: done ? 'var(--hz-primary)' : 'var(--hz-border-strong)' }} />
             )}
           </div>
         )
@@ -263,8 +263,8 @@ function StageCard({ stage, selected, onSelect }: { stage: StageOption; selected
       className={[
         'relative flex flex-col gap-2 p-4 rounded-[12px] text-left cursor-pointer transition-all duration-150 border outline-none',
         selected
-          ? 'bg-[#F9F5FF] border-[var(--hz-primary)] border-2'
-          : 'bg-[var(--hz-surface)] border-[var(--hz-border)] hover:bg-[#F9F5FF] hover:border-[var(--hz-primary)]',
+          ? 'bg-[var(--hz-primary-wash)] border-[var(--hz-primary)] border-2'
+          : 'bg-[var(--hz-surface)] border-[var(--hz-border)] hover:bg-[var(--hz-primary-wash)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       {/* Selected check */}
@@ -507,12 +507,12 @@ return (
                     placeholder="My New Home"
                     value={projectName}
                     onChange={e => setProjectName(e.target.value)}
-                    className="w-full h-[52px] px-4 rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[15px] text-[var(--hz-ink)] outline-none transition-all placeholder-[#CAC7C6]"
+                    className="w-full h-[52px] px-4 rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[15px] text-[var(--hz-ink)] outline-none transition-all placeholder-[var(--hz-border-strong)]"
                     style={{
                       fontFamily: '"Inter Variable", sans-serif',
                     }}
-                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--hz-primary)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(114,46,209,0.08)' }}
-                    onBlur={e => { e.currentTarget.style.borderColor = '#CAC7C6'; e.currentTarget.style.boxShadow = 'none' }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--hz-primary)'; e.currentTarget.style.boxShadow = '0 0 0 3px color-mix(in oklch, var(--hz-primary) 14%, transparent)' }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'var(--hz-border-strong)'; e.currentTarget.style.boxShadow = 'none' }}
                   />
                   <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     Give your project a name you&apos;ll recognize later.
@@ -611,7 +611,7 @@ return (
                   {editingLocation ? (
                     <div
                       className="flex items-center gap-3 px-4 h-[52px] rounded-[12px] border border-[var(--hz-primary)] bg-[var(--hz-surface)]"
-                      style={{ boxShadow: '0 0 0 3px rgba(114,46,209,0.08)' }}
+                      style={{ boxShadow: '0 0 0 3px color-mix(in oklch, var(--hz-primary) 14%, transparent)' }}
                     >
                       <span className="text-[var(--hz-ink-subtle)] shrink-0"><IcoLocation /></span>
                       <input
@@ -666,7 +666,7 @@ return (
               {/* Hozie Tip */}
               <div
                 className="flex items-start gap-3 px-5 py-4 rounded-[12px]"
-                style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)', animation: 'welcomeFadeUp 0.4s ease-out 0.22s both' }}
+                style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)', animation: 'welcomeFadeUp 0.4s ease-out 0.22s both' }}
               >
                 <div className="shrink-0 w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center">
                   <HIcon size={20} />

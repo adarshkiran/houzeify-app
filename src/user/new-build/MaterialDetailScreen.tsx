@@ -218,7 +218,7 @@ function fmtQty(n: number): string {
 }
 
 const IMPACT_META: Record<Exclude<ImpactLevel, 'baseline'>, { label: string; bg: string; fg: string }> = {
-  low: { label: 'LOW', bg: '#CAC7C6', fg: '#808080' },
+  low: { label: 'LOW', bg: 'var(--hz-border-strong)', fg: '#808080' },
   medium: { label: 'MEDIUM', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)' },
   high: { label: 'HIGH', bg: 'var(--hz-primary)', fg: 'var(--hz-surface)' },
 }
@@ -229,7 +229,7 @@ function Breadcrumb({ materialName, onCalculator }: { materialName: string; onCa
   return (
     <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-[12px] flex-wrap min-w-0" style={{ fontFamily: FONT_BODY }}>
       <button onClick={onCalculator} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: 'var(--hz-ink-muted)' }}>Material Calculator</button>
-      <span aria-hidden="true" style={{ color: '#CAC7C6' }}>/</span>
+      <span aria-hidden="true" style={{ color: 'var(--hz-border-strong)' }}>/</span>
       <span className="font-semibold" style={{ color: 'var(--hz-ink)' }}>{materialName}</span>
     </nav>
   )
@@ -274,7 +274,7 @@ function MaterialHero({ detail }: { detail: MaterialDetail }) {
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Estimated Requirement</span>
       </div>
 
-      <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
         <span className="text-[36px] sm:text-[42px] font-semibold leading-none" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>
           {fmtQty(detail.quantity)} <span className="text-[18px] font-normal">{detail.unit}</span>
         </span>
@@ -341,7 +341,7 @@ function CalculationFlow({ detail }: { detail: MaterialDetail }) {
           <div
             className="w-full text-center py-2 px-3 rounded-[10px] text-[12px]"
             style={i === steps.length - 1
-              ? { backgroundColor: '#F9F5FF', color: 'var(--hz-primary)', fontWeight: 600, border: '1px solid rgba(243,234,255,0.10)', fontFamily: FONT_HEAD }
+              ? { backgroundColor: 'var(--hz-primary-wash)', color: 'var(--hz-primary)', fontWeight: 600, border: '1px solid var(--hz-primary-soft)', fontFamily: FONT_HEAD }
               : { backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
           >
             {s}
@@ -585,7 +585,7 @@ function BOQConnectionCard({ detail, onViewBOQItem, onViewBOQ, onCompare }: {
 function AIConfidenceCard({ detail, onImprove }: { detail: MaterialDetail; onImprove: () => void }) {
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.18s both' }}>
-      <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, var(--hz-surface) 100%)', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, var(--hz-primary-wash) 0%, var(--hz-surface) 100%)', border: '1px solid var(--hz-primary-soft)' }}>
         <div className="flex items-center gap-2.5">
           <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
           <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Confidence</span>
@@ -595,7 +595,7 @@ function AIConfidenceCard({ detail, onImprove }: { detail: MaterialDetail; onImp
           <span className="text-[40px] font-semibold leading-none" style={{ fontFamily: FONT_HEAD, color: 'var(--hz-primary)' }}>{detail.confidenceScore}%</span>
           <span className="text-[13px] text-[var(--hz-ink-muted)] mb-1 capitalize" style={{ fontFamily: FONT_BODY }}>{detail.confidence} confidence</span>
         </div>
-        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
+        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
           <div className="h-full rounded-full" style={{ width: `${detail.confidenceScore}%`, backgroundColor: 'var(--hz-primary)' }} />
         </div>
 
@@ -610,7 +610,7 @@ function AIConfidenceCard({ detail, onImprove }: { detail: MaterialDetail; onImp
           </ul>
         </div>
 
-        <div className="flex flex-col gap-1.5 pt-1" style={{ borderTop: '1px solid rgba(243,234,255,0.10)' }}>
+        <div className="flex flex-col gap-1.5 pt-1" style={{ borderTop: '1px solid var(--hz-primary-soft)' }}>
           <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Accuracy Can Improve With</span>
           <ul className="flex flex-col gap-1.5 m-0 p-0" style={{ listStyle: 'none' }}>
             {detail.confidenceImprove.map(f => (
@@ -690,7 +690,7 @@ function RelatedMaterials({ detail, onOpen }: { detail: MaterialDetail; onOpen: 
 function HozieAction({ detail, onAskHozie }: { detail: MaterialDetail; onAskHozie: () => void }) {
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.26s both' }}>
-      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
         <div className="flex items-center gap-2.5">
           <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
           <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Ask Hozie</span>

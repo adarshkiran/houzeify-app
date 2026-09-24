@@ -160,7 +160,7 @@ function SectionTag({ children }: { children: React.ReactNode }) {
 // ─── Impact badge — never color-only, always a text label ───────────────────
 
 const IMPACT_META: Record<ImpactLevel, { label: string; bg: string; fg: string; border?: string }> = {
-  low: { label: 'LOW', bg: '#CAC7C6', fg: '#808080' },
+  low: { label: 'LOW', bg: 'var(--hz-border-strong)', fg: '#808080' },
   medium: { label: 'MEDIUM', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)' },
   high: { label: 'HIGH', bg: 'var(--hz-primary)', fg: 'var(--hz-surface)' },
   baseline: { label: 'BASELINE', bg: 'var(--hz-surface)', fg: '#808080', border: 'var(--hz-border)' },
@@ -294,7 +294,7 @@ function AssumptionCard({
                       fontFamily: '"Inter Variable", sans-serif',
                       backgroundColor: selectedQuality === opt ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
                       color: selectedQuality === opt ? 'var(--hz-primary)' : '#808080',
-                      borderColor: selectedQuality === opt ? 'var(--hz-primary)' : '#CAC7C6',
+                      borderColor: selectedQuality === opt ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                     }}
                   >
                     {opt}
@@ -352,7 +352,7 @@ function ConfidenceCard({ onImprove }: { onImprove: () => void }) {
   return (
     <div
       className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4"
-      style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, var(--hz-surface) 100%)', border: '1px solid rgba(243,234,255,0.10)' }}
+      style={{ background: 'linear-gradient(135deg, var(--hz-primary-wash) 0%, var(--hz-surface) 100%)', border: '1px solid var(--hz-primary-soft)' }}
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2.5">
@@ -366,7 +366,7 @@ function ConfidenceCard({ onImprove }: { onImprove: () => void }) {
         <span className="text-[40px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{estimateConfidence.score}%</span>
         <span className="text-[13px] text-[var(--hz-ink-muted)] mb-1" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{estimateConfidence.level}</span>
       </div>
-      <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
+      <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
         <div className="h-full rounded-full" style={{ width: `${estimateConfidence.score}%`, backgroundColor: 'var(--hz-primary)' }} />
       </div>
 
@@ -529,7 +529,7 @@ return (
                     Hozie uses your project details, construction assumptions and regional cost data to create an estimated range. Review these assumptions before using the estimate for decisions.
                   </p>
                 </div>
-                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid var(--hz-primary-soft)' }}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
                   <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>86% AI confidence</span>
                 </div>

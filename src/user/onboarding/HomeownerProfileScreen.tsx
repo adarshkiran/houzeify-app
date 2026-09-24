@@ -220,8 +220,8 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 
 function VerifiedBadge() {
   return (
-    <span className="inline-flex items-center gap-1 text-[11px] font-medium" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-      <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#16A34A' }}><IcoCheck /></span>
+    <span className="inline-flex items-center gap-1 text-[11px] font-medium" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+      <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-success)' }}><IcoCheck /></span>
       Verified
     </span>
   )
@@ -588,7 +588,7 @@ const HOZIE_USES = CUSTOMER_PROFILE_HOZIE_USES
 
 function HoziePersonalization({ onManage, className }: { onManage: () => void; className?: string }) {
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Your Hozie Experience</span>
@@ -702,8 +702,8 @@ function OnboardingAmbientBg() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
       <div className="absolute rounded-full" style={{ top: '-160px', right: '-160px', width: 620, height: 620, backgroundColor: 'rgba(243,234,255,0.07)', filter: 'blur(110px)' }} />
-      <div className="absolute rounded-full" style={{ bottom: '-200px', left: '-160px', width: 700, height: 700, backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(130px)' }} />
-      <div className="absolute rounded-full" style={{ top: '45%', left: '50%', transform: 'translate(-50%,-50%)', width: 480, height: 480, backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(90px)' }} />
+      <div className="absolute rounded-full" style={{ bottom: '-200px', left: '-160px', width: 700, height: 700, backgroundColor: 'var(--hz-primary-soft)', filter: 'blur(130px)' }} />
+      <div className="absolute rounded-full" style={{ top: '45%', left: '50%', transform: 'translate(-50%,-50%)', width: 480, height: 480, backgroundColor: 'var(--hz-primary-soft)', filter: 'blur(90px)' }} />
     </div>
   )
 }
@@ -874,7 +874,7 @@ function OnboardingProfileView({
                   onChange={e => setFirstName(e.target.value)}
                   placeholder="First name"
                   aria-invalid={touched && firstName.trim().length === 0}
-                  className={['w-full h-[46px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', touched && firstName.trim().length === 0 ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                  className={['w-full h-[46px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', touched && firstName.trim().length === 0 ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
               </div>
@@ -887,7 +887,7 @@ function OnboardingProfileView({
                   onChange={e => setLastName(e.target.value)}
                   placeholder="Last name"
                   aria-invalid={touched && lastName.trim().length === 0}
-                  className={['w-full h-[46px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', touched && lastName.trim().length === 0 ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
+                  className={['w-full h-[46px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', touched && lastName.trim().length === 0 ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
               </div>
@@ -939,7 +939,7 @@ function OnboardingProfileView({
                     style={{
                       fontFamily: FONT_BODY,
                       backgroundColor: addressMode === opt.mode ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
-                      borderColor: addressMode === opt.mode ? 'var(--hz-primary)' : '#CAC7C6',
+                      borderColor: addressMode === opt.mode ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                       color: addressMode === opt.mode ? 'var(--hz-primary)' : 'var(--hz-black)',
                     }}
                   >
@@ -967,7 +967,7 @@ function OnboardingProfileView({
                 onChange={e => setAboutMe(truncateToWords(e.target.value, ABOUT_ME_MAX_WORDS))}
                 placeholder="Tell Hozie a bit about yourself and what you're hoping to build — a couple of sentences is plenty."
                 rows={5}
-                className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                 style={{ fontFamily: FONT_BODY }}
               />
               <div className="flex items-center justify-between mt-1.5">
@@ -1315,8 +1315,8 @@ return (
 
               {savedNotice && !editing && (
                 <div role="status" className="flex items-center gap-2 rounded-[12px] px-4 py-3" style={{ backgroundColor: '#DCFCE7' }}>
-                  <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#16A34A' }}><IcoCheck /></span>
-                  <span className="text-[13px] font-medium" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>Profile updated ✓</span>
+                  <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-success)' }}><IcoCheck /></span>
+                  <span className="text-[13px] font-medium" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>Profile updated ✓</span>
                 </div>
               )}
 
