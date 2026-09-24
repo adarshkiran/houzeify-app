@@ -521,9 +521,14 @@ export default function ProjectOverviewScreen({
     projectsStatus === 'idle' || projectsStatus === 'loading'
     || customerProjects.status === 'idle' || customerProjects.status === 'loading'
 
+  // Demo / local preview jumps (non-server project ids with a name) should not
+  // block on auth-backed project list fetches — otherwise Project SubNav never
+  // appears in the screen switcher.
+  const localLegacyPreview = Boolean(projectId && !serverProject && projectName)
+
   if (!canViewProject) return null
 
-  if (audience === 'unknown' && listsPending) {
+  if (audience === 'unknown' && listsPending && !localLegacyPreview) {
     return (
       <div className="flex flex-col h-full min-w-0" style={{ backgroundColor: 'var(--hz-page)' }}>
         <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">

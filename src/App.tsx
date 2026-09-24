@@ -2951,7 +2951,46 @@ export default function App() {
         </div>
       )}
 
-      {DEV_SCREEN_TOOLS && <DevScreenSwitcher current={screen} onJump={setScreen} />}
+      {DEV_SCREEN_TOOLS && (
+        <DevScreenSwitcher
+          current={screen}
+          onJump={(s) => {
+            // Project SubNav only mounts when project_id is set. Seed a demo
+            // project when jumping straight to project screens from the switcher
+            // so those rails are previewable without going through create/list.
+            const needsProject =
+              s === 'project-workspace' ||
+              s === 'project-overview' ||
+              s === 'project-progress' ||
+              s === 'project-timeline' ||
+              s === 'project-tasks' ||
+              s === 'project-issues' ||
+              s === 'project-workforce' ||
+              s === 'project-documents' ||
+              s === 'project-boq' ||
+              s === 'project-team' ||
+              s === 'project-customer' ||
+              s === 'project-reports' ||
+              s === 'project-live-site' ||
+              s === 'project-settings' ||
+              s === 'project-messages' ||
+              s === 'project-photos' ||
+              s === 'create-daily-progress'
+            if (needsProject) {
+              navigateTo(s, {
+                role: projectData.role || 'professional',
+                project_id: projectData.project_id || 'demo-project-preview',
+                project_name: projectData.project_name || 'Sample Construction Project',
+                project_stage: projectData.project_stage || 'foundation',
+                property_type: projectData.property_type || 'House',
+                location: projectData.location || 'Hyderabad, Telangana',
+              })
+            } else {
+              setScreen(s)
+            }
+          }}
+        />
+      )}
     </div>
     </SubscriptionProvider>
     </CustomerAddressProvider>
