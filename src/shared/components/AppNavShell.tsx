@@ -119,7 +119,7 @@ function navItemClassName(item: AppNavItem, collapsed: boolean, indented?: boole
   return cn(
     'w-full flex items-center border-0 cursor-pointer rounded-xl transition-all duration-150 text-left',
     'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-    collapsed ? 'justify-center min-w-11 min-h-11 w-11 h-11 mx-auto p-0' : 'justify-start w-full px-3 py-[9px] gap-3',
+    collapsed ? 'justify-center min-w-11 min-h-11 w-11 h-11 mx-auto p-0' : 'justify-start w-full min-h-11 px-3 py-2 gap-3',
     indented && !collapsed ? 'pl-8' : '',
     disabled ? 'cursor-not-allowed opacity-40' : '',
     item.active

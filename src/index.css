@@ -109,13 +109,15 @@
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.97 0.001 106.424);
-  --muted-foreground: oklch(0.553 0.013 58.071);
+  /* S22 — darker muted text (~WCAG AA on white) vs prior 0.553 gray. */
+  --muted-foreground: oklch(0.45 0.013 58.071);
   --accent: oklch(0.97 0.001 106.424);
   --accent-foreground: oklch(0.216 0.006 56.043);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.923 0.003 48.717);
   --input: oklch(0.923 0.003 48.717);
-  --ring: oklch(0.709 0.01 56.259);
+  /* S22 — brand-primary ring so keyboard focus is visible on light chrome. */
+  --ring: oklch(0.491 0.27 292.581);
   --chart-1: oklch(0.811 0.111 293.571);
   --chart-2: oklch(0.606 0.25 292.717);
   --chart-3: oklch(0.541 0.281 293.009);
@@ -129,7 +131,7 @@
   --sidebar-accent: oklch(0.97 0.001 106.424);
   --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
   --sidebar-border: oklch(0.923 0.003 48.717);
-  --sidebar-ring: oklch(0.709 0.01 56.259);
+  --sidebar-ring: oklch(0.491 0.27 292.581);
 
   /* Houzeify Figma palette bridges — screens still reference these via
    * var(--hz-*). Values flip under .dark so Light/Dark in Account Settings
@@ -140,7 +142,8 @@
   --hz-page: #FBF9F7;
   --hz-ink: #242326;
   --hz-ink-muted: #68636D;
-  --hz-ink-subtle: #9A949D;
+  /* S22 — was #9A949D (~3:1 on white); #6F6A73 meets ~AA for UI labels. */
+  --hz-ink-subtle: #6F6A73;
   --hz-border: #E3DDD7;
   --hz-border-strong: #CAC7C6;
   --hz-primary: #722ED1;

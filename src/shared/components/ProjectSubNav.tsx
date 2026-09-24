@@ -115,8 +115,9 @@ export default function ProjectSubNav({
       <div className="relative w-full border-b border-border">
         <div
           className="w-full overflow-x-auto scrollbar-thin"
-          style={{ scrollbarWidth: 'thin' }}
+          style={{ scrollbarWidth: 'thin', scrollPaddingInline: '1.5rem' }}
           aria-label={projectName ? `${projectName} navigation` : 'Project navigation'}
+          role="navigation"
         >
           <div className="flex items-center gap-1 px-4 sm:px-6 min-w-max">
             {items.map(item => {
@@ -141,13 +142,13 @@ export default function ProjectSubNav({
             })}
           </div>
         </div>
-        {/* Edge fades — SubNav overflow discoverability (C14 H1) */}
+        {/* Edge fades — SubNav overflow discoverability (C14 H1 / S22 through xl) */}
         <div
-          className="pointer-events-none absolute inset-y-0 left-0 w-6 md:hidden bg-gradient-to-r from-background to-transparent"
+          className="pointer-events-none absolute inset-y-0 left-0 w-6 xl:hidden bg-gradient-to-r from-background to-transparent"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 w-8 md:hidden bg-gradient-to-l from-background to-transparent"
+          className="pointer-events-none absolute inset-y-0 right-0 w-8 xl:hidden bg-gradient-to-l from-background to-transparent"
           aria-hidden="true"
         />
       </div>

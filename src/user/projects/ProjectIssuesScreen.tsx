@@ -60,7 +60,7 @@ function SectionCard({ title, children }: { title?: string; children: React.Reac
 }
 
 const PRIORITY_COLORS: Record<IssuePriority, { bg: string; fg: string }> = {
-  low: { bg: 'var(--hz-border-strong)', fg: '#808080' },
+  low: { bg: 'var(--hz-border-strong)', fg: 'var(--hz-ink-muted)' },
   medium: { bg: '#FEF3C7', fg: '#D97706' },
   high: { bg: '#FEE2E2', fg: 'var(--hz-danger)' },
 }
@@ -374,7 +374,7 @@ export default function ProjectIssuesScreen({
                   style={{
                     fontFamily: FONT_BODY,
                     backgroundColor: filter === tab.id ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
-                    color: filter === tab.id ? 'white' : '#808080',
+                    color: filter === tab.id ? 'white' : 'var(--hz-ink-muted)',
                   }}
                 >
                   {tab.label} {counts[tab.id]}
@@ -464,8 +464,9 @@ function IssueCard({ issue, currentUserId, onStatusChange }: { issue: Constructi
         <select
           value={issue.status}
           onChange={e => onStatusChange(issue.id, e.target.value as IssueStatus)}
-          className="h-8 px-2.5 rounded-[8px] text-[12px] font-semibold cursor-pointer outline-none shrink-0"
+          className="min-h-11 h-11 px-2.5 rounded-[8px] text-[12px] font-semibold cursor-pointer outline-none shrink-0 focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
           style={{ fontFamily: FONT_BODY, border: '1px solid var(--hz-border)', backgroundColor: 'var(--hz-surface)', color: 'var(--hz-ink)' }}
+          aria-label={`Status for ${issue.title}`}
         >
           {ISSUE_STATUSES.map(s => (
             <option key={s} value={s}>{ISSUE_STATUS_LABELS[s]}</option>
