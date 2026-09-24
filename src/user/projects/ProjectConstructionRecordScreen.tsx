@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
@@ -16,6 +16,9 @@ import {
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Open Sans:Regular", sans-serif'
 const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+
+const FOCUS_RING =
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
 
 function stageLabel(stage: string | null | undefined): string {
   if (!stage) return 'Not set'
@@ -67,34 +70,63 @@ export default function ProjectConstructionRecordScreen({
   const [record, setRecord] = useState<ConstructionRecord | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const loadRecord = useCallback(async () => {
     if (!serverProject || !projectId) {
       setStatus('loaded')
       setRecord(null)
+      setError(null)
       return
     }
-    let cancelled = false
     setStatus('loading')
     setError(null)
-    getConstructionRecord(projectId)
-      .then(row => {
+    try {
+      const row = await getConstructionRecord(projectId)
+      setRecord(row)
+      setStatus('loaded')
+    } catch (err) {
+      setRecord(null)
+      setError(describeConstructionRecordError(err))
+      setStatus('error')
+    }
+  }, [serverProject, projectId])
+
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      if (!serverProject || !projectId) {
+        if (!cancelled) {
+          setStatus('loaded')
+          setRecord(null)
+          setError(null)
+        }
+        return
+      }
+      if (!cancelled) {
+        setStatus('loading')
+        setError(null)
+      }
+      try {
+        const row = await getConstructionRecord(projectId)
         if (!cancelled) {
           setRecord(row)
           setStatus('loaded')
         }
-      })
-      .catch(err => {
+      } catch (err) {
         if (!cancelled) {
+          setRecord(null)
           setError(describeConstructionRecordError(err))
           setStatus('error')
         }
-      })
+      }
+    })()
     return () => { cancelled = true }
   }, [serverProject, projectId])
 
   function navTo(dest: string) {
     onNavigate(dest, projectId ? { project_id: projectId } : undefined)
   }
+
+  const linkClass = `mt-3 inline-flex items-center min-h-[44px] text-[13px] font-semibold text-[#722ED1] cursor-pointer border-0 bg-transparent p-0 print:hidden ${FOCUS_RING}`
 
   const chrome = (
     <>
@@ -111,7 +143,7 @@ export default function ProjectConstructionRecordScreen({
           variant={variant}
           onNavigate={onNavigate}
         />
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
           <div className="max-w-[880px] mx-auto flex flex-col gap-5 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 min-w-0">
               <div className="min-w-0">
@@ -130,12 +162,23 @@ export default function ProjectConstructionRecordScreen({
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="inline-flex items-center justify-center min-h-[44px] px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 print:hidden"
-                style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                disabled={status !== 'loaded' || !record}
+                className={`inline-flex items-center justify-center min-h-[44px] px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 print:hidden shrink-0 ${FOCUS_RING}`}
+                style={{
+                  backgroundColor: '#722ED1',
+                  color: 'white',
+                  fontFamily: FONT_BODY,
+                  opacity: status !== 'loaded' || !record ? 0.5 : 1,
+                  cursor: status !== 'loaded' || !record ? 'not-allowed' : 'pointer',
+                }}
               >
                 Print / Save PDF
               </button>
             </div>
+
+            <p className="text-[12px] text-[#68636D] m-0 -mt-2 print:hidden" style={{ fontFamily: FONT_BODY }}>
+              Print uses your browser’s print dialog. This is not a separate PDF export service.
+            </p>
 
             {!serverProject ? (
               <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
@@ -144,7 +187,21 @@ export default function ProjectConstructionRecordScreen({
             ) : status === 'idle' || status === 'loading' ? (
               <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading construction record…</p>
             ) : status === 'error' ? (
-              <p className="text-[13px] text-[#B91C1C] m-0" role="alert" style={{ fontFamily: FONT_BODY }}>{error}</p>
+              <div
+                className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}
+                role="alert"
+              >
+                <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{error}</p>
+                <button
+                  type="button"
+                  onClick={() => { void loadRecord() }}
+                  className={`h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 ${FOCUS_RING}`}
+                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                >
+                  Try again
+                </button>
+              </div>
             ) : !record ? (
               <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No construction record is available.</p>
             ) : (
@@ -175,7 +232,7 @@ export default function ProjectConstructionRecordScreen({
                 </Section>
 
                 <Section title="Stage journey">
-                  <ol className="flex flex-col md:flex-row md:overflow-x-auto gap-3 m-0 p-0 list-none min-w-0">
+                  <ol className="flex flex-col md:flex-row md:overflow-x-auto gap-3 m-0 p-0 list-none min-w-0" aria-label="Construction stage journey">
                     {record.timeline.map(item => {
                       const color = item.state === 'current' ? '#722ED1' : item.state === 'completed' ? '#15803D' : '#68636D'
                       const bg = item.state === 'current' ? '#F8E3BD' : item.state === 'completed' ? '#C6F6D5' : '#F4F0EC'
@@ -187,12 +244,7 @@ export default function ProjectConstructionRecordScreen({
                       )
                     })}
                   </ol>
-                  <button
-                    type="button"
-                    onClick={() => navTo(PROJECT_NAV_ROUTES.timeline)}
-                    className="mt-3 inline-flex items-center min-h-[44px] text-[13px] font-semibold text-[#722ED1] cursor-pointer border-0 bg-transparent p-0 print:hidden"
-                    style={{ fontFamily: FONT_BODY }}
-                  >
+                  <button type="button" onClick={() => navTo(PROJECT_NAV_ROUTES.timeline)} className={linkClass} style={{ fontFamily: FONT_BODY }}>
                     Open Timeline →
                   </button>
                 </Section>
@@ -222,12 +274,7 @@ export default function ProjectConstructionRecordScreen({
                       ))}
                     </ul>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => navTo(PROJECT_NAV_ROUTES.progress)}
-                    className="mt-3 inline-flex items-center min-h-[44px] text-[13px] font-semibold text-[#722ED1] cursor-pointer border-0 bg-transparent p-0 print:hidden"
-                    style={{ fontFamily: FONT_BODY }}
-                  >
+                  <button type="button" onClick={() => navTo(PROJECT_NAV_ROUTES.progress)} className={linkClass} style={{ fontFamily: FONT_BODY }}>
                     Open Progress →
                   </button>
                 </Section>
@@ -253,12 +300,7 @@ export default function ProjectConstructionRecordScreen({
                       ))}
                     </ul>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => navTo(PROJECT_NAV_ROUTES.documents)}
-                    className="mt-3 inline-flex items-center min-h-[44px] text-[13px] font-semibold text-[#722ED1] cursor-pointer border-0 bg-transparent p-0 print:hidden"
-                    style={{ fontFamily: FONT_BODY }}
-                  >
+                  <button type="button" onClick={() => navTo(PROJECT_NAV_ROUTES.documents)} className={linkClass} style={{ fontFamily: FONT_BODY }}>
                     Open Documents →
                   </button>
                 </Section>
@@ -270,7 +312,7 @@ export default function ProjectConstructionRecordScreen({
                   ) : (
                     <ul className="m-0 mt-3 p-0 list-none flex flex-col gap-2">
                       {record.workforce.members.map((member, i) => (
-                        <li key={`${member.displayName}-${member.role}-${i}`} className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+                        <li key={`${member.displayName}-${member.role}-${i}`} className="text-[13px] text-[#242326] break-words" style={{ fontFamily: FONT_BODY }}>
                           <span className="font-semibold" style={{ fontFamily: FONT_HEAD }}>{member.displayName}</span>
                           <span className="text-[#68636D]"> · {member.role}</span>
                         </li>
@@ -318,7 +360,7 @@ export default function ProjectConstructionRecordScreen({
   )
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
       <div className="flex flex-1 min-h-0 relative z-10">{chrome}</div>
     </div>
   )
