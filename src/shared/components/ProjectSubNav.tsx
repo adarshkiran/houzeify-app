@@ -33,8 +33,6 @@
 import type { ReactNode } from 'react'
 import { PROJECT_NAV_ROUTES, type ProjectNavId } from '@/data/constructionNav'
 
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-
 const PROJECT_NAV_ITEMS: { id: ProjectNavId; label: string }[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'progress', label: 'Progress' },
@@ -98,15 +96,14 @@ export default function ProjectSubNav({
   const backLabel = variant === 'customer' ? 'My Projects' : 'Project Workspace'
 
   return (
-    <div className="shrink-0 bg-white">
+    <div className="shrink-0 bg-background">
       {showWorkspaceHeader && (
-        <header style={{ borderBottom: '1px solid #F4F0EC' }}>
+        <header className="border-b border-border">
           <div className="flex items-center justify-between gap-2 h-14 px-4 sm:px-6 lg:px-8 min-w-0">
             <button
               type="button"
               onClick={() => onNavigate(backDest, projectId && variant !== 'customer' ? { project_id: projectId } : undefined)}
-              className="inline-flex items-center gap-1.5 min-h-[44px] min-w-0 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-              style={{ fontFamily: FONT_BODY }}
+              className="inline-flex items-center gap-1.5 min-h-[44px] min-w-0 text-[13px] font-medium text-muted-foreground hover:text-foreground cursor-pointer border-0 bg-transparent p-0 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring font-sans"
             >
               <IcoBack />
               <span className={action ? 'truncate max-w-[12rem] sm:max-w-none' : undefined}>{backLabel}</span>
@@ -115,10 +112,7 @@ export default function ProjectSubNav({
           </div>
         </header>
       )}
-      <div
-        className="relative w-full border-b"
-        style={{ borderColor: '#E3DDD7' }}
-      >
+      <div className="relative w-full border-b border-border">
         <div
           className="w-full overflow-x-auto scrollbar-thin"
           style={{ scrollbarWidth: 'thin' }}
@@ -133,15 +127,14 @@ export default function ProjectSubNav({
                   type="button"
                   onClick={() => go(PROJECT_NAV_ROUTES[item.id])}
                   aria-current={isActive ? 'page' : undefined}
-                  className="relative h-11 min-h-11 px-3 text-[13px] font-semibold cursor-pointer border-0 bg-transparent whitespace-nowrap transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2 rounded-[6px]"
-                  style={{
-                    fontFamily: FONT_BODY,
-                    color: isActive ? '#722ED1' : '#68636D',
-                  }}
+                  className={[
+                    'relative h-11 min-h-11 px-3 text-[13px] font-semibold cursor-pointer border-0 bg-transparent whitespace-nowrap transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md font-sans',
+                    isActive ? 'text-primary' : 'text-muted-foreground',
+                  ].join(' ')}
                 >
                   {item.label}
                   {isActive && (
-                    <span className="absolute left-0 right-0 bottom-0 h-[2px]" style={{ backgroundColor: '#722ED1' }} />
+                    <span className="absolute left-0 right-0 bottom-0 h-[2px] bg-primary" />
                   )}
                 </button>
               )
@@ -150,13 +143,11 @@ export default function ProjectSubNav({
         </div>
         {/* Edge fades — SubNav overflow discoverability (C14 H1) */}
         <div
-          className="pointer-events-none absolute inset-y-0 left-0 w-6 md:hidden"
-          style={{ background: 'linear-gradient(to right, #FFFFFF, transparent)' }}
+          className="pointer-events-none absolute inset-y-0 left-0 w-6 md:hidden bg-gradient-to-r from-background to-transparent"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 w-8 md:hidden"
-          style={{ background: 'linear-gradient(to left, #FFFFFF, transparent)' }}
+          className="pointer-events-none absolute inset-y-0 right-0 w-8 md:hidden bg-gradient-to-l from-background to-transparent"
           aria-hidden="true"
         />
       </div>

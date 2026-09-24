@@ -159,22 +159,21 @@ function NavItem({
       onClick={onClick}
       disabled={disabled || !onClick}
       className={[
-        'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150',
-        'outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2',
+        'w-full flex items-center border-0 cursor-pointer rounded-xl transition-all duration-150',
+        'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         'md:justify-center md:min-w-11 md:min-h-11 md:w-11 md:h-11 md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:min-w-0 lg:min-h-0 lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
         disabled || !onClick ? 'cursor-not-allowed opacity-40' : '',
         active
-          ? 'bg-[#F3EAFF] text-[#722ED1]'
-          : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+          ? 'bg-sidebar-accent text-sidebar-primary'
+          : 'bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center" aria-hidden="true">
         {icon}
       </span>
       <span
-        className="hidden lg:block text-[13px] leading-none"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+        className="hidden lg:block text-[13px] leading-none font-sans"
       >
         {label}
       </span>
@@ -251,12 +250,11 @@ export default function Sidebar({
   return (
     <>
       <aside
-        className="hidden md:flex flex-col shrink-0 bg-white z-10"
-        style={{ borderRight: '1px solid #F4F0EC' }}
+        className="hidden md:flex flex-col shrink-0 bg-sidebar text-sidebar-foreground z-10 border-r border-sidebar-border"
       >
         <div className="flex flex-col h-full md:w-[72px] lg:w-[240px]">
           {/* Logo */}
-          <div className="h-[64px] shrink-0 flex items-center border-b border-[#E3DDD7] md:justify-center lg:justify-start lg:px-5">
+          <div className="h-[64px] shrink-0 flex items-center border-b border-sidebar-border md:justify-center lg:justify-start lg:px-5">
             <img
               src={logoHorizontal}
               alt="Houzeify"
@@ -282,8 +280,8 @@ export default function Sidebar({
               ))}
             </div>
 
-            <div className="my-3 border-t border-[#E3DDD7]" />
-            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-[#9A949D] px-3 mb-1.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+            <div className="my-3 border-t border-sidebar-border" />
+            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-muted-foreground px-3 mb-1.5 font-mono">
               Project
             </p>
             <div className="flex flex-col gap-0.5">
@@ -303,8 +301,8 @@ export default function Sidebar({
               ))}
             </div>
 
-            <div className="my-3 border-t border-[#E3DDD7]" />
-            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-[#9A949D] px-3 mb-1.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+            <div className="my-3 border-t border-sidebar-border" />
+            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-muted-foreground px-3 mb-1.5 font-mono">
               Assistant
             </p>
             <div className="flex flex-col gap-0.5">
@@ -320,7 +318,7 @@ export default function Sidebar({
             </div>
           </nav>
 
-          <div className="shrink-0 border-t border-[#E3DDD7] md:p-2 lg:p-3 flex flex-col gap-0.5">
+          <div className="shrink-0 border-t border-sidebar-border md:p-2 lg:p-3 flex flex-col gap-0.5">
             {navBottom.map(item => (
               <NavItem
                 key={item.id}

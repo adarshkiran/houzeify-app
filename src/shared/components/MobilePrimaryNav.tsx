@@ -67,7 +67,7 @@ export function MobilePrimaryNav({
     <>
       <div ref={sentinelRef} className="md:hidden" aria-hidden="true" />
       <nav
-        className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#E5E0D8] bg-white md:hidden"
+        className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background md:hidden"
         style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
         aria-label="Primary"
       >
@@ -82,12 +82,12 @@ export function MobilePrimaryNav({
                 aria-current={isActive ? 'page' : undefined}
                 className={[
                   'flex min-h-11 min-w-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg px-2 py-2',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2',
-                  isActive ? 'text-[#722ED1]' : 'text-[#8A8278]',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                  isActive ? 'text-primary' : 'text-muted-foreground',
                 ].join(' ')}
               >
                 <Icon />
-                <span className="text-[10px] font-medium leading-tight">{label}</span>
+                <span className="text-[10px] font-medium leading-tight font-sans">{label}</span>
               </button>
             )
           })}
