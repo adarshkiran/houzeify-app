@@ -16,6 +16,7 @@ import {
   SUGGESTED_QUESTIONS,
   type AdvisorAction,
 } from '@/data/aiAdvisor'
+import { HOZIE_HONEST_COPY } from '@/data/hozieAdvisorShell'
 import Sidebar from '@/shared/components/Sidebar'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
 import { useOrganizations } from '@/data/organizationState'
@@ -711,7 +712,7 @@ export default function AIAdvisorScreen({
   const suggestions = SUGGESTED_QUESTIONS[resolvedIntent]
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
+    <div className="flex flex-col relative h-full" style={{ backgroundColor: 'var(--hz-page)' }}>
 
       <MobileTopBar onBack={() => onNavigate(homeRoute)} onNew={handleNewClick} />
 
@@ -720,11 +721,18 @@ export default function AIAdvisorScreen({
           ? <PartnerNavRail active="advisor" onNavigate={onNavigate} organizationId={currentOrganization?.id} />
           : <Sidebar active="advisor" onNavigate={onNavigate} />}
 
-        <div className="flex flex-col flex-1 min-h-0">
+        <div className="flex flex-col flex-1 min-h-0 min-w-0">
           <div className="hidden md:flex flex-col">
             <AIAdvisorHeader onBack={() => onNavigate(homeRoute)} onNew={handleNewClick} />
           </div>
           <ContextBar primaryLabel={context.primaryLabel} locationLabel={context.locationLabel} intentLabel={context.intentLabel} />
+          <p
+            className="shrink-0 px-4 py-2 text-[12px] text-[var(--hz-ink-muted)] m-0 border-b border-[var(--hz-border)] bg-[var(--hz-surface)]"
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
+            role="status"
+          >
+            {HOZIE_HONEST_COPY.disclaimer}
+          </p>
 
           <div className="flex flex-1 min-h-0">
             <div className="flex-1 flex flex-col min-h-0 min-w-0">
@@ -736,14 +744,17 @@ export default function AIAdvisorScreen({
                         <HIcon size={28} />
                       </div>
                       <div className="flex flex-col gap-2 max-w-[440px]">
+                        <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                          {HOZIE_HONEST_COPY.eyebrow}
+                        </p>
                         <h2 className="text-[24px] sm:text-[26px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
-                          Hi, I&apos;m Hozie.
+                          {HOZIE_HONEST_COPY.greeting}
                         </h2>
                         <p className="text-[14.5px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
-                          Your AI advisor for everything home and construction.
+                          {HOZIE_HONEST_COPY.subtitle}
                         </p>
                         <p className="text-[13.5px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
-                          Ask me about costs, plans, materials, contractors, services or your next step.
+                          {HOZIE_HONEST_COPY.body}
                         </p>
                       </div>
 

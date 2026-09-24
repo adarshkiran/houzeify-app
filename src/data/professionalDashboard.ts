@@ -20,7 +20,7 @@ import type { ProfessionalType } from './professionalType'
 // soon" affordance instead, mirroring the DASHBOARD_ROUTES convention
 // already established in homeownerDashboard.ts. ────────────────────────────
 export const PROFESSIONAL_DASHBOARD_ROUTES = {
-  aiAdvisor: 'ai-advisor', // 013 — existing
+  aiAdvisor: 'ai-advisor', // S19 — mock Hozie with honest copy until LLM seam exists
   manageProfile: 'business-verification', // 081 — not yet built; closest existing screen that actually shows the professional's saved profile (same fallback Screen 028 already uses for "View Organization Profile")
   team: 'team-setup', // 089 — not yet built as its own screen; reuses the existing team-setup flow
   services: 'service-categories', // existing

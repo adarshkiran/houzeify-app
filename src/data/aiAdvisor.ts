@@ -1,7 +1,9 @@
 // ─── AI Advisor — conversation model + deterministic reply engine ───────────
 // UI demonstration data only — there is no LLM backend yet. getAdvisorReply()
-// is the seam a real AI call replaces; the screen must only ever generate a
-// reply through this function, never inline in the component.
+// is the seam a real AI call replaces (S19); the screen must only ever generate
+// a reply through this function, never inline in the component. Until a live
+// model exists, AIAdvisorScreen shows HOZIE_HONEST_COPY so users are not told
+// this is a live AI model.
 //
 // No Conversation/Message model existed anywhere in the codebase, so these
 // are new — kept intentionally small and matching the brief's own shape.

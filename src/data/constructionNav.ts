@@ -41,7 +41,7 @@ export const COMPANY_NAV_ROUTES = {
   // own header comment for the full reasoning).
   team: 'team-management',
   profile: 'company-profile',
-  aiAdvisor: 'ai-advisor', // existing
+  aiAdvisor: 'ai-advisor', // S19 — mock Hozie with honest copy until LLM seam exists
   settings: 'account-settings', // existing — already branches on role; not previously wired from the partner dashboard's own sidebar (its old Settings item was a dead '' stub)
   // Business Development — moved out of the primary rail into its own
   // demoted section (still fully reachable, never deleted).

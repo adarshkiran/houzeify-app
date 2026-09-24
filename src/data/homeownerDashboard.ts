@@ -36,7 +36,7 @@ export const DASHBOARD_ROUTES = {
   buildOrImprove: 'build-or-improve', // Build/Renovate chooser — new construction vs. improvement, ahead of the onboarding-intent chain
   renovate: 'renovate-select-area', // Flow 03 — the dedicated Renovate journey's own first screen
   createProject: 'create-project', // 035 — existing
-  aiAdvisor: 'ai-advisor', // 013 — existing
+  aiAdvisor: 'ai-advisor', // S19 — mock Hozie with honest copy until LLM seam exists
   // Houzeify 2.0 Module 02 — Home Services is no longer part of the active
   // product experience (see constructionNav.ts's NAV_PLACEHOLDER_CONTENT
   // header comment). Redirected to the shared "Coming Soon" placeholder;
