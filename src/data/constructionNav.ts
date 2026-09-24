@@ -76,7 +76,7 @@ export const PROJECT_NAV_ROUTES = {
   customer: 'project-customer',
   photos: 'project-photos',
   reports: 'project-reports',
-  settings: 'project-settings', // NEW placeholder
+  settings: 'project-settings', // S15 — ProjectSettingsScreen (name / stage / location)
 } as const
 
 export type ProjectNavId = keyof typeof PROJECT_NAV_ROUTES
@@ -121,7 +121,7 @@ export const NAV_PLACEHOLDER_CONTENT: Record<string, NavPlaceholderContent> = {
   'project-boq': { title: 'Bill of Quantities', description: "This project's Bill of Quantities — sections, quantities and amounts — lives here." },
   'project-customer': { title: 'Customer', description: "Invite the homeowner and manage what they can see on this project." },
   'project-reports': { title: 'Construction Record', description: 'Assembled progress, evidence, documents, and stage for this project.' },
-  'project-settings': { title: 'Settings', description: 'Project-level settings and preferences.' },
+  'project-settings': { title: 'Settings', description: 'Edit this project’s name, construction stage, and location.' },
   'project-photos': { title: 'Photos', description: 'Photos and videos shared from your project site will appear here.' },
   // Module 02 — Home Services is no longer part of the active Houzeify
   // product experience (see homeownerDashboard.ts's DASHBOARD_ROUTES.

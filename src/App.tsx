@@ -89,6 +89,7 @@ import CompanyReportsScreen from '@/partner/projects/CompanyReportsScreen'
 import CompanyWorkforceScreen from '@/partner/projects/CompanyWorkforceScreen'
 import CompanyDocumentsScreen from '@/partner/projects/CompanyDocumentsScreen'
 import CompanyOpenWorkScreen from '@/partner/projects/CompanyOpenWorkScreen'
+import ProjectSettingsScreen from '@/user/projects/ProjectSettingsScreen'
 import AIAdvisorScreen from '@/user/dashboard/AIAdvisorScreen'
 import HomeServicesScreen from '@/user/home-services/HomeServicesScreen'
 import HoziehelperGoldScreen from '@/user/home-services/categories/HoziehelperGoldScreen'
@@ -2372,15 +2373,22 @@ export default function App() {
           constructionNav.ts's PROJECT_NAV_ROUTES / NAV_PLACEHOLDER_CONTENT).
           Reachable from both the project sub-screens' own ProjectSubNav and
           the customer Sidebar's new Timeline/Live Site items. */}
-      {(screen === 'project-live-site' || screen === 'project-settings') && (
+      {screen === 'project-live-site' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ComingSoonScreen
-            placeholderId={screen}
+            placeholderId="project-live-site"
             shell="project"
-            activeProjectId={
-              screen === 'project-live-site' ? 'liveSite'
-              : 'settings'
-            }
+            activeProjectId="liveSite"
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'project-settings' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <ProjectSettingsScreen
+            role={resolvedRole}
             projectId={projectData.project_id}
             projectName={projectData.project_name}
             onNavigate={navigateTo}
