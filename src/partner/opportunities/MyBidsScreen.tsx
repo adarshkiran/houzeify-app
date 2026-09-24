@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
 import { getVisibleBids, formatBidAmount, formatBidDuration, BID_STATUS_LABELS, type Bid, type BidStatus } from '@/data/bids'
 import { getOpportunityById, OPPORTUNITY_PROJECT_TYPE_LABELS, type ProjectOpportunity } from '@/data/projectOpportunities'
+import { BD_HONEST_COPY } from '@/data/businessDevelopmentShell'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Inter Variable", sans-serif'
@@ -219,19 +220,22 @@ export default function MyBidsScreen({
   const hasAnyFilter = query.trim() !== '' || statusTab !== 'all'
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-surface)' }}>
+    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-page)' }}>
       <PartnerNavRail active="bids" onNavigate={onNavigate} organizationId={organizationId} />
 
       <div className="flex-1 flex flex-col min-w-0 relative overflow-y-auto">
 
-        <main className="flex-1 relative z-10 px-5 sm:px-8 lg:px-10 py-6 sm:py-8 w-full">
+        <main className="flex-1 relative z-10 px-5 sm:px-8 lg:px-10 py-6 sm:py-8 pb-24 md:pb-8 w-full">
           <div className="w-full flex flex-col gap-6" style={{ maxWidth: 1100, margin: '0 auto' }}>
 
             {/* Header */}
             <div className="flex flex-col gap-2">
-              <button type="button" onClick={handleBack} className="self-start text-[12.5px] font-semibold text-[var(--hz-ink-muted)] cursor-pointer bg-transparent border-0 hover:text-[var(--hz-ink)] hover:underline p-0 mb-1" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={handleBack} className="self-start min-h-11 text-[12.5px] font-semibold text-[var(--hz-ink-muted)] cursor-pointer bg-transparent border-0 hover:text-[var(--hz-ink)] hover:underline p-0 mb-1 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ fontFamily: FONT_BODY }}>
                 ← Back to Dashboard
               </button>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0" style={{ fontFamily: FONT_MONO }}>
+                {BD_HONEST_COPY.eyebrow}
+              </p>
               <div className="flex items-center gap-2.5 flex-wrap">
                 <h1 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   My Bids
@@ -244,6 +248,9 @@ export default function MyBidsScreen({
               </div>
               <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                 Track the projects you&apos;ve submitted proposals for.
+              </p>
+              <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }} role="status">
+                {BD_HONEST_COPY.disclaimer}
               </p>
             </div>
 
@@ -297,13 +304,13 @@ export default function MyBidsScreen({
 
             {/* Bid list */}
             {myBids.length === 0 ? (
-              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] border border-dashed border-[var(--hz-border)] p-10">
+              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] border border-dashed border-[var(--hz-border)] p-10" role="status">
                 <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}><IcoBids /></span>
-                <p className="text-[14px] text-[var(--hz-ink)] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>No bids yet</p>
+                <p className="text-[14px] text-[var(--hz-ink)] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>{BD_HONEST_COPY.myBidsEmptyTitle}</p>
                 <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
-                  Projects you bid on will appear here.
+                  {BD_HONEST_COPY.myBidsEmptyBody}
                 </p>
-                <button type="button" onClick={handleDiscoverProjects} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all flex items-center gap-1.5 mt-1" style={{ fontFamily: FONT_BODY }}>
+                <button type="button" onClick={handleDiscoverProjects} className="min-h-11 h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all flex items-center gap-1.5 mt-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ fontFamily: FONT_BODY }}>
                   Discover Projects <ArrowRightIcon />
                 </button>
               </div>

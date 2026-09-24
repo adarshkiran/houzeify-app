@@ -20,6 +20,7 @@ import {
   type OpportunitySort,
   type OpportunityProjectType,
 } from '@/data/projectOpportunities'
+import { BD_HONEST_COPY } from '@/data/businessDevelopmentShell'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Inter Variable", sans-serif'
@@ -205,21 +206,25 @@ export default function DiscoverProjectsScreen({
   }
 
   const hasAnyFilter = query.trim() !== '' || filters.serviceCategory || filters.city || filters.projectType || filters.minBudget !== null || quickFilter !== 'all'
+  const storeEmpty = allDiscoverable.length === 0
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-surface)' }}>
+    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-page)' }}>
       <PartnerNavRail active="opportunities" onNavigate={onNavigate} organizationId={organizationId} />
 
       <div className="flex-1 flex flex-col min-w-0 relative overflow-y-auto">
 
-        <main className="flex-1 relative z-10 px-5 sm:px-8 lg:px-10 py-6 sm:py-8 w-full">
+        <main className="flex-1 relative z-10 px-5 sm:px-8 lg:px-10 py-6 sm:py-8 pb-24 md:pb-8 w-full">
           <div className="w-full flex flex-col gap-6" style={{ maxWidth: 1200, margin: '0 auto' }}>
 
             {/* Header */}
             <div className="flex flex-col gap-2">
-              <button type="button" onClick={handleBack} className="self-start text-[12.5px] font-semibold text-[var(--hz-ink-muted)] cursor-pointer bg-transparent border-0 hover:text-[var(--hz-ink)] hover:underline p-0 mb-1" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={handleBack} className="self-start min-h-11 text-[12.5px] font-semibold text-[var(--hz-ink-muted)] cursor-pointer bg-transparent border-0 hover:text-[var(--hz-ink)] hover:underline p-0 mb-1 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ fontFamily: FONT_BODY }}>
                 ← Back to Dashboard
               </button>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0" style={{ fontFamily: FONT_MONO }}>
+                {BD_HONEST_COPY.eyebrow}
+              </p>
               <div className="flex items-center gap-2.5 flex-wrap">
                 <h1 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   Discover Projects
@@ -231,7 +236,10 @@ export default function DiscoverProjectsScreen({
                 )}
               </div>
               <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
-                Find construction projects that match your services and locations.
+                {BD_HONEST_COPY.discoverIntro}
+              </p>
+              <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }} role="status">
+                {BD_HONEST_COPY.disclaimer}
               </p>
             </div>
 
@@ -365,20 +373,24 @@ export default function DiscoverProjectsScreen({
                 </div>
 
                 {results.length === 0 ? (
-                  <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] border border-dashed border-[var(--hz-border)] p-10">
+                  <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] border border-dashed border-[var(--hz-border)] p-10" role="status">
                     <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}><IcoOpportunities /></span>
-                    <p className="text-[14px] text-[var(--hz-ink)] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>No projects match your services right now.</p>
-                    <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
-                      Try expanding your service areas or checking back later.
+                    <p className="text-[14px] text-[var(--hz-ink)] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>
+                      {storeEmpty ? BD_HONEST_COPY.discoverEmptyTitle : BD_HONEST_COPY.discoverFilteredTitle}
                     </p>
-                    <div className="flex flex-col sm:flex-row items-center gap-2.5 mt-1">
-                      <button type="button" onClick={handleEditServices} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
-                        Adjust Services
-                      </button>
-                      <button type="button" onClick={handleEditLocations} className="h-10 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors" style={{ fontFamily: FONT_BODY }}>
-                        Adjust Service Locations
-                      </button>
-                    </div>
+                    <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[420px]" style={{ fontFamily: FONT_BODY }}>
+                      {storeEmpty ? BD_HONEST_COPY.discoverEmptyBody : BD_HONEST_COPY.discoverFilteredBody}
+                    </p>
+                    {!storeEmpty && (
+                      <div className="flex flex-col sm:flex-row items-center gap-2.5 mt-1">
+                        <button type="button" onClick={handleEditServices} className="min-h-11 h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ fontFamily: FONT_BODY }}>
+                          Adjust Services
+                        </button>
+                        <button type="button" onClick={handleEditLocations} className="min-h-11 h-11 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ fontFamily: FONT_BODY }}>
+                          Adjust Service Locations
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

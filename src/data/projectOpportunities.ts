@@ -2,7 +2,7 @@
 // UI demonstration data only — there is no backend yet, and no homeowner
 // "post a project for bids" screen exists yet either, so this in-memory
 // store starts genuinely empty. This module is the seam a real
-// opportunities API replaces; Screen 030 must only ever read this data
+// opportunities API replaces (S20); Screen 030 must only ever read this data
 // through the functions here, never inline, and must never be seeded with
 // fabricated projects.
 //

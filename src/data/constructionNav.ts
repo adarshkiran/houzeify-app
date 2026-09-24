@@ -45,8 +45,8 @@ export const COMPANY_NAV_ROUTES = {
   settings: 'account-settings', // existing — already branches on role; not previously wired from the partner dashboard's own sidebar (its old Settings item was a dead '' stub)
   // Business Development — moved out of the primary rail into its own
   // demoted section (still fully reachable, never deleted).
-  discoverProjects: 'discover-projects', // existing
-  myBids: 'my-bids', // existing
+  discoverProjects: 'discover-projects', // S20 — C12 protected BD; empty mock until marketplace API
+  myBids: 'my-bids', // S20 — C12 protected BD; empty mock until marketplace API
   plansBilling: 'plans-billing', // existing, shared with the homeowner side
 } as const
 
