@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
+import AppearanceToggle from '@/shared/components/AppearanceToggle'
 import { useCustomerProfile } from '@/data/customerProfileState'
-import { useTheme, type ThemePreference } from '@/shared/theme/ThemeProvider'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Inter Variable", sans-serif'
@@ -50,14 +50,7 @@ export default function PreferencesScreen({ role, onNavigate }: PreferencesScree
     if (!isHomeowner) onNavigate('professional-dashboard')
   }, [isHomeowner, onNavigate])
   const customerProfile = useCustomerProfile()
-  const { preference, setPreference } = useTheme()
   if (!isHomeowner) return null
-
-  const themeOptions: Array<{ id: ThemePreference; label: string }> = [
-    { id: 'light', label: 'Light' },
-    { id: 'dark', label: 'Dark' },
-    { id: 'system', label: 'System' },
-  ]
 
   function goToProfile() {
     onNavigate('homeowner-profile')
@@ -106,33 +99,7 @@ export default function PreferencesScreen({ role, onNavigate }: PreferencesScree
               </div>
 
               <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
-                <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Appearance</p>
-                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
-                  Choose light, dark, or follow your device setting. Applies across the whole app.
-                </p>
-                <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Theme">
-                  {themeOptions.map(opt => {
-                    const selected = preference === opt.id
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={selected}
-                        onClick={() => setPreference(opt.id)}
-                        className={[
-                          'min-h-11 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border transition-colors',
-                          selected
-                            ? 'border-[var(--hz-primary)] bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]'
-                            : 'border-[var(--hz-border)] bg-transparent text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)]',
-                        ].join(' ')}
-                        style={{ fontFamily: FONT_BODY }}
-                      >
-                        {opt.label}
-                      </button>
-                    )
-                  })}
-                </div>
+                <AppearanceToggle />
               </div>
 
               <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>

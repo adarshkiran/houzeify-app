@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
+import AppearanceToggle from '@/shared/components/AppearanceToggle'
 import { useOrganizations } from '@/data/organizationState'
 import { useCustomerProfile } from '@/data/customerProfileState'
 import { usePartnerProfile } from '@/data/partnerProfileState'
 import { PROFESSIONAL_TYPE_CONTENT, type ProfessionalType } from '@/data/professionalType'
 import { customerSidebarSettingsActive } from '@/data/customerProfileSettings'
-import { useTheme, type ThemePreference } from '@/shared/theme/ThemeProvider'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Inter Variable", sans-serif'
@@ -119,12 +119,6 @@ export default function AccountSettingsScreen({
   const customerProfile = useCustomerProfile()
   const partnerProfile = usePartnerProfile()
   const { currentOrganization } = useOrganizations()
-  const { preference, setPreference } = useTheme()
-  const themeOptions: Array<{ id: ThemePreference; label: string }> = [
-    { id: 'light', label: 'Light' },
-    { id: 'dark', label: 'Dark' },
-    { id: 'system', label: 'System' },
-  ]
 
   const professionalTypeLabel = professionalType === 'other'
     ? (professionalTypeOther || 'Other')
@@ -209,32 +203,7 @@ export default function AccountSettingsScreen({
               )}
 
               <SectionCard eyebrow="Appearance">
-                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
-                  Choose light, dark, or follow your device setting.
-                </p>
-                <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Theme">
-                  {themeOptions.map(opt => {
-                    const selected = preference === opt.id
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={selected}
-                        onClick={() => setPreference(opt.id)}
-                        className={[
-                          'min-h-11 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border transition-colors',
-                          selected
-                            ? 'border-[var(--hz-primary)] bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]'
-                            : 'border-[var(--hz-border)] bg-transparent text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)]',
-                        ].join(' ')}
-                        style={{ fontFamily: FONT_BODY }}
-                      >
-                        {opt.label}
-                      </button>
-                    )
-                  })}
-                </div>
+                <AppearanceToggle showTitle={false} />
               </SectionCard>
 
               {/* Sign out — reuses the one real sign-out action already
