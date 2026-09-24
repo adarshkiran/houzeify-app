@@ -73,4 +73,4 @@ Roadmap: Phase 8 + `S19  Hozie — real AI seam or keep mock with honest copy`
 ## 5. Final commit / origin
 
 Implementation commit: `7acfa67`  
-**Final `main` / `origin/main`:** _(filled after FF-merge + push)_
+**Final `main` / `origin/main`:** `c7d60e4` (FF-merge + push; local and origin synchronized)
