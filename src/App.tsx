@@ -585,6 +585,69 @@ function getInitialScreen(): AppScreen {
   return (ALL_SCREEN_IDS as string[]).includes(param ?? '') ? (param as AppScreen) : 'splash'
 }
 
+/** Screens that need a project_id for SubNav / workspace chrome to render. */
+function screenNeedsDevProject(s: AppScreen): boolean {
+  return (
+    s === 'project-workspace' ||
+    s === 'project-overview' ||
+    s === 'project-progress' ||
+    s === 'project-timeline' ||
+    s === 'project-tasks' ||
+    s === 'project-issues' ||
+    s === 'project-workforce' ||
+    s === 'project-documents' ||
+    s === 'project-boq' ||
+    s === 'project-team' ||
+    s === 'project-customer' ||
+    s === 'project-reports' ||
+    s === 'project-live-site' ||
+    s === 'project-settings' ||
+    s === 'project-messages' ||
+    s === 'project-photos' ||
+    s === 'create-daily-progress'
+  )
+}
+
+function screenNeedsDevPartner(s: AppScreen): boolean {
+  return (
+    screenNeedsDevProject(s) ||
+    s === 'professional-dashboard' ||
+    s === 'company-projects' ||
+    s === 'company-progress' ||
+    s === 'company-open-work' ||
+    s === 'company-workforce' ||
+    s === 'company-documents' ||
+    s === 'company-reports' ||
+    s === 'company-live-site' ||
+    s === 'create-construction-project' ||
+    s === 'discover-projects' ||
+    s === 'my-bids'
+  )
+}
+
+/**
+ * DEV deep-link seed — `?screen=` bypasses onboarding, but project SubNav and
+ * partner rails still need role / project_id. Without this, refreshing
+ * project-overview or professional-dashboard look blank or bounce to homeowner Home.
+ */
+function getDevDeepLinkSeed(screen: AppScreen): Record<string, string> {
+  if (!DEV_SCREEN_TOOLS) return {}
+  if (!screenNeedsDevPartner(screen) && !screenNeedsDevProject(screen)) return {}
+  const seed: Record<string, string> = {
+    role: 'professional',
+    account_type: 'organization',
+    professional_type: 'general-contractor',
+  }
+  if (screenNeedsDevProject(screen)) {
+    seed.project_id = 'demo-project-preview'
+    seed.project_name = 'Sample Construction Project'
+    seed.project_stage = 'foundation'
+    seed.property_type = 'House'
+    seed.location = 'Hyderabad, Telangana'
+  }
+  return seed
+}
+
 // ─── Session persistence — Flow 05 (Partner Authentication & Entry) ────────
 // projectData was pure in-memory React state with zero persistence: the
 // `screen` id round-trips through the URL (getInitialScreen/syncScreenUrl
@@ -782,10 +845,14 @@ export default function App() {
   const [screen, setScreenState] = useState<AppScreen>(getInitialScreen)
   const [fading, setFading] = useState(false)
   const [phone, setPhone] = useState('98765 43210')
-  const [projectData, setProjectData] = useState<Record<string, string>>(() => ({
-    ...INITIAL_PROJECT_DATA,
-    ...readSessionSnapshot(),
-  }))
+  const [projectData, setProjectData] = useState<Record<string, string>>(() => {
+    const initialScreen = getInitialScreen()
+    return {
+      ...INITIAL_PROJECT_DATA,
+      ...readSessionSnapshot(),
+      ...getDevDeepLinkSeed(initialScreen),
+    }
+  })
 
   const setScreen = (s: AppScreen) => {
     setScreenState(s)
@@ -2958,33 +3025,9 @@ export default function App() {
             // Project SubNav only mounts when project_id is set. Seed a demo
             // project when jumping straight to project screens from the switcher
             // so those rails are previewable without going through create/list.
-            const needsProject =
-              s === 'project-workspace' ||
-              s === 'project-overview' ||
-              s === 'project-progress' ||
-              s === 'project-timeline' ||
-              s === 'project-tasks' ||
-              s === 'project-issues' ||
-              s === 'project-workforce' ||
-              s === 'project-documents' ||
-              s === 'project-boq' ||
-              s === 'project-team' ||
-              s === 'project-customer' ||
-              s === 'project-reports' ||
-              s === 'project-live-site' ||
-              s === 'project-settings' ||
-              s === 'project-messages' ||
-              s === 'project-photos' ||
-              s === 'create-daily-progress'
-            if (needsProject) {
-              navigateTo(s, {
-                role: projectData.role || 'professional',
-                project_id: projectData.project_id || 'demo-project-preview',
-                project_name: projectData.project_name || 'Sample Construction Project',
-                project_stage: projectData.project_stage || 'foundation',
-                property_type: projectData.property_type || 'House',
-                location: projectData.location || 'Hyderabad, Telangana',
-              })
+            const seed = getDevDeepLinkSeed(s)
+            if (Object.keys(seed).length > 0) {
+              navigateTo(s, seed)
             } else {
               setScreen(s)
             }
