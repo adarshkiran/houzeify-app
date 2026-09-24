@@ -72,5 +72,5 @@ Roadmap: Phase 5 + `### S15 — NEW-Project-Settings`
 
 ## 5. Final commit / origin
 
-Implementation commit: _(filled after commit)_  
+Implementation commit: `5505832`  
 **Final `main` / `origin/main`:** _(filled after FF-merge + push)_
