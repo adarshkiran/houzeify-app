@@ -12,7 +12,7 @@
     "server:typecheck": "tsc -p tsconfig.server.json --noEmit",
     "server:build": "tsc -p tsconfig.server.json",
     "server:start": "node dist-server/index.js",
-    "server:test": "tsx --test server/**/*.test.ts src/data/companyHomeRollup.test.ts src/data/companyProjectForm.test.ts src/data/companyRollupPhase.test.ts src/data/projectWorkspaceSections.test.ts src/data/projectOverviewRecord.test.ts src/data/dailyProgressEvidenceCapture.test.ts src/data/projectTimelineSections.test.ts src/data/projectTasksIssuesRoutes.test.ts src/data/projectS09Routes.test.ts src/data/projectConstructionRecordSections.test.ts src/data/customerHomeProjects.test.ts",
+    "server:test": "tsx --test server/**/*.test.ts src/data/companyHomeRollup.test.ts src/data/companyProjectForm.test.ts src/data/companyRollupPhase.test.ts src/data/projectWorkspaceSections.test.ts src/data/projectOverviewRecord.test.ts src/data/dailyProgressEvidenceCapture.test.ts src/data/projectTimelineSections.test.ts src/data/projectTasksIssuesRoutes.test.ts src/data/projectS09Routes.test.ts src/data/projectConstructionRecordSections.test.ts src/data/customerHomeProjects.test.ts src/data/customerProjectsList.test.ts",
     "server:migrate": "drizzle-kit migrate",
     "server:seed:m08": "tsx server/scripts/seedModule08TestAccounts.ts"
   },

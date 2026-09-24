@@ -523,14 +523,33 @@ function ServerDocuments({
   const audience = useProjectAudience(projectId)
   const isCustomer = audience === 'customer'
   const [sharedDocs, setSharedDocs] = useState<CustomerViewDocument[]>([])
+  const [sharedStatus, setSharedStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
+  const [sharedError, setSharedError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!isCustomer) return
-    listCustomerViewDocuments(projectId).then(setSharedDocs).catch(() => setSharedDocs([]))
+    let cancelled = false
+    setSharedStatus('loading')
+    setSharedError(null)
+    listCustomerViewDocuments(projectId)
+      .then(docs => {
+        if (cancelled) return
+        setSharedDocs(docs)
+        setSharedStatus('loaded')
+      })
+      .catch(err => {
+        if (cancelled) return
+        setSharedDocs([])
+        setSharedError(err instanceof Error ? err.message : 'Unable to load shared documents.')
+        setSharedStatus('error')
+      })
+    return () => { cancelled = true }
   }, [isCustomer, projectId])
 
   const { status, documents, error, addDocument, updateDocument, archiveDocument, refetch } = useProjectDocuments(isCustomer ? undefined : projectId)
-  const isLoading = status === 'idle' || status === 'loading'
+  const isLoading = isCustomer
+    ? sharedStatus === 'idle' || sharedStatus === 'loading'
+    : status === 'idle' || status === 'loading'
 
   const [filter, setFilter] = useState<FilterTab>('all')
   const [query, setQuery] = useState('')
@@ -896,7 +915,43 @@ function ServerDocuments({
           {/* Document list */}
           {isCustomer ? (
             <div className="flex flex-col gap-3">
-              {sharedDocs.length === 0 ? (
+              {isLoading ? (
+                <ServerCard>
+                  <div className="flex flex-col items-center text-center gap-2 py-6" role="status" aria-live="polite">
+                    <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>
+                      <IcoDocuments />
+                    </span>
+                    <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading shared documents…</p>
+                  </div>
+                </ServerCard>
+              ) : sharedStatus === 'error' ? (
+                <div role="alert" className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }}>
+                  <p className="text-[13px] text-[#991B1B] m-0" style={{ fontFamily: FONT_BODY }}>
+                    {sharedError ?? 'Couldn’t load shared documents.'}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSharedStatus('loading')
+                      setSharedError(null)
+                      listCustomerViewDocuments(projectId)
+                        .then(docs => {
+                          setSharedDocs(docs)
+                          setSharedStatus('loaded')
+                        })
+                        .catch(err => {
+                          setSharedDocs([])
+                          setSharedError(err instanceof Error ? err.message : 'Unable to load shared documents.')
+                          setSharedStatus('error')
+                        })
+                    }}
+                    className="min-h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-white text-[#991B1B] outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+                    style={{ fontFamily: FONT_BODY }}
+                  >
+                    Try again
+                  </button>
+                </div>
+              ) : sharedDocs.length === 0 ? (
                 <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No documents have been shared with you yet.</p>
               ) : sharedDocs.map(doc => (
                 <div key={doc.id} className="rounded-[14px] bg-white p-4" style={{ border: '1px solid #E3DDD7' }}>

@@ -100,6 +100,7 @@ export default function ProjectPhotosScreen({
   const [status, setStatus] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
   const [photos, setPhotos] = useState<GalleryItem[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [reloadKey, setReloadKey] = useState(0)
   const [open, setOpen] = useState<GalleryItem | null>(null)
   const [confirmRemove, setConfirmRemove] = useState(false)
   const [removeBusy, setRemoveBusy] = useState(false)
@@ -113,6 +114,7 @@ export default function ProjectPhotosScreen({
       return
     }
     setStatus('loading')
+    setError(null)
     const load =
       audience === 'customer'
         ? listCustomerViewProgress(projectId).then(fromCustomer)
@@ -126,7 +128,7 @@ export default function ProjectPhotosScreen({
         setError(audience === 'customer' ? describeCustomerViewError(err) : err instanceof Error ? err.message : 'Unable to load photos.')
         setStatus('error')
       })
-  }, [projectId, audience])
+  }, [projectId, audience, reloadKey])
 
   useEffect(() => {
     if (!open) return
@@ -171,9 +173,19 @@ export default function ProjectPhotosScreen({
                 </p>
               </div>
               {status === 'idle' || status === 'loading' ? (
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading photos…</p>
+                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }} role="status" aria-live="polite">Loading photos…</p>
               ) : status === 'error' ? (
-                <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{error}</p>
+                <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
+                  <p className="text-[13px] text-[#991B1B] m-0" style={{ fontFamily: FONT_BODY }}>{error ?? 'Couldn’t load photos.'}</p>
+                  <button
+                    type="button"
+                    onClick={() => setReloadKey(k => k + 1)}
+                    className="min-h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-white text-[#991B1B] outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+                    style={{ fontFamily: FONT_BODY }}
+                  >
+                    Try again
+                  </button>
+                </div>
               ) : audience === 'invited' ? (
                 <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Photos are unavailable until you accept this project invitation.</p>
               ) : photos.length === 0 ? (

@@ -83,8 +83,19 @@ export default function ProjectSubNav({
   action?: ReactNode
   onNavigate: (s: string, data?: Record<string, string>) => void
 }) {
-  const go = (dest: string) => onNavigate(dest, projectId ? { project_id: projectId } : undefined)
+  const go = (dest: string) =>
+    onNavigate(
+      dest,
+      projectId
+        ? {
+            project_id: projectId,
+            ...(projectName ? { project_name: projectName } : {}),
+          }
+        : undefined,
+    )
   const items = variant === 'customer' ? CUSTOMER_PROJECT_NAV_ITEMS : PROJECT_NAV_ITEMS
+  const backDest = variant === 'customer' ? 'projects-list' : 'project-workspace'
+  const backLabel = variant === 'customer' ? 'My Projects' : 'Project Workspace'
 
   return (
     <div className="shrink-0 bg-white">
@@ -93,12 +104,12 @@ export default function ProjectSubNav({
           <div className="flex items-center justify-between gap-2 h-14 px-4 sm:px-6 lg:px-8 min-w-0">
             <button
               type="button"
-              onClick={() => onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)}
+              onClick={() => onNavigate(backDest, projectId && variant !== 'customer' ? { project_id: projectId } : undefined)}
               className="inline-flex items-center gap-1.5 min-h-[44px] min-w-0 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
               style={{ fontFamily: FONT_BODY }}
             >
               <IcoBack />
-              <span className={action ? 'truncate max-w-[12rem] sm:max-w-none' : undefined}>Project Workspace</span>
+              <span className={action ? 'truncate max-w-[12rem] sm:max-w-none' : undefined}>{backLabel}</span>
             </button>
             {action ? <div className="shrink-0">{action}</div> : null}
           </div>
