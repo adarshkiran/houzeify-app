@@ -72,4 +72,6 @@ Roadmap: Phase 4 + `### S14 — Site Operations polish — MODIFY`
 
 ## 5. Final commit / origin
 
-Implementation commit: `668af40796805a79755adc7d4008243d66d24164`
+Implementation commit: `668af40`  
+Docs commit: `3fab5f5`  
+**Final `main` / `origin/main`:** `3fab5f5` (FF-merge + push; local and origin synchronized)
