@@ -74,4 +74,4 @@ Roadmap: Phase 7 + `### S18 — NEW-Live-Site — COMING SOON until infra`
 ## 5. Final commit / origin
 
 Implementation commit: `aa4ec06`  
-**Final `main` / `origin/main`:** _(filled after FF-merge + push)_
+**Final `main` / `origin/main`:** `4b43ff1` (FF-merge + push; local and origin synchronized)
