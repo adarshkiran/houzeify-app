@@ -108,19 +108,19 @@ const TIP_PRESETS = [20, 30, 50]
 
 function CheckoutStepper({ qty, onDecrement, onIncrement }: { qty: number; onDecrement: () => void; onIncrement: () => void }) {
   return (
-    <div className="flex items-center gap-1.5 rounded-[10px] border border-[#722ED1] shrink-0">
+    <div className="flex items-center gap-1.5 rounded-[10px] border border-[var(--hz-primary)] shrink-0">
       <button
         onClick={onDecrement}
         aria-label="Decrease quantity"
-        className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-l-[9px]"
+        className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-l-[9px]"
       >
         −
       </button>
-      <span className="text-[13px] font-semibold text-[#242326] w-4 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] w-4 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
       <button
         onClick={onIncrement}
         aria-label="Increase quantity"
-        className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-r-[9px]"
+        className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-r-[9px]"
       >
         +
       </button>
@@ -136,24 +136,24 @@ function CheckoutCartRow({ item, isLast, onChangeQty, onEdit, onRemove }: {
   onRemove: () => void
 }) {
   return (
-    <div className={`flex flex-col gap-2 py-4 ${isLast ? '' : 'border-b border-[#F4F0EC]'}`}>
+    <div className={`flex flex-col gap-2 py-4 ${isLast ? '' : 'border-b border-[var(--hz-surface-muted)]'}`}>
       <div className="flex items-start justify-between gap-3">
-        <span className="text-[14px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+        <span className="text-[14px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
         <CheckoutStepper qty={item.qty} onDecrement={() => onChangeQty(-1)} onIncrement={() => onChangeQty(1)} />
       </div>
-      <span className="text-[13.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+      <span className="text-[13.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
         <span className="font-semibold">₹{item.price * item.qty}</span>{' '}
-        <span className="line-through text-[#9A949D] text-[12.5px]">₹{item.originalPrice * item.qty}</span>
+        <span className="line-through text-[var(--hz-ink-subtle)] text-[12.5px]">₹{item.originalPrice * item.qty}</span>
       </span>
       {item.duration && (
-        <span className="flex items-center gap-2 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-          <span className="w-1 h-1 rounded-full bg-[#9A949D] shrink-0" /> {item.duration}
+        <span className="flex items-center gap-2 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+          <span className="w-1 h-1 rounded-full bg-[var(--hz-ink-subtle)] shrink-0" /> {item.duration}
         </span>
       )}
       <div className="flex items-center gap-4">
         <button
           onClick={onEdit}
-          className="self-start text-[12.5px] text-[#722ED1] font-semibold underline cursor-pointer border-0 bg-transparent p-0"
+          className="self-start text-[12.5px] text-[var(--hz-primary)] font-semibold underline cursor-pointer border-0 bg-transparent p-0"
           style={{ fontFamily: FONT_BODY }}
         >
           Edit package
@@ -161,7 +161,7 @@ function CheckoutCartRow({ item, isLast, onChangeQty, onEdit, onRemove }: {
         <button
           onClick={onRemove}
           aria-label={`Remove ${item.title} from cart`}
-          className="self-start text-[12.5px] text-[#DC2626] font-semibold underline cursor-pointer border-0 bg-transparent p-0"
+          className="self-start text-[12.5px] text-[var(--hz-danger)] font-semibold underline cursor-pointer border-0 bg-transparent p-0"
           style={{ fontFamily: FONT_BODY }}
         >
           Remove
@@ -176,10 +176,10 @@ function CheckoutCartRow({ item, isLast, onChangeQty, onEdit, onRemove }: {
 function InfoRow({ icon, label, value, action }: { icon: React.ReactNode; label: string; value: React.ReactNode; action?: React.ReactNode }) {
   return (
     <div className="flex items-start gap-3 px-5 py-4">
-      <div className="w-9 h-9 rounded-full bg-[#F4F0EC] flex items-center justify-center text-[#68636D] shrink-0">{icon}</div>
+      <div className="w-9 h-9 rounded-full bg-[var(--hz-surface-muted)] flex items-center justify-center text-[var(--hz-ink-muted)] shrink-0">{icon}</div>
       <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{value}</span>
+        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
+        <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{value}</span>
       </div>
       {action}
     </div>
@@ -205,34 +205,34 @@ function CancellationPolicyModal({ onClose }: { onClose: () => void }) {
         aria-modal="true"
         aria-label="Cancellation policy"
         onClick={e => e.stopPropagation()}
-        className="w-full flex flex-col bg-white rounded-[20px] overflow-hidden"
+        className="w-full flex flex-col bg-[var(--hz-surface)] rounded-[20px] overflow-hidden"
         style={{ maxWidth: 460, maxHeight: '85vh', boxShadow: '0 20px 60px rgba(0,0,0,0.28)' }}
       >
-        <div className="flex items-center justify-between px-6 pt-6 pb-4 shrink-0 border-b border-[#F4F0EC]">
-          <h2 className="text-[21px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Cancellation policy</h2>
+        <div className="flex items-center justify-between px-6 pt-6 pb-4 shrink-0 border-b border-[var(--hz-surface-muted)]">
+          <h2 className="text-[21px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Cancellation policy</h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"
+            className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"
           >
             <IcoCloseX />
           </button>
         </div>
 
-        <div className="flex flex-col overflow-y-auto scrollbar-thin px-6 py-5 gap-4" style={{ scrollbarWidth: 'thin', scrollbarColor: '#E3DDD7 transparent' }}>
+        <div className="flex flex-col overflow-y-auto scrollbar-thin px-6 py-5 gap-4" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--hz-border) transparent' }}>
           <div className="flex items-center justify-between">
-            <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Time</span>
-            <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Fee</span>
+            <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Time</span>
+            <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Fee</span>
           </div>
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between gap-3">
-              <span className="text-[13.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>Within 24 hrs of the service</span>
-              <span className="text-[13.5px] text-[#242326] shrink-0" style={{ fontFamily: FONT_BODY }}>Up to ₹25</span>
+              <span className="text-[13.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Within 24 hrs of the service</span>
+              <span className="text-[13.5px] text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_BODY }}>Up to ₹25</span>
             </div>
-            <div className="border-t border-dashed border-[#E3DDD7]" />
+            <div className="border-t border-dashed border-[var(--hz-border)]" />
             <div className="flex items-center justify-between gap-3">
-              <span className="text-[13.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>Within 3 hrs of the service</span>
-              <span className="text-[13.5px] text-[#242326] shrink-0" style={{ fontFamily: FONT_BODY }}>Up to ₹50</span>
+              <span className="text-[13.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Within 3 hrs of the service</span>
+              <span className="text-[13.5px] text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_BODY }}>Up to ₹50</span>
             </div>
           </div>
 
@@ -244,10 +244,10 @@ function CancellationPolicyModal({ onClose }: { onClose: () => void }) {
           </div>
         </div>
 
-        <div className="flex items-start gap-3 px-6 py-5 border-t border-[#F4F0EC] shrink-0">
+        <div className="flex items-start gap-3 px-6 py-5 border-t border-[var(--hz-surface-muted)] shrink-0">
           <div className="flex flex-col gap-1 flex-1 min-w-0">
-            <span className="text-[14.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>This fee goes to the professional</span>
-            <span className="text-[12.5px] text-[#68636D] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[14.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>This fee goes to the professional</span>
+            <span className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>
               Their time is reserved for the service & they cannot get another job for the reserved time
             </span>
           </div>
@@ -257,7 +257,7 @@ function CancellationPolicyModal({ onClose }: { onClose: () => void }) {
         <div className="px-6 pb-6 pt-2 shrink-0">
           <button
             onClick={onClose}
-            className="w-full h-12 rounded-[12px] border border-[#E3DDD7] text-[#722ED1] text-[14.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white"
+            className="w-full h-12 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[14.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)]"
             style={{ fontFamily: FONT_BODY }}
           >
             Okay
@@ -340,16 +340,16 @@ export default function CheckoutScreen({
   return (
     <div className="flex flex-col" style={{ minHeight: '100%', backgroundColor: '#FAF9F7' }}>
       {/* Header */}
-      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-white border-b border-[#E3DDD7]">
+      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
         <button
           onClick={goBack}
           aria-label="Back"
-          className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent shrink-0"
+          className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent shrink-0"
         >
           <IcoBack />
         </button>
         <HIcon size={30} />
-        <h1 className="text-[17px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Checkout</h1>
+        <h1 className="text-[17px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Checkout</h1>
       </header>
 
       <main className="flex-1" style={{ padding: '24px 16px' }}>
@@ -360,28 +360,28 @@ export default function CheckoutScreen({
             {savings > 0 && (
               <div className="flex items-center gap-2 px-1">
                 <IcoTag />
-                <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>Saving ₹{savings} on this order</span>
+                <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Saving ₹{savings} on this order</span>
               </div>
             )}
 
-            <div className="bg-white rounded-[16px] border border-[#E3DDD7] overflow-hidden" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] overflow-hidden" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
               <InfoRow icon={<IcoPin />} label="Send booking details to" value={`+91 ${phone || '98765 43210'}`} />
-              <div className="border-t border-[#F4F0EC]" />
+              <div className="border-t border-[var(--hz-surface-muted)]" />
               <InfoRow
                 icon={<IcoPin />}
                 label="Address"
-                value={selectedAddress ? <><span className="font-semibold text-[#242326]">{selectedAddress.label}</span> — {formatCustomerAddress(selectedAddress)}</> : 'No address on file yet'}
+                value={selectedAddress ? <><span className="font-semibold text-[var(--hz-ink)]">{selectedAddress.label}</span> — {formatCustomerAddress(selectedAddress)}</> : 'No address on file yet'}
                 action={
                   <button
                     onClick={() => setAddressModalOpen(true)}
-                    className="h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                    className="h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                     style={{ fontFamily: FONT_BODY }}
                   >
                     Edit
                   </button>
                 }
               />
-              <div className="border-t border-[#F4F0EC]" />
+              <div className="border-t border-[var(--hz-surface-muted)]" />
               {selectedSlot ? (
                 <InfoRow
                   icon={<IcoClock />}
@@ -390,7 +390,7 @@ export default function CheckoutScreen({
                   action={
                     <button
                       onClick={goBack}
-                      className="h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                      className="h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       Edit
@@ -399,12 +399,12 @@ export default function CheckoutScreen({
                 />
               ) : (
                 <div className="flex items-start gap-3 px-5 py-4">
-                  <div className="w-9 h-9 rounded-full bg-[#F4F0EC] flex items-center justify-center text-[#68636D] shrink-0"><IcoClock /></div>
+                  <div className="w-9 h-9 rounded-full bg-[var(--hz-surface-muted)] flex items-center justify-center text-[var(--hz-ink-muted)] shrink-0"><IcoClock /></div>
                   <div className="flex flex-col gap-2 flex-1 min-w-0">
-                    <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Slot</span>
+                    <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Slot</span>
                     <button
                       onClick={goBack}
-                      className="h-10 rounded-[10px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0"
+                      className="h-10 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       Select time & date
@@ -412,13 +412,13 @@ export default function CheckoutScreen({
                   </div>
                 </div>
               )}
-              <div className="border-t border-[#F4F0EC]" />
+              <div className="border-t border-[var(--hz-surface-muted)]" />
               {/* Greyed out until a slot is picked — nothing to pay for
                   without a booked time yet. Still non-interactive either
                   way: this app has no real payment gateway behind it. */}
               <div className={`flex items-center gap-3 px-5 py-4 ${selectedSlot ? '' : 'opacity-50'}`}>
-                <div className="w-9 h-9 rounded-full bg-[#F4F0EC] flex items-center justify-center text-[#68636D] shrink-0"><IcoCard /></div>
-                <span className="text-[13px] font-semibold" style={{ color: selectedSlot ? '#242326' : '#9A949D', fontFamily: FONT_BODY }}>Payment Method</span>
+                <div className="w-9 h-9 rounded-full bg-[var(--hz-surface-muted)] flex items-center justify-center text-[var(--hz-ink-muted)] shrink-0"><IcoCard /></div>
+                <span className="text-[13px] font-semibold" style={{ color: selectedSlot ? 'var(--hz-ink)' : 'var(--hz-ink-subtle)', fontFamily: FONT_BODY }}>Payment Method</span>
               </div>
 
               <div className="px-5 pt-1 pb-5">
@@ -429,8 +429,8 @@ export default function CheckoutScreen({
                   style={{
                     fontFamily: FONT_BODY,
                     cursor: items.length && selectedSlot ? 'pointer' : 'not-allowed',
-                    backgroundColor: items.length && selectedSlot ? '#722ED1' : '#F4F0EC',
-                    color: items.length && selectedSlot ? 'white' : '#9A949D',
+                    backgroundColor: items.length && selectedSlot ? 'var(--hz-primary)' : 'var(--hz-surface-muted)',
+                    color: items.length && selectedSlot ? 'white' : 'var(--hz-ink-subtle)',
                     boxShadow: items.length && selectedSlot ? '0 2px 8px rgba(114,46,209,0.25)' : undefined,
                   }}
                 >
@@ -439,23 +439,23 @@ export default function CheckoutScreen({
               </div>
 
               <div className="px-5 py-3 text-center" style={{ backgroundColor: '#F9F8F6' }}>
-                <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                   By proceeding, you agree to our{' '}
-                  <span className="font-semibold underline text-[#242326]">T&amp;C</span>,{' '}
-                  <span className="font-semibold underline text-[#242326]">Privacy</span> and{' '}
-                  <span className="font-semibold underline text-[#242326]">Cancellation Policy</span>.
+                  <span className="font-semibold underline text-[var(--hz-ink)]">T&amp;C</span>,{' '}
+                  <span className="font-semibold underline text-[var(--hz-ink)]">Privacy</span> and{' '}
+                  <span className="font-semibold underline text-[var(--hz-ink)]">Cancellation Policy</span>.
                 </span>
               </div>
             </div>
 
             <div className="flex flex-col gap-2 px-1">
-              <h3 className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Cancellation policy</h3>
-              <p className="text-[12.5px] text-[#68636D] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
+              <h3 className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Cancellation policy</h3>
+              <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
                 Free cancellations if done more than 24 hrs before the service. A fee will be charged otherwise.
               </p>
               <button
                 onClick={() => setCancellationModalOpen(true)}
-                className="text-[12.5px] text-[#722ED1] font-semibold underline cursor-pointer w-fit border-0 bg-transparent p-0"
+                className="text-[12.5px] text-[var(--hz-primary)] font-semibold underline cursor-pointer w-fit border-0 bg-transparent p-0"
                 style={{ fontFamily: FONT_BODY }}
               >
                 Read full policy
@@ -466,8 +466,8 @@ export default function CheckoutScreen({
           {/* ── Right column ── */}
           <div className="flex flex-col gap-4 min-w-0">
             {items.length > 0 && (
-              <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                <h3 className="text-[16px] font-semibold text-[#242326] m-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Your cart</h3>
+              <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Your cart</h3>
                 <div className="flex flex-col">
                   {items.map((it, i) => (
                     <CheckoutCartRow
@@ -480,25 +480,25 @@ export default function CheckoutScreen({
                     />
                   ))}
                 </div>
-                <label className="flex items-center gap-2.5 pt-4 mt-1 border-t border-[#F4F0EC] cursor-pointer">
+                <label className="flex items-center gap-2.5 pt-4 mt-1 border-t border-[var(--hz-surface-muted)] cursor-pointer">
                   <span
                     onClick={() => setAvoidCalling(v => !v)}
                     className="w-[18px] h-[18px] rounded-[5px] border flex items-center justify-center shrink-0 transition-all"
-                    style={{ borderColor: avoidCalling ? '#722ED1' : '#C9C2BB', backgroundColor: avoidCalling ? '#722ED1' : 'white' }}
+                    style={{ borderColor: avoidCalling ? 'var(--hz-primary)' : '#C9C2BB', backgroundColor: avoidCalling ? 'var(--hz-primary)' : 'white' }}
                   >
                     {avoidCalling && <IcoCheck />}
                   </span>
-                  <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }} onClick={() => setAvoidCalling(v => !v)}>Avoid calling before reaching the location</span>
+                  <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }} onClick={() => setAvoidCalling(v => !v)}>Avoid calling before reaching the location</span>
                 </label>
               </div>
             )}
 
             {items.length === 0 && (
-              <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-6 text-center flex flex-col gap-3 items-center" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                <span className="text-[14px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Your cart is empty.</span>
+              <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-6 text-center flex flex-col gap-3 items-center" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                <span className="text-[14px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Your cart is empty.</span>
                 <button
                   onClick={goToOrigin}
-                  className="h-9 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0"
+                  className="h-9 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0"
                   style={{ fontFamily: FONT_BODY }}
                 >
                   Browse services
@@ -506,38 +506,38 @@ export default function CheckoutScreen({
               </div>
             )}
 
-            <div className="flex items-center justify-between gap-3 bg-white rounded-[16px] border border-[#E3DDD7] px-5 py-4 cursor-pointer" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <div className="flex items-center justify-between gap-3 bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] px-5 py-4 cursor-pointer" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
               <div className="flex items-center gap-3">
                 <IcoPercent />
-                <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Coupons and offers</span>
+                <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Coupons and offers</span>
               </div>
               <IcoChevronRight />
             </div>
 
-            <div id="payment-summary" className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)', scrollMarginTop: 20 }}>
-              <h3 className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Payment summary</h3>
+            <div id="payment-summary" className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)', scrollMarginTop: 20 }}>
+              <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Payment summary</h3>
               <div className="flex items-center justify-between text-[13.5px]" style={{ fontFamily: FONT_BODY }}>
-                <span className="text-[#68636D]">Item total</span>
-                <span className="text-[#242326]">
-                  {savings > 0 && <span className="line-through text-[#9A949D] mr-1.5">₹{itemOriginalTotal}</span>}
+                <span className="text-[var(--hz-ink-muted)]">Item total</span>
+                <span className="text-[var(--hz-ink)]">
+                  {savings > 0 && <span className="line-through text-[var(--hz-ink-subtle)] mr-1.5">₹{itemOriginalTotal}</span>}
                   ₹{itemPriceTotal}
                 </span>
               </div>
               <div className="flex items-center justify-between text-[13.5px]" style={{ fontFamily: FONT_BODY }}>
-                <span className="text-[#68636D]" style={{ textDecoration: 'underline dotted', textUnderlineOffset: 3 }}>Taxes and Fee</span>
-                <span className="text-[#242326]">₹{taxesAndFee}</span>
+                <span className="text-[var(--hz-ink-muted)]" style={{ textDecoration: 'underline dotted', textUnderlineOffset: 3 }}>Taxes and Fee</span>
+                <span className="text-[var(--hz-ink)]">₹{taxesAndFee}</span>
               </div>
-              <div className="flex items-center justify-between text-[14px] font-semibold pt-3 border-t border-[#F4F0EC]" style={{ fontFamily: FONT_HEAD }}>
-                <span className="text-[#242326]">Total amount</span>
-                <span className="text-[#242326]">₹{totalAmount}</span>
+              <div className="flex items-center justify-between text-[14px] font-semibold pt-3 border-t border-[var(--hz-surface-muted)]" style={{ fontFamily: FONT_HEAD }}>
+                <span className="text-[var(--hz-ink)]">Total amount</span>
+                <span className="text-[var(--hz-ink)]">₹{totalAmount}</span>
               </div>
               <div className="flex items-center justify-between text-[14px] font-semibold" style={{ fontFamily: FONT_HEAD }}>
-                <span className="text-[#242326]">Amount to pay</span>
-                <span className="text-[#242326]">₹{amountToPay}</span>
+                <span className="text-[var(--hz-ink)]">Amount to pay</span>
+                <span className="text-[var(--hz-ink)]">₹{amountToPay}</span>
               </div>
 
-              <div className="flex flex-col gap-2.5 pt-3 mt-1 border-t border-[#F4F0EC]">
-                <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Add a tip to thank the Professional</span>
+              <div className="flex flex-col gap-2.5 pt-3 mt-1 border-t border-[var(--hz-surface-muted)]">
+                <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Add a tip to thank the Professional</span>
                 <div className="flex items-center gap-2 flex-wrap">
                   {TIP_PRESETS.map(amt => (
                     <div key={amt} className="flex flex-col items-center gap-1">
@@ -546,9 +546,9 @@ export default function CheckoutScreen({
                         className="h-9 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer transition-all"
                         style={{
                           fontFamily: FONT_BODY,
-                          border: tip === amt ? '1.5px solid #722ED1' : '1px solid #E3DDD7',
-                          color: tip === amt ? '#722ED1' : '#242326',
-                          backgroundColor: tip === amt ? '#F3EAFF' : 'white',
+                          border: tip === amt ? '1.5px solid var(--hz-primary)' : '1px solid var(--hz-border)',
+                          color: tip === amt ? 'var(--hz-primary)' : 'var(--hz-ink)',
+                          backgroundColor: tip === amt ? 'var(--hz-primary-soft)' : 'white',
                         }}
                       >
                         ₹{amt}
@@ -563,9 +563,9 @@ export default function CheckoutScreen({
                     className="h-9 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer transition-all"
                     style={{
                       fontFamily: FONT_BODY,
-                      border: customTipOpen ? '1.5px solid #722ED1' : '1px solid #E3DDD7',
-                      color: customTipOpen ? '#722ED1' : '#242326',
-                      backgroundColor: customTipOpen ? '#F3EAFF' : 'white',
+                      border: customTipOpen ? '1.5px solid var(--hz-primary)' : '1px solid var(--hz-border)',
+                      color: customTipOpen ? 'var(--hz-primary)' : 'var(--hz-ink)',
+                      backgroundColor: customTipOpen ? 'var(--hz-primary-soft)' : 'white',
                     }}
                   >
                     Custom
@@ -573,19 +573,19 @@ export default function CheckoutScreen({
                 </div>
                 {customTipOpen && (
                   <div className="flex items-center gap-2">
-                    <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>₹</span>
+                    <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>₹</span>
                     <input
                       type="number"
                       min={0}
                       value={customTip}
                       onChange={e => setCustomTip(e.target.value)}
                       placeholder="Enter amount"
-                      className="h-9 px-3 rounded-[10px] border border-[#E3DDD7] text-[13px] w-32 outline-none focus:border-[#722ED1]"
+                      className="h-9 px-3 rounded-[10px] border border-[var(--hz-border)] text-[13px] w-32 outline-none focus:border-[var(--hz-primary)]"
                       style={{ fontFamily: FONT_BODY }}
                     />
                   </div>
                 )}
-                <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>100% of the tip goes to the professional.</span>
+                <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>100% of the tip goes to the professional.</span>
               </div>
             </div>
           </div>
@@ -606,15 +606,15 @@ export default function CheckoutScreen({
           -flow child of the actual scrolling element, which it is. */}
       {items.length > 0 && (
         <div
-          className="sticky bottom-0 bg-white border-t border-[#E3DDD7] px-4 lg:px-8 py-3 flex items-center justify-between z-20 shrink-0"
+          className="sticky bottom-0 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 lg:px-8 py-3 flex items-center justify-between z-20 shrink-0"
           style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.06)' }}
         >
-          <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Amount to pay</span>
+          <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Amount to pay</span>
           <div className="flex flex-col items-end">
-            <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>₹{amountToPay}</span>
+            <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>₹{amountToPay}</span>
             <a
               href="#payment-summary"
-              className="text-[12px] text-[#722ED1] font-semibold underline"
+              className="text-[12px] text-[var(--hz-primary)] font-semibold underline"
               style={{ fontFamily: FONT_BODY }}
             >
               View breakup

@@ -38,22 +38,22 @@ function AddressRow({ address, selected, onSelect }: {
 }) {
   return (
     <label
-      className={`flex items-start gap-3 py-4 border-b border-[#F4F0EC] last:border-b-0 ${address.available ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+      className={`flex items-start gap-3 py-4 border-b border-[var(--hz-surface-muted)] last:border-b-0 ${address.available ? 'cursor-pointer' : 'cursor-not-allowed'}`}
       onClick={() => address.available && onSelect()}
     >
       <span
         className="w-[18px] h-[18px] rounded-full border flex items-center justify-center shrink-0 mt-0.5"
-        style={{ borderColor: selected ? '#722ED1' : '#C9C2BB' }}
+        style={{ borderColor: selected ? 'var(--hz-primary)' : '#C9C2BB' }}
       >
-        {selected && <span className="w-[10px] h-[10px] rounded-full" style={{ backgroundColor: '#722ED1' }} />}
+        {selected && <span className="w-[10px] h-[10px] rounded-full" style={{ backgroundColor: 'var(--hz-primary)' }} />}
       </span>
       <div className="flex flex-col gap-1 flex-1 min-w-0">
-        <span className={`text-[14.5px] font-semibold ${address.available ? 'text-[#242326]' : 'text-[#9A949D]'}`} style={{ fontFamily: FONT_HEAD }}>{address.label}</span>
-        <span className={`text-[13px] leading-[1.5] ${address.available ? 'text-[#68636D]' : 'text-[#C9C2BB]'}`} style={{ fontFamily: FONT_BODY }}>
+        <span className={`text-[14.5px] font-semibold ${address.available ? 'text-[var(--hz-ink)]' : 'text-[var(--hz-ink-subtle)]'}`} style={{ fontFamily: FONT_HEAD }}>{address.label}</span>
+        <span className={`text-[13px] leading-[1.5] ${address.available ? 'text-[var(--hz-ink-muted)]' : 'text-[#C9C2BB]'}`} style={{ fontFamily: FONT_BODY }}>
           {formatCustomerAddress(address)}
         </span>
         {!address.available && (
-          <span className="text-[12.5px] font-semibold" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>Services not available at this location</span>
+          <span className="text-[12.5px] font-semibold" style={{ color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>Services not available at this location</span>
         )}
       </div>
     </label>
@@ -90,29 +90,29 @@ export default function AddressScreen({
   return (
     <div className="flex flex-col" style={{ minHeight: '100%', backgroundColor: '#FAF9F7' }}>
       {/* Header */}
-      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-white border-b border-[#E3DDD7]">
+      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
         <button
           onClick={goBack}
           aria-label="Back to Booking Details"
-          className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent shrink-0"
+          className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent shrink-0"
         >
           <IcoBack />
         </button>
         <HIcon size={30} />
         <div className="flex flex-col min-w-0">
-          <h1 className="text-[17px] font-semibold text-[#242326] m-0 leading-tight" style={{ fontFamily: FONT_HEAD }}>Service Address</h1>
-          <span className="text-[12px] text-[#68636D] leading-tight hidden sm:block" style={{ fontFamily: FONT_BODY }}>Choose where you'd like the service done.</span>
+          <h1 className="text-[17px] font-semibold text-[var(--hz-ink)] m-0 leading-tight" style={{ fontFamily: FONT_HEAD }}>Service Address</h1>
+          <span className="text-[12px] text-[var(--hz-ink-muted)] leading-tight hidden sm:block" style={{ fontFamily: FONT_BODY }}>Choose where you'd like the service done.</span>
         </div>
       </header>
 
       <main className="flex-1" style={{ padding: '24px 16px 12px' }}>
         <div className="flex flex-col gap-4" style={{ maxWidth: 560, margin: '0 auto' }}>
-          <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Saved addresses</h3>
+              <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Saved addresses</h3>
               <button
                 onClick={() => setAddModalOpen(true)}
-                className="flex items-center gap-1.5 text-[12.5px] text-[#722ED1] font-semibold cursor-pointer border-0 bg-transparent p-0"
+                className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-primary)] font-semibold cursor-pointer border-0 bg-transparent p-0"
                 style={{ fontFamily: FONT_BODY }}
               >
                 <IcoPlus /> Add address
@@ -136,13 +136,13 @@ export default function AddressScreen({
           Booking Details' own bottom bar uses `sticky` (App.tsx's
           screen-transition wrapper animates with a `transform`). */}
       <div
-        className="sticky bottom-0 bg-white border-t border-[#E3DDD7] px-4 lg:px-8 py-3.5 flex flex-col gap-2 z-20 shrink-0"
+        className="sticky bottom-0 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 lg:px-8 py-3.5 flex flex-col gap-2 z-20 shrink-0"
         style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.06)' }}
       >
         <div className="flex items-center justify-between gap-3" style={{ maxWidth: 560, margin: '0 auto', width: '100%' }}>
           <div className="flex flex-col min-w-0">
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Delivering to</span>
-            <span className="text-[13.5px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD, maxWidth: 220 }}>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Delivering to</span>
+            <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD, maxWidth: 220 }}>
               {selectedAddress ? selectedAddress.label : 'No address selected'}
             </span>
           </div>
@@ -153,8 +153,8 @@ export default function AddressScreen({
             style={{
               fontFamily: FONT_BODY,
               cursor: canContinue ? 'pointer' : 'not-allowed',
-              backgroundColor: canContinue ? '#722ED1' : '#F4F0EC',
-              color: canContinue ? 'white' : '#9A949D',
+              backgroundColor: canContinue ? 'var(--hz-primary)' : 'var(--hz-surface-muted)',
+              color: canContinue ? 'white' : 'var(--hz-ink-subtle)',
               boxShadow: canContinue ? '0 2px 8px rgba(114,46,209,0.25)' : undefined,
             }}
           >

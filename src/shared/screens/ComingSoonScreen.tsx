@@ -20,7 +20,7 @@ const FONT_BODY = '"Inter Variable", sans-serif'
 const FONT_HEAD = '"Geist Variable", sans-serif'
 
 const ClockIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#722ED1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--hz-primary)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="9" />
     <path d="M12 7v5l3.5 2" />
   </svg>
@@ -30,12 +30,12 @@ function ComingSoonBody({ title, description }: { title: string; description: st
   return (
     <div className="flex-1 flex items-center justify-center px-6 py-12">
       <div className="flex flex-col items-center text-center gap-3 max-w-[380px]">
-        <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F3EAFF' }}>
+        <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
           <ClockIcon />
         </div>
-        <h1 className="text-[18px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h1>
-        <p className="text-[13.5px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{description}</p>
-        <span className="mt-1 h-6 px-2.5 rounded-full text-[10.5px] font-semibold tracking-[0.06em] uppercase flex items-center" style={{ fontFamily: FONT_BODY, backgroundColor: '#F4F0EC', color: '#9A949D' }}>
+        <h1 className="text-[18px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h1>
+        <p className="text-[13.5px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{description}</p>
+        <span className="mt-1 h-6 px-2.5 rounded-full text-[10.5px] font-semibold tracking-[0.06em] uppercase flex items-center" style={{ fontFamily: FONT_BODY, backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-subtle)' }}>
           Coming soon
         </span>
       </div>
@@ -80,7 +80,7 @@ export default function ComingSoonScreen({
 
   if (shell === 'company') {
     return (
-      <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="h-full flex" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <PartnerNavRail active={activeCompanyId ?? 'home'} onNavigate={onNavigate} organizationId={organizationId} opportunitiesLocked={opportunitiesLocked} />
         <div className="flex-1 flex flex-col min-w-0">
           <ComingSoonBody title={content.title} description={content.description} />
@@ -91,7 +91,7 @@ export default function ComingSoonScreen({
 
   if (shell === 'project') {
     return (
-      <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="h-full flex" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex-1 flex flex-col min-w-0">
           <ProjectSubNav active={activeProjectId ?? 'overview'} projectId={projectId} projectName={projectName} onNavigate={onNavigate} />
@@ -102,7 +102,7 @@ export default function ComingSoonScreen({
   }
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <Sidebar active={activeCustomerId ?? 'home'} onNavigate={onNavigate} />
       <div className="flex-1 flex flex-col min-w-0">
         <ComingSoonBody title={content.title} description={content.description} />

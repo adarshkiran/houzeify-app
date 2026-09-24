@@ -28,8 +28,8 @@ const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Inter Variable", sans-serif'
 const FONT_HEAD = '"Geist Variable", sans-serif'
 const FOCUS_RING =
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
-const TEXT_ACTION = `inline-flex items-center min-h-11 cursor-pointer border-0 bg-transparent p-0 rounded-[6px] text-[13px] font-semibold text-[#722ED1] ${FOCUS_RING}`
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
+const TEXT_ACTION = `inline-flex items-center min-h-11 cursor-pointer border-0 bg-transparent p-0 rounded-[6px] text-[13px] font-semibold text-[var(--hz-primary)] ${FOCUS_RING}`
 const PRIMARY_BTN = `h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 min-h-11 ${FOCUS_RING}`
 
 const IcoMapPin = ({ size = 13 }: { size?: number }) => (
@@ -38,8 +38,8 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
 
 function SectionCard({ title, children }: { title?: string; children: ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <h2 className="text-[13px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 min-w-0" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <h2 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
       {children}
     </div>
   )
@@ -48,8 +48,8 @@ function SectionCard({ title, children }: { title?: string; children: ReactNode 
 function Field({ label, value }: { label: string; value?: string | null }) {
   return (
     <div className="min-w-0">
-      <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
-      <p className="text-[13.5px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{value?.trim() ? value : 'Not set'}</p>
+      <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
+      <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{value?.trim() ? value : 'Not set'}</p>
     </div>
   )
 }
@@ -58,7 +58,7 @@ function SkeletonLines({ rows = 4 }: { rows?: number }) {
   return (
     <div className="flex flex-col gap-2" role="status" aria-label="Loading">
       {Array.from({ length: rows }, (_, i) => (
-        <div key={i} className="h-3 rounded-full bg-[#F4F0EC]" style={{ width: i === rows - 1 ? '55%' : '100%' }} />
+        <div key={i} className="h-3 rounded-full bg-[var(--hz-surface-muted)]" style={{ width: i === rows - 1 ? '55%' : '100%' }} />
       ))}
     </div>
   )
@@ -158,7 +158,7 @@ function StageInPlan({
 }) {
   return (
     <SectionCard title="Stage in Plan">
-      <p className="text-[15px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
+      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
         {stageInPlanLabel(stage)}
       </p>
       <button type="button" onClick={onViewTimeline} className={`mt-1 ${TEXT_ACTION}`} style={{ fontFamily: FONT_BODY }}>
@@ -242,7 +242,7 @@ function CompanyProjectOverview({
                   type="button"
                   onClick={onRetryProjects}
                   className={`${PRIMARY_BTN} shrink-0`}
-                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                  style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                 >
                   Try again
                 </button>
@@ -251,24 +251,24 @@ function CompanyProjectOverview({
           )}
 
           <div className="min-w-0">
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Overview</p>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Overview</p>
+            <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
               {projectsPending && !name ? 'Loading project' : (name ?? 'Project')}
             </h1>
             <div className="flex items-center gap-3 mt-1.5 flex-wrap min-w-0">
               {location && (
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] min-w-0" style={{ fontFamily: FONT_BODY }}>
+                <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] min-w-0" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> <span className="min-w-0 break-words">{location}</span>
                 </span>
               )}
-              {propertyType && <span className="text-[13px] text-[#68636D] break-words" style={{ fontFamily: FONT_BODY }}>{propertyType}</span>}
+              {propertyType && <span className="text-[13px] text-[var(--hz-ink-muted)] break-words" style={{ fontFamily: FONT_BODY }}>{propertyType}</span>}
               {resolvedStatus && (
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>
                   {resolvedStatus.toUpperCase()}
                 </span>
               )}
               {resolvedStage && (
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
                   {resolvedStage.toUpperCase()}
                 </span>
               )}
@@ -299,9 +299,9 @@ function CompanyProjectOverview({
             {projectsPending && !record ? (
               <SkeletonLines rows={2} />
             ) : summary?.trim() ? (
-              <p className="text-[13px] text-[#242326] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{summary}</p>
+              <p className="text-[13px] text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{summary}</p>
             ) : (
-              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No project description added.</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No project description added.</p>
             )}
           </SectionCard>
 
@@ -315,13 +315,13 @@ function CompanyProjectOverview({
                 {progressHook.errorMessage ?? 'Unable to load the latest progress update.'}
               </p>
             ) : !latest ? (
-              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No daily progress recorded yet.</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No daily progress recorded yet.</p>
             ) : (
               <>
-                <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{latestDate}</p>
-                <p className="text-[15px] font-semibold text-[#242326] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{latest.title}</p>
+                <p className="text-[12px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{latestDate}</p>
+                <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{latest.title}</p>
                 {latestStage && (
-                  <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{latestStage}</p>
+                  <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{latestStage}</p>
                 )}
                 <button type="button" onClick={() => navTo(PROJECT_NAV_ROUTES.progress)} className={`mt-1 ${TEXT_ACTION}`} style={{ fontFamily: FONT_BODY }}>
                   View progress
@@ -381,7 +381,7 @@ function CustomerOverview({
                   type="button"
                   onClick={onRetry}
                   className={`${PRIMARY_BTN} shrink-0`}
-                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                  style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                 >
                   Try again
                 </button>
@@ -390,24 +390,24 @@ function CustomerOverview({
           )}
 
           <div className="min-w-0">
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Overview</p>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Overview</p>
+            <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
               {status === 'loading' || status === 'idle' ? 'Loading project' : (header?.name ?? 'Shared project')}
             </h1>
             <div className="flex items-center gap-3 mt-1.5 flex-wrap min-w-0">
               {header?.location && (
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] min-w-0" style={{ fontFamily: FONT_BODY }}>
+                <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] min-w-0" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> <span className="min-w-0 break-words">{header.location}</span>
                 </span>
               )}
-              {header?.propertyType && <span className="text-[13px] text-[#68636D] break-words" style={{ fontFamily: FONT_BODY }}>{header.propertyType}</span>}
+              {header?.propertyType && <span className="text-[13px] text-[var(--hz-ink-muted)] break-words" style={{ fontFamily: FONT_BODY }}>{header.propertyType}</span>}
               {resolvedStatus && (
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>
                   {resolvedStatus.toUpperCase()}
                 </span>
               )}
               {stageName(header?.stage) && (
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
                   {stageName(header?.stage)!.toUpperCase()}
                 </span>
               )}
@@ -418,7 +418,7 @@ function CustomerOverview({
             {status === 'idle' || status === 'loading' ? (
               <SkeletonLines />
             ) : !hasAnyDetail ? (
-              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No project details have been shared with you yet.</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No project details have been shared with you yet.</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
                 <Field label="Project" value={header?.name} />
@@ -439,13 +439,13 @@ function CustomerOverview({
             {status === 'idle' || status === 'loading' ? (
               <SkeletonLines rows={3} />
             ) : !latest ? (
-              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No updates shared yet.</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No updates shared yet.</p>
             ) : (
               <>
-                <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{latestDate}</p>
-                <p className="text-[15px] font-semibold text-[#242326] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{latest.title}</p>
+                <p className="text-[12px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{latestDate}</p>
+                <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{latest.title}</p>
                 {latestStage && (
-                  <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{latestStage}</p>
+                  <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{latestStage}</p>
                 )}
                 <button type="button" onClick={() => navTo(PROJECT_NAV_ROUTES.progress)} className={`mt-1 ${TEXT_ACTION}`} style={{ fontFamily: FONT_BODY }}>
                   View progress
@@ -540,15 +540,15 @@ export default function ProjectOverviewScreen({
       <OverviewChrome isCompanyUser={false} projectId={undefined} subNavVariant="customer" onNavigate={onNavigate}>
         <main className="flex-1 flex flex-col items-center justify-center gap-4 px-6 min-w-0 pb-24 md:pb-6">
           <HIcon size={36} />
-          <h1 className="text-[18px] font-semibold text-[#242326] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>Project not available yet</h1>
-          <p className="text-[13px] text-[#68636D] m-0 max-w-[320px] text-center" style={{ fontFamily: FONT_BODY }}>
+          <h1 className="text-[18px] font-semibold text-[var(--hz-ink)] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>Project not available yet</h1>
+          <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px] text-center" style={{ fontFamily: FONT_BODY }}>
             This project is not available until the invite is accepted.
           </p>
           <button
             type="button"
             onClick={() => onNavigate('projects-list')}
             className={PRIMARY_BTN}
-            style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
           >
             Back to Projects
           </button>
@@ -576,12 +576,12 @@ export default function ProjectOverviewScreen({
       <OverviewChrome isCompanyUser={isCompanyUser} organizationId={organizationId} projectId={undefined} subNavVariant="company" onNavigate={onNavigate}>
         <main className="flex-1 flex flex-col items-center justify-center gap-4 px-6 min-w-0 pb-24 md:pb-6">
           <HIcon size={36} />
-          <h1 className="text-[18px] font-semibold text-[#242326] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>This project is no longer available.</h1>
+          <h1 className="text-[18px] font-semibold text-[var(--hz-ink)] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>This project is no longer available.</h1>
           <button
             type="button"
             onClick={() => onNavigate(isCompanyUser ? 'company-projects' : 'projects-list', organizationId ? { organization_id: organizationId } : undefined)}
             className={PRIMARY_BTN}
-            style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
           >
             Back to Projects
           </button>
@@ -595,12 +595,12 @@ export default function ProjectOverviewScreen({
       <OverviewChrome isCompanyUser={isCompanyUser} organizationId={organizationId} projectId={undefined} subNavVariant="company" onNavigate={onNavigate}>
         <main className="flex-1 flex flex-col items-center justify-center gap-4 px-6 min-w-0 pb-24 md:pb-6">
           <HIcon size={36} />
-          <h1 className="text-[18px] font-semibold text-[#242326] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>This project is no longer available.</h1>
+          <h1 className="text-[18px] font-semibold text-[var(--hz-ink)] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>This project is no longer available.</h1>
           <button
             type="button"
             onClick={() => onNavigate(isCompanyUser ? 'company-projects' : 'projects-list', organizationId ? { organization_id: organizationId } : undefined)}
             className={PRIMARY_BTN}
-            style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
           >
             Back to Projects
           </button>

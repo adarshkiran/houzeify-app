@@ -51,8 +51,8 @@ const InfoIcon = () => (
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <h2 className="text-[13px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <h2 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
       {children}
     </div>
   )
@@ -185,20 +185,20 @@ export default function InviteContractorScreen({
     }
   }
 
-  const inputStyle = { border: '1px solid #E3DDD7', color: '#242326', fontFamily: FONT_BODY }
+  const inputStyle = { border: '1px solid var(--hz-border)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }
 
   // ─── Invalid context — missing ids, never crash ──────────────────────
   if (!hasValidContext) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Unable to create invitation.</p>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Unable to create invitation.</p>
           <button
             type="button"
             onClick={goBackToContractors}
             className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold text-white cursor-pointer border-0"
-            style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
           >
             Back to Contractors
           </button>
@@ -214,16 +214,16 @@ export default function InviteContractorScreen({
   // ─── Already invited ────────────────────────────────────────────────
   if (existingInvitation) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <div className="relative z-10 flex flex-col items-center gap-3 text-center max-w-[380px]">
-          <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F3EAFF' }}><InfoIcon /></div>
-          <p className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Invitation already sent</p>
-          <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>This professional has already been invited to this project.</p>
+          <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)' }}><InfoIcon /></div>
+          <p className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Invitation already sent</p>
+          <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>This professional has already been invited to this project.</p>
           <button
             type="button"
             onClick={() => onNavigate('estimate-dashboard')}
             className="mt-1 h-10 px-5 rounded-[12px] text-[13.5px] font-semibold text-white cursor-pointer border-0"
-            style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
           >
             View Project →
           </button>
@@ -235,16 +235,16 @@ export default function InviteContractorScreen({
   // ─── Already bid ────────────────────────────────────────────────────
   if (existingBid) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <div className="relative z-10 flex flex-col items-center gap-3 text-center max-w-[380px]">
           <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7' }}><CheckBadgeIcon size={22} /></div>
-          <p className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Bid already submitted</p>
-          <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>This professional has already submitted a proposal for this project.</p>
+          <p className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Bid already submitted</p>
+          <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>This professional has already submitted a proposal for this project.</p>
           <button
             type="button"
             onClick={() => onNavigate('project-opportunity-detail', { opportunity_id: effectiveProjectId as string, bid_id: existingBid.id })}
             className="mt-1 h-10 px-5 rounded-[12px] text-[13.5px] font-semibold text-white cursor-pointer border-0"
-            style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
           >
             View Proposal →
           </button>
@@ -255,11 +255,11 @@ export default function InviteContractorScreen({
 
   // ─── Form ───────────────────────────────────────────────────────────
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="contractors" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0">
-      <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="h-14 flex items-center px-4 sm:px-6 lg:px-8">
           <HIcon size={26} />
         </div>
@@ -268,8 +268,8 @@ export default function InviteContractorScreen({
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[800px] mx-auto flex flex-col gap-6">
           <div>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Invite Contractor</h1>
-            <p className="text-[13.5px] text-[#68636D] mt-1.5 mb-0" style={{ fontFamily: FONT_BODY }}>
+            <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Invite Contractor</h1>
+            <p className="text-[13.5px] text-[var(--hz-ink-muted)] mt-1.5 mb-0" style={{ fontFamily: FONT_BODY }}>
               Invite this professional to review your project and submit a proposal.
             </p>
           </div>
@@ -278,19 +278,19 @@ export default function InviteContractorScreen({
             {/* Professional summary */}
             <SectionCard>
               <div className="flex items-start gap-3">
-                <div className="w-11 h-11 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+                <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
                   {initials}
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <p className="text-[14.5px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{name}</p>
+                    <p className="text-[14.5px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{name}</p>
                     {listing!.verificationStatus === 'verified' && (
                       <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
                     )}
                   </div>
-                  <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{typeLabel}</p>
+                  <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{typeLabel}</p>
                   {listing!.location && (
-                    <span className="flex items-center gap-1.5 text-[12px] text-[#68636D] mt-1" style={{ fontFamily: FONT_BODY }}>
+                    <span className="flex items-center gap-1.5 text-[12px] text-[var(--hz-ink-muted)] mt-1" style={{ fontFamily: FONT_BODY }}>
                       <IcoMapPin /> {listing!.location}
                     </span>
                   )}
@@ -300,11 +300,11 @@ export default function InviteContractorScreen({
 
             {/* Project summary */}
             <SectionCard>
-              <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project</p>
-              <p className="text-[14.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your project'}</p>
-              {propertyType && <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{propertyType}</p>}
+              <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project</p>
+              <p className="text-[14.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your project'}</p>
+              {propertyType && <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{propertyType}</p>}
               {location && (
-                <span className="flex items-center gap-1.5 text-[12px] text-[#68636D] mt-1" style={{ fontFamily: FONT_BODY }}>
+                <span className="flex items-center gap-1.5 text-[12px] text-[var(--hz-ink-muted)] mt-1" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> {location}
                 </span>
               )}
@@ -321,24 +321,24 @@ export default function InviteContractorScreen({
               className="w-full rounded-[10px] p-3 text-[13.5px] outline-none resize-none"
               style={inputStyle}
             />
-            <p className="text-[11px] text-[#9A949D] m-0 mt-1.5 text-right" style={{ fontFamily: FONT_BODY }}>{message.length}/{MESSAGE_MAX}</p>
+            <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0 mt-1.5 text-right" style={{ fontFamily: FONT_BODY }}>{message.length}/{MESSAGE_MAX}</p>
           </SectionCard>
 
           {/* Invitation summary */}
-          <div className="rounded-[16px] p-5" style={{ backgroundColor: '#F9F5FF', border: '1px solid #F3EAFF' }}>
-            <p className="text-[11px] tracking-[0.06em] uppercase text-[#722ED1] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>You Are Inviting</p>
-            <p className="text-[15px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{name}</p>
-            <p className="text-[11px] tracking-[0.06em] uppercase text-[#722ED1] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>To Project</p>
-            <p className="text-[15px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your project'}</p>
-            <p className="text-[12.5px] text-[#68636D] m-0 leading-[1.6]" style={{ fontFamily: FONT_BODY }}>
+          <div className="rounded-[16px] p-5" style={{ backgroundColor: '#F9F5FF', border: '1px solid var(--hz-primary-soft)' }}>
+            <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-primary)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>You Are Inviting</p>
+            <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{name}</p>
+            <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-primary)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>To Project</p>
+            <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your project'}</p>
+            <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 leading-[1.6]" style={{ fontFamily: FONT_BODY }}>
               The professional will receive the invitation and can review the project before deciding whether to submit a bid.
             </p>
           </div>
 
           {error && (
             <div className="rounded-[12px] p-4" style={{ backgroundColor: '#FEE2E2', border: '1px solid #F3D2D2' }}>
-              <p className="text-[13px] font-medium text-[#DC2626] m-0" style={{ fontFamily: FONT_BODY }}>{error}</p>
-              <p className="text-[12px] text-[#DC2626] m-0 mt-1 opacity-80" style={{ fontFamily: FONT_BODY }}>Your message is still here.</p>
+              <p className="text-[13px] font-medium text-[var(--hz-danger)] m-0" style={{ fontFamily: FONT_BODY }}>{error}</p>
+              <p className="text-[12px] text-[var(--hz-danger)] m-0 mt-1 opacity-80" style={{ fontFamily: FONT_BODY }}>Your message is still here.</p>
             </div>
           )}
 
@@ -348,8 +348,8 @@ export default function InviteContractorScreen({
               type="button"
               onClick={handleCancel}
               disabled={sending}
-              className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white"
-              style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+              className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)]"
+              style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
             >
               Cancel
             </button>
@@ -358,7 +358,7 @@ export default function InviteContractorScreen({
               onClick={handleSend}
               disabled={sending}
               className="h-11 px-6 rounded-[12px] text-[13.5px] font-semibold text-white cursor-pointer border-0 disabled:opacity-60"
-              style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+              style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
             >
               {sending ? 'Sending...' : error ? 'Try again' : 'Send Invitation →'}
             </button>

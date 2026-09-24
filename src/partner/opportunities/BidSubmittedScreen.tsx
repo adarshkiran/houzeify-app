@@ -38,8 +38,8 @@ const EmptyIcon = () => (
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3 py-1.5">
-      <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[13px] font-semibold text-[#242326] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
+      <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
@@ -81,16 +81,16 @@ export default function BidSubmittedScreen({
 
   if (!bid) {
     return (
-      <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <header className="shrink-0 relative z-10">
           <div className="flex items-center justify-center h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
             <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
           </div>
         </header>
         <main className="flex-1 flex flex-col items-center justify-center gap-4 px-5 py-10 text-center relative z-10">
-          <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: '#F4F0EC', color: '#9A949D' }}><EmptyIcon /></span>
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Bid not found.</p>
-          <button type="button" onClick={handleBackToProjects} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
+          <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-subtle)' }}><EmptyIcon /></span>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Bid not found.</p>
+          <button type="button" onClick={handleBackToProjects} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
             ← Back to Projects
           </button>
         </main>
@@ -106,7 +106,7 @@ export default function BidSubmittedScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-center h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
@@ -121,27 +121,27 @@ export default function BidSubmittedScreen({
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="relative w-[72px] h-[72px] flex items-center justify-center" aria-hidden="true">
               <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(16px)' }} />
-              <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: '#722ED1', boxShadow: '0 8px 26px rgba(243,234,255,0.10)' }}>
+              <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 26px rgba(243,234,255,0.10)' }}>
                 <BigCheckIcon />
               </span>
             </div>
             <div className="flex flex-col items-center gap-2.5">
-              <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Bid Submitted</span>
-              <h1 className="text-[24px] sm:text-[30px] font-semibold text-[#242326] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+              <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Bid Submitted</span>
+              <h1 className="text-[24px] sm:text-[30px] font-semibold text-[var(--hz-ink)] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                 Bid submitted successfully
               </h1>
-              <p className="text-[13.5px] sm:text-[14.5px] text-[#68636D] leading-[1.6] m-0 max-w-[440px]" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[13.5px] sm:text-[14.5px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[440px]" style={{ fontFamily: FONT_BODY }}>
                 Your bid has been sent to the homeowner.
               </p>
             </div>
           </div>
 
           {/* Bid summary card */}
-          <div className="w-full rounded-[18px] bg-white border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="w-full rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             {opportunity && (
-              <div className="flex flex-col gap-1 pb-3 border-b border-[#E3DDD7]">
-                <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{opportunity.title}</span>
-                <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+              <div className="flex flex-col gap-1 pb-3 border-b border-[var(--hz-border)]">
+                <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{opportunity.title}</span>
+                <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                   <span className="flex items-center gap-1"><HomeIconSmall /> {OPPORTUNITY_PROJECT_TYPE_LABELS[opportunity.projectType]}</span>
                   <span className="text-[#CAC7C6]">·</span>
                   <span className="flex items-center gap-1"><PinIcon /> {opportunity.location}</span>
@@ -167,13 +167,13 @@ export default function BidSubmittedScreen({
 
           {/* What happens next */}
           <div className="w-full rounded-[16px] p-5 flex flex-col gap-2" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
-            <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>What happens next?</span>
-            <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>What happens next?</span>
+            <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
               The homeowner can review your proposal and compare it with other bids. You&apos;ll be notified if they respond or select your bid.
             </p>
             <div className="flex items-center gap-1.5 pt-1">
-              <span className="text-[#722ED1] shrink-0"><BellIcon /></span>
-              <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>You&apos;ll receive notifications about updates to this bid.</span>
+              <span className="text-[var(--hz-primary)] shrink-0"><BellIcon /></span>
+              <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>You&apos;ll receive notifications about updates to this bid.</span>
             </div>
           </div>
 
@@ -183,7 +183,7 @@ export default function BidSubmittedScreen({
               type="button"
               onClick={handleViewMyBids}
               aria-label="View my bids"
-              className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 px-6 flex items-center justify-center gap-2 bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] w-full sm:w-auto"
+              className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 px-6 flex items-center justify-center gap-2 bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] w-full sm:w-auto"
               style={{ fontFamily: FONT_BODY }}
             >
               View My Bids <ArrowRightIcon />
@@ -192,7 +192,7 @@ export default function BidSubmittedScreen({
               type="button"
               onClick={handleDiscoverMore}
               aria-label="Discover more projects"
-              className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] transition-colors w-full sm:w-auto"
+              className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] hover:border-[var(--hz-primary)] transition-colors w-full sm:w-auto"
               style={{ fontFamily: FONT_BODY }}
             >
               Discover More Projects →
@@ -205,8 +205,8 @@ export default function BidSubmittedScreen({
       <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-6 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>

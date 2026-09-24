@@ -24,7 +24,7 @@ const CheckIcon = ({ size = 10 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8.5 2.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const FeatureCheckIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#F3EAFF" /><path d="M4 7L6 9L10 4.5" stroke="#722ED1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-primary-soft)" /><path d="M4 7L6 9L10 4.5" stroke="var(--hz-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const IndividualIcon = () => (
   <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -68,25 +68,25 @@ function AccountTypeCard({ accountType, content, selected, onSelect }: { account
       onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-4 rounded-[18px] p-5 sm:p-6 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
       style={{ boxShadow: selected ? '0 4px 18px rgba(243,234,255,0.10)' : '0 1px 8px rgba(0,0,0,0.03)' }}
     >
       {selected && (
-        <span className="absolute top-4 right-4 w-[22px] h-[22px] rounded-full bg-[#722ED1] flex items-center justify-center" aria-hidden="true">
+        <span className="absolute top-4 right-4 w-[22px] h-[22px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center" aria-hidden="true">
           <CheckIcon size={11} />
         </span>
       )}
 
-      <div className={['w-12 h-12 rounded-[12px] flex items-center justify-center shrink-0', selected ? 'bg-white text-[#722ED1]' : 'bg-[#F4F0EC] text-[#68636D]'].join(' ')}>
+      <div className={['w-12 h-12 rounded-[12px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
         {ACCOUNT_TYPE_ICONS[accountType]}
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <span className={['text-[18px] font-semibold leading-tight', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
+        <span className={['text-[18px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
           {content.title}
         </span>
-        <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
           {content.description}
         </p>
       </div>
@@ -95,12 +95,12 @@ function AccountTypeCard({ accountType, content, selected, onSelect }: { account
         {content.features.map(feature => (
           <li key={feature} className="flex items-center gap-2">
             <FeatureCheckIcon />
-            <span className="text-[12.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{feature}</span>
+            <span className="text-[12.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{feature}</span>
           </li>
         ))}
       </ul>
 
-      <span className="mt-auto pt-2 text-[11.5px] text-[#9A949D] italic" style={{ fontFamily: FONT_BODY }}>
+      <span className="mt-auto pt-2 text-[11.5px] text-[var(--hz-ink-subtle)] italic" style={{ fontFamily: FONT_BODY }}>
         {content.exampleLabel}
       </span>
     </button>
@@ -112,12 +112,12 @@ function AccountTypeCard({ accountType, content, selected, onSelect }: { account
 
 function AskHozieCard({ onAskHozie }: { onAskHozie: () => void }) {
   return (
-    <div className="w-full flex items-center gap-3.5 bg-white border border-[#E3DDD7] rounded-[16px] px-4 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <div className="w-9 h-9 rounded-[11px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={22} /></div>
+    <div className="w-full flex items-center gap-3.5 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-4 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <div className="w-9 h-9 rounded-[11px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={22} /></div>
       <div className="flex flex-col gap-0.5 flex-1 min-w-[180px]">
-        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Not sure which option fits?</span>
+        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Not sure which option fits?</span>
       </div>
-      <button onClick={onAskHozie} className="h-8 px-3.5 rounded-[9px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0" style={{ fontFamily: FONT_BODY }}>
+      <button onClick={onAskHozie} className="h-8 px-3.5 rounded-[9px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0" style={{ fontFamily: FONT_BODY }}>
         Ask Hozie →
       </button>
     </div>
@@ -190,19 +190,19 @@ export default function AccountTypeScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-between h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
           {!isProfessional && (
-            <span className="text-[12px] tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 4 of 4</span>
+            <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 4 of 4</span>
           )}
         </div>
         {!isProfessional && (
-          <div className="h-[2px] bg-[#F4F0EC] w-full">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '100%' }} />
+          <div className="h-[2px] bg-[var(--hz-surface-muted)] w-full">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '100%' }} />
           </div>
         )}
       </header>
@@ -213,13 +213,13 @@ export default function AccountTypeScreen({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>
               {isProfessional ? 'Professional Profile' : 'Account Type'}
             </span>
-            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               {isProfessional ? 'How do you operate?' : 'How will you use Houzeify?'}
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
               {isProfessional
                 ? 'Tell us how you provide your services so we can set up your professional profile correctly.'
                 : 'Choose how you want to manage your Houzeify account. You can change this later.'}
@@ -228,9 +228,9 @@ export default function AccountTypeScreen({
 
           {/* Professional type context — carried from Screen 018, never re-asked */}
           {isProfessional && professionalTypeLabel && (
-            <div className="w-full flex items-center gap-3 rounded-[14px] px-4 sm:px-5 py-3.5" style={{ backgroundColor: '#F4F0EC', maxWidth: 560, margin: '0 auto' }}>
-              <span className="text-[10.5px] tracking-[0.08em] uppercase text-[#68636D] shrink-0" style={{ fontFamily: FONT_MONO }}>Professional Type</span>
-              <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#242326] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
+            <div className="w-full flex items-center gap-3 rounded-[14px] px-4 sm:px-5 py-3.5" style={{ backgroundColor: 'var(--hz-surface-muted)', maxWidth: 560, margin: '0 auto' }}>
+              <span className="text-[10.5px] tracking-[0.08em] uppercase text-[var(--hz-ink-muted)] shrink-0" style={{ fontFamily: FONT_MONO }}>Professional Type</span>
+              <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-ink)] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
                 <ProfessionalBadgeIcon /> {professionalTypeLabel}
               </span>
             </div>
@@ -238,10 +238,10 @@ export default function AccountTypeScreen({
 
           {/* Hozie intro — unchanged for the homeowner path */}
           {!isProfessional && (
-            <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
               <div className="shrink-0"><HIcon size={32} /></div>
-              <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
-                <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>One account can manage one or more construction projects.</span>{' '}
+              <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>One account can manage one or more construction projects.</span>{' '}
                 Choose whether you&apos;re managing your projects personally or as part of an organization.
               </p>
             </div>
@@ -259,22 +259,22 @@ export default function AccountTypeScreen({
           {/* Role stays the same — homeowner path only; the professional
               context strip above already covers the equivalent framing. */}
           {!isProfessional && (
-            <div className="flex items-start gap-3 px-4 sm:px-5 py-4 rounded-[14px]" style={{ backgroundColor: '#F4F0EC' }}>
+            <div className="flex items-start gap-3 px-4 sm:px-5 py-4 rounded-[14px]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
               <div className="flex flex-col gap-2 flex-1">
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#68636D]" style={{ fontFamily: FONT_MONO }}>Your role stays the same</span>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>Your role stays the same</span>
                 <div className="flex flex-wrap items-center gap-2 text-[13px]" style={{ fontFamily: FONT_BODY }}>
-                  <span className="text-[#68636D]">You are currently registered as</span>
-                  <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#242326] font-semibold text-[12px]">
+                  <span className="text-[var(--hz-ink-muted)]">You are currently registered as</span>
+                  <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-ink)] font-semibold text-[12px]">
                     <HomeownerIcon /> Homeowner
                   </span>
                 </div>
-                <p className="text-[12px] text-[#68636D] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
                   Account type controls how your workspace is organized — it doesn&apos;t change your role.
                 </p>
                 <div className="flex flex-wrap items-center gap-2 text-[12px] mt-1" style={{ fontFamily: FONT_BODY }}>
-                  <span className="h-6 px-2 rounded-full bg-white border border-[#E3DDD7] text-[#242326]">Homeowner</span>
-                  <span className="text-[#9A949D]">+</span>
-                  <span className="h-6 px-2 rounded-full bg-white border border-[#E3DDD7] text-[#242326]">
+                  <span className="h-6 px-2 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-ink)]">Homeowner</span>
+                  <span className="text-[var(--hz-ink-subtle)]">+</span>
+                  <span className="h-6 px-2 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-ink)]">
                     {accountType === 'organization' ? 'Organization account' : accountType === 'individual' ? 'Individual account' : 'Individual / Organization account'}
                   </span>
                 </div>
@@ -284,7 +284,7 @@ export default function AccountTypeScreen({
 
           {/* Why we ask — professional path only, per Screen 019's own spec */}
           {isProfessional && (
-            <p className="text-center text-[12.5px] text-[#9A949D] leading-[1.55] m-0 max-w-[520px] mx-auto" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-center text-[12.5px] text-[var(--hz-ink-subtle)] leading-[1.55] m-0 max-w-[520px] mx-auto" style={{ fontFamily: FONT_BODY }}>
               This helps us set up the right profile, permissions and business tools for you.
             </p>
           )}
@@ -293,19 +293,19 @@ export default function AccountTypeScreen({
           {accountType === 'individual' && (
             <div className="w-full rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)', animation: 'welcomeFadeUp 0.3s ease-out both' }}>
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-[7px] bg-white flex items-center justify-center shrink-0"><HIcon size={16} /></span>
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Your Workspace</span>
+                <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Your Workspace</span>
               </div>
-              <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
                 {isProfessional ? 'Personal professional workspace' : 'Personal homeowner workspace'}
               </span>
-              <p className="text-[12.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Hozie will organize your:</p>
+              <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Hozie will organize your:</p>
               <div className="flex flex-wrap gap-2">
                 {(isProfessional
                   ? ['Professional profile', 'Leads & bids', 'Service requests', 'Portfolio', 'Client conversations']
                   : ['Projects', 'Estimates', 'BOQs', 'Plans', 'Materials', 'Contractor conversations']
                 ).map(item => (
-                  <span key={item} className="h-8 px-3 rounded-full flex items-center text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, backgroundColor: '#FFFFFF', color: '#242326', border: '1px solid #E3DDD7' }}>
+                  <span key={item} className="h-8 px-3 rounded-full flex items-center text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, backgroundColor: 'var(--hz-surface)', color: 'var(--hz-ink)', border: '1px solid var(--hz-border)' }}>
                     {item}
                   </span>
                 ))}
@@ -316,14 +316,14 @@ export default function AccountTypeScreen({
           {accountType === 'organization' && (
             <div className="w-full rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)', animation: 'welcomeFadeUp 0.3s ease-out both' }}>
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-[7px] bg-white flex items-center justify-center shrink-0"><HIcon size={16} /></span>
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Your Next Step</span>
+                <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Your Next Step</span>
               </div>
-              <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Set up your organization.</span>
-              <p className="text-[12.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>You&apos;ll be able to add:</p>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Set up your organization.</span>
+              <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>You&apos;ll be able to add:</p>
               <div className="flex flex-wrap gap-2">
                 {['Organization name', 'Organization type', 'Team members', 'Organization details'].map(item => (
-                  <span key={item} className="h-8 px-3 rounded-full flex items-center text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, backgroundColor: '#FFFFFF', color: '#242326', border: '1px solid #E3DDD7' }}>
+                  <span key={item} className="h-8 px-3 rounded-full flex items-center text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, backgroundColor: 'var(--hz-surface)', color: 'var(--hz-ink)', border: '1px solid var(--hz-border)' }}>
                     {item}
                   </span>
                 ))}
@@ -342,8 +342,8 @@ export default function AccountTypeScreen({
                   'h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 w-full sm:w-[220px]',
                   'flex items-center justify-center gap-2',
                   canContinue
-                    ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
-                    : 'bg-[#F4F0EC] text-[#9A949D] cursor-pointer',
+                    ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
+                    : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-pointer',
                 ].join(' ')}
                 style={{ fontFamily: FONT_BODY }}
               >
@@ -362,7 +362,7 @@ export default function AccountTypeScreen({
               <button
                 onClick={handleBack}
                 disabled={stage === 'submitting'}
-                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
+                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
               >
                 ← Back
               </button>
@@ -375,8 +375,8 @@ export default function AccountTypeScreen({
       <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-5 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>

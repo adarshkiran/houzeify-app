@@ -175,7 +175,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -194,9 +194,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function MiniCard({ eyebrow, value }: { eyebrow: string; value: string }) {
   return (
-    <div className="bg-white rounded-[14px] border border-[#E3DDD7] p-4 flex flex-col gap-1.5 min-w-0">
-      <span className="text-[12px] tracking-[0.08em] text-[#9A949D] uppercase truncate" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{eyebrow}</span>
-      <span className="text-[16px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{value}</span>
+    <div className="bg-[var(--hz-surface)] rounded-[14px] border border-[var(--hz-border)] p-4 flex flex-col gap-1.5 min-w-0">
+      <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)] uppercase truncate" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{eyebrow}</span>
+      <span className="text-[16px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{value}</span>
     </div>
   )
 }
@@ -208,33 +208,33 @@ function EstimateHero({ locked, v2 }: { locked: boolean; v2: EstimateVersion }) 
     <div
       className="rounded-[20px] p-6 sm:p-8 flex flex-col gap-4"
       style={{
-        background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, #ffffff 55%)',
-        border: '1px solid #E3DDD7',
+        background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, var(--hz-surface) 55%)',
+        border: '1px solid var(--hz-border)',
         boxShadow: '0 4px 32px rgba(114,46,209,0.08)',
       }}
     >
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Final Estimated Cost</span>
+        <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Final Estimated Cost</span>
         <span
           className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[12px] font-semibold uppercase tracking-[0.04em]"
-          style={{ backgroundColor: locked ? '#722ED1' : '#F3EAFF', color: locked ? '#FFFFFF' : '#722ED1', fontFamily: '"Sometype Mono:SemiBold", monospace' }}
+          style={{ backgroundColor: locked ? 'var(--hz-primary)' : 'var(--hz-primary-soft)', color: locked ? 'var(--hz-surface)' : 'var(--hz-primary)', fontFamily: '"Sometype Mono:SemiBold", monospace' }}
         >
-          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: locked ? '#fff' : '#722ED1' }} />
+          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: locked ? '#fff' : 'var(--hz-primary)' }} />
           {locked ? 'Locked' : 'Ready for review'}
         </span>
       </div>
-      <span className="text-[36px] sm:text-[46px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>
+      <span className="text-[36px] sm:text-[46px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>
         {formatINR(v2.minCost)} — {formatINR(v2.maxCost)}
       </span>
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
-          Estimated average: <strong style={{ color: '#242326' }}>{formatINR(v2.averageCost)}</strong>
+        <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+          Estimated average: <strong style={{ color: 'var(--hz-ink)' }}>{formatINR(v2.averageCost)}</strong>
         </span>
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
-          Cost per sq ft: <strong style={{ color: '#242326' }}>₹{v2.costPerSqFtMin.toLocaleString('en-IN')} — ₹{v2.costPerSqFtMax.toLocaleString('en-IN')}</strong>
+        <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+          Cost per sq ft: <strong style={{ color: 'var(--hz-ink)' }}>₹{v2.costPerSqFtMin.toLocaleString('en-IN')} — ₹{v2.costPerSqFtMax.toLocaleString('en-IN')}</strong>
         </span>
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
-          AI confidence: <strong style={{ color: '#242326' }}>{v2.confidence}%</strong>
+        <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+          AI confidence: <strong style={{ color: 'var(--hz-ink)' }}>{v2.confidence}%</strong>
         </span>
       </div>
     </div>
@@ -252,19 +252,19 @@ function CostSummary({ v2 }: { v2: EstimateVersion }) {
     ['Contingency', v2.costBreakdown.contingencyCost],
   ]
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-3">
-      <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Cost Summary</span>
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-3">
+      <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Cost Summary</span>
       <div className="flex flex-col">
         {rows.map(([label, val], i) => (
-          <div key={label} className="flex items-center justify-between py-2.5" style={{ borderTop: i === 0 ? 'none' : '1px solid #FFFFFF' }}>
-            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(val)}</span>
+          <div key={label} className="flex items-center justify-between py-2.5" style={{ borderTop: i === 0 ? 'none' : '1px solid var(--hz-surface)' }}>
+            <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(val)}</span>
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid #F4F0EC' }}>
-        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Total</span>
-        <span className="text-[15px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>
+      <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid var(--hz-surface-muted)' }}>
+        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Total</span>
+        <span className="text-[15px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>
           {formatINR(v2.minCost)} — {formatINR(v2.maxCost)}
         </span>
       </div>
@@ -278,31 +278,31 @@ function RevisionSummary({ v1, v2, changes, onViewRevision }: { v1: EstimateVers
   const delta = v2.averageCost - v1.averageCost
   const isIncrease = delta >= 0
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4">
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimate Revision</span>
-        <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>vs. Version {v1.versionNumber}</span>
+        <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimate Revision</span>
+        <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>vs. Version {v1.versionNumber}</span>
       </div>
       <div className="flex flex-col gap-2.5">
         {changes.map(c => (
           <div key={c.label} className="flex items-center justify-between gap-3">
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{c.label}</span>
-            <span className="flex items-center gap-1.5 text-[12px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
-              {c.from} <IcoArrowRight /> <span style={{ color: '#722ED1' }}>{c.to}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{c.label}</span>
+            <span className="flex items-center gap-1.5 text-[12px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              {c.from} <IcoArrowRight /> <span style={{ color: 'var(--hz-primary)' }}>{c.to}</span>
             </span>
           </div>
         ))}
       </div>
-      <div className="h-px bg-[#FFFFFF]" />
+      <div className="h-px bg-[var(--hz-surface)]" />
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2 text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
-          <span className="text-[#9A949D]">{formatINR(v1.minCost)}–{formatINR(v1.maxCost)}</span>
+          <span className="text-[var(--hz-ink-subtle)]">{formatINR(v1.minCost)}–{formatINR(v1.maxCost)}</span>
           <IcoArrowRight />
-          <span className="font-semibold" style={{ color: '#722ED1' }}>{formatINR(v2.minCost)}–{formatINR(v2.maxCost)}</span>
+          <span className="font-semibold" style={{ color: 'var(--hz-primary)' }}>{formatINR(v2.minCost)}–{formatINR(v2.maxCost)}</span>
         </div>
         <span
           className="text-[12px] font-semibold px-2 py-1 rounded-full"
-          style={{ backgroundColor: isIncrease ? '#FEE2E2' : '#DCFCE7', color: isIncrease ? '#DC2626' : '#16A34A', fontFamily: '"Sometype Mono:SemiBold", monospace' }}
+          style={{ backgroundColor: isIncrease ? '#FEE2E2' : '#DCFCE7', color: isIncrease ? 'var(--hz-danger)' : '#16A34A', fontFamily: '"Sometype Mono:SemiBold", monospace' }}
         >
           {isIncrease ? '+' : '−'}{formatINR(Math.abs(delta))} estimated {isIncrease ? 'increase' : 'decrease'}
         </span>
@@ -310,7 +310,7 @@ function RevisionSummary({ v1, v2, changes, onViewRevision }: { v1: EstimateVers
       <button
         onClick={onViewRevision}
         className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-        style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+        style={{ color: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
       >
         View revision →
       </button>
@@ -325,18 +325,18 @@ function HozieReview({ v2, onAskHozie }: { v2: EstimateVersion; onAskHozie: () =
     <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-          <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Review</span>
+          <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+          <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Review</span>
         </div>
-        <span className="text-[13px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{v2.confidence}%</span>
+        <span className="text-[13px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{v2.confidence}%</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         “Your estimate is ready to use as a planning baseline. For better accuracy, upload the final floor plan and structural drawings before requesting contractor bids.”
       </p>
       <button
         onClick={onAskHozie}
         className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-        style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+        style={{ color: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Ask Hozie →
       </button>
@@ -348,18 +348,18 @@ function HozieReview({ v2, onAskHozie }: { v2: EstimateVersion; onAskHozie: () =
 
 function ReviewChecklist() {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-3">
-      <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Before Locking</span>
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-3">
+      <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Before Locking</span>
       <div className="flex flex-col gap-2.5">
         {reviewChecklist.map(item => (
           <div key={item.label} className="flex items-center gap-2.5">
             <span
               className="w-4.5 h-4.5 rounded-full flex items-center justify-center shrink-0"
-              style={{ width: 18, height: 18, backgroundColor: item.done ? '#722ED1' : 'transparent', border: item.done ? 'none' : '1.5px solid #CAC7C6' }}
+              style={{ width: 18, height: 18, backgroundColor: item.done ? 'var(--hz-primary)' : 'transparent', border: item.done ? 'none' : '1.5px solid #CAC7C6' }}
             >
               {item.done && <IcoCheck />}
             </span>
-            <span className="text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif', color: item.done ? '#1E1E1E' : '#A1A1A1' }}>{item.label}</span>
+            <span className="text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif', color: item.done ? 'var(--hz-black)' : '#A1A1A1' }}>{item.label}</span>
           </div>
         ))}
       </div>
@@ -379,17 +379,17 @@ function VersionHistory({ locked, versions, onCompare }: { locked: boolean; vers
     .map((v, i) => ({
       v,
       statusLabel: i === 0 ? (locked ? 'Active' : 'Draft · Ready to lock') : 'Previous',
-      badgeBg: i === 0 && locked ? '#F3EAFF' : '#CAC7C6',
-      badgeFg: i === 0 && locked ? '#722ED1' : '#808080',
+      badgeBg: i === 0 && locked ? 'var(--hz-primary-soft)' : '#CAC7C6',
+      badgeFg: i === 0 && locked ? 'var(--hz-primary)' : '#808080',
     }))
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-3">
-      <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimate History</span>
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-3">
+      <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimate History</span>
       <div className="flex flex-col gap-2">
         {items.map(({ v, statusLabel, badgeBg, badgeFg }) => {
           const open = openId === v.id
           return (
-            <div key={v.id} className="rounded-[12px] overflow-hidden" style={{ border: '1px solid #FFFFFF' }}>
+            <div key={v.id} className="rounded-[12px] overflow-hidden" style={{ border: '1px solid var(--hz-surface)' }}>
               <button
                 onClick={() => setOpenId(cur => cur === v.id ? null : v.id)}
                 aria-expanded={open}
@@ -397,16 +397,16 @@ function VersionHistory({ locked, versions, onCompare }: { locked: boolean; vers
                 className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left cursor-pointer border-0 bg-transparent"
               >
                 <div className="flex items-center gap-2.5">
-                  <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Version {v.versionNumber}</span>
+                  <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Version {v.versionNumber}</span>
                   <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ backgroundColor: badgeBg, color: badgeFg, fontFamily: '"Inter Variable", sans-serif' }}>{statusLabel}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(v.minCost)} — {formatINR(v.maxCost)}</span>
-                  <span className="text-[#9A949D] transition-transform duration-200" style={{ transform: open ? 'rotate(180deg)' : 'none' }}><IcoChevronDown /></span>
+                  <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(v.minCost)} — {formatINR(v.maxCost)}</span>
+                  <span className="text-[var(--hz-ink-subtle)] transition-transform duration-200" style={{ transform: open ? 'rotate(180deg)' : 'none' }}><IcoChevronDown /></span>
                 </div>
               </button>
               {open && (
-                <div className="px-4 pb-4 flex flex-col gap-3 border-t border-[#FFFFFF] pt-3">
+                <div className="px-4 pb-4 flex flex-col gap-3 border-t border-[var(--hz-surface)] pt-3">
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                     <MiniCard eyebrow="Built-up area" value={`${v.assumptions.builtUpArea.toLocaleString('en-IN')} sq ft`} />
                     <MiniCard eyebrow="Finishing" value={v.assumptions.finishingLevel} />
@@ -415,7 +415,7 @@ function VersionHistory({ locked, versions, onCompare }: { locked: boolean; vers
                   <button
                     onClick={onCompare}
                     className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-                    style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+                    style={{ color: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
                   >
                     Compare →
                   </button>
@@ -434,9 +434,9 @@ function VersionHistory({ locked, versions, onCompare }: { locked: boolean; vers
 function DisclaimerCard() {
   const factors = ['final drawings', 'structural requirements', 'material brands', 'site conditions', 'market rates', 'contractor pricing', 'taxes and approvals']
   return (
-    <div className="rounded-[14px] p-4 sm:p-5 flex gap-3" style={{ backgroundColor: '#F4F0EC' }}>
-      <span className="shrink-0 text-[#9A949D] mt-0.5"><IcoInfo /></span>
-      <p className="text-[11px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+    <div className="rounded-[14px] p-4 sm:p-5 flex gap-3" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+      <span className="shrink-0 text-[var(--hz-ink-subtle)] mt-0.5"><IcoInfo /></span>
+      <p className="text-[11px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         AI-generated planning estimate. Actual project costs may vary based on {factors.join(', ')}.
       </p>
     </div>
@@ -480,7 +480,7 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
         className={[
           'fixed inset-x-0 bottom-0 sm:inset-y-0 sm:right-0 sm:left-auto sm:top-0',
           'w-full sm:w-[420px] max-h-[90vh] sm:max-h-none',
-          'bg-white z-50 flex flex-col rounded-t-[20px] sm:rounded-t-none sm:rounded-l-[20px]',
+          'bg-[var(--hz-surface)] z-50 flex flex-col rounded-t-[20px] sm:rounded-t-none sm:rounded-l-[20px]',
           'transition-transform duration-300 ease-out',
           open ? 'translate-y-0 sm:translate-x-0' : 'translate-y-full sm:translate-y-0 sm:translate-x-full',
         ].join(' ')}
@@ -489,23 +489,23 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
         {stage === 'confirm' && (
           <div className="flex flex-col gap-5 p-6">
             <div className="flex items-center justify-between">
-              <span className="text-[12px] uppercase tracking-[0.10em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Confirm</span>
-              <button ref={closeRef} onClick={onCancel} aria-label="Cancel locking" className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent"><IcoClose /></button>
+              <span className="text-[12px] uppercase tracking-[0.10em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Confirm</span>
+              <button ref={closeRef} onClick={onCancel} aria-label="Cancel locking" className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent"><IcoClose /></button>
             </div>
-            <h2 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Lock Estimate Version {v2.versionNumber}?</h2>
-            <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+            <h2 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Lock Estimate Version {v2.versionNumber}?</h2>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
               This version will become your active planning estimate and will be used for BOQ generation and contractor comparisons.
             </p>
             <div className="rounded-[12px] p-4" style={{ backgroundColor: '#F9F5FF' }}>
-              <span className="text-[22px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>
+              <span className="text-[22px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>
                 {formatINR(v2.minCost)} — {formatINR(v2.maxCost)}
               </span>
             </div>
             <div className="flex gap-2.5 mt-1">
-              <button onClick={onCancel} className="flex-1 h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <button onClick={onCancel} className="flex-1 h-11 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 Cancel
               </button>
-              <button onClick={onConfirm} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>
+              <button onClick={onConfirm} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}>
                 Lock estimate
               </button>
             </div>
@@ -514,10 +514,10 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
 
         {stage === 'locking' && (
           <div className="flex flex-col items-center justify-center text-center gap-3 p-10 flex-1">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F3EAFF', animation: 'aiIconGlow 1.4s ease-in-out infinite' }}>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', animation: 'aiIconGlow 1.4s ease-in-out infinite' }}>
               <HIcon size={26} />
             </div>
-            <span className="text-[12px] uppercase tracking-[0.10em]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: '#722ED1' }}>Locking estimate…</span>
+            <span className="text-[12px] uppercase tracking-[0.10em]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: 'var(--hz-primary)' }}>Locking estimate…</span>
           </div>
         )}
 
@@ -527,14 +527,14 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
               <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', animation: 'successIconReveal 0.4s ease-out both' }}>
                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#16A34A" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13.5l5.5 5.5L21 7"/></svg>
               </div>
-              <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Estimate locked ✓</h2>
-              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Version {v2.versionNumber} is now your active estimate.</p>
+              <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Estimate locked ✓</h2>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Version {v2.versionNumber} is now your active estimate.</p>
             </div>
             <div className="flex flex-col gap-2.5">
-              <button onClick={onContinueToBoq} className="h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>
+              <button onClick={onContinueToBoq} className="h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}>
                 Continue to BOQ →
               </button>
-              <button onClick={onCancel} className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <button onClick={onCancel} className="h-11 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 Stay on this page
               </button>
             </div>
@@ -544,14 +544,14 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
         {stage === 'error' && (
           <div className="flex flex-col gap-5 p-6">
             <div className="flex flex-col items-center text-center gap-3 pt-4">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}><IcoAlert /></div>
-              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Unable to lock this estimate. Your estimate has not changed.</p>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: 'var(--hz-danger)' }}><IcoAlert /></div>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Unable to lock this estimate. Your estimate has not changed.</p>
             </div>
             <div className="flex gap-2.5">
-              <button onClick={onCancel} className="flex-1 h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <button onClick={onCancel} className="flex-1 h-11 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 Close
               </button>
-              <button onClick={onRetry} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>
+              <button onClick={onRetry} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}>
                 Try again
               </button>
             </div>
@@ -647,20 +647,20 @@ export default function FinalEstimateScreen({
     })
   }
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
         <button
           onClick={() => onNavigate('estimate-revision')}
           aria-label="Back to revision"
-          className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]"
+          className="flex items-center gap-1 text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer text-[13px]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoChevronLeft /> Revision
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Final Estimate</span>
-        <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Final Estimate</span>
+        <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -668,22 +668,22 @@ return (
 
         <div className="flex flex-col flex-1 min-h-0">
           {/* Desktop header */}
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Final Estimate
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[12px] px-2.5 py-1.5 rounded-full" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+              <span className="text-[12px] px-2.5 py-1.5 rounded-full" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                 {locked ? `ACTIVE ESTIMATE · V${v2.versionNumber} · LOCKED` : `ESTIMATE VERSION V${v2.versionNumber} · READY TO LOCK`}
               </span>
               <button
                 aria-label="Download PDF"
-                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
@@ -697,13 +697,13 @@ return (
 
               {/* Intro */}
               <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
-                <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                   Final Estimate
                 </span>
-                <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+                <h2 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                   {locked ? 'Your estimate is locked.' : 'Your estimate is ready.'}
                 </h2>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[600px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 mt-2 max-w-[600px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   {locked
                     ? 'This estimate is currently being used as the planning baseline for your project.'
                     : 'Review your current estimate before using it to generate the BOQ and compare contractor bids.'}
@@ -716,7 +716,7 @@ return (
               </div>
 
               {locked && lockedAt && (
-                <div className="flex items-center gap-2 text-[12px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                <div className="flex items-center gap-2 text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   <IcoLock /> Locked on {formatDateLabel(lockedAt)}
                 </div>
               )}
@@ -748,8 +748,8 @@ return (
                   {!locked ? (
                     <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
                       <div>
-                        <h3 className="text-[16px] font-semibold text-[#242326] m-0 mb-1.5" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Ready to lock this estimate?</h3>
-                        <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                        <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0 mb-1.5" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Ready to lock this estimate?</h3>
+                        <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           Locking creates Estimate Version {v2.versionNumber} as your current project estimate. You can still revise it later and create a new version.
                         </p>
                       </div>
@@ -757,13 +757,13 @@ return (
                         <button
                           onClick={() => setModalStage('confirm')}
                           className="h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                          style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+                          style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Lock &amp; Continue →
                         </button>
                         <button
                           onClick={() => { const m = document.querySelector('main'); m?.scrollTo({ top: 0, behavior: 'smooth' }) }}
-                          className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
+                          className="h-11 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors"
                           style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Review again
@@ -771,35 +771,35 @@ return (
                       </div>
                     </div>
                   ) : (
-                    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-3" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7' }}>
+                    <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-surface)', border: '1px solid var(--hz-border)' }}>
                       <div className="flex items-center gap-2">
-                        <span className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#722ED1' }}><IcoCheck /></span>
-                        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Active Estimate — Version {v2.versionNumber}</span>
+                        <span className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary)' }}><IcoCheck /></span>
+                        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Active Estimate — Version {v2.versionNumber}</span>
                       </div>
                       <div className="flex flex-col gap-2.5">
                         <button
                           onClick={goFindContractors}
                           className="h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                          style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+                          style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Find Contractors →
                         </button>
                         <button
                           onClick={continueToBoq}
-                          className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
+                          className="h-11 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors"
                           style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           View BOQ →
                         </button>
                         <button
                           onClick={viewRevision}
-                          className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
+                          className="h-11 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors"
                           style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Revise estimate
                         </button>
                         <button
-                          className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
+                          className="h-11 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors"
                           style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Download PDF

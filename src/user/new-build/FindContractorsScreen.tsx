@@ -88,7 +88,7 @@ function NavItem({ icon, label, active, disabled, onClick }: { icon: React.React
       className={[
         'flex items-center gap-3 h-10 md:justify-center lg:justify-start rounded-[10px] px-3 transition-colors border-0 text-left',
         disabled ? 'cursor-not-allowed opacity-40' : 'cursor-pointer',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : disabled ? 'bg-transparent text-[#9A949D]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : disabled ? 'bg-transparent text-[var(--hz-ink-subtle)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0">{icon}</span>
@@ -104,10 +104,10 @@ function NavItem({ icon, label, active, disabled, onClick }: { icon: React.React
 
 function TopHeader() {
   return (
-    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#E3DDD7]">
-      <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Find Contractors</h1>
+    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+      <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Find Contractors</h1>
       <div className="flex items-center gap-2">
-        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all border-0 bg-transparent"><IcoBell /></button>
+        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all border-0 bg-transparent"><IcoBell /></button>
       </div>
     </header>
   )
@@ -115,10 +115,10 @@ function TopHeader() {
 
 function MobileTopBar() {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Find Contractors</span>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Find Contractors</span>
       </div>
     </div>
   )
@@ -133,28 +133,28 @@ function ContractorCard({ listing, matched, onView }: { listing: ContractorListi
   const extraCategories = listing.serviceCategories.length - shownCategories.length
 
   return (
-    <div className="rounded-[16px] bg-white p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-4" style={{ border: '1px solid var(--hz-border)' }}>
       <div className="flex items-start gap-3">
-        <div className="w-12 h-12 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[14px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+        <div className="w-12 h-12 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[14px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
           {initials}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <h3 className="text-[15px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{listing.name}</h3>
+            <h3 className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{listing.name}</h3>
             {listing.verificationStatus === 'verified' && (
               <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}>
                 <CheckBadgeIcon /> Verified
               </span>
             )}
           </div>
-          <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
+          <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
             {listing.kind === 'organization' ? 'Organization' : 'Individual Professional'}{typeLabel ? ` · ${typeLabel}` : ''}
           </p>
         </div>
       </div>
 
       {listing.location && (
-        <span className="flex items-center gap-1.5 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+        <span className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
           <IcoMapPin /> {listing.location}
         </span>
       )}
@@ -162,12 +162,12 @@ function ContractorCard({ listing, matched, onView }: { listing: ContractorListi
       {shownCategories.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {shownCategories.map(c => (
-            <span key={c} className="px-2 py-1 rounded-full text-[11px] font-medium" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_BODY }}>
+            <span key={c} className="px-2 py-1 rounded-full text-[11px] font-medium" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
               {SERVICE_CATEGORY_LABELS[c]}
             </span>
           ))}
           {extraCategories > 0 && (
-            <span className="px-2 py-1 rounded-full text-[11px] font-medium" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_BODY }}>
+            <span className="px-2 py-1 rounded-full text-[11px] font-medium" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
               +{extraCategories} more
             </span>
           )}
@@ -177,7 +177,7 @@ function ContractorCard({ listing, matched, onView }: { listing: ContractorListi
       <div className="flex items-center justify-between mt-1">
         <div className="flex items-center gap-2">
           {listing.portfolioProjectCount > 0 && (
-            <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>
               {listing.portfolioProjectCount} portfolio project{listing.portfolioProjectCount === 1 ? '' : 's'}
             </span>
           )}
@@ -190,7 +190,7 @@ function ContractorCard({ listing, matched, onView }: { listing: ContractorListi
         <button
           type="button"
           onClick={onView}
-          className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0 shrink-0"
+          className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0 shrink-0"
           style={{ fontFamily: FONT_BODY }}
         >
           View Profile →
@@ -277,11 +277,11 @@ export default function FindContractorsScreen({
     return 'Browse verified professionals on Houzeify.'
   }
 
-  const selectClass = 'h-9 rounded-[10px] px-3 text-[13px] bg-white cursor-pointer'
-  const selectStyle = { border: '1px solid #E3DDD7', color: '#242326', fontFamily: FONT_BODY }
+  const selectClass = 'h-9 rounded-[10px] px-3 text-[13px] bg-[var(--hz-surface)] cursor-pointer'
+  const selectStyle = { border: '1px solid var(--hz-border)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }
 
   return (
-    <div className="min-h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <Sidebar active="contractors" onNavigate={onNavigate} />
       <div className="flex-1 flex flex-col min-w-0 relative">
         <MobileTopBar />
@@ -289,21 +289,21 @@ export default function FindContractorsScreen({
         <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 lg:px-8 py-6">
           <div className="max-w-[1100px] mx-auto flex flex-col gap-6">
             <div>
-              <h2 className="hidden md:block text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Find Contractors</h2>
-              <p className="text-[13px] text-[#68636D] mt-1 mb-0" style={{ fontFamily: FONT_BODY }}>{headerDescription()}</p>
+              <h2 className="hidden md:block text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Find Contractors</h2>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] mt-1 mb-0" style={{ fontFamily: FONT_BODY }}>{headerDescription()}</p>
             </div>
 
             {/* Search + filters */}
             <div className="flex flex-col gap-3">
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A949D]"><IcoSearch /></span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--hz-ink-subtle)]"><IcoSearch /></span>
                 <input
                   type="text"
                   value={filters.query}
                   onChange={e => updateFilter('query', e.target.value)}
                   placeholder="Search by name, service or location"
-                  className="w-full h-10 rounded-[10px] pl-9 pr-3 text-[13.5px] bg-white outline-none"
-                  style={{ border: '1px solid #E3DDD7', color: '#242326', fontFamily: FONT_BODY }}
+                  className="w-full h-10 rounded-[10px] pl-9 pr-3 text-[13.5px] bg-[var(--hz-surface)] outline-none"
+                  style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
                 />
               </div>
               <div className="flex flex-wrap gap-2">
@@ -321,7 +321,7 @@ export default function FindContractorsScreen({
                   value={filters.city ?? ''}
                   onChange={e => updateFilter('city', e.target.value || null)}
                   placeholder="Location"
-                  className="h-9 rounded-[10px] px-3 text-[13px] bg-white outline-none w-[160px]"
+                  className="h-9 rounded-[10px] px-3 text-[13px] bg-[var(--hz-surface)] outline-none w-[160px]"
                   style={selectStyle}
                 />
                 <select
@@ -336,8 +336,8 @@ export default function FindContractorsScreen({
                 <button
                   type="button"
                   onClick={() => updateFilter('verifiedOnly', !filters.verifiedOnly)}
-                  className={`h-9 rounded-[10px] px-3 text-[13px] cursor-pointer flex items-center gap-1.5 ${filters.verifiedOnly ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-white text-[#68636D]'}`}
-                  style={{ border: filters.verifiedOnly ? '1px solid #722ED1' : '1px solid #CAC7C6', fontFamily: FONT_BODY }}
+                  className={`h-9 rounded-[10px] px-3 text-[13px] cursor-pointer flex items-center gap-1.5 ${filters.verifiedOnly ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] text-[var(--hz-ink-muted)]'}`}
+                  style={{ border: filters.verifiedOnly ? '1px solid var(--hz-primary)' : '1px solid #CAC7C6', fontFamily: FONT_BODY }}
                 >
                   {filters.verifiedOnly && <CheckBadgeIcon />} Verified only
                 </button>
@@ -361,16 +361,16 @@ export default function FindContractorsScreen({
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center text-center gap-3 py-16">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F4F0EC' }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <EmptyIcon />
                 </div>
-                <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No contractors found</p>
-                <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Try adjusting your service or location filters.</p>
+                <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>No contractors found</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Try adjusting your service or location filters.</p>
                 <button
                   type="button"
                   onClick={() => setFilters(EMPTY_CONTRACTOR_FILTERS)}
                   className="mt-1 h-9 px-4 rounded-[10px] text-[13px] font-semibold text-white cursor-pointer border-0"
-                  style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                  style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                 >
                   Adjust Filters
                 </button>

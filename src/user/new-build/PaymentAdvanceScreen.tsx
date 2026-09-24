@@ -30,8 +30,8 @@ function formatDate(iso: string): string {
 function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex items-center justify-between px-5 py-3.5">
-      <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{value}</span>
+      <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{value}</span>
     </div>
   )
 }
@@ -81,9 +81,9 @@ export default function PaymentAdvanceScreen({
 
   if (!projectId || !agreement) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <HIcon size={36} />
-        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No accepted agreement found.</p>
+        <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>No accepted agreement found.</p>
       </div>
     )
   }
@@ -97,21 +97,21 @@ export default function PaymentAdvanceScreen({
         <div className="flex flex-1 min-h-0 relative z-10">
           <Sidebar active="build" onNavigate={onNavigate} />
           <div className="flex flex-col flex-1 min-h-0">
-        <header className="shrink-0 bg-white h-16 flex items-center justify-between px-4 sm:px-6" style={{ borderBottom: '1px solid #E3DDD7' }}>
-          <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Payments</span>
-          <button type="button" onClick={handleContinue} className="text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>Back</button>
+        <header className="shrink-0 bg-[var(--hz-surface)] h-16 flex items-center justify-between px-4 sm:px-6" style={{ borderBottom: '1px solid var(--hz-border)' }}>
+          <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Payments</span>
+          <button type="button" onClick={handleContinue} className="text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>Back</button>
         </header>
         <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
           <div className="max-w-[520px] mx-auto flex flex-col gap-5">
             <div>
-              <span className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Payment Summary</span>
-              <h1 className="text-[22px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your Project'}</h1>
+              <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Payment Summary</span>
+              <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your Project'}</h1>
             </div>
 
-            <div className="rounded-[16px] bg-white overflow-hidden" style={{ border: '1px solid #E3DDD7' }}>
+            <div className="rounded-[16px] bg-[var(--hz-surface)] overflow-hidden" style={{ border: '1px solid var(--hz-border)' }}>
               <InfoRow label="Total Project Amount" value={formatBidAmount(agreement.totalCost)} />
-              <div style={{ borderTop: '1px solid #F4F0EC' }}><InfoRow label="Amount Paid" value={formatBidAmount(totalPaid)} /></div>
-              <div style={{ borderTop: '1px solid #F4F0EC' }}>
+              <div style={{ borderTop: '1px solid var(--hz-surface-muted)' }}><InfoRow label="Amount Paid" value={formatBidAmount(totalPaid)} /></div>
+              <div style={{ borderTop: '1px solid var(--hz-surface-muted)' }}>
                 <InfoRow
                   label="Payment Status"
                   value={
@@ -121,22 +121,22 @@ export default function PaymentAdvanceScreen({
                   }
                 />
               </div>
-              <div style={{ borderTop: '1px solid #F4F0EC' }}><InfoRow label="Amount Remaining" value={formatBidAmount(remaining)} /></div>
+              <div style={{ borderTop: '1px solid var(--hz-surface-muted)' }}><InfoRow label="Amount Remaining" value={formatBidAmount(remaining)} /></div>
             </div>
 
-            <div className="rounded-[16px] bg-white overflow-hidden" style={{ border: '1px solid #E3DDD7' }}>
+            <div className="rounded-[16px] bg-[var(--hz-surface)] overflow-hidden" style={{ border: '1px solid var(--hz-border)' }}>
               <div className="px-5 pt-4 pb-1">
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Payment History</span>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Payment History</span>
               </div>
               {completedPayments.map((p: Payment, i: number) => (
-                <div key={p.id} style={i > 0 ? { borderTop: '1px solid #F4F0EC' } : undefined}>
+                <div key={p.id} style={i > 0 ? { borderTop: '1px solid var(--hz-surface-muted)' } : undefined}>
                   <InfoRow label={`${formatDate(p.paidAt ?? p.createdAt)} · ${p.method}`} value={formatBidAmount(p.amount)} />
                 </div>
               ))}
             </div>
 
             {remaining > 0 && (
-              <p className="text-[12px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>
                 The remaining balance follows the payment schedule in your accepted agreement.
               </p>
             )}
@@ -144,7 +144,7 @@ export default function PaymentAdvanceScreen({
             <button
               onClick={handleContinue}
               className="h-[52px] rounded-[12px] text-white text-[14px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-              style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+              style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
             >
               Go to Project Workspace →
             </button>
@@ -161,8 +161,8 @@ export default function PaymentAdvanceScreen({
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="build" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0">
-      <header className="shrink-0 bg-white h-16 flex items-center px-4 sm:px-6" style={{ borderBottom: '1px solid #E3DDD7' }}>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Payment / Advance</span>
+      <header className="shrink-0 bg-[var(--hz-surface)] h-16 flex items-center px-4 sm:px-6" style={{ borderBottom: '1px solid var(--hz-border)' }}>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Payment / Advance</span>
       </header>
 
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
@@ -170,17 +170,17 @@ export default function PaymentAdvanceScreen({
           {stage !== 'success' ? (
             <>
               <div>
-                <span className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Advance Payment</span>
-                <h1 className="text-[22px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your Project'}</h1>
+                <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Advance Payment</span>
+                <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your Project'}</h1>
               </div>
 
-              <div className="rounded-[16px] bg-white overflow-hidden" style={{ border: '1px solid #E3DDD7' }}>
+              <div className="rounded-[16px] bg-[var(--hz-surface)] overflow-hidden" style={{ border: '1px solid var(--hz-border)' }}>
                 <InfoRow label="Total Project Cost" value={formatBidAmount(agreement.totalCost)} />
-                <div style={{ borderTop: '1px solid #F4F0EC' }}><InfoRow label={`Advance (${ADVANCE_PERCENT}%)`} value={formatBidAmount(advanceAmount)} /></div>
-                <div style={{ borderTop: '1px solid #F4F0EC' }}><InfoRow label="Payment Method" value="UPI (test mode)" /></div>
+                <div style={{ borderTop: '1px solid var(--hz-surface-muted)' }}><InfoRow label={`Advance (${ADVANCE_PERCENT}%)`} value={formatBidAmount(advanceAmount)} /></div>
+                <div style={{ borderTop: '1px solid var(--hz-surface-muted)' }}><InfoRow label="Payment Method" value="UPI (test mode)" /></div>
               </div>
 
-              <p className="text-[12px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>
                 This is a test/mock payment — no real transaction is processed. The remaining balance follows the payment schedule in your accepted agreement.
               </p>
 
@@ -188,7 +188,7 @@ export default function PaymentAdvanceScreen({
                 onClick={handlePay}
                 disabled={stage === 'processing'}
                 className="h-[52px] rounded-[12px] text-white text-[14px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all flex items-center justify-center gap-2"
-                style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
               >
                 {stage === 'processing' ? (
                   <>
@@ -204,20 +204,20 @@ export default function PaymentAdvanceScreen({
           ) : (
             <>
               <div className="flex flex-col items-center text-center gap-3 pt-4">
-                <span className="w-[56px] h-[56px] rounded-full flex items-center justify-center" style={{ backgroundColor: '#722ED1' }}>
+                <span className="w-[56px] h-[56px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)' }}>
                   <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M6 13.5L11 18.5L20 8.5" stroke="white" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </span>
-                <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Payment successful</h1>
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Your advance payment has been recorded.</p>
+                <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Payment successful</h1>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Your advance payment has been recorded.</p>
               </div>
-              <div className="rounded-[16px] bg-white overflow-hidden" style={{ border: '1px solid #E3DDD7' }}>
+              <div className="rounded-[16px] bg-[var(--hz-surface)] overflow-hidden" style={{ border: '1px solid var(--hz-border)' }}>
                 <InfoRow label="Amount Paid" value={formatBidAmount(advanceAmount)} />
-                <div style={{ borderTop: '1px solid #F4F0EC' }}><InfoRow label="Reference ID" value={reference ?? '—'} /></div>
+                <div style={{ borderTop: '1px solid var(--hz-surface-muted)' }}><InfoRow label="Reference ID" value={reference ?? '—'} /></div>
               </div>
               <button
                 onClick={handleContinue}
                 className="h-[52px] rounded-[12px] text-white text-[14px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
               >
                 Go to Project Workspace →
               </button>

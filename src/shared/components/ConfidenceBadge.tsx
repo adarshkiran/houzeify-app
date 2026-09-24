@@ -1,9 +1,9 @@
 import type { ConfidenceLevel } from '@/data/materials'
 
 const STYLES: Record<ConfidenceLevel, { bg: string; color: string; label: string }> = {
-  high: { bg: '#F3EAFF', color: '#722ED1', label: 'High' },
-  medium: { bg: '#CAC7C6', color: '#68636D', label: 'Medium' },
-  low: { bg: '#F7F5F3', color: '#9A949D', label: 'Low' },
+  high: { bg: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', label: 'High' },
+  medium: { bg: '#CAC7C6', color: 'var(--hz-ink-muted)', label: 'Medium' },
+  low: { bg: '#F7F5F3', color: 'var(--hz-ink-subtle)', label: 'Low' },
 }
 
 /** Confidence indicator — always paired with a text label so meaning never depends on color alone. */

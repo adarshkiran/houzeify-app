@@ -119,7 +119,7 @@ const IcoCheck = () => (
   </svg>
 )
 const IcoCheckSmall = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#722ED1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--hz-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M2.5 7.2l3 3 6-6.4"/>
   </svg>
 )
@@ -149,7 +149,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -170,7 +170,7 @@ function RecommendedBadge() {
   return (
     <span
       className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[12px] font-semibold tracking-[0.04em] uppercase"
-      style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: '"Sometype Mono:SemiBold", monospace' }}
+      style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: '"Sometype Mono:SemiBold", monospace' }}
     >
       <span aria-hidden="true">✦</span> Hozie Recommends
     </span>
@@ -183,8 +183,8 @@ function FeatureList({ features }: { features: string[] }) {
   return (
     <ul className="flex flex-col gap-2 m-0 p-0" style={{ listStyle: 'none' }}>
       {features.map(f => (
-        <li key={f} className="flex items-start gap-2 text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
-          <span className="shrink-0 mt-0.5" style={{ color: '#722ED1' }}><IcoCheckSmall /></span>
+        <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+          <span className="shrink-0 mt-0.5" style={{ color: 'var(--hz-primary)' }}><IcoCheckSmall /></span>
           {f}
         </li>
       ))}
@@ -206,8 +206,8 @@ function ScenarioCard({
     <div
       className="flex-1 min-w-0 flex flex-col gap-4 p-5 sm:p-6 transition-all duration-200"
       style={{
-        background: emphasized ? 'linear-gradient(180deg, #F9F5FF 0%, #FFFFFF 55%)' : '#FFFFFF',
-        border: emphasized ? '2px solid #722ED1' : '1px solid #E3DDD7',
+        background: emphasized ? 'linear-gradient(180deg, #F9F5FF 0%, var(--hz-surface) 55%)' : 'var(--hz-surface)',
+        border: emphasized ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)',
         borderRadius: 20,
         boxShadow: emphasized ? '0 10px 30px -12px rgba(114,46,209,0.22)' : '0 1px 8px rgba(0,0,0,0.04)',
       }}
@@ -215,27 +215,27 @@ function ScenarioCard({
       <div className="flex items-start justify-between gap-2">
         <span
           className="text-[12px] font-semibold tracking-[0.10em] uppercase"
-          style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: emphasized ? '#722ED1' : '#A1A1A1' }}
+          style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: emphasized ? 'var(--hz-primary)' : '#A1A1A1' }}
         >
           {scenario.name}
         </span>
         {scenario.recommended && <RecommendedBadge />}
         {selected && !scenario.recommended && (
-          <span className="inline-flex items-center gap-1 h-6 px-2 rounded-full text-[10px] font-semibold" style={{ backgroundColor: '#722ED1', color: '#fff', fontFamily: '"Inter Variable", sans-serif' }}>
+          <span className="inline-flex items-center gap-1 h-6 px-2 rounded-full text-[10px] font-semibold" style={{ backgroundColor: 'var(--hz-primary)', color: '#fff', fontFamily: '"Inter Variable", sans-serif' }}>
             <IcoCheck /> Selected
           </span>
         )}
       </div>
 
-      <p className="text-[13px] text-[#68636D] leading-[1.55] m-0 min-h-[54px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0 min-h-[54px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         {scenario.description}
       </p>
 
       <div className="flex flex-col gap-1">
-        <span className="text-[22px] sm:text-[24px] font-semibold leading-tight" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#242326' }}>
+        <span className="text-[22px] sm:text-[24px] font-semibold leading-tight" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-ink)' }}>
           {formatINR(scenario.minCost)} — {formatINR(scenario.maxCost)}
         </span>
-        <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+        <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
           Approx. ₹{scenario.costPerSqFtMin.toLocaleString('en-IN')} — ₹{scenario.costPerSqFtMax.toLocaleString('en-IN')} / sq ft
         </span>
       </div>
@@ -246,8 +246,8 @@ function ScenarioCard({
 
       <div className="mt-auto flex flex-col gap-3 pt-1">
         <div className="flex flex-col gap-0.5">
-          <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Best For</span>
-          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{scenario.bestFor}</span>
+          <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Best For</span>
+          <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{scenario.bestFor}</span>
         </div>
         <button
           onClick={onSelect}
@@ -256,10 +256,10 @@ function ScenarioCard({
           style={{
             fontFamily: '"Inter Variable", sans-serif',
             ...(selected
-              ? { backgroundColor: '#16A34A', color: '#FFFFFF', border: 'none' }
+              ? { backgroundColor: '#16A34A', color: 'var(--hz-on-primary)', border: 'none' }
               : emphasized
-                ? { backgroundColor: '#722ED1', color: '#FFFFFF', border: 'none' }
-                : { backgroundColor: 'transparent', color: '#722ED1', border: '1.5px solid #722ED1' }),
+                ? { backgroundColor: 'var(--hz-primary)', color: 'var(--hz-on-primary)', border: 'none' }
+                : { backgroundColor: 'transparent', color: 'var(--hz-primary)', border: '1.5px solid var(--hz-primary)' }),
           }}
         >
           {selected ? '✓ Selected' : `Choose ${scenario.name}`}
@@ -277,8 +277,8 @@ function CostImpact({ scenarios }: { scenarios: EstimateScenario[] }) {
   const span = overallMax - overallMin
 
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4">
-      <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Cost Impact</span>
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4">
+      <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Cost Impact</span>
       <div className="flex flex-col gap-4">
         {scenarios.map(s => {
           const left = ((s.minCost - overallMin) / span) * 100
@@ -286,13 +286,13 @@ function CostImpact({ scenarios }: { scenarios: EstimateScenario[] }) {
           return (
             <div key={s.id} className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[12px] font-semibold uppercase tracking-[0.04em]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: '#242326' }}>{s.name}</span>
-                <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(s.minCost)} — {formatINR(s.maxCost)}</span>
+                <span className="text-[12px] font-semibold uppercase tracking-[0.04em]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: 'var(--hz-ink)' }}>{s.name}</span>
+                <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(s.minCost)} — {formatINR(s.maxCost)}</span>
               </div>
-              <div className="relative h-2.5 rounded-full" style={{ backgroundColor: '#F4F0EC' }}>
+              <div className="relative h-2.5 rounded-full" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                 <div
                   className="absolute top-0 h-full rounded-full"
-                  style={{ left: `${left}%`, width: `${Math.max(width, 3)}%`, backgroundColor: s.recommended ? '#722ED1' : '#F3EAFF' }}
+                  style={{ left: `${left}%`, width: `${Math.max(width, 3)}%`, backgroundColor: s.recommended ? 'var(--hz-primary)' : 'var(--hz-primary-soft)' }}
                 />
               </div>
             </div>
@@ -308,11 +308,11 @@ function CostImpact({ scenarios }: { scenarios: EstimateScenario[] }) {
 function RecommendationBar({ label, percent }: { label: string; percent: number }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="text-[12px] text-[#242326] w-[92px] shrink-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
+      <span className="text-[12px] text-[var(--hz-ink)] w-[92px] shrink-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
       <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
-        <div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: '#722ED1' }} />
+        <div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: 'var(--hz-primary)' }} />
       </div>
-      <span className="text-[12px] font-semibold w-[30px] text-right shrink-0" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: '#722ED1' }}>{percent}%</span>
+      <span className="text-[12px] font-semibold w-[30px] text-right shrink-0" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: 'var(--hz-primary)' }}>{percent}%</span>
     </div>
   )
 }
@@ -322,16 +322,16 @@ function HozieRecommendationCard({ scenarios, onAskWhy }: { scenarios: EstimateS
   return (
     <div
       className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4"
-      style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, #FFFFFF 100%)', border: '1px solid rgba(243,234,255,0.10)' }}
+      style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, var(--hz-surface) 100%)', border: '1px solid rgba(243,234,255,0.10)' }}
     >
       <div className="flex items-center gap-2.5">
-        <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-        <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Recommends</span>
+        <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+        <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Recommends</span>
       </div>
 
-      <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#242326' }}>{rec?.name}</span>
+      <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-ink)' }}>{rec?.name}</span>
 
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>“{hozieRecommendation.note}”</p>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>“{hozieRecommendation.note}”</p>
 
       <div className="flex flex-col gap-2.5">
         <RecommendationBar label="Cost balance" percent={hozieRecommendation.costBalance} />
@@ -342,7 +342,7 @@ function HozieRecommendationCard({ scenarios, onAskWhy }: { scenarios: EstimateS
       <button
         onClick={onAskWhy}
         className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-        style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+        style={{ color: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Ask Hozie why →
       </button>
@@ -354,14 +354,14 @@ function HozieRecommendationCard({ scenarios, onAskWhy }: { scenarios: EstimateS
 
 function ComparisonTableDesktop() {
   return (
-    <div className="hidden md:block bg-white overflow-hidden" style={{ border: '1px solid #E3DDD7', borderRadius: 16 }}>
+    <div className="hidden md:block bg-[var(--hz-surface)] overflow-hidden" style={{ border: '1px solid var(--hz-border)', borderRadius: 16 }}>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse" style={{ minWidth: 560 }}>
           <thead>
-            <tr style={{ backgroundColor: '#F4F0EC' }}>
-              <th scope="col" className="px-4 py-3 text-left text-[12px] sm:text-[12px] uppercase tracking-[0.08em] text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>What Changes?</th>
+            <tr style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+              <th scope="col" className="px-4 py-3 text-left text-[12px] sm:text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>What Changes?</th>
               {estimateScenarios.map(s => (
-                <th key={s.id} scope="col" className="px-4 py-3 text-left text-[12px] sm:text-[12px] uppercase tracking-[0.08em]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: s.recommended ? '#722ED1' : '#808080' }}>
+                <th key={s.id} scope="col" className="px-4 py-3 text-left text-[12px] sm:text-[12px] uppercase tracking-[0.08em]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: s.recommended ? 'var(--hz-primary)' : '#808080' }}>
                   {s.name}
                 </th>
               ))}
@@ -369,13 +369,13 @@ function ComparisonTableDesktop() {
           </thead>
           <tbody>
             {comparisonRows.map((row, i) => (
-              <tr key={row.label} style={{ borderTop: i === 0 ? 'none' : '1px solid #FFFFFF' }}>
+              <tr key={row.label} style={{ borderTop: i === 0 ? 'none' : '1px solid var(--hz-surface)' }}>
                 <td className="px-4 py-3.5">
-                  <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.label}</span>
+                  <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.label}</span>
                 </td>
                 {(['basic', 'standard', 'premium'] as QualityLevel[]).map(key => (
                   <td key={key} className="px-4 py-3.5">
-                    <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.values[key]}</span>
+                    <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.values[key]}</span>
                   </td>
                 ))}
               </tr>
@@ -394,22 +394,22 @@ function ComparisonAccordionMobile() {
       {comparisonRows.map(row => {
         const open = openLabel === row.label
         return (
-          <div key={row.label} className="bg-white overflow-hidden" style={{ border: '1px solid #E3DDD7', borderRadius: 12 }}>
+          <div key={row.label} className="bg-[var(--hz-surface)] overflow-hidden" style={{ border: '1px solid var(--hz-border)', borderRadius: 12 }}>
             <button
               onClick={() => setOpenLabel(cur => cur === row.label ? null : row.label)}
               aria-expanded={open}
               aria-label={`${open ? 'Collapse' : 'Expand'} ${row.label} comparison`}
               className="w-full flex items-center justify-between px-4 py-3 text-left cursor-pointer border-0 bg-transparent"
             >
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.label}</span>
-              <span className="shrink-0 transition-transform duration-200" style={{ color: '#68636D', transform: open ? 'rotate(180deg)' : 'none' }}><IcoChevronDown /></span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.label}</span>
+              <span className="shrink-0 transition-transform duration-200" style={{ color: 'var(--hz-ink-muted)', transform: open ? 'rotate(180deg)' : 'none' }}><IcoChevronDown /></span>
             </button>
             {open && (
-              <div className="px-4 pb-3.5 grid grid-cols-3 gap-2 border-t border-[#FFFFFF] pt-3">
+              <div className="px-4 pb-3.5 grid grid-cols-3 gap-2 border-t border-[var(--hz-surface)] pt-3">
                 {(['basic', 'standard', 'premium'] as QualityLevel[]).map(key => (
                   <div key={key} className="flex flex-col gap-1">
-                    <span className="text-[12px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{key}</span>
-                    <span className="text-[12px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.values[key]}</span>
+                    <span className="text-[12px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{key}</span>
+                    <span className="text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.values[key]}</span>
                   </div>
                 ))}
               </div>
@@ -426,9 +426,9 @@ function ComparisonAccordionMobile() {
 function DisclaimerCard() {
   const factors = ['floor plan', 'structural design', 'material brands', 'site conditions', 'market prices', 'contractor pricing', 'finishing selections']
   return (
-    <div className="rounded-[14px] p-4 sm:p-5 flex gap-3" style={{ backgroundColor: '#F4F0EC' }}>
-      <span className="shrink-0 text-[#9A949D] mt-0.5"><IcoInfo /></span>
-      <p className="text-[11px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+    <div className="rounded-[14px] p-4 sm:p-5 flex gap-3" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+      <span className="shrink-0 text-[var(--hz-ink-subtle)] mt-0.5"><IcoInfo /></span>
+      <p className="text-[11px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         These are planning scenarios, not final quotations. Final costs can change based on {factors.join(', ')}.
       </p>
     </div>
@@ -439,28 +439,28 @@ function DisclaimerCard() {
 
 function SkeletonCard() {
   return (
-    <div className="flex-1 min-w-0 bg-white rounded-[20px] border border-[#E3DDD7] p-6 flex flex-col gap-3">
-      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', width: '30%' }} />
-      <div className="h-6 rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', width: '70%' }} />
-      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', width: '90%' }} />
-      <div className="h-9 rounded-[10px] animate-pulse mt-4" style={{ backgroundColor: '#F4F0EC' }} />
+    <div className="flex-1 min-w-0 bg-[var(--hz-surface)] rounded-[20px] border border-[var(--hz-border)] p-6 flex flex-col gap-3">
+      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', width: '30%' }} />
+      <div className="h-6 rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', width: '70%' }} />
+      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', width: '90%' }} />
+      <div className="h-9 rounded-[10px] animate-pulse mt-4" style={{ backgroundColor: 'var(--hz-surface-muted)' }} />
     </div>
   )
 }
 
 function ErrorState({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 py-16 px-6 text-center bg-white rounded-[16px] border border-[#E3DDD7]">
-      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}>
+    <div className="flex flex-col items-center justify-center gap-3 py-16 px-6 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: 'var(--hz-danger)' }}>
         <IcoAlert />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Unable to generate construction options. Try again.
       </p>
       <button
         onClick={onRetry}
         className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0"
-        style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Retry
       </button>
@@ -522,20 +522,20 @@ export default function EstimateComparisonScreen({
   const selectedScenario = useMemo(() => scenarios.find(s => s.id === selectedId) ?? null, [scenarios, selectedId])
   const askHozie = () => onNavigate('ai-advisor', { project_id: projectId || boqOverview.projectId })
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
         <button
           onClick={() => onNavigate('cost-assumptions')}
           aria-label="Back to estimate"
-          className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]"
+          className="flex items-center gap-1 text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer text-[13px]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoChevronLeft /> Estimate
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Estimate Options</span>
-        <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Estimate Options</span>
+        <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -543,26 +543,26 @@ return (
 
         <div className="flex flex-col flex-1 min-h-0">
           {/* Desktop header */}
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Estimate Options
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => onNavigate('cost-assumptions')}
-                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoChevronLeft /> Back to estimate
               </button>
               <button
                 aria-label="Download PDF"
-                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
@@ -577,19 +577,19 @@ return (
               {/* Intro */}
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
                 <div>
-                  <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                  <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                     Estimate Options
                   </span>
-                  <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+                  <h2 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                     Choose your construction level.
                   </h2>
-                  <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[560px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                  <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 mt-2 max-w-[560px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     Compare material quality, finishes and estimated costs before you finalize your project estimate.
                   </p>
                 </div>
-                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#F3EAFF] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#722ED1]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
-                  <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>86% AI confidence</span>
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
+                  <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>86% AI confidence</span>
                 </div>
               </div>
 
@@ -617,7 +617,7 @@ return (
                       {/* Comparison table */}
                       <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.16s both' }}>
                         <div className="flex items-center gap-2 mb-3">
-                          <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>What Changes?</span>
+                          <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>What Changes?</span>
                         </div>
                         <ComparisonTableDesktop />
                         <ComparisonAccordionMobile />
@@ -643,19 +643,19 @@ return (
           {/* Selection footer */}
           {status === 'ready' && (
             <div
-              className="sticky bottom-0 z-20 bg-white border-t border-[#E3DDD7] px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+              className="sticky bottom-0 z-20 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
               style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}
             >
               {selectedScenario ? (
                 <>
                   <div className="flex flex-col">
-                    <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Selected</span>
-                    <span className="text-[16px] font-semibold uppercase" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{selectedScenario.name}</span>
+                    <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Selected</span>
+                    <span className="text-[16px] font-semibold uppercase" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{selectedScenario.name}</span>
                   </div>
                   <div className="flex items-center gap-2.5 w-full sm:w-auto">
                     <button
                       onClick={() => setSelectedId(null)}
-                      className="flex-1 sm:flex-none h-11 px-5 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
+                      className="flex-1 sm:flex-none h-11 px-5 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors"
                       style={{ fontFamily: '"Inter Variable", sans-serif' }}
                     >
                       Change selection
@@ -663,14 +663,14 @@ return (
                     <button
                       onClick={() => onNavigate('estimate-revision', { project_name: projectName, location, quality_level: selectedScenario.id, ...(projectId ? { project_id: projectId } : {}) })}
                       className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                      style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+                      style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
                     >
                       Continue with {selectedScenario.name} →
                     </button>
                   </div>
                 </>
               ) : (
-                <span className="text-[13px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                <span className="text-[13px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   Select a construction level to continue.
                 </span>
               )}

@@ -73,27 +73,27 @@ function hydrateLocations(organizationId: string, names: string[], primaryName: 
 
 function LocationCard({ location, onRemove, onSetPrimary }: { location: ServiceLocation; onRemove: () => void; onSetPrimary: () => void }) {
   return (
-    <div className={['flex items-center gap-3 rounded-[12px] p-3 border transition-colors', location.isPrimary ? 'bg-[#F9F5FF] border-[#722ED1]' : 'bg-white border-[#E3DDD7]'].join(' ')}>
-      <span className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', location.isPrimary ? 'bg-white text-[#722ED1]' : 'bg-[#F4F0EC] text-[#68636D]'].join(' ')}>
+    <div className={['flex items-center gap-3 rounded-[12px] p-3 border transition-colors', location.isPrimary ? 'bg-[#F9F5FF] border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border-[var(--hz-border)]'].join(' ')}>
+      <span className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', location.isPrimary ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
         <PinIcon />
       </span>
       <div className="flex flex-col min-w-0 flex-1">
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{location.name}</span>
+          <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{location.name}</span>
           {location.isPrimary && (
-            <span className="inline-flex items-center gap-1 h-[18px] px-1.5 rounded-full text-[9.5px] font-semibold tracking-[0.04em] uppercase bg-[#722ED1] text-white" style={{ fontFamily: FONT_MONO }}>
+            <span className="inline-flex items-center gap-1 h-[18px] px-1.5 rounded-full text-[9.5px] font-semibold tracking-[0.04em] uppercase bg-[var(--hz-primary)] text-white" style={{ fontFamily: FONT_MONO }}>
               Primary
             </span>
           )}
         </div>
-        {location.state && <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{location.state}</span>}
+        {location.state && <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{location.state}</span>}
       </div>
       {!location.isPrimary && (
-        <button type="button" onClick={onSetPrimary} className="text-[11.5px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline shrink-0" style={{ fontFamily: FONT_BODY }}>
+        <button type="button" onClick={onSetPrimary} className="text-[11.5px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline shrink-0" style={{ fontFamily: FONT_BODY }}>
           Make primary
         </button>
       )}
-      <button type="button" onClick={onRemove} aria-label={`Remove ${location.name}`} className="flex items-center justify-center w-7 h-7 rounded-full border border-[#E3DDD7] bg-white text-[#9A949D] hover:text-[#68636D] cursor-pointer shrink-0">
+      <button type="button" onClick={onRemove} aria-label={`Remove ${location.name}`} className="flex items-center justify-center w-7 h-7 rounded-full border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-subtle)] hover:text-[var(--hz-ink-muted)] cursor-pointer shrink-0">
         <CloseIcon />
       </button>
     </div>
@@ -121,19 +121,19 @@ function UnsavedChangesModal({ onStay, onDiscard, closeRef }: {
         aria-labelledby="unsaved-title"
         aria-describedby="unsaved-desc"
         onKeyDown={onKeyDown}
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
         <div className="flex items-center justify-between gap-2">
-          <h2 id="unsaved-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Unsaved changes</h2>
-          <button ref={closeRef} onClick={onStay} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
+          <h2 id="unsaved-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Unsaved changes</h2>
+          <button ref={closeRef} onClick={onStay} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
         </div>
-        <p id="unsaved-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p id="unsaved-desc" className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           You have location changes that haven't been saved.
         </p>
         <div className="flex gap-2.5 justify-end">
-          <button onClick={onStay} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Stay</button>
-          <button ref={discardRef} onClick={onDiscard} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#DC2626', fontFamily: FONT_BODY }}>Discard changes</button>
+          <button onClick={onStay} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Stay</button>
+          <button ref={discardRef} onClick={onDiscard} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-danger)', fontFamily: FONT_BODY }}>Discard changes</button>
         </div>
       </div>
     </>
@@ -298,11 +298,11 @@ export default function EditServiceLocationsScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={handleBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={handleBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Company / Professional Profile
           </button>
         </div>
@@ -311,31 +311,31 @@ export default function EditServiceLocationsScreen({
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
         <div className="max-w-[720px] mx-auto flex flex-col gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+            <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
               {initials}
             </div>
             <div>
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Edit Service Locations</p>
-              <h1 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{displayName}</h1>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Edit Service Locations</p>
+              <h1 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{displayName}</h1>
               {professionalTypeLabel && (
-                <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel} · {isOrganization ? 'Organization' : 'Individual'}</p>
+                <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel} · {isOrganization ? 'Organization' : 'Individual'}</p>
               )}
             </div>
           </div>
-          <p className="text-[13px] text-[#68636D] m-0 -mt-3" style={{ fontFamily: FONT_BODY }}>Choose the locations where you provide your services.</p>
+          <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 -mt-3" style={{ fontFamily: FONT_BODY }}>Choose the locations where you provide your services.</p>
 
           {!requiresLocations ? (
-            <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-              <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Services available across India.</p>
-              <p className="text-[12.5px] text-[#9A949D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Your coverage is set to Pan India — no specific locations are required.</p>
+            <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+              <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Services available across India.</p>
+              <p className="text-[12.5px] text-[var(--hz-ink-subtle)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Your coverage is set to Pan India — no specific locations are required.</p>
             </div>
           ) : (
             <>
               {/* Selected locations summary */}
-              <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+              <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
                 <div className="flex items-center justify-between mb-3">
-                  <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>Service Locations</p>
-                  <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{locations.length} location{locations.length === 1 ? '' : 's'} selected</span>
+                  <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_MONO }}>Service Locations</p>
+                  <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{locations.length} location{locations.length === 1 ? '' : 's'} selected</span>
                 </div>
                 {locations.length > 0 ? (
                   <div className="flex flex-col gap-2">
@@ -344,15 +344,15 @@ export default function EditServiceLocationsScreen({
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No service locations selected yet.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>No service locations selected yet.</p>
                 )}
               </div>
 
               {/* Search + add */}
               <div className="relative">
-                <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-2" style={{ fontFamily: FONT_MONO }}>Add a location</p>
-                <div className="flex items-center border rounded-[12px] bg-white h-[46px] overflow-hidden transition-colors border-[#E3DDD7] focus-within:border-[#722ED1]">
-                  <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><SearchIcon /></div>
+                <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-2" style={{ fontFamily: FONT_MONO }}>Add a location</p>
+                <div className="flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[46px] overflow-hidden transition-colors border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]">
+                  <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><SearchIcon /></div>
                   <input
                     type="text"
                     value={query}
@@ -363,14 +363,14 @@ export default function EditServiceLocationsScreen({
                     aria-expanded={searchOpen && results.length > 0}
                     aria-label="Search city, locality, district or pincode"
                     autoComplete="off"
-                    className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                 </div>
                 {searchOpen && query.trim().length >= 2 && (
-                  <div role="listbox" className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 bg-white border border-[#E3DDD7] rounded-[12px] overflow-hidden" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}>
+                  <div role="listbox" className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[12px] overflow-hidden" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}>
                     {results.length === 0 ? (
-                      <p className="text-[12.5px] text-[#9A949D] px-4 py-3 m-0" style={{ fontFamily: FONT_BODY }}>No matching locations found.</p>
+                      <p className="text-[12.5px] text-[var(--hz-ink-subtle)] px-4 py-3 m-0" style={{ fontFamily: FONT_BODY }}>No matching locations found.</p>
                     ) : (
                       results.map((r, i) => (
                         <button
@@ -380,13 +380,13 @@ export default function EditServiceLocationsScreen({
                           aria-selected={false}
                           onMouseDown={e => e.preventDefault()}
                           onClick={() => addLocation(r)}
-                          className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[#FFFFFF] transition-colors"
+                          className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[var(--hz-surface)] transition-colors"
                           style={{ borderTop: i > 0 ? '1px solid #CAC7C6' : 'none' }}
                         >
-                          <span className="text-[#9A949D] shrink-0"><PinIcon size={13} /></span>
+                          <span className="text-[var(--hz-ink-subtle)] shrink-0"><PinIcon size={13} /></span>
                           <span className="flex flex-col">
-                            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{r.name}</span>
-                            <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{r.type === 'district' ? 'District' : r.type === 'state' ? 'State' : 'City'} · {r.state}</span>
+                            <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{r.name}</span>
+                            <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{r.type === 'district' ? 'District' : r.type === 'state' ? 'State' : 'City'} · {r.state}</span>
                           </span>
                         </button>
                       ))
@@ -401,8 +401,8 @@ export default function EditServiceLocationsScreen({
             <p className="text-[12.5px] text-[#D97706] m-0" style={{ fontFamily: FONT_BODY }}>Select at least one service location to save.</p>
           )}
           {saveError && (
-            <p className="text-[12.5px] text-[#DC2626] m-0" style={{ fontFamily: FONT_BODY }}>
-              Couldn't save your service locations. <button type="button" onClick={handleSave} className="underline cursor-pointer border-0 bg-transparent p-0 text-[#DC2626]">Try again</button>
+            <p className="text-[12.5px] text-[var(--hz-danger)] m-0" style={{ fontFamily: FONT_BODY }}>
+              Couldn't save your service locations. <button type="button" onClick={handleSave} className="underline cursor-pointer border-0 bg-transparent p-0 text-[var(--hz-danger)]">Try again</button>
             </p>
           )}
 
@@ -413,7 +413,7 @@ export default function EditServiceLocationsScreen({
               disabled={!canSave || saving}
               className={selectClass}
               style={{
-                backgroundColor: canSave && !saving ? '#722ED1' : '#CAC7C6',
+                backgroundColor: canSave && !saving ? 'var(--hz-primary)' : '#CAC7C6',
                 color: canSave && !saving ? 'white' : '#A1A1A1',
                 fontFamily: FONT_BODY,
                 cursor: canSave && !saving ? 'pointer' : 'not-allowed',
@@ -421,7 +421,7 @@ export default function EditServiceLocationsScreen({
             >
               {saving ? 'Saving…' : 'Save Locations'}
             </button>
-            <button type="button" onClick={handleBack} className="text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={handleBack} className="text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Cancel
             </button>
           </div>

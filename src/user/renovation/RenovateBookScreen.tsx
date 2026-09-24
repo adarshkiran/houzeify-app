@@ -31,10 +31,10 @@ const IcoRupee = () => (
 function InfoRow({ icon, label, value, action }: { icon: React.ReactNode; label: string; value: React.ReactNode; action?: React.ReactNode }) {
   return (
     <div className="flex items-start gap-3 px-5 py-4">
-      <div className="w-9 h-9 rounded-full bg-[#F4F0EC] flex items-center justify-center text-[#68636D] shrink-0">{icon}</div>
+      <div className="w-9 h-9 rounded-full bg-[var(--hz-surface-muted)] flex items-center justify-center text-[var(--hz-ink-muted)] shrink-0">{icon}</div>
       <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{value}</span>
+        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
+        <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{value}</span>
       </div>
       {action}
     </div>
@@ -63,23 +63,23 @@ export default function RenovateBookScreen({
 
   return (
     <div className="flex flex-col" style={{ minHeight: '100%', backgroundColor: '#FAF9F7' }}>
-      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-white border-b border-[#E3DDD7]">
-        <button onClick={() => onNavigate('renovate-selection-review')} aria-label="Back" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent shrink-0">
+      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+        <button onClick={() => onNavigate('renovate-selection-review')} aria-label="Back" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent shrink-0">
           <IcoBack />
         </button>
         <HIcon size={30} />
-        <h1 className="text-[17px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Book</h1>
+        <h1 className="text-[17px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Book</h1>
       </header>
 
       <main className="flex-1" style={{ padding: '24px 16px' }}>
         <div className="flex flex-col gap-5" style={{ maxWidth: 640, margin: '0 auto' }}>
-          <div className="bg-white rounded-[16px] border border-[#E3DDD7] overflow-hidden" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] overflow-hidden" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <InfoRow icon={<IcoProject />} label="Service / Renovation" value={selectionTitle ?? 'Renovation'} />
-            <div className="border-t border-[#F4F0EC]" />
+            <div className="border-t border-[var(--hz-surface-muted)]" />
             <InfoRow icon={<IcoPerson />} label="Professional" value={selectionTitle ?? 'Assigned professional'} />
-            <div className="border-t border-[#F4F0EC]" />
+            <div className="border-t border-[var(--hz-surface-muted)]" />
             <InfoRow icon={<IcoCalendar />} label="Timeline" value={selectionTimeline ?? 'To be confirmed'} />
-            <div className="border-t border-[#F4F0EC]" />
+            <div className="border-t border-[var(--hz-surface-muted)]" />
             <InfoRow
               icon={<IcoCalendar />}
               label="Preferred start date"
@@ -88,26 +88,26 @@ export default function RenovateBookScreen({
                   type="date"
                   value={startDate}
                   onChange={e => setStartDate(e.target.value)}
-                  className="h-9 px-3 rounded-[8px] border border-[#E3DDD7] text-[13px] text-[#242326] outline-none focus:border-[#722ED1] transition-colors mt-1"
+                  className="h-9 px-3 rounded-[8px] border border-[var(--hz-border)] text-[13px] text-[var(--hz-ink)] outline-none focus:border-[var(--hz-primary)] transition-colors mt-1"
                   style={{ fontFamily: FONT_BODY }}
                 />
               }
             />
-            <div className="border-t border-[#F4F0EC]" />
+            <div className="border-t border-[var(--hz-surface-muted)]" />
             <InfoRow icon={<IcoRupee />} label="Price" value={formatINR(price)} />
           </div>
 
-          <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 flex flex-col gap-2" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 flex flex-col gap-2" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="flex items-center justify-between">
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Total</span>
-              <span className="text-[15px] font-semibold" style={{ fontFamily: FONT_HEAD, color: '#722ED1' }}>{formatINR(price)}</span>
+              <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Total</span>
+              <span className="text-[15px] font-semibold" style={{ fontFamily: FONT_HEAD, color: 'var(--hz-primary)' }}>{formatINR(price)}</span>
             </div>
           </div>
 
           <button
             onClick={handleConfirm}
             className="h-[52px] rounded-[12px] text-white text-[14px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-            style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
           >
             Confirm &amp; Book
           </button>

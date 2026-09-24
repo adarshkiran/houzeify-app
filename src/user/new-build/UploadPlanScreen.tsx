@@ -179,7 +179,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -198,9 +198,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4">
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -239,8 +239,8 @@ function UploadDropzone({ compact, isDragging, onDrop, onDragState, onFiles, inp
       style={{
         minHeight: compact ? 180 : 320,
         borderRadius: 20,
-        border: `1px dashed ${isDragging ? '#722ED1' : '#CAC7C6'}`,
-        backgroundColor: isDragging ? '#F9F5FF' : '#FFFFFF',
+        border: `1px dashed ${isDragging ? 'var(--hz-primary)' : '#CAC7C6'}`,
+        backgroundColor: isDragging ? '#F9F5FF' : 'var(--hz-surface)',
         padding: '32px 20px',
       }}
     >
@@ -252,24 +252,24 @@ function UploadDropzone({ compact, isDragging, onDrop, onDragState, onFiles, inp
         className="sr-only"
         onChange={e => { onFiles(e.target.files); e.target.value = '' }}
       />
-      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>
+      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>
         <IcoUploadCloud />
       </span>
-      <span className="text-[10px] uppercase tracking-[0.10em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Upload Your Floor Plan</span>
-      <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+      <span className="text-[10px] uppercase tracking-[0.10em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Upload Your Floor Plan</span>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
         {isDragging ? 'Drop your plan here' : 'Drag and drop your file here'}
       </span>
-      <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>or</span>
+      <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>or</span>
       <button
         onClick={e => { e.stopPropagation(); inputRef.current?.click() }}
         className="h-10 px-5 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         Choose file
       </button>
       <div className="flex flex-col gap-0.5 pt-1">
-        <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Supported: PDF, JPG, PNG, DWG, DXF</span>
-        <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Maximum: {MAX_FILE_SIZE_MB} MB per file</span>
+        <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Supported: PDF, JPG, PNG, DWG, DXF</span>
+        <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Maximum: {MAX_FILE_SIZE_MB} MB per file</span>
       </div>
     </div>
   )
@@ -284,33 +284,33 @@ function FileCard({ doc, progress, onRemove, onTypeChange }: {
   onTypeChange: (t: DocumentType) => void
 }) {
   return (
-    <div className="bg-white rounded-[14px] border border-[#E3DDD7] p-4 flex flex-col gap-3">
+    <div className="bg-[var(--hz-surface)] rounded-[14px] border border-[var(--hz-border)] p-4 flex flex-col gap-3">
       <div className="flex items-start gap-3">
-        <span className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>
+        <span className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>
           {fileIconFor(doc)}
         </span>
         <div className="flex-1 min-w-0">
-          <span className="text-[13px] font-semibold text-[#242326] block truncate" style={{ fontFamily: FONT_BODY }}>{doc.name}</span>
-          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>
+          <span className="text-[13px] font-semibold text-[var(--hz-ink)] block truncate" style={{ fontFamily: FONT_BODY }}>{doc.name}</span>
+          <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>
             {formatFileSize(doc.size)}{doc.pageCount ? ` · ${doc.pageCount} page${doc.pageCount > 1 ? 's' : ''}` : ''}
           </span>
         </div>
-        <button onClick={onRemove} aria-label={`Remove ${doc.name}`} className="w-7 h-7 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] cursor-pointer border-0 bg-transparent transition-colors shrink-0">
+        <button onClick={onRemove} aria-label={`Remove ${doc.name}`} className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent transition-colors shrink-0">
           <IcoClose />
         </button>
       </div>
 
       {doc.status === 'uploading' && (
         <div className="flex flex-col gap-1.5" role="status" aria-label={`Uploading ${doc.name}, ${progress}% complete`}>
-          <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-            <div className="h-full rounded-full transition-all duration-150" style={{ width: `${progress}%`, backgroundColor: '#722ED1' }} />
+          <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-surface)' }}>
+            <div className="h-full rounded-full transition-all duration-150" style={{ width: `${progress}%`, backgroundColor: 'var(--hz-primary)' }} />
           </div>
-          <span className="text-[11px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Uploading… {progress}%</span>
+          <span className="text-[11px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Uploading… {progress}%</span>
         </div>
       )}
 
       {doc.status === 'validating' && (
-        <span className="text-[11px] text-[#68636D]" role="status" style={{ fontFamily: FONT_BODY }}>Checking file…</span>
+        <span className="text-[11px] text-[var(--hz-ink-muted)]" role="status" style={{ fontFamily: FONT_BODY }}>Checking file…</span>
       )}
 
       {doc.status === 'ready' && (
@@ -324,11 +324,11 @@ function FileCard({ doc, progress, onRemove, onTypeChange }: {
             </div>
           )}
           <label className="flex flex-col gap-1">
-            <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Document type</span>
+            <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Document type</span>
             <select
               value={doc.type}
               onChange={e => onTypeChange(e.target.value as DocumentType)}
-              className="h-9 px-2.5 rounded-[8px] border border-[#E3DDD7] bg-white text-[12px] text-[#242326] cursor-pointer outline-none focus:border-[#722ED1] transition-colors"
+              className="h-9 px-2.5 rounded-[8px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[12px] text-[var(--hz-ink)] cursor-pointer outline-none focus:border-[var(--hz-primary)] transition-colors"
               style={{ fontFamily: FONT_BODY }}
             >
               {DOCUMENT_TYPE_OPTIONS.map(t => <option key={t} value={t}>{DOCUMENT_TYPE_LABELS[t]}</option>)}
@@ -338,7 +338,7 @@ function FileCard({ doc, progress, onRemove, onTypeChange }: {
       )}
 
       {doc.status === 'error' && (
-        <div role="alert" className="flex items-start gap-1.5 text-[12px]" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>
+        <div role="alert" className="flex items-start gap-1.5 text-[12px]" style={{ color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>
           <span className="shrink-0 mt-[1px]"><IcoWarning /></span> {doc.errorMessage ?? 'Unable to upload this file.'}
         </div>
       )}
@@ -351,7 +351,7 @@ function FileCard({ doc, progress, onRemove, onTypeChange }: {
 function RejectedFileBanner({ name, error, onDismiss }: { name: string; error: string; onDismiss: () => void }) {
   return (
     <div role="alert" className="flex items-start gap-3 rounded-[12px] p-3.5" style={{ backgroundColor: '#FEE2E2' }}>
-      <span className="shrink-0 mt-0.5" style={{ color: '#DC2626' }}><IcoWarning /></span>
+      <span className="shrink-0 mt-0.5" style={{ color: 'var(--hz-danger)' }}><IcoWarning /></span>
       <div className="flex-1 min-w-0">
         <span className="text-[12px] font-semibold text-[#991B1B] block truncate" style={{ fontFamily: FONT_BODY }}>{name}</span>
         <span className="text-[12px] text-[#991B1B]" style={{ fontFamily: FONT_BODY }}>{error}</span>
@@ -369,11 +369,11 @@ function PlanPreview({ doc }: { doc: ProjectDocument }) {
   return (
     <SectionCard eyebrow="Plan Preview">
       <div className="flex flex-col sm:flex-row gap-4">
-        <div className="w-full sm:w-[160px] h-[160px] shrink-0 rounded-[12px] overflow-hidden flex items-center justify-center" style={{ backgroundColor: '#F4F0EC' }}>
+        <div className="w-full sm:w-[160px] h-[160px] shrink-0 rounded-[12px] overflow-hidden flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
           {isPreviewableImage(doc.mimeType) && doc.previewUrl ? (
             <img src={doc.previewUrl} alt={`Preview of ${doc.name}`} className="w-full h-full object-cover" />
           ) : (
-            <span className="flex flex-col items-center gap-2" style={{ color: '#9A949D' }}>
+            <span className="flex flex-col items-center gap-2" style={{ color: 'var(--hz-ink-subtle)' }}>
               <span style={{ transform: 'scale(1.6)' }}>{fileIconFor(doc)}</span>
               <span className="text-[10px] uppercase tracking-[0.06em]" style={{ fontFamily: FONT_MONO }}>
                 {isPdf(doc.mimeType, doc.name) ? 'PDF' : 'CAD File'}
@@ -382,13 +382,13 @@ function PlanPreview({ doc }: { doc: ProjectDocument }) {
           )}
         </div>
         <div className="flex-1 flex flex-col gap-2 min-w-0">
-          <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{doc.name}</span>
-          <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+          <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{doc.name}</span>
+          <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
             {doc.pageCount ? `${doc.pageCount} pages · ` : ''}{formatFileSize(doc.size)}
           </span>
           <div className="flex flex-col gap-0.5">
-            <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Detected</span>
-            <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{DOCUMENT_TYPE_LABELS[doc.type]} · likely</span>
+            <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Detected</span>
+            <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{DOCUMENT_TYPE_LABELS[doc.type]} · likely</span>
           </div>
           <span className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em] w-fit" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
             <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> Ready for analysis
@@ -413,14 +413,14 @@ function WhatHozieCanAnalyse() {
     <SectionCard eyebrow="What Hozie Can Analyse">
       <div className="grid grid-cols-2 gap-3">
         {ANALYSE_ITEMS.map(item => (
-          <div key={item.title} className="flex flex-col gap-1.5 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
-            <span style={{ color: '#722ED1' }}>{item.icon}</span>
-            <span className="text-[12px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-            <span className="text-[11px] text-[#68636D] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>{item.desc}</span>
+          <div key={item.title} className="flex flex-col gap-1.5 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-surface)' }}>
+            <span style={{ color: 'var(--hz-primary)' }}>{item.icon}</span>
+            <span className="text-[12px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+            <span className="text-[11px] text-[var(--hz-ink-muted)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>{item.desc}</span>
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Hozie does its best with what's readable — it won't always extract every detail perfectly.</p>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Hozie does its best with what's readable — it won't always extract every detail perfectly.</p>
     </SectionCard>
   )
 }
@@ -440,12 +440,12 @@ function UploadTips({ onOpenModal }: { onOpenModal: () => void }) {
     <SectionCard eyebrow="For Best Results">
       <ul className="flex flex-col gap-2 m-0 p-0" style={{ listStyle: 'none' }}>
         {TIPS.map(t => (
-          <li key={t} className="flex items-start gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+          <li key={t} className="flex items-start gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
             <span aria-hidden="true" style={{ color: '#16A34A' }}>✓</span> {t}
           </li>
         ))}
       </ul>
-      <button onClick={onOpenModal} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+      <button onClick={onOpenModal} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
         What makes a good plan?
       </button>
     </SectionCard>
@@ -467,24 +467,24 @@ function TipsModal({ onClose }: { onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="tips-modal-title"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[440px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4 max-h-[80vh] overflow-y-auto"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[440px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4 max-h-[80vh] overflow-y-auto"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
         <div className="flex items-center justify-between gap-2">
-          <h2 id="tips-modal-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>What makes a good plan?</h2>
-          <button ref={closeRef} onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors shrink-0"><IcoClose /></button>
+          <h2 id="tips-modal-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>What makes a good plan?</h2>
+          <button ref={closeRef} onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors shrink-0"><IcoClose /></button>
         </div>
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Hozie reads plans best when they're clear and complete. A few things that help:
         </p>
         <ul className="flex flex-col gap-2 m-0 p-0" style={{ listStyle: 'none' }}>
           {TIPS.map(t => (
-            <li key={t} className="flex items-start gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+            <li key={t} className="flex items-start gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
               <span aria-hidden="true" style={{ color: '#16A34A' }}>✓</span> {t}
             </li>
           ))}
         </ul>
-        <p className="text-[12px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[12px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Even a phone photo of a printed plan can help — just try to keep it flat, well-lit and in focus.
         </p>
       </div>
@@ -501,10 +501,10 @@ function ProjectConnection() {
     <SectionCard eyebrow="This Plan Will Update">
       <div className="flex flex-wrap gap-1.5">
         {UPDATE_ITEMS.map(i => (
-          <span key={i} className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: FONT_BODY }}>{i}</span>
+          <span key={i} className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>{i}</span>
         ))}
       </div>
-      <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
         Your existing estimate will not change automatically. Hozie will first show the analysis results and proposed changes.
       </p>
     </SectionCard>
@@ -517,13 +517,13 @@ function HozieCanHelp({ onAskHozie }: { onAskHozie: () => void }) {
   return (
     <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
       <div className="flex items-center gap-2.5">
-        <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-        <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Can Help</span>
+        <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Can Help</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
         "Upload your plan and I'll identify the information I can read, flag anything uncertain, and show you what could change in your estimate."
       </p>
-      <button onClick={onAskHozie} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>Ask Hozie →</button>
+      <button onClick={onAskHozie} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Ask Hozie →</button>
     </div>
   )
 }
@@ -532,11 +532,11 @@ function HozieCanHelp({ onAskHozie }: { onAskHozie: () => void }) {
 
 function PrivacyNotice() {
   return (
-    <div className="flex items-start gap-3 rounded-[12px] p-4" style={{ backgroundColor: '#F4F0EC' }}>
-      <span className="shrink-0 mt-0.5" style={{ color: '#68636D' }}><IcoShield /></span>
+    <div className="flex items-start gap-3 rounded-[12px] p-4" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+      <span className="shrink-0 mt-0.5" style={{ color: 'var(--hz-ink-muted)' }}><IcoShield /></span>
       <div className="flex flex-col gap-0.5">
-        <span className="text-[11px] uppercase tracking-[0.06em] font-semibold text-[#68636D]" style={{ fontFamily: FONT_MONO }}>Your Plans Are Private</span>
-        <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[11px] uppercase tracking-[0.06em] font-semibold text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>Your Plans Are Private</span>
+        <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Your uploaded drawings are associated with your project and are not shared with contractors unless you choose to share them.
         </p>
       </div>
@@ -685,24 +685,24 @@ export default function UploadPlanScreen({
     boq_version_id: boqActiveVersion.id,
   })
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Upload Plan</span>
-        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>V{boqActiveVersion.versionNumber}</span>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Upload Plan</span>
+        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>V{boqActiveVersion.versionNumber}</span>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="plan" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Upload Plan</h1>
-              <span className="text-[13px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Upload Plan</h1>
+              <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
               Estimate V2 · BOQ V{boqActiveVersion.versionNumber}
             </span>
           </header>
@@ -711,12 +711,12 @@ return (
             <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col gap-6 pb-28 lg:pb-8">
 
               <div className="flex flex-col gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
-                <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Analysis</span>
-                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Let's look at your plan.</h1>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Analysis</span>
+                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Let's look at your plan.</h1>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
                   Upload your floor plan and Hozie will analyse the layout, dimensions, rooms and construction information to improve your estimate.
                 </p>
-                <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location} · 2,600 sq ft</span>
+                <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location} · 2,600 sq ft</span>
               </div>
 
               {rejected.length > 0 && (
@@ -779,7 +779,7 @@ return (
               {/* Actions (in-flow on desktop; mirrored sticky bar on mobile) */}
               <div className="hidden lg:flex items-center justify-end gap-2.5" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.2s both' }}>
                 {hasFiles && (
-                  <button onClick={cancelAll} className="h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>
+                  <button onClick={cancelAll} className="h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>
                     Cancel
                   </button>
                 )}
@@ -787,7 +787,7 @@ return (
                   onClick={analyzePlan}
                   disabled={continueDisabled}
                   className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                  style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                  style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                 >
                   {continueLabel}
                 </button>
@@ -796,9 +796,9 @@ return (
           </main>
 
           {/* Sticky actions (mobile) */}
-          <div className="lg:hidden sticky bottom-0 z-20 bg-white border-t border-[#E3DDD7] px-4 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
+          <div className="lg:hidden sticky bottom-0 z-20 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
             {hasFiles && (
-              <button onClick={cancelAll} className="h-11 px-5 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors shrink-0" style={{ fontFamily: FONT_BODY }}>
+              <button onClick={cancelAll} className="h-11 px-5 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors shrink-0" style={{ fontFamily: FONT_BODY }}>
                 Cancel
               </button>
             )}
@@ -806,7 +806,7 @@ return (
               onClick={analyzePlan}
               disabled={continueDisabled}
               className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+              style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
             >
               {continueLabel}
             </button>

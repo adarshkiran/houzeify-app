@@ -27,8 +27,8 @@ function Field({ label, value }: { label: string; value?: string }) {
   if (!value) return null
   return (
     <div>
-      <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
-      <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
+      <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
+      <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
     </div>
   )
 }
@@ -77,11 +77,11 @@ export default function OrganizationProfileScreen({
 
   if (!hasOrganization) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <div className="relative z-10 flex flex-col items-center gap-3 text-center max-w-[420px]">
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Organization information unavailable.</p>
-          <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Organization profile information is available for professional organizations.</p>
-          <button type="button" onClick={goToSettings} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Organization information unavailable.</p>
+          <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Organization profile information is available for professional organizations.</p>
+          <button type="button" onClick={goToSettings} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
             ← Organization Settings
           </button>
         </div>
@@ -95,11 +95,11 @@ export default function OrganizationProfileScreen({
     : undefined
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goToSettings} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={goToSettings} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Organization Settings
           </button>
         </div>
@@ -110,20 +110,20 @@ export default function OrganizationProfileScreen({
           {/* Identity hero */}
           <div className="flex items-center gap-3">
             {logoUrl ? (
-              <img src={logoUrl} alt={companyName} className="w-14 h-14 rounded-[14px] object-cover shrink-0" style={{ border: '1px solid #E3DDD7' }} />
+              <img src={logoUrl} alt={companyName} className="w-14 h-14 rounded-[14px] object-cover shrink-0" style={{ border: '1px solid var(--hz-border)' }} />
             ) : (
-              <div className="w-14 h-14 rounded-[14px] bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[15px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+              <div className="w-14 h-14 rounded-[14px] bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[15px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
                 {initials}
               </div>
             )}
             <div>
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Organization Profile</p>
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{companyName}</h1>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Organization Profile</p>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{companyName}</h1>
             </div>
           </div>
 
           {/* Identity summary */}
-          <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+          <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Organization Name" value={companyName} />
               <Field label="Organization Type" value={organizationTypeLabel} />
@@ -131,28 +131,28 @@ export default function OrganizationProfileScreen({
               <Field label="Primary Contact" value={companyOwner} />
             </div>
             <div className="flex items-center gap-3 mt-4">
-              <button type="button" onClick={() => onNavigate('create-organization')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={() => onNavigate('create-organization')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                 Edit Organization →
               </button>
             </div>
           </div>
 
           {/* About */}
-          <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-            <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>About the Organization</p>
-            <p className="text-[13.5px] text-[#242326] m-0 mb-4 leading-[1.6]" style={{ fontFamily: FONT_BODY }}>
+          <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+            <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>About the Organization</p>
+            <p className="text-[13.5px] text-[var(--hz-ink)] m-0 mb-4 leading-[1.6]" style={{ fontFamily: FONT_BODY }}>
               {about ? about : 'No organization description provided yet.'}
             </p>
-            <button type="button" onClick={() => onNavigate('professional-profile-setup')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={() => onNavigate('professional-profile-setup')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Edit About →
             </button>
           </div>
 
           {/* Organization information — technical, not the visual focus */}
           {organizationId && (
-            <div className="rounded-[16px] p-4" style={{ border: '1px dashed #E3DDD7', backgroundColor: '#FFFFFF' }}>
-              <p className="text-[10.5px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Organization ID</p>
-              <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{organizationId}</p>
+            <div className="rounded-[16px] p-4" style={{ border: '1px dashed var(--hz-border)', backgroundColor: 'var(--hz-surface)' }}>
+              <p className="text-[10.5px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Organization ID</p>
+              <p className="text-[12px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{organizationId}</p>
             </div>
           )}
         </div>

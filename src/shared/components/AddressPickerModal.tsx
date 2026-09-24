@@ -144,7 +144,7 @@ export default function AddressPickerModal({ onClose, defaultCity, defaultState,
         aria-modal="true"
         aria-label={isEdit ? 'Edit address' : mode === 'add' ? 'Add address' : 'Saved addresses'}
         onClick={e => e.stopPropagation()}
-        className="w-full flex flex-col bg-white rounded-[20px] overflow-hidden"
+        className="w-full flex flex-col bg-[var(--hz-surface)] rounded-[20px] overflow-hidden"
         style={{ maxWidth: 440, maxHeight: '88vh', boxShadow: '0 20px 60px rgba(0,0,0,0.28)' }}
       >
         <div className="flex items-center gap-2 px-6 pt-5 pb-1 shrink-0">
@@ -152,28 +152,28 @@ export default function AddressPickerModal({ onClose, defaultCity, defaultState,
             <button
               onClick={() => (isEdit ? onClose() : setMode('list'))}
               aria-label="Back"
-              className="shrink-0 w-8 h-8 -ml-2 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"
+              className="shrink-0 w-8 h-8 -ml-2 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"
             >
               <IcoBack />
             </button>
           )}
-          <h2 className="text-[19px] font-semibold text-[#242326] m-0 flex-1" style={{ fontFamily: FONT_HEAD }}>
+          <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0 flex-1" style={{ fontFamily: FONT_HEAD }}>
             {isEdit ? 'Edit address' : mode === 'add' ? 'Add address' : 'Saved addresses'}
           </h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"
+            className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"
           >
             <IcoCloseX />
           </button>
         </div>
 
         {mode === 'list' ? (
-          <div className="flex flex-col overflow-y-auto scrollbar-thin px-6" style={{ scrollbarWidth: 'thin', scrollbarColor: '#E3DDD7 transparent' }}>
+          <div className="flex flex-col overflow-y-auto scrollbar-thin px-6" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--hz-border) transparent' }}>
             <button
               onClick={openAddForm}
-              className="flex items-center gap-2 py-4 text-[#722ED1] font-semibold text-[13.5px] cursor-pointer border-0 bg-transparent w-fit"
+              className="flex items-center gap-2 py-4 text-[var(--hz-primary)] font-semibold text-[13.5px] cursor-pointer border-0 bg-transparent w-fit"
               style={{ fontFamily: FONT_BODY }}
             >
               <IcoPlus /> Add another address
@@ -182,31 +182,31 @@ export default function AddressPickerModal({ onClose, defaultCity, defaultState,
             {addresses.map(addr => (
               <label
                 key={addr.id}
-                className={`flex items-start gap-3 py-4 border-t border-[#F4F0EC] ${addr.available ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                className={`flex items-start gap-3 py-4 border-t border-[var(--hz-surface-muted)] ${addr.available ? 'cursor-pointer' : 'cursor-not-allowed'}`}
                 onClick={() => addr.available && setPendingId(addr.id)}
               >
                 <span
                   className="w-[18px] h-[18px] rounded-full border flex items-center justify-center shrink-0 mt-0.5"
-                  style={{ borderColor: pendingId === addr.id ? '#722ED1' : '#C9C2BB' }}
+                  style={{ borderColor: pendingId === addr.id ? 'var(--hz-primary)' : '#C9C2BB' }}
                 >
-                  {pendingId === addr.id && <span className="w-[10px] h-[10px] rounded-full" style={{ backgroundColor: '#722ED1' }} />}
+                  {pendingId === addr.id && <span className="w-[10px] h-[10px] rounded-full" style={{ backgroundColor: 'var(--hz-primary)' }} />}
                 </span>
                 <div className="flex flex-col gap-1 flex-1 min-w-0">
-                  <span className={`text-[14.5px] font-semibold ${addr.available ? 'text-[#242326]' : 'text-[#9A949D]'}`} style={{ fontFamily: FONT_HEAD }}>{addr.label}</span>
-                  <span className={`text-[13px] leading-[1.5] ${addr.available ? 'text-[#68636D]' : 'text-[#C9C2BB]'}`} style={{ fontFamily: FONT_BODY }}>
+                  <span className={`text-[14.5px] font-semibold ${addr.available ? 'text-[var(--hz-ink)]' : 'text-[var(--hz-ink-subtle)]'}`} style={{ fontFamily: FONT_HEAD }}>{addr.label}</span>
+                  <span className={`text-[13px] leading-[1.5] ${addr.available ? 'text-[var(--hz-ink-muted)]' : 'text-[#C9C2BB]'}`} style={{ fontFamily: FONT_BODY }}>
                     {[addr.addressLine, addr.locality, [addr.city, addr.state].filter(Boolean).join(', '), addr.pincode].filter(Boolean).join(', ')}
                   </span>
                   {!addr.available && (
-                    <span className="text-[12.5px] font-semibold" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>Services not available at this location</span>
+                    <span className="text-[12.5px] font-semibold" style={{ color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>Services not available at this location</span>
                   )}
                 </div>
               </label>
             ))}
           </div>
         ) : (
-          <div className="flex flex-col gap-4 overflow-y-auto scrollbar-thin px-6 pt-3 pb-2" style={{ scrollbarWidth: 'thin', scrollbarColor: '#E3DDD7 transparent' }}>
+          <div className="flex flex-col gap-4 overflow-y-auto scrollbar-thin px-6 pt-3 pb-2" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--hz-border) transparent' }}>
             <div className="flex flex-col gap-2">
-              <span className="text-[11px] tracking-[0.08em] uppercase text-[#9A949D] font-semibold" style={{ fontFamily: FONT_MONO }}>Label</span>
+              <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)] font-semibold" style={{ fontFamily: FONT_MONO }}>Label</span>
               <div className="flex gap-2">
                 {LABEL_OPTIONS.map(l => (
                   <button
@@ -218,9 +218,9 @@ export default function AddressPickerModal({ onClose, defaultCity, defaultState,
                     className="h-9 px-4 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all"
                     style={{
                       fontFamily: FONT_BODY,
-                      border: draft.label === l ? '1.5px solid #722ED1' : '1px solid #E3DDD7',
-                      backgroundColor: draft.label === l ? '#F3EAFF' : '#FFFFFF',
-                      color: draft.label === l ? '#722ED1' : '#242326',
+                      border: draft.label === l ? '1.5px solid var(--hz-primary)' : '1px solid var(--hz-border)',
+                      backgroundColor: draft.label === l ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+                      color: draft.label === l ? 'var(--hz-primary)' : 'var(--hz-ink)',
                     }}
                   >
                     {l}
@@ -247,20 +247,20 @@ export default function AddressPickerModal({ onClose, defaultCity, defaultState,
           </div>
         )}
 
-        <div className="px-6 py-4 shrink-0 border-t border-[#F4F0EC]">
+        <div className="px-6 py-4 shrink-0 border-t border-[var(--hz-surface-muted)]">
           {mode === 'list' ? (
             <button
               onClick={() => { if (pendingId) selectAddress(pendingId); onClose() }}
               disabled={!pendingId}
               className="w-full h-12 rounded-[12px] text-white text-[14.5px] font-semibold transition-all border-0"
-              style={{ fontFamily: FONT_BODY, backgroundColor: pendingId ? '#722ED1' : '#CAC7C6', cursor: pendingId ? 'pointer' : 'not-allowed', boxShadow: pendingId ? '0 2px 8px rgba(114,46,209,0.25)' : undefined }}
+              style={{ fontFamily: FONT_BODY, backgroundColor: pendingId ? 'var(--hz-primary)' : '#CAC7C6', cursor: pendingId ? 'pointer' : 'not-allowed', boxShadow: pendingId ? '0 2px 8px rgba(114,46,209,0.25)' : undefined }}
             >
               Proceed
             </button>
           ) : (
             <button
               onClick={saveDraft}
-              className="w-full h-12 rounded-[12px] bg-[#722ED1] text-white text-[14.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0"
+              className="w-full h-12 rounded-[12px] bg-[var(--hz-primary)] text-white text-[14.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0"
               style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
             >
               {isEdit ? 'Save changes' : 'Save address'}
@@ -278,18 +278,18 @@ function AddressField({ label, value, onChange, placeholder, optional, error }: 
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center gap-1.5">
-        <span className="text-[12.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-        {optional && <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
+        <span className="text-[12.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+        {optional && <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
       </div>
       <input
         type="text"
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full h-11 px-3.5 rounded-[10px] border bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors"
-        style={{ fontFamily: FONT_BODY, borderColor: error ? '#DC2626' : '#E3DDD7' }}
+        className="w-full h-11 px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors"
+        style={{ fontFamily: FONT_BODY, borderColor: error ? 'var(--hz-danger)' : 'var(--hz-border)' }}
       />
-      {error && <span className="text-[11.5px]" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>{error}</span>}
+      {error && <span className="text-[11.5px]" style={{ color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>{error}</span>}
     </div>
   )
 }

@@ -170,13 +170,13 @@ function ChooserCardButton({ card, onSelect }: { card: ChooserCard; onSelect: ()
             <span className="text-[10px] tracking-[0.10em] uppercase font-semibold text-[#A1A1A1]" style={{ fontFamily: FONT_MONO }}>
               {content.supportingLabel}
             </span>
-            <span className="text-[16px] sm:text-[18px] font-semibold leading-[1.2] text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+            <span className="text-[16px] sm:text-[18px] font-semibold leading-[1.2] text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
               {content.title}
             </span>
-            <span className="text-[12px] sm:text-[12.5px] text-[#68636D] leading-snug" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[12px] sm:text-[12.5px] text-[var(--hz-ink-muted)] leading-snug" style={{ fontFamily: FONT_BODY }}>
               {content.description}
             </span>
-            <span className="mt-[15px] flex items-center gap-1.5 text-[12.5px] sm:text-[13px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_BODY }}>
+            <span className="mt-[15px] flex items-center gap-1.5 text-[12.5px] sm:text-[13px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_BODY }}>
               {content.cta} <ArrowRightIcon />
             </span>
           </div>
@@ -239,7 +239,7 @@ export default function BuildOrImproveScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         {/* Same shared left rail every other homeowner dashboard/flow screen
             uses (HomeDashboardScreen, HouseRequirementsScreen,
@@ -255,7 +255,7 @@ export default function BuildOrImproveScreen({
               <button
                 onClick={() => onNavigate('dashboard-home')}
                 aria-label="Back to Home"
-                className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent"
+                className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent"
                 style={{ fontFamily: FONT_BODY }}
               >
                 <ArrowLeftIcon /> Back
@@ -276,27 +276,27 @@ export default function BuildOrImproveScreen({
 
               {/* Intro */}
               <div className="flex flex-col items-center text-center gap-3">
-                <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Get Started</span>
-                <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Get Started</span>
+                <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   What are you looking to do?
                 </h1>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
                   Tell Hozie what you&apos;re trying to accomplish. We&apos;ll personalize Houzeify around your needs.
                 </p>
               </div>
 
               {/* Hozie intro */}
-              <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5" style={{ maxWidth: 640, margin: '0 auto', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5" style={{ maxWidth: 640, margin: '0 auto', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                 <div className="shrink-0"><HIcon size={32} /></div>
-                <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
-                  <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>Hi! I&apos;m Hozie.</span>{' '}
+                <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+                  <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>Hi! I&apos;m Hozie.</span>{' '}
                   I&apos;ll help you find the right tools, professionals and next steps for your construction needs.
                 </p>
               </div>
 
               {/* Choices */}
               <div className="flex flex-col gap-3">
-                <span className="text-[11px] tracking-[0.10em] uppercase text-[#9A949D] font-semibold" style={{ fontFamily: FONT_MONO }}>
+                <span className="text-[11px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] font-semibold" style={{ fontFamily: FONT_MONO }}>
                   For Your Home
                 </span>
                 <div role="group" aria-label="For your home" className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -312,8 +312,8 @@ export default function BuildOrImproveScreen({
           <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-5">
             {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
               <span key={item} className="flex items-center gap-2.5">
-                <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-                {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+                <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+                {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
               </span>
             ))}
           </footer>

@@ -156,7 +156,7 @@ export default function ProjectPhotosScreen({
   }, [photos])
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="photos" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
@@ -164,41 +164,41 @@ export default function ProjectPhotosScreen({
           <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
             <div className="max-w-[820px] mx-auto flex flex-col gap-5 min-w-0">
               <div>
-                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Photos</p>
-                <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
-                <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Photos</p>
+                <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                   {audience === 'customer'
                     ? 'Shared construction evidence from daily progress updates.'
                     : 'Construction evidence linked to daily progress — date, stage, and update title.'}
                 </p>
               </div>
               {status === 'idle' || status === 'loading' ? (
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }} role="status" aria-live="polite">Loading photos…</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }} role="status" aria-live="polite">Loading photos…</p>
               ) : status === 'error' ? (
                 <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
                   <p className="text-[13px] text-[#991B1B] m-0" style={{ fontFamily: FONT_BODY }}>{error ?? 'Couldn’t load photos.'}</p>
                   <button
                     type="button"
                     onClick={() => setReloadKey(k => k + 1)}
-                    className="min-h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-white text-[#991B1B] outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+                    className="min-h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-surface)] text-[#991B1B] outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
                     style={{ fontFamily: FONT_BODY }}
                   >
                     Try again
                   </button>
                 </div>
               ) : audience === 'invited' ? (
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Photos are unavailable until you accept this project invitation.</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Photos are unavailable until you accept this project invitation.</p>
               ) : photos.length === 0 ? (
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No construction photos yet.</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No construction photos yet.</p>
               ) : (
                 <div className="flex flex-col gap-8">
                   {groups.map(([date, items]) => (
                     <section key={date} aria-labelledby={`photos-${date}`}>
                       <div className="flex items-baseline justify-between gap-3 mb-3 flex-wrap">
-                        <h2 id={`photos-${date}`} className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                        <h2 id={`photos-${date}`} className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                           {formatGroupDate(date)}
                         </h2>
-                        <p className="text-[12px] text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>
+                        <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_MONO }}>
                           {items.length} photo{items.length === 1 ? '' : 's'}
                         </p>
                       </div>
@@ -211,15 +211,15 @@ export default function ProjectPhotosScreen({
                                 type="button"
                                 onClick={() => setOpen(item)}
                                 aria-label={`Open construction ${item.mediaKind === 'video' ? 'video' : 'photo'} from ${item.title}${stage ? `, ${stage}` : ''}, ${item.date}`}
-                                className="w-full text-left rounded-[14px] overflow-hidden bg-white cursor-pointer min-h-11 relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                                style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
+                                className="w-full text-left rounded-[14px] overflow-hidden bg-[var(--hz-surface)] cursor-pointer min-h-11 relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                                style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY }}
                               >
                                 {item.mediaKind === 'video' ? (
-                                  <div className="w-full aspect-square flex items-center justify-center bg-[#242326] relative">
+                                  <div className="w-full aspect-square flex items-center justify-center bg-[var(--hz-ink)] relative">
                                     {item.fileAvailable ? (
                                       <span className="text-[12px] text-white" style={{ fontFamily: FONT_MONO }}>VIDEO</span>
                                     ) : (
-                                      <span className="text-[12px] text-[#9A949D] px-2 text-center" style={{ fontFamily: FONT_BODY }}>
+                                      <span className="text-[12px] text-[var(--hz-ink-subtle)] px-2 text-center" style={{ fontFamily: FONT_BODY }}>
                                         {item.fileAvailable === false ? 'Historical video unavailable' : 'Video unavailable'}
                                       </span>
                                     )}
@@ -233,8 +233,8 @@ export default function ProjectPhotosScreen({
                                   />
                                 )}
                                 <div className="p-3">
-                                  <p className="text-[13px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</p>
-                                  <p className="text-[12px] text-[#68636D] m-0 mt-1">
+                                  <p className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</p>
+                                  <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-1">
                                     {stage ?? 'Stage not set'}
                                     {item.mediaKind === 'video' ? ' · Video' : ''}
                                     {audience !== 'customer' && item.visibility === 'customer' ? ' · Shared' : ''}
@@ -268,9 +268,9 @@ export default function ProjectPhotosScreen({
             }
           }}
         >
-          <div className="w-full max-w-[520px] rounded-[16px] bg-white p-5 min-w-0">
+          <div className="w-full max-w-[520px] rounded-[16px] bg-[var(--hz-surface)] p-5 min-w-0">
             <h2 id="photo-detail-title" className="text-[16px] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>{open.title}</h2>
-            <p className="text-[13px] text-[#68636D] mt-2 mb-3" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] mt-2 mb-3" style={{ fontFamily: FONT_BODY }}>
               {open.date}
               {stageLabel(open.stage) ? ` · ${stageLabel(open.stage)}` : ''}
               {` · ${formatSize(open.size)}`}
@@ -281,23 +281,23 @@ export default function ProjectPhotosScreen({
               <AuthenticatedVideo
                 contentUrl={open.fileAvailable ? open.contentUrl : null}
                 title={`Construction video: ${open.title}`}
-                className="w-full max-h-[60vh] rounded-[12px] bg-[#242326]"
+                className="w-full max-h-[60vh] rounded-[12px] bg-[var(--hz-ink)]"
                 unavailableLabel={open.fileAvailable ? 'Video unavailable' : 'Historical video unavailable'}
               />
             ) : (
               <AuthenticatedImage
                 contentUrl={open.fileAvailable ? open.contentUrl : null}
                 alt={`Construction evidence: ${open.title}`}
-                className="w-full max-h-[60vh] object-contain rounded-[12px] bg-[#F4F0EC]"
+                className="w-full max-h-[60vh] object-contain rounded-[12px] bg-[var(--hz-surface-muted)]"
                 unavailableLabel={open.fileAvailable ? 'Photo unavailable' : 'Historical photo unavailable'}
               />
             )}
             {confirmRemove && audience !== 'customer' && projectId ? (
               <div className="mt-4 rounded-[12px] p-4" style={{ backgroundColor: '#FFF5F5', border: '1px solid #FECACA' }} role="alertdialog" aria-labelledby="photos-remove-title" aria-describedby="photos-remove-desc">
-                <p id="photos-remove-title" className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <p id="photos-remove-title" className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                   Remove this evidence?
                 </p>
-                <p id="photos-remove-desc" className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                <p id="photos-remove-desc" className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                   This construction {open.mediaKind === 'video' ? 'video' : 'photo'} will be removed from this Daily Progress record.
                 </p>
                 {removeError && (
@@ -311,8 +311,8 @@ export default function ProjectPhotosScreen({
                       setConfirmRemove(false)
                       setRemoveError(null)
                     }}
-                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
-                    style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
+                    style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
                   >
                     Cancel
                   </button>
@@ -334,7 +334,7 @@ export default function ProjectPhotosScreen({
                         .finally(() => setRemoveBusy(false))
                     }}
                     className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C] disabled:opacity-50"
-                    style={{ backgroundColor: '#DC2626', color: 'white', fontFamily: FONT_BODY }}
+                    style={{ backgroundColor: 'var(--hz-danger)', color: 'white', fontFamily: FONT_BODY }}
                   >
                     {removeBusy ? 'Removing…' : 'Remove'}
                   </button>
@@ -349,8 +349,8 @@ export default function ProjectPhotosScreen({
                     setRemoveError(null)
                     setOpen(null)
                   }}
-                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                  style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                 >
                   Close
                 </button>
@@ -361,7 +361,7 @@ export default function ProjectPhotosScreen({
                       setRemoveError(null)
                       setConfirmRemove(true)
                     }}
-                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C]"
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C]"
                     style={{ border: '1px solid #FECACA', color: '#B91C1C', fontFamily: FONT_BODY }}
                     aria-label={`Remove this construction ${open.mediaKind}`}
                   >

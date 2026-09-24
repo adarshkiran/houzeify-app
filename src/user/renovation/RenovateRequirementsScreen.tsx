@@ -57,13 +57,13 @@ function MultiOptionCard({ title, description, selected, onToggle }: { title: st
       onClick={onToggle}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:border-[#722ED1]',
+        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
-      <span className="text-[12px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
+      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
       {selected && (
-        <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-[5px] bg-[#722ED1] flex items-center justify-center" aria-hidden="true">
+        <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-[5px] bg-[var(--hz-primary)] flex items-center justify-center" aria-hidden="true">
           <CheckIcon />
         </span>
       )}
@@ -73,12 +73,12 @@ function MultiOptionCard({ title, description, selected, onToggle }: { title: st
 
 function MobileTopBar({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
       </div>
-      <button onClick={onBack} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
+      <button onClick={onBack} className="text-[13px] text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
     </div>
   )
 }
@@ -117,44 +117,44 @@ export default function RenovateRequirementsScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onBack={() => onNavigate('renovate-space-details')} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="build" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
-            <button onClick={() => onNavigate('renovate-space-details')} className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
+            <button onClick={() => onNavigate('renovate-space-details')} className="text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
               Back
             </button>
           </header>
 
-          <div className="hidden md:block h-[2px] bg-[#F4F0EC] w-full shrink-0">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: `${(3 / TOTAL_STEPS) * 100}%` }} />
+          <div className="hidden md:block h-[2px] bg-[var(--hz-surface-muted)] w-full shrink-0">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: `${(3 / TOTAL_STEPS) * 100}%` }} />
           </div>
 
           <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
             <div className="max-w-[900px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-12 flex flex-col gap-8">
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 3 of {TOTAL_STEPS}</span>
-                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>What would you like to change?</h2>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 3 of {TOTAL_STEPS}</span>
+                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>What would you like to change?</h2>
               </div>
 
               <div className="flex flex-col gap-3 max-w-[720px]">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Tell us what you want to achieve</span>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Tell us what you want to achieve</span>
                 <textarea
                   value={goal}
                   onChange={e => setGoal(e.target.value)}
                   placeholder="I want a modern modular kitchen with more storage, a new countertop, better lighting, and easy-to-clean flooring."
                   rows={4}
-                  className="rounded-[12px] border border-[#E3DDD7] p-4 text-[14px] text-[#242326] outline-none focus:border-[#722ED1] transition-colors resize-none"
+                  className="rounded-[12px] border border-[var(--hz-border)] p-4 text-[14px] text-[var(--hz-ink)] outline-none focus:border-[var(--hz-primary)] transition-colors resize-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
                 <button
                   onClick={askAI}
-                  className="self-start flex items-center gap-1.5 h-9 px-4 rounded-full border border-[#722ED1] text-[#722ED1] text-[12.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all bg-white"
+                  className="self-start flex items-center gap-1.5 h-9 px-4 rounded-full border border-[var(--hz-primary)] text-[var(--hz-primary)] text-[12.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all bg-[var(--hz-surface)]"
                   style={{ fontFamily: FONT_BODY }}
                 >
                   <IcoSparkle /> Ask AI for suggestions
@@ -162,7 +162,7 @@ export default function RenovateRequirementsScreen({
               </div>
 
               <div className="flex flex-col gap-3">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Or pick what applies</span>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Or pick what applies</span>
                 <div role="group" aria-label="What would you like to change" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {REQUIREMENT_OPTIONS.map(opt => (
                     <MultiOptionCard key={opt.id} title={opt.title} description={opt.description} selected={tags.includes(opt.id)} onToggle={() => toggleTag(opt.id)} />
@@ -175,7 +175,7 @@ export default function RenovateRequirementsScreen({
                 disabled={!canContinue}
                 className={[
                   'h-[52px] px-6 rounded-[12px] text-[14px] font-semibold transition-all duration-150 border-0 w-full sm:w-auto sm:min-w-[240px]',
-                  canContinue ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[#F4F0EC] text-[#9A949D] cursor-not-allowed',
+                  canContinue ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-not-allowed',
                 ].join(' ')}
                 style={{ fontFamily: FONT_BODY }}
               >

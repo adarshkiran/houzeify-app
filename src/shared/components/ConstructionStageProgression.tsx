@@ -104,27 +104,27 @@ export default function ConstructionStageProgression({
   }
 
   return (
-    <div className="mt-4 pt-4 min-w-0" style={{ borderTop: '1px solid #F4F0EC' }} aria-labelledby="stage-progression-heading">
-      <h3 id="stage-progression-heading" className="text-[12px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-2" style={{ fontFamily: FONT_MONO }}>
+    <div className="mt-4 pt-4 min-w-0" style={{ borderTop: '1px solid var(--hz-surface-muted)' }} aria-labelledby="stage-progression-heading">
+      <h3 id="stage-progression-heading" className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-2" style={{ fontFamily: FONT_MONO }}>
         Project construction stage
       </h3>
-      <p className="text-[13px] text-[#68636D] m-0 mb-2" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mb-2" style={{ fontFamily: FONT_BODY }}>
         This is the project’s overall stage on Timeline — not the stage tag on a daily progress entry.
       </p>
-      <p className="text-[13px] text-[#68636D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
-        Current: <span className="font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{currentLabel}</span>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
+        Current: <span className="font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{currentLabel}</span>
         {currentIndex >= 0 ? ` · Stage ${currentIndex + 1} of ${constructionStages.length}` : ''}
       </p>
 
       {!ready ? (
-        <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Checking permissions…</p>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Checking permissions…</p>
       ) : !canMutate ? (
-        <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
           Only organization owners and admins can change the project construction stage.
         </p>
       ) : (
         <>
-          <label htmlFor="stage-progression-select" className="block text-[12px] text-[#68636D] m-0 mb-1.5" style={{ fontFamily: FONT_BODY }}>
+          <label htmlFor="stage-progression-select" className="block text-[12px] text-[var(--hz-ink-muted)] m-0 mb-1.5" style={{ fontFamily: FONT_BODY }}>
             Set project stage
           </label>
           <div className="flex flex-col sm:flex-row gap-2 min-w-0">
@@ -133,8 +133,8 @@ export default function ConstructionStageProgression({
               value={selected}
               disabled={busy}
               onChange={e => setSelected(e.target.value)}
-              className="w-full min-h-[44px] px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] min-w-0"
-              style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: '#FFFFFF' }}
+              className="w-full min-h-[44px] px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] min-w-0"
+              style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'var(--hz-surface)' }}
             >
               {constructionStages.map((s, i) => (
                 <option key={s.id} value={s.id}>
@@ -147,7 +147,7 @@ export default function ConstructionStageProgression({
               disabled={busy || !selected || selected === currentStage}
               onClick={() => applyStage(selected)}
               className={BTN}
-              style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+              style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
             >
               {busy ? 'Saving…' : 'Set stage'}
             </button>
@@ -159,7 +159,7 @@ export default function ConstructionStageProgression({
               disabled={busy || !canMoveBack}
               onClick={() => applyStage(constructionStages[currentIndex - 1]!.id)}
               className={BTN}
-              style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: FONT_BODY }}
+              style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
               aria-label="Move to previous construction stage"
             >
               Move back
@@ -169,7 +169,7 @@ export default function ConstructionStageProgression({
               disabled={busy || !canAdvance}
               onClick={() => applyStage(constructionStages[currentIndex + 1]!.id)}
               className={BTN}
-              style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+              style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
               aria-label="Advance to next construction stage"
             >
               Advance stage
@@ -177,7 +177,7 @@ export default function ConstructionStageProgression({
           </div>
 
           {currentIndex < 0 && (
-            <p className="text-[12.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
               Choose a stage above and tap Set stage to begin the construction sequence.
             </p>
           )}

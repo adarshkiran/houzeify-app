@@ -11,11 +11,11 @@ function AmbientBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true" style={{ zIndex: 0 }}>
       {/* Desktop */}
-      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
-      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
       {/* Mobile */}
-      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
-      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
     </div>
   )
 }
@@ -77,10 +77,10 @@ function OtpInput({ otp, onChange, stage, disabled }: OtpInputProps) {
 
   const boxStyle = (index: number): string => {
     const filled = !!otp[index]
-    if (stage === 'error') return 'border-[#DC2626] bg-[#FEF2F2] text-[#DC2626]'
+    if (stage === 'error') return 'border-[var(--hz-danger)] bg-[#FEF2F2] text-[var(--hz-danger)]'
     if (stage === 'success') return 'border-[#16A34A] bg-[#F0FDF4] text-[#16A34A]'
-    if (filled) return 'border-[#722ED1] bg-[#F3EAFF] text-[#242326]'
-    return 'border-[#E3DDD7] bg-white text-[#242326] focus:border-[#722ED1] focus:ring-2 focus:ring-[#722ED1]/10'
+    if (filled) return 'border-[var(--hz-primary)] bg-[var(--hz-primary-soft)] text-[var(--hz-ink)]'
+    return 'border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] focus:border-[var(--hz-primary)] focus:ring-2 focus:ring-[var(--hz-primary)]/10'
   }
 
   return (
@@ -100,7 +100,7 @@ function OtpInput({ otp, onChange, stage, disabled }: OtpInputProps) {
           disabled={disabled}
           className={[
             'flex-1 min-w-0 text-center text-[22px] sm:text-[24px] font-bold rounded-[12px] border outline-none',
-            'transition-all duration-150 h-[52px] sm:h-[60px] caret-[#722ED1]',
+            'transition-all duration-150 h-[52px] sm:h-[60px] caret-[var(--hz-primary)]',
             disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-text',
             boxStyle(i),
           ].join(' ')}
@@ -119,7 +119,7 @@ function ResendTimer({ seconds, onResend, resending }: { seconds: number; onRese
   const ss = seconds % 60
   return (
     <div
-      className="text-center text-[12px] text-[#9A949D]"
+      className="text-center text-[12px] text-[var(--hz-ink-subtle)]"
       style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
     >
       {seconds > 0 ? (
@@ -133,7 +133,7 @@ function ResendTimer({ seconds, onResend, resending }: { seconds: number; onRese
           <button
             onClick={onResend}
             disabled={resending}
-            className="text-[#722ED1] font-semibold bg-transparent border-none p-0 hover:underline disabled:opacity-60 disabled:cursor-wait disabled:no-underline"
+            className="text-[var(--hz-primary)] font-semibold bg-transparent border-none p-0 hover:underline disabled:opacity-60 disabled:cursor-wait disabled:no-underline"
             style={{ cursor: resending ? 'wait' : 'pointer' }}
           >
             {resending ? 'Sending...' : 'Resend code'}
@@ -225,18 +225,18 @@ export default function OtpScreen({
     return 'Verify & Continue →'
   }
 
-  const buttonBg = stage === 'success' ? '#16A34A' : '#722ED1'
+  const buttonBg = stage === 'success' ? '#16A34A' : 'var(--hz-primary)'
 
   return (
     <div
       className="min-h-full flex flex-col items-center justify-center relative px-5 py-10"
-      style={{ backgroundColor: '#FFFFFF' }}
+      style={{ backgroundColor: 'var(--hz-surface)' }}
     >
       <AmbientBackground />
 
       {/* ── Authentication card ── */}
       <div
-        className="relative z-10 w-full bg-white border border-[#E3DDD7] rounded-[24px]"
+        className="relative z-10 w-full bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[24px]"
         style={{
           maxWidth: 460,
           padding: 'clamp(24px, 5vw, 48px)',
@@ -251,7 +251,7 @@ export default function OtpScreen({
 
         {/* Eyebrow */}
         <div
-          className="text-center text-[12px] tracking-[0.12em] text-[#722ED1] font-semibold uppercase mb-3"
+          className="text-center text-[12px] tracking-[0.12em] text-[var(--hz-primary)] font-semibold uppercase mb-3"
           style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
         >
           Verify Your Number
@@ -259,7 +259,7 @@ export default function OtpScreen({
 
         {/* Headline */}
         <h1
-          className="text-center text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.06] tracking-[-0.02em] m-0 mb-3"
+          className="text-center text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.06] tracking-[-0.02em] m-0 mb-3"
           style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           Enter your verification code
@@ -268,21 +268,21 @@ export default function OtpScreen({
         {/* Description + phone */}
         <div className="flex flex-col items-center gap-1 mb-7">
           <p
-            className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 text-center"
+            className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 text-center"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             We sent a 6-digit code to
           </p>
           <div className="flex items-center gap-2">
             <span
-              className="text-[14px] sm:text-[15px] font-semibold text-[#242326]"
+              className="text-[14px] sm:text-[15px] font-semibold text-[var(--hz-ink)]"
               style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               +91 {phone}
             </span>
             <button
               onClick={() => onNavigate('login')}
-              className="text-[13px] text-[#722ED1] font-medium cursor-pointer bg-transparent border-none p-0 hover:underline transition-opacity hover:opacity-80"
+              className="text-[13px] text-[var(--hz-primary)] font-medium cursor-pointer bg-transparent border-none p-0 hover:underline transition-opacity hover:opacity-80"
               style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               Change
@@ -303,13 +303,13 @@ export default function OtpScreen({
         {/* Error message */}
         {errorMsg && (
           <div
-            className="flex items-center justify-center gap-1.5 text-[#DC2626] text-[12px] mb-3"
+            className="flex items-center justify-center gap-1.5 text-[var(--hz-danger)] text-[12px] mb-3"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <circle cx="7" cy="7" r="5.5" stroke="#DC2626" strokeWidth="1.2"/>
-              <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="#DC2626" strokeWidth="1.3" strokeLinecap="round"/>
-              <circle cx="7" cy="9.5" r="0.7" fill="#DC2626"/>
+              <circle cx="7" cy="7" r="5.5" stroke="var(--hz-danger)" strokeWidth="1.2"/>
+              <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="var(--hz-danger)" strokeWidth="1.3" strokeLinecap="round"/>
+              <circle cx="7" cy="9.5" r="0.7" fill="var(--hz-danger)"/>
             </svg>
             {errorMsg}
           </div>
@@ -350,7 +350,7 @@ export default function OtpScreen({
 
         {/* Security microcopy */}
         <p
-          className="text-center text-[11px] text-[#9A949D] leading-[1.6] m-0"
+          className="text-center text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Your number is used to securely access your Houzeify workspace.
@@ -362,14 +362,14 @@ export default function OtpScreen({
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
             <span
-              className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]"
+              className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]"
               style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
             >
               {item}
             </span>
             {i < arr.length - 1 && (
               <span
-                className="text-[12px] text-[#722ED1]"
+                className="text-[12px] text-[var(--hz-primary)]"
                 style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
               >
                 /

@@ -85,15 +85,15 @@ function stateFor(response: ContractorResponse): ResponseState {
 
 function SectionCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>{children}</div>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>{children}</div>
   )
 }
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
     <SectionCard>
-      <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
-      <p className="text-[12px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{label}</p>
+      <p className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
+      <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{label}</p>
     </SectionCard>
   )
 }
@@ -106,27 +106,27 @@ function ResponseCard({ response, onViewProfile, onViewBid }: { response: Contra
   const typeLabel = response.listing?.professionalType ? PROFESSIONAL_TYPE_CONTENT[response.listing.professionalType].title : (kind === 'organization' ? 'Organization' : 'Individual Professional')
 
   const statusBadge: Record<ResponseState, { label: string; bg: string; fg: string }> = {
-    awaiting: { label: 'INVITED', bg: '#F3EAFF', fg: '#722ED1' },
+    awaiting: { label: 'INVITED', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)' },
     received: { label: 'BID RECEIVED', bg: '#DCFCE7', fg: '#16A34A' },
     accepted: { label: 'BID ACCEPTED', bg: '#DCFCE7', fg: '#16A34A' },
-    rejected: { label: 'BID REJECTED', bg: '#FEE2E2', fg: '#DC2626' },
+    rejected: { label: 'BID REJECTED', bg: '#FEE2E2', fg: 'var(--hz-danger)' },
   }
   const badge = statusBadge[state]
 
   return (
-    <div className="rounded-[16px] bg-white p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-3" style={{ border: '1px solid var(--hz-border)' }}>
       <div className="flex items-start gap-3">
-        <div className="w-11 h-11 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+        <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
           {initials}
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <p className="text-[14.5px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{name}</p>
+            <p className="text-[14.5px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{name}</p>
             {response.listing?.verificationStatus === 'verified' && (
               <span className="flex items-center gap-1 text-[11px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
             )}
           </div>
-          <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
+          <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
             {typeLabel} · {kind === 'organization' ? 'Organization' : 'Individual'}
           </p>
         </div>
@@ -138,21 +138,21 @@ function ResponseCard({ response, onViewProfile, onViewBid }: { response: Contra
 
       {response.bid ? (
         <div className="flex flex-col gap-0.5">
-          <p className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{formatBidAmount(response.bid.amount)}</p>
-          <p className="text-[12.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{formatBidDuration(response.bid.duration, response.bid.durationUnit)}</p>
-          <p className="text-[11.5px] text-[#9A949D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Submitted {formatDate(response.bid.createdAt)}</p>
+          <p className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{formatBidAmount(response.bid.amount)}</p>
+          <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{formatBidDuration(response.bid.duration, response.bid.durationUnit)}</p>
+          <p className="text-[11.5px] text-[var(--hz-ink-subtle)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Submitted {formatDate(response.bid.createdAt)}</p>
         </div>
       ) : (
         <div className="flex flex-col gap-0.5">
-          <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Awaiting bid</p>
-          <p className="text-[11.5px] text-[#9A949D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Invited {timeAgo(response.respondedAt)}</p>
+          <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Awaiting bid</p>
+          <p className="text-[11.5px] text-[var(--hz-ink-subtle)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Invited {timeAgo(response.respondedAt)}</p>
         </div>
       )}
 
       <button
         type="button"
         onClick={response.bid ? onViewBid : onViewProfile}
-        className="self-start text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0 mt-1"
+        className="self-start text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0 mt-1"
         style={{ fontFamily: FONT_BODY }}
       >
         {response.bid ? 'View Bid →' : 'View Profile →'}
@@ -299,7 +299,7 @@ export default function BidsReceivedScreen({
   const awardedResponse = responses.find(r => stateFor(r) === 'accepted')
   const canCompare = responses.filter(r => r.bid).length >= 2
 
-  const selectStyle = { border: '1px solid #E3DDD7', color: '#242326', fontFamily: FONT_BODY }
+  const selectStyle = { border: '1px solid var(--hz-border)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }
 
   function viewProfile(r: ContractorResponse) {
     onNavigate('contractor-profile', {
@@ -322,11 +322,11 @@ export default function BidsReceivedScreen({
   ]
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="bids" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0">
-      <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="h-14 flex items-center px-4 sm:px-6 lg:px-8">
           <HIcon size={26} />
         </div>
@@ -335,25 +335,25 @@ export default function BidsReceivedScreen({
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[980px] mx-auto flex flex-col gap-6">
           <div>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Bids Received</h1>
-            <p className="text-[13.5px] text-[#68636D] mt-1.5 mb-0" style={{ fontFamily: FONT_BODY }}>
+            <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Bids Received</h1>
+            <p className="text-[13.5px] text-[var(--hz-ink-muted)] mt-1.5 mb-0" style={{ fontFamily: FONT_BODY }}>
               Review contractor responses and compare proposals for your project.
             </p>
           </div>
 
           {!effectiveProjectId ? (
             <SectionCard>
-              <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Select a project to view contractor responses.</p>
+              <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Select a project to view contractor responses.</p>
             </SectionCard>
           ) : (
             <>
               {/* Project context */}
               <SectionCard>
-                <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project</p>
-                <p className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your project'}</p>
-                {propertyType && <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{propertyType}</p>}
+                <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project</p>
+                <p className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your project'}</p>
+                {propertyType && <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{propertyType}</p>}
                 {location && (
-                  <span className="flex items-center gap-1.5 text-[12px] text-[#68636D] mt-1" style={{ fontFamily: FONT_BODY }}>
+                  <span className="flex items-center gap-1.5 text-[12px] text-[var(--hz-ink-muted)] mt-1" style={{ fontFamily: FONT_BODY }}>
                     <IcoMapPin /> {location}
                   </span>
                 )}
@@ -362,28 +362,28 @@ export default function BidsReceivedScreen({
               {awardedResponse ? (
                 <div className="flex flex-col items-center justify-center text-center gap-3 py-14">
                   <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7' }}><CheckBadgeIcon size={22} /></div>
-                  <p className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Contractor selected</p>
+                  <p className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Contractor selected</p>
                   <button
                     type="button"
                     onClick={() => onNavigate('estimate-dashboard')}
                     className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold text-white cursor-pointer border-0"
-                    style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                    style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                   >
                     View Project →
                   </button>
                 </div>
               ) : responses.length === 0 ? (
                 <div className="flex flex-col items-center justify-center text-center gap-3 py-16">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F4F0EC' }}><EmptyIcon /></div>
-                  <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No contractors invited yet.</p>
-                  <p className="text-[13px] text-[#68636D] m-0 max-w-[340px]" style={{ fontFamily: FONT_BODY }}>
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)' }}><EmptyIcon /></div>
+                  <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>No contractors invited yet.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[340px]" style={{ fontFamily: FONT_BODY }}>
                     Find contractors for your project and invite them to submit proposals.
                   </p>
                   <button
                     type="button"
                     onClick={() => onNavigate('find-contractors')}
                     className="mt-1 h-10 px-5 rounded-[12px] text-[13.5px] font-semibold text-white cursor-pointer border-0"
-                    style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                    style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                   >
                     Find Contractors →
                   </button>
@@ -399,11 +399,11 @@ export default function BidsReceivedScreen({
                   </div>
 
                   {counts.received === 0 && (
-                    <div className="rounded-[14px] p-4 flex items-center gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid #F3EAFF' }}>
+                    <div className="rounded-[14px] p-4 flex items-center gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid var(--hz-primary-soft)' }}>
                       <ClockIcon />
                       <div>
-                        <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Waiting for contractor responses</p>
-                        <p className="text-[12.5px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
+                        <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Waiting for contractor responses</p>
+                        <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
                           You have invited contractors to this project. Their proposals will appear here when submitted.
                         </p>
                       </div>
@@ -418,14 +418,14 @@ export default function BidsReceivedScreen({
                           key={f.id}
                           type="button"
                           onClick={() => setFilter(f.id)}
-                          className={`h-9 px-3.5 rounded-[10px] text-[12.5px] font-medium cursor-pointer ${filter === f.id ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-white text-[#68636D]'}`}
-                          style={{ border: filter === f.id ? '1px solid #722ED1' : '1px solid #CAC7C6', fontFamily: FONT_BODY }}
+                          className={`h-9 px-3.5 rounded-[10px] text-[12.5px] font-medium cursor-pointer ${filter === f.id ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] text-[var(--hz-ink-muted)]'}`}
+                          style={{ border: filter === f.id ? '1px solid var(--hz-primary)' : '1px solid #CAC7C6', fontFamily: FONT_BODY }}
                         >
                           {f.label}
                         </button>
                       ))}
                     </div>
-                    <select value={sort} onChange={e => setSort(e.target.value as SortId)} className="h-9 rounded-[10px] px-3 text-[12.5px] bg-white cursor-pointer" style={selectStyle}>
+                    <select value={sort} onChange={e => setSort(e.target.value as SortId)} className="h-9 rounded-[10px] px-3 text-[12.5px] bg-[var(--hz-surface)] cursor-pointer" style={selectStyle}>
                       <option value="newest">Newest response first</option>
                       <option value="oldest">Oldest first</option>
                       <option value="highest">Highest bid</option>
@@ -438,7 +438,7 @@ export default function BidsReceivedScreen({
                       type="button"
                       onClick={() => onNavigate('compare-bids', { project_id: effectiveProjectId })}
                       className="self-start h-10 px-5 rounded-[12px] text-[13px] font-semibold text-white cursor-pointer border-0"
-                      style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                      style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                     >
                       Compare Bids →
                     </button>
@@ -452,7 +452,7 @@ export default function BidsReceivedScreen({
                       ))}
                     </div>
                   ) : (
-                    <p className="text-[13px] text-[#9A949D] text-center py-8" style={{ fontFamily: FONT_BODY }}>No responses match this filter.</p>
+                    <p className="text-[13px] text-[var(--hz-ink-subtle)] text-center py-8" style={{ fontFamily: FONT_BODY }}>No responses match this filter.</p>
                   )}
                 </>
               )}

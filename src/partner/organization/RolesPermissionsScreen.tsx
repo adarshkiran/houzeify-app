@@ -52,14 +52,14 @@ export default function RolesPermissionsScreen({
     onNavigate('team-management')
   }
 
-  const linkClass = 'text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0'
+  const linkClass = 'text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0'
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goToTeamManagement} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={goToTeamManagement} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Team Management
           </button>
         </div>
@@ -68,19 +68,19 @@ export default function RolesPermissionsScreen({
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
         <div className="max-w-[820px] mx-auto flex flex-col gap-6">
           <div>
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Roles &amp; Permissions</p>
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Manage how organization roles are structured and what each role can access.</h1>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Roles &amp; Permissions</p>
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Manage how organization roles are structured and what each role can access.</h1>
             {companyName && (
-              <p className="text-[13px] text-[#68636D] m-0 mt-1.5" style={{ fontFamily: FONT_BODY }}>{companyName}</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1.5" style={{ fontFamily: FONT_BODY }}>{companyName}</p>
             )}
           </div>
 
           {/* Reference-only notice */}
           <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
-            <span className="text-[#722ED1] mt-0.5 shrink-0"><IcoInfo /></span>
+            <span className="text-[var(--hz-primary)] mt-0.5 shrink-0"><IcoInfo /></span>
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Reference Only</span>
-              <p className="text-[12.5px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+              <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Reference Only</span>
+              <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
                 Role definitions are currently shown for reference. Member roles and permissions will become assignable once team membership is persisted. These role definitions describe the permissions available to organizations — individual member assignments are not yet persisted.
               </p>
             </div>
@@ -89,20 +89,20 @@ export default function RolesPermissionsScreen({
           {/* Role cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {ROLE_ORDER.map(r => (
-              <div key={r} className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+              <div key={r} className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
                 <div className="flex items-center gap-2.5 mb-2">
-                  <span className="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}><IcoShield /></span>
-                  <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>{ROLE_LABELS[r]}</p>
+                  <span className="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}><IcoShield /></span>
+                  <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_MONO }}>{ROLE_LABELS[r]}</p>
                 </div>
-                <p className="text-[13px] text-[#68636D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>{ROLE_DESCRIPTIONS[r]}</p>
-                <p className="text-[10.5px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-2" style={{ fontFamily: FONT_MONO }}>Permissions</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>{ROLE_DESCRIPTIONS[r]}</p>
+                <p className="text-[10.5px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-2" style={{ fontFamily: FONT_MONO }}>Permissions</p>
                 <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
                   {ROLE_PERMISSIONS[r].map(p => (
                     <li key={p} className="flex items-center gap-2">
                       <span className="w-[15px] h-[15px] rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#DCFCE7' }}>
                         <span style={{ color: '#16A34A' }}><IcoCheck /></span>
                       </span>
-                      <span className="text-[12.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{p}</span>
+                      <span className="text-[12.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{p}</span>
                     </li>
                   ))}
                 </ul>

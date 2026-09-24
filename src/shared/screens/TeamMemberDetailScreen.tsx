@@ -54,11 +54,11 @@ export default function TeamMemberDetailScreen({
   const selectClass = 'h-10 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 cursor-pointer'
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goToTeamManagement} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={goToTeamManagement} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Back to Team Management
           </button>
         </div>
@@ -67,22 +67,22 @@ export default function TeamMemberDetailScreen({
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
         <div className="max-w-[560px] mx-auto flex flex-col gap-6">
           <div>
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Team Member Detail</p>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Team Member Detail</p>
             {companyName && (
-              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{companyName}</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{companyName}</p>
             )}
           </div>
 
-          <div className="rounded-[16px] bg-white p-8 sm:p-10 flex flex-col items-center text-center gap-3" style={{ border: '1px solid #E3DDD7' }}>
-            <span className="w-14 h-14 rounded-[16px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F4F0EC', color: '#9A949D' }}>
+          <div className="rounded-[16px] bg-[var(--hz-surface)] p-8 sm:p-10 flex flex-col items-center text-center gap-3" style={{ border: '1px solid var(--hz-border)' }}>
+            <span className="w-14 h-14 rounded-[16px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-subtle)' }}>
               <IcoProfile />
             </span>
-            <h1 className="text-[17px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Team Member Details</h1>
-            <p className="text-[14px] font-semibold text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Member details are not available yet.</p>
-            <p className="text-[13px] text-[#9A949D] leading-[1.6] m-0 max-w-[420px]" style={{ fontFamily: FONT_BODY }}>
+            <h1 className="text-[17px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Team Member Details</h1>
+            <p className="text-[14px] font-semibold text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Member details are not available yet.</p>
+            <p className="text-[13px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0 max-w-[420px]" style={{ fontFamily: FONT_BODY }}>
               Team member records are not currently persisted in this prototype. Once team membership is connected to the backend, individual member profiles, roles, status and activity can appear here.
             </p>
-            <button type="button" onClick={goToTeamManagement} className={`${selectClass} mt-2`} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+            <button type="button" onClick={goToTeamManagement} className={`${selectClass} mt-2`} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
               ← Back to Team Management
             </button>
           </div>

@@ -189,7 +189,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -208,9 +208,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
-    <div className={['bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <div className={['bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -221,7 +221,7 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 const FINDING_STATUS_STYLES: Record<FindingStatus, { bg: string; color: string; label: string }> = {
   confirmed: { bg: '#DCFCE7', color: '#16A34A', label: 'Detected' },
   likely: { bg: '#FEF3C7', color: '#D97706', label: 'Likely' },
-  'needs-review': { bg: '#FEE2E2', color: '#DC2626', label: 'Needs review' },
+  'needs-review': { bg: '#FEE2E2', color: 'var(--hz-danger)', label: 'Needs review' },
 }
 
 function FindingStatusBadge({ status }: { status: FindingStatus }) {
@@ -242,7 +242,7 @@ function FindingStatusBadge({ status }: { status: FindingStatus }) {
 function StepIcon({ status, reducedMotion }: { status: 'done' | 'active' | 'pending'; reducedMotion: boolean }) {
   if (status === 'done') {
     return (
-      <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#722ED1' }}>
+      <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary)' }}>
         <IcoCheck />
       </span>
     )
@@ -251,13 +251,13 @@ function StepIcon({ status, reducedMotion }: { status: 'done' | 'active' | 'pend
     return (
       <span
         className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-        style={{ backgroundColor: '#722ED1', animation: reducedMotion ? undefined : 'estimatePulse 1.4s ease-in-out infinite' }}
+        style={{ backgroundColor: 'var(--hz-primary)', animation: reducedMotion ? undefined : 'estimatePulse 1.4s ease-in-out infinite' }}
       >
-        <span className="w-2 h-2 rounded-full bg-white" />
+        <span className="w-2 h-2 rounded-full bg-[var(--hz-surface)]" />
       </span>
     )
   }
-  return <span className="w-5 h-5 rounded-full border-2 border-[#E3DDD7] shrink-0" />
+  return <span className="w-5 h-5 rounded-full border-2 border-[var(--hz-border)] shrink-0" />
 }
 
 // ─── Hozie progress hero ───────────────────────────────────────────────────
@@ -271,7 +271,7 @@ function HozieProgress({ snapshot, currentStepLabel, reducedMotion, onReview }: 
   const complete = snapshot.status === 'complete'
   return (
     <div
-      className="w-full bg-white rounded-[24px] border border-[#E3DDD7] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-6"
+      className="w-full bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-6"
       style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}
     >
       {/* Soft circular blurred glow behind the H icon — never a floor-plan graphic */}
@@ -283,13 +283,13 @@ function HozieProgress({ snapshot, currentStepLabel, reducedMotion, onReview }: 
             style={{ inset: 0, border: `1.5px solid rgba(243,234,255,${0.22 - i * 0.05})`, animation: `estimateRingExpand 3s ease-out ${i * 1}s infinite` }}
           />
         ))}
-        <div className="absolute rounded-full bg-[#F3EAFF]" style={{ width: 100, height: 100, filter: 'blur(16px)', opacity: 0.85 }} />
+        <div className="absolute rounded-full bg-[var(--hz-primary-soft)]" style={{ width: 100, height: 100, filter: 'blur(16px)', opacity: 0.85 }} />
         <div
-          className="relative flex items-center justify-center rounded-[20px] bg-[#F3EAFF] z-10"
+          className="relative flex items-center justify-center rounded-[20px] bg-[var(--hz-primary-soft)] z-10"
           style={{
             width: 72,
             height: 72,
-            boxShadow: complete ? '0 0 0 4px #722ED1, 0 0 32px rgba(243,234,255,0.10)' : '0 0 28px rgba(243,234,255,0.10)',
+            boxShadow: complete ? '0 0 0 4px var(--hz-primary), 0 0 32px rgba(243,234,255,0.10)' : '0 0 28px rgba(243,234,255,0.10)',
             animation: !complete && !reducedMotion ? 'estimatePulse 2.8s ease-in-out infinite' : undefined,
             transition: 'box-shadow 0.6s ease',
           }}
@@ -298,7 +298,7 @@ function HozieProgress({ snapshot, currentStepLabel, reducedMotion, onReview }: 
         </div>
         {complete && (
           <div
-            className="absolute bottom-1 right-1 w-7 h-7 rounded-full bg-[#722ED1] flex items-center justify-center z-20"
+            className="absolute bottom-1 right-1 w-7 h-7 rounded-full bg-[var(--hz-primary)] flex items-center justify-center z-20"
             style={{ animation: reducedMotion ? undefined : 'estimateButtonPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both' }}
           >
             <IcoCheck />
@@ -309,11 +309,11 @@ function HozieProgress({ snapshot, currentStepLabel, reducedMotion, onReview }: 
       <div className="flex flex-col items-center gap-2">
         <span
           className="text-[11px] tracking-[0.10em] uppercase"
-          style={{ color: '#722ED1', fontFamily: FONT_MONO, animation: !complete && !reducedMotion ? 'hozieStatusPulse 2.2s ease-in-out infinite' : undefined }}
+          style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO, animation: !complete && !reducedMotion ? 'hozieStatusPulse 2.2s ease-in-out infinite' : undefined }}
         >
           {complete ? 'Analysis Complete ✓' : 'Analysing Your Plan'}
         </span>
-        <p className="text-[16px] text-[#242326] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[16px] text-[var(--hz-ink)] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
           {complete ? 'Your plan is ready for review.' : 'Finding the details that can improve your estimate.'}
         </p>
       </div>
@@ -321,8 +321,8 @@ function HozieProgress({ snapshot, currentStepLabel, reducedMotion, onReview }: 
       {!complete && (
         <div className="w-full flex flex-col gap-2" style={{ maxWidth: 420 }}>
           <div className="flex items-center justify-between gap-3">
-            <span className="text-[12px] text-[#9A949D] truncate text-left" style={{ fontFamily: FONT_BODY }}>{currentStepLabel ?? 'Starting…'}</span>
-            <span className="text-[13px] font-semibold shrink-0" style={{ color: '#722ED1', fontFamily: FONT_MONO }}>{snapshot.progress}%</span>
+            <span className="text-[12px] text-[var(--hz-ink-subtle)] truncate text-left" style={{ fontFamily: FONT_BODY }}>{currentStepLabel ?? 'Starting…'}</span>
+            <span className="text-[13px] font-semibold shrink-0" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>{snapshot.progress}%</span>
           </div>
           <div
             role="progressbar"
@@ -330,18 +330,18 @@ function HozieProgress({ snapshot, currentStepLabel, reducedMotion, onReview }: 
             aria-valuenow={snapshot.progress}
             aria-valuemin={0}
             aria-valuemax={100}
-            className="h-1.5 w-full bg-[#F4F0EC] rounded-full overflow-hidden"
+            className="h-1.5 w-full bg-[var(--hz-surface-muted)] rounded-full overflow-hidden"
           >
-            <div className="h-full bg-[#722ED1] rounded-full" style={{ width: `${snapshot.progress}%`, transition: 'width 0.3s ease' }} />
+            <div className="h-full bg-[var(--hz-primary)] rounded-full" style={{ width: `${snapshot.progress}%`, transition: 'width 0.3s ease' }} />
           </div>
-          <span className="text-[11px] text-[#9A949D] text-center pt-1" style={{ fontFamily: FONT_BODY }}>Usually takes less than a minute.</span>
+          <span className="text-[11px] text-[var(--hz-ink-subtle)] text-center pt-1" style={{ fontFamily: FONT_BODY }}>Usually takes less than a minute.</span>
         </div>
       )}
 
       {complete && (
         <button
           onClick={onReview}
-          className="h-12 px-8 rounded-[12px] bg-[#722ED1] text-white text-[14px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.98] transition-all border-0"
+          className="h-12 px-8 rounded-[12px] bg-[var(--hz-primary)] text-white text-[14px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.98] transition-all border-0"
           style={{ fontFamily: FONT_HEAD, animation: reducedMotion ? undefined : 'estimateButtonPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both' }}
         >
           Review findings →
@@ -378,7 +378,7 @@ function AnalysisStepList({ currentStepKey, completedSteps, reducedMotion, class
           return (
             <li key={step.key} className="flex items-center gap-3">
               <StepIcon status={state} reducedMotion={reducedMotion} />
-              <span className="text-[13px]" style={{ fontFamily: FONT_BODY, color: state === 'pending' ? '#A1A1A1' : '#1E1E1E' }}>
+              <span className="text-[13px]" style={{ fontFamily: FONT_BODY, color: state === 'pending' ? '#A1A1A1' : 'var(--hz-black)' }}>
                 {step.label}
               </span>
             </li>
@@ -395,7 +395,7 @@ function LiveFindings({ findings, className }: { findings: PlanAnalysisFinding[]
   return (
     <SectionCard eyebrow="Found So Far" className={className}>
       {findings.length === 0 ? (
-        <p className="text-[12px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[12px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Findings will appear here as Hozie reads your plan.
         </p>
       ) : (
@@ -403,8 +403,8 @@ function LiveFindings({ findings, className }: { findings: PlanAnalysisFinding[]
           {findings.map(f => (
             <li key={f.id} className="flex items-start justify-between gap-3">
               <div className="flex flex-col gap-0.5 min-w-0">
-                <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{f.label}</span>
-                <span className="text-[13px] font-medium text-[#242326] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{f.value}</span>
+                <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{f.label}</span>
+                <span className="text-[13px] font-medium text-[var(--hz-ink)] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{f.value}</span>
               </div>
               <FindingStatusBadge status={f.status} />
             </li>
@@ -436,22 +436,22 @@ function PlanPreview({ documentName, isImage, isPdfDoc, isCadDoc, previewUrl, pa
       tag={
         <span
           className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em]"
-          style={{ backgroundColor: isComplete ? '#DCFCE7' : '#F3EAFF', color: isComplete ? '#16A34A' : '#722ED1', fontFamily: FONT_MONO }}
+          style={{ backgroundColor: isComplete ? '#DCFCE7' : 'var(--hz-primary-soft)', color: isComplete ? '#16A34A' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
         >
           <span
             className="w-1.5 h-1.5 rounded-full shrink-0"
-            style={{ backgroundColor: isComplete ? '#16A34A' : '#722ED1', animation: !isComplete && !reducedMotion ? 'estimatePulse 1.6s ease-in-out infinite' : undefined }}
+            style={{ backgroundColor: isComplete ? '#16A34A' : 'var(--hz-primary)', animation: !isComplete && !reducedMotion ? 'estimatePulse 1.6s ease-in-out infinite' : undefined }}
             aria-hidden="true"
           />
           {isComplete ? 'Analysed' : 'Analysing'}
         </span>
       }
     >
-      <div className="relative rounded-[12px] overflow-hidden flex items-center justify-center" style={{ height: 200, backgroundColor: '#F4F0EC' }}>
+      <div className="relative rounded-[12px] overflow-hidden flex items-center justify-center" style={{ height: 200, backgroundColor: 'var(--hz-surface-muted)' }}>
         {isImage && previewUrl ? (
           <img src={previewUrl} alt={`Preview of ${documentName}`} className="w-full h-full object-cover" />
         ) : (
-          <span className="flex flex-col items-center gap-2" style={{ color: '#9A949D' }}>
+          <span className="flex flex-col items-center gap-2" style={{ color: 'var(--hz-ink-subtle)' }}>
             <span style={{ transform: 'scale(1.6)' }}>{isPdfDoc ? <IcoFile /> : isCadDoc ? <IcoFileCad /> : <IcoImage />}</span>
             <span className="text-[10px] uppercase tracking-[0.06em]" style={{ fontFamily: FONT_MONO }}>
               {isPdfDoc ? 'First page preview' : isCadDoc ? 'Document preview' : 'Preview unavailable'}
@@ -468,8 +468,8 @@ function PlanPreview({ documentName, isImage, isPdfDoc, isCadDoc, previewUrl, pa
         )}
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{documentName}</span>
-        <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{documentName}</span>
+        <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
           {pageCount ? `${pageCount} page${pageCount > 1 ? 's' : ''} · ` : ''}{sizeLabel}
         </span>
       </div>
@@ -495,9 +495,9 @@ function AnalysisScope({ completedSteps, className }: { completedSteps: string[]
         {SCOPE_ITEMS.map(item => {
           const done = completedSteps.includes(item.stepKey)
           return (
-            <div key={item.key} className="relative flex flex-col gap-1.5 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
-              <span style={{ color: done ? '#16A34A' : '#722ED1' }}>{item.icon}</span>
-              <span className="text-[12px] font-medium text-[#242326] leading-[1.3]" style={{ fontFamily: FONT_BODY }}>{item.label}</span>
+            <div key={item.key} className="relative flex flex-col gap-1.5 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-surface)' }}>
+              <span style={{ color: done ? '#16A34A' : 'var(--hz-primary)' }}>{item.icon}</span>
+              <span className="text-[12px] font-medium text-[var(--hz-ink)] leading-[1.3]" style={{ fontFamily: FONT_BODY }}>{item.label}</span>
               {done && (
                 <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#16A34A' }} aria-hidden="true">
                   <IcoCheck />
@@ -517,10 +517,10 @@ function HozieMessage({ className }: { className?: string }) {
   return (
     <div className={['rounded-[16px] p-5 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
       <div className="flex items-center gap-2.5">
-        <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-        <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie</span>
+        <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
         "I'm checking your plan against the project information and current BOQ. I'll show you what I found before changing anything."
       </p>
     </div>
@@ -545,21 +545,21 @@ function CancelAnalysisModal({ onContinue, onConfirmCancel }: { onContinue: () =
         aria-modal="true"
         aria-labelledby="cancel-analysis-title"
         aria-describedby="cancel-analysis-desc"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
         <div className="flex items-center justify-between gap-2">
-          <h2 id="cancel-analysis-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Cancel plan analysis?</h2>
-          <button onClick={onContinue} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors shrink-0"><IcoClose /></button>
+          <h2 id="cancel-analysis-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Cancel plan analysis?</h2>
+          <button onClick={onContinue} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors shrink-0"><IcoClose /></button>
         </div>
-        <p id="cancel-analysis-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p id="cancel-analysis-desc" className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Your uploaded plan will remain attached to the project.
         </p>
         <div className="flex gap-2.5 justify-end">
-          <button ref={continueRef} onClick={onContinue} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>
+          <button ref={continueRef} onClick={onContinue} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>
             Continue analysis
           </button>
-          <button onClick={onConfirmCancel} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#DC2626', fontFamily: FONT_BODY }}>
+          <button onClick={onConfirmCancel} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-danger)', fontFamily: FONT_BODY }}>
             Cancel
           </button>
         </div>
@@ -574,21 +574,21 @@ function AnalysisError({ onRetry, onUploadAnother }: { onRetry: () => void; onUp
   return (
     <div
       role="alert"
-      className="w-full max-w-[560px] bg-white rounded-[24px] border border-[#E3DDD7] px-6 py-8 sm:px-10 sm:py-10 flex flex-col items-center text-center gap-4"
+      className="w-full max-w-[560px] bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] px-6 py-8 sm:px-10 sm:py-10 flex flex-col items-center text-center gap-4"
       style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}
     >
-      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}>
+      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: 'var(--hz-danger)' }}>
         <IcoWarning />
       </span>
-      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn't complete the analysis.</h2>
-      <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY, maxWidth: 400 }}>
+      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn't complete the analysis.</h2>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY, maxWidth: 400 }}>
         The plan is still uploaded. You can retry the analysis or upload another file.
       </p>
       <div className="flex flex-col sm:flex-row gap-2.5 pt-1 w-full sm:w-auto">
-        <button onClick={onUploadAnother} className="h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>
+        <button onClick={onUploadAnother} className="h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>
           Upload another plan
         </button>
-        <button onClick={onRetry} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onRetry} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           Retry analysis
         </button>
       </div>
@@ -692,24 +692,24 @@ export default function PlanAnalysisLoadingScreen({
   const kindLabel = isPdfDoc ? 'PDF' : isCadDoc ? 'CAD' : isImage ? 'Image' : 'File'
   const headerBadgeLabel = isComplete ? 'Analysis Complete' : isError ? 'Analysis Failed' : `Analysing · ${snapshot.progress}%`
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Plan Analysis</span>
-        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>{snapshot.progress}%</span>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Plan Analysis</span>
+        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>{snapshot.progress}%</span>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="plan" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Analysing Plan</h1>
-              <span className="text-[13px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Analysing Plan</h1>
+              <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
               {headerBadgeLabel}
             </span>
           </header>
@@ -719,18 +719,18 @@ return (
 
               {/* Page header */}
               <div className="flex flex-col gap-3" style={{ animation: reducedMotion ? undefined : 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
-                <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Plan Analysis</span>
-                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Hozie is reading your plan.</h1>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Plan Analysis</span>
+                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Hozie is reading your plan.</h1>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
                   We're analysing the drawing to understand the layout, dimensions and construction scope.
                 </p>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1">
-                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                    <span className="shrink-0" style={{ color: '#722ED1' }}>{isPdfDoc ? <IcoFile /> : isCadDoc ? <IcoFileCad /> : <IcoImage />}</span>
+                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                    <span className="shrink-0" style={{ color: 'var(--hz-primary)' }}>{isPdfDoc ? <IcoFile /> : isCadDoc ? <IcoFileCad /> : <IcoImage />}</span>
                     {docName}
                   </span>
-                  <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{docPageCount ? `${docPageCount} page${docPageCount > 1 ? 's' : ''} · ` : ''}{kindLabel}</span>
-                  <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+                  <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{docPageCount ? `${docPageCount} page${docPageCount > 1 ? 's' : ''} · ` : ''}{kindLabel}</span>
+                  <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
                 </div>
               </div>
 
@@ -786,7 +786,7 @@ return (
                       <button
                         onClick={() => setShowCancelModal(true)}
                         className="text-[13px] font-medium cursor-pointer border-0 bg-transparent p-0 hover:underline"
-                        style={{ color: '#68636D', fontFamily: FONT_BODY }}
+                        style={{ color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
                       >
                         Cancel analysis
                       </button>

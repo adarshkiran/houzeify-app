@@ -77,8 +77,8 @@ const ORGANIZATION_TYPE_ICONS: Record<OrganizationType, React.ReactNode> = {
 function FieldLabel({ children, optional }: { children: React.ReactNode; optional?: boolean }) {
   return (
     <div className="flex items-center gap-1.5 mb-1.5">
-      <label className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{children}</label>
-      {optional && <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
+      <label className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{children}</label>
+      {optional && <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
     </div>
   )
 }
@@ -97,22 +97,22 @@ function TypeCard({ type, selected, onSelect }: { type: OrganizationType; select
       onClick={onSelect}
       className={[
         'relative text-left flex items-start gap-2.5 rounded-[12px] p-3 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <div className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', selected ? 'bg-white text-[#722ED1]' : 'bg-[#F4F0EC] text-[#68636D]'].join(' ')}>
+      <div className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
         {ORGANIZATION_TYPE_ICONS[type]}
       </div>
       <div className="flex flex-col gap-0.5 min-w-0">
-        <span className={['text-[13px] font-semibold leading-tight', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
+        <span className={['text-[13px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
           {ORGANIZATION_TYPE_LABELS[type]}
         </span>
-        <span className="text-[11.5px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[11.5px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>
           {ORGANIZATION_TYPE_DESCRIPTIONS[type]}
         </span>
       </div>
       {selected && (
-        <span className="absolute top-2.5 right-2.5 w-[16px] h-[16px] rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true">
+        <span className="absolute top-2.5 right-2.5 w-[16px] h-[16px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true">
           <CheckIcon size={9} />
         </span>
       )}
@@ -282,19 +282,19 @@ export default function CreateOrganizationScreen({
   const previewInitials = organizationInitials(name.trim() || 'Your Organization')
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-between h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
           {!isProfessionalContext && (
-            <span className="text-[12px] tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 1 of 2</span>
+            <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 1 of 2</span>
           )}
         </div>
         {!isProfessionalContext && (
-          <div className="h-[2px] bg-[#F4F0EC] w-full">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '50%' }} />
+          <div className="h-[2px] bg-[var(--hz-surface-muted)] w-full">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '50%' }} />
           </div>
         )}
       </header>
@@ -305,13 +305,13 @@ export default function CreateOrganizationScreen({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>
               {isProfessionalContext ? 'Organization Setup' : 'Create Organization'}
             </span>
-            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               Create your organization
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
               {isProfessionalContext
                 ? 'Set up your company profile so homeowners can discover and work with your business on Houzeify.'
                 : 'Set up a shared workspace for managing your construction projects with your team.'}
@@ -319,14 +319,14 @@ export default function CreateOrganizationScreen({
           </div>
 
           {/* Hozie — compact, non-dominant per Screen 021 spec */}
-          <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="shrink-0"><HIcon size={32} /></div>
-            <p className="text-[13px] text-[#68636D] leading-[1.55] m-0 flex-1 min-w-[220px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0 flex-1 min-w-[220px]" style={{ fontFamily: FONT_BODY }}>
               {isProfessionalContext ? (
-                <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>Need help setting up your organization?</span>
+                <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>Need help setting up your organization?</span>
               ) : (
                 <>
-                  <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>Let&apos;s create your workspace.</span>{' '}
+                  <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>Let&apos;s create your workspace.</span>{' '}
                   You can invite your team and add projects after your organization is created.
                 </>
               )}
@@ -334,7 +334,7 @@ export default function CreateOrganizationScreen({
             {isProfessionalContext && (
               <button
                 onClick={() => onNavigate('ai-advisor', { onboarding_context: 'create-organization', professional_type: professionalType ?? '' })}
-                className="h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                className="h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                 style={{ fontFamily: FONT_BODY }}
               >
                 Ask Hozie →
@@ -360,11 +360,11 @@ export default function CreateOrganizationScreen({
                   maxLength={100}
                   aria-invalid={showError('name')}
                   aria-describedby={showError('name') ? 'org-name-error' : undefined}
-                  className={['w-full h-[48px] px-4 rounded-[12px] border bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('name') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                  className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('name') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
                 {showError('name') ? <FieldError id="org-name-error" message={errors.name} /> : (
-                  <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>
                     {isProfessionalContext ? 'This is the name homeowners will see on your Houzeify profile.' : 'Example: Kiran Properties'}
                   </p>
                 )}
@@ -382,11 +382,11 @@ export default function CreateOrganizationScreen({
                   maxLength={100}
                   aria-invalid={showError('primaryContactName')}
                   aria-describedby={showError('primaryContactName') ? 'org-primary-contact-error' : undefined}
-                  className={['w-full h-[48px] px-4 rounded-[12px] border bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('primaryContactName') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                  className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('primaryContactName') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
                 {showError('primaryContactName') ? <FieldError id="org-primary-contact-error" message={errors.primaryContactName} /> : (
-                  <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Primary person responsible for this organization.</p>
+                  <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Primary person responsible for this organization.</p>
                 )}
               </div>
 
@@ -401,8 +401,8 @@ export default function CreateOrganizationScreen({
 
               <div className="relative">
                 <FieldLabel>Organization location</FieldLabel>
-                <div className={['flex items-center border rounded-[12px] bg-white h-[48px] overflow-hidden transition-colors', showError('location') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus-within:border-[#722ED1]'].join(' ')}>
-                  <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><SearchIcon /></div>
+                <div className={['flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[48px] overflow-hidden transition-colors', showError('location') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]'].join(' ')}>
+                  <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><SearchIcon /></div>
                   <input
                     id="org-location"
                     type="text"
@@ -417,12 +417,12 @@ export default function CreateOrganizationScreen({
                     aria-invalid={showError('location')}
                     aria-describedby={showError('location') ? 'org-location-error' : undefined}
                     autoComplete="off"
-                    className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                 </div>
                 {locationOpen && locationQuery.trim().length >= 2 && locationResults.length > 0 && (
-                  <div id="org-location-results" role="listbox" className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 bg-white border border-[#E3DDD7] rounded-[12px] overflow-hidden" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}>
+                  <div id="org-location-results" role="listbox" className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[12px] overflow-hidden" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}>
                     {locationResults.map((r, i) => (
                       <button
                         key={`${r.city}-${r.locality}-${i}`}
@@ -431,24 +431,24 @@ export default function CreateOrganizationScreen({
                         aria-selected={false}
                         onMouseDown={e => e.preventDefault()}
                         onClick={() => selectLocation(r)}
-                        className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[#FFFFFF] transition-colors"
+                        className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[var(--hz-surface)] transition-colors"
                         style={{ borderTop: i > 0 ? '1px solid #CAC7C6' : 'none' }}
                       >
-                        <span className="text-[#9A949D] shrink-0"><PinIcon /></span>
-                        <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{r.city}, {r.state}</span>
+                        <span className="text-[var(--hz-ink-subtle)] shrink-0"><PinIcon /></span>
+                        <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{r.city}, {r.state}</span>
                       </button>
                     ))}
                   </div>
                 )}
                 {showError('location') ? <FieldError id="org-location-error" message={errors.location} /> : (
-                  <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Example: Hyderabad, Telangana — no need for a full address.</p>
+                  <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Example: Hyderabad, Telangana — no need for a full address.</p>
                 )}
               </div>
 
               <div>
                 <FieldLabel optional>Website</FieldLabel>
-                <div className={['flex items-center border rounded-[12px] bg-white h-[48px] overflow-hidden transition-colors', showError('website') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus-within:border-[#722ED1]'].join(' ')}>
-                  <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><GlobeIcon /></div>
+                <div className={['flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[48px] overflow-hidden transition-colors', showError('website') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]'].join(' ')}>
+                  <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><GlobeIcon /></div>
                   <input
                     id="org-website"
                     type="text"
@@ -458,7 +458,7 @@ export default function CreateOrganizationScreen({
                     placeholder="https://example.com"
                     aria-invalid={showError('website')}
                     aria-describedby={showError('website') ? 'org-website-error' : undefined}
-                    className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                 </div>
@@ -468,26 +468,26 @@ export default function CreateOrganizationScreen({
               <div>
                 <FieldLabel optional>Organization logo</FieldLabel>
                 <div className="flex items-center gap-3">
-                  <div className="w-14 h-14 rounded-[12px] overflow-hidden flex items-center justify-center shrink-0 border border-[#E3DDD7]" style={{ backgroundColor: logoDataUrl ? 'transparent' : '#F3EAFF' }}>
+                  <div className="w-14 h-14 rounded-[12px] overflow-hidden flex items-center justify-center shrink-0 border border-[var(--hz-border)]" style={{ backgroundColor: logoDataUrl ? 'transparent' : 'var(--hz-primary-soft)' }}>
                     {logoDataUrl ? (
                       <img src={logoDataUrl} alt="Organization logo" className="w-full h-full object-cover" />
                     ) : (
-                      <span className="text-[16px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_HEAD }}>{previewInitials}</span>
+                      <span className="text-[16px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}>{previewInitials}</span>
                     )}
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <div className="flex items-center gap-2">
-                      <label htmlFor="org-logo-input" className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#722ED1] hover:border-[#722ED1] transition-colors" style={{ fontFamily: FONT_BODY }}>
+                      <label htmlFor="org-logo-input" className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-primary)] hover:border-[var(--hz-primary)] transition-colors" style={{ fontFamily: FONT_BODY }}>
                         <UploadIcon /> Add organization logo
                       </label>
                       <input ref={fileInputRef} id="org-logo-input" type="file" accept="image/png,image/jpeg,image/svg+xml" onChange={handleLogoChange} className="sr-only" />
                       {logoDataUrl && (
-                        <button type="button" onClick={removeLogo} aria-label="Remove logo" className="flex items-center justify-center w-8 h-8 rounded-full border border-[#E3DDD7] bg-white text-[#9A949D] hover:text-[#68636D] cursor-pointer">
+                        <button type="button" onClick={removeLogo} aria-label="Remove logo" className="flex items-center justify-center w-8 h-8 rounded-full border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-subtle)] hover:text-[var(--hz-ink-muted)] cursor-pointer">
                           <CloseIcon />
                         </button>
                       )}
                     </div>
-                    <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>PNG, JPG or SVG · up to 5 MB. If skipped, we&apos;ll use your initials.</span>
+                    <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>PNG, JPG or SVG · up to 5 MB. If skipped, we&apos;ll use your initials.</span>
                     {logoError && <FieldError id="org-logo-error" message={logoError} />}
                   </div>
                 </div>
@@ -497,31 +497,31 @@ export default function CreateOrganizationScreen({
 
             {/* Live preview */}
             <div className="order-2 lg:sticky lg:top-6">
-              <div className="rounded-[18px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Your Organization</span>
+              <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Your Organization</span>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-[12px] overflow-hidden flex items-center justify-center shrink-0" style={{ backgroundColor: logoDataUrl ? 'transparent' : '#F3EAFF', border: '1px solid #E3DDD7' }}>
+                  <div className="w-12 h-12 rounded-[12px] overflow-hidden flex items-center justify-center shrink-0" style={{ backgroundColor: logoDataUrl ? 'transparent' : 'var(--hz-primary-soft)', border: '1px solid var(--hz-border)' }}>
                     {logoDataUrl ? (
                       <img src={logoDataUrl} alt="" className="w-full h-full object-cover" />
                     ) : (
-                      <span className="text-[15px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_HEAD }}>{previewInitials}</span>
+                      <span className="text-[15px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}>{previewInitials}</span>
                     )}
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{previewName}</span>
-                    <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{type ? ORGANIZATION_TYPE_LABELS[type] : 'Organization type'}</span>
+                    <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{previewName}</span>
+                    <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{type ? ORGANIZATION_TYPE_LABELS[type] : 'Organization type'}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                <div className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                   <PinIcon />
                   <span>{location.trim() || 'Location not set'}</span>
                 </div>
 
-                <div className="flex flex-col gap-1 pt-3 border-t border-[#E3DDD7]">
-                  <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Owner</span>
-                  <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{primaryContactName.trim() || ORGANIZATION_OWNER_NAME}</span>
+                <div className="flex flex-col gap-1 pt-3 border-t border-[var(--hz-border)]">
+                  <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Owner</span>
+                  <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{primaryContactName.trim() || ORGANIZATION_OWNER_NAME}</span>
                 </div>
 
                 <div className="flex items-center gap-1.5 pt-1">
@@ -548,8 +548,8 @@ export default function CreateOrganizationScreen({
                   'h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 w-full sm:w-[240px]',
                   'flex items-center justify-center gap-2',
                   canContinue
-                    ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
-                    : 'bg-[#F4F0EC] text-[#9A949D] cursor-pointer',
+                    ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
+                    : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-pointer',
                 ].join(' ')}
                 style={{ fontFamily: FONT_BODY }}
               >
@@ -568,7 +568,7 @@ export default function CreateOrganizationScreen({
               <button
                 onClick={handleBack}
                 disabled={stage === 'submitting'}
-                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
+                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
               >
                 ← Back
               </button>
@@ -581,8 +581,8 @@ export default function CreateOrganizationScreen({
       <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-5 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>

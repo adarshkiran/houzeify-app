@@ -100,10 +100,10 @@ const COMPANY_TYPE_ICONS: Record<CompanyType, React.ReactNode> = {
 function FieldLabel({ children, optional, required }: { children: React.ReactNode; optional?: boolean; required?: boolean }) {
   return (
     <div className="flex items-center gap-1.5 mb-1.5">
-      <label className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-        {children}{required && <span style={{ color: '#DC2626' }}> *</span>}
+      <label className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+        {children}{required && <span style={{ color: 'var(--hz-danger)' }}> *</span>}
       </label>
-      {optional && <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
+      {optional && <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
     </div>
   )
 }
@@ -119,14 +119,14 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 // Professional Type / Operating As.
 function SummaryChip({ label, value, icon, onChange }: { label: string; value: string; icon: React.ReactNode; onChange: () => void }) {
   return (
-    <div className="flex items-center gap-3 rounded-[14px] px-4 py-3" style={{ backgroundColor: '#F4F0EC' }}>
+    <div className="flex items-center gap-3 rounded-[14px] px-4 py-3" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
       <div className="flex flex-col gap-1 flex-1 min-w-0">
-        <span className="text-[10px] tracking-[0.08em] uppercase text-[#68636D]" style={{ fontFamily: FONT_MONO }}>{label}</span>
-        <span className="flex items-center gap-1.5 text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>{label}</span>
+        <span className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>
           {icon} {value}
         </span>
       </div>
-      <button onClick={onChange} className="shrink-0 text-[12px] font-medium text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+      <button onClick={onChange} className="shrink-0 text-[12px] font-medium text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
         Change
       </button>
     </div>
@@ -142,17 +142,17 @@ function TypeCard({ type, selected, onSelect }: { type: CompanyType; selected: b
       onClick={onSelect}
       className={[
         'relative text-left flex items-center gap-2.5 rounded-[12px] p-3 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <div className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', selected ? 'bg-white text-[#722ED1]' : 'bg-[#F4F0EC] text-[#68636D]'].join(' ')}>
+      <div className={['w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
         {COMPANY_TYPE_ICONS[type]}
       </div>
-      <span className={['text-[13px] font-semibold leading-tight', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
+      <span className={['text-[13px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
         {COMPANY_TYPE_LABELS[type]}
       </span>
       {selected && (
-        <span className="absolute top-2.5 right-2.5 w-[16px] h-[16px] rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true">
+        <span className="absolute top-2.5 right-2.5 w-[16px] h-[16px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true">
           <CheckIcon size={9} />
         </span>
       )}
@@ -406,19 +406,19 @@ export default function CompanyInformationScreen({
   const descriptionCount = description.length
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-between h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
           {!isProfessionalContext && (
-            <span className="text-[12px] tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 2 of 2</span>
+            <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 2 of 2</span>
           )}
         </div>
         {!isProfessionalContext && (
-          <div className="h-[2px] bg-[#F4F0EC] w-full">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '100%' }} />
+          <div className="h-[2px] bg-[var(--hz-surface-muted)] w-full">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '100%' }} />
           </div>
         )}
       </header>
@@ -429,11 +429,11 @@ export default function CompanyInformationScreen({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Company Information</span>
-            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Company Information</span>
+            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               Tell us about your company
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
               {isProfessionalContext
                 ? 'Add a few details about your business so homeowners can understand who they are working with.'
                 : "Add your company's basic information so your Houzeify workspace represents your business correctly."}
@@ -455,7 +455,7 @@ export default function CompanyInformationScreen({
             <div className="flex flex-col gap-5 order-1">
 
               {/* Company identity card */}
-              <div className="flex flex-col gap-4 rounded-[16px] bg-white border border-[#E3DDD7] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <div className="flex flex-col gap-4 rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                 <div>
                   <FieldLabel>Company name</FieldLabel>
                   <input
@@ -468,15 +468,15 @@ export default function CompanyInformationScreen({
                     maxLength={120}
                     aria-invalid={showError('companyName')}
                     aria-describedby={showError('companyName') ? 'company-name-error' : undefined}
-                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('companyName') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('companyName') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {showError('companyName') ? <FieldError id="company-name-error" message={errors.companyName} /> : (
-                    <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Example: Mantoor Developers</p>
+                    <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Example: Mantoor Developers</p>
                   )}
                 </div>
 
-                <div className="pt-3 border-t border-[#E3DDD7]">
+                <div className="pt-3 border-t border-[var(--hz-border)]">
                   <FieldLabel>Company Owner / Primary Contact</FieldLabel>
                   <input
                     id="company-owner-name"
@@ -488,11 +488,11 @@ export default function CompanyInformationScreen({
                     maxLength={100}
                     aria-invalid={showError('companyOwnerName')}
                     aria-describedby={showError('companyOwnerName') ? 'company-owner-error' : undefined}
-                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('companyOwnerName') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('companyOwnerName') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {showError('companyOwnerName') ? <FieldError id="company-owner-error" message={errors.companyOwnerName} /> : (
-                    <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Primary person responsible for this organization.</p>
+                    <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Primary person responsible for this organization.</p>
                   )}
                 </div>
               </div>
@@ -513,8 +513,8 @@ export default function CompanyInformationScreen({
               {/* Business location */}
               <div className="relative">
                 <FieldLabel>Company location</FieldLabel>
-                <div className={['flex items-center border rounded-[12px] bg-white h-[48px] overflow-hidden transition-colors', showError('businessLocation') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus-within:border-[#722ED1]'].join(' ')}>
-                  <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><SearchIcon /></div>
+                <div className={['flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[48px] overflow-hidden transition-colors', showError('businessLocation') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]'].join(' ')}>
+                  <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><SearchIcon /></div>
                   <input
                     id="company-location"
                     type="text"
@@ -529,12 +529,12 @@ export default function CompanyInformationScreen({
                     aria-invalid={showError('businessLocation')}
                     aria-describedby={showError('businessLocation') ? 'company-location-error' : undefined}
                     autoComplete="off"
-                    className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                 </div>
                 {locationOpen && locationQuery.trim().length >= 2 && locationResults.length > 0 && (
-                  <div id="company-location-results" role="listbox" className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 bg-white border border-[#E3DDD7] rounded-[12px] overflow-hidden" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}>
+                  <div id="company-location-results" role="listbox" className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[12px] overflow-hidden" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}>
                     {locationResults.map((r, i) => (
                       <button
                         key={`${r.city}-${r.locality}-${i}`}
@@ -543,28 +543,28 @@ export default function CompanyInformationScreen({
                         aria-selected={false}
                         onMouseDown={e => e.preventDefault()}
                         onClick={() => selectLocation(r)}
-                        className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[#FFFFFF] transition-colors"
+                        className="w-full flex items-center gap-2.5 text-left px-4 py-2.5 border-0 bg-transparent cursor-pointer hover:bg-[var(--hz-surface)] transition-colors"
                         style={{ borderTop: i > 0 ? '1px solid #CAC7C6' : 'none' }}
                       >
-                        <span className="text-[#9A949D] shrink-0"><PinIcon /></span>
-                        <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{r.city}, {r.state}</span>
+                        <span className="text-[var(--hz-ink-subtle)] shrink-0"><PinIcon /></span>
+                        <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{r.city}, {r.state}</span>
                       </button>
                     ))}
                   </div>
                 )}
                 {showError('businessLocation') ? <FieldError id="company-location-error" message={errors.businessLocation} /> : (
-                  <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Your company&apos;s business location — not necessarily where you&apos;re building.</p>
+                  <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Your company&apos;s business location — not necessarily where you&apos;re building.</p>
                 )}
               </div>
 
               {/* Business contact */}
               <div className="flex flex-col gap-3">
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Business Contact</span>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Business Contact</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <FieldLabel required>Business Phone</FieldLabel>
-                    <div className={['flex items-center border rounded-[12px] bg-white h-[48px] overflow-hidden transition-colors', showError('phone') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus-within:border-[#722ED1]'].join(' ')}>
-                      <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><PhoneIcon /></div>
+                    <div className={['flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[48px] overflow-hidden transition-colors', showError('phone') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]'].join(' ')}>
+                      <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><PhoneIcon /></div>
                       <input
                         id="company-phone"
                         type="tel"
@@ -574,7 +574,7 @@ export default function CompanyInformationScreen({
                         placeholder="+91 XXXXX XXXXX"
                         aria-invalid={showError('phone')}
                         aria-describedby={showError('phone') ? 'company-phone-error' : undefined}
-                        className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                        className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -582,8 +582,8 @@ export default function CompanyInformationScreen({
                   </div>
                   <div>
                     <FieldLabel required>Business Email</FieldLabel>
-                    <div className={['flex items-center border rounded-[12px] bg-white h-[48px] overflow-hidden transition-colors', showError('email') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus-within:border-[#722ED1]'].join(' ')}>
-                      <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><MailIcon /></div>
+                    <div className={['flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[48px] overflow-hidden transition-colors', showError('email') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]'].join(' ')}>
+                      <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><MailIcon /></div>
                       <input
                         id="company-email"
                         type="email"
@@ -593,7 +593,7 @@ export default function CompanyInformationScreen({
                         placeholder="contact@mantoordevelopers.com"
                         aria-invalid={showError('email')}
                         aria-describedby={showError('email') ? 'company-email-error' : undefined}
-                        className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                        className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -602,8 +602,8 @@ export default function CompanyInformationScreen({
                 </div>
                 <div>
                   <FieldLabel optional>Website</FieldLabel>
-                  <div className={['flex items-center border rounded-[12px] bg-white h-[48px] overflow-hidden transition-colors', showError('website') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus-within:border-[#722ED1]'].join(' ')}>
-                    <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><GlobeIcon /></div>
+                  <div className={['flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[48px] overflow-hidden transition-colors', showError('website') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]'].join(' ')}>
+                    <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><GlobeIcon /></div>
                     <input
                       id="company-website"
                       type="text"
@@ -613,7 +613,7 @@ export default function CompanyInformationScreen({
                       placeholder="https://www.mantoordevelopers.com"
                       aria-invalid={showError('website')}
                       aria-describedby={showError('website') ? 'company-website-error' : undefined}
-                      className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                      className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
                       style={{ fontFamily: FONT_BODY }}
                     />
                   </div>
@@ -631,7 +631,7 @@ export default function CompanyInformationScreen({
                     placeholder="e.g. 2018"
                     aria-invalid={showError('yearEstablished')}
                     aria-describedby={showError('yearEstablished') ? 'company-year-error' : undefined}
-                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('yearEstablished') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                    className={['w-full h-[48px] px-4 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('yearEstablished') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {showError('yearEstablished') && <FieldError id="company-year-error" message={errors.yearEstablished} />}
@@ -649,12 +649,12 @@ export default function CompanyInformationScreen({
                   rows={3}
                   maxLength={500}
                   aria-describedby="company-description-count"
-                  className={['w-full px-4 py-3 rounded-[12px] border bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none', showError('description') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                  className={['w-full px-4 py-3 rounded-[12px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none', showError('description') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
                 <div className="flex items-center justify-between mt-1.5">
-                  <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Example: Mantoor Developers develops residential properties and manages construction projects.</p>
-                  <span id="company-description-count" className="text-[11px] text-[#9A949D] shrink-0 pl-3" style={{ fontFamily: FONT_MONO }}>{descriptionCount}/500</span>
+                  <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Example: Mantoor Developers develops residential properties and manages construction projects.</p>
+                  <span id="company-description-count" className="text-[11px] text-[var(--hz-ink-subtle)] shrink-0 pl-3" style={{ fontFamily: FONT_MONO }}>{descriptionCount}/500</span>
                 </div>
               </div>
 
@@ -662,42 +662,42 @@ export default function CompanyInformationScreen({
               <div>
                 <FieldLabel optional>Company logo</FieldLabel>
                 <div className="flex items-center gap-3">
-                  <div className="w-14 h-14 rounded-[12px] overflow-hidden flex items-center justify-center shrink-0 border border-[#E3DDD7]" style={{ backgroundColor: logoDataUrl ? 'transparent' : '#F3EAFF' }}>
+                  <div className="w-14 h-14 rounded-[12px] overflow-hidden flex items-center justify-center shrink-0 border border-[var(--hz-border)]" style={{ backgroundColor: logoDataUrl ? 'transparent' : 'var(--hz-primary-soft)' }}>
                     {logoDataUrl ? (
                       <img src={logoDataUrl} alt="Company logo" className="w-full h-full object-cover" />
                     ) : (
-                      <span className="text-[16px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_HEAD }}>{previewInitials}</span>
+                      <span className="text-[16px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}>{previewInitials}</span>
                     )}
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <div className="flex items-center gap-2">
-                      <label htmlFor="company-logo-input" className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#722ED1] hover:border-[#722ED1] transition-colors" style={{ fontFamily: FONT_BODY }}>
+                      <label htmlFor="company-logo-input" className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-primary)] hover:border-[var(--hz-primary)] transition-colors" style={{ fontFamily: FONT_BODY }}>
                         <UploadIcon /> Upload logo
                       </label>
                       <input ref={fileInputRef} id="company-logo-input" type="file" accept="image/png,image/jpeg,image/svg+xml" onChange={handleLogoChange} className="sr-only" />
                       {logoDataUrl && (
-                        <button type="button" onClick={removeLogo} aria-label="Remove logo" className="flex items-center gap-1 h-9 px-3 rounded-full text-[12.5px] font-medium border border-[#E3DDD7] bg-white text-[#68636D] hover:text-[#242326] cursor-pointer" style={{ fontFamily: FONT_BODY }}>
+                        <button type="button" onClick={removeLogo} aria-label="Remove logo" className="flex items-center gap-1 h-9 px-3 rounded-full text-[12.5px] font-medium border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer" style={{ fontFamily: FONT_BODY }}>
                           <CloseIcon /> Remove
                         </button>
                       )}
                     </div>
-                    <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>PNG, JPG or SVG · up to 5 MB. If skipped, we&apos;ll generate initials ({previewInitials}).</span>
+                    <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>PNG, JPG or SVG · up to 5 MB. If skipped, we&apos;ll generate initials ({previewInitials}).</span>
                     {logoError && <FieldError id="company-logo-error" message={logoError} />}
                   </div>
                 </div>
               </div>
 
               {/* Owner relationship */}
-              <div className="flex items-start gap-3 rounded-[14px] p-4" style={{ backgroundColor: '#F4F0EC' }}>
-                <span className="text-[#68636D] mt-0.5 shrink-0"><ShieldIcon /></span>
+              <div className="flex items-start gap-3 rounded-[14px] p-4" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+                <span className="text-[var(--hz-ink-muted)] mt-0.5 shrink-0"><ShieldIcon /></span>
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-[10px] tracking-[0.10em] uppercase text-[#68636D]" style={{ fontFamily: FONT_MONO }}>Company Owner</span>
-                  <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{companyOwnerName.trim() || ORGANIZATION_OWNER_NAME}</span>
+                  <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>Company Owner</span>
+                  <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{companyOwnerName.trim() || ORGANIZATION_OWNER_NAME}</span>
                   <div className="flex flex-wrap items-center gap-2 text-[12px]" style={{ fontFamily: FONT_BODY }}>
-                    <span className="h-6 px-2 rounded-full bg-white border border-[#E3DDD7] text-[#242326]">Organization role: Owner</span>
-                    <span className="h-6 px-2 rounded-full bg-white border border-[#E3DDD7] text-[#242326]">Access: Full organization access</span>
+                    <span className="h-6 px-2 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-ink)]">Organization role: Owner</span>
+                    <span className="h-6 px-2 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-ink)]">Access: Full organization access</span>
                   </div>
-                  <p className="text-[12px] text-[#68636D] leading-[1.5] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.5] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
                     The company owner controls the organization workspace and can invite team members.
                   </p>
                 </div>
@@ -705,22 +705,22 @@ export default function CompanyInformationScreen({
 
               {/* Why we ask */}
               <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
-                <span className="text-[#722ED1] mt-0.5 shrink-0"><InfoIcon /></span>
+                <span className="text-[var(--hz-primary)] mt-0.5 shrink-0"><InfoIcon /></span>
                 <div className="flex flex-col gap-1">
-                  <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Why this information matters</span>
-                  <p className="text-[12.5px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+                  <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Why this information matters</span>
+                  <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
                     Your company information helps Houzeify organize projects, documents and collaboration under the correct business identity.
                   </p>
                 </div>
               </div>
 
               {/* Hozie — compact, optional, never mandatory */}
-              <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[14px] px-4 py-3 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[14px] px-4 py-3 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                 <div className="shrink-0"><HIcon size={24} /></div>
-                <span className="text-[12.5px] text-[#242326] flex-1 min-w-[200px]" style={{ fontFamily: FONT_BODY }}>Need help describing your company?</span>
+                <span className="text-[12.5px] text-[var(--hz-ink)] flex-1 min-w-[200px]" style={{ fontFamily: FONT_BODY }}>Need help describing your company?</span>
                 <button
                   onClick={handleAskHozie}
-                  className="h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                  className="h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                   style={{ fontFamily: FONT_BODY }}
                 >
                   Ask Hozie →
@@ -730,50 +730,50 @@ export default function CompanyInformationScreen({
 
             {/* Live preview */}
             <div className="order-2 lg:sticky lg:top-6">
-              <div className="rounded-[18px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Company Preview</span>
+              <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Company Preview</span>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-[12px] overflow-hidden flex items-center justify-center shrink-0" style={{ backgroundColor: logoDataUrl ? 'transparent' : '#F3EAFF', border: '1px solid #E3DDD7' }}>
+                  <div className="w-12 h-12 rounded-[12px] overflow-hidden flex items-center justify-center shrink-0" style={{ backgroundColor: logoDataUrl ? 'transparent' : 'var(--hz-primary-soft)', border: '1px solid var(--hz-border)' }}>
                     {logoDataUrl ? (
                       <img src={logoDataUrl} alt="" className="w-full h-full object-cover" />
                     ) : (
-                      <span className="text-[15px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_HEAD }}>{previewInitials}</span>
+                      <span className="text-[15px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}>{previewInitials}</span>
                     )}
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{previewName}</span>
-                    <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                    <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{previewName}</span>
+                    <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                       {isProfessionalContext ? professionalTypeLabel : (companyType ? COMPANY_TYPE_LABELS[companyType] : 'Company type')}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                <div className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                   <PinIcon />
                   <span>{businessLocation.trim() || 'Location not set'}</span>
                 </div>
 
-                <div className="flex flex-col gap-1 pt-3 border-t border-[#E3DDD7]">
-                  <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Owner</span>
-                  <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{companyOwnerName.trim() || ORGANIZATION_OWNER_NAME}</span>
+                <div className="flex flex-col gap-1 pt-3 border-t border-[var(--hz-border)]">
+                  <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Owner</span>
+                  <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{companyOwnerName.trim() || ORGANIZATION_OWNER_NAME}</span>
                 </div>
 
                 {description.trim() && (
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>About</span>
-                    <p className="text-[12.5px] text-[#68636D] leading-[1.5] m-0 line-clamp-3" style={{ fontFamily: FONT_BODY }}>{description.trim()}</p>
+                    <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>About</span>
+                    <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.5] m-0 line-clamp-3" style={{ fontFamily: FONT_BODY }}>{description.trim()}</p>
                   </div>
                 )}
 
                 {email.trim() && (
-                  <div className="flex items-center gap-1.5 text-[12.5px] text-[#68636D] -mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                  <div className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink-muted)] -mt-1.5" style={{ fontFamily: FONT_BODY }}>
                     <MailIcon />
                     <span className="truncate">{email.trim()}</span>
                   </div>
                 )}
 
-                <div className="flex items-center gap-1.5 pt-2 border-t border-[#E3DDD7]">
+                <div className="flex items-center gap-1.5 pt-2 border-t border-[var(--hz-border)]">
                   <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#D97706' }} />
                   <span className="text-[12px] font-semibold" style={{ fontFamily: FONT_BODY, color: '#D97706' }}>Verification: Pending</span>
                 </div>
@@ -802,8 +802,8 @@ export default function CompanyInformationScreen({
                   'h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 w-full sm:w-[280px]',
                   'flex items-center justify-center gap-2',
                   canContinue
-                    ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
-                    : 'bg-[#F4F0EC] text-[#9A949D] cursor-pointer',
+                    ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
+                    : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-pointer',
                 ].join(' ')}
                 style={{ fontFamily: FONT_BODY }}
               >
@@ -822,7 +822,7 @@ export default function CompanyInformationScreen({
               <button
                 onClick={handleBack}
                 disabled={stage === 'submitting'}
-                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
+                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
               >
                 ← Back
               </button>
@@ -835,8 +835,8 @@ export default function CompanyInformationScreen({
       <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-5 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>

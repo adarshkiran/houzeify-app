@@ -60,8 +60,8 @@ const IcoPhoto = ({ size = 14 }: { size?: number }) => (
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
       {children}
     </div>
   )
@@ -70,8 +70,8 @@ function SectionCard({ title, children }: { title?: string; children: React.Reac
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3">
-      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{label}</p>
-      <p className="text-[13px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{label}</p>
+      <p className="text-[13px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
     </div>
   )
 }
@@ -299,8 +299,8 @@ export default function ProjectProgressScreen({
       <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
-          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
             Back to Workspace
           </button>
         </div>
@@ -331,8 +331,8 @@ export default function ProjectProgressScreen({
           <button
             type="button"
             onClick={() => onNavigate('create-daily-progress', projectId ? { project_id: projectId } : undefined)}
-            className="min-h-11 h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
-            style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+            className="min-h-11 h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
+            style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
           >
             Add Progress Update
           </button>
@@ -343,19 +343,19 @@ export default function ProjectProgressScreen({
       <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
         <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
           <div className="min-w-0">
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Progress</p>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Progress</p>
+            <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
             <div className="flex items-center gap-3 mt-1.5 flex-wrap">
               {location && (
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> {location}
                 </span>
               )}
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: isProjectStatus(recordStatus) ? '#F3EAFF' : '#F4F0EC', color: isProjectStatus(recordStatus) ? '#722ED1' : '#68636D', fontFamily: FONT_MONO }}>
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: isProjectStatus(recordStatus) ? 'var(--hz-primary-soft)' : 'var(--hz-surface-muted)', color: isProjectStatus(recordStatus) ? 'var(--hz-primary)' : 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
                 {statusLabel.toUpperCase()}
               </span>
               {currentStageLabel && (
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
                   {currentStageLabel.toUpperCase()}
                 </span>
               )}
@@ -369,9 +369,9 @@ export default function ProjectProgressScreen({
               Progress" bar, just segmented per stage. */}
           <SectionCard title="Construction Stage">
             <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
-              <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{currentStageLabel ?? 'Not started yet'}</p>
+              <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{currentStageLabel ?? 'Not started yet'}</p>
               {currentStageIdx >= 0 && (
-                <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Stage {currentStageIdx + 1} of {constructionStages.length}</span>
+                <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Stage {currentStageIdx + 1} of {constructionStages.length}</span>
               )}
             </div>
             <div className="flex items-center gap-1" role="img" aria-label={currentStageLabel ? `Construction stage progress: ${currentStageLabel}, stage ${currentStageIdx + 1} of ${constructionStages.length}` : 'Construction stage not started yet'}>
@@ -381,7 +381,7 @@ export default function ProjectProgressScreen({
                   title={s.name}
                   aria-hidden="true"
                   className="flex-1 h-1.5 rounded-full"
-                  style={{ backgroundColor: currentStageIdx >= 0 && i <= currentStageIdx ? '#722ED1' : '#F4F0EC' }}
+                  style={{ backgroundColor: currentStageIdx >= 0 && i <= currentStageIdx ? 'var(--hz-primary)' : 'var(--hz-surface-muted)' }}
                 />
               ))}
             </div>
@@ -401,8 +401,8 @@ export default function ProjectProgressScreen({
               <button
                 type="button"
                 onClick={() => { void refresh() }}
-                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
               >
                 Try again
               </button>
@@ -415,8 +415,8 @@ export default function ProjectProgressScreen({
               <button
                 type="button"
                 onClick={() => setCustomerAttempt(n => n + 1)}
-                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
               >
                 Try again
               </button>
@@ -428,26 +428,26 @@ export default function ProjectProgressScreen({
           {isLoading ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-subtle)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <IcoProgress />
                 </span>
-                <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Loading progress…</p>
+                <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Loading progress…</p>
               </div>
             </SectionCard>
           ) : isCustomer && customerStatus === 'error' ? null : progress.length === 0 ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-8">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-subtle)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <IcoProgress />
                 </span>
-                <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{isCustomer ? 'Nothing shared yet' : 'No progress updates yet'}</p>
-                <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>{isCustomer ? 'Your builder has not published a progress update yet.' : "Start documenting construction progress to build your project's digital record."}</p>
+                <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{isCustomer ? 'Nothing shared yet' : 'No progress updates yet'}</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>{isCustomer ? 'Your builder has not published a progress update yet.' : "Start documenting construction progress to build your project's digital record."}</p>
                 {!isCustomer && (
                 <button
                   type="button"
                   onClick={() => onNavigate('create-daily-progress', projectId ? { project_id: projectId } : undefined)}
                   className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 mt-2"
-                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                  style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                 >
                   Add Progress Update
                 </button>
@@ -463,24 +463,24 @@ export default function ProjectProgressScreen({
                       <div
                         key={entry.id}
                         className={i < group.entries.length - 1 ? 'pb-4' : ''}
-                        style={i < group.entries.length - 1 ? { borderBottom: '1px solid #F4F0EC' } : undefined}
+                        style={i < group.entries.length - 1 ? { borderBottom: '1px solid var(--hz-surface-muted)' } : undefined}
                       >
                         <div className="flex items-start justify-between gap-3 flex-wrap">
                           <div className="min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{entry.title}</p>
+                              <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{entry.title}</p>
                               {stageLabel(entry.stage) && (
-                                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+                                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
                                   {stageLabel(entry.stage)!.toUpperCase()}
                                 </span>
                               )}
                             </div>
                             {entry.description && (
-                              <p className="text-[12.5px] text-[#68636D] m-0 mt-1 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>{entry.description}</p>
+                              <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>{entry.description}</p>
                             )}
                             {entry.photos.length > 0 && (
                               <div className="mt-3">
-                                <div className="flex items-center gap-1.5 text-[#9A949D] mb-2">
+                                <div className="flex items-center gap-1.5 text-[var(--hz-ink-subtle)] mb-2">
                                   <IcoPhoto />
                                   <span className="text-[12px]" style={{ fontFamily: FONT_BODY }}>
                                     {(() => {
@@ -512,10 +512,10 @@ export default function ProjectProgressScreen({
                                         })
                                       }
                                       aria-label={`Open construction ${(photo.mediaKind ?? 'photo') === 'video' ? 'video' : 'photo'} for ${entry.title}`}
-                                      className="p-0 border-0 bg-transparent cursor-pointer rounded-[10px] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] min-h-11 relative"
+                                      className="p-0 border-0 bg-transparent cursor-pointer rounded-[10px] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] min-h-11 relative"
                                     >
                                       {(photo.mediaKind ?? (photo.mimeType?.startsWith('video/') ? 'video' : 'photo')) === 'video' ? (
-                                        <div className="w-full aspect-square flex items-center justify-center bg-[#242326] rounded-[10px]">
+                                        <div className="w-full aspect-square flex items-center justify-center bg-[var(--hz-ink)] rounded-[10px]">
                                           <span className="text-[11px] text-white" style={{ fontFamily: FONT_MONO }}>VIDEO</span>
                                         </div>
                                       ) : (
@@ -532,7 +532,7 @@ export default function ProjectProgressScreen({
                               </div>
                             )}
                           </div>
-                          <p className="text-[12px] text-[#9A949D] m-0 shrink-0" style={{ fontFamily: FONT_BODY }}>{formatEntryDate(entry.date)}</p>
+                          <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0 shrink-0" style={{ fontFamily: FONT_BODY }}>{formatEntryDate(entry.date)}</p>
                         </div>
                         {!isCustomer && projectId && (
                           <button
@@ -546,7 +546,7 @@ export default function ProjectProgressScreen({
                                 .finally(() => setShareBusyId(null))
                             }}
                             className="mt-3 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold cursor-pointer border-0"
-                            style={{ backgroundColor: entry.visibility === 'customer' ? '#C6F6D5' : '#F3EAFF', color: '#242326', fontFamily: FONT_BODY }}
+                            style={{ backgroundColor: entry.visibility === 'customer' ? '#C6F6D5' : 'var(--hz-primary-soft)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
                           >
                             {entry.visibility === 'customer' ? 'Shared' : 'Share with customer'}
                           </button>
@@ -576,15 +576,15 @@ export default function ProjectProgressScreen({
           {/* Connections — nav-only, no duplicated data */}
           <div className="flex items-center gap-4 flex-wrap">
             {!isCustomer && (
-              <button type="button" onClick={() => navTo('project-tasks')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={() => navTo('project-tasks')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                 View Project Tasks →
               </button>
             )}
-            <button type="button" onClick={() => navTo('project-documents')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={() => navTo('project-documents')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Project Documents →
             </button>
             {!isCustomer && (
-              <button type="button" onClick={() => navTo('project-team')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={() => navTo('project-team')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                 Project Team →
               </button>
             )}
@@ -617,9 +617,9 @@ export default function ProjectProgressScreen({
             }
           }}
         >
-          <div className="w-full max-w-[520px] rounded-[16px] bg-white p-5 min-w-0">
+          <div className="w-full max-w-[520px] rounded-[16px] bg-[var(--hz-surface)] p-5 min-w-0">
             <h2 id="progress-photo-title" className="text-[16px] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>{openPhoto.title}</h2>
-            <p className="text-[13px] text-[#68636D] mt-2 mb-3" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] mt-2 mb-3" style={{ fontFamily: FONT_BODY }}>
               {formatEntryDate(openPhoto.date)}
               {stageLabel(openPhoto.stage) ? ` · ${stageLabel(openPhoto.stage)}` : ''}
               {' · Daily progress evidence'}
@@ -628,23 +628,23 @@ export default function ProjectProgressScreen({
               <AuthenticatedVideo
                 contentUrl={openPhoto.fileAvailable ? openPhoto.contentUrl : null}
                 title={`Construction video: ${openPhoto.title}`}
-                className="w-full max-h-[60vh] rounded-[12px] bg-[#242326]"
+                className="w-full max-h-[60vh] rounded-[12px] bg-[var(--hz-ink)]"
                 unavailableLabel={openPhoto.fileAvailable === false ? 'Historical video unavailable' : 'Video unavailable'}
               />
             ) : (
               <AuthenticatedImage
                 contentUrl={openPhoto.fileAvailable ? openPhoto.contentUrl : null}
                 alt={`Construction evidence: ${openPhoto.title}`}
-                className="w-full max-h-[60vh] object-contain rounded-[12px] bg-[#F4F0EC]"
+                className="w-full max-h-[60vh] object-contain rounded-[12px] bg-[var(--hz-surface-muted)]"
                 unavailableLabel={openPhoto.fileAvailable === false ? 'Historical photo unavailable' : 'Photo unavailable'}
               />
             )}
             {confirmRemove && !isCustomer ? (
               <div className="mt-4 rounded-[12px] p-4" style={{ backgroundColor: '#FFF5F5', border: '1px solid #FECACA' }} role="alertdialog" aria-labelledby="remove-evidence-title" aria-describedby="remove-evidence-desc">
-                <p id="remove-evidence-title" className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <p id="remove-evidence-title" className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                   Remove this evidence?
                 </p>
-                <p id="remove-evidence-desc" className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                <p id="remove-evidence-desc" className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                   This construction {openPhoto.mediaKind === 'video' ? 'video' : 'photo'} will be removed from this Daily Progress record.
                 </p>
                 {removeError && (
@@ -658,8 +658,8 @@ export default function ProjectProgressScreen({
                       setConfirmRemove(false)
                       setRemoveError(null)
                     }}
-                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
-                    style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
+                    style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
                   >
                     Cancel
                   </button>
@@ -680,7 +680,7 @@ export default function ProjectProgressScreen({
                         .finally(() => setRemoveBusy(false))
                     }}
                     className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C] disabled:opacity-50"
-                    style={{ backgroundColor: '#DC2626', color: 'white', fontFamily: FONT_BODY }}
+                    style={{ backgroundColor: 'var(--hz-danger)', color: 'white', fontFamily: FONT_BODY }}
                   >
                     {removeBusy ? 'Removing…' : 'Remove'}
                   </button>
@@ -695,8 +695,8 @@ export default function ProjectProgressScreen({
                     setRemoveError(null)
                     setOpenPhoto(null)
                   }}
-                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                  style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                 >
                   Close
                 </button>
@@ -707,7 +707,7 @@ export default function ProjectProgressScreen({
                       setRemoveError(null)
                       setConfirmRemove(true)
                     }}
-                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C]"
+                    className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B91C1C]"
                     style={{ border: '1px solid #FECACA', color: '#B91C1C', fontFamily: FONT_BODY }}
                     aria-label={`Remove this construction ${openPhoto.mediaKind}`}
                   >

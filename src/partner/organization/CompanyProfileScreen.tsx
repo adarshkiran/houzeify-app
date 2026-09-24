@@ -61,8 +61,8 @@ const CheckBadgeIcon = ({ size = 13 }: { size?: number }) => (
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
       {children}
     </div>
   )
@@ -72,8 +72,8 @@ function Field({ label, value }: { label: string; value?: string | null }) {
   if (!value) return null
   return (
     <div>
-      <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
-      <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
+      <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
+      <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
     </div>
   )
 }
@@ -196,11 +196,11 @@ export default function CompanyProfileScreen({
 
   if (!hasProfile) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Profile not found.</p>
-          <button type="button" onClick={goBack} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Profile not found.</p>
+          <button type="button" onClick={goBack} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
             Back to Dashboard
           </button>
         </div>
@@ -216,13 +216,13 @@ export default function CompanyProfileScreen({
   }
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <PartnerNavRail active="profile" onNavigate={onNavigate} organizationId={organizationId} />
       <div className="flex-1 flex flex-col min-w-0 relative">
 
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={goBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Dashboard
           </button>
         </div>
@@ -231,41 +231,41 @@ export default function CompanyProfileScreen({
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
         <div className="max-w-[1000px] mx-auto flex flex-col gap-6">
           <div>
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>Company / Professional Profile</p>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>Company / Professional Profile</p>
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div className="flex items-start gap-3.5">
-                <div className="w-14 h-14 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[16px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+                <div className="w-14 h-14 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[16px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
                   {initials}
                 </div>
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{name}</h1>
+                    <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{name}</h1>
                     {resolvedVerification === 'verified' && (
                       <span className="flex items-center gap-1 text-[12px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}><CheckBadgeIcon /> Verified</span>
                     )}
                   </div>
                   <div className="flex items-center gap-2 mt-1 flex-wrap">
-                    {professionalTypeLabel && <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel}</span>}
-                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+                    {professionalTypeLabel && <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel}</span>}
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
                       {isOrganization ? 'ORGANIZATION' : 'INDIVIDUAL'}
                     </span>
                   </div>
                   {location && (
-                    <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                    <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                       <IcoMapPin /> {location}
                     </span>
                   )}
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button type="button" onClick={editProfile} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                <button type="button" onClick={editProfile} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                   Edit Profile
                 </button>
                 {/* Module 02 — Company Settings entry point, organization
                     accounts only (OrganizationSettingsScreen is gated the
                     same way: hasOrganization = organizationId + companyName). */}
                 {isOrganization && (
-                  <button type="button" onClick={() => onNavigate('organization-settings')} className="h-9 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border" style={{ borderColor: '#E3DDD7', color: '#242326', backgroundColor: 'white', fontFamily: FONT_BODY }}>
+                  <button type="button" onClick={() => onNavigate('organization-settings')} className="h-9 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border" style={{ borderColor: 'var(--hz-border)', color: 'var(--hz-ink)', backgroundColor: 'white', fontFamily: FONT_BODY }}>
                     Company Settings
                   </button>
                 )}
@@ -278,9 +278,9 @@ export default function CompanyProfileScreen({
           <SectionCard title="Profile Completeness">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div className="flex items-center gap-3">
-                <p className="text-[22px] font-bold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{completionPct}%</p>
-                <div className="w-40 h-2 rounded-full overflow-hidden" style={{ backgroundColor: '#F4F0EC' }}>
-                  <div className="h-full rounded-full" style={{ width: `${completionPct}%`, backgroundColor: '#722ED1' }} />
+                <p className="text-[22px] font-bold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{completionPct}%</p>
+                <div className="w-40 h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+                  <div className="h-full rounded-full" style={{ width: `${completionPct}%`, backgroundColor: 'var(--hz-primary)' }} />
                 </div>
               </div>
               {incompleteItems.length > 0 && (
@@ -290,7 +290,7 @@ export default function CompanyProfileScreen({
                       key={item.id}
                       type="button"
                       onClick={() => onNavigate(item.screen)}
-                      className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0"
+                      className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       Complete {item.label} →
@@ -305,7 +305,7 @@ export default function CompanyProfileScreen({
             {/* Left column */}
             <div className="flex flex-col gap-6">
               <SectionCard title="About">
-                <p className="text-[13px] text-[#242326] m-0" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[13px] text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_BODY }}>
                   {listing?.about || 'Profile description not added yet.'}
                 </p>
               </SectionCard>
@@ -330,8 +330,8 @@ export default function CompanyProfileScreen({
               </SectionCard>
 
               <SectionCard title="Reviews">
-                <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Reviews will appear after completed projects.</p>
-                <button type="button" onClick={() => onNavigate('reviews-ratings')} className="mt-2 text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Reviews will appear after completed projects.</p>
+                <button type="button" onClick={() => onNavigate('reviews-ratings')} className="mt-2 text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                   View Reviews →
                 </button>
               </SectionCard>
@@ -343,20 +343,20 @@ export default function CompanyProfileScreen({
                 {serviceList.length > 0 ? (
                   <div className="flex flex-wrap gap-2 mb-3">
                     {serviceList.map(cat => (
-                      <span key={cat} className="px-2.5 py-1 rounded-full text-[12px] font-medium" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_BODY }}>
+                      <span key={cat} className="px-2.5 py-1 rounded-full text-[12px] font-medium" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                         {SERVICE_CATEGORY_LABELS[cat] ?? cat}
                       </span>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[13px] text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>No services added yet.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>No services added yet.</p>
                 )}
                 {/* 11C — service-categories (024) always starts empty (it's an
                     onboarding-only form), so once services actually exist the
                     "Manage" path routes into edit-services (082) instead,
                     which loads and edits the real current selection. First-time
                     "Add" still goes through 024, exactly as before. */}
-                <button type="button" onClick={() => onNavigate(serviceList.length > 0 ? 'edit-services' : PROFESSIONAL_DASHBOARD_ROUTES.services)} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                <button type="button" onClick={() => onNavigate(serviceList.length > 0 ? 'edit-services' : PROFESSIONAL_DASHBOARD_ROUTES.services)} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                   {serviceList.length > 0 ? 'Manage Services →' : 'Add Services →'}
                 </button>
               </SectionCard>
@@ -365,20 +365,20 @@ export default function CompanyProfileScreen({
                 {locationList.length > 0 ? (
                   <div className="flex flex-wrap gap-2 mb-3">
                     {locationList.map(loc => (
-                      <span key={loc} className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-medium" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_BODY }}>
+                      <span key={loc} className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-medium" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
                         <IcoMapPin size={11} /> {loc}
                       </span>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[13px] text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>No service locations added yet.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>No service locations added yet.</p>
                 )}
                 {/* 11C — same reasoning as Services above: service-locations
                     (025) always re-seeds from the company's base location, so
                     once locations actually exist "Manage" routes into
                     edit-service-locations (083) instead, which only ever
                     hydrates from what was actually saved. */}
-                <button type="button" onClick={() => onNavigate(locationList.length > 0 ? 'edit-service-locations' : PROFESSIONAL_DASHBOARD_ROUTES.serviceLocations)} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                <button type="button" onClick={() => onNavigate(locationList.length > 0 ? 'edit-service-locations' : PROFESSIONAL_DASHBOARD_ROUTES.serviceLocations)} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                   {locationList.length > 0 ? 'Manage Locations →' : 'Add Locations →'}
                 </button>
               </SectionCard>
@@ -387,28 +387,28 @@ export default function CompanyProfileScreen({
                 {portfolioProjects.length > 0 ? (
                   <div className="grid grid-cols-3 gap-2 mb-3">
                     {portfolioProjects.slice(0, 3).map(p => (
-                      <div key={p.id} className="rounded-[10px] overflow-hidden aspect-square flex items-center justify-center" style={{ backgroundColor: '#F4F0EC' }}>
+                      <div key={p.id} className="rounded-[10px] overflow-hidden aspect-square flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                         {p.images[0]?.url ? (
                           <img src={p.images[0].url} alt={p.name} className="w-full h-full object-cover" />
                         ) : (
-                          <span className="text-[11px] text-[#9A949D] text-center px-1" style={{ fontFamily: FONT_BODY }}>{p.name}</span>
+                          <span className="text-[11px] text-[var(--hz-ink-subtle)] text-center px-1" style={{ fontFamily: FONT_BODY }}>{p.name}</span>
                         )}
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[13px] text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>No portfolio projects yet.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>No portfolio projects yet.</p>
                 )}
-                <button type="button" onClick={() => onNavigate(PROFESSIONAL_DASHBOARD_ROUTES.portfolio)} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                <button type="button" onClick={() => onNavigate(PROFESSIONAL_DASHBOARD_ROUTES.portfolio)} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                   {portfolioProjects.length > 0 ? 'View Portfolio →' : 'Add Project →'}
                 </button>
               </SectionCard>
 
               <SectionCard title="Verification">
-                <p className="text-[13.5px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>
+                <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>
                   {resolvedVerification === 'not-started' ? 'Verification not started.' : VERIFICATION_STATUS_LABELS[resolvedVerification]}
                 </p>
-                <button type="button" onClick={() => onNavigate(PROFESSIONAL_DASHBOARD_ROUTES.manageProfile)} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                <button type="button" onClick={() => onNavigate(PROFESSIONAL_DASHBOARD_ROUTES.manageProfile)} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                   View Verification Status →
                 </button>
               </SectionCard>

@@ -65,8 +65,8 @@ function fileIconFor(mimeType: string, name: string) {
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
       {children}
     </div>
   )
@@ -131,12 +131,12 @@ export default function ProjectDocumentsScreen({
       <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
           <button
             type="button"
             onClick={() => onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)}
             className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
-            style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
           >
             Back to Workspace
           </button>
@@ -207,7 +207,7 @@ function LegacyDocuments({
 
   const selectClass = 'h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0'
   const inputClass = 'w-full h-10 px-3 rounded-[10px] text-[13.5px] outline-none'
-  const inputStyle = { border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }
+  const inputStyle = { border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'white' }
 
   const counts: Record<FilterTab, number> = {
     all: records.length,
@@ -277,26 +277,26 @@ function LegacyDocuments({
           <div
             role="note"
             className="rounded-[12px] px-4 py-3 text-[13px] m-0"
-            style={{ border: '1px solid #E3DDD7', backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_BODY }}
+            style={{ border: '1px solid var(--hz-border)', backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
           >
             These documents are kept in this browser only and aren&apos;t saved to the project record.
           </div>
           <div className="flex items-start justify-between gap-3 flex-wrap">
             <div>
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Documents</p>
-              <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Documents</p>
+              <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
               {location && (
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> {location}
                 </span>
               )}
-              <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Plans, estimates, agreements and other project files.</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Plans, estimates, agreements and other project files.</p>
             </div>
             <button
               type="button"
               onClick={() => { setShowForm(s => !s); setFileError(undefined) }}
               className={selectClass}
-              style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+              style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
             >
               Upload Document →
             </button>
@@ -336,13 +336,13 @@ function LegacyDocuments({
                   onChange={e => setDescription(e.target.value)}
                 />
                 {fileError && (
-                  <p className="text-[12.5px] text-[#DC2626] m-0" style={{ fontFamily: FONT_BODY }}>{fileError}</p>
+                  <p className="text-[12.5px] text-[var(--hz-danger)] m-0" style={{ fontFamily: FONT_BODY }}>{fileError}</p>
                 )}
-                <p className="text-[11.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[11.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                   Choose a file above to upload it to this project.
                 </p>
                 <div className="flex items-center gap-3">
-                  <button type="button" onClick={() => { setShowForm(false); resetForm() }} className="text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                  <button type="button" onClick={() => { setShowForm(false); resetForm() }} className="text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                     Cancel
                   </button>
                 </div>
@@ -354,7 +354,7 @@ function LegacyDocuments({
           {records.length > 0 && (
             <div className="flex flex-col gap-3">
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#68636D]"><IcoSearch /></span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--hz-ink-muted)]"><IcoSearch /></span>
                 <input
                   className={inputClass}
                   style={{ ...inputStyle, paddingLeft: 32 }}
@@ -372,7 +372,7 @@ function LegacyDocuments({
                     className="h-8 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0"
                     style={{
                       fontFamily: FONT_BODY,
-                      backgroundColor: filter === tab.id ? '#722ED1' : '#CAC7C6',
+                      backgroundColor: filter === tab.id ? 'var(--hz-primary)' : '#CAC7C6',
                       color: filter === tab.id ? 'white' : '#808080',
                     }}
                   >
@@ -387,14 +387,14 @@ function LegacyDocuments({
           {records.length === 0 ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <IcoDocuments />
                 </span>
-                <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No documents yet</p>
-                <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No documents yet</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
                   Upload plans, estimates, agreements and other project files to keep everything organized in one place.
                 </p>
-                <button type="button" onClick={() => setShowForm(true)} className={`${selectClass} mt-2`} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                <button type="button" onClick={() => setShowForm(true)} className={`${selectClass} mt-2`} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                   Upload Document
                 </button>
               </div>
@@ -406,7 +406,7 @@ function LegacyDocuments({
               ))}
               {visible.length === 0 && (
                 <SectionCard>
-                  <p className="text-[13px] text-[#68636D] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No documents match this search.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No documents match this search.</p>
                 </SectionCard>
               )}
             </div>
@@ -422,24 +422,24 @@ function LegacyDocuments({
 function DocumentCard({ record }: { record: ProjectDocumentRecord }) {
   const { document, category, description, uploadedBy, fileUrl } = record
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
       <div className="flex items-start justify-between gap-3 flex-wrap">
         <div className="flex items-start gap-3 min-w-0 flex-1">
-          <span className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 text-[#722ED1]" style={{ backgroundColor: '#F3EAFF' }}>
+          <span className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 text-[var(--hz-primary)]" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
             {fileIconFor(document.mimeType, document.name)}
           </span>
           <div className="min-w-0">
-            <p className="text-[14px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{record.title}</p>
+            <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{record.title}</p>
             {description && (
-              <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{description}</p>
+              <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{description}</p>
             )}
             <div className="flex items-center gap-3 mt-2 flex-wrap">
-              <span className="px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+              <span className="px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
                 {DOCUMENT_CATEGORY_LABELS[category].toUpperCase()}
               </span>
-              <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{formatFileSize(document.size)}</span>
-              <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Uploaded {formatDate(document.uploadedAt)}</span>
-              <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>by {uploadedBy}</span>
+              <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{formatFileSize(document.size)}</span>
+              <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Uploaded {formatDate(document.uploadedAt)}</span>
+              <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>by {uploadedBy}</span>
             </div>
           </div>
         </div>
@@ -447,7 +447,7 @@ function DocumentCard({ record }: { record: ProjectDocumentRecord }) {
           href={fileUrl}
           target="_blank"
           rel="noreferrer"
-          className="text-[12.5px] font-semibold text-[#722ED1] hover:underline shrink-0"
+          className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline shrink-0"
           style={{ fontFamily: FONT_BODY }}
         >
           View →
@@ -489,7 +489,7 @@ function titleFromFileName(fileName: string): string {
 // Visible keyboard focus for every server-mode control. Matches the ring used
 // by EntitlementUpgradePrompt, in the app's brand purple.
 const FOCUS_RING =
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
 
 // Bare text actions: a >= 44 px tap target without changing how they look.
 const TEXT_ACTION = `inline-flex items-center min-h-[44px] cursor-pointer border-0 bg-transparent px-1 rounded-[6px] disabled:opacity-50 disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:cursor-not-allowed ${FOCUS_RING}`
@@ -498,8 +498,8 @@ const NOTICE_MS = 4000
 
 function ServerCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
       {children}
     </div>
   )
@@ -583,8 +583,8 @@ function ServerDocuments({
 
   const btnClass = `h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 ${FOCUS_RING}`
   const inputClass = `w-full h-11 px-3 rounded-[10px] text-[13.5px] ${FOCUS_RING}`
-  const inputStyle = { border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }
-  const labelClass = 'block text-[12.5px] font-semibold text-[#242326] mb-1.5'
+  const inputStyle = { border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'white' }
+  const labelClass = 'block text-[12.5px] font-semibold text-[var(--hz-ink)] mb-1.5'
 
   function showNotice(message: string) {
     if (noticeTimer.current) clearTimeout(noticeTimer.current)
@@ -707,14 +707,14 @@ function ServerDocuments({
         <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
           <div className="flex items-start justify-between gap-3 flex-wrap">
             <div className="min-w-0">
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Documents</p>
-              <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Documents</p>
+              <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
               {location && (
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> {location}
                 </span>
               )}
-              <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Plans, estimates, agreements and other project files.</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Plans, estimates, agreements and other project files.</p>
             </div>
             {/* Disabled mid-submit so it can't close (and wipe) or reopen the
                 form while a create request is in flight. */}
@@ -725,7 +725,7 @@ function ServerDocuments({
               disabled={isSubmitting}
               className={btnClass}
               style={{
-                backgroundColor: '#722ED1',
+                backgroundColor: 'var(--hz-primary)',
                 color: 'white',
                 fontFamily: FONT_BODY,
                 opacity: isSubmitting ? 0.5 : 1,
@@ -767,17 +767,17 @@ function ServerDocuments({
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {fileError && (
-                    <p role="alert" className="text-[12.5px] text-[#DC2626] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>{fileError}</p>
+                    <p role="alert" className="text-[12.5px] text-[var(--hz-danger)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>{fileError}</p>
                   )}
                 </div>
 
                 {selectedFile ? (
                   <>
-                    <div className="flex items-center gap-3 rounded-[12px] px-3 py-2.5 min-w-0" style={{ backgroundColor: '#F4F0EC' }}>
-                      <span className="text-[#722ED1] shrink-0">{fileIconFor(selectedFile.type, selectedFile.name)}</span>
+                    <div className="flex items-center gap-3 rounded-[12px] px-3 py-2.5 min-w-0" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+                      <span className="text-[var(--hz-primary)] shrink-0">{fileIconFor(selectedFile.type, selectedFile.name)}</span>
                       <div className="min-w-0">
-                        <p className="text-[13px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_BODY }}>{selectedFile.name}</p>
-                        <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{formatFileSize(selectedFile.size)}</p>
+                        <p className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_BODY }}>{selectedFile.name}</p>
+                        <p className="text-[12px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{formatFileSize(selectedFile.size)}</p>
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -818,18 +818,18 @@ function ServerDocuments({
                         onChange={e => setDescription(e.target.value)}
                       />
                     </div>
-                    <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                    <p className="text-[12px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                       For now Houzeify saves this document&apos;s details only. The file itself isn&apos;t stored yet.
                     </p>
                   </>
                 ) : (
-                  <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[12px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                     Choose a file (PDF, JPG, PNG, DWG or DXF, up to 25 MB), then review its details before adding it.
                   </p>
                 )}
 
                 {formError && (
-                  <p role="alert" className="text-[12.5px] text-[#DC2626] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{formError}</p>
+                  <p role="alert" className="text-[12.5px] text-[var(--hz-danger)] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{formError}</p>
                 )}
                 <div className="flex items-center gap-4 flex-wrap">
                   <button
@@ -838,7 +838,7 @@ function ServerDocuments({
                     disabled={!selectedFile || isSubmitting}
                     className={btnClass}
                     style={{
-                      backgroundColor: '#722ED1',
+                      backgroundColor: 'var(--hz-primary)',
                       color: 'white',
                       fontFamily: FONT_BODY,
                       opacity: !selectedFile || isSubmitting ? 0.5 : 1,
@@ -851,7 +851,7 @@ function ServerDocuments({
                     type="button"
                     onClick={closeForm}
                     disabled={isSubmitting}
-                    className={`${TEXT_ACTION} text-[13px] font-medium text-[#68636D] hover:text-[#242326]`}
+                    className={`${TEXT_ACTION} text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)]`}
                     style={{ fontFamily: FONT_BODY }}
                   >
                     Cancel
@@ -879,7 +879,7 @@ function ServerDocuments({
           {!isLoading && documents.length > 0 && (
             <div className="flex flex-col gap-3">
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#68636D]"><IcoSearch /></span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--hz-ink-muted)]"><IcoSearch /></span>
                 <input
                   aria-label="Search documents"
                   className={inputClass}
@@ -901,8 +901,8 @@ function ServerDocuments({
                     className={`relative h-8 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0 after:content-[''] after:absolute after:inset-x-0 after:-inset-y-1.5 ${FOCUS_RING}`}
                     style={{
                       fontFamily: FONT_BODY,
-                      backgroundColor: activeFilter === tab.id ? '#722ED1' : '#F4F0EC',
-                      color: activeFilter === tab.id ? 'white' : '#68636D',
+                      backgroundColor: activeFilter === tab.id ? 'var(--hz-primary)' : 'var(--hz-surface-muted)',
+                      color: activeFilter === tab.id ? 'white' : 'var(--hz-ink-muted)',
                     }}
                   >
                     {tab.label} {counts[tab.id]}
@@ -918,10 +918,10 @@ function ServerDocuments({
               {isLoading ? (
                 <ServerCard>
                   <div className="flex flex-col items-center text-center gap-2 py-6" role="status" aria-live="polite">
-                    <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>
+                    <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                       <IcoDocuments />
                     </span>
-                    <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading shared documents…</p>
+                    <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Loading shared documents…</p>
                   </div>
                 </ServerCard>
               ) : sharedStatus === 'error' ? (
@@ -945,18 +945,18 @@ function ServerDocuments({
                           setSharedStatus('error')
                         })
                     }}
-                    className="min-h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-white text-[#991B1B] outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+                    className="min-h-11 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-surface)] text-[#991B1B] outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
                     style={{ fontFamily: FONT_BODY }}
                   >
                     Try again
                   </button>
                 </div>
               ) : sharedDocs.length === 0 ? (
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No documents have been shared with you yet.</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No documents have been shared with you yet.</p>
               ) : sharedDocs.map(doc => (
-                <div key={doc.id} className="rounded-[14px] bg-white p-4" style={{ border: '1px solid #E3DDD7' }}>
+                <div key={doc.id} className="rounded-[14px] bg-[var(--hz-surface)] p-4" style={{ border: '1px solid var(--hz-border)' }}>
                   <p className="text-[14px] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>{doc.title}</p>
-                  <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
                     {doc.fileName}{doc.fileAvailable ? '' : ' · File isn’t stored yet'}
                   </p>
                   {doc.fileAvailable && doc.contentUrl && (
@@ -964,7 +964,7 @@ function ServerDocuments({
                       href={apiUrl(doc.contentUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[#722ED1] hover:underline mt-2`}
+                      className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline mt-2`}
                       style={{ fontFamily: FONT_BODY }}
                       aria-label={`Open shared document ${doc.title}`}
                     >
@@ -977,10 +977,10 @@ function ServerDocuments({
           ) : isLoading ? (
             <ServerCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <IcoDocuments />
                 </span>
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading documents…</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Loading documents…</p>
               </div>
             </ServerCard>
           ) : documents.length === 0 ? (
@@ -989,14 +989,14 @@ function ServerDocuments({
             status === 'error' ? null : (
               <ServerCard>
                 <div className="flex flex-col items-center text-center gap-2 py-6">
-                  <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>
+                  <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                     <IcoDocuments />
                   </span>
-                  <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No documents yet.</p>
-                  <p className="text-[13px] text-[#68636D] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No documents yet.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
                     Add plans, agreements, and approvals so the whole team works from the same set.
                   </p>
-                  <button type="button" onClick={openForm} disabled={isSubmitting} className={`${btnClass} mt-2`} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY, opacity: isSubmitting ? 0.5 : 1 }}>
+                  <button type="button" onClick={openForm} disabled={isSubmitting} className={`${btnClass} mt-2`} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY, opacity: isSubmitting ? 0.5 : 1 }}>
                     Add document
                   </button>
                 </div>
@@ -1017,7 +1017,7 @@ function ServerDocuments({
               ))}
               {visible.length === 0 && (
                 <ServerCard>
-                  <p className="text-[13px] text-[#68636D] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No documents match this search.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No documents match this search.</p>
                 </ServerCard>
               )}
             </div>
@@ -1074,8 +1074,8 @@ function ServerDocumentCard({
   const confirmId = `${uid}-confirm`
 
   const inputClass = `w-full h-11 px-3 rounded-[10px] text-[13.5px] ${FOCUS_RING}`
-  const inputStyle = { border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }
-  const labelClass = 'block text-[12.5px] font-semibold text-[#242326] mb-1.5'
+  const inputStyle = { border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'white' }
+  const labelClass = 'block text-[12.5px] font-semibold text-[var(--hz-ink)] mb-1.5'
   const primaryBtn = `h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed ${FOCUS_RING}`
 
   // Some files carry their name as the title (the default when adding); only
@@ -1156,40 +1156,40 @@ function ServerDocumentCard({
   }
 
   return (
-    <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 min-w-0" style={{ border: '1px solid var(--hz-border)' }}>
       <div className="flex items-start gap-3 min-w-0">
-        <span className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 text-[#722ED1]" style={{ backgroundColor: '#F3EAFF' }}>
+        <span className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 text-[var(--hz-primary)]" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
           {fileIconFor(doc.mimeType, doc.fileName)}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-[14px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{doc.title}</p>
+          <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{doc.title}</p>
           {showFileName && (
-            <p className="text-[12px] text-[#68636D] m-0 mt-0.5 min-w-0 truncate" title={doc.fileName} style={{ fontFamily: FONT_BODY }}>{doc.fileName}</p>
+            <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5 min-w-0 truncate" title={doc.fileName} style={{ fontFamily: FONT_BODY }}>{doc.fileName}</p>
           )}
           {doc.description && (
-            <p className="text-[12.5px] text-[#68636D] m-0 mt-1 break-words" style={{ fontFamily: FONT_BODY }}>{doc.description}</p>
+            <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1 break-words" style={{ fontFamily: FONT_BODY }}>{doc.description}</p>
           )}
           <div className="flex items-center gap-x-3 gap-y-1 mt-2 flex-wrap">
-            <span className="px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+            <span className="px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
               {DOCUMENT_CATEGORY_LABELS[doc.category].toUpperCase()}
             </span>
             <span
               className="px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-[0.03em]"
               style={{
-                backgroundColor: doc.visibility === 'customer' ? '#C6F6D5' : '#F3EAFF',
-                color: '#242326',
+                backgroundColor: doc.visibility === 'customer' ? '#C6F6D5' : 'var(--hz-primary-soft)',
+                color: 'var(--hz-ink)',
                 fontFamily: FONT_MONO,
               }}
             >
               {doc.visibility === 'customer' ? 'SHARED' : 'INTERNAL'}
             </span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{fileTypeLabel(doc.fileName, doc.mimeType)}</span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{formatFileSize(doc.size)}</span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Added {formatDate(doc.createdAt)}</span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>by {memberLabel(doc.uploadedBy, currentUserId)}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{fileTypeLabel(doc.fileName, doc.mimeType)}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{formatFileSize(doc.size)}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Added {formatDate(doc.createdAt)}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>by {memberLabel(doc.uploadedBy, currentUserId)}</span>
           </div>
           {!doc.fileAvailable && (
-            <p className="text-[12px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>File isn&apos;t stored yet</p>
+            <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>File isn&apos;t stored yet</p>
           )}
         </div>
       </div>
@@ -1201,7 +1201,7 @@ function ServerDocumentCard({
               href={apiUrl(doc.contentUrl)}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[#722ED1] hover:underline`}
+              className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline`}
               style={{ fontFamily: FONT_BODY }}
               aria-label={`Open document file ${doc.title}`}
             >
@@ -1223,7 +1223,7 @@ function ServerDocumentCard({
                 })
                 .finally(() => setShareBusy(false))
             }}
-            className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[#242326] hover:underline disabled:opacity-50`}
+            className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[var(--hz-ink)] hover:underline disabled:opacity-50`}
             style={{ fontFamily: FONT_BODY }}
             aria-label={doc.visibility === 'customer' ? `Stop sharing ${doc.title} with customer` : `Share ${doc.title} with customer`}
           >
@@ -1233,7 +1233,7 @@ function ServerDocumentCard({
             ref={editButtonRef}
             type="button"
             onClick={openEdit}
-            className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[#722ED1] hover:underline`}
+            className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline`}
             style={{ fontFamily: FONT_BODY }}
           >
             Edit details
@@ -1242,7 +1242,7 @@ function ServerDocumentCard({
             ref={archiveButtonRef}
             type="button"
             onClick={openArchive}
-            className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[#68636D] hover:text-[#242326] hover:underline`}
+            className={`${TEXT_ACTION} text-[12.5px] font-semibold text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] hover:underline`}
             style={{ fontFamily: FONT_BODY }}
           >
             Archive
@@ -1251,13 +1251,13 @@ function ServerDocumentCard({
       )}
 
       {mode === 'view' && actionError && (
-        <p role="alert" className="text-[12.5px] text-[#DC2626] m-0 mt-2 sm:pl-[52px] break-words" style={{ fontFamily: FONT_BODY }}>{actionError}</p>
+        <p role="alert" className="text-[12.5px] text-[var(--hz-danger)] m-0 mt-2 sm:pl-[52px] break-words" style={{ fontFamily: FONT_BODY }}>{actionError}</p>
       )}
 
       {mode === 'edit' && (
         <form
           className="flex flex-col gap-4 mt-4 pt-4"
-          style={{ borderTop: '1px solid #F4F0EC' }}
+          style={{ borderTop: '1px solid var(--hz-surface-muted)' }}
           aria-label={`Edit details for ${doc.title}`}
           onSubmit={e => { e.preventDefault(); void saveEdit() }}
           onKeyDown={e => { if (e.key === 'Escape' && !(e.target instanceof HTMLSelectElement)) closePanel() }}
@@ -1302,14 +1302,14 @@ function ServerDocumentCard({
             />
           </div>
           {actionError && (
-            <p role="alert" className="text-[12.5px] text-[#DC2626] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{actionError}</p>
+            <p role="alert" className="text-[12.5px] text-[var(--hz-danger)] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{actionError}</p>
           )}
           <div className="flex items-center gap-4 flex-wrap">
             <button
               type="submit"
               aria-disabled={isBusy}
               className={primaryBtn}
-              style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY, opacity: isBusy ? 0.5 : 1 }}
+              style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY, opacity: isBusy ? 0.5 : 1 }}
             >
               {isBusy ? 'Saving…' : 'Save'}
             </button>
@@ -1317,7 +1317,7 @@ function ServerDocumentCard({
               type="button"
               onClick={closePanel}
               aria-disabled={isBusy}
-              className={`${TEXT_ACTION} text-[13px] font-medium text-[#68636D] hover:text-[#242326]`}
+              className={`${TEXT_ACTION} text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)]`}
               style={{ fontFamily: FONT_BODY }}
             >
               Cancel
@@ -1331,14 +1331,14 @@ function ServerDocumentCard({
           role="group"
           aria-labelledby={confirmId}
           className="flex flex-col gap-3 mt-4 pt-4"
-          style={{ borderTop: '1px solid #F4F0EC' }}
+          style={{ borderTop: '1px solid var(--hz-surface-muted)' }}
           onKeyDown={e => { if (e.key === 'Escape' && !(e.target instanceof HTMLSelectElement)) closePanel() }}
         >
-          <p id={confirmId} className="text-[13px] text-[#242326] m-0" style={{ fontFamily: FONT_BODY }}>
+          <p id={confirmId} className="text-[13px] text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_BODY }}>
             Archive this document? It will be hidden from the project.
           </p>
           {actionError && (
-            <p role="alert" className="text-[12.5px] text-[#DC2626] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{actionError}</p>
+            <p role="alert" className="text-[12.5px] text-[var(--hz-danger)] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{actionError}</p>
           )}
           <div className="flex items-center gap-4 flex-wrap">
             <button
@@ -1355,7 +1355,7 @@ function ServerDocumentCard({
               autoFocus
               onClick={closePanel}
               aria-disabled={isBusy}
-              className={`${TEXT_ACTION} text-[13px] font-medium text-[#68636D] hover:text-[#242326]`}
+              className={`${TEXT_ACTION} text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)]`}
               style={{ fontFamily: FONT_BODY }}
             >
               Cancel

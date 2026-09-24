@@ -77,16 +77,16 @@ function formatDate(isoDate: string): string {
 
 function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNavigate: (s: string) => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Home</span>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Home</span>
       </div>
       <button
         type="button"
         onClick={() => onNavigate(COMPANY_NAV_ROUTES.profile)}
         aria-label="Open company profile"
-        className="min-w-11 min-h-11 w-11 h-11 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0"
+        className="min-w-11 min-h-11 w-11 h-11 rounded-full bg-[var(--hz-primary)] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0"
         style={{ fontFamily: '"Geist Variable", sans-serif' }}
       >
         {userInitials}
@@ -108,11 +108,11 @@ function StatCard({
     <button
       type="button"
       onClick={onOpen}
-      className="flex flex-col gap-1 rounded-[14px] bg-white border border-[#E3DDD7] p-4 text-left cursor-pointer min-h-[88px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] hover:border-[#722ED1] transition-colors"
+      className="flex flex-col gap-1 rounded-[14px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4 text-left cursor-pointer min-h-[88px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] hover:border-[var(--hz-primary)] transition-colors"
       style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}
     >
-      <span className="text-[22px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{value}</span>
-      <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[22px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{value}</span>
+      <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
     </button>
   )
 }
@@ -127,9 +127,9 @@ function SectionCard({
   children: React.ReactNode
 }) {
   return (
-    <section className="rounded-[16px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <section className="rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
       <div className="flex items-center justify-between gap-2">
-        <h2 className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h2>
+        <h2 className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h2>
         {action}
       </div>
       {children}
@@ -148,12 +148,12 @@ function EmptyState({
 }) {
   return (
     <div className="flex flex-col items-center text-center gap-2.5 py-6">
-      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{message}</p>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{message}</p>
       {ctaLabel && onCtaClick && (
         <button
           type="button"
           onClick={onCtaClick}
-          className="min-h-11 h-11 px-4 rounded-[10px] text-[12.5px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#722ED1] hover:border-[#722ED1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+          className="min-h-11 h-11 px-4 rounded-[10px] text-[12.5px] font-semibold cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-primary)] hover:border-[var(--hz-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
           style={{ fontFamily: FONT_BODY }}
         >
           {ctaLabel}
@@ -175,7 +175,7 @@ function ChecklistRow({ item }: { item: ChecklistItemView }) {
       >
         {item.complete && <CheckIcon size={8} />}
       </span>
-      <span className="text-[13px]" style={{ fontFamily: FONT_BODY, color: item.complete ? '#1E1E1E' : '#A1A1A1' }}>{item.label}</span>
+      <span className="text-[13px]" style={{ fontFamily: FONT_BODY, color: item.complete ? 'var(--hz-black)' : '#A1A1A1' }}>{item.label}</span>
     </div>
   )
 }
@@ -196,14 +196,14 @@ function SignOutModal({ onCancel, onConfirm }: { onCancel: () => void; onConfirm
         aria-modal="true"
         aria-labelledby="partner-signout-title"
         aria-describedby="partner-signout-desc"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
-        <h2 id="partner-signout-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Sign out of Houzeify?</h2>
-        <p id="partner-signout-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can sign back in anytime to access your company workspace.</p>
+        <h2 id="partner-signout-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Sign out of Houzeify?</h2>
+        <p id="partner-signout-desc" className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can sign back in anytime to access your company workspace.</p>
         <div className="flex gap-2.5 justify-end">
-          <button type="button" onClick={onCancel} className="min-h-11 h-11 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-          <button ref={confirmRef} type="button" onClick={onConfirm} className="min-h-11 h-11 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#DC2626', fontFamily: FONT_BODY }}>Sign out</button>
+          <button type="button" onClick={onCancel} className="min-h-11 h-11 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+          <button ref={confirmRef} type="button" onClick={onConfirm} className="min-h-11 h-11 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-danger)', fontFamily: FONT_BODY }}>Sign out</button>
         </div>
       </div>
     </>
@@ -395,28 +395,28 @@ export default function ProfessionalDashboardScreen({
             <div className="w-full flex flex-col gap-6" style={{ maxWidth: 1100, margin: '0 auto' }}>
 
               <header className="flex flex-col gap-2">
-                <p className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1] m-0" style={{ fontFamily: FONT_MONO }}>
+                <p className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-primary)] m-0" style={{ fontFamily: FONT_MONO }}>
                   Company Home
                 </p>
-                <h1 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <h1 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   {greetingWord()}, {displayName}.
                 </h1>
                 <div className="flex items-center gap-2 flex-wrap">
                   {displayProfessionLabel && (
-                    <span className="flex items-center gap-1.5 min-h-7 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#242326] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
+                    <span className="flex items-center gap-1.5 min-h-7 h-7 px-2.5 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-ink)] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
                       {displayProfessionLabel}
                     </span>
                   )}
-                  <span className="flex items-center gap-1.5 min-h-7 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#242326] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
+                  <span className="flex items-center gap-1.5 min-h-7 h-7 px-2.5 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-ink)] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
                     {isOrganization ? 'Organization' : 'Individual Professional'}
                   </span>
                   {(location || currentOrganization) && (
-                    <span className="flex items-center gap-1 text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                    <span className="flex items-center gap-1 text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                       <PinIcon /> {location || 'Company workspace'}
                     </span>
                   )}
                 </div>
-                <p className="text-[13.5px] text-[#68636D] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
                   Construction progress, open site work, and project records across your organization.
                 </p>
               </header>
@@ -432,7 +432,7 @@ export default function ProfessionalDashboardScreen({
                   <button
                     type="button"
                     onClick={handleSimulateIdentityApproval}
-                    className="shrink-0 min-h-11 h-11 px-3 rounded-[10px] text-[12px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:text-[#722ED1] hover:border-[#722ED1] transition-colors"
+                    className="shrink-0 min-h-11 h-11 px-3 rounded-[10px] text-[12px] font-semibold cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:text-[var(--hz-primary)] hover:border-[var(--hz-primary)] transition-colors"
                     style={{ fontFamily: FONT_BODY }}
                     title="Development-only affordance — simulates identity verification approval."
                   >
@@ -442,36 +442,36 @@ export default function ProfessionalDashboardScreen({
               )}
 
               {!organizationId ? (
-                <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+                <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] p-10" style={{ border: '1px solid var(--hz-border)' }}>
                   <HIcon size={36} />
-                  <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                  <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                     Organization information unavailable.
                   </p>
-                  <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
                     Company Home belongs to your organization workspace — set up your organization first.
                   </p>
                   <button
                     type="button"
                     onClick={() => onNavigate('create-organization')}
                     className="min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 text-white"
-                    style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                    style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                   >
                     Set up organization
                   </button>
                 </div>
               ) : loading ? (
-                <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} aria-live="polite">
-                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] p-10" style={{ border: '1px solid var(--hz-border)' }} aria-live="polite">
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                     Loading company construction record…
                   </p>
                 </div>
               ) : error ? (
-                <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} role="alert">
+                <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-[var(--hz-surface)] p-10" style={{ border: '1px solid var(--hz-border)' }} role="alert">
                   <HIcon size={36} />
-                  <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                  <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                     Couldn’t load company home
                   </p>
-                  <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
                     {error}
                   </p>
                   <button
@@ -494,7 +494,7 @@ export default function ProfessionalDashboardScreen({
                         })
                     }}
                     className="min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 text-white"
-                    style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                    style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                   >
                     Try again
                   </button>
@@ -513,19 +513,19 @@ export default function ProfessionalDashboardScreen({
                   </div>
 
                   {projectCount === 0 ? (
-                    <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+                    <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-[var(--hz-surface)] p-10" style={{ border: '1px solid var(--hz-border)' }}>
                       <HIcon size={36} />
-                      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                         No construction projects yet.
                       </p>
-                      <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
                         Create a project to start the Digital Construction Record for your company.
                       </p>
                       <button
                         type="button"
                         onClick={() => orgNav('create-construction-project')}
                         className="min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 text-white"
-                        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                       >
                         Create Project
                       </button>
@@ -538,7 +538,7 @@ export default function ProfessionalDashboardScreen({
                           <button
                             type="button"
                             onClick={() => orgNav(COMPANY_NAV_ROUTES.progress)}
-                            className="min-h-11 px-2 text-[12.5px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline"
+                            className="min-h-11 px-2 text-[12.5px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline"
                             style={{ fontFamily: FONT_BODY }}
                           >
                             View all
@@ -558,19 +558,19 @@ export default function ProfessionalDashboardScreen({
                                 <button
                                   type="button"
                                   onClick={() => openProject('project-progress', item)}
-                                  className="w-full flex items-start justify-between gap-3 rounded-[12px] border border-[#E3DDD7] p-3 text-left cursor-pointer bg-white hover:border-[#722ED1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                                  className="w-full flex items-start justify-between gap-3 rounded-[12px] border border-[var(--hz-border)] p-3 text-left cursor-pointer bg-[var(--hz-surface)] hover:border-[var(--hz-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
                                 >
                                   <div className="min-w-0 flex flex-col gap-0.5">
-                                    <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-                                    <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                                    <span className="text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+                                    <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                                       {item.projectName} · {formatDate(item.date)}
                                       {item.visibility === 'customer' ? ' · Shared' : ' · Internal'}
                                     </span>
-                                    <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>
+                                    <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>
                                       {stageLabel(item.stage)}
                                     </span>
                                   </div>
-                                  <span className="shrink-0 text-[#722ED1] mt-1" aria-hidden="true"><ArrowRightIcon /></span>
+                                  <span className="shrink-0 text-[var(--hz-primary)] mt-1" aria-hidden="true"><ArrowRightIcon /></span>
                                 </button>
                               </li>
                             ))}
@@ -584,7 +584,7 @@ export default function ProfessionalDashboardScreen({
                           <button
                             type="button"
                             onClick={() => orgNav(COMPANY_NAV_ROUTES.siteOperations)}
-                            className="min-h-11 px-2 text-[12.5px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline"
+                            className="min-h-11 px-2 text-[12.5px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline"
                             style={{ fontFamily: FONT_BODY }}
                           >
                             Site Operations
@@ -612,18 +612,18 @@ export default function ProfessionalDashboardScreen({
                                     stage: item.stage,
                                     status: item.projectStatus,
                                   })}
-                                  className="w-full flex items-start justify-between gap-3 rounded-[12px] border border-[#E3DDD7] p-3 text-left cursor-pointer bg-white hover:border-[#722ED1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                                  className="w-full flex items-start justify-between gap-3 rounded-[12px] border border-[var(--hz-border)] p-3 text-left cursor-pointer bg-[var(--hz-surface)] hover:border-[var(--hz-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
                                 >
                                   <div className="min-w-0 flex flex-col gap-0.5">
-                                    <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-                                    <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+                                    <span className="text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+                                    <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                                       {item.projectName} · {item.kind === 'task' ? 'Task' : 'Issue'} · {formatOpsStatus(item.status)}
                                     </span>
-                                    <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>
+                                    <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>
                                       {formatOpsPriority(item.priority)}
                                     </span>
                                   </div>
-                                  <span className="shrink-0 text-[#722ED1] mt-1" aria-hidden="true"><ArrowRightIcon /></span>
+                                  <span className="shrink-0 text-[var(--hz-primary)] mt-1" aria-hidden="true"><ArrowRightIcon /></span>
                                 </button>
                               </li>
                             ))}
@@ -647,7 +647,7 @@ export default function ProfessionalDashboardScreen({
                           key={action.label}
                           type="button"
                           onClick={() => orgNav(action.dest)}
-                          className="min-h-11 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold border border-[#E3DDD7] bg-white text-[#242326] cursor-pointer hover:border-[#722ED1] hover:text-[#722ED1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] text-left"
+                          className="min-h-11 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] cursor-pointer hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] text-left"
                           style={{ fontFamily: FONT_BODY }}
                         >
                           {action.label}
@@ -658,29 +658,29 @@ export default function ProfessionalDashboardScreen({
                 </>
               )}
 
-              <div className="rounded-[18px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, #F3EAFF 100%)', border: '1px solid rgba(114,46,209,0.12)' }}>
+              <div className="rounded-[18px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, var(--hz-primary-soft) 100%)', border: '1px solid rgba(114,46,209,0.12)' }}>
                 <div className="flex items-center gap-3">
                   <HIcon size={36} />
                   <div className="flex flex-col">
-                    <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Hozie</span>
-                    <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Your AI construction assistant</span>
+                    <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Hozie</span>
+                    <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Your AI construction assistant</span>
                   </div>
                 </div>
-                <p className="text-[14px] text-[#242326] m-0" style={{ fontFamily: FONT_BODY }}>What would you like to work on today?</p>
-                <div className="flex items-center border rounded-[12px] bg-white min-h-[48px] overflow-hidden border-[#E3DDD7] focus-within:border-[#722ED1] transition-colors">
+                <p className="text-[14px] text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_BODY }}>What would you like to work on today?</p>
+                <div className="flex items-center border rounded-[12px] bg-[var(--hz-surface)] min-h-[48px] overflow-hidden border-[var(--hz-border)] focus-within:border-[var(--hz-primary)] transition-colors">
                   <input
                     type="text"
                     value={askInput}
                     onChange={e => setAskInput(e.target.value)}
                     placeholder="Ask Hozie..."
                     aria-label="Ask Hozie"
-                    className="flex-1 min-h-[48px] h-full px-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                    className="flex-1 min-h-[48px] h-full px-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
                     style={{ fontFamily: FONT_BODY }}
                   />
                   <button
                     type="button"
                     onClick={() => handleAskHozie(askInput.trim() || undefined)}
-                    className="min-h-[48px] h-full px-5 shrink-0 text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all flex items-center gap-1.5"
+                    className="min-h-[48px] h-full px-5 shrink-0 text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all flex items-center gap-1.5"
                     style={{ fontFamily: FONT_BODY }}
                   >
                     Ask Hozie <ArrowRightIcon />
@@ -692,7 +692,7 @@ export default function ProfessionalDashboardScreen({
                       key={suggestion}
                       type="button"
                       onClick={() => handleAskHozie(suggestion)}
-                      className="min-h-11 h-11 px-3 rounded-full text-[12px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] hover:text-[#722ED1] transition-colors"
+                      className="min-h-11 h-11 px-3 rounded-full text-[12px] font-semibold cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)] transition-colors"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       {suggestion}
@@ -704,15 +704,15 @@ export default function ProfessionalDashboardScreen({
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <SectionCard
                   title="Complete your professional profile"
-                  action={<span className="text-[12px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>{strengthPct}%</span>}
+                  action={<span className="text-[12px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>{strengthPct}%</span>}
                 >
-                  <div className="flex flex-col divide-y divide-[#E3DDD7]">
+                  <div className="flex flex-col divide-y divide-[var(--hz-border)]">
                     {checklist.map(item => <ChecklistRow key={item.id} item={item} />)}
                   </div>
                   <button
                     type="button"
                     onClick={() => onNavigate(nextProfileScreen, { organization_id: organizationId ?? '' })}
-                    className="self-start mt-1 min-h-11 text-[13px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline p-0"
+                    className="self-start mt-1 min-h-11 text-[13px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline p-0"
                     style={{ fontFamily: FONT_BODY }}
                   >
                     Complete profile →
@@ -720,7 +720,7 @@ export default function ProfessionalDashboardScreen({
                 </SectionCard>
 
                 <SectionCard title="Business Development">
-                  <p className="text-[12.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                     Opportunities and bids remain available under Business Development. They are not part of the Construction Record home.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1">
@@ -732,8 +732,8 @@ export default function ProfessionalDashboardScreen({
                       className={[
                         'min-h-11 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold border text-left',
                         opportunitiesLocked
-                          ? 'cursor-not-allowed border-[#E3DDD7] text-[#9A949D] bg-white'
-                          : 'cursor-pointer border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] hover:text-[#722ED1]',
+                          ? 'cursor-not-allowed border-[var(--hz-border)] text-[var(--hz-ink-subtle)] bg-[var(--hz-surface)]'
+                          : 'cursor-pointer border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)]',
                       ].join(' ')}
                       style={{ fontFamily: FONT_BODY }}
                     >
@@ -742,7 +742,7 @@ export default function ProfessionalDashboardScreen({
                     <button
                       type="button"
                       onClick={() => orgNav(COMPANY_NAV_ROUTES.myBids)}
-                      className="min-h-11 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold border border-[#E3DDD7] bg-white text-[#242326] cursor-pointer hover:border-[#722ED1] hover:text-[#722ED1] text-left"
+                      className="min-h-11 h-11 px-3 rounded-[10px] text-[12.5px] font-semibold border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] cursor-pointer hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)] text-left"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       My Bids
@@ -752,7 +752,7 @@ export default function ProfessionalDashboardScreen({
               </div>
 
               {resolvedVerification !== 'verified' && (
-                <p className="text-[12px] text-[#9A949D] text-center m-0" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[12px] text-[var(--hz-ink-subtle)] text-center m-0" style={{ fontFamily: FONT_BODY }}>
                   Verification status: {VERIFICATION_STATUS_LABELS[resolvedVerification]}
                 </p>
               )}

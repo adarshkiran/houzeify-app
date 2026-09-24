@@ -27,15 +27,15 @@ const IcoBack = () => (
 
 function FieldLabel({ htmlFor, children, optional }: { htmlFor: string; children: React.ReactNode; optional?: boolean }) {
   return (
-    <label htmlFor={htmlFor} className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_HEAD }}>
+    <label htmlFor={htmlFor} className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_HEAD }}>
       {children}
-      {optional && <span className="text-[#9A949D] font-normal ml-1">Optional</span>}
+      {optional && <span className="text-[var(--hz-ink-subtle)] font-normal ml-1">Optional</span>}
     </label>
   )
 }
 
-const inputClass = 'w-full min-h-11 h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
-const inputStyle = { border: '1px solid #E3DDD7', fontFamily: FONT_BODY }
+const inputClass = 'w-full min-h-11 h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
+const inputStyle = { border: '1px solid var(--hz-border)', fontFamily: FONT_BODY }
 
 export default function CreateConstructionProjectScreen({
   role,
@@ -123,12 +123,12 @@ export default function CreateConstructionProjectScreen({
     <div className="h-full flex" style={{ backgroundColor: '#FBF9F7' }}>
       <PartnerNavRail active="projects" onNavigate={onNavigate} organizationId={currentOrganization?.id} />
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+        <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
           <div className="flex items-center min-h-14 h-14 px-4 sm:px-6 lg:px-8">
             <button
               type="button"
               onClick={goBack}
-              className="inline-flex items-center gap-1.5 min-h-11 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+              className="inline-flex items-center gap-1.5 min-h-11 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
               style={{ fontFamily: FONT_BODY }}
             >
               <IcoBack /> Projects
@@ -139,33 +139,33 @@ export default function CreateConstructionProjectScreen({
         <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
           <div className="max-w-[640px] mx-auto flex flex-col gap-6">
             <div>
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>New Construction Project</p>
-              <h1 className="text-[22px] sm:text-[24px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Create a project</h1>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>New Construction Project</p>
+              <h1 className="text-[22px] sm:text-[24px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Create a project</h1>
               {currentOrganization && (
-                <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>For {currentOrganization.name}</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>For {currentOrganization.name}</p>
               )}
             </div>
 
             {!currentOrganization ? (
-              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] p-10" style={{ border: '1px solid var(--hz-border)' }}>
                 <HIcon size={36} />
-                <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Organization information unavailable.</p>
-                <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Organization information unavailable.</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
                   A construction project must belong to your company workspace.
                 </p>
                 <button
                   type="button"
                   onClick={() => onNavigate('create-organization')}
                   className="min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 text-white"
-                  style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                  style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                 >
                   Set up organization
                 </button>
               </div>
             ) : (
               <>
-                <section className="rounded-[16px] bg-white p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }} aria-labelledby="s02-info-heading">
-                  <h2 id="s02-info-heading" className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>Project Information</h2>
+                <section className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-4" style={{ border: '1px solid var(--hz-border)' }} aria-labelledby="s02-info-heading">
+                  <h2 id="s02-info-heading" className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_MONO }}>Project Information</h2>
                   <div>
                     <FieldLabel htmlFor={nameId}>Project Name</FieldLabel>
                     <input
@@ -187,14 +187,14 @@ export default function CreateConstructionProjectScreen({
                       onChange={e => setDescription(e.target.value)}
                       placeholder="Briefly describe the scope of this project."
                       rows={3}
-                      className="w-full px-3.5 py-3 rounded-[10px] text-[13.5px] outline-none resize-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                      className="w-full px-3.5 py-3 rounded-[10px] text-[13.5px] outline-none resize-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
                       style={inputStyle}
                     />
                   </div>
                 </section>
 
-                <section className="rounded-[16px] bg-white p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }} aria-labelledby="s02-type-heading">
-                  <h2 id="s02-type-heading" className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>Construction Type</h2>
+                <section className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-3" style={{ border: '1px solid var(--hz-border)' }} aria-labelledby="s02-type-heading">
+                  <h2 id="s02-type-heading" className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_MONO }}>Construction Type</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Construction type">
                     {PROJECT_TYPE_OPTIONS.map(option => (
                       <button
@@ -203,14 +203,14 @@ export default function CreateConstructionProjectScreen({
                         role="radio"
                         aria-checked={type === option.id}
                         onClick={() => setType(option.id)}
-                        className="text-left rounded-[12px] p-3.5 cursor-pointer transition-colors min-h-[88px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                        className="text-left rounded-[12px] p-3.5 cursor-pointer transition-colors min-h-[88px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
                         style={{
-                          border: type === option.id ? '1.5px solid #722ED1' : '1px solid #E3DDD7',
-                          backgroundColor: type === option.id ? '#F9F5FF' : '#FFFFFF',
+                          border: type === option.id ? '1.5px solid var(--hz-primary)' : '1px solid var(--hz-border)',
+                          backgroundColor: type === option.id ? '#F9F5FF' : 'var(--hz-surface)',
                         }}
                       >
-                        <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{option.label}</p>
-                        <p className="text-[12px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{option.description}</p>
+                        <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{option.label}</p>
+                        <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{option.description}</p>
                       </button>
                     ))}
                   </div>
@@ -230,8 +230,8 @@ export default function CreateConstructionProjectScreen({
                   </div>
                 </section>
 
-                <section className="rounded-[16px] bg-white p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }} aria-labelledby="s02-location-heading">
-                  <h2 id="s02-location-heading" className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>Location</h2>
+                <section className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-4" style={{ border: '1px solid var(--hz-border)' }} aria-labelledby="s02-location-heading">
+                  <h2 id="s02-location-heading" className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_MONO }}>Location</h2>
                   <div>
                     <FieldLabel htmlFor={locationId} optional>Project Address / Location</FieldLabel>
                     <input
@@ -246,8 +246,8 @@ export default function CreateConstructionProjectScreen({
                   </div>
                 </section>
 
-                <section className="rounded-[16px] bg-white p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }} aria-labelledby="s02-schedule-heading">
-                  <h2 id="s02-schedule-heading" className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>Schedule</h2>
+                <section className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-4" style={{ border: '1px solid var(--hz-border)' }} aria-labelledby="s02-schedule-heading">
+                  <h2 id="s02-schedule-heading" className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_MONO }}>Schedule</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <FieldLabel htmlFor={startId} optional>Planned Start Date</FieldLabel>
@@ -278,8 +278,8 @@ export default function CreateConstructionProjectScreen({
                     onClick={() => { void handleSubmit() }}
                     className="min-h-11 h-11 px-6 rounded-[12px] text-[13.5px] font-semibold border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5A22A8]"
                     style={{
-                      backgroundColor: canSubmit ? '#722ED1' : '#E3DDD7',
-                      color: canSubmit ? 'white' : '#9A949D',
+                      backgroundColor: canSubmit ? 'var(--hz-primary)' : 'var(--hz-border)',
+                      color: canSubmit ? 'white' : 'var(--hz-ink-subtle)',
                       cursor: canSubmit ? 'pointer' : 'not-allowed',
                       fontFamily: FONT_BODY,
                     }}
@@ -289,8 +289,8 @@ export default function CreateConstructionProjectScreen({
                   <button
                     type="button"
                     onClick={goBack}
-                    className="min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                    style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+                    className="min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                    style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
                   >
                     Cancel
                   </button>

@@ -26,7 +26,7 @@ const FONT_HEAD = '"Geist Variable", sans-serif'
 function ActivityList({ events, audience }: { events: ProjectActivityEvent[]; audience: 'company' | 'customer' }) {
   if (events.length === 0) {
     return (
-      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
         {audience === 'customer'
           ? 'No shared construction activity yet. Shared progress, evidence, and documents will appear here.'
           : 'No construction activity recorded yet for this project.'}
@@ -39,12 +39,12 @@ function ActivityList({ events, audience }: { events: ProjectActivityEvent[]; au
       {events.map(event => (
         <li
           key={event.id}
-          className="rounded-[14px] bg-white p-4 flex flex-col gap-1.5 min-w-0"
-          style={{ border: '1px solid #E3DDD7' }}
+          className="rounded-[14px] bg-[var(--hz-surface)] p-4 flex flex-col gap-1.5 min-w-0"
+          style={{ border: '1px solid var(--hz-border)' }}
         >
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className="text-[10.5px] tracking-[0.06em] uppercase text-[#722ED1]"
+              className="text-[10.5px] tracking-[0.06em] uppercase text-[var(--hz-primary)]"
               style={{ fontFamily: FONT_MONO }}
             >
               {formatActivityKind(event.kind)}
@@ -55,25 +55,25 @@ function ActivityList({ events, audience }: { events: ProjectActivityEvent[]; au
               </span>
             )}
             {event.visibility === 'internal' && audience === 'company' && (
-              <span className="text-[10.5px] tracking-[0.04em] uppercase text-[#68636D]" style={{ fontFamily: FONT_MONO }}>
+              <span className="text-[10.5px] tracking-[0.04em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>
                 Internal
               </span>
             )}
           </div>
-          <p className="text-[15px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
             {event.title}
           </p>
           {event.summary && (
-            <p className="text-[13px] text-[#68636D] m-0 break-words" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 break-words" style={{ fontFamily: FONT_BODY }}>
               {event.summary}
             </p>
           )}
           {event.stage && (
-            <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[12px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
               Stage · {stageById(event.stage)?.name ?? event.stage}
             </p>
           )}
-          <p className="text-[12px] text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>
+          <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_MONO }}>
             {formatActivityWhen(event.occurredAt)}
           </p>
         </li>
@@ -167,9 +167,9 @@ export default function ProjectTimelineScreen({
           <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
             <div className="max-w-[820px] mx-auto flex flex-col gap-8 min-w-0">
               <div className="min-w-0">
-                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Timeline</p>
-                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
-                <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Timeline</p>
+                <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                   {variant === 'customer'
                     ? 'Construction stage journey and shared project activity from the Digital Construction Record.'
                     : 'Construction stage journey plus chronological project activity from progress, evidence, tasks, issues, documents, and workforce.'}
@@ -177,36 +177,36 @@ export default function ProjectTimelineScreen({
               </div>
 
               <section aria-labelledby="c24-stage-heading" className="flex flex-col gap-4">
-                <h2 id="c24-stage-heading" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <h2 id="c24-stage-heading" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                   Construction stages
                 </h2>
                 {status === 'idle' || status === 'loading' ? (
-                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading timeline…</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Loading timeline…</p>
                 ) : status === 'error' ? (
                   <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
                     <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{error}</p>
                     <button
                       type="button"
                       onClick={() => setTimelineRefresh(n => n + 1)}
-                      className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                      style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                      className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                      style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                     >
                       Try again
                     </button>
                   </div>
                 ) : timeline.length === 0 ? (
-                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No timeline stages yet for this project.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No timeline stages yet for this project.</p>
                 ) : (
                   <ol className="flex flex-col md:flex-row md:overflow-x-auto gap-3 m-0 p-0 list-none">
                     {timeline.map(stage => {
-                      const color = stage.state === 'current' ? '#722ED1' : stage.state === 'completed' ? '#15803D' : '#68636D'
-                      const bg = stage.state === 'current' ? '#F8E3BD' : stage.state === 'completed' ? '#C6F6D5' : '#F4F0EC'
+                      const color = stage.state === 'current' ? 'var(--hz-primary)' : stage.state === 'completed' ? '#15803D' : 'var(--hz-ink-muted)'
+                      const bg = stage.state === 'current' ? '#F8E3BD' : stage.state === 'completed' ? '#C6F6D5' : 'var(--hz-surface-muted)'
                       return (
                         <li key={stage.id} className="md:min-w-[160px] rounded-[14px] p-4" style={{ backgroundColor: bg }}>
                           <p className="text-[11px] tracking-[0.06em] uppercase m-0" style={{ fontFamily: FONT_MONO, color }}>{stage.state}</p>
-                          <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{stage.name}</p>
+                          <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{stage.name}</p>
                           {stage.latestPublishedDate && (
-                            <p className="text-[12px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{stage.latestPublishedDate}</p>
+                            <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{stage.latestPublishedDate}</p>
                           )}
                         </li>
                       )
@@ -214,9 +214,9 @@ export default function ProjectTimelineScreen({
                   </ol>
                 )}
                 {canEditStage && projectId && (
-                  <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7' }}>
-                    <h3 className="text-[13px] font-semibold text-[#242326] m-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Project construction stage</h3>
-                    <p className="text-[13px] text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_BODY }}>
+                  <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 min-w-0" style={{ border: '1px solid var(--hz-border)' }}>
+                    <h3 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Project construction stage</h3>
+                    <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mb-1" style={{ fontFamily: FONT_BODY }}>
                       Changing this updates the Timeline customers see. It does not rewrite stages on past daily progress entries.
                     </p>
                     <ConstructionStageProgression
@@ -230,29 +230,29 @@ export default function ProjectTimelineScreen({
 
               <section aria-labelledby="c24-activity-heading" className="flex flex-col gap-4">
                 <div>
-                  <h2 id="c24-activity-heading" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                  <h2 id="c24-activity-heading" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                     Project activity
                   </h2>
-                  <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
                     {variant === 'customer'
                       ? 'Shared progress, evidence, and documents in chronological order. Company-only tasks and issues are not shown.'
                       : 'Chronological construction history from real project records. Not a Live Site feed or message inbox.'}
                   </p>
                 </div>
                 {!isServerProjectId(projectId) ? (
-                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                     Activity history is available for server-backed construction projects.
                   </p>
                 ) : activityStatus === 'idle' || activityStatus === 'loading' ? (
-                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading project activity…</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Loading project activity…</p>
                 ) : activityStatus === 'error' ? (
                   <div className="rounded-[12px] px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5' }} role="alert">
                     <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }}>{activityError}</p>
                     <button
                       type="button"
                       onClick={() => setTimelineRefresh(n => n + 1)}
-                      className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                      style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                      className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                      style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                     >
                       Try again
                     </button>

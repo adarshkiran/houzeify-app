@@ -11,11 +11,11 @@ function AmbientBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true" style={{ zIndex: 0 }}>
       {/* Desktop */}
-      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
-      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
       {/* Mobile */}
-      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
-      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
     </div>
   )
 }
@@ -28,52 +28,52 @@ function BlueprintBackground() {
       {/* Top-left floor plan — visible on all sizes */}
       <svg className="absolute top-0 left-0 w-[220px] h-[200px] lg:w-[320px] lg:h-[280px]" viewBox="0 0 320 280" fill="none" preserveAspectRatio="xMinYMin meet">
         <g opacity="0.045">
-          <rect x="28" y="52" width="185" height="150" stroke="#722ED1" strokeWidth="1.5" />
-          <rect x="28" y="52" width="82" height="75" stroke="#722ED1" strokeWidth="1" />
-          <line x1="110" y1="52" x2="110" y2="202" stroke="#722ED1" strokeWidth="1.5" />
-          <line x1="28" y1="138" x2="213" y2="138" stroke="#722ED1" strokeWidth="1" />
-          <path d="M 28 112 A 34 34 0 0 1 62 78" stroke="#722ED1" strokeWidth="0.75" fill="none" />
-          <line x1="28" y1="30" x2="213" y2="30" stroke="#722ED1" strokeWidth="0.5" />
-          <line x1="28" y1="24" x2="28" y2="36" stroke="#722ED1" strokeWidth="0.5" />
-          <line x1="213" y1="24" x2="213" y2="36" stroke="#722ED1" strokeWidth="0.5" />
-          <text x="120" y="22" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1">2400</text>
-          <text x="152" y="88" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1">G+1</text>
-          <circle cx="28" cy="52" r="1.5" fill="#722ED1" />
-          <circle cx="110" cy="52" r="1.5" fill="#722ED1" />
-          <circle cx="213" cy="52" r="1.5" fill="#722ED1" />
-          <circle cx="28" cy="138" r="1.5" fill="#722ED1" />
-          <circle cx="110" cy="138" r="1.5" fill="#722ED1" />
-          <line x1="8" y1="52" x2="8" y2="202" stroke="#722ED1" strokeWidth="0.5" />
-          <line x1="2" y1="52" x2="14" y2="52" stroke="#722ED1" strokeWidth="0.5" />
-          <line x1="2" y1="202" x2="14" y2="202" stroke="#722ED1" strokeWidth="0.5" />
+          <rect x="28" y="52" width="185" height="150" stroke="var(--hz-primary)" strokeWidth="1.5" />
+          <rect x="28" y="52" width="82" height="75" stroke="var(--hz-primary)" strokeWidth="1" />
+          <line x1="110" y1="52" x2="110" y2="202" stroke="var(--hz-primary)" strokeWidth="1.5" />
+          <line x1="28" y1="138" x2="213" y2="138" stroke="var(--hz-primary)" strokeWidth="1" />
+          <path d="M 28 112 A 34 34 0 0 1 62 78" stroke="var(--hz-primary)" strokeWidth="0.75" fill="none" />
+          <line x1="28" y1="30" x2="213" y2="30" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <line x1="28" y1="24" x2="28" y2="36" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <line x1="213" y1="24" x2="213" y2="36" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <text x="120" y="22" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)">2400</text>
+          <text x="152" y="88" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)">G+1</text>
+          <circle cx="28" cy="52" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="110" cy="52" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="213" cy="52" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="28" cy="138" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="110" cy="138" r="1.5" fill="var(--hz-primary)" />
+          <line x1="8" y1="52" x2="8" y2="202" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <line x1="2" y1="52" x2="14" y2="52" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <line x1="2" y1="202" x2="14" y2="202" stroke="var(--hz-primary)" strokeWidth="0.5" />
         </g>
       </svg>
 
       {/* Top-right room annotations — hidden on mobile */}
       <svg className="hidden md:block absolute top-0 right-0 w-[280px] h-[320px] lg:w-[380px] lg:h-[420px]" viewBox="0 0 380 420" fill="none" preserveAspectRatio="xMaxYMin meet">
         <g opacity="0.045">
-          <line x1="80" y1="40" x2="370" y2="40" stroke="#722ED1" strokeWidth="0.5" />
-          <line x1="80" y1="34" x2="80" y2="46" stroke="#722ED1" strokeWidth="0.5" />
-          <line x1="370" y1="34" x2="370" y2="46" stroke="#722ED1" strokeWidth="0.5" />
-          <text x="225" y="32" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1">3800</text>
-          <rect x="190" y="60" width="90" height="70" stroke="#722ED1" strokeWidth="1" fill="none" />
-          <rect x="190" y="130" width="90" height="80" stroke="#722ED1" strokeWidth="1" fill="none" />
-          <rect x="280" y="60" width="90" height="80" stroke="#722ED1" strokeWidth="1" fill="none" />
-          <rect x="280" y="140" width="90" height="70" stroke="#722ED1" strokeWidth="1" fill="none" />
-          <text x="235" y="88" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="#722ED1">KITCHEN</text>
-          <text x="235" y="98" textAnchor="middle" fontSize="6" fontFamily="monospace" fill="#722ED1">10&apos;0 x 8&apos;0</text>
-          <text x="235" y="165" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="#722ED1">LIVING</text>
-          <text x="235" y="175" textAnchor="middle" fontSize="6" fontFamily="monospace" fill="#722ED1">16&apos;0 x 14&apos;0</text>
-          <text x="325" y="92" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="#722ED1">MASROOM</text>
-          <text x="325" y="102" textAnchor="middle" fontSize="6" fontFamily="monospace" fill="#722ED1">14&apos;0 x 14&apos;0</text>
-          <text x="325" y="168" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="#722ED1">BATH</text>
-          <circle cx="190" cy="60" r="1.5" fill="#722ED1" />
-          <circle cx="280" cy="60" r="1.5" fill="#722ED1" />
-          <circle cx="370" cy="60" r="1.5" fill="#722ED1" />
-          <line x1="372" y1="60" x2="372" y2="210" stroke="#722ED1" strokeWidth="0.5" />
-          <line x1="366" y1="60" x2="378" y2="60" stroke="#722ED1" strokeWidth="0.5" />
-          <line x1="366" y1="210" x2="378" y2="210" stroke="#722ED1" strokeWidth="0.5" />
-          <text x="378" y="140" textAnchor="start" fontSize="7" fontFamily="monospace" fill="#722ED1" transform="rotate(90 378 140)">5600</text>
+          <line x1="80" y1="40" x2="370" y2="40" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <line x1="80" y1="34" x2="80" y2="46" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <line x1="370" y1="34" x2="370" y2="46" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <text x="225" y="32" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)">3800</text>
+          <rect x="190" y="60" width="90" height="70" stroke="var(--hz-primary)" strokeWidth="1" fill="none" />
+          <rect x="190" y="130" width="90" height="80" stroke="var(--hz-primary)" strokeWidth="1" fill="none" />
+          <rect x="280" y="60" width="90" height="80" stroke="var(--hz-primary)" strokeWidth="1" fill="none" />
+          <rect x="280" y="140" width="90" height="70" stroke="var(--hz-primary)" strokeWidth="1" fill="none" />
+          <text x="235" y="88" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="var(--hz-primary)">KITCHEN</text>
+          <text x="235" y="98" textAnchor="middle" fontSize="6" fontFamily="monospace" fill="var(--hz-primary)">10&apos;0 x 8&apos;0</text>
+          <text x="235" y="165" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="var(--hz-primary)">LIVING</text>
+          <text x="235" y="175" textAnchor="middle" fontSize="6" fontFamily="monospace" fill="var(--hz-primary)">16&apos;0 x 14&apos;0</text>
+          <text x="325" y="92" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="var(--hz-primary)">MASROOM</text>
+          <text x="325" y="102" textAnchor="middle" fontSize="6" fontFamily="monospace" fill="var(--hz-primary)">14&apos;0 x 14&apos;0</text>
+          <text x="325" y="168" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="var(--hz-primary)">BATH</text>
+          <circle cx="190" cy="60" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="280" cy="60" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="370" cy="60" r="1.5" fill="var(--hz-primary)" />
+          <line x1="372" y1="60" x2="372" y2="210" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <line x1="366" y1="60" x2="378" y2="60" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <line x1="366" y1="210" x2="378" y2="210" stroke="var(--hz-primary)" strokeWidth="0.5" />
+          <text x="378" y="140" textAnchor="start" fontSize="7" fontFamily="monospace" fill="var(--hz-primary)" transform="rotate(90 378 140)">5600</text>
         </g>
       </svg>
 
@@ -82,28 +82,28 @@ function BlueprintBackground() {
         <g opacity="0.04">
           {Array.from({ length: 7 }).map((_, r) =>
             Array.from({ length: 7 }).map((_, c) => (
-              <circle key={`${r}-${c}`} cx={24 + c * 22} cy={40 + r * 22} r="1.2" fill="#722ED1" />
+              <circle key={`${r}-${c}`} cx={24 + c * 22} cy={40 + r * 22} r="1.2" fill="var(--hz-primary)" />
             ))
           )}
-          <text x="24" y="210" fontSize="8" fontFamily="monospace" fill="#722ED1">01</text>
+          <text x="24" y="210" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)">01</text>
         </g>
       </svg>
 
       {/* Bottom-right floor plan — visible on all sizes */}
       <svg className="absolute bottom-0 right-0 w-[200px] h-[180px] lg:w-[300px] lg:h-[260px]" viewBox="0 0 300 260" fill="none" preserveAspectRatio="xMaxYMax meet">
         <g opacity="0.045">
-          <rect x="60" y="40" width="195" height="148" stroke="#722ED1" strokeWidth="1.5" />
-          <rect x="60" y="40" width="98" height="80" stroke="#722ED1" strokeWidth="1" />
-          <line x1="158" y1="40" x2="158" y2="188" stroke="#722ED1" strokeWidth="1.5" />
-          <line x1="60" y1="128" x2="255" y2="128" stroke="#722ED1" strokeWidth="1" />
-          <text x="100" y="95" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="#722ED1">3BHK</text>
-          <text x="200" y="158" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1">02</text>
-          <circle cx="60" cy="40" r="1.5" fill="#722ED1" />
-          <circle cx="158" cy="40" r="1.5" fill="#722ED1" />
-          <circle cx="255" cy="40" r="1.5" fill="#722ED1" />
-          <circle cx="60" cy="128" r="1.5" fill="#722ED1" />
-          <circle cx="158" cy="128" r="1.5" fill="#722ED1" />
-          <circle cx="255" cy="128" r="1.5" fill="#722ED1" />
+          <rect x="60" y="40" width="195" height="148" stroke="var(--hz-primary)" strokeWidth="1.5" />
+          <rect x="60" y="40" width="98" height="80" stroke="var(--hz-primary)" strokeWidth="1" />
+          <line x1="158" y1="40" x2="158" y2="188" stroke="var(--hz-primary)" strokeWidth="1.5" />
+          <line x1="60" y1="128" x2="255" y2="128" stroke="var(--hz-primary)" strokeWidth="1" />
+          <text x="100" y="95" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="var(--hz-primary)">3BHK</text>
+          <text x="200" y="158" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)">02</text>
+          <circle cx="60" cy="40" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="158" cy="40" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="255" cy="40" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="60" cy="128" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="158" cy="128" r="1.5" fill="var(--hz-primary)" />
+          <circle cx="255" cy="128" r="1.5" fill="var(--hz-primary)" />
         </g>
       </svg>
     </div>
@@ -170,13 +170,13 @@ function QuickCard({ icon, label, sublabel, selected, onClick }: QuickCardProps)
       className={[
         'flex flex-col items-center gap-2 py-3 px-2 flex-1 border rounded-[12px] cursor-pointer transition-all duration-200 outline-none group',
         selected
-          ? 'border-[#722ED1] bg-[#F9F5FF] text-[#722ED1]'
-          : 'border-[#E3DDD7] bg-[#FFFFFF] text-[#68636D] hover:border-[#722ED1] hover:bg-[#F9F5FF] hover:text-[#722ED1] hover:-translate-y-0.5',
+          ? 'border-[var(--hz-primary)] bg-[#F9F5FF] text-[var(--hz-primary)]'
+          : 'border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[var(--hz-primary)] hover:bg-[#F9F5FF] hover:text-[var(--hz-primary)] hover:-translate-y-0.5',
       ].join(' ')}
     >
-      <div className={selected ? 'text-[#722ED1]' : 'text-[#68636D] group-hover:text-[#722ED1]'}>{icon}</div>
-      <div className="text-[12px] font-semibold tracking-[0.08em] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: selected ? '#722ED1' : '#1E1E1E' }}>{label}</div>
-      <div className="text-[11px]" style={{ fontFamily: '"Inter Variable", sans-serif', color: selected ? '#722ED1' : '#808080' }}>{sublabel}</div>
+      <div className={selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink-muted)] group-hover:text-[var(--hz-primary)]'}>{icon}</div>
+      <div className="text-[12px] font-semibold tracking-[0.08em] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: selected ? 'var(--hz-primary)' : 'var(--hz-black)' }}>{label}</div>
+      <div className="text-[11px]" style={{ fontFamily: '"Inter Variable", sans-serif', color: selected ? 'var(--hz-primary)' : '#808080' }}>{sublabel}</div>
     </button>
   )
 }
@@ -195,7 +195,7 @@ function EstimateInsightCard({ inline = false }: { inline?: boolean }) {
   return (
     <div
       className={[
-        'bg-white border border-[#E3DDD7] rounded-[14px] p-4 flex flex-col gap-3',
+        'bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[14px] p-4 flex flex-col gap-3',
         inline
           ? 'w-full'
           : 'absolute right-[-16px] xl:right-[-20px] top-1/4 w-[210px] xl:w-[228px] z-20 shadow-[0_8px_32px_rgba(36,35,38,0.12)]',
@@ -204,20 +204,20 @@ function EstimateInsightCard({ inline = false }: { inline?: boolean }) {
     >
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-1.5">
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="10" rx="1" stroke="#722ED1" strokeWidth="1.2" /><line x1="4" y1="1" x2="4" y2="5" stroke="#722ED1" strokeWidth="1.2" strokeLinecap="round" /><line x1="10" y1="1" x2="10" y2="5" stroke="#722ED1" strokeWidth="1.2" strokeLinecap="round" /></svg>
-          <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Project Estimate</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="10" rx="1" stroke="var(--hz-primary)" strokeWidth="1.2" /><line x1="4" y1="1" x2="4" y2="5" stroke="var(--hz-primary)" strokeWidth="1.2" strokeLinecap="round" /><line x1="10" y1="1" x2="10" y2="5" stroke="var(--hz-primary)" strokeWidth="1.2" strokeLinecap="round" /></svg>
+          <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Project Estimate</span>
         </div>
-        <div className="text-[20px] xl:text-[22px] font-bold text-[#722ED1] tracking-[-0.02em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>₹29.8L – ₹35.2L</div>
-        <div className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Estimated Construction Cost</div>
+        <div className="text-[20px] xl:text-[22px] font-bold text-[var(--hz-primary)] tracking-[-0.02em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>₹29.8L – ₹35.2L</div>
+        <div className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Estimated Construction Cost</div>
       </div>
-      <div className="h-px bg-[#F4F0EC]" />
+      <div className="h-px bg-[var(--hz-surface-muted)]" />
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-1.5">
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><polyline points="1,10 4,6 7,8 10,3 13,5" stroke="#722ED1" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>
-          <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI Confidence</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><polyline points="1,10 4,6 7,8 10,3 13,5" stroke="var(--hz-primary)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>
+          <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI Confidence</span>
         </div>
-        <div className="text-[24px] xl:text-[28px] font-bold text-[#722ED1] tracking-[-0.02em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>86%</div>
-        <div className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>High Confidence</div>
+        <div className="text-[24px] xl:text-[28px] font-bold text-[var(--hz-primary)] tracking-[-0.02em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>86%</div>
+        <div className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>High Confidence</div>
       </div>
     </div>
   )
@@ -244,11 +244,11 @@ interface FloatingSolutionCardProps {
 }
 
 function FloatingSolutionCard({ icon, label, main, caption, accent, positionClassName, animationDelay, floatDelay, onClick }: FloatingSolutionCardProps) {
-  const accentHex = accent === 'orange' ? '#FF5500' : '#722ED1'
+  const accentHex = accent === 'orange' ? '#FF5500' : 'var(--hz-primary)'
   return (
     <button
       onClick={onClick}
-      className={`hidden lg:flex flex-col gap-1 text-left absolute z-20 bg-white border border-[#E3DDD7] rounded-[14px] p-4 w-[210px] xl:w-[228px] cursor-pointer transition-colors duration-150 hover:border-current ${positionClassName}`}
+      className={`hidden lg:flex flex-col gap-1 text-left absolute z-20 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[14px] p-4 w-[210px] xl:w-[228px] cursor-pointer transition-colors duration-150 hover:border-current ${positionClassName}`}
       style={{
         boxShadow: '0 8px 32px rgba(36,35,38,0.12)',
         color: accentHex,
@@ -257,10 +257,10 @@ function FloatingSolutionCard({ icon, label, main, caption, accent, positionClas
     >
       <div className="flex items-center gap-1.5" style={{ color: accentHex }}>
         {icon}
-        <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{label}</span>
+        <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{label}</span>
       </div>
       <div className="text-[16px] font-bold tracking-[-0.01em]" style={{ fontFamily: '"Geist Variable", sans-serif', color: accentHex }}>{main}</div>
-      <div className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{caption}</div>
+      <div className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{caption}</div>
     </button>
   )
 }
@@ -280,7 +280,7 @@ function HozieCard() {
 
   return (
     <div
-      className="bg-white border border-[#E3DDD7] rounded-[24px] p-5 sm:p-6 flex flex-col gap-4 sm:gap-5 w-full shadow-[0_8px_32px_rgba(36,35,38,0.06)]"
+      className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[24px] p-5 sm:p-6 flex flex-col gap-4 sm:gap-5 w-full shadow-[0_8px_32px_rgba(36,35,38,0.06)]"
       style={{ animation: 'hozieCardReveal 0.5s ease-out 0.4s both' }}
     >
       {/* Card header */}
@@ -288,26 +288,26 @@ function HozieCard() {
         <div className="flex items-center gap-3">
           <HIcon size={36} />
           <div>
-            <div className="text-[15px] font-bold text-[#242326] tracking-[-0.01em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>HOZIE</div>
-            <div className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#722ED1] mt-0.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI Construction Advisor</div>
+            <div className="text-[15px] font-bold text-[var(--hz-ink)] tracking-[-0.01em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>HOZIE</div>
+            <div className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[var(--hz-primary)] mt-0.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI Construction Advisor</div>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="size-2 rounded-full bg-green-600" />
-          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Online</span>
+          <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Online</span>
         </div>
       </div>
 
       {/* Welcome bubble */}
-      <div className="bg-[#F9F5FF] border border-[#722ED1]/30 rounded-[14px] p-4 sm:p-5">
-        <div className="text-[18px] sm:text-[20px] font-bold text-[#242326] tracking-[-0.02em] mb-2" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hi, I&apos;m Hozie.</div>
-        <div className="text-[13px] sm:text-[14px] text-[#68636D] leading-relaxed" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <div className="bg-[#F9F5FF] border border-[var(--hz-primary)]/30 rounded-[14px] p-4 sm:p-5">
+        <div className="text-[18px] sm:text-[20px] font-bold text-[var(--hz-ink)] tracking-[-0.02em] mb-2" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hi, I&apos;m Hozie.</div>
+        <div className="text-[13px] sm:text-[14px] text-[var(--hz-ink-muted)] leading-relaxed" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           I can help you plan your construction, estimate costs and understand what it takes to build your project.
         </div>
       </div>
 
       {/* Quick-start label */}
-      <div className="text-[13px] sm:text-[14px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <div className="text-[13px] sm:text-[14px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         What are you planning to build?
       </div>
 
@@ -319,18 +319,18 @@ function HozieCard() {
       </div>
 
       {/* AI composer */}
-      <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 border border-[#E3DDD7] rounded-[14px] bg-white">
+      <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 border border-[var(--hz-border)] rounded-[14px] bg-[var(--hz-surface)]">
         <HIcon size={24} />
         <input
           type="text"
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
           placeholder="Tell Hozie what you want to build..."
-          className="flex-1 border-none outline-none bg-transparent text-[13px] sm:text-[14px] text-[#242326] placeholder:text-[#9A949D]"
+          className="flex-1 border-none outline-none bg-transparent text-[13px] sm:text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-ink-subtle)]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         />
         <button
-          className="size-9 sm:size-10 rounded-full bg-[#722ED1] border-none cursor-pointer flex items-center justify-center shrink-0 transition-all duration-150 hover:brightness-90 hover:scale-105"
+          className="size-9 sm:size-10 rounded-full bg-[var(--hz-primary)] border-none cursor-pointer flex items-center justify-center shrink-0 transition-all duration-150 hover:brightness-90 hover:scale-105"
         >
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M14 8L2 2L5 8L2 14L14 8Z" fill="white" /></svg>
         </button>
@@ -338,8 +338,8 @@ function HozieCard() {
 
       {/* TRY example */}
       <div className="flex items-start sm:items-center gap-2 -mt-1 flex-wrap">
-        <span className="text-[12px] font-semibold tracking-[0.08em] uppercase text-[#722ED1] shrink-0" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>TRY:</span>
-        <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+        <span className="text-[12px] font-semibold tracking-[0.08em] uppercase text-[var(--hz-primary)] shrink-0" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>TRY:</span>
+        <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
           &ldquo;I want to build a 3 BHK G+1 house on 200 sq yards in Hyderabad.&rdquo;
         </span>
       </div>
@@ -368,15 +368,15 @@ interface SolutionCardProps {
 }
 
 function SolutionCard({ icon, title, body, examples, ctaLabel, accent, featured, onClick }: SolutionCardProps) {
-  const accentHex = accent === 'orange' ? '#FF5500' : '#722ED1'
-  const tintBg = accent === 'orange' ? '#FFF3EA' : '#F3EAFF'
+  const accentHex = accent === 'orange' ? '#FF5500' : 'var(--hz-primary)'
+  const tintBg = accent === 'orange' ? '#FFF3EA' : 'var(--hz-primary-soft)'
   return (
     <button
       onClick={onClick}
       className={[
-        'group text-left flex flex-col bg-white border rounded-[20px] cursor-pointer transition-all duration-150 outline-none hover:-translate-y-[1px]',
+        'group text-left flex flex-col bg-[var(--hz-surface)] border rounded-[20px] cursor-pointer transition-all duration-150 outline-none hover:-translate-y-[1px]',
         featured ? 'p-6 gap-4' : 'p-5 gap-3',
-        accent === 'orange' ? 'border-[#E3DDD7] hover:border-[#FF5500]' : 'border-[#E3DDD7] hover:border-[#722ED1]',
+        accent === 'orange' ? 'border-[var(--hz-border)] hover:border-[#FF5500]' : 'border-[var(--hz-border)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
       style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}
     >
@@ -387,14 +387,14 @@ function SolutionCard({ icon, title, body, examples, ctaLabel, accent, featured,
         {icon}
       </span>
       <div className="flex flex-col gap-1.5">
-        <span className={featured ? 'text-[18px] font-semibold text-[#242326]' : 'text-[15px] font-semibold text-[#242326]'} style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+        <span className={featured ? 'text-[18px] font-semibold text-[var(--hz-ink)]' : 'text-[15px] font-semibold text-[var(--hz-ink)]'} style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           {title}
         </span>
-        <span className={featured ? 'text-[13.5px] text-[#68636D] leading-[1.55]' : 'text-[13px] text-[#68636D] leading-[1.5]'} style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+        <span className={featured ? 'text-[13.5px] text-[var(--hz-ink-muted)] leading-[1.55]' : 'text-[13px] text-[var(--hz-ink-muted)] leading-[1.5]'} style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           {body}
         </span>
         {examples && (
-          <span className="text-[11.5px] text-[#9A949D] tracking-[0.01em]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+          <span className="text-[11.5px] text-[var(--hz-ink-subtle)] tracking-[0.01em]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             {examples}
           </span>
         )}
@@ -417,17 +417,17 @@ export default function WelcomeScreen({ onNavigate }: { onNavigate: (screen: str
 
       {/* ── Header ── */}
       <header
-        className="h-14 lg:h-[72px] flex items-center justify-between px-5 sm:px-8 lg:px-12 shrink-0 relative z-10 border-b border-[#E3DDD7]/50"
+        className="h-14 lg:h-[72px] flex items-center justify-between px-5 sm:px-8 lg:px-12 shrink-0 relative z-10 border-b border-[var(--hz-border)]/50"
         style={{ animation: 'welcomeFadeDown 0.4s ease-out 0.1s both' }}
       >
         <img src={logoHorizontal} alt="Houzeify" className="h-7 lg:h-8 w-auto" style={{ mixBlendMode: 'multiply' }} />
         <div className="flex items-center gap-2 sm:gap-3">
-          <span className="hidden sm:block text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+          <span className="hidden sm:block text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             Already have an account?
           </span>
           <button
             onClick={() => onNavigate('login')}
-            className="h-9 lg:h-10 px-4 lg:px-5 border border-[#E3DDD7] rounded-[10px] bg-transparent text-[13px] lg:text-[14px] font-medium text-[#242326] cursor-pointer transition-all duration-200 hover:border-[#722ED1] hover:bg-[#F3EAFF]"
+            className="h-9 lg:h-10 px-4 lg:px-5 border border-[var(--hz-border)] rounded-[10px] bg-transparent text-[13px] lg:text-[14px] font-medium text-[var(--hz-ink)] cursor-pointer transition-all duration-200 hover:border-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Log in
@@ -445,24 +445,24 @@ export default function WelcomeScreen({ onNavigate }: { onNavigate: (screen: str
         >
           {/* Eyebrow */}
           <div className="flex items-center gap-3">
-            <div className="w-7 h-[1.5px] bg-[#722ED1] shrink-0" />
-            <span className="text-[12px] sm:text-[12px] font-semibold tracking-[0.12em] uppercase text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+            <div className="w-7 h-[1.5px] bg-[var(--hz-primary)] shrink-0" />
+            <span className="text-[12px] sm:text-[12px] font-semibold tracking-[0.12em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
               Meet Hozie
             </span>
           </div>
 
           {/* Headline */}
           <h1
-            className="text-[36px] sm:text-[46px] lg:text-[52px] xl:text-[56px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0"
+            className="text-[36px] sm:text-[46px] lg:text-[52px] xl:text-[56px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0"
             style={{ fontFamily: '"Geist Variable", sans-serif' }}
           >
             Your AI Construction<br />
-            <span className="text-[#722ED1]">Advisor for Everything Home.</span>
+            <span className="text-[var(--hz-primary)]">Advisor for Everything Home.</span>
           </h1>
 
           {/* Description */}
           <p
-            className="text-[15px] sm:text-[16px] lg:text-[17px] leading-[1.7] text-[#68636D] m-0 max-w-[460px]"
+            className="text-[15px] sm:text-[16px] lg:text-[17px] leading-[1.7] text-[var(--hz-ink-muted)] m-0 max-w-[460px]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Estimate construction costs, make better decisions,<br className="hidden sm:block" />{' '}
@@ -474,13 +474,13 @@ export default function WelcomeScreen({ onNavigate }: { onNavigate: (screen: str
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 flex-wrap">
             <button
               onClick={() => onNavigate('login')}
-              className="h-12 sm:h-[52px] px-6 sm:px-7 bg-[#722ED1] text-white border-none rounded-[12px] text-[14px] font-semibold cursor-pointer flex items-center gap-2 transition-all duration-200 hover:brightness-90 w-full sm:w-auto justify-center"
+              className="h-12 sm:h-[52px] px-6 sm:px-7 bg-[var(--hz-primary)] text-white border-none rounded-[12px] text-[14px] font-semibold cursor-pointer flex items-center gap-2 transition-all duration-200 hover:brightness-90 w-full sm:w-auto justify-center"
               style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               Start with Hozie →
             </button>
             <button
-              className="bg-transparent border-none text-[14px] font-medium text-[#242326] cursor-pointer p-0 flex items-center gap-1.5 transition-colors duration-200 hover:text-[#722ED1]"
+              className="bg-transparent border-none text-[14px] font-medium text-[var(--hz-ink)] cursor-pointer p-0 flex items-center gap-1.5 transition-colors duration-200 hover:text-[var(--hz-primary)]"
               style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               I already have a project →
@@ -491,12 +491,12 @@ export default function WelcomeScreen({ onNavigate }: { onNavigate: (screen: str
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             <div className="flex items-center gap-1.5">
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3V7C2 10.3 4.2 13 7 14C9.8 13 12 10.3 12 7V3L7 1Z" stroke="#A1A1A1" strokeWidth="1" fill="none" /><path d="M5 7L6.5 8.5L9 5.5" stroke="#A1A1A1" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              <span className="text-[12px] font-semibold tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Free to start</span>
+              <span className="text-[12px] font-semibold tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Free to start</span>
             </div>
             <div className="size-[3px] rounded-full bg-[#C8C2BC]" />
             <div className="flex items-center gap-1.5">
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="9" rx="1.5" stroke="#A1A1A1" strokeWidth="1" /><line x1="1" y1="7" x2="13" y2="7" stroke="#A1A1A1" strokeWidth="1" /><line x1="4" y1="9.5" x2="7" y2="9.5" stroke="#A1A1A1" strokeWidth="1" strokeLinecap="round" /></svg>
-              <span className="text-[12px] font-semibold tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>No credit card required</span>
+              <span className="text-[12px] font-semibold tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>No credit card required</span>
             </div>
           </div>
         </div>
@@ -564,8 +564,8 @@ export default function WelcomeScreen({ onNavigate }: { onNavigate: (screen: str
       >
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2 sm:gap-3">
-            <span className="text-[12px] sm:text-[12px] font-semibold tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] sm:text-[12px] text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>/</span>}
+            <span className="text-[12px] sm:text-[12px] font-semibold tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] sm:text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>/</span>}
           </span>
         ))}
       </footer>

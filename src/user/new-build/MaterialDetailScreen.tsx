@@ -175,7 +175,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -194,9 +194,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4">
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -206,9 +206,9 @@ function SectionCard({ eyebrow, tag, children }: { eyebrow: string; tag?: React.
 
 function Row({ label, value, first }: { label: string; value: string; first?: boolean }) {
   return (
-    <div className="flex items-center justify-between gap-3 py-2.5" style={{ borderTop: first ? 'none' : '1px solid #FFFFFF' }}>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[13px] font-semibold text-[#242326] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
+    <div className="flex items-center justify-between gap-3 py-2.5" style={{ borderTop: first ? 'none' : '1px solid var(--hz-surface)' }}>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
@@ -219,8 +219,8 @@ function fmtQty(n: number): string {
 
 const IMPACT_META: Record<Exclude<ImpactLevel, 'baseline'>, { label: string; bg: string; fg: string }> = {
   low: { label: 'LOW', bg: '#CAC7C6', fg: '#808080' },
-  medium: { label: 'MEDIUM', bg: '#F3EAFF', fg: '#722ED1' },
-  high: { label: 'HIGH', bg: '#722ED1', fg: '#FFFFFF' },
+  medium: { label: 'MEDIUM', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)' },
+  high: { label: 'HIGH', bg: 'var(--hz-primary)', fg: 'var(--hz-surface)' },
 }
 
 // ─── Breadcrumb ─────────────────────────────────────────────────────────────
@@ -228,9 +228,9 @@ const IMPACT_META: Record<Exclude<ImpactLevel, 'baseline'>, { label: string; bg:
 function Breadcrumb({ materialName, onCalculator }: { materialName: string; onCalculator: () => void }) {
   return (
     <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-[12px] flex-wrap min-w-0" style={{ fontFamily: FONT_BODY }}>
-      <button onClick={onCalculator} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: '#68636D' }}>Material Calculator</button>
+      <button onClick={onCalculator} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: 'var(--hz-ink-muted)' }}>Material Calculator</button>
       <span aria-hidden="true" style={{ color: '#CAC7C6' }}>/</span>
-      <span className="font-semibold" style={{ color: '#242326' }}>{materialName}</span>
+      <span className="font-semibold" style={{ color: 'var(--hz-ink)' }}>{materialName}</span>
     </nav>
   )
 }
@@ -243,17 +243,17 @@ function MaterialDetailHeader({ detail, onBack, onCheckPrice }: { detail: Materi
       <Breadcrumb materialName={detail.name} onCalculator={onBack} />
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div className="flex flex-col gap-2 min-w-0">
-          <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Material Detail</span>
-          <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] m-0 leading-[1.1]" style={{ fontFamily: FONT_HEAD }}>{detail.name}</h1>
-          <p className="text-[14px] text-[#68636D] leading-[1.6] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+          <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Material Detail</span>
+          <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.1]" style={{ fontFamily: FONT_HEAD }}>{detail.name}</h1>
+          <p className="text-[14px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
             Estimated {detail.name.toLowerCase()} requirement for your current project and construction assumptions.
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <button onClick={onBack} className="flex items-center gap-1.5 h-9 px-3.5 rounded-[10px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: FONT_BODY }}>
+          <button onClick={onBack} className="flex items-center gap-1.5 h-9 px-3.5 rounded-[10px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all" style={{ fontFamily: FONT_BODY }}>
             <IcoChevronLeft /> Back to Calculator
           </button>
-          <button onClick={onCheckPrice} className="h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+          <button onClick={onCheckPrice} className="h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
             Check Market Price
           </button>
         </div>
@@ -266,37 +266,37 @@ function MaterialDetailHeader({ detail, onBack, onCheckPrice }: { detail: Materi
 
 function MaterialHero({ detail }: { detail: MaterialDetail }) {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-5" style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-5" style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
       <div className="flex items-center gap-2.5">
-        <span className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>
+        <span className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>
           {MATERIAL_ICONS[detail.id]}
         </span>
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Estimated Requirement</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Estimated Requirement</span>
       </div>
 
       <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
-        <span className="text-[36px] sm:text-[42px] font-semibold leading-none" style={{ color: '#722ED1', fontFamily: FONT_HEAD }}>
+        <span className="text-[36px] sm:text-[42px] font-semibold leading-none" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>
           {fmtQty(detail.quantity)} <span className="text-[18px] font-normal">{detail.unit}</span>
         </span>
-        <span className="text-[12px] text-[#68636D] mt-1" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[12px] text-[var(--hz-ink-muted)] mt-1" style={{ fontFamily: FONT_BODY }}>
           Range: {fmtQty(detail.minQuantity)} — {fmtQty(detail.maxQuantity)} {detail.unit}
         </span>
       </div>
 
       <div className="grid grid-cols-3 gap-3">
         {detail.packaging && (
-          <div className="flex flex-col gap-0.5 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
-            <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Unit</span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{detail.packaging}</span>
+          <div className="flex flex-col gap-0.5 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-surface)' }}>
+            <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Unit</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{detail.packaging}</span>
           </div>
         )}
-        <div className="flex flex-col gap-0.5 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
-          <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Estimated Cost</span>
-          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{formatINR(detail.estimatedCost)}</span>
+        <div className="flex flex-col gap-0.5 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-surface)' }}>
+          <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Estimated Cost</span>
+          <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{formatINR(detail.estimatedCost)}</span>
         </div>
-        <div className="flex flex-col gap-0.5 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
-          <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>AI Confidence</span>
-          <span className="text-[13px] font-semibold text-[#242326] capitalize" style={{ fontFamily: FONT_BODY }}>{detail.confidence} · {detail.confidenceScore}%</span>
+        <div className="flex flex-col gap-0.5 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-surface)' }}>
+          <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>AI Confidence</span>
+          <span className="text-[13px] font-semibold text-[var(--hz-ink)] capitalize" style={{ fontFamily: FONT_BODY }}>{detail.confidence} · {detail.confidenceScore}%</span>
         </div>
       </div>
     </div>
@@ -316,9 +316,9 @@ function ProjectContext({ projectName, location }: { projectName: string; locati
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
       {items.map(([label, value]) => (
-        <div key={label} className="bg-white rounded-[12px] border border-[#E3DDD7] p-3.5 flex flex-col gap-1">
-          <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D] truncate" style={{ fontFamily: FONT_MONO }}>{label}</span>
-          <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{value}</span>
+        <div key={label} className="bg-[var(--hz-surface)] rounded-[12px] border border-[var(--hz-border)] p-3.5 flex flex-col gap-1">
+          <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)] truncate" style={{ fontFamily: FONT_MONO }}>{label}</span>
+          <span className="text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{value}</span>
         </div>
       ))}
     </div>
@@ -341,13 +341,13 @@ function CalculationFlow({ detail }: { detail: MaterialDetail }) {
           <div
             className="w-full text-center py-2 px-3 rounded-[10px] text-[12px]"
             style={i === steps.length - 1
-              ? { backgroundColor: '#F9F5FF', color: '#722ED1', fontWeight: 600, border: '1px solid rgba(243,234,255,0.10)', fontFamily: FONT_HEAD }
-              : { backgroundColor: '#F4F0EC', color: '#242326', fontFamily: FONT_BODY }}
+              ? { backgroundColor: '#F9F5FF', color: 'var(--hz-primary)', fontWeight: 600, border: '1px solid rgba(243,234,255,0.10)', fontFamily: FONT_HEAD }
+              : { backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
           >
             {s}
           </div>
           {i < steps.length - 1 && (
-            <span aria-hidden="true" className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>
+            <span aria-hidden="true" className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>
               <IcoArrowDown />
             </span>
           )}
@@ -362,7 +362,7 @@ function CalculationBasis({ detail }: { detail: MaterialDetail }) {
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.11s both' }}>
       <SectionCard
         eyebrow="How Hozie Estimated This"
-        tag={<span className="text-[9px] uppercase tracking-[0.06em] px-2 py-1 rounded-[6px]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>Preliminary AI Estimate</span>}
+        tag={<span className="text-[9px] uppercase tracking-[0.06em] px-2 py-1 rounded-[6px]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>Preliminary AI Estimate</span>}
       >
         <div className="flex flex-col">
           <Row first label="Built-up area" value={`${defaultProjectInput.builtUpArea.toLocaleString('en-IN')} sq ft`} />
@@ -390,10 +390,10 @@ function MaterialSpecification({ detail }: { detail: MaterialDetail }) {
         </div>
 
         <div className="flex flex-col gap-2">
-          <span className="text-[10px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Typical Use</span>
+          <span className="text-[10px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Typical Use</span>
           <div className="flex flex-wrap gap-1.5">
             {detail.applications.map(a => (
-              <span key={a} className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: FONT_BODY }}>{a}</span>
+              <span key={a} className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>{a}</span>
             ))}
           </div>
         </div>
@@ -408,7 +408,7 @@ function MaterialSpecification({ detail }: { detail: MaterialDetail }) {
 
 // ─── Usage breakdown ─────────────────────────────────────────────────────────
 
-const USAGE_COLORS = ['#722ED1', '#F3EAFF', '#CAEBFF', '#C6F6D5']
+const USAGE_COLORS = ['var(--hz-primary)', 'var(--hz-primary-soft)', '#CAEBFF', '#C6F6D5']
 
 function UsageBreakdown({ detail }: { detail: MaterialDetail }) {
   return (
@@ -422,15 +422,15 @@ function UsageBreakdown({ detail }: { detail: MaterialDetail }) {
         <div className="flex flex-col gap-2">
           {detail.usageBreakdown.map((u, i) => (
             <div key={u.label} className="flex items-center justify-between gap-2">
-              <span className="flex items-center gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+              <span className="flex items-center gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                 <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: USAGE_COLORS[i % USAGE_COLORS.length] }} aria-hidden="true" />
                 {u.label.toUpperCase()}
               </span>
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>~{u.percent}%</span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>~{u.percent}%</span>
             </div>
           ))}
         </div>
-        <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Approximate distribution.</p>
+        <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Approximate distribution.</p>
       </SectionCard>
     </div>
   )
@@ -449,27 +449,27 @@ function WastageCard({ detail, onAdjust, adjusting, wastageValue, onWastageChang
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.09s both' }}>
       <SectionCard eyebrow="Wastage Allowance">
-        <span className="text-[28px] font-semibold leading-none" style={{ color: '#242326', fontFamily: FONT_HEAD }}>{detail.wastage}%</span>
+        <span className="text-[28px] font-semibold leading-none" style={{ color: 'var(--hz-ink)', fontFamily: FONT_HEAD }}>{detail.wastage}%</span>
         <Row first label="Expected range" value={`${detail.wastageRangeMin}–${detail.wastageRangeMax}%`} />
-        <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Wastage can vary depending on storage, handling, mixing practices and site conditions.
         </p>
         <div className="flex items-center justify-between">
-          <button onClick={onAdjust} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+          <button onClick={onAdjust} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
             {adjusting ? 'Hide' : 'Adjust wastage →'}
           </button>
           {adjusting && wastageValue !== detail.wastage && (
-            <button onClick={onResetWastage} className="text-[11px] font-medium cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#9A949D', fontFamily: FONT_BODY }}>Reset</button>
+            <button onClick={onResetWastage} className="text-[11px] font-medium cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-ink-subtle)', fontFamily: FONT_BODY }}>Reset</button>
           )}
         </div>
         {adjusting && (
-          <div className="flex flex-col gap-2 rounded-[12px] p-4" style={{ backgroundColor: '#FFFFFF' }}>
-            <label htmlFor="md-wastage" className="flex items-center justify-between text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+          <div className="flex flex-col gap-2 rounded-[12px] p-4" style={{ backgroundColor: 'var(--hz-surface)' }}>
+            <label htmlFor="md-wastage" className="flex items-center justify-between text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
               <span>Wastage</span>
               <span className="font-semibold">{wastageValue}%</span>
             </label>
-            <input id="md-wastage" type="range" min={0} max={20} step={1} value={wastageValue} onChange={e => onWastageChange(Number(e.target.value))} style={{ accentColor: '#722ED1' }} />
-            <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>This updates the estimate shown here only — it doesn't change the active BOQ.</p>
+            <input id="md-wastage" type="range" min={0} max={20} step={1} value={wastageValue} onChange={e => onWastageChange(Number(e.target.value))} style={{ accentColor: 'var(--hz-primary)' }} />
+            <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>This updates the estimate shown here only — it doesn't change the active BOQ.</p>
           </div>
         )}
       </SectionCard>
@@ -492,8 +492,8 @@ function MaterialPriceCard({ detail, onCheckPrice, priceUnavailable }: { detail:
           </div>
         ) : (
           <>
-            <span className="text-[26px] font-semibold leading-none" style={{ color: '#242326', fontFamily: FONT_HEAD }}>
-              ₹{detail.unitRate.toLocaleString('en-IN')} <span className="text-[13px] font-normal text-[#68636D]">/ {detail.unit === 'bags' ? 'bag' : detail.unit}</span>
+            <span className="text-[26px] font-semibold leading-none" style={{ color: 'var(--hz-ink)', fontFamily: FONT_HEAD }}>
+              ₹{detail.unitRate.toLocaleString('en-IN')} <span className="text-[13px] font-normal text-[var(--hz-ink-muted)]">/ {detail.unit === 'bags' ? 'bag' : detail.unit}</span>
             </span>
             <div className="flex flex-col">
               <Row first label="Reference range" value={`₹${detail.rateMin.toLocaleString('en-IN')} — ₹${detail.rateMax.toLocaleString('en-IN')} / ${detail.unit === 'bags' ? 'bag' : detail.unit}`} />
@@ -502,12 +502,12 @@ function MaterialPriceCard({ detail, onCheckPrice, priceUnavailable }: { detail:
               <Row label="Location" value={detail.location} />
               <Row label="Status" value="Reference price" />
             </div>
-            <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
               Actual supplier prices may vary based on brand, grade, order quantity, delivery and market conditions.
             </p>
           </>
         )}
-        <button onClick={onCheckPrice} className="w-full h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onCheckPrice} className="w-full h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           Check current market price →
         </button>
       </SectionCard>
@@ -535,34 +535,34 @@ function BOQConnectionCard({ detail, onViewBOQItem, onViewBOQ, onCompare }: {
               <Row label="BOQ" value={`Version ${boqActiveVersion.versionNumber}`} />
             </div>
             {conn.difference !== 0 && (
-              <div className="rounded-[12px] p-4 flex flex-col gap-2" style={{ backgroundColor: '#F4F0EC' }}>
+              <div className="rounded-[12px] p-4 flex flex-col gap-2" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                 <div className="grid grid-cols-3 gap-2">
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-[10px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Calculator</span>
-                    <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{conn.calculatorQuantity} {conn.unit}</span>
+                    <span className="text-[10px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Calculator</span>
+                    <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{conn.calculatorQuantity} {conn.unit}</span>
                   </div>
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-[10px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>BOQ</span>
-                    <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{conn.boqQuantity} {conn.unit}</span>
+                    <span className="text-[10px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>BOQ</span>
+                    <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{conn.boqQuantity} {conn.unit}</span>
                   </div>
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-[10px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Difference</span>
-                    <span className="text-[13px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>{conn.difference > 0 ? '+' : ''}{conn.difference} {conn.unit}</span>
+                    <span className="text-[10px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Difference</span>
+                    <span className="text-[13px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>{conn.difference > 0 ? '+' : ''}{conn.difference} {conn.unit}</span>
                   </div>
                 </div>
-                <button onClick={() => onCompare(conn.itemId)} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+                <button onClick={() => onCompare(conn.itemId)} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                   Compare quantities →
                 </button>
               </div>
             )}
-            <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>This calculator does not automatically change the BOQ.</p>
-            <button onClick={() => onViewBOQItem(conn.itemId)} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+            <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>This calculator does not automatically change the BOQ.</p>
+            <button onClick={() => onViewBOQItem(conn.itemId)} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
               View BOQ item →
             </button>
           </>
         ) : (
           <>
-            <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
               {detail.name} is a raw material spread across several BOQ line items rather than one — roughly in the same proportions shown above.
             </p>
             <div className="flex flex-col">
@@ -570,7 +570,7 @@ function BOQConnectionCard({ detail, onViewBOQItem, onViewBOQ, onCompare }: {
                 <Row key={c.label} first={i === 0} label={c.label} value={`~${c.percent}%`} />
               ))}
             </div>
-            <button onClick={onViewBOQ} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+            <button onClick={onViewBOQ} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
               View BOQ →
             </button>
           </>
@@ -585,43 +585,43 @@ function BOQConnectionCard({ detail, onViewBOQItem, onViewBOQ, onCompare }: {
 function AIConfidenceCard({ detail, onImprove }: { detail: MaterialDetail; onImprove: () => void }) {
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.18s both' }}>
-      <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, #FFFFFF 100%)', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, var(--hz-surface) 100%)', border: '1px solid rgba(243,234,255,0.10)' }}>
         <div className="flex items-center gap-2.5">
-          <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-          <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Confidence</span>
+          <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+          <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Confidence</span>
         </div>
 
         <div className="flex items-end gap-2">
-          <span className="text-[40px] font-semibold leading-none" style={{ fontFamily: FONT_HEAD, color: '#722ED1' }}>{detail.confidenceScore}%</span>
-          <span className="text-[13px] text-[#68636D] mb-1 capitalize" style={{ fontFamily: FONT_BODY }}>{detail.confidence} confidence</span>
+          <span className="text-[40px] font-semibold leading-none" style={{ fontFamily: FONT_HEAD, color: 'var(--hz-primary)' }}>{detail.confidenceScore}%</span>
+          <span className="text-[13px] text-[var(--hz-ink-muted)] mb-1 capitalize" style={{ fontFamily: FONT_BODY }}>{detail.confidence} confidence</span>
         </div>
         <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
-          <div className="h-full rounded-full" style={{ width: `${detail.confidenceScore}%`, backgroundColor: '#722ED1' }} />
+          <div className="h-full rounded-full" style={{ width: `${detail.confidenceScore}%`, backgroundColor: 'var(--hz-primary)' }} />
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Why</span>
+          <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Why</span>
           <ul className="flex flex-col gap-1.5 m-0 p-0" style={{ listStyle: 'none' }}>
             {detail.confidenceWhy.map(f => (
-              <li key={f} className="flex items-start gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                <span aria-hidden="true" style={{ color: '#722ED1' }}>✓</span> {f}
+              <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                <span aria-hidden="true" style={{ color: 'var(--hz-primary)' }}>✓</span> {f}
               </li>
             ))}
           </ul>
         </div>
 
         <div className="flex flex-col gap-1.5 pt-1" style={{ borderTop: '1px solid rgba(243,234,255,0.10)' }}>
-          <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Accuracy Can Improve With</span>
+          <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Accuracy Can Improve With</span>
           <ul className="flex flex-col gap-1.5 m-0 p-0" style={{ listStyle: 'none' }}>
             {detail.confidenceImprove.map(f => (
-              <li key={f} className="flex items-start gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                <span aria-hidden="true" style={{ color: '#9A949D' }}>—</span> {f}
+              <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                <span aria-hidden="true" style={{ color: 'var(--hz-ink-subtle)' }}>—</span> {f}
               </li>
             ))}
           </ul>
         </div>
 
-        <button onClick={onImprove} className="h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onImprove} className="h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           Improve estimate →
         </button>
       </div>
@@ -636,11 +636,11 @@ function SensitivityRow({ factor, impact }: { factor: string; impact: Exclude<Im
   const meta = IMPACT_META[impact]
   return (
     <div className="flex items-center gap-3">
-      <span className="text-[13px] text-[#242326] w-[140px] shrink-0 truncate" style={{ fontFamily: FONT_BODY }}>{factor}</span>
-      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-        <div className="h-full rounded-full" style={{ width: `${fillPct}%`, backgroundColor: impact === 'high' ? '#722ED1' : '#F3EAFF' }} />
+      <span className="text-[13px] text-[var(--hz-ink)] w-[140px] shrink-0 truncate" style={{ fontFamily: FONT_BODY }}>{factor}</span>
+      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-surface)' }}>
+        <div className="h-full rounded-full" style={{ width: `${fillPct}%`, backgroundColor: impact === 'high' ? 'var(--hz-primary)' : 'var(--hz-primary-soft)' }} />
       </div>
-      <span className="text-[11px] font-semibold w-[64px] text-right shrink-0" style={{ fontFamily: FONT_MONO, color: meta.fg === '#FFFFFF' ? '#722ED1' : meta.fg }}>{meta.label}</span>
+      <span className="text-[11px] font-semibold w-[64px] text-right shrink-0" style={{ fontFamily: FONT_MONO, color: meta.fg === 'var(--hz-surface)' ? 'var(--hz-primary)' : meta.fg }}>{meta.label}</span>
     </div>
   )
 }
@@ -670,13 +670,13 @@ function RelatedMaterials({ detail, onOpen }: { detail: MaterialDetail; onOpen: 
             <button
               key={r.id}
               onClick={() => onOpen(r.id)}
-              className="text-left flex flex-col gap-2 p-3.5 rounded-[12px] border border-[#E3DDD7] bg-white hover:border-[#722ED1] hover:bg-[#FFFFFF] cursor-pointer transition-all"
+              className="text-left flex flex-col gap-2 p-3.5 rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface)] hover:border-[var(--hz-primary)] hover:bg-[var(--hz-surface)] cursor-pointer transition-all"
             >
-              <span className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>
+              <span className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>
                 {MATERIAL_ICONS[r.id]}
               </span>
-              <span className="text-[11px] uppercase tracking-[0.04em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{r.name}</span>
-              <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{fmtQty(r.quantity)} {r.unit}</span>
+              <span className="text-[11px] uppercase tracking-[0.04em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{r.name}</span>
+              <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{fmtQty(r.quantity)} {r.unit}</span>
             </button>
           ))}
         </div>
@@ -692,13 +692,13 @@ function HozieAction({ detail, onAskHozie }: { detail: MaterialDetail; onAskHozi
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.26s both' }}>
       <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
         <div className="flex items-center gap-2.5">
-          <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-          <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Ask Hozie</span>
+          <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+          <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Ask Hozie</span>
         </div>
-        <p className="text-[14px] text-[#242326] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[14px] text-[var(--hz-ink)] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
           "What type of {detail.name.toLowerCase()} should I use for my house?"
         </p>
-        <button onClick={onAskHozie} className="self-start h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onAskHozie} className="self-start h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           Ask Hozie →
         </button>
       </div>
@@ -709,7 +709,7 @@ function HozieAction({ detail, onAskHozie }: { detail: MaterialDetail; onAskHozi
 // ─── States ───────────────────────────────────────────────────────────────────
 
 function SkeletonBlock({ h = 14, w = '60%' }: { h?: number; w?: string }) {
-  return <div className="rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', height: h, width: w }} />
+  return <div className="rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', height: h, width: w }} />
 }
 
 function LoadingSkeleton() {
@@ -721,7 +721,7 @@ function LoadingSkeleton() {
         <SkeletonBlock h={12} w="60%" />
       </div>
       {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="bg-white rounded-[16px] border border-[#E3DDD7] p-6 flex flex-col gap-3">
+        <div key={i} className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-6 flex flex-col gap-3">
           <SkeletonBlock h={10} w="25%" />
           <SkeletonBlock h={16} w="70%" />
           <SkeletonBlock h={16} w="50%" />
@@ -733,20 +733,20 @@ function LoadingSkeleton() {
 
 function ErrorPanel({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-white rounded-[16px] border border-[#E3DDD7]">
-      <span style={{ color: '#DC2626' }}><IcoAlert /></span>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Unable to load material details.</p>
-      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Try again</button>
+    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <span style={{ color: 'var(--hz-danger)' }}><IcoAlert /></span>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Unable to load material details.</p>
+      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Try again</button>
     </div>
   )
 }
 
 function NotFoundPanel({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-white rounded-[16px] border border-[#E3DDD7]">
-      <span style={{ color: '#9A949D' }}><IcoEmptyBox /></span>
-      <p className="text-[14px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>This material isn't available in the calculator.</p>
-      <button onClick={onBack} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Back to Calculator</button>
+    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <span style={{ color: 'var(--hz-ink-subtle)' }}><IcoEmptyBox /></span>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>This material isn't available in the calculator.</p>
+      <button onClick={onBack} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Back to Calculator</button>
     </div>
   )
 }
@@ -807,14 +807,14 @@ export default function MaterialDetailScreen({
     material_id: detail.id,
   })
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <button onClick={goCalculator} aria-label="Back to Material Calculator" className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: FONT_BODY }}>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <button onClick={goCalculator} aria-label="Back to Material Calculator" className="flex items-center gap-1 text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: FONT_BODY }}>
           <IcoChevronLeft /> Calculator
         </button>
-        <span className="text-[15px] font-semibold text-[#242326] truncate px-2" style={{ fontFamily: FONT_HEAD }}>{status === 'ready' ? detail.name : 'Material Detail'}</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate px-2" style={{ fontFamily: FONT_HEAD }}>{status === 'ready' ? detail.name : 'Material Detail'}</span>
         <span className="w-8" />
       </div>
 
@@ -822,13 +822,13 @@ return (
         <Sidebar active="build" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Material Detail</h1>
-              <span className="text-[13px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Material Detail</h1>
+              <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#722ED1' }} /> BOQ V{boqActiveVersion.versionNumber} · ACTIVE
+            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--hz-primary)' }} /> BOQ V{boqActiveVersion.versionNumber} · ACTIVE
             </span>
           </header>
 

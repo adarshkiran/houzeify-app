@@ -24,8 +24,8 @@ const IcoMessages = ({ size = 28 }: { size?: number }) => (
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
       {children}
     </div>
   )
@@ -73,11 +73,11 @@ export default function ProjectMessagesScreen({
 
   if (!hasProject) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
-          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
             Back to Workspace
           </button>
         </div>
@@ -86,7 +86,7 @@ export default function ProjectMessagesScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="questions" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
@@ -95,23 +95,23 @@ export default function ProjectMessagesScreen({
           <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
             <div className="max-w-[760px] mx-auto flex flex-col gap-6 min-w-0">
               <div>
-                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Messages</p>
-                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Messages</p>
+                <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
                 {location && (
-                  <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                  <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                     <IcoMapPin /> {location}
                   </span>
                 )}
-                <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Messages and conversations related to this project.</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Messages and conversations related to this project.</p>
               </div>
 
               <SectionCard>
                 <div className="flex flex-col items-center text-center gap-2 py-6">
-                  <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                  <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-subtle)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                     <IcoMessages />
                   </span>
-                  <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No messages yet</p>
-                  <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Your project conversations will appear here.</p>
+                  <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No messages yet</p>
+                  <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Your project conversations will appear here.</p>
                 </div>
               </SectionCard>
             </div>

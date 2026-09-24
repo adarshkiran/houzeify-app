@@ -36,7 +36,7 @@ const PHASE_TIMINGS = [1800, 3800, 6400, 8600]   // transitions: 0→1, 1→2, 2
 function StepIcon({ status }: { status: 'done' | 'active' | 'pending' }) {
   if (status === 'done') {
     return (
-      <div className="w-5 h-5 rounded-full bg-[#722ED1] flex items-center justify-center shrink-0">
+      <div className="w-5 h-5 rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
           <path d="M2 5.2l2.2 2.2 3.8-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
@@ -46,15 +46,15 @@ function StepIcon({ status }: { status: 'done' | 'active' | 'pending' }) {
   if (status === 'active') {
     return (
       <div
-        className="w-5 h-5 rounded-full bg-[#722ED1] flex items-center justify-center shrink-0"
+        className="w-5 h-5 rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0"
         style={{ animation: 'estimatePulse 1.4s ease-in-out infinite' }}
       >
-        <div className="w-2 h-2 rounded-full bg-white" />
+        <div className="w-2 h-2 rounded-full bg-[var(--hz-surface)]" />
       </div>
     )
   }
   return (
-    <div className="w-5 h-5 rounded-full border-2 border-[#E3DDD7] shrink-0" />
+    <div className="w-5 h-5 rounded-full border-2 border-[var(--hz-border)] shrink-0" />
   )
 }
 
@@ -82,18 +82,18 @@ function ProcessingIcon({ complete }: { complete: boolean }) {
 
       {/* Soft lavender glow disc */}
       <div
-        className="absolute rounded-full bg-[#F3EAFF]"
+        className="absolute rounded-full bg-[var(--hz-primary-soft)]"
         style={{ width: 120, height: 120, filter: 'blur(16px)', opacity: 0.85 }}
       />
 
       {/* Icon tile */}
       <div
-        className="relative flex items-center justify-center rounded-[24px] bg-[#F3EAFF] z-10"
+        className="relative flex items-center justify-center rounded-[24px] bg-[var(--hz-primary-soft)] z-10"
         style={{
           width: 88,
           height: 88,
           boxShadow: complete
-            ? '0 0 0 4px #722ED1, 0 0 40px rgba(243,234,255,0.10)'
+            ? '0 0 0 4px var(--hz-primary), 0 0 40px rgba(243,234,255,0.10)'
             : '0 0 32px rgba(243,234,255,0.10)',
           animation: complete ? undefined : 'estimatePulse 2.8s ease-in-out infinite',
           transition: 'box-shadow 0.6s ease',
@@ -105,7 +105,7 @@ function ProcessingIcon({ complete }: { complete: boolean }) {
       {/* Complete checkmark overlay */}
       {complete && (
         <div
-          className="absolute bottom-8 right-8 w-7 h-7 rounded-full bg-[#722ED1] flex items-center justify-center z-20"
+          className="absolute bottom-8 right-8 w-7 h-7 rounded-full bg-[var(--hz-primary)] flex items-center justify-center z-20"
           style={{ animation: 'estimateButtonPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both' }}
         >
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
@@ -123,9 +123,9 @@ function ProcessingIcon({ complete }: { complete: boolean }) {
 function ProgressBar({ value }: { value: number }) {
   return (
     <div className="w-full max-w-[420px] mx-auto flex flex-col gap-2">
-      <div className="h-1.5 w-full bg-[#F4F0EC] rounded-full overflow-hidden">
+      <div className="h-1.5 w-full bg-[var(--hz-surface-muted)] rounded-full overflow-hidden">
         <div
-          className="h-full bg-[#722ED1] rounded-full"
+          className="h-full bg-[var(--hz-primary)] rounded-full"
           style={{ width: `${value}%`, transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)' }}
         />
       </div>
@@ -200,7 +200,7 @@ export default function EstimateLoadingScreen({
 return (
     <div
       className="min-h-full flex flex-col items-center justify-between relative"
-      style={{ backgroundColor: '#FFFFFF' }}
+      style={{ backgroundColor: 'var(--hz-surface)' }}
     >
 
       {/* Spacer */}
@@ -223,7 +223,7 @@ return (
           style={{ animation: 'estimateReveal 0.5s ease-out 0.18s both' }}
         >
           <span
-            className="text-[12px] tracking-[0.10em] text-[#722ED1]"
+            className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)]"
             style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
           >
             HOZIE · AI CONSTRUCTION ADVISOR
@@ -236,13 +236,13 @@ return (
           style={{ animation: 'estimateReveal 0.5s ease-out 0.26s both' }}
         >
           <h1
-            className="text-[32px] sm:text-[44px] font-semibold text-[#242326] m-0 leading-[1.08]"
+            className="text-[32px] sm:text-[44px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]"
             style={{ fontFamily: '"Geist Variable", sans-serif' }}
           >
             {complete ? 'Estimate ready.' : 'Building your estimate.'}
           </h1>
           <p
-            className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0"
+            className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0"
             style={{ fontFamily: '"Inter Variable", sans-serif', maxWidth: 480 }}
           >
             {complete
@@ -253,18 +253,18 @@ return (
 
         {/* Project context card */}
         <div
-          className="w-full bg-white rounded-[16px] border border-[#E3DDD7] px-5 py-4 flex items-center justify-between gap-4"
+          className="w-full bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] px-5 py-4 flex items-center justify-between gap-4"
           style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)', animation: 'estimateReveal 0.5s ease-out 0.32s both' }}
         >
           <div className="flex flex-col gap-1">
             <span
-              className="text-[13px] font-semibold text-[#242326]"
+              className="text-[13px] font-semibold text-[var(--hz-ink)]"
               style={{ fontFamily: '"Geist Variable", sans-serif' }}
             >
               {projectName}
             </span>
             <span
-              className="text-[11px] text-[#68636D]"
+              className="text-[11px] text-[var(--hz-ink-muted)]"
               style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               {location} · {area}
@@ -273,7 +273,7 @@ return (
           <span
             className={[
               'shrink-0 text-[12px] tracking-[0.06em] px-2.5 py-1 rounded-full',
-              complete ? 'text-[#722ED1] bg-[#F3EAFF]' : 'text-[#9A949D] bg-[#F4F0EC]',
+              complete ? 'text-[var(--hz-primary)] bg-[var(--hz-primary-soft)]' : 'text-[var(--hz-ink-subtle)] bg-[var(--hz-surface-muted)]',
             ].join(' ')}
             style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', transition: 'all 0.5s ease' }}
           >
@@ -298,7 +298,7 @@ return (
                   className="text-[13px] leading-none"
                   style={{
                     fontFamily: '"Inter Variable", sans-serif',
-                    color: status === 'pending' ? '#A1A1A1' : '#1E1E1E',
+                    color: status === 'pending' ? '#A1A1A1' : 'var(--hz-black)',
                     transition: 'color 0.4s ease',
                   }}
                 >
@@ -315,7 +315,7 @@ return (
           style={{ animation: 'estimateReveal 0.4s ease-out 0.44s both' }}
         >
           <span
-            className="text-[12px] tracking-[0.10em] text-[#722ED1]"
+            className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)]"
             style={{
               fontFamily: '"Sometype Mono:SemiBold", monospace',
               animation: complete ? undefined : 'hozieStatusPulse 2s ease-in-out infinite',
@@ -325,7 +325,7 @@ return (
             {phase.stateLabel}
           </span>
           <span
-            className="text-[12px] text-[#9A949D]"
+            className="text-[12px] text-[var(--hz-ink-subtle)]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             {phase.statusSub}
@@ -344,7 +344,7 @@ return (
         {complete && (
           <button
             onClick={() => onNavigate('estimate-dashboard', { project_stage: 'estimate-ready' })}
-            className="h-[52px] px-8 rounded-[12px] bg-[#722ED1] text-white text-[15px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.98] transition-all border-0"
+            className="h-[52px] px-8 rounded-[12px] bg-[var(--hz-primary)] text-white text-[15px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.98] transition-all border-0"
             style={{
               fontFamily: '"Geist Variable", sans-serif',
               animation: 'estimateButtonPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both',
@@ -357,14 +357,14 @@ return (
 
         {/* Hozie message card */}
         <div
-          className="w-full flex items-start gap-3 bg-white border border-[#E3DDD7] rounded-[12px] px-4 py-3.5"
+          className="w-full flex items-start gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[12px] px-4 py-3.5"
           style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.03)', animation: 'estimateReveal 0.4s ease-out 0.55s both' }}
         >
-          <div className="shrink-0 w-7 h-7 rounded-[8px] bg-[#F3EAFF] flex items-center justify-center">
+          <div className="shrink-0 w-7 h-7 rounded-[8px] bg-[var(--hz-primary-soft)] flex items-center justify-center">
             <HIcon size={18} />
           </div>
           <p
-            className="text-[13px] text-[#242326] leading-[1.6] m-0"
+            className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Your estimate will include materials, labour, finishing and contingency — covering all major cost categories.
@@ -381,7 +381,7 @@ return (
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
             <span
-              className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]"
+              className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]"
               style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
             >
               {item}

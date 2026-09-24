@@ -178,7 +178,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -197,9 +197,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
-    <div className={['bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <div className={['bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -210,7 +210,7 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 const STATUS_STYLES: Record<FindingStatus, { bg: string; color: string; dot: string }> = {
   confirmed: { bg: '#DCFCE7', color: '#16A34A', dot: '#16A34A' },
   likely: { bg: '#FEF3C7', color: '#D97706', dot: '#D97706' },
-  'needs-review': { bg: '#FEE2E2', color: '#DC2626', dot: '#DC2626' },
+  'needs-review': { bg: '#FEE2E2', color: 'var(--hz-danger)', dot: 'var(--hz-danger)' },
 }
 
 function StatusBadge({ status }: { status: FindingStatus }) {
@@ -230,11 +230,11 @@ function ProgressStat({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-        <span className="text-[12px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_MONO }}>{value}%</span>
+        <span className="text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+        <span className="text-[12px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>{value}%</span>
       </div>
-      <div className="h-1.5 w-full bg-[#F4F0EC] rounded-full overflow-hidden">
-        <div className="h-full bg-[#722ED1] rounded-full" style={{ width: `${value}%` }} />
+      <div className="h-1.5 w-full bg-[var(--hz-surface-muted)] rounded-full overflow-hidden">
+        <div className="h-full bg-[var(--hz-primary)] rounded-full" style={{ width: `${value}%` }} />
       </div>
     </div>
   )
@@ -253,7 +253,7 @@ function AnalysisSummary({ result }: { result: PlanAnalysisResult }) {
     result.floorCount,
   ]
   return (
-    <div className="w-full bg-white rounded-[24px] border border-[#E3DDD7] p-6 sm:p-8" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <div className="w-full bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] p-6 sm:p-8" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Confidence dial */}
         <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-3 shrink-0">
@@ -261,45 +261,45 @@ function AnalysisSummary({ result }: { result: PlanAnalysisResult }) {
             <svg width="96" height="96" viewBox="0 0 96 96" className="-rotate-90">
               <circle cx="48" cy="48" r="42" fill="none" stroke="#CAC7C6" strokeWidth="8" />
               <circle
-                cx="48" cy="48" r="42" fill="none" stroke="#722ED1" strokeWidth="8" strokeLinecap="round"
+                cx="48" cy="48" r="42" fill="none" stroke="var(--hz-primary)" strokeWidth="8" strokeLinecap="round"
                 strokeDasharray={`${2 * Math.PI * 42}`}
                 strokeDashoffset={`${2 * Math.PI * 42 * (1 - result.overallConfidence / 100)}`}
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-[22px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>{result.overallConfidence}%</span>
+              <span className="text-[22px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>{result.overallConfidence}%</span>
             </div>
           </div>
           <div className="flex flex-col items-center lg:items-center gap-1">
-            <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Analysis Confidence</span>
+            <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Analysis Confidence</span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.04em]" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
               <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> High
             </span>
           </div>
         </div>
 
-        <div className="hidden lg:block w-px bg-[#F4F0EC] shrink-0" />
-        <div className="lg:hidden h-px bg-[#F4F0EC] w-full" />
+        <div className="hidden lg:block w-px bg-[var(--hz-surface-muted)] shrink-0" />
+        <div className="lg:hidden h-px bg-[var(--hz-surface-muted)] w-full" />
 
         {/* Detected */}
         <div className="flex-1 min-w-0 flex flex-col gap-3">
-          <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Detected</span>
+          <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Detected</span>
           <div className="flex flex-wrap gap-2">
             {detected.map(d => (
-              <span key={d} className="px-3 py-1.5 rounded-full text-[12px] font-medium text-[#242326]" style={{ backgroundColor: '#F4F0EC', fontFamily: FONT_BODY }}>{d}</span>
+              <span key={d} className="px-3 py-1.5 rounded-full text-[12px] font-medium text-[var(--hz-ink)]" style={{ backgroundColor: 'var(--hz-surface-muted)', fontFamily: FONT_BODY }}>{d}</span>
             ))}
           </div>
         </div>
 
-        <div className="hidden lg:block w-px bg-[#F4F0EC] shrink-0" />
-        <div className="lg:hidden h-px bg-[#F4F0EC] w-full" />
+        <div className="hidden lg:block w-px bg-[var(--hz-surface-muted)] shrink-0" />
+        <div className="lg:hidden h-px bg-[var(--hz-surface-muted)] w-full" />
 
         {/* Area comparison */}
         <div className="flex flex-col gap-3 shrink-0 lg:w-[200px]">
-          <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Built-Up Area</span>
+          <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Built-Up Area</span>
           <div className="flex flex-col gap-1">
-            <span className="text-[22px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>{result.builtUpAreaSqft.toLocaleString('en-IN')} sq ft</span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Current project: {result.currentProjectAreaSqft.toLocaleString('en-IN')} sq ft</span>
+            <span className="text-[22px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>{result.builtUpAreaSqft.toLocaleString('en-IN')} sq ft</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Current project: {result.currentProjectAreaSqft.toLocaleString('en-IN')} sq ft</span>
           </div>
           <span
             className="inline-flex items-center gap-1 w-fit px-2.5 py-1 rounded-full text-[11px] font-semibold"
@@ -338,19 +338,19 @@ function PlanViewer({ result, className }: { result: PlanAnalysisResult; classNa
   const reset = () => { setZoom(100); viewerRef.current?.scrollTo({ top: 0, left: 0 }) }
 
   return (
-    <div className={['w-full bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <div className={['w-full bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Viewer</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Viewer</span>
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center rounded-[10px] border border-[#E3DDD7] overflow-hidden">
-            <button aria-label="Zoom out" onClick={zoomOut} className="w-8 h-8 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoZoomOut /></button>
-            <span className="text-[11px] px-2 min-w-[38px] text-center text-[#68636D]" style={{ fontFamily: FONT_MONO }}>{zoom}%</span>
-            <button aria-label="Zoom in" onClick={zoomIn} className="w-8 h-8 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoZoomIn /></button>
+          <div className="flex items-center rounded-[10px] border border-[var(--hz-border)] overflow-hidden">
+            <button aria-label="Zoom out" onClick={zoomOut} className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoZoomOut /></button>
+            <span className="text-[11px] px-2 min-w-[38px] text-center text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>{zoom}%</span>
+            <button aria-label="Zoom in" onClick={zoomIn} className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoZoomIn /></button>
           </div>
-          <button aria-label="Fit to screen" onClick={fit} className="h-8 px-2.5 rounded-[10px] border border-[#E3DDD7] flex items-center gap-1.5 text-[11px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
+          <button aria-label="Fit to screen" onClick={fit} className="h-8 px-2.5 rounded-[10px] border border-[var(--hz-border)] flex items-center gap-1.5 text-[11px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
             <IcoFit /> Fit
           </button>
-          <button aria-label="Reset view" onClick={reset} className="h-8 px-2.5 rounded-[10px] border border-[#E3DDD7] flex items-center gap-1.5 text-[11px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
+          <button aria-label="Reset view" onClick={reset} className="h-8 px-2.5 rounded-[10px] border border-[var(--hz-border)] flex items-center gap-1.5 text-[11px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
             <IcoReset /> Reset
           </button>
         </div>
@@ -364,26 +364,26 @@ function PlanViewer({ result, className }: { result: PlanAnalysisResult; classNa
       >
         <span
           className="relative rounded-full transition-colors shrink-0"
-          style={{ width: 34, height: 20, backgroundColor: showOverlay ? '#722ED1' : '#CAC7C6' }}
+          style={{ width: 34, height: 20, backgroundColor: showOverlay ? 'var(--hz-primary)' : '#CAC7C6' }}
         >
           <span
-            className="absolute top-[2px] w-4 h-4 rounded-full bg-white transition-all"
+            className="absolute top-[2px] w-4 h-4 rounded-full bg-[var(--hz-surface)] transition-all"
             style={{ left: showOverlay ? 16 : 2, boxShadow: '0 1px 2px rgba(0,0,0,0.2)' }}
           />
         </span>
-        <span className="text-[12px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>Show AI findings</span>
+        <span className="text-[12px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Show AI findings</span>
       </button>
 
-      <div ref={viewerRef} className="rounded-[12px] border border-[#E3DDD7] overflow-auto" style={{ height: 500, backgroundColor: '#FFFFFF' }}>
+      <div ref={viewerRef} className="rounded-[12px] border border-[var(--hz-border)] overflow-auto" style={{ height: 500, backgroundColor: 'var(--hz-surface)' }}>
         <div style={{ width: `${zoom}%`, minWidth: 320, padding: 16 }}>
-          <div className="relative w-full" style={{ aspectRatio: '7 / 5', backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7', borderRadius: 8 }}>
+          <div className="relative w-full" style={{ aspectRatio: '7 / 5', backgroundColor: 'var(--hz-surface)', border: '1px solid var(--hz-border)', borderRadius: 8 }}>
             {result.annotations.map(a => (
               <div
                 key={a.id}
                 className="absolute flex items-end"
                 style={{
                   left: `${a.x * 100}%`, top: `${a.y * 100}%`, width: `${a.width * 100}%`, height: `${a.height * 100}%`,
-                  border: '1px solid #E3DDD7', borderRadius: 4,
+                  border: '1px solid var(--hz-border)', borderRadius: 4,
                   backgroundColor: showOverlay ? CATEGORY_TINT[a.type] : 'transparent',
                   transition: 'background-color 0.2s ease',
                 }}
@@ -391,7 +391,7 @@ function PlanViewer({ result, className }: { result: PlanAnalysisResult; classNa
                 {showOverlay && (
                   <span
                     className="m-1 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[6px] text-[9px] font-medium leading-tight max-w-full truncate"
-                    style={{ backgroundColor: 'rgba(255,255,255,0.92)', color: '#242326', fontFamily: FONT_BODY }}
+                    style={{ backgroundColor: 'rgba(255,255,255,0.92)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
                   >
                     <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: STATUS_STYLES[a.status].dot }} aria-hidden="true" />
                     {a.label}
@@ -402,7 +402,7 @@ function PlanViewer({ result, className }: { result: PlanAnalysisResult; classNa
           </div>
         </div>
       </div>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
         Schematic representation of your uploaded plan, drawn from Hozie's analysis — not a redrawn or altered copy of the original file.
       </p>
     </div>
@@ -419,8 +419,8 @@ function FindingItem({ finding }: { finding: PlanFinding }) {
           {finding.status !== 'needs-review' && <IcoCheck />}
         </span>
         <div className="flex flex-col min-w-0">
-          <span className="text-[13px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{finding.label}</span>
-          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{finding.value} · {finding.confidence}%</span>
+          <span className="text-[13px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{finding.label}</span>
+          <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{finding.value} · {finding.confidence}%</span>
         </div>
       </div>
       <StatusBadge status={finding.status} />
@@ -432,8 +432,8 @@ function FindingGroup({ title, findings }: { title: string; findings: PlanFindin
   if (findings.length === 0) return null
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-[10px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{title}</span>
-      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: '#FFFFFF' }}>
+      <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{title}</span>
+      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: 'var(--hz-surface)' }}>
         {findings.map(f => <FindingItem key={f.id} finding={f} />)}
       </ul>
     </div>
@@ -470,21 +470,21 @@ function ProjectInformation({ result, className }: { result: PlanAnalysisResult;
   ]
   return (
     <SectionCard eyebrow="Project Information" className={className}>
-      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: '#FFFFFF' }}>
+      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: 'var(--hz-surface)' }}>
         {rows.map(r => (
           <li key={r.label} className="flex items-center justify-between gap-3 py-2">
-            <span className="flex items-center gap-2 text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-              <span style={{ color: '#722ED1' }}>{r.icon}</span> {r.label}
+            <span className="flex items-center gap-2 text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+              <span style={{ color: 'var(--hz-primary)' }}>{r.icon}</span> {r.label}
             </span>
-            <span className="text-[13px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: FONT_BODY }}>{r.value}</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_BODY }}>{r.value}</span>
           </li>
         ))}
         {result.floorAreas && result.floorAreas.map(fa => (
           <li key={fa.label} className="flex items-center justify-between gap-3 py-2">
-            <span className="flex items-center gap-2 text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-              <span style={{ color: '#722ED1' }}><IcoAreaScan /></span> {fa.label} area
+            <span className="flex items-center gap-2 text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+              <span style={{ color: 'var(--hz-primary)' }}><IcoAreaScan /></span> {fa.label} area
             </span>
-            <span className="text-[13px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: FONT_BODY }}>{fa.sqft.toLocaleString('en-IN')} sq ft</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_BODY }}>{fa.sqft.toLocaleString('en-IN')} sq ft</span>
           </li>
         ))}
       </ul>
@@ -497,15 +497,15 @@ function ProjectInformation({ result, className }: { result: PlanAnalysisResult;
 function DimensionSummary({ result, onViewMeasurements, className }: { result: PlanAnalysisResult; onViewMeasurements: () => void; className?: string }) {
   return (
     <SectionCard eyebrow="Dimensions Detected" className={className}>
-      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: '#FFFFFF' }}>
+      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: 'var(--hz-surface)' }}>
         {result.dimensions.map(d => (
           <li key={d.id} className="flex items-center justify-between gap-3 py-2.5">
             <div className="flex items-center gap-2">
-              <span style={{ color: '#722ED1' }}><IcoRuler /></span>
-              <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{d.label}</span>
+              <span style={{ color: 'var(--hz-primary)' }}><IcoRuler /></span>
+              <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{d.label}</span>
             </div>
             <div className="flex items-center gap-2.5">
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_MONO }}>{d.widthFt} × {d.depthFt} ft</span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_MONO }}>{d.widthFt} × {d.depthFt} ft</span>
               <StatusBadge status={d.status} />
             </div>
           </li>
@@ -514,7 +514,7 @@ function DimensionSummary({ result, onViewMeasurements, className }: { result: P
       <button
         onClick={onViewMeasurements}
         className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-        style={{ color: '#722ED1', fontFamily: FONT_BODY }}
+        style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         View measurements →
       </button>
@@ -533,11 +533,11 @@ function ConfidenceSection({ result, className }: { result: PlanAnalysisResult; 
         <ProgressStat label="Dimension extraction" value={c.dimensionExtraction} />
         <ProgressStat label="Area detection" value={c.areaDetection} />
         <ProgressStat label="Floor detection" value={c.floorDetection} />
-        <div className="pt-1 border-t border-[#FFFFFF]">
+        <div className="pt-1 border-t border-[var(--hz-surface)]">
           <ProgressStat label="Overall" value={c.overall} />
         </div>
       </div>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0">
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0">
         Confidence reflects how clearly the information could be interpreted from the uploaded drawing. It does not replace professional verification.
       </p>
     </SectionCard>
@@ -562,13 +562,13 @@ function NeedsReview({ result, onReviewDifference, onAskHozie, className }: {
       <div className="flex flex-col gap-4">
         {result.needsReview.map(item => (
           <div key={item.id} className="flex flex-col gap-2">
-            <p className="text-[13px] font-medium text-[#242326] m-0 leading-[1.5]" style={{ fontFamily: FONT_BODY }}>{item.title}</p>
-            <p className="text-[12px] text-[#68636D] m-0 leading-[1.6]" style={{ fontFamily: FONT_BODY }}>{item.detail}</p>
+            <p className="text-[13px] font-medium text-[var(--hz-ink)] m-0 leading-[1.5]" style={{ fontFamily: FONT_BODY }}>{item.title}</p>
+            <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 leading-[1.6]" style={{ fontFamily: FONT_BODY }}>{item.detail}</p>
             {item.current && item.planValue && (
               <div className="flex flex-wrap gap-2">
-                <span className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: '#FFFFFF', color: '#68636D', fontFamily: FONT_BODY }}>Current: {item.current}</span>
-                <span className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: '#FFFFFF', color: '#68636D', fontFamily: FONT_BODY }}>Plan: {item.planValue}</span>
-                <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold" style={{ backgroundColor: '#FFFFFF', color: '#D97706', fontFamily: FONT_BODY }}>{item.difference}</span>
+                <span className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: 'var(--hz-surface)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>Current: {item.current}</span>
+                <span className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: 'var(--hz-surface)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>Plan: {item.planValue}</span>
+                <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold" style={{ backgroundColor: 'var(--hz-surface)', color: '#D97706', fontFamily: FONT_BODY }}>{item.difference}</span>
               </div>
             )}
           </div>
@@ -584,7 +584,7 @@ function NeedsReview({ result, onReviewDifference, onAskHozie, className }: {
         </button>
         <button
           onClick={onAskHozie}
-          className="h-9 px-4 rounded-[10px] text-[12px] font-semibold cursor-pointer border border-[#F3D9A8] bg-transparent hover:bg-white transition-colors"
+          className="h-9 px-4 rounded-[10px] text-[12px] font-semibold cursor-pointer border border-[#F3D9A8] bg-transparent hover:bg-[var(--hz-surface)] transition-colors"
           style={{ color: '#D97706', fontFamily: FONT_BODY }}
         >
           Ask Hozie
@@ -598,35 +598,35 @@ function NeedsReview({ result, onReviewDifference, onAskHozie, className }: {
 
 function BOQImpactPreview({ result, onCompare, className }: { result: PlanAnalysisResult; onCompare: () => void; className?: string }) {
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-4 bg-white border border-[#E3DDD7]', className].filter(Boolean).join(' ')}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-4 bg-[var(--hz-surface)] border border-[var(--hz-border)]', className].filter(Boolean).join(' ')}>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Potential BOQ Impact</span>
-        <span className="text-[11px] px-2.5 py-1 rounded-full" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>BOQ V{boqActiveVersion.versionNumber} · ACTIVE</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Potential BOQ Impact</span>
+        <span className="text-[11px] px-2.5 py-1 rounded-full" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>BOQ V{boqActiveVersion.versionNumber} · ACTIVE</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Hozie found information that may affect:</p>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Hozie found information that may affect:</p>
       <div className="flex flex-wrap gap-2">
         {result.potentialBOQImpact.map(a => (
-          <span key={a.id} className="px-3 py-1.5 rounded-full text-[12px] font-medium text-[#242326]" style={{ backgroundColor: '#F4F0EC', fontFamily: FONT_BODY }}>{a.label}</span>
+          <span key={a.id} className="px-3 py-1.5 rounded-full text-[12px] font-medium text-[var(--hz-ink)]" style={{ backgroundColor: 'var(--hz-surface-muted)', fontFamily: FONT_BODY }}>{a.label}</span>
         ))}
       </div>
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-1">
         <div className="flex flex-col gap-0.5">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Potential changes</span>
-          <span className="text-[18px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{result.potentialBOQItemCount} BOQ items</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Potential changes</span>
+          <span className="text-[18px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{result.potentialBOQItemCount} BOQ items</span>
         </div>
         <div className="flex flex-col gap-0.5">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Estimated impact</span>
-          <span className="text-[18px] font-semibold text-[#9A949D]" style={{ fontFamily: FONT_HEAD }}>Needs calculation</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Estimated impact</span>
+          <span className="text-[18px] font-semibold text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_HEAD }}>Needs calculation</span>
         </div>
       </div>
       <button
         onClick={onCompare}
         className="self-start h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         Compare with BOQ →
       </button>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0">Nothing has been changed. Comparing shows what would change — you decide what to apply.</p>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0">Nothing has been changed. Comparing shows what would change — you decide what to apply.</p>
     </div>
   )
 }
@@ -638,13 +638,13 @@ function HozieSummary({ result, onAskHozie, className }: { result: PlanAnalysisR
   return (
     <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
       <div className="flex items-center gap-2.5">
-        <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-        <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Summary</span>
+        <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Summary</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
         "I found a {result.builtUpAreaSqft.toLocaleString('en-IN')} sq ft built-up area, which is slightly higher (+{deltaSqft} sq ft) than the {result.currentProjectAreaSqft.toLocaleString('en-IN')} sq ft currently used in your project estimate. I also identified {result.bedroomCount} bedrooms, {result.bathroomCount} bathrooms and a {result.floorCount} layout."
       </p>
-      <button onClick={onAskHozie} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>Ask Hozie →</button>
+      <button onClick={onAskHozie} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Ask Hozie →</button>
     </div>
   )
 }
@@ -655,12 +655,12 @@ function SourceInformation({ result, className }: { result: PlanAnalysisResult; 
   const uploaded = new Date(result.source.uploadedAt)
   const uploadedLabel = uploaded.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
   return (
-    <div className={['flex flex-wrap items-center gap-x-6 gap-y-2 rounded-[12px] p-4', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F4F0EC' }}>
-      <span className="text-[10px] uppercase tracking-[0.06em] font-semibold text-[#68636D] shrink-0" style={{ fontFamily: FONT_MONO }}>Source</span>
-      <span className="flex items-center gap-1.5 text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}><IcoFile /> {result.source.documentName}</span>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Pages analysed: {result.source.pagesAnalysed}</span>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Uploaded: {uploadedLabel}</span>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Analysis: {result.source.analysisEngine}</span>
+    <div className={['flex flex-wrap items-center gap-x-6 gap-y-2 rounded-[12px] p-4', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+      <span className="text-[10px] uppercase tracking-[0.06em] font-semibold text-[var(--hz-ink-muted)] shrink-0" style={{ fontFamily: FONT_MONO }}>Source</span>
+      <span className="flex items-center gap-1.5 text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}><IcoFile /> {result.source.documentName}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Pages analysed: {result.source.pagesAnalysed}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Uploaded: {uploadedLabel}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Analysis: {result.source.analysisEngine}</span>
     </div>
   )
 }
@@ -669,12 +669,12 @@ function SourceInformation({ result, className }: { result: PlanAnalysisResult; 
 
 function ResultError({ onRetry, onUploadAnother }: { onRetry: () => void; onUploadAnother: () => void }) {
   return (
-    <div role="alert" className="w-full max-w-[560px] mx-auto bg-white rounded-[24px] border border-[#E3DDD7] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}><IcoWarning /></span>
-      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn't interpret enough information from this plan.</h2>
+    <div role="alert" className="w-full max-w-[560px] mx-auto bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: 'var(--hz-danger)' }}><IcoWarning /></span>
+      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn't interpret enough information from this plan.</h2>
       <div className="flex flex-col sm:flex-row gap-2.5 pt-1 w-full sm:w-auto">
-        <button onClick={onUploadAnother} className="h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Upload another plan</button>
-        <button onClick={onRetry} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Try again</button>
+        <button onClick={onUploadAnother} className="h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Upload another plan</button>
+        <button onClick={onRetry} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Try again</button>
       </div>
     </div>
   )
@@ -753,7 +753,7 @@ export default function PlanAnalysisResultScreen({
 
   if (result.status === 'error') {
  return (
-      <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+      <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
         <div className="flex flex-1 min-h-0 relative z-10">
           <Sidebar active="plan" onNavigate={onNavigate} />
           <div className="flex flex-col flex-1 min-h-0">
@@ -767,11 +767,11 @@ export default function PlanAnalysisResultScreen({
   }
 
   return (
-    <div className="flex flex-col" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Plan Analysis Result</span>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Plan Analysis Result</span>
         <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>COMPLETE</span>
       </div>
 
@@ -779,10 +779,10 @@ export default function PlanAnalysisResultScreen({
         <Sidebar active="plan" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Plan Analysis Result</h1>
-              <span className="text-[13px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Plan Analysis Result</h1>
+              <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
             <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
               <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> Analysis Complete
@@ -794,22 +794,22 @@ export default function PlanAnalysisResultScreen({
 
               {/* Page header */}
               <div className="flex flex-col gap-3">
-                <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Analysis Result</span>
-                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Here's what Hozie found.</h1>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Analysis Result</span>
+                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Here's what Hozie found.</h1>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
                   Hozie analysed your uploaded plan and identified the following project information.
                 </p>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1">
-                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                    <span className="shrink-0" style={{ color: '#722ED1' }}><IcoFile /></span> {result.source.documentName}
+                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                    <span className="shrink-0" style={{ color: 'var(--hz-primary)' }}><IcoFile /></span> {result.source.documentName}
                   </span>
-                  <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+                  <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2.5 pt-1">
-                  <button onClick={scrollToViewer} className="h-9 px-4 rounded-[10px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] cursor-pointer bg-white hover:bg-[#F4F0EC] transition-colors inline-flex items-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
+                  <button onClick={scrollToViewer} className="h-9 px-4 rounded-[10px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] cursor-pointer bg-[var(--hz-surface)] hover:bg-[var(--hz-surface-muted)] transition-colors inline-flex items-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
                     <IcoExternal /> View original plan
                   </button>
-                  <button onClick={() => downloadAnalysis(result)} className="h-9 px-4 rounded-[10px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] cursor-pointer bg-white hover:bg-[#F4F0EC] transition-colors inline-flex items-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
+                  <button onClick={() => downloadAnalysis(result)} className="h-9 px-4 rounded-[10px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] cursor-pointer bg-[var(--hz-surface)] hover:bg-[var(--hz-surface-muted)] transition-colors inline-flex items-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
                     <IcoDownload /> Download analysis
                   </button>
                 </div>
@@ -845,11 +845,11 @@ export default function PlanAnalysisResultScreen({
           </main>
 
           {/* Sticky actions (mobile) */}
-          <div className="lg:hidden sticky bottom-0 z-20 bg-white border-t border-[#E3DDD7] px-4 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
-            <button onClick={viewMeasurements} className="h-11 px-5 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors shrink-0" style={{ fontFamily: FONT_BODY }}>
+          <div className="lg:hidden sticky bottom-0 z-20 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
+            <button onClick={viewMeasurements} className="h-11 px-5 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors shrink-0" style={{ fontFamily: FONT_BODY }}>
               Measurements
             </button>
-            <button onClick={compareWithBOQ} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+            <button onClick={compareWithBOQ} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
               Compare with BOQ →
             </button>
           </div>

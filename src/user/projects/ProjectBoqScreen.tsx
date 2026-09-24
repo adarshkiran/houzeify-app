@@ -83,7 +83,7 @@ const IcoBoq = ({ size = 28 }: { size?: number }) => (
 // Visible keyboard focus in the app's brand purple (same idea as the
 // Documents screen's FOCUS_RING).
 const FOCUS_RING =
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
 
 // ≥44px text actions (same recipe as the Documents screen).
 const TEXT_ACTION = `inline-flex items-center justify-center min-h-[44px] min-w-[44px] cursor-pointer border-0 bg-transparent px-1 rounded-[6px] ${FOCUS_RING}`
@@ -151,7 +151,7 @@ interface BoqUi {
 
 function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 min-w-0" style={{ border: '1px solid var(--hz-border)' }}>
       {children}
     </div>
   )
@@ -171,19 +171,19 @@ function CardMessage({
   return (
     <Card>
       <div className="flex flex-col items-center text-center gap-2 py-6" role={status ? 'status' : undefined}>
-        <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>
+        <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
           <IcoBoq />
         </span>
-        {title && <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{title}</p>}
-        <p className="text-[13px] text-[#68636D] m-0 max-w-[420px]" style={{ fontFamily: FONT_BODY }}>{children}</p>
+        {title && <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>{title}</p>}
+        <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[420px]" style={{ fontFamily: FONT_BODY }}>{children}</p>
         {action && <div className="mt-2">{action}</div>}
       </div>
     </Card>
   )
 }
 
-const PRIMARY_BTN = `h-11 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 text-white bg-[#722ED1] hover:bg-[#5A22A8] cursor-pointer ${FOCUS_RING}`
-const SECONDARY_BTN = `h-11 px-5 rounded-[12px] text-[13.5px] font-semibold bg-white text-[#722ED1] hover:bg-[#F3EAFF] cursor-pointer ${FOCUS_RING}`
+const PRIMARY_BTN = `h-11 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 text-white bg-[var(--hz-primary)] hover:bg-[#5A22A8] cursor-pointer ${FOCUS_RING}`
+const SECONDARY_BTN = `h-11 px-5 rounded-[12px] text-[13.5px] font-semibold bg-[var(--hz-surface)] text-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)] cursor-pointer ${FOCUS_RING}`
 
 // Default export: role gate + "project not found" guard, then dispatch. Hooks
 // live only inside the sub-components (never across an early return).
@@ -209,12 +209,12 @@ export default function ProjectBoqScreen({
       <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
           <button
             type="button"
             onClick={() => onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)}
             className={`h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 ${FOCUS_RING}`}
-            style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
           >
             Back to Workspace
           </button>
@@ -267,14 +267,14 @@ function BoqShell({
           <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
             <div className="max-w-[1000px] mx-auto flex flex-col gap-6 min-w-0">
               <div className="min-w-0">
-                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Bill of Quantities</p>
-                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Bill of Quantities</p>
+                <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
                 {location && (
-                  <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5 min-w-0" style={{ fontFamily: FONT_BODY }}>
+                  <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] mt-1.5 min-w-0" style={{ fontFamily: FONT_BODY }}>
                     <IcoMapPin /> <span className="min-w-0 break-words">{location}</span>
                   </span>
                 )}
-                <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                   What this project is built from — sections, quantities and amounts.
                 </p>
               </div>
@@ -290,7 +290,7 @@ function BoqShell({
 // ─── Small inline forms / confirmations ─────────────────────────────────────
 function ErrorLine({ id, children }: { id?: string; children: React.ReactNode }) {
   return (
-    <p id={id} role="alert" className="text-[12.5px] text-[#DC2626] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{children}</p>
+    <p id={id} role="alert" className="text-[12.5px] text-[var(--hz-danger)] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{children}</p>
   )
 }
 
@@ -333,7 +333,7 @@ function InlineConfirm({
       <p
         id={messageId}
         role={alertMessage ? 'alert' : undefined}
-        className="text-[13px] text-[#242326] m-0 break-words"
+        className="text-[13px] text-[var(--hz-ink)] m-0 break-words"
         style={{ fontFamily: FONT_BODY }}
       >
         {message}
@@ -356,7 +356,7 @@ function InlineConfirm({
           autoFocus
           aria-disabled={busy}
           onClick={() => { if (!busy) onCancel() }}
-          className={`${TEXT_ACTION} px-3 text-[13px] font-medium text-[#68636D] hover:text-[#242326] ${busy ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`${TEXT_ACTION} px-3 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] ${busy ? 'opacity-50 cursor-not-allowed' : ''}`}
           style={{ fontFamily: FONT_BODY }}
         >
           {hideConfirm ? 'Close' : 'Cancel'}
@@ -423,7 +423,7 @@ function SectionNameForm({
       className="flex flex-col gap-3 min-w-0"
     >
       <div className="min-w-0">
-        <label htmlFor={inputId} className="block text-[12.5px] font-semibold text-[#242326] mb-1.5" style={{ fontFamily: FONT_BODY }}>{label}</label>
+        <label htmlFor={inputId} className="block text-[12.5px] font-semibold text-[var(--hz-ink)] mb-1.5" style={{ fontFamily: FONT_BODY }}>{label}</label>
         <input
           id={inputId}
           autoFocus
@@ -435,8 +435,8 @@ function SectionNameForm({
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}
           onChange={e => { setName(e.target.value); setError(null) }}
-          className={`w-full h-11 px-3 rounded-[10px] text-[16px] sm:text-[13.5px] text-[#242326] ${FOCUS_RING}`}
-          style={{ border: `1px solid ${error ? '#DC2626' : '#E3DDD7'}`, fontFamily: FONT_BODY, backgroundColor: 'white' }}
+          className={`w-full h-11 px-3 rounded-[10px] text-[16px] sm:text-[13.5px] text-[var(--hz-ink)] ${FOCUS_RING}`}
+          style={{ border: `1px solid ${error ? 'var(--hz-danger)' : 'var(--hz-border)'}`, fontFamily: FONT_BODY, backgroundColor: 'white' }}
         />
       </div>
       {error && <ErrorLine id={errorId}>{error}</ErrorLine>}
@@ -444,7 +444,7 @@ function SectionNameForm({
         <button
           type="submit"
           aria-disabled={busy}
-          className={`h-11 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 text-white bg-[#722ED1] ${busy ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-[#5A22A8]'} ${FOCUS_RING}`}
+          className={`h-11 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 text-white bg-[var(--hz-primary)] ${busy ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-[#5A22A8]'} ${FOCUS_RING}`}
           style={{ fontFamily: FONT_BODY, opacity: busy ? 0.6 : 1 }}
         >
           {busy ? 'Saving…' : submitLabel}
@@ -453,7 +453,7 @@ function SectionNameForm({
           type="button"
           aria-disabled={busy}
           onClick={() => { if (!busy) onCancel() }}
-          className={`${TEXT_ACTION} px-3 text-[13px] font-medium text-[#68636D] hover:text-[#242326] ${busy ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`${TEXT_ACTION} px-3 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] ${busy ? 'opacity-50 cursor-not-allowed' : ''}`}
           style={{ fontFamily: FONT_BODY }}
         >
           Cancel
@@ -527,8 +527,8 @@ function ServerBoq({
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({})
 
   const uid = useId()
-  const inputClass = `w-full h-11 px-3 rounded-[10px] text-[13.5px] text-[#242326] ${FOCUS_RING}`
-  const inputStyle = { border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }
+  const inputClass = `w-full h-11 px-3 rounded-[10px] text-[13.5px] text-[var(--hz-ink)] ${FOCUS_RING}`
+  const inputStyle = { border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'white' }
 
   // ── Panels, notices, focus ────────────────────────────────────────────────
   const [panel, setPanel] = useState<Panel | null>(null)
@@ -912,7 +912,7 @@ function ServerBoq({
       data-boq-focus="add-section"
       onClick={() => openPanel({ kind: 'add-section' })}
       className={SECONDARY_BTN}
-      style={{ border: '1px solid #722ED1', fontFamily: FONT_BODY }}
+      style={{ border: '1px solid var(--hz-primary)', fontFamily: FONT_BODY }}
     >
       Add section
     </button>
@@ -964,14 +964,14 @@ function ServerBoq({
           className={`rounded-[16px] p-5 sm:p-6 min-w-0 ${FOCUS_RING}`}
           style={{ backgroundColor: '#F8E3BD' }}
         >
-          <p className="text-[11px] tracking-[0.08em] uppercase text-[#242326] m-0" style={{ fontFamily: FONT_MONO }}>Project total</p>
+          <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_MONO }}>Project total</p>
           <p
-            className={`m-0 mt-2 text-[#242326] leading-[1.1] max-w-full text-[clamp(1.5rem,7vw,2.5rem)] ${NUM}`}
+            className={`m-0 mt-2 text-[var(--hz-ink)] leading-[1.1] max-w-full text-[clamp(1.5rem,7vw,2.5rem)] ${NUM}`}
             style={{ fontFamily: FONT_HEAD }}
           >
             {formatInr(boq.totals.total)}
           </p>
-          <p className="text-[13px] text-[#242326] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+          <p className="text-[13px] text-[var(--hz-ink)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
             {plural(boq.totals.sectionCount, 'section')} · {plural(boq.totals.itemCount, 'item')}
           </p>
         </section>
@@ -994,7 +994,7 @@ function ServerBoq({
         {boq.totals.itemCount > 0 && (
           <div className="flex flex-col sm:flex-row gap-3 min-w-0">
             <div className="relative flex-1 min-w-0">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#68636D] pointer-events-none"><IcoSearch /></span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--hz-ink-muted)] pointer-events-none"><IcoSearch /></span>
               <input
                 type="search"
                 aria-label="Search items"
@@ -1022,7 +1022,7 @@ function ServerBoq({
 
         {groups.length === 0 ? (
           <Card>
-            <p className="text-[13px] text-[#68636D] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No items match this search.</p>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No items match this search.</p>
           </Card>
         ) : (
           <div className="flex flex-col gap-4 min-w-0">
@@ -1114,9 +1114,9 @@ function SectionGroup({
   const sectionAction = `${TEXT_ACTION} text-[12.5px] font-semibold`
 
   return (
-    <div className="rounded-[16px] bg-white min-w-0" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] min-w-0" style={{ border: '1px solid var(--hz-border)' }}>
       {renaming ? (
-        <div className="px-4 py-3" style={{ borderBottom: '1px solid #F4F0EC' }}>
+        <div className="px-4 py-3" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
           <SectionNameForm
             label="Section name"
             initialName={section.name}
@@ -1132,28 +1132,28 @@ function SectionGroup({
           aria-expanded={open}
           aria-controls={bodyId}
           onClick={onToggle}
-          className={`w-full min-h-[44px] flex items-center gap-3 px-4 py-3 text-left cursor-pointer border-0 bg-transparent rounded-[16px] text-[#242326] ${FOCUS_RING}`}
+          className={`w-full min-h-[44px] flex items-center gap-3 px-4 py-3 text-left cursor-pointer border-0 bg-transparent rounded-[16px] text-[var(--hz-ink)] ${FOCUS_RING}`}
         >
-          <span className="text-[#68636D]"><IcoChevron open={open} /></span>
+          <span className="text-[var(--hz-ink-muted)]"><IcoChevron open={open} /></span>
           <span className="min-w-0 flex-1">
-            <span className="block text-[14.5px] font-semibold text-[#242326] break-words" style={{ fontFamily: FONT_HEAD }}>{section.name}</span>
-            <span className="block text-[12px] text-[#68636D] mt-0.5" style={{ fontFamily: FONT_BODY }}>{countLabel}</span>
+            <span className="block text-[14.5px] font-semibold text-[var(--hz-ink)] break-words" style={{ fontFamily: FONT_HEAD }}>{section.name}</span>
+            <span className="block text-[12px] text-[var(--hz-ink-muted)] mt-0.5" style={{ fontFamily: FONT_BODY }}>{countLabel}</span>
           </span>
-          <span className={`shrink-0 text-[14.5px] font-semibold text-[#242326] ${NUM}`} style={{ fontFamily: FONT_HEAD }}>
+          <span className={`shrink-0 text-[14.5px] font-semibold text-[var(--hz-ink)] ${NUM}`} style={{ fontFamily: FONT_HEAD }}>
             {formatInr(section.subtotal)}
           </span>
         </button>
       )}
 
       {open && (
-        <div id={bodyId} className="min-w-0" style={{ borderTop: '1px solid #F4F0EC' }}>
+        <div id={bodyId} className="min-w-0" style={{ borderTop: '1px solid var(--hz-surface-muted)' }}>
           <div className="flex flex-wrap items-center gap-x-3 px-3 pt-1" style={{ fontFamily: FONT_BODY }}>
             <button
               type="button"
               data-boq-focus={`add-${section.id}`}
               aria-label={`Add item to ${section.name}`}
               onClick={() => ui.onAddItem(section)}
-              className={`${sectionAction} text-[#722ED1] hover:underline`}
+              className={`${sectionAction} text-[var(--hz-primary)] hover:underline`}
             >
               Add item
             </button>
@@ -1162,7 +1162,7 @@ function SectionGroup({
               data-boq-focus={`rename-${section.id}`}
               aria-label={`Rename section ${section.name}`}
               onClick={() => ui.onRenameSection(section)}
-              className={`${sectionAction} text-[#68636D] hover:text-[#242326] hover:underline`}
+              className={`${sectionAction} text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] hover:underline`}
             >
               Rename
             </button>
@@ -1171,7 +1171,7 @@ function SectionGroup({
               data-boq-focus={`delsec-${section.id}`}
               aria-label={`Delete section ${section.name}`}
               onClick={() => ui.onAskDeleteSection(section)}
-              className={`${sectionAction} text-[#68636D] hover:text-[#242326] hover:underline`}
+              className={`${sectionAction} text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] hover:underline`}
             >
               Delete section
             </button>
@@ -1208,7 +1208,7 @@ function SectionGroup({
           {addingHere && ui.editorNode && <div className="px-3 pb-3 pt-1">{ui.editorNode}</div>}
 
           {items.length === 0 ? (
-            <p className="text-[13px] text-[#68636D] m-0 px-4 py-5" style={{ fontFamily: FONT_BODY }}>No items in this section yet.</p>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 px-4 py-5" style={{ fontFamily: FONT_BODY }}>No items in this section yet.</p>
           ) : layout === 'desktop' ? (
             <DesktopTable sectionName={section.name} items={items} ui={ui} />
           ) : layout === 'tablet' ? (
@@ -1236,7 +1236,7 @@ function ItemActions({ item, ui }: { item: BoqItemDto; ui: BoqUi }) {
         data-boq-focus={`edit-${item.id}`}
         aria-label={`Edit ${item.name}`}
         onClick={() => ui.onEditItem(item)}
-        className={`${action} text-[#722ED1] hover:underline`}
+        className={`${action} text-[var(--hz-primary)] hover:underline`}
       >
         Edit
       </button>
@@ -1245,7 +1245,7 @@ function ItemActions({ item, ui }: { item: BoqItemDto; ui: BoqUi }) {
         data-boq-focus={`dup-${item.id}`}
         aria-label={`Duplicate ${item.name}`}
         onClick={() => ui.onDuplicateItem(item)}
-        className={`${action} text-[#68636D] hover:text-[#242326] hover:underline`}
+        className={`${action} text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] hover:underline`}
       >
         Duplicate
       </button>
@@ -1254,7 +1254,7 @@ function ItemActions({ item, ui }: { item: BoqItemDto; ui: BoqUi }) {
         data-boq-focus={`del-${item.id}`}
         aria-label={`Delete ${item.name}`}
         onClick={() => ui.onAskDeleteItem(item)}
-        className={`${action} text-[#68636D] hover:text-[#242326] hover:underline`}
+        className={`${action} text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] hover:underline`}
       >
         Delete
       </button>
@@ -1280,9 +1280,9 @@ const isEditing = (ui: BoqUi, item: BoqItemDto) => ui.panel?.kind === 'edit-item
 const isConfirming = (ui: BoqUi, item: BoqItemDto) => ui.panel?.kind === 'delete-item' && ui.panel.itemId === item.id
 
 // ─── Table shared bits ──────────────────────────────────────────────────────
-const TH = 'text-[11px] tracking-[0.06em] uppercase text-[#68636D] font-normal px-3 py-2.5 whitespace-nowrap'
-const TD = 'px-3 py-3 align-top text-[13px] text-[#242326]'
-const ROW_BORDER = { borderTop: '1px solid #F4F0EC' }
+const TH = 'text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] font-normal px-3 py-2.5 whitespace-nowrap'
+const TD = 'px-3 py-3 align-top text-[13px] text-[var(--hz-ink)]'
+const ROW_BORDER = { borderTop: '1px solid var(--hz-surface-muted)' }
 
 // The item column soaks up the remaining width (`w-full max-w-0`) so names
 // wrap / descriptions truncate instead of pushing money columns off-screen.
@@ -1323,11 +1323,11 @@ function DesktopTable({ sectionName, items, ui }: { sectionName: string; items: 
                 <td className={`${TD} ${ITEM_COL}`}>
                   <span className="block font-semibold break-words" style={{ fontFamily: FONT_HEAD }}>{item.name}</span>
                   {item.description && (
-                    <span className="block text-[12px] text-[#68636D] mt-0.5 truncate" title={item.description}>{item.description}</span>
+                    <span className="block text-[12px] text-[var(--hz-ink-muted)] mt-0.5 truncate" title={item.description}>{item.description}</span>
                   )}
                   <ItemActions item={item} ui={ui} />
                 </td>
-                <td className={`${TD} text-[#68636D] whitespace-nowrap`}>{stageLabel(item.stage) || '—'}</td>
+                <td className={`${TD} text-[var(--hz-ink-muted)] whitespace-nowrap`}>{stageLabel(item.stage) || '—'}</td>
                 <td className={`${TD} text-right ${NUM}`}>{formatQuantity(item.quantity)}</td>
                 <td className={`${TD} max-w-[120px] break-words`}>{item.unit}</td>
                 <td className={`${TD} text-right ${NUM}`}>{formatInr(item.rate)}</td>
@@ -1376,13 +1376,13 @@ function TabletTable({ sectionName, items, ui }: { sectionName: string; items: B
                 <td className={`${TD} ${ITEM_COL}`}>
                   <span className="block font-semibold break-words" style={{ fontFamily: FONT_HEAD }}>{item.name}</span>
                   {secondLine && (
-                    <span className="block text-[12px] text-[#68636D] mt-0.5 truncate" title={secondLine}>{secondLine}</span>
+                    <span className="block text-[12px] text-[var(--hz-ink-muted)] mt-0.5 truncate" title={secondLine}>{secondLine}</span>
                   )}
                   <ItemActions item={item} ui={ui} />
                 </td>
                 <td className={`${TD} text-right`}>
                   <span className={`block ${NUM}`}>{formatQuantity(item.quantity)}</span>
-                  <span className="block text-[12px] text-[#68636D] mt-0.5 ml-auto max-w-[88px] break-words">{item.unit}</span>
+                  <span className="block text-[12px] text-[var(--hz-ink-muted)] mt-0.5 ml-auto max-w-[88px] break-words">{item.unit}</span>
                 </td>
                 <td className={`${TD} text-right ${NUM}`}>{formatInr(item.rate)}</td>
                 <td className={`${TD} text-right font-semibold ${NUM}`}>{formatInr(item.amount)}</td>
@@ -1405,37 +1405,37 @@ function MobileItemCard({ item, ui }: { item: BoqItemDto; ui: BoqUi }) {
   const shown = open || confirming
 
   return (
-    <li className="rounded-[12px] min-w-0" style={{ border: '1px solid #E3DDD7' }}>
+    <li className="rounded-[12px] min-w-0" style={{ border: '1px solid var(--hz-border)' }}>
       <button
         type="button"
         aria-expanded={shown}
         aria-controls={detailsId}
         onClick={() => setOpen(o => !o)}
-        className={`w-full min-h-[44px] flex items-start gap-2 px-3 py-3 text-left cursor-pointer border-0 bg-transparent rounded-[12px] text-[#242326] ${FOCUS_RING}`}
+        className={`w-full min-h-[44px] flex items-start gap-2 px-3 py-3 text-left cursor-pointer border-0 bg-transparent rounded-[12px] text-[var(--hz-ink)] ${FOCUS_RING}`}
       >
         <span className="min-w-0 flex-1 flex flex-col gap-1.5">
-          <span className="block text-[14px] font-semibold text-[#242326] break-words" style={{ fontFamily: FONT_HEAD }}>{item.name}</span>
-          <span className="block text-[12.5px] text-[#68636D] break-words" style={{ fontFamily: FONT_BODY }}>
+          <span className="block text-[14px] font-semibold text-[var(--hz-ink)] break-words" style={{ fontFamily: FONT_HEAD }}>{item.name}</span>
+          <span className="block text-[12.5px] text-[var(--hz-ink-muted)] break-words" style={{ fontFamily: FONT_BODY }}>
             <span className={NUM}>{formatQuantity(item.quantity)}</span>{' '}
             <span className="break-words">{item.unit}</span>
             {' × '}
             <span className={NUM}>{formatInr(item.rate)}</span>
           </span>
           <span className="flex items-baseline justify-between gap-3">
-            <span className="text-[11px] tracking-[0.06em] uppercase text-[#68636D]" style={{ fontFamily: FONT_MONO }}>Amount</span>
-            <span className={`text-[16px] font-semibold text-[#242326] ${NUM}`} style={{ fontFamily: FONT_HEAD }}>{formatInr(item.amount)}</span>
+            <span className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>Amount</span>
+            <span className={`text-[16px] font-semibold text-[var(--hz-ink)] ${NUM}`} style={{ fontFamily: FONT_HEAD }}>{formatInr(item.amount)}</span>
           </span>
         </span>
-        <span className="text-[#68636D] mt-0.5"><IcoChevron open={shown} /></span>
+        <span className="text-[var(--hz-ink-muted)] mt-0.5"><IcoChevron open={shown} /></span>
       </button>
 
       {shown && (
-        <div id={detailsId} className="px-3 pb-3 pt-3 flex flex-col gap-2 min-w-0" style={{ borderTop: '1px solid #F4F0EC', fontFamily: FONT_BODY }}>
-          <p className="text-[12.5px] text-[#242326] m-0 break-words">
-            <span className="text-[#68636D]">Stage: </span>{stage || '—'}
+        <div id={detailsId} className="px-3 pb-3 pt-3 flex flex-col gap-2 min-w-0" style={{ borderTop: '1px solid var(--hz-surface-muted)', fontFamily: FONT_BODY }}>
+          <p className="text-[12.5px] text-[var(--hz-ink)] m-0 break-words">
+            <span className="text-[var(--hz-ink-muted)]">Stage: </span>{stage || '—'}
           </p>
-          <p className="text-[12.5px] text-[#242326] m-0 break-words">
-            <span className="text-[#68636D]">Description: </span>{item.description || '—'}
+          <p className="text-[12.5px] text-[var(--hz-ink)] m-0 break-words">
+            <span className="text-[var(--hz-ink-muted)]">Description: </span>{item.description || '—'}
           </p>
           {confirming ? <ItemDeleteConfirm item={item} ui={ui} /> : <ItemActions item={item} ui={ui} />}
         </div>

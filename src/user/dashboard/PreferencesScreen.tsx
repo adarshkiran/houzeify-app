@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import { useCustomerProfile } from '@/data/customerProfileState'
+import { useTheme, type ThemePreference } from '@/shared/theme/ThemeProvider'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Inter Variable", sans-serif'
@@ -32,8 +33,8 @@ const IcoInfo = () => (
 function PreferenceRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3 py-2.5">
-      <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{value}</span>
+      <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
@@ -49,7 +50,14 @@ export default function PreferencesScreen({ role, onNavigate }: PreferencesScree
     if (!isHomeowner) onNavigate('professional-dashboard')
   }, [isHomeowner, onNavigate])
   const customerProfile = useCustomerProfile()
+  const { preference, setPreference } = useTheme()
   if (!isHomeowner) return null
+
+  const themeOptions: Array<{ id: ThemePreference; label: string }> = [
+    { id: 'light', label: 'Light' },
+    { id: 'dark', label: 'Dark' },
+    { id: 'system', label: 'System' },
+  ]
 
   function goToProfile() {
     onNavigate('homeowner-profile')
@@ -67,7 +75,7 @@ export default function PreferencesScreen({ role, onNavigate }: PreferencesScree
   const unitsLabel = unitPreference === 'sq ft' ? 'Square feet' : 'Square metres'
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         {/* Reached from Homeowner Profile / Account Settings — "profile" is
             the closest shared-rail item since Preferences is a
@@ -75,9 +83,9 @@ export default function PreferencesScreen({ role, onNavigate }: PreferencesScree
         <Sidebar active="profile" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+          <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
             <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-              <button type="button" onClick={goToProfile} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={goToProfile} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                 <IcoBack /> Profile
               </button>
             </div>
@@ -86,29 +94,59 @@ export default function PreferencesScreen({ role, onNavigate }: PreferencesScree
           <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
             <div className="max-w-[560px] mx-auto flex flex-col gap-6">
               <div>
-                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Preferences</p>
-                <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Preferences</h1>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Preferences</p>
+                <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Preferences</h1>
               </div>
 
-              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
-                <span className="text-[#722ED1] mt-0.5 shrink-0"><IcoInfo /></span>
-                <p className="text-[12.5px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
-                  These are your current preference values. Changing preferences isn't supported yet — this will be available once account settings are connected to a real backend.
+              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border border-[var(--hz-primary-soft)] bg-[var(--hz-primary-soft)]">
+                <span className="text-[var(--hz-primary)] mt-0.5 shrink-0"><IcoInfo /></span>
+                <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+                  These are your current preference values. Changing language and units isn't supported yet — this will be available once account settings are connected to a real backend. Appearance (light/dark) can be changed below.
                 </p>
               </div>
 
-              <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-                <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Language &amp; Units</p>
-                <div className="flex flex-col divide-y" style={{ borderColor: '#FFFFFF' }}>
+              <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+                <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Appearance</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
+                  Choose light, dark, or follow your device setting. Applies across the whole app.
+                </p>
+                <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Theme">
+                  {themeOptions.map(opt => {
+                    const selected = preference === opt.id
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        role="radio"
+                        aria-checked={selected}
+                        onClick={() => setPreference(opt.id)}
+                        className={[
+                          'min-h-11 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border transition-colors',
+                          selected
+                            ? 'border-[var(--hz-primary)] bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]'
+                            : 'border-[var(--hz-border)] bg-transparent text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)]',
+                        ].join(' ')}
+                        style={{ fontFamily: FONT_BODY }}
+                      >
+                        {opt.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+                <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Language &amp; Units</p>
+                <div className="flex flex-col divide-y" style={{ borderColor: 'var(--hz-surface)' }}>
                   <PreferenceRow label="Language" value={language} />
                   <PreferenceRow label="Units" value={unitsLabel} />
                   <PreferenceRow label="Currency" value={`${currencyPreference} ₹`} />
                 </div>
               </div>
 
-              <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-                <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Notifications</p>
-                <div className="flex flex-col divide-y" style={{ borderColor: '#FFFFFF' }}>
+              <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+                <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Notifications</p>
+                <div className="flex flex-col divide-y" style={{ borderColor: 'var(--hz-surface)' }}>
                   {/* No backend column exists for this anywhere (12G-B's
                       CustomerProfile schema has no notifications field) —
                       a platform default, not read from any per-user store. */}

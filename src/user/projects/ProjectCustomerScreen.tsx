@@ -93,24 +93,24 @@ export default function ProjectCustomerScreen({
           <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
             <div className="max-w-[560px] mx-auto flex flex-col gap-6 min-w-0">
               <div className="min-w-0">
-                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Customer</p>
-                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
-                <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Customer</p>
+                <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName ?? 'Project'}</h1>
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                   Link one Houzeify homeowner so they can see published progress and shared documents.
                 </p>
               </div>
 
               {isHomeownerOwned ? (
-                <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-                  <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>You are the customer on this project.</p>
-                  <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Homeowner-owned projects are not linked to a separate customer account.</p>
+                <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+                  <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>You are the customer on this project.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Homeowner-owned projects are not linked to a separate customer account.</p>
                 </div>
               ) : status === 'idle' || status === 'loading' ? (
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading customer…</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Loading customer…</p>
               ) : status === 'error' ? (
-                <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }} role="alert">
-                  <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Couldn’t load customer</p>
-                  <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Something went wrong fetching this project’s customer link. Try again in a moment.</p>
+                <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }} role="alert">
+                  <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Couldn’t load customer</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Something went wrong fetching this project’s customer link. Try again in a moment.</p>
                   <button
                     type="button"
                     onClick={() => {
@@ -123,37 +123,37 @@ export default function ProjectCustomerScreen({
                         })
                         .catch(() => setStatus('error'))
                     }}
-                    className="h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                    style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                    className="h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                    style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                   >
                     Try again
                   </button>
                 </div>
               ) : customer ? (
-                <div className="rounded-[16px] bg-white p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }}>
-                  <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0" style={{ fontFamily: FONT_MONO }}>
+                <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-3" style={{ border: '1px solid var(--hz-border)' }}>
+                  <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_MONO }}>
                     {customer.status === 'active' ? 'Linked' : 'Invite pending'}
                   </p>
-                  <p className="text-[16px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{customer.fullName ?? customer.email ?? 'Customer'}</p>
-                  {customer.email && <p className="text-[13px] text-[#68636D] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{customer.email}</p>}
+                  <p className="text-[16px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{customer.fullName ?? customer.email ?? 'Customer'}</p>
+                  {customer.email && <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{customer.email}</p>}
                   {!confirmUnlink ? (
-                    <button type="button" onClick={() => setConfirmUnlink(true)} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 self-start focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: FONT_BODY }}>
+                    <button type="button" onClick={() => setConfirmUnlink(true)} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 self-start focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>
                       Unlink
                     </button>
                   ) : (
                     <div className="flex flex-col sm:flex-row gap-2">
-                      <button type="button" disabled={busy} onClick={() => void onUnlink()} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                      <button type="button" disabled={busy} onClick={() => void onUnlink()} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                         Confirm unlink
                       </button>
-                      <button type="button" onClick={() => setConfirmUnlink(false)} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}>
+                      <button type="button" onClick={() => setConfirmUnlink(false)} className="h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY }}>
                         Cancel
                       </button>
                     </div>
                   )}
                 </div>
               ) : (
-                <form onSubmit={e => void onInvite(e)} className="rounded-[16px] bg-white p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }}>
-                  <label className="text-[12.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }} htmlFor="customer-email">
+                <form onSubmit={e => void onInvite(e)} className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-3" style={{ border: '1px solid var(--hz-border)' }}>
+                  <label className="text-[12.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }} htmlFor="customer-email">
                     Homeowner email
                   </label>
                   <input
@@ -162,13 +162,13 @@ export default function ProjectCustomerScreen({
                     required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="w-full h-11 px-3 rounded-[10px] text-[13.5px] min-w-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                    style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
+                    className="w-full h-11 px-3 rounded-[10px] text-[13.5px] min-w-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                    style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY }}
                     placeholder="name@example.com"
                     aria-invalid={Boolean(formError)}
                   />
                   {formError && <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{formError}</p>}
-                  <button type="submit" disabled={busy} className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 self-start focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                  <button type="submit" disabled={busy} className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 self-start focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                     {busy ? 'Sending…' : 'Send invite'}
                   </button>
                 </form>

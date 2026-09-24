@@ -338,7 +338,7 @@ export default function CreateDailyProgressScreen({
   if (!projectId) {
     return (
       <div className="min-h-full flex flex-col items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
-        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+        <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
       </div>
     )
   }
@@ -361,12 +361,12 @@ export default function CreateDailyProgressScreen({
     <div className="h-full flex" style={{ backgroundColor: '#FBF9F7' }}>
       <Sidebar active="projects" onNavigate={onNavigate} />
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+        <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
           <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
             <button
               type="button"
               onClick={goBack}
-              className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+              className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0 rounded-[6px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
               style={{ fontFamily: FONT_BODY }}
             >
               <IcoBack /> Progress
@@ -379,35 +379,35 @@ export default function CreateDailyProgressScreen({
         <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 py-8 pb-24 md:pb-8">
           <div className="max-w-[620px] mx-auto flex flex-col gap-6">
             <div>
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Daily Progress</p>
-              <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Add progress update</h1>
-              {projectName && <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{projectName}</p>}
-              <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Daily Progress</p>
+              <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Add progress update</h1>
+              {projectName && <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{projectName}</p>}
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                 Record what happened today and attach construction photos or short videos as project evidence.
               </p>
             </div>
 
-            <div className="rounded-[16px] bg-white p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }}>
+            <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-4" style={{ border: '1px solid var(--hz-border)' }}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-date">Date</label>
-                  <input id="dp-date" type="date" value={date} disabled={Boolean(savedProgressId) || busy} onChange={e => setDate(e.target.value)} className="w-full h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }} />
+                  <label className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-date">Date</label>
+                  <input id="dp-date" type="date" value={date} disabled={Boolean(savedProgressId) || busy} onChange={e => setDate(e.target.value)} className="w-full h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY }} />
                 </div>
                 <div>
-                  <label className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-stage">Stage for this update</label>
-                  <select id="dp-stage" value={stage} disabled={Boolean(savedProgressId) || busy} onChange={e => setStage(e.target.value)} className="w-full h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]" style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }} aria-describedby="dp-stage-hint">
+                  <label className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-stage">Stage for this update</label>
+                  <select id="dp-stage" value={stage} disabled={Boolean(savedProgressId) || busy} onChange={e => setStage(e.target.value)} className="w-full h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]" style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY }} aria-describedby="dp-stage-hint">
                     {constructionStages.map(s => (
                       <option key={s.id} value={s.id}>{s.name}</option>
                     ))}
                   </select>
-                  <p id="dp-stage-hint" className="text-[12px] text-[#68636D] m-0 mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                  <p id="dp-stage-hint" className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-1.5" style={{ fontFamily: FONT_BODY }}>
                     Tags this daily progress entry only. It does not change the project’s overall Timeline stage.
                   </p>
                 </div>
               </div>
 
               <div>
-                <label className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-title">What happened today?</label>
+                <label className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-title">What happened today?</label>
                 <input
                   id="dp-title"
                   type="text"
@@ -415,14 +415,14 @@ export default function CreateDailyProgressScreen({
                   disabled={Boolean(savedProgressId) || busy}
                   onChange={e => setTitle(e.target.value)}
                   placeholder="e.g. Foundation work completed"
-                  className="w-full h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                  style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
+                  className="w-full h-11 px-3.5 rounded-[10px] text-[13.5px] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                  style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY }}
                 />
               </div>
 
               <div>
-                <label className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-notes">
-                  Notes <span className="text-[#9A949D] font-normal">Optional</span>
+                <label className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_HEAD }} htmlFor="dp-notes">
+                  Notes <span className="text-[var(--hz-ink-subtle)] font-normal">Optional</span>
                 </label>
                 <textarea
                   id="dp-notes"
@@ -431,13 +431,13 @@ export default function CreateDailyProgressScreen({
                   onChange={e => setDescription(e.target.value)}
                   placeholder="Any additional detail worth recording."
                   rows={4}
-                  className="w-full px-3.5 py-3 rounded-[10px] text-[13.5px] outline-none resize-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                  style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
+                  className="w-full px-3.5 py-3 rounded-[10px] text-[13.5px] outline-none resize-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                  style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY }}
                 />
               </div>
 
               <div>
-                <p className="text-[13px] font-semibold text-[#242326] m-0 mb-2" style={{ fontFamily: FONT_HEAD }}>
+                <p className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 mb-2" style={{ fontFamily: FONT_HEAD }}>
                   Construction evidence
                 </p>
                 <div className="flex flex-wrap gap-2 mb-2">
@@ -449,8 +449,8 @@ export default function CreateDailyProgressScreen({
                       aria-expanded={cameraMenuOpen}
                       aria-controls="dp-camera-menu"
                       onClick={() => setCameraMenuOpen(open => !open)}
-                      className="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50 disabled:cursor-not-allowed"
-                      style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                      className="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                     >
                       <IcoCamera /> Camera
                     </button>
@@ -459,8 +459,8 @@ export default function CreateDailyProgressScreen({
                         id="dp-camera-menu"
                         role="menu"
                         aria-label="Camera options"
-                        className="absolute left-0 top-[calc(100%+6px)] z-20 min-w-[180px] rounded-[12px] bg-white p-1.5 shadow-lg"
-                        style={{ border: '1px solid #E3DDD7' }}
+                        className="absolute left-0 top-[calc(100%+6px)] z-20 min-w-[180px] rounded-[12px] bg-[var(--hz-surface)] p-1.5 shadow-lg"
+                        style={{ border: '1px solid var(--hz-border)' }}
                       >
                         <button
                           type="button"
@@ -470,7 +470,7 @@ export default function CreateDailyProgressScreen({
                             setCameraMenuOpen(false)
                             cameraPhotoInputRef.current?.click()
                           }}
-                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[#242326] hover:bg-[#F9F5FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
+                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[var(--hz-ink)] hover:bg-[#F9F5FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
                           style={{ fontFamily: FONT_BODY }}
                         >
                           <IcoCamera /> Take photo
@@ -483,7 +483,7 @@ export default function CreateDailyProgressScreen({
                             setCameraMenuOpen(false)
                             cameraVideoInputRef.current?.click()
                           }}
-                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[#242326] hover:bg-[#F9F5FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
+                          className="w-full inline-flex items-center gap-2 min-h-11 px-3 rounded-[10px] text-[13px] font-semibold text-left cursor-pointer border-0 bg-transparent text-[var(--hz-ink)] hover:bg-[#F9F5FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
                           style={{ fontFamily: FONT_BODY }}
                         >
                           <IcoVideo /> Record video
@@ -495,8 +495,8 @@ export default function CreateDailyProgressScreen({
                     type="button"
                     disabled={busy}
                     onClick={() => photoInputRef.current?.click()}
-                    className="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ border: '1px solid #E3DDD7', color: '#722ED1', fontFamily: FONT_BODY }}
+                    className="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer bg-[var(--hz-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                   >
                     <IcoPhoto /> Add Photos
                   </button>
@@ -504,13 +504,13 @@ export default function CreateDailyProgressScreen({
                     type="button"
                     disabled={busy}
                     onClick={() => videoInputRef.current?.click()}
-                    className="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ border: '1px solid #E3DDD7', color: '#722ED1', fontFamily: FONT_BODY }}
+                    className="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer bg-[var(--hz-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                   >
                     <IcoVideo /> Add Video
                   </button>
                 </div>
-                <p className="text-[12.5px] text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[12.5px] text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
                   Optional · Use Camera on mobile to capture on site · Photos: JPEG/PNG/WebP ≤15 MB · Videos: MP4/WebM/QuickTime ≤100 MB.
                 </p>
                 <input
@@ -555,7 +555,7 @@ export default function CreateDailyProgressScreen({
                 {pendingEvidence.length > 0 && (
                   <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3 m-0 p-0 list-none" aria-label="Selected construction evidence">
                     {pendingEvidence.map(p => (
-                      <li key={p.localId} className="relative rounded-[12px] overflow-hidden" style={{ border: '1px solid #E3DDD7' }}>
+                      <li key={p.localId} className="relative rounded-[12px] overflow-hidden" style={{ border: '1px solid var(--hz-border)' }}>
                         {p.kind === 'photo' ? (
                           <img
                             src={p.previewUrl}
@@ -565,7 +565,7 @@ export default function CreateDailyProgressScreen({
                         ) : (
                           <video
                             src={p.previewUrl}
-                            className="w-full aspect-square object-cover bg-[#242326]"
+                            className="w-full aspect-square object-cover bg-[var(--hz-ink)]"
                             muted
                             playsInline
                             preload="metadata"
@@ -606,8 +606,8 @@ export default function CreateDailyProgressScreen({
                       type="button"
                       disabled={busy}
                       onClick={retryFailedEvidence}
-                      className="h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
-                      style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                      className="h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
+                      style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                     >
                       Retry failed evidence
                     </button>
@@ -621,11 +621,11 @@ export default function CreateDailyProgressScreen({
                   checked={shareWithCustomer}
                   disabled={busy}
                   onChange={e => setShareWithCustomer(e.target.checked)}
-                  className="mt-1 w-5 h-5 accent-[#722ED1]"
+                  className="mt-1 w-5 h-5 accent-[var(--hz-primary)]"
                 />
-                <span className="text-[13.5px] text-[#242326]">
+                <span className="text-[13.5px] text-[var(--hz-ink)]">
                   Share with customer when saved
-                  <span className="block text-[12.5px] text-[#9A949D] mt-0.5">
+                  <span className="block text-[12.5px] text-[var(--hz-ink-subtle)] mt-0.5">
                     Customer-visible evidence only. Leave unchecked to keep this update internal.
                   </span>
                 </span>
@@ -649,10 +649,10 @@ export default function CreateDailyProgressScreen({
                 type="button"
                 disabled={!canSubmit && !(savedProgressId && failedCount > 0 && !busy)}
                 onClick={savedProgressId && failedCount > 0 ? retryFailedEvidence : handleSubmit}
-                className="h-11 px-6 rounded-[12px] text-[13.5px] font-semibold border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
+                className="h-11 px-6 rounded-[12px] text-[13.5px] font-semibold border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
                 style={{
-                  backgroundColor: (canSubmit || (savedProgressId && failedCount > 0 && !busy)) ? '#722ED1' : '#E3DDD7',
-                  color: (canSubmit || (savedProgressId && failedCount > 0 && !busy)) ? 'white' : '#9A949D',
+                  backgroundColor: (canSubmit || (savedProgressId && failedCount > 0 && !busy)) ? 'var(--hz-primary)' : 'var(--hz-border)',
+                  color: (canSubmit || (savedProgressId && failedCount > 0 && !busy)) ? 'white' : 'var(--hz-ink-subtle)',
                   cursor: (canSubmit || (savedProgressId && failedCount > 0 && !busy)) ? 'pointer' : 'not-allowed',
                   fontFamily: FONT_BODY,
                 }}
@@ -663,8 +663,8 @@ export default function CreateDailyProgressScreen({
                 type="button"
                 onClick={goBack}
                 disabled={busy}
-                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1] disabled:opacity-50"
-                style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+                className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)] disabled:opacity-50"
+                style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
               >
                 {savedProgressId ? 'Back to Progress' : 'Cancel'}
               </button>

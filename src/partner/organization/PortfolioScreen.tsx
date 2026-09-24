@@ -49,8 +49,8 @@ const PortfolioEmptyIcon = () => (
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
       {children}
     </div>
   )
@@ -68,16 +68,16 @@ function DeleteProjectModal({ projectName, onCancel, onConfirm }: { projectName:
     <>
       <div className="fixed inset-0 bg-black opacity-30 z-40" aria-hidden="true" onClick={onCancel} />
       <div role="dialog" aria-modal="true" aria-labelledby="delete-project-title" aria-describedby="delete-project-desc"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
-        <h2 id="delete-project-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Remove portfolio project?</h2>
-        <p id="delete-project-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <h2 id="delete-project-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Remove portfolio project?</h2>
+        <p id="delete-project-desc" className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           This will remove &ldquo;{projectName}&rdquo; from your company portfolio. It will not delete any project workspace.
         </p>
         <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:justify-end">
-          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 bg-[#DC2626] hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>Remove project</button>
+          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-danger)] hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>Remove project</button>
         </div>
       </div>
     </>
@@ -206,11 +206,11 @@ export default function PortfolioScreen({
   ]
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goToProfile} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={goToProfile} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Company / Professional Profile
           </button>
         </div>
@@ -220,34 +220,34 @@ export default function PortfolioScreen({
         <div className="max-w-[900px] mx-auto flex flex-col gap-6">
           <div className="flex items-start justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+              <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
                 {initials}
               </div>
               <div>
-                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Portfolio</p>
-                <h1 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{displayName}</h1>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Portfolio</p>
+                <h1 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{displayName}</h1>
                 {professionalTypeLabel && (
-                  <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel} · {isOrganization ? 'Organization' : 'Individual'}</p>
+                  <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel} · {isOrganization ? 'Organization' : 'Individual'}</p>
                 )}
               </div>
             </div>
-            <button type="button" onClick={addProject} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+            <button type="button" onClick={addProject} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
               + Add Portfolio Project
             </button>
           </div>
-          <p className="text-[13px] text-[#68636D] m-0 -mt-3" style={{ fontFamily: FONT_BODY }}>Showcase completed and ongoing projects to potential clients.</p>
+          <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 -mt-3" style={{ fontFamily: FONT_BODY }}>Showcase completed and ongoing projects to potential clients.</p>
 
           {projects.length === 0 ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-subtle)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <PortfolioEmptyIcon />
                 </span>
-                <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No portfolio projects yet</p>
-                <p className="text-[13px] text-[#9A949D] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No portfolio projects yet</p>
+                <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
                   Showcase your completed work to help homeowners understand your experience.
                 </p>
-                <button type="button" onClick={addProject} className={`${selectClass} mt-2`} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                <button type="button" onClick={addProject} className={`${selectClass} mt-2`} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                   + Add Portfolio Project
                 </button>
               </div>
@@ -264,7 +264,7 @@ export default function PortfolioScreen({
                     className="h-8 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0"
                     style={{
                       fontFamily: FONT_BODY,
-                      backgroundColor: filter === tab.id ? '#722ED1' : '#CAC7C6',
+                      backgroundColor: filter === tab.id ? 'var(--hz-primary)' : '#CAC7C6',
                       color: filter === tab.id ? 'white' : '#808080',
                     }}
                   >
@@ -275,10 +275,10 @@ export default function PortfolioScreen({
 
               {/* Search */}
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A949D]"><IcoSearch /></span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--hz-ink-subtle)]"><IcoSearch /></span>
                 <input
                   className="w-full h-10 pl-9 pr-3 rounded-[10px] text-[13.5px] outline-none"
-                  style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }}
+                  style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'white' }}
                   placeholder="Search projects…"
                   value={query}
                   onChange={e => setQuery(e.target.value)}
@@ -288,22 +288,22 @@ export default function PortfolioScreen({
               {/* Project grid */}
               {visible.length === 0 ? (
                 <SectionCard>
-                  <p className="text-[13px] text-[#9A949D] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No projects match this search.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No projects match this search.</p>
                 </SectionCard>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {visible.map(p => {
                     const cover = p.images.find(img => img.id === p.coverImageId) ?? p.images[0]
                     return (
-                      <div key={p.id} className="rounded-[16px] overflow-hidden bg-white" style={{ border: '1px solid #E3DDD7' }}>
+                      <div key={p.id} className="rounded-[16px] overflow-hidden bg-[var(--hz-surface)]" style={{ border: '1px solid var(--hz-border)' }}>
                         {cover ? (
                           <img src={cover.url} alt={p.name} className="w-full h-32 object-cover" />
                         ) : (
-                          <div className="w-full h-32 flex items-center justify-center" style={{ backgroundColor: '#F4F0EC' }}><PortfolioEmptyIcon /></div>
+                          <div className="w-full h-32 flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)' }}><PortfolioEmptyIcon /></div>
                         )}
                         <div className="p-3.5">
                           <div className="flex items-start justify-between gap-2">
-                            <p className="text-[13.5px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{p.name}</p>
+                            <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{p.name}</p>
                             <span
                               className="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-[0.03em]"
                               style={{
@@ -315,17 +315,17 @@ export default function PortfolioScreen({
                               {VISIBILITY_LABELS[p.visibility].toUpperCase()}
                             </span>
                           </div>
-                          <p className="text-[12px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                          <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
                             {PROJECT_TYPE_LABELS[p.projectType]}{p.location ? ` · ${p.location}` : ''}
                           </p>
-                          <p className="text-[11.5px] text-[#9A949D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
+                          <p className="text-[11.5px] text-[var(--hz-ink-subtle)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
                             {PROJECT_STATUS_LABELS[p.status]}{p.year ? ` · ${p.year}` : ''}
                           </p>
                           <div className="flex items-center gap-3 mt-2.5">
-                            <button type="button" onClick={editProject} className="text-[12px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                            <button type="button" onClick={editProject} className="text-[12px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                               Edit →
                             </button>
-                            <button type="button" onClick={() => setDeletingProject(p)} className="text-[12px] font-semibold text-[#DC2626] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                            <button type="button" onClick={() => setDeletingProject(p)} className="text-[12px] font-semibold text-[var(--hz-danger)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                               Delete
                             </button>
                           </div>

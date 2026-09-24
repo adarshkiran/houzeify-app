@@ -147,7 +147,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -179,12 +179,12 @@ function SelectField({ label, value, onChange, options, minWidth = 132 }: {
       <select
         value={value}
         onChange={e => onChange(e.target.value)}
-        className="appearance-none w-full h-9 pl-3 pr-8 rounded-[10px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] cursor-pointer outline-none hover:border-[#E3DDD7] focus:border-[#722ED1] transition-colors"
+        className="appearance-none w-full h-9 pl-3 pr-8 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13px] text-[var(--hz-ink)] cursor-pointer outline-none hover:border-[var(--hz-border)] focus:border-[var(--hz-primary)] transition-colors"
         style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
       </select>
-      <span className="pointer-events-none absolute right-2.5 text-[#68636D]"><IcoChevronDown /></span>
+      <span className="pointer-events-none absolute right-2.5 text-[var(--hz-ink-muted)]"><IcoChevronDown /></span>
     </label>
   )
 }
@@ -200,13 +200,13 @@ function LabourFilters({
     <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3">
       <label className="relative flex-1 min-w-0 flex items-center">
         <span className="sr-only">Search workers</span>
-        <span className="absolute left-3 text-[#9A949D]"><IcoSearch /></span>
+        <span className="absolute left-3 text-[var(--hz-ink-subtle)]"><IcoSearch /></span>
         <input
           type="text"
           value={search}
           onChange={e => onSearch(e.target.value)}
           placeholder="Search workers..."
-          className="w-full h-9 pl-9 pr-3 rounded-[10px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] placeholder:text-[#9A949D] outline-none focus:border-[#722ED1] transition-colors"
+          className="w-full h-9 pl-9 pr-3 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13px] text-[var(--hz-ink)] placeholder:text-[var(--hz-ink-subtle)] outline-none focus:border-[var(--hz-primary)] transition-colors"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         />
       </label>
@@ -239,10 +239,10 @@ function LabourFilters({
 
 function SkeletonRow() {
   return (
-    <tr className="border-b border-[#FFFFFF]">
+    <tr className="border-b border-[var(--hz-surface)]">
       {Array.from({ length: 7 }).map((_, i) => (
         <td key={i} className="px-4 py-4" style={{ height: 64 }}>
-          <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', width: i === 0 ? '70%' : '50%' }} />
+          <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', width: i === 0 ? '70%' : '50%' }} />
         </td>
       ))}
     </tr>
@@ -253,26 +253,26 @@ function LabourTableRow({ item, onOpen }: { item: LabourEstimate; onOpen: (m: La
   return (
     <tr
       onClick={() => onOpen(item)}
-      className="border-b border-[#FFFFFF] cursor-pointer transition-colors hover:bg-[#FFFFFF]"
+      className="border-b border-[var(--hz-surface)] cursor-pointer transition-colors hover:bg-[var(--hz-surface)]"
       style={{ minHeight: 64 }}
     >
       <td className="px-4 py-4">
         <div className="flex flex-col gap-0.5">
-          <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.trade}</span>
-          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.categoryLabel ?? item.category}</span>
+          <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.trade}</span>
+          <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.categoryLabel ?? item.category}</span>
         </div>
       </td>
       <td className="px-4 py-4">
-        <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.workers}</span>
+        <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.workers}</span>
       </td>
       <td className="px-4 py-4">
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.estimatedDays} days</span>
+        <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.estimatedDays} days</span>
       </td>
       <td className="px-4 py-4">
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(item.dailyRate)}</span>
+        <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(item.dailyRate)}</span>
       </td>
       <td className="px-4 py-4">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.estimatedCost)}</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.estimatedCost)}</span>
       </td>
       <td className="px-4 py-4 hidden lg:table-cell">
         <ConfidenceBadge level={item.confidence} />
@@ -282,7 +282,7 @@ function LabourTableRow({ item, onOpen }: { item: LabourEstimate; onOpen: (m: La
           onClick={e => { e.stopPropagation(); onOpen(item) }}
           aria-label={`View details for ${item.trade}`}
           className="inline-flex items-center gap-1 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-          style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+          style={{ color: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
         >
           <span className="hidden lg:inline">View details →</span>
           <span className="lg:hidden" aria-hidden="true">→</span>
@@ -294,16 +294,16 @@ function LabourTableRow({ item, onOpen }: { item: LabourEstimate; onOpen: (m: La
 
 function LabourTable({ items, loading, onOpen }: { items: LabourEstimate[]; loading: boolean; onOpen: (m: LabourEstimate) => void }) {
   return (
-    <div className="hidden md:block bg-white overflow-hidden" style={{ border: '1px solid #E3DDD7', borderRadius: 16 }}>
+    <div className="hidden md:block bg-[var(--hz-surface)] overflow-hidden" style={{ border: '1px solid var(--hz-border)', borderRadius: 16 }}>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse" style={{ minWidth: 720 }}>
           <thead>
-            <tr style={{ backgroundColor: '#F4F0EC' }}>
+            <tr style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
               {['Trade', 'Workers', 'Estimated Days', 'Rate / Day', 'Estimated Cost', 'Confidence', 'Action'].map((h, i) => (
                 <th
                   key={h}
                   scope="col"
-                  className={['px-4 py-3 text-left text-[12px] sm:text-[12px] uppercase tracking-[0.08em] text-[#68636D]', i === 5 ? 'hidden lg:table-cell' : '', i === 6 ? 'text-right' : ''].join(' ')}
+                  className={['px-4 py-3 text-left text-[12px] sm:text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-muted)]', i === 5 ? 'hidden lg:table-cell' : '', i === 6 ? 'text-right' : ''].join(' ')}
                   style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
                 >
                   {h}
@@ -326,39 +326,39 @@ function LabourTable({ items, loading, onOpen }: { items: LabourEstimate[]; load
 
 function LabourCard({ item, onOpen }: { item: LabourEstimate; onOpen: (m: LabourEstimate) => void }) {
   return (
-    <div className="bg-white rounded-[14px] border border-[#E3DDD7] p-4 flex flex-col gap-3">
+    <div className="bg-[var(--hz-surface)] rounded-[14px] border border-[var(--hz-border)] p-4 flex flex-col gap-3">
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-[14px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.trade}</span>
-          <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.categoryLabel ?? item.category}</span>
+          <span className="text-[14px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.trade}</span>
+          <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.categoryLabel ?? item.category}</span>
         </div>
         <ConfidenceBadge level={item.confidence} />
       </div>
       <div className="flex items-center justify-between gap-3">
         <div className="flex flex-col gap-0.5">
-          <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Workers</span>
-          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.workers}</span>
+          <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Workers</span>
+          <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.workers}</span>
         </div>
         <div className="flex flex-col gap-0.5">
-          <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Duration</span>
-          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.estimatedDays} days</span>
+          <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Duration</span>
+          <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.estimatedDays} days</span>
         </div>
         <div className="flex flex-col gap-0.5">
-          <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Rate/day</span>
-          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(item.dailyRate)}</span>
+          <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Rate/day</span>
+          <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(item.dailyRate)}</span>
         </div>
       </div>
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-0.5">
-          <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Cost</span>
-          <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.estimatedCost)}</span>
+          <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Cost</span>
+          <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.estimatedCost)}</span>
         </div>
       </div>
       <button
         onClick={() => onOpen(item)}
         aria-label={`View details for ${item.trade}`}
-        className="h-9 rounded-[10px] border border-[#E3DDD7] text-[12px] font-semibold cursor-pointer bg-transparent hover:bg-[#FFFFFF] transition-colors"
-        style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+        className="h-9 rounded-[10px] border border-[var(--hz-border)] text-[12px] font-semibold cursor-pointer bg-transparent hover:bg-[var(--hz-surface)] transition-colors"
+        style={{ color: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
       >
         View details →
       </button>
@@ -368,10 +368,10 @@ function LabourCard({ item, onOpen }: { item: LabourEstimate; onOpen: (m: Labour
 
 function SkeletonCard() {
   return (
-    <div className="bg-white rounded-[14px] border border-[#E3DDD7] p-4 flex flex-col gap-3">
-      <div className="h-3.5 rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', width: '55%' }} />
-      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', width: '35%' }} />
-      <div className="h-9 rounded-[10px] animate-pulse" style={{ backgroundColor: '#F4F0EC' }} />
+    <div className="bg-[var(--hz-surface)] rounded-[14px] border border-[var(--hz-border)] p-4 flex flex-col gap-3">
+      <div className="h-3.5 rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', width: '55%' }} />
+      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', width: '35%' }} />
+      <div className="h-9 rounded-[10px] animate-pulse" style={{ backgroundColor: 'var(--hz-surface-muted)' }} />
     </div>
   )
 }
@@ -380,11 +380,11 @@ function SkeletonCard() {
 
 function EmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 py-14 px-6 text-center bg-white rounded-[16px] border border-[#E3DDD7]">
-      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F4F0EC', color: '#9A949D' }}>
+    <div className="flex flex-col items-center justify-center gap-3 py-14 px-6 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-subtle)' }}>
         <IcoEmptyBox />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         No labour trades match your filters.
       </p>
     </div>
@@ -393,17 +393,17 @@ function EmptyState() {
 
 function ErrorState({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 py-14 px-6 text-center bg-white rounded-[16px] border border-[#E3DDD7]">
-      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}>
+    <div className="flex flex-col items-center justify-center gap-3 py-14 px-6 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: 'var(--hz-danger)' }}>
         <IcoAlert />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Unable to load labour estimate. Try again.
       </p>
       <button
         onClick={onRetry}
         className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0"
-        style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Retry
       </button>
@@ -439,7 +439,7 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
         className={[
           'fixed inset-x-0 bottom-0 md:inset-y-0 md:right-0 md:left-auto md:bottom-0 md:top-0',
           'w-full md:w-[420px] max-h-[85vh] md:max-h-none',
-          'bg-white z-50 flex flex-col rounded-t-[20px] md:rounded-t-none md:rounded-l-[20px]',
+          'bg-[var(--hz-surface)] z-50 flex flex-col rounded-t-[20px] md:rounded-t-none md:rounded-l-[20px]',
           'transition-transform duration-300 ease-out',
           open ? 'translate-y-0 md:translate-x-0' : 'translate-y-full md:translate-y-0 md:translate-x-full',
         ].join(' ')}
@@ -447,13 +447,13 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
       >
         {item && (
           <>
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#E3DDD7] shrink-0">
-              <span className="text-[12px] uppercase tracking-[0.10em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Labour Detail</span>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--hz-border)] shrink-0">
+              <span className="text-[12px] uppercase tracking-[0.10em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Labour Detail</span>
               <button
                 ref={closeRef}
                 onClick={onClose}
                 aria-label="Close labour details"
-                className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"
               >
                 <IcoClose />
               </button>
@@ -461,41 +461,41 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
 
             <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-5">
               <div>
-                <h2 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.trade}</h2>
-                <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Trade: {item.categoryLabel ?? item.category}</span>
+                <h2 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.trade}</h2>
+                <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Trade: {item.categoryLabel ?? item.category}</span>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
-                  <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Workers</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.workers}</span>
+                <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-surface)' }}>
+                  <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Workers</span>
+                  <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.workers}</span>
                 </div>
-                <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
-                  <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Duration</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.estimatedDays} working days</span>
+                <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-surface)' }}>
+                  <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Duration</span>
+                  <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.estimatedDays} working days</span>
                 </div>
-                <div className="flex flex-col gap-1 p-3 rounded-[12px] col-span-2" style={{ backgroundColor: '#FFFFFF' }}>
-                  <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Rate</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.dailyRate)} / day</span>
+                <div className="flex flex-col gap-1 p-3 rounded-[12px] col-span-2" style={{ backgroundColor: 'var(--hz-surface)' }}>
+                  <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Rate</span>
+                  <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.dailyRate)} / day</span>
                 </div>
               </div>
 
               <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: '#F9F5FF' }}>
-                <span className="text-[12px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Cost</span>
-                <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{formatINR(item.estimatedCost)}</span>
-                <span className="text-[12px] text-[#722ED1]/70" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Cost</span>
+                <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{formatINR(item.estimatedCost)}</span>
+                <span className="text-[12px] text-[var(--hz-primary)]/70" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                   {item.workers} workers × {item.estimatedDays} days × {formatINR(item.dailyRate)}
                 </span>
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Calculation basis</span>
-                <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.calculationBasis}</p>
+                <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Calculation basis</span>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.calculationBasis}</p>
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-1">
-                  <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Confidence</span>
+                  <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Confidence</span>
                   <ConfidenceBadge level={item.confidence} />
                 </div>
               </div>
@@ -503,9 +503,9 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
               <HozieInsightCard message={`“${item.note}”`} />
             </div>
 
-            <div className="shrink-0 px-5 py-4 border-t border-[#E3DDD7] flex gap-2.5">
+            <div className="shrink-0 px-5 py-4 border-t border-[var(--hz-border)] flex gap-2.5">
               <button
-                className="flex-1 h-10 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
+                className="flex-1 h-10 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 Edit assumption
@@ -513,7 +513,7 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
               <button
                 onClick={onAskHozie}
                 className="flex-1 h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+                style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
               >
                 Ask Hozie
               </button>
@@ -530,32 +530,32 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
 function LabourCostSummary({ total, range, sharePct }: { total: string; range: string; sharePct: number }) {
   return (
     <div
-      className="bg-white rounded-[20px] border border-[#E3DDD7] p-6 sm:p-7 flex flex-col gap-4"
+      className="bg-[var(--hz-surface)] rounded-[20px] border border-[var(--hz-border)] p-6 sm:p-7 flex flex-col gap-4"
       style={{
         boxShadow: '0 2px 24px rgba(243,234,255,0.07), 0 1px 4px rgba(0,0,0,0.04)',
-        background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, #ffffff 55%)',
+        background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, var(--hz-surface) 55%)',
       }}
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+          <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
             Estimated Labour Cost
           </span>
-          <div className="text-[34px] sm:text-[40px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#242326' }}>
+          <div className="text-[34px] sm:text-[40px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-ink)' }}>
             {total}
           </div>
-          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+          <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             Expected range: {range}
           </span>
         </div>
         <div className="flex flex-col gap-1 items-end">
-          <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Labour Share</span>
-          <span className="text-[20px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{sharePct}%</span>
-          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>of total construction estimate</span>
+          <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Labour Share</span>
+          <span className="text-[20px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{sharePct}%</span>
+          <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>of total construction estimate</span>
         </div>
       </div>
-      <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: '#F3EAFF' }}>
-        <div className="h-full rounded-full" style={{ width: `${sharePct}%`, backgroundColor: '#722ED1', transition: 'width 0.9s cubic-bezier(0.4,0,0.2,1)' }} />
+      <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
+        <div className="h-full rounded-full" style={{ width: `${sharePct}%`, backgroundColor: 'var(--hz-primary)', transition: 'width 0.9s cubic-bezier(0.4,0,0.2,1)' }} />
       </div>
     </div>
   )
@@ -621,20 +621,20 @@ export default function LabourEstimateScreen({
 
   const isEmpty = status === 'ready' && filtered.length === 0
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
         <button
           onClick={() => onNavigate('estimate-dashboard')}
           aria-label="Back to estimate"
-          className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]"
+          className="flex items-center gap-1 text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer text-[13px]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoChevronLeft /> Estimate
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Labour Estimate</span>
-        <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Labour Estimate</span>
+        <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -642,26 +642,26 @@ return (
 
         <div className="flex flex-col flex-1 min-h-0">
           {/* Desktop header */}
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Labour Estimate
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => onNavigate('estimate-dashboard')}
-                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoChevronLeft /> Back to estimate
               </button>
               <button
                 aria-label="Download PDF"
-                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
@@ -676,19 +676,19 @@ return (
               {/* Intro */}
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
                 <div>
-                  <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                  <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                     Labour Estimate
                   </span>
-                  <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+                  <h2 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                     Who will build it.
                   </h2>
-                  <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[520px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                  <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 mt-2 max-w-[520px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     Hozie estimates the workers, working days and labour cost required for your project.
                   </p>
                 </div>
-                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#F3EAFF] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#722ED1]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
-                  <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>82% AI confidence</span>
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
+                  <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>82% AI confidence</span>
                 </div>
               </div>
 

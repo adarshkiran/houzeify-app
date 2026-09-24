@@ -103,8 +103,8 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
 function SectionLabel({ children, optional }: { children: React.ReactNode; optional?: boolean }) {
   return (
     <div className="flex items-center gap-1.5 mb-2">
-      <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{children}</span>
-      {optional && <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
+      <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{children}</span>
+      {optional && <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
     </div>
   )
 }
@@ -115,12 +115,12 @@ function OptionCard({ title, description, selected, onSelect }: { title: string;
       type="button" role="radio" aria-checked={selected} onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:border-[#722ED1]',
+        selected ? 'bg-[#F9F5FF] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
-      {description && <span className="text-[12px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>}
-      {selected && <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-full bg-[#722ED1] flex items-center justify-center" aria-hidden="true"><CheckIcon /></span>}
+      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
+      {description && <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>}
+      {selected && <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center" aria-hidden="true"><CheckIcon /></span>}
     </button>
   )
 }
@@ -130,9 +130,9 @@ function Chip({ label, selected, onToggle, multi }: { label: string; selected: b
     <button
       type="button" role={multi ? 'checkbox' : 'radio'} aria-checked={selected} onClick={onToggle}
       className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
-      style={{ fontFamily: FONT_BODY, backgroundColor: selected ? '#F3EAFF' : '#FFFFFF', borderColor: selected ? '#722ED1' : '#CAC7C6', color: selected ? '#722ED1' : '#1E1E1E' }}
+      style={{ fontFamily: FONT_BODY, backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)', borderColor: selected ? 'var(--hz-primary)' : '#CAC7C6', color: selected ? 'var(--hz-primary)' : 'var(--hz-black)' }}
     >
-      {selected && <span className={['flex items-center justify-center shrink-0 bg-[#722ED1]', multi ? 'w-[14px] h-[14px] rounded-[4px]' : 'w-[14px] h-[14px] rounded-full'].join(' ')} aria-hidden="true"><CheckIcon size={8} /></span>}
+      {selected && <span className={['flex items-center justify-center shrink-0 bg-[var(--hz-primary)]', multi ? 'w-[14px] h-[14px] rounded-[4px]' : 'w-[14px] h-[14px] rounded-full'].join(' ')} aria-hidden="true"><CheckIcon size={8} /></span>}
       {label}
     </button>
   )
@@ -149,10 +149,10 @@ function NumberField({ label, value, onChange, suffix, placeholder, optional = t
           type="text" inputMode="numeric" value={value}
           onChange={e => onChange(e.target.value.replace(/[^0-9]/g, ''))}
           placeholder={placeholder}
-          className="w-full h-11 px-3.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors"
+          className="w-full h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors"
           style={{ fontFamily: FONT_BODY }}
         />
-        {suffix && <span className="text-[12.5px] text-[#68636D] shrink-0" style={{ fontFamily: FONT_BODY }}>{suffix}</span>}
+        {suffix && <span className="text-[12.5px] text-[var(--hz-ink-muted)] shrink-0" style={{ fontFamily: FONT_BODY }}>{suffix}</span>}
       </div>
     </div>
   )
@@ -166,7 +166,7 @@ function TextField({ label, value, onChange, placeholder, optional = true, type 
       <SectionLabel optional={optional}>{label}</SectionLabel>
       <input
         type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
-        className="w-full max-w-[320px] h-11 px-3.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors"
+        className="w-full max-w-[320px] h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors"
         style={{ fontFamily: FONT_BODY }}
       />
     </div>
@@ -175,12 +175,12 @@ function TextField({ label, value, onChange, placeholder, optional = true, type 
 
 function MobileTopBar({ onNavigate }: { onNavigate: (screen: string, data?: Record<string, string>) => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>House Requirements</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>House Requirements</span>
       </div>
-      <button onClick={() => onNavigate('build-or-improve')} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
+      <button onClick={() => onNavigate('build-or-improve')} className="text-[13px] text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
     </div>
   )
 }
@@ -424,22 +424,22 @@ export default function HouseRequirementsScreen({
   ]
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onNavigate={onNavigate} />
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="build" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>House Requirements</h1>
-            <button onClick={() => onNavigate('build-or-improve')} className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>Back</button>
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>House Requirements</h1>
+            <button onClick={() => onNavigate('build-or-improve')} className="text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>Back</button>
           </header>
 
           <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
             <div className="max-w-[1040px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-12 flex flex-col gap-7">
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>New Build</span>
-                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Tell us about your build</h2>
-                <p className="text-[13.5px] text-[#68636D] m-0 max-w-[520px]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>New Build</span>
+                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Tell us about your build</h2>
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 max-w-[520px]" style={{ fontFamily: FONT_BODY }}>
                   These details drive your construction estimate — the more specific, the more accurate your numbers will be.
                 </p>
               </div>
@@ -449,17 +449,17 @@ export default function HouseRequirementsScreen({
                 <input
                   type="text" value={name} onChange={e => setName(e.target.value)}
                   placeholder="e.g. My Dream Home"
-                  className="w-full max-w-[400px] h-11 px-3.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors"
+                  className="w-full max-w-[400px] h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors"
                   style={{ fontFamily: FONT_BODY }}
                 />
               </div>
 
               <div className="flex flex-col gap-3 rounded-[14px] px-4 py-4 bg-[#F9F5FF]" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[#722ED1]"><IcoMapPin /></span>
+                  <span className="text-[var(--hz-primary)]"><IcoMapPin /></span>
                   <SectionLabel>Where are you building?</SectionLabel>
                 </div>
-                <p className="text-[12px] text-[#68636D] m-0 -mt-2" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 -mt-2" style={{ fontFamily: FONT_BODY }}>
                   This can be different from your own home address — it's where construction will actually happen.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -500,7 +500,7 @@ export default function HouseRequirementsScreen({
                         value={siteConditions} onChange={e => setSiteConditions(e.target.value)}
                         placeholder="Soil type, slope, existing structures, access — anything relevant."
                         rows={2}
-                        className="w-full px-3.5 py-2.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                        className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -576,7 +576,7 @@ export default function HouseRequirementsScreen({
                 onClick={handleContinue}
                 disabled={!canContinue || saving}
                 className="h-[52px] px-6 rounded-[12px] text-[14px] font-semibold transition-all duration-150 border-0 w-full sm:w-auto sm:min-w-[240px] self-start"
-                style={{ fontFamily: FONT_BODY, backgroundColor: canContinue ? '#722ED1' : '#F4F0EC', color: canContinue ? '#FFFFFF' : '#9A949D', cursor: canContinue && !saving ? 'pointer' : 'not-allowed' }}
+                style={{ fontFamily: FONT_BODY, backgroundColor: canContinue ? 'var(--hz-primary)' : 'var(--hz-surface-muted)', color: canContinue ? 'var(--hz-surface)' : 'var(--hz-ink-subtle)', cursor: canContinue && !saving ? 'pointer' : 'not-allowed' }}
               >
                 {saving ? 'Saving…' : 'Continue →'}
               </button>

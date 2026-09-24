@@ -37,10 +37,10 @@ function stageLabel(stage: string | null, fallbackName?: string | null): string 
 function Stat({ label, value }: { label: string; value: number | string }) {
   return (
     <div className="flex flex-col gap-1 min-w-[72px]">
-      <span className="text-[10.5px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>
+      <span className="text-[10.5px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>
         {label}
       </span>
-      <span className="text-[17px] sm:text-[18px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+      <span className="text-[17px] sm:text-[18px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
         {value}
       </span>
     </div>
@@ -63,13 +63,13 @@ function ProjectReportCard({
       : stageLabel(project.stage, project.stageName)
 
   return (
-    <article className="rounded-[14px] bg-white p-4 sm:p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }}>
+    <article className="rounded-[14px] bg-[var(--hz-surface)] p-4 sm:p-5 flex flex-col gap-4" style={{ border: '1px solid var(--hz-border)' }}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex flex-col gap-1">
-          <h2 className="text-[16px] sm:text-[17px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
+          <h2 className="text-[16px] sm:text-[17px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
             {project.name}
           </h2>
-          <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+          <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
             <span className="break-words">{stageText}</span>
             {project.location && <span className="break-words">· {project.location}</span>}
           </div>
@@ -77,7 +77,7 @@ function ProjectReportCard({
         {status && (
           <span
             className="shrink-0 px-2 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.03em]"
-            style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}
+            style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}
           >
             {status.toUpperCase()}
           </span>
@@ -101,7 +101,7 @@ function ProjectReportCard({
         />
       </div>
 
-      <div className="flex flex-wrap gap-4 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+      <div className="flex flex-wrap gap-4 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
         <span>
           Tasks open {project.operations.tasksOpen} / {project.operations.tasksTotal}
         </span>
@@ -115,7 +115,7 @@ function ProjectReportCard({
           type="button"
           onClick={onOpenRecord}
           className={companyRollupPrimaryBtnClass}
-          style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+          style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
         >
           Open Record
         </button>
@@ -123,7 +123,7 @@ function ProjectReportCard({
           type="button"
           onClick={onOpenProgress}
           className={companyRollupSecondaryBtnClass}
-          style={{ backgroundColor: 'white', color: '#722ED1', border: '1px solid #D4C4F0', fontFamily: FONT_BODY }}
+          style={{ backgroundColor: 'white', color: 'var(--hz-primary)', border: '1px solid #D4C4F0', fontFamily: FONT_BODY }}
         >
           Open Progress
         </button>
@@ -181,8 +181,8 @@ export default function CompanyReportsScreen({
     <div className="h-full flex" style={{ backgroundColor: COMPANY_ROLLUP_CANVAS }}>
       <PartnerNavRail active="reports" onNavigate={onNavigate} organizationId={organizationId ?? undefined} />
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="hidden md:flex h-[64px] shrink-0 items-center px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
-          <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+        <header className="hidden md:flex h-[64px] shrink-0 items-center px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+          <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
             Reports
           </h1>
         </header>
@@ -190,13 +190,13 @@ export default function CompanyReportsScreen({
         <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
           <div className="max-w-[880px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-24 md:pb-12 flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <p className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1] m-0" style={{ fontFamily: FONT_MONO }}>
+              <p className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-primary)] m-0" style={{ fontFamily: FONT_MONO }}>
                 Company Reports
               </p>
-              <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
+              <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
                 {currentOrganization?.name ?? 'Your company'}
               </h2>
-              <p className="text-[13.5px] text-[#68636D] m-0 max-w-[580px]" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 max-w-[580px]" style={{ fontFamily: FONT_BODY }}>
                 An index of each project’s Construction Record — stage, progress, documents, and company operations.
               </p>
             </div>
@@ -224,8 +224,8 @@ export default function CompanyReportsScreen({
             {phase === 'ready' && summary && (
               <>
                 <section
-                  className="rounded-[14px] bg-white p-4 sm:p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
-                  style={{ border: '1px solid #E3DDD7' }}
+                  className="rounded-[14px] bg-[var(--hz-surface)] p-4 sm:p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
+                  style={{ border: '1px solid var(--hz-border)' }}
                   aria-label="Company construction record totals"
                 >
                   <Stat label="Projects" value={summary.totals.projectCount} />

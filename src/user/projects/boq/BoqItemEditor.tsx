@@ -7,7 +7,7 @@ const FONT_BODY = '"Inter Variable", sans-serif'
 const FONT_HEAD = '"Geist Variable", sans-serif'
 
 const FOCUS_RING =
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
 
 // ─── BOQ item editor — Module 07 ────────────────────────────────────────────
 // One form for adding, duplicating (an add, pre-filled) and editing a Bill of
@@ -336,17 +336,17 @@ export default function BoqItemEditor({
 
   const heading = title ?? (mode === 'add' ? 'Add item' : 'Edit item')
   const fieldText = isSheet ? 'text-[16px]' : 'text-[13.5px]'
-  const labelClass = 'block text-[12.5px] font-semibold text-[#242326] mb-1.5'
-  const inputBase = `w-full px-3 rounded-[10px] ${fieldText} text-[#242326] ${FOCUS_RING}`
+  const labelClass = 'block text-[12.5px] font-semibold text-[var(--hz-ink)] mb-1.5'
+  const inputBase = `w-full px-3 rounded-[10px] ${fieldText} text-[var(--hz-ink)] ${FOCUS_RING}`
   const controlClass = `${inputBase} h-11`
   const styleFor = (field?: FieldName) => ({
-    border: `1px solid ${field && shown(field) ? '#DC2626' : '#E3DDD7'}`,
+    border: `1px solid ${field && shown(field) ? 'var(--hz-danger)' : 'var(--hz-border)'}`,
     fontFamily: FONT_BODY,
     backgroundColor: 'white',
   })
   const fieldError = (field: FieldName) =>
     shown(field) ? (
-      <p id={errorId(field)} className="text-[12.5px] text-[#DC2626] m-0 mt-1.5 break-words" style={{ fontFamily: FONT_BODY }}>
+      <p id={errorId(field)} className="text-[12.5px] text-[var(--hz-danger)] m-0 mt-1.5 break-words" style={{ fontFamily: FONT_BODY }}>
         {errors[field]}
       </p>
     ) : null
@@ -493,13 +493,13 @@ export default function BoqItemEditor({
         {fieldError('rate')}
         {/* Preview only — the saved amount is computed by the server. */}
         <p id={ids.preview} className="m-0 mt-2 min-w-0" style={{ fontFamily: FONT_BODY }}>
-          <span className="block text-[13px] font-semibold text-[#242326] tabular-nums break-words">
+          <span className="block text-[13px] font-semibold text-[var(--hz-ink)] tabular-nums break-words">
             Amount ≈ {amount === null ? '—' : formatInr(amount)}
           </span>
-          <span className="block text-[12px] text-[#68636D] mt-0.5">The saved amount is calculated on save.</span>
+          <span className="block text-[12px] text-[var(--hz-ink-muted)] mt-0.5">The saved amount is calculated on save.</span>
         </p>
         {errors.amount && (
-          <p id={`${ids.rate}-amount-error`} className="text-[12.5px] text-[#DC2626] m-0 mt-1.5 break-words" style={{ fontFamily: FONT_BODY }}>{errors.amount}</p>
+          <p id={`${ids.rate}-amount-error`} className="text-[12.5px] text-[var(--hz-danger)] m-0 mt-1.5 break-words" style={{ fontFamily: FONT_BODY }}>{errors.amount}</p>
         )}
       </div>
     </div>
@@ -507,13 +507,13 @@ export default function BoqItemEditor({
 
   const submitLabel = busy ? 'Saving…' : mode === 'add' ? 'Add item' : 'Save item'
   const errorNode = serverError ? (
-    <p role="alert" className="text-[12.5px] text-[#DC2626] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{serverError}</p>
+    <p role="alert" className="text-[12.5px] text-[var(--hz-danger)] m-0 break-words" style={{ fontFamily: FONT_BODY }}>{serverError}</p>
   ) : null
   const submitButton = (
     <button
       type="submit"
       aria-disabled={busy}
-      className={`h-11 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 text-white bg-[#722ED1] ${busy ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-[#5A22A8]'} ${FOCUS_RING}`}
+      className={`h-11 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 text-white bg-[var(--hz-primary)] ${busy ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-[#5A22A8]'} ${FOCUS_RING}`}
       style={{ fontFamily: FONT_BODY, opacity: busy ? 0.6 : 1 }}
     >
       {submitLabel}
@@ -524,7 +524,7 @@ export default function BoqItemEditor({
       type="button"
       aria-disabled={busy}
       onClick={cancel}
-      className={`inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-3 rounded-[10px] text-[13px] font-medium text-[#68636D] hover:text-[#242326] border-0 bg-transparent ${busy ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} ${FOCUS_RING}`}
+      className={`inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-3 rounded-[10px] text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] border-0 bg-transparent ${busy ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} ${FOCUS_RING}`}
       style={{ fontFamily: FONT_BODY }}
     >
       Cancel
@@ -539,9 +539,9 @@ export default function BoqItemEditor({
         onSubmit={handleSubmit}
         onKeyDown={handleKeyDown}
         className="rounded-[12px] p-4 flex flex-col gap-4 min-w-0"
-        style={{ border: '1px solid #E3DDD7', backgroundColor: '#FFFFFF' }}
+        style={{ border: '1px solid var(--hz-border)', backgroundColor: 'var(--hz-surface)' }}
       >
-        <h3 id={ids.title} className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{heading}</h3>
+        <h3 id={ids.title} className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{heading}</h3>
         {fields}
         {errorNode}
         <div className="flex items-center gap-2 flex-wrap">
@@ -560,25 +560,25 @@ export default function BoqItemEditor({
       aria-modal="true"
       aria-labelledby={ids.title}
       onKeyDown={handleKeyDown}
-      className="fixed inset-0 z-[100] bg-white flex flex-col"
+      className="fixed inset-0 z-[100] bg-[var(--hz-surface)] flex flex-col"
     >
       <form noValidate onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
-        <div className="shrink-0 flex items-center justify-between gap-3 h-14 pl-4 pr-2" style={{ borderBottom: '1px solid #E3DDD7' }}>
-          <h2 id={ids.title} className="text-[16px] font-semibold text-[#242326] m-0 min-w-0 break-words" style={{ fontFamily: FONT_HEAD }}>{heading}</h2>
+        <div className="shrink-0 flex items-center justify-between gap-3 h-14 pl-4 pr-2" style={{ borderBottom: '1px solid var(--hz-border)' }}>
+          <h2 id={ids.title} className="text-[16px] font-semibold text-[var(--hz-ink)] m-0 min-w-0 break-words" style={{ fontFamily: FONT_HEAD }}>{heading}</h2>
           <button
             type="button"
             aria-label="Close without saving"
             aria-disabled={busy}
             onClick={cancel}
-            className={`shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-[10px] text-[#68636D] hover:text-[#242326] border-0 bg-transparent ${busy ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} ${FOCUS_RING}`}
+            className={`shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-[10px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] border-0 bg-transparent ${busy ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} ${FOCUS_RING}`}
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M4 4l10 10M14 4L4 14" /></svg>
           </button>
         </div>
         <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-4">{fields}</div>
         <div
-          className="shrink-0 flex flex-col gap-3 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] bg-white"
-          style={{ borderTop: '1px solid #E3DDD7' }}
+          className="shrink-0 flex flex-col gap-3 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] bg-[var(--hz-surface)]"
+          style={{ borderTop: '1px solid var(--hz-border)' }}
         >
           {errorNode}
           <div className="flex items-center gap-2 [&>button:first-child]:flex-1">

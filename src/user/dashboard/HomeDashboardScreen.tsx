@@ -49,18 +49,18 @@ const IcoMapPin = () => (
 
 function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNavigate: (s: string) => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
           Home
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <button type="button" onClick={() => onNavigate('notifications')} aria-label="Notifications" className="min-w-11 min-h-11 w-11 h-11 flex items-center justify-center text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent rounded-[10px] outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
+        <button type="button" onClick={() => onNavigate('notifications')} aria-label="Notifications" className="min-w-11 min-h-11 w-11 h-11 flex items-center justify-center text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent rounded-[10px] outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2">
           <IcoBell />
         </button>
-        <button type="button" onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="min-w-11 min-h-11 w-11 h-11 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+        <button type="button" onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="min-w-11 min-h-11 w-11 h-11 rounded-full bg-[var(--hz-primary)] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           {userInitials}
         </button>
       </div>
@@ -70,19 +70,19 @@ function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNa
 
 function TopHeader({ userInitials, onNavigate }: { userInitials: string; onNavigate: (s: string) => void }) {
   return (
-    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#E3DDD7]">
-      <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+      <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
         Home
       </h1>
       <div className="flex items-center gap-3">
-        <button type="button" onClick={() => onNavigate('notifications')} aria-label="Notifications" className="min-w-11 min-h-11 w-11 h-11 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
+        <button type="button" onClick={() => onNavigate('notifications')} aria-label="Notifications" className="min-w-11 min-h-11 w-11 h-11 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2">
           <IcoBell />
         </button>
-        <button type="button" aria-label="Help" className="min-w-11 min-h-11 w-11 h-11 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
+        <button type="button" aria-label="Help" className="min-w-11 min-h-11 w-11 h-11 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2">
           <IcoCircleHelp />
         </button>
-        <button type="button" onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="flex items-center gap-2 ml-1 min-h-11 px-2 py-1 rounded-[10px] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
-          <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+        <button type="button" onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="flex items-center gap-2 ml-1 min-h-11 px-2 py-1 rounded-[10px] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2">
+          <div className="w-8 h-8 rounded-full bg-[var(--hz-primary)] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
             {userInitials}
           </div>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#808080" strokeWidth="1.5" strokeLinecap="round">
@@ -98,28 +98,28 @@ function GreetingSection({ preferredName, city, state }: { preferredName: string
   return (
     <div className="flex flex-col gap-2 mb-6">
       <span
-        className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase"
+        className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase"
         style={{ fontFamily: FONT_MONO, animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}
       >
         Your Construction Workspace
       </span>
       <div style={{ animation: 'welcomeFadeUp 0.45s ease-out 0.12s both' }}>
         <h1
-          className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.1] m-0"
+          className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.1] m-0"
           style={{ fontFamily: FONT_HEAD }}
         >
           {greetingWord()}{preferredName ? `, ${preferredName}` : ''}.
         </h1>
       </div>
       <p
-        className="text-[14px] text-[#68636D] leading-[1.6] m-0"
+        className="text-[14px] text-[var(--hz-ink-muted)] leading-[1.6] m-0"
         style={{ fontFamily: FONT_BODY, animation: 'welcomeFadeUp 0.45s ease-out 0.2s both' }}
       >
         Linked projects and shared construction progress show up here.
       </p>
       {city && (
         <div className="flex items-center gap-2 mt-1" style={{ animation: 'welcomeFadeUp 0.45s ease-out 0.24s both' }}>
-          <span className="flex items-center gap-1 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+          <span className="flex items-center gap-1 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
             <IcoMapPin /> {[city, state].filter(Boolean).join(', ')}
           </span>
         </div>
@@ -131,32 +131,32 @@ function GreetingSection({ preferredName, city, state }: { preferredName: string
 function HozieHeroCard({ onAsk }: { onAsk: () => void }) {
   return (
     <div
-      className="w-full bg-white rounded-[24px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4"
+      className="w-full bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4"
       style={{ boxShadow: '0 2px 20px rgba(243,234,255,0.07), 0 1px 4px rgba(0,0,0,0.04)' }}
     >
       <div className="flex items-center gap-3">
-        <div className="relative flex items-center justify-center rounded-[14px] bg-[#F3EAFF] shrink-0" style={{ width: 44, height: 44 }}>
+        <div className="relative flex items-center justify-center rounded-[14px] bg-[var(--hz-primary-soft)] shrink-0" style={{ width: 44, height: 44 }}>
           <HIcon size={28} />
         </div>
         <div className="flex flex-col gap-0.5">
-          <span className="text-[15px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>
+          <span className="text-[15px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>
             HOZIE
           </span>
-          <span className="text-[11px] tracking-[0.08em] text-[#722ED1] leading-none" style={{ fontFamily: FONT_MONO }}>
+          <span className="text-[11px] tracking-[0.08em] text-[var(--hz-primary)] leading-none" style={{ fontFamily: FONT_MONO }}>
             AI CONSTRUCTION ADVISOR
           </span>
         </div>
         <div className="ml-auto flex items-center gap-1.5">
-          <span className="w-[7px] h-[7px] rounded-full bg-[#722ED1] shrink-0" style={{ animation: 'hozieStatusPulse 2.2s ease-in-out infinite' }} />
-          <span className="text-[12px] text-[#722ED1] tracking-[0.06em]" style={{ fontFamily: FONT_MONO }}>READY</span>
+          <span className="w-[7px] h-[7px] rounded-full bg-[var(--hz-primary)] shrink-0" style={{ animation: 'hozieStatusPulse 2.2s ease-in-out infinite' }} />
+          <span className="text-[12px] text-[var(--hz-primary)] tracking-[0.06em]" style={{ fontFamily: FONT_MONO }}>READY</span>
         </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <h2 className="text-[20px] sm:text-[24px] font-medium text-[#242326] leading-tight m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+        <h2 className="text-[20px] sm:text-[24px] font-medium text-[var(--hz-ink)] leading-tight m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Questions about your construction record?
         </h2>
-        <p className="text-[14px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[14px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Ask about shared progress, project stages, or what to review next on a linked project.
         </p>
       </div>
@@ -164,7 +164,7 @@ function HozieHeroCard({ onAsk }: { onAsk: () => void }) {
       <button
         type="button"
         onClick={onAsk}
-        className="self-start min-h-11 px-5 rounded-[12px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+        className="self-start min-h-11 px-5 rounded-[12px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
         style={{ fontFamily: FONT_BODY }}
       >
         Ask Hozie
@@ -183,11 +183,11 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
   }
 
   return (
-    <div className="w-full bg-white rounded-[20px] border border-[#E3DDD7] p-4 sm:p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <label htmlFor="ai-prompt-input" className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>
+    <div className="w-full bg-[var(--hz-surface)] rounded-[20px] border border-[var(--hz-border)] p-4 sm:p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <label htmlFor="ai-prompt-input" className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>
         Ask Hozie
       </label>
-      <div className="flex items-center gap-3 bg-[#FFFFFF] border border-[#E3DDD7] rounded-[14px] px-4 h-[52px] focus-within:border-[#722ED1] focus-within:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all">
+      <div className="flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[14px] px-4 h-[52px] focus-within:border-[var(--hz-primary)] focus-within:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all">
         <div className="shrink-0 flex items-center justify-center opacity-60">
           <HIcon size={16} />
         </div>
@@ -196,7 +196,7 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
           type="text"
           placeholder="Ask about your construction progress…"
           aria-label="Ask Hozie about your construction progress"
-          className="flex-1 bg-transparent outline-none text-[14px] text-[#242326] placeholder-[#9A949D]"
+          className="flex-1 bg-transparent outline-none text-[14px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)]"
           style={{ fontFamily: FONT_BODY }}
           value={value}
           onChange={e => setValue(e.target.value)}
@@ -208,8 +208,8 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
           disabled={!value.trim()}
           aria-label="Send to Hozie"
           className={[
-            'min-w-9 min-h-9 w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 transition-all duration-150 border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2',
-            value.trim() ? 'bg-[#722ED1] cursor-pointer hover:brightness-90 active:scale-95' : 'bg-[#F4F0EC] cursor-not-allowed',
+            'min-w-9 min-h-9 w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 transition-all duration-150 border-0 outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2',
+            value.trim() ? 'bg-[var(--hz-primary)] cursor-pointer hover:brightness-90 active:scale-95' : 'bg-[var(--hz-surface-muted)] cursor-not-allowed',
           ].join(' ')}
         >
           <IcoSend />
@@ -221,7 +221,7 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
             key={example}
             type="button"
             onClick={() => submit(example)}
-            className="text-[11.5px] text-[#68636D] bg-[#FFFFFF] border border-[#E3DDD7] rounded-full px-3 py-1.5 min-h-11 hover:border-[#722ED1] hover:text-[#722ED1] transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+            className="text-[11.5px] text-[var(--hz-ink-muted)] bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-full px-3 py-1.5 min-h-11 hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)] transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
             style={{ fontFamily: FONT_BODY }}
           >
             {example}
@@ -234,24 +234,24 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
 
 function ProjectsLoadingState() {
   return (
-    <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} role="status" aria-live="polite">
-      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading your linked projects…</p>
+    <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] p-10" style={{ border: '1px solid var(--hz-border)' }} role="status" aria-live="polite">
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Loading your linked projects…</p>
     </div>
   )
 }
 
 function ProjectsErrorState({ message, onRetry }: { message: string | null; onRetry: () => void }) {
   return (
-    <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} role="alert">
+    <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-[var(--hz-surface)] p-10" style={{ border: '1px solid var(--hz-border)' }} role="alert">
       <HIcon size={36} />
-      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Couldn’t load projects</p>
-      <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Couldn’t load projects</p>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
         {message ?? 'Something went wrong loading your linked projects. Please try again.'}
       </p>
       <button
         type="button"
         onClick={onRetry}
-        className="min-h-11 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+        className="min-h-11 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0 outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
         style={{ fontFamily: FONT_BODY }}
       >
         Try again
@@ -262,10 +262,10 @@ function ProjectsErrorState({ message, onRetry }: { message: string | null; onRe
 
 function ProjectsEmptyState() {
   return (
-    <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-[var(--hz-surface)] p-10" style={{ border: '1px solid var(--hz-border)' }}>
       <HIcon size={36} />
-      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No linked projects yet</p>
-      <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>No linked projects yet</p>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
         When a builder shares a project with you, it will appear here with Overview and Progress.
       </p>
     </div>
@@ -284,12 +284,12 @@ function InviteProjectCard({
   onAccept: () => void
 }) {
   return (
-    <div className="rounded-[14px] bg-white p-4 sm:p-5" style={{ border: '1px solid #E3DDD7' }}>
-      <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-2" style={{ fontFamily: FONT_MONO }}>Invite</p>
-      <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+    <div className="rounded-[14px] bg-[var(--hz-surface)] p-4 sm:p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-2" style={{ fontFamily: FONT_MONO }}>Invite</p>
+      <h3 className="text-[16px] sm:text-[18px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
         Join {project.name}
       </h3>
-      <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
         {project.organizationName ?? 'Your builder'} invited you to follow this project.
       </p>
       {error && <p className="text-[13px] text-[#B91C1C] m-0 mt-2" role="alert">{error}</p>}
@@ -297,8 +297,8 @@ function InviteProjectCard({
         type="button"
         disabled={busy}
         onClick={onAccept}
-        className="min-h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 disabled:opacity-60 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
-        style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+        className="min-h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 disabled:opacity-60 outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
+        style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
       >
         {busy ? 'Joining…' : 'Join this project'}
       </button>
@@ -315,17 +315,17 @@ function ActiveProjectCard({
 }) {
   const nav = customerHomeProjectNavData(project)
   return (
-    <div className="rounded-[14px] bg-white p-4 sm:p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[14px] bg-[var(--hz-surface)] p-4 sm:p-5 flex flex-col gap-3" style={{ border: '1px solid var(--hz-border)' }}>
       <div className="min-w-0">
-        <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>
+        <h3 className="text-[16px] sm:text-[18px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>
           {project.name}
         </h3>
-        <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
           {project.stage ?? 'Construction in progress'}
           {project.organizationName ? ` · ${project.organizationName}` : ''}
         </p>
         {project.location && (
-          <span className="flex items-center gap-1 text-[12.5px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+          <span className="flex items-center gap-1 text-[12.5px] text-[var(--hz-ink-muted)] mt-1.5" style={{ fontFamily: FONT_BODY }}>
             <IcoMapPin /> {project.location}
           </span>
         )}
@@ -334,16 +334,16 @@ function ActiveProjectCard({
         <button
           type="button"
           onClick={() => onNavigate('project-overview', nav)}
-          className="min-h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
-          style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+          className="min-h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
+          style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
         >
           Overview
         </button>
         <button
           type="button"
           onClick={() => onNavigate('project-progress', nav)}
-          className="min-h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
-          style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+          className="min-h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
+          style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
         >
           Progress
         </button>
@@ -371,10 +371,10 @@ function LinkedProjectsSection({
   return (
     <section className="flex flex-col gap-4" aria-labelledby="linked-projects-heading" style={{ animation: 'welcomeFadeUp 0.45s ease-out 0.18s both' }}>
       <div className="flex flex-col gap-1">
-        <span className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>
+        <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>
           Construction
         </span>
-        <h2 id="linked-projects-heading" className="text-[18px] sm:text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+        <h2 id="linked-projects-heading" className="text-[18px] sm:text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
           {total === 1 ? '1 linked project' : `${total} linked projects`}
         </h2>
       </div>
@@ -464,7 +464,7 @@ export default function HomeDashboardScreen({
   const projectsError = sharedProjects.status === 'error'
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar userInitials={userInitials} onNavigate={onNavigate} />
 
       <div className="flex flex-1 min-h-0 relative z-10">

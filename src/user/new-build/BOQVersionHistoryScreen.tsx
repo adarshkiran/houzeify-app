@@ -164,7 +164,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -183,9 +183,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4">
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -207,7 +207,7 @@ function formatDate(iso: string): string {
 // ─── Status badge — never color-only ────────────────────────────────────────
 
 const STATUS_META: Record<BOQVersionStatus, { label: string; bg: string; fg: string; dot: string }> = {
-  active: { label: 'Active', bg: '#F3EAFF', fg: '#722ED1', dot: '#722ED1' },
+  active: { label: 'Active', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)', dot: 'var(--hz-primary)' },
   draft: { label: 'Draft', bg: '#CAC7C6', fg: '#808080', dot: '#A1A1A1' },
   superseded: { label: 'Superseded', bg: '#F7F5F3', fg: '#A1A1A1', dot: '#CAC7C6' },
 }
@@ -230,32 +230,32 @@ function ActiveBOQCard({ version, estimateVersionNumber, onView, onDownload }: {
   return (
     <div
       className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-5"
-      style={{ border: '2px solid #722ED1', backgroundColor: '#F3EAFF' }}
+      style={{ border: '2px solid var(--hz-primary)', backgroundColor: 'var(--hz-primary-soft)' }}
     >
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Active BOQ</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Active BOQ</span>
         <StatusBadge status={version.status} />
       </div>
 
       <div className="flex flex-col gap-1">
-        <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>BOQ Version {version.versionNumber}</h2>
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+        <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>BOQ Version {version.versionNumber}</h2>
+        <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
           Created {formatDate(version.createdAt)} · Based on {estimateVersionNumber ? `Estimate Version ${estimateVersionNumber}` : 'your Estimate'}
         </span>
       </div>
 
       <div className="grid grid-cols-3 gap-3">
-        <div className="flex flex-col gap-1 p-3 rounded-[12px] bg-white/70">
-          <span className="text-[9px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Value</span>
-          <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{fmtL(version.totalValue ?? 0)}</span>
+        <div className="flex flex-col gap-1 p-3 rounded-[12px] bg-[var(--hz-surface)]/70">
+          <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Value</span>
+          <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{fmtL(version.totalValue ?? 0)}</span>
         </div>
-        <div className="flex flex-col gap-1 p-3 rounded-[12px] bg-white/70">
-          <span className="text-[9px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Items</span>
-          <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{version.itemCount}</span>
+        <div className="flex flex-col gap-1 p-3 rounded-[12px] bg-[var(--hz-surface)]/70">
+          <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Items</span>
+          <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{version.itemCount}</span>
         </div>
-        <div className="flex flex-col gap-1 p-3 rounded-[12px] bg-white/70">
-          <span className="text-[9px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>AI Confidence</span>
-          <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{version.confidence}%</span>
+        <div className="flex flex-col gap-1 p-3 rounded-[12px] bg-[var(--hz-surface)]/70">
+          <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>AI Confidence</span>
+          <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{version.confidence}%</span>
         </div>
       </div>
 
@@ -264,10 +264,10 @@ function ActiveBOQCard({ version, estimateVersionNumber, onView, onDownload }: {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2.5">
-        <button onClick={onView} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onView} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           View active BOQ →
         </button>
-        <button onClick={onDownload} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[#722ED1] text-[#722ED1] text-[13px] font-medium cursor-pointer bg-white hover:bg-[#F9F5FF] transition-colors" style={{ fontFamily: FONT_BODY }}>
+        <button onClick={onDownload} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[var(--hz-primary)] text-[var(--hz-primary)] text-[13px] font-medium cursor-pointer bg-[var(--hz-surface)] hover:bg-[#F9F5FF] transition-colors" style={{ fontFamily: FONT_BODY }}>
           Download PDF
         </button>
       </div>
@@ -311,70 +311,70 @@ function BOQVersionCard({ version, versions, projectId, estimateVersionNumber, i
       <span
         aria-hidden="true"
         className="absolute left-[9px] sm:left-[11px] top-1 w-3 h-3 rounded-full"
-        style={{ backgroundColor: version.status === 'active' ? '#722ED1' : '#CAC7C6', boxShadow: version.status === 'active' ? '0 0 0 4px #F3EAFF' : 'none' }}
+        style={{ backgroundColor: version.status === 'active' ? 'var(--hz-primary)' : '#CAC7C6', boxShadow: version.status === 'active' ? '0 0 0 4px var(--hz-primary-soft)' : 'none' }}
       />
       {!isFirst && (
-        <span aria-hidden="true" className="absolute left-[14px] sm:left-[16px] -top-6 w-px h-6" style={{ backgroundColor: '#F4F0EC' }} />
+        <span aria-hidden="true" className="absolute left-[14px] sm:left-[16px] -top-6 w-px h-6" style={{ backgroundColor: 'var(--hz-surface-muted)' }} />
       )}
 
       <div
-        className="bg-white rounded-[16px] p-5 flex flex-col gap-4"
-        style={{ border: version.status === 'active' ? '2px solid #722ED1' : '1px solid #CAC7C6' }}
+        className="bg-[var(--hz-surface)] rounded-[16px] p-5 flex flex-col gap-4"
+        style={{ border: version.status === 'active' ? '2px solid var(--hz-primary)' : '1px solid #CAC7C6' }}
       >
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Version {version.versionNumber}</span>
+            <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Version {version.versionNumber}</span>
             <StatusBadge status={version.status} />
           </div>
-          <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Created {formatDate(version.createdAt)}</span>
+          <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Created {formatDate(version.createdAt)}</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div className="flex flex-col gap-0.5">
-            <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Estimate</span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{estimateVersionNumber ? `Version ${estimateVersionNumber}` : '—'}</span>
+            <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Estimate</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{estimateVersionNumber ? `Version ${estimateVersionNumber}` : '—'}</span>
           </div>
           <div className="flex flex-col gap-0.5">
-            <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>BOQ Value</span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{fmtL(version.totalValue ?? 0)}</span>
+            <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>BOQ Value</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{fmtL(version.totalValue ?? 0)}</span>
           </div>
           <div className="flex flex-col gap-0.5">
-            <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Items</span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{version.itemCount}</span>
+            <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Items</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{version.itemCount}</span>
           </div>
           <div className="flex flex-col gap-0.5">
-            <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Changes</span>
+            <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Changes</span>
             {diff ? (
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                 {diff.itemCountDiff !== 0 ? `${diff.itemCountDiff > 0 ? '+' : ''}${diff.itemCountDiff} items · ` : ''}{formatSigned(diff.totalValueDiff)}
               </span>
             ) : (
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>—</span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>—</span>
             )}
           </div>
         </div>
 
         <div className="flex items-start gap-2">
-          <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D] shrink-0 pt-0.5" style={{ fontFamily: FONT_MONO }}>Reason</span>
-          <p className="text-[13px] text-[#242326] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>{version.changeSummary}</p>
+          <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)] shrink-0 pt-0.5" style={{ fontFamily: FONT_MONO }}>Reason</span>
+          <p className="text-[13px] text-[var(--hz-ink)] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>{version.changeSummary}</p>
         </div>
 
-        <div className="flex items-center justify-between gap-2 flex-wrap pt-1" style={{ borderTop: '1px solid #FFFFFF' }}>
-          <span className="text-[11px] text-[#9A949D] pt-3" style={{ fontFamily: FONT_BODY }}>Created by {version.createdBy}{changes.length > 0 ? ` · ${changes.length} line changes` : ''}</span>
+        <div className="flex items-center justify-between gap-2 flex-wrap pt-1" style={{ borderTop: '1px solid var(--hz-surface)' }}>
+          <span className="text-[11px] text-[var(--hz-ink-subtle)] pt-3" style={{ fontFamily: FONT_BODY }}>Created by {version.createdBy}{changes.length > 0 ? ` · ${changes.length} line changes` : ''}</span>
           <div className="flex items-center gap-2 pt-3 flex-wrap">
-            <button onClick={onView} className="h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
+            <button onClick={onView} className="h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
               View
             </button>
             {canCompare && (
-              <button onClick={onCompare} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
+              <button onClick={onCompare} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
                 <IcoCompare /> Compare
               </button>
             )}
-            <button onClick={onDownload} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
+            <button onClick={onDownload} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
               <IcoDownload /> Download
             </button>
             {version.status === 'active' && (
-              <button onClick={onCreateRevision} className="h-8 px-3 rounded-[8px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+              <button onClick={onCreateRevision} className="h-8 px-3 rounded-[8px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                 Create revision
               </button>
             )}
@@ -382,7 +382,7 @@ function BOQVersionCard({ version, versions, projectId, estimateVersionNumber, i
         </div>
 
         {version.status !== 'active' && (
-          <p className="text-[11px] text-[#9A949D] leading-[1.5] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+          <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.5] m-0 italic" style={{ fontFamily: FONT_BODY }}>
             Historical versions can't be edited directly — create a new version based on this one instead.
           </p>
         )}
@@ -410,25 +410,25 @@ function VersionRelationship({ versions, estimateVersionNumber, onOpenEstimate }
             <button
               onClick={() => onOpenEstimate(estId)}
               className="text-[13px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-              style={{ color: '#242326', fontFamily: FONT_HEAD }}
+              style={{ color: 'var(--hz-ink)', fontFamily: FONT_HEAD }}
             >
               {estimateVersionNumber ? `Estimate V${estimateVersionNumber}` : 'Estimate'}
             </button>
             {boqs.map((v, i) => (
               <div key={v.id} className="flex flex-col items-start gap-1">
                 {i === 0 ? (
-                  <span aria-hidden="true" className="text-[#9A949D]"><IcoArrowDown /></span>
+                  <span aria-hidden="true" className="text-[var(--hz-ink-subtle)]"><IcoArrowDown /></span>
                 ) : (
                   <span className="flex items-center gap-1.5">
-                    <span aria-hidden="true" className="text-[#9A949D]"><IcoArrowDown /></span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-[5px]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>BOQ adjustment only</span>
+                    <span aria-hidden="true" className="text-[var(--hz-ink-subtle)]"><IcoArrowDown /></span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-[5px]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>BOQ adjustment only</span>
                   </span>
                 )}
                 <span
                   className="text-[12px] px-2.5 py-1 rounded-full"
                   style={{
-                    backgroundColor: v.status === 'active' ? '#F3EAFF' : '#F7F5F3',
-                    color: v.status === 'active' ? '#722ED1' : '#808080',
+                    backgroundColor: v.status === 'active' ? 'var(--hz-primary-soft)' : '#F7F5F3',
+                    color: v.status === 'active' ? 'var(--hz-primary)' : '#808080',
                     fontFamily: FONT_MONO,
                   }}
                 >
@@ -461,16 +461,16 @@ function BOQReadiness({ version }: { version: BOQVersion }) {
       <div className="flex flex-col gap-2">
         {items.map(i => (
           <div key={i.label} className="flex items-center justify-between">
-            <span className="text-[13px]" style={{ fontFamily: FONT_BODY, color: i.done ? '#1E1E1E' : '#A1A1A1' }}>{i.label}</span>
+            <span className="text-[13px]" style={{ fontFamily: FONT_BODY, color: i.done ? 'var(--hz-black)' : '#A1A1A1' }}>{i.label}</span>
             {i.done ? (
-              <span className="w-[18px] h-[18px] rounded-full flex items-center justify-center" style={{ backgroundColor: '#722ED1' }}><IcoCheck /></span>
+              <span className="w-[18px] h-[18px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)' }}><IcoCheck /></span>
             ) : (
-              <span className="w-[18px] h-[18px] rounded-full border" style={{ borderColor: '#E3DDD7' }} />
+              <span className="w-[18px] h-[18px] rounded-full border" style={{ borderColor: 'var(--hz-border)' }} />
             )}
           </div>
         ))}
       </div>
-      <p className="text-[12px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
         Complete plan analysis and structural validation before sending this BOQ to contractors.
       </p>
     </SectionCard>
@@ -483,13 +483,13 @@ function HozieInsight({ message, onAskHozie }: { message: string; onAskHozie: ()
   return (
     <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
       <div className="flex items-center gap-2.5">
-        <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-        <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Check</span>
+        <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Check</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
         "{message}"
       </p>
-      <button onClick={onAskHozie} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>Ask Hozie →</button>
+      <button onClick={onAskHozie} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Ask Hozie →</button>
     </div>
   )
 }
@@ -498,10 +498,10 @@ function HozieInsight({ message, onAskHozie }: { message: string; onAskHozie: ()
 
 function ChangeRow({ label, badge, badgeColor, children }: { label: string; badge: string; badgeColor: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-1.5 py-3" style={{ borderTop: '1px solid #FFFFFF' }}>
+    <div className="flex flex-col gap-1.5 py-3" style={{ borderTop: '1px solid var(--hz-surface)' }}>
       <div className="flex items-center gap-2">
-        <span className="text-[9px] uppercase tracking-[0.06em] px-1.5 py-0.5 rounded-[5px]" style={{ backgroundColor: badgeColor, color: '#FFFFFF', fontFamily: FONT_MONO }}>{badge}</span>
-        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+        <span className="text-[9px] uppercase tracking-[0.06em] px-1.5 py-0.5 rounded-[5px]" style={{ backgroundColor: badgeColor, color: 'var(--hz-on-primary)', fontFamily: FONT_MONO }}>{badge}</span>
+        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
       </div>
       {children}
     </div>
@@ -513,49 +513,49 @@ function ChangeList({ comparison }: { comparison: BOQVersionComparison }) {
   const hasDetail = comparison.added.length + comparison.modified.length + comparison.removed.length > 0
 
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] overflow-hidden">
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] overflow-hidden">
       <button
         onClick={() => setExpanded(e => !e)}
         aria-expanded={expanded}
         className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left cursor-pointer border-0 bg-transparent"
       >
-        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>What changed?</span>
+        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>What changed?</span>
         <span className="flex items-center gap-3">
-          <span className="text-[11px]" style={{ fontFamily: FONT_BODY, color: '#68636D' }}>
+          <span className="text-[11px]" style={{ fontFamily: FONT_BODY, color: 'var(--hz-ink-muted)' }}>
             Added {comparison.added.length} · Modified {comparison.modified.length} · Removed {comparison.removed.length}
           </span>
-          <span className="text-[#68636D] transition-transform duration-200" style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}><IcoChevronDown /></span>
+          <span className="text-[var(--hz-ink-muted)] transition-transform duration-200" style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}><IcoChevronDown /></span>
         </span>
       </button>
 
       {expanded && (
         <div className="px-5 pb-5 flex flex-col">
           {!hasDetail && (
-            <p className="text-[12px] text-[#9A949D] m-0 py-3" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0 py-3" style={{ fontFamily: FONT_BODY }}>
               Detailed line-item changes aren't available for this comparison — only version-level totals.
             </p>
           )}
           {comparison.added.map(c => (
-            <ChangeRow key={c.id} label={c.itemName} badge="Added" badgeColor="#722ED1">
-              <div className="flex items-center justify-between text-[12px]" style={{ fontFamily: FONT_BODY, color: '#68636D' }}>
+            <ChangeRow key={c.id} label={c.itemName} badge="Added" badgeColor="var(--hz-primary)">
+              <div className="flex items-center justify-between text-[12px]" style={{ fontFamily: FONT_BODY, color: 'var(--hz-ink-muted)' }}>
                 <span>New item{c.newValue ? ` · ${c.newValue}` : ''}</span>
-                <span className="font-semibold" style={{ color: '#242326' }}>{formatSigned(c.costDifference)}</span>
+                <span className="font-semibold" style={{ color: 'var(--hz-ink)' }}>{formatSigned(c.costDifference)}</span>
               </div>
             </ChangeRow>
           ))}
           {comparison.modified.map(c => (
             <ChangeRow key={c.id} label={c.itemName} badge="Modified" badgeColor="#D97706">
-              <div className="flex items-center justify-between text-[12px]" style={{ fontFamily: FONT_BODY, color: '#68636D' }}>
+              <div className="flex items-center justify-between text-[12px]" style={{ fontFamily: FONT_BODY, color: 'var(--hz-ink-muted)' }}>
                 <span>{c.field}: {c.oldValue} <span aria-hidden="true">→</span> {c.newValue}</span>
-                <span className="font-semibold" style={{ color: '#242326' }}>{formatSigned(c.costDifference)}</span>
+                <span className="font-semibold" style={{ color: 'var(--hz-ink)' }}>{formatSigned(c.costDifference)}</span>
               </div>
             </ChangeRow>
           ))}
           {comparison.removed.map(c => (
             <ChangeRow key={c.id} label={c.itemName} badge="Removed" badgeColor="#A1A1A1">
-              <div className="flex items-center justify-between text-[12px]" style={{ fontFamily: FONT_BODY, color: '#68636D' }}>
+              <div className="flex items-center justify-between text-[12px]" style={{ fontFamily: FONT_BODY, color: 'var(--hz-ink-muted)' }}>
                 <span>Removed from BOQ</span>
-                <span className="font-semibold" style={{ color: '#242326' }}>{formatSigned(c.costDifference)}</span>
+                <span className="font-semibold" style={{ color: 'var(--hz-ink)' }}>{formatSigned(c.costDifference)}</span>
               </div>
             </ChangeRow>
           ))}
@@ -585,19 +585,19 @@ function VersionComparisonOverlay({ comparison, onClose }: { comparison: BOQVers
         role="dialog"
         aria-modal="true"
         aria-labelledby="compare-title"
-        className="fixed inset-0 sm:inset-y-0 sm:right-0 sm:left-auto z-50 w-full sm:w-[560px] bg-white flex flex-col"
+        className="fixed inset-0 sm:inset-y-0 sm:right-0 sm:left-auto z-50 w-full sm:w-[560px] bg-[var(--hz-surface)] flex flex-col"
         style={{ boxShadow: '-8px 0 40px rgba(36,35,38,0.12)' }}
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#E3DDD7] shrink-0">
-          <span id="compare-title" className="text-[10px] uppercase tracking-[0.10em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Version Comparison</span>
-          <button ref={closeRef} onClick={onClose} aria-label="Close comparison" className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--hz-border)] shrink-0">
+          <span id="compare-title" className="text-[10px] uppercase tracking-[0.10em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Version Comparison</span>
+          <button ref={closeRef} onClick={onClose} aria-label="Close comparison" className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-5">
           <div className="flex items-center justify-center gap-3">
-            <span className="text-[15px] font-semibold text-[#68636D]" style={{ fontFamily: FONT_HEAD }}>BOQ V{from.versionNumber}</span>
-            <span className="text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>vs</span>
-            <span className="text-[15px] font-semibold" style={{ fontFamily: FONT_HEAD, color: '#722ED1' }}>BOQ V{to.versionNumber}</span>
+            <span className="text-[15px] font-semibold text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_HEAD }}>BOQ V{from.versionNumber}</span>
+            <span className="text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>vs</span>
+            <span className="text-[15px] font-semibold" style={{ fontFamily: FONT_HEAD, color: 'var(--hz-primary)' }}>BOQ V{to.versionNumber}</span>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -607,12 +607,12 @@ function VersionComparisonOverlay({ comparison, onClose }: { comparison: BOQVers
               ['Material cost', fmtL(from.materialCost ?? 0), fmtL(to.materialCost ?? 0), formatSigned(comparison.materialCostDiff)],
               ['Labour cost', fmtL(from.labourCost ?? 0), fmtL(to.labourCost ?? 0), formatSigned(comparison.labourCostDiff)],
             ].map(([label, before, after, diff]) => (
-              <div key={label} className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
-                <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{label}</span>
-                <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                  {before} <span aria-hidden="true" style={{ color: '#9A949D' }}>→</span> <span className="font-semibold">{after}</span>
+              <div key={label} className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: 'var(--hz-surface)' }}>
+                <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{label}</span>
+                <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                  {before} <span aria-hidden="true" style={{ color: 'var(--hz-ink-subtle)' }}>→</span> <span className="font-semibold">{after}</span>
                 </span>
-                <span className="text-[11px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_MONO }}>{diff}</span>
+                <span className="text-[11px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>{diff}</span>
               </div>
             ))}
           </div>
@@ -627,7 +627,7 @@ function VersionComparisonOverlay({ comparison, onClose }: { comparison: BOQVers
 // ─── States ───────────────────────────────────────────────────────────────────
 
 function SkeletonBlock({ h = 14, w = '60%' }: { h?: number; w?: string }) {
-  return <div className="rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', height: h, width: w }} />
+  return <div className="rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', height: h, width: w }} />
 }
 
 function LoadingSkeleton() {
@@ -639,7 +639,7 @@ function LoadingSkeleton() {
         <SkeletonBlock h={12} w="60%" />
       </div>
       {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="bg-white rounded-[16px] border border-[#E3DDD7] p-6 flex flex-col gap-3">
+        <div key={i} className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-6 flex flex-col gap-3">
           <SkeletonBlock h={10} w="25%" />
           <SkeletonBlock h={16} w="70%" />
           <SkeletonBlock h={16} w="50%" />
@@ -651,19 +651,19 @@ function LoadingSkeleton() {
 
 function ErrorPanel({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-white rounded-[16px] border border-[#E3DDD7]">
-      <span style={{ color: '#DC2626' }}><IcoAlert /></span>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Unable to load BOQ history. Try again.</p>
-      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Try again</button>
+    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <span style={{ color: 'var(--hz-danger)' }}><IcoAlert /></span>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Unable to load BOQ history. Try again.</p>
+      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Try again</button>
     </div>
   )
 }
 
 function NoVersionsPanel() {
   return (
-    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-white rounded-[16px] border border-[#E3DDD7]">
-      <span style={{ color: '#9A949D' }}><IcoEmptyBox /></span>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No BOQ versions have been created yet.</p>
+    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <span style={{ color: 'var(--hz-ink-subtle)' }}><IcoEmptyBox /></span>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No BOQ versions have been created yet.</p>
     </div>
   )
 }
@@ -739,31 +739,31 @@ export default function BOQVersionHistoryScreen({
 
   const downloadVersion = (_v: BOQVersion | undefined) => { /* no backend yet — PDF export is out of scope for this demo */ }
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <button onClick={goBOQ} aria-label="Back to BOQ" className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: FONT_BODY }}>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <button onClick={goBOQ} aria-label="Back to BOQ" className="flex items-center gap-1 text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: FONT_BODY }}>
           <IcoChevronLeft /> BOQ
         </button>
-        <span className="text-[15px] font-semibold text-[#242326] truncate px-2" style={{ fontFamily: FONT_HEAD }}>BOQ History</span>
-        <button onClick={() => downloadVersion(activeVersion)} aria-label="Download current BOQ" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate px-2" style={{ fontFamily: FONT_HEAD }}>BOQ History</span>
+        <button onClick={() => downloadVersion(activeVersion)} aria-label="Download current BOQ" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="boq" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>BOQ Version History</h1>
-              <span className="text-[13px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location} · {area}</span>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>BOQ Version History</h1>
+              <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location} · {area}</span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              <button onClick={goBOQ} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: FONT_BODY }}>
+              <button onClick={goBOQ} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all" style={{ fontFamily: FONT_BODY }}>
                 <IcoChevronLeft /> Back to BOQ
               </button>
-              <button onClick={() => downloadVersion(activeVersion)} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: FONT_BODY }}>
+              <button onClick={() => downloadVersion(activeVersion)} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all" style={{ fontFamily: FONT_BODY }}>
                 <IcoDownload /> Download current BOQ
               </button>
             </div>
@@ -773,12 +773,12 @@ return (
             <div className="max-w-[880px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col gap-6">
 
               <div className="flex flex-col gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
-                <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>BOQ History</span>
-                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Your BOQ versions.</h1>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[600px]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>BOQ History</span>
+                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Your BOQ versions.</h1>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[600px]" style={{ fontFamily: FONT_BODY }}>
                   Track how your Bill of Quantities has changed as your project details, estimate and construction assumptions are refined.
                 </p>
-                <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location} · {area}</span>
+                <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location} · {area}</span>
               </div>
 
               {/* Customer Implementation 10L — 'loading'/'error' removed:
@@ -795,7 +795,7 @@ return (
                   </div>
 
                   <div className="flex flex-col gap-2" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.11s both' }}>
-                    <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase px-1" style={{ fontFamily: FONT_MONO }}>Version Timeline</span>
+                    <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase px-1" style={{ fontFamily: FONT_MONO }}>Version Timeline</span>
                     <div className="flex flex-col gap-5">
                       {versions.map((v, i) => (
                         <BOQVersionCard
@@ -847,7 +847,7 @@ return (
                     <button
                       onClick={createRevision}
                       className="w-full sm:w-auto h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all flex items-center justify-center gap-1.5"
-                      style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                      style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                     >
                       <IcoPlus /> Create new BOQ revision →
                     </button>

@@ -60,11 +60,11 @@ const IcoBell = () => (
   </svg>
 )
 const IcoCheck = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#722ED1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5" /></svg
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--hz-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5" /></svg
   >
 )
 const IcoShield = ({ size = 26 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 26 26" fill="none" stroke="#722ED1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg width={size} height={size} viewBox="0 0 26 26" fill="none" stroke="var(--hz-primary)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <path d="M13 3.5l8 3v5.5c0 5-3.4 8.7-8 10.5-4.6-1.8-8-5.5-8-10.5V6.5l8-3Z" />
     <path d="M9.5 13l2.5 2.5 5-5" />
   </svg>
@@ -90,7 +90,7 @@ const IcoFunnel = ({ size = 16 }: { size?: number }) => (
   </svg>
 )
 const IcoCheckMark = () => (
-  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="var(--hz-on-primary)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M2.5 7.3L5.3 10L11.5 3.5" />
   </svg>
 )
@@ -217,12 +217,12 @@ const CONSULTATION_PRICE = 49
 
 function MobileTopBar({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2">
-        <button onClick={onBack} aria-label="Back to Services" className="w-8 h-8 -ml-1 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoBack /></button>
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Wall Panels</span>
+        <button onClick={onBack} aria-label="Back to Services" className="w-8 h-8 -ml-1 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoBack /></button>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Wall Panels</span>
       </div>
-      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
+      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
     </div>
   )
 }
@@ -234,22 +234,22 @@ function TopHeader({ onNavigate }: { onNavigate: (s: string, data?: Record<strin
   // decorative avatar.
   const { itemCount } = useCustomerCart()
   return (
-    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#E3DDD7]">
+    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
       <div className="flex items-center gap-3">
-        <button onClick={() => onNavigate('home-services')} aria-label="Back to Services" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"><IcoBack /></button>
-        <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Wall Panels</h1>
+        <button onClick={() => onNavigate('home-services')} aria-label="Back to Services" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"><IcoBack /></button>
+        <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Wall Panels</h1>
       </div>
       <div className="flex items-center gap-2">
-        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all"><IcoBell /></button>
+        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all"><IcoBell /></button>
         <button
           onClick={() => onNavigate('booking-details', { hoziehelper_checkout_origin: 'wall-panels-installation' })}
           aria-label={itemCount ? `Cart (${itemCount} item${itemCount === 1 ? '' : 's'})` : 'Cart'}
-          className="relative w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"
+          className="relative w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"
         >
           <IcoCart />
           {itemCount > 0 && (
             <span
-              className="absolute top-0.5 right-0.5 min-w-[15px] h-[15px] px-[3px] rounded-full bg-[#722ED1] text-white flex items-center justify-center text-[9px] font-bold leading-none"
+              className="absolute top-0.5 right-0.5 min-w-[15px] h-[15px] px-[3px] rounded-full bg-[var(--hz-primary)] text-white flex items-center justify-center text-[9px] font-bold leading-none"
               style={{ fontFamily: FONT_MONO }}
               aria-hidden="true"
             >
@@ -270,34 +270,34 @@ function HeroBanner({ onExplore, onBookConsultation }: { onExplore: () => void; 
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px]"
-      style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, #F3EAFF 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="relative flex flex-col gap-4 px-5 sm:px-10 lg:px-12 py-8 sm:py-10">
-        <span className="text-[11px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Wall Panels</span>
-        <h2 className="text-[22px] sm:text-[30px] lg:text-[34px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0 max-w-[70%] sm:max-w-[420px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+        <span className="text-[11px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Wall Panels</span>
+        <h2 className="text-[22px] sm:text-[30px] lg:text-[34px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0 max-w-[70%] sm:max-w-[420px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Design walls that<br />feel finished.
         </h2>
-        <p className="text-[13px] sm:text-[14.5px] text-[#68636D] leading-[1.5] m-0 max-w-[70%] sm:max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13px] sm:text-[14.5px] text-[var(--hz-ink-muted)] leading-[1.5] m-0 max-w-[70%] sm:max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
           Fluted panels, textured finishes & more — sized to your room.
         </p>
         <div className="flex flex-wrap items-center gap-3 mt-1 max-w-[70%] sm:max-w-none">
           <button
             onClick={onExplore}
-            className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+            className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
             style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
           >
             Explore designs
           </button>
           <button
             onClick={onBookConsultation}
-            className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[13px] font-semibold cursor-pointer hover:bg-white hover:border-[#722ED1] transition-all bg-white/70 shrink-0"
+            className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[13px] font-semibold cursor-pointer hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)]/70 shrink-0"
             style={{ fontFamily: FONT_BODY }}
           >
             Book at-home consultation · ₹{CONSULTATION_PRICE}
           </button>
         </div>
       </div>
-      <div className="absolute right-0 bottom-0 top-0 w-[34%] sm:w-[38%] flex items-center justify-center text-[#722ED1] opacity-20">
+      <div className="absolute right-0 bottom-0 top-0 w-[34%] sm:w-[38%] flex items-center justify-center text-[var(--hz-primary)] opacity-20">
         <div style={{ transform: 'scale(3.2)' }}><IcoPanel size={40} /></div>
       </div>
     </div>
@@ -320,11 +320,11 @@ function TrustRow() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
       {TRUST_ITEMS.map(t => (
-        <div key={t.title} className="flex items-start gap-3 rounded-[12px] p-4" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #FAFAFF 100%)', border: '1px solid #EFE4FF' }}>
-          <div className="w-10 h-10 rounded-[10px] bg-[#F3EAFF] flex items-center justify-center text-[#722ED1] shrink-0">{t.icon}</div>
+        <div key={t.title} className="flex items-start gap-3 rounded-[12px] p-4" style={{ background: 'linear-gradient(180deg, var(--hz-surface) 0%, #FAFAFF 100%)', border: '1px solid #EFE4FF' }}>
+          <div className="w-10 h-10 rounded-[10px] bg-[var(--hz-primary-soft)] flex items-center justify-center text-[var(--hz-primary)] shrink-0">{t.icon}</div>
           <div className="flex flex-col gap-0.5 min-w-0">
-            <span className="text-[13.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{t.title}</span>
-            <span className="text-[12px] text-[#68636D] leading-snug" style={{ fontFamily: FONT_BODY }}>{t.subtitle}</span>
+            <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{t.title}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)] leading-snug" style={{ fontFamily: FONT_BODY }}>{t.subtitle}</span>
           </div>
         </div>
       ))}
@@ -351,8 +351,8 @@ function DesignTabs({ active, onSelect, filterActiveCount, onOpenFilter }: {
             className="h-9 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer transition-all shrink-0 border"
             style={
               active === tab.id
-                ? { background: '#722ED1', borderColor: '#722ED1', color: '#FFFFFF', fontFamily: FONT_BODY }
-                : { background: '#FFFFFF', borderColor: '#E3DDD7', color: '#68636D', fontFamily: FONT_BODY }
+                ? { background: 'var(--hz-primary)', borderColor: 'var(--hz-primary)', color: 'var(--hz-on-primary)', fontFamily: FONT_BODY }
+                : { background: 'var(--hz-surface)', borderColor: 'var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }
             }
           >
             {tab.label}
@@ -364,15 +364,15 @@ function DesignTabs({ active, onSelect, filterActiveCount, onOpenFilter }: {
         className="relative h-9 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer transition-all shrink-0 border flex items-center gap-1.5"
         style={
           filterActiveCount > 0
-            ? { background: '#F3EAFF', borderColor: '#722ED1', color: '#722ED1', fontFamily: FONT_BODY }
-            : { background: '#FFFFFF', borderColor: '#E3DDD7', color: '#68636D', fontFamily: FONT_BODY }
+            ? { background: 'var(--hz-primary-soft)', borderColor: 'var(--hz-primary)', color: 'var(--hz-primary)', fontFamily: FONT_BODY }
+            : { background: 'var(--hz-surface)', borderColor: 'var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }
         }
       >
         <IcoFunnel /> Filter
         {filterActiveCount > 0 && (
           <span
             className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-white text-[9.5px] font-semibold flex items-center justify-center"
-            style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
           >
             {filterActiveCount}
           </span>
@@ -385,12 +385,12 @@ function DesignTabs({ active, onSelect, filterActiveCount, onOpenFilter }: {
 // ─── Card chrome ─────────────────────────────────────────────────────
 
 const CARD_SURFACE: React.CSSProperties = {
-  background: 'linear-gradient(180deg, #FFFFFF 0%, #FAFAFF 100%)',
+  background: 'linear-gradient(180deg, var(--hz-surface) 0%, #FAFAFF 100%)',
   border: '1px solid #EFE4FF',
 }
 const NEUTRAL_BTN = 'h-8 px-3 rounded-[10px] border text-[12px] font-semibold cursor-pointer transition-all shrink-0'
-const NEUTRAL_BTN_DEFAULT = 'bg-white border-[#E3DDD7] text-[#722ED1] hover:bg-[#F3EAFF] hover:border-[#722ED1]'
-const NEUTRAL_BTN_ADDED = 'bg-[#F3EAFF] border-[#722ED1] text-[#722ED1] hover:bg-[#F3EAFF]'
+const NEUTRAL_BTN_DEFAULT = 'bg-[var(--hz-surface)] border-[var(--hz-border)] text-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)]'
+const NEUTRAL_BTN_ADDED = 'bg-[var(--hz-primary-soft)] border-[var(--hz-primary)] text-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)]'
 const NEUTRAL_BTN_FONT: React.CSSProperties = { fontFamily: FONT_BODY }
 
 function DesignCard({ design, cartCount, onBook, onViewDetails }: {
@@ -401,7 +401,7 @@ function DesignCard({ design, cartCount, onBook, onViewDetails }: {
 }) {
   return (
     <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 rounded-[12px] p-4" style={CARD_SURFACE}>
-      <div className="relative w-32 h-32 shrink-0 mx-auto sm:mx-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[#722ED1]">
+      <div className="relative w-32 h-32 shrink-0 mx-auto sm:mx-0 rounded-[8px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]">
         <IcoPanel size={40} />
         {design.newArrival && (
           <span
@@ -414,20 +414,20 @@ function DesignCard({ design, cartCount, onBook, onViewDetails }: {
       </div>
 
       <div className="flex-1 min-w-0 flex flex-col justify-center gap-1">
-        <span className="text-[15px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{design.name}</span>
-        <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-          Starts at <span className="font-semibold">₹{design.price.toLocaleString('en-IN')}</span> <span className="text-[#68636D]">for {design.wallSize} wall</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{design.name}</span>
+        <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+          Starts at <span className="font-semibold">₹{design.price.toLocaleString('en-IN')}</span> <span className="text-[var(--hz-ink-muted)]">for {design.wallSize} wall</span>
         </span>
         {design.extrasNote && (
-          <span className="text-[11.5px] text-[#9A949D] leading-snug underline decoration-[#E3DDD7] underline-offset-2" style={{ fontFamily: FONT_BODY }}>{design.extrasNote}</span>
+          <span className="text-[11.5px] text-[var(--hz-ink-subtle)] leading-snug underline decoration-[var(--hz-border)] underline-offset-2" style={{ fontFamily: FONT_BODY }}>{design.extrasNote}</span>
         )}
-        <button onClick={onViewDetails} className="self-start text-[12.5px] text-[#722ED1] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline mt-0.5" style={{ fontFamily: FONT_BODY }}>
+        <button onClick={onViewDetails} className="self-start text-[12.5px] text-[var(--hz-primary)] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline mt-0.5" style={{ fontFamily: FONT_BODY }}>
           View details
         </button>
       </div>
 
       <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3 sm:w-[160px] shrink-0">
-        <span className="text-[11px] text-[#9A949D] text-right" style={{ fontFamily: FONT_BODY }}>Final price after a free on-site measure</span>
+        <span className="text-[11px] text-[var(--hz-ink-subtle)] text-right" style={{ fontFamily: FONT_BODY }}>Final price after a free on-site measure</span>
         <button onClick={onBook} className={`${NEUTRAL_BTN} ${cartCount ? NEUTRAL_BTN_ADDED : NEUTRAL_BTN_DEFAULT}`} style={NEUTRAL_BTN_FONT}>
           {cartCount ? 'Consultation booked' : `Book · ₹${CONSULTATION_PRICE}`}
         </button>
@@ -448,31 +448,31 @@ function DesignDetailModal({ design, cartCount, onBook, onClose }: {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(36,35,38,0.45)' }} onClick={onClose}>
       <div
-        className="w-full max-w-[440px] max-h-[85vh] overflow-y-auto rounded-[16px] bg-white flex flex-col"
+        className="w-full max-w-[440px] max-h-[85vh] overflow-y-auto rounded-[16px] bg-[var(--hz-surface)] flex flex-col"
         style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#F4F0EC] sticky top-0 bg-white">
+        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[var(--hz-surface-muted)] sticky top-0 bg-[var(--hz-surface)]">
           <div className="flex flex-col gap-1 min-w-0">
             {design.newArrival && (
               <span className="self-start flex items-center gap-1 px-2 py-[3px] rounded-full text-[10px] font-semibold text-white whitespace-nowrap" style={{ backgroundColor: '#D4A017', fontFamily: FONT_BODY }}>
                 New arrival
               </span>
             )}
-            <span className="text-[16px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{design.name}</span>
+            <span className="text-[16px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{design.name}</span>
           </div>
-          <button onClick={onClose} aria-label="Close" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
+          <button onClick={onClose} aria-label="Close" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
             <IcoCloseX />
           </button>
         </div>
 
         <div className="flex flex-col gap-3 p-5">
-          <div className="w-16 h-16 rounded-[12px] flex items-center justify-center bg-[#F9F5FF] text-[#722ED1]"><IcoPanel size={32} /></div>
-          <span className="text-[13.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-            Starts at <span className="font-semibold">₹{design.price.toLocaleString('en-IN')}</span> <span className="text-[#68636D]">for {design.wallSize} wall</span>
+          <div className="w-16 h-16 rounded-[12px] flex items-center justify-center bg-[#F9F5FF] text-[var(--hz-primary)]"><IcoPanel size={32} /></div>
+          <span className="text-[13.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+            Starts at <span className="font-semibold">₹{design.price.toLocaleString('en-IN')}</span> <span className="text-[var(--hz-ink-muted)]">for {design.wallSize} wall</span>
           </span>
-          {design.extrasNote && <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{design.extrasNote}</span>}
-          <span className="text-[12px] text-[#68636D] leading-relaxed" style={{ fontFamily: FONT_BODY }}>
+          {design.extrasNote && <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{design.extrasNote}</span>}
+          <span className="text-[12px] text-[var(--hz-ink-muted)] leading-relaxed" style={{ fontFamily: FONT_BODY }}>
             This is an estimate — an installer measures your wall on a free at-home visit before any final price is confirmed.
           </span>
           <button
@@ -502,7 +502,7 @@ function ConsultationBanner({ onBook }: { onBook: () => void }) {
       <button
         onClick={onBook}
         className="w-full h-11 text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0"
-        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         Book at-home consultation for ₹{CONSULTATION_PRICE}
       </button>
@@ -557,11 +557,11 @@ function Checkbox({ checked, onChange, label }: { checked: boolean; onChange: (v
     >
       <span
         className="w-5 h-5 rounded-[6px] border flex items-center justify-center shrink-0 transition-all"
-        style={checked ? { backgroundColor: '#722ED1', borderColor: '#722ED1' } : { backgroundColor: '#FFFFFF', borderColor: '#D8D2CC' }}
+        style={checked ? { backgroundColor: 'var(--hz-primary)', borderColor: 'var(--hz-primary)' } : { backgroundColor: 'var(--hz-surface)', borderColor: '#D8D2CC' }}
       >
         {checked && <IcoCheckMark />}
       </span>
-      <span className="text-[14px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[14px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
     </button>
   )
 }
@@ -585,19 +585,19 @@ function FilterModal({ initial, onApply, onClose }: {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(36,35,38,0.45)' }} onClick={onClose}>
       <div
-        className="w-full max-w-[520px] max-h-[80vh] rounded-[16px] bg-white flex flex-col relative"
+        className="w-full max-w-[520px] max-h-[80vh] rounded-[16px] bg-[var(--hz-surface)] flex flex-col relative"
         style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}
         onClick={e => e.stopPropagation()}
       >
-        <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#242326] border border-[#E3DDD7] cursor-pointer z-10" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+        <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[var(--hz-surface)] flex items-center justify-center text-[var(--hz-ink)] border border-[var(--hz-border)] cursor-pointer z-10" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
           <IcoCloseX />
         </button>
 
         <div className="px-6 pt-6 pb-2">
-          <h2 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Filter</h2>
+          <h2 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Filter</h2>
         </div>
 
-        <div className="flex gap-5 px-6 border-b border-[#F4F0EC] overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+        <div className="flex gap-5 px-6 border-b border-[var(--hz-surface-muted)] overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
           {FILTER_SUBTABS.map(tab => (
             <button
               key={tab.id}
@@ -606,8 +606,8 @@ function FilterModal({ initial, onApply, onClose }: {
               style={{
                 fontFamily: FONT_BODY,
                 fontWeight: subTab === tab.id ? 700 : 400,
-                color: subTab === tab.id ? '#242326' : '#9A949D',
-                borderBottom: subTab === tab.id ? '2px solid #242326' : '2px solid transparent',
+                color: subTab === tab.id ? 'var(--hz-ink)' : 'var(--hz-ink-subtle)',
+                borderBottom: subTab === tab.id ? '2px solid var(--hz-ink)' : '2px solid transparent',
               }}
             >
               {tab.label}
@@ -617,7 +617,7 @@ function FilterModal({ initial, onApply, onClose }: {
 
         <div className="flex-1 overflow-y-auto px-6 py-2" style={{ minHeight: 260 }}>
           {subTab === 'collections' && (
-            <div className="flex flex-col divide-y divide-[#F4F0EC]">
+            <div className="flex flex-col divide-y divide-[var(--hz-surface-muted)]">
               <Checkbox checked={draft.collections.bestseller} onChange={v => setDraft(d => ({ ...d, collections: { ...d.collections, bestseller: v } }))} label="Bestseller" />
               <Checkbox checked={draft.collections.designersChoice} onChange={v => setDraft(d => ({ ...d, collections: { ...d.collections, designersChoice: v } }))} label="Designer's choice" />
               <Checkbox checked={draft.collections.newIn} onChange={v => setDraft(d => ({ ...d, collections: { ...d.collections, newIn: v } }))} label="New-in" />
@@ -627,11 +627,11 @@ function FilterModal({ initial, onApply, onClose }: {
 
           {subTab === 'price' && (
             <div className="flex flex-col gap-4 py-3">
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+              <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                 ₹{draft.priceMin.toLocaleString('en-IN')} – ₹{draft.priceMax.toLocaleString('en-IN')}
               </span>
               <div className="flex flex-col gap-1">
-                <label className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Minimum</label>
+                <label className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Minimum</label>
                 <input
                   type="range"
                   min={PRICE_MIN}
@@ -639,11 +639,11 @@ function FilterModal({ initial, onApply, onClose }: {
                   step={100}
                   value={draft.priceMin}
                   onChange={e => setDraft(d => ({ ...d, priceMin: Math.min(Number(e.target.value), d.priceMax) }))}
-                  className="w-full accent-[#722ED1]"
+                  className="w-full accent-[var(--hz-primary)]"
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Maximum</label>
+                <label className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Maximum</label>
                 <input
                   type="range"
                   min={PRICE_MIN}
@@ -651,7 +651,7 @@ function FilterModal({ initial, onApply, onClose }: {
                   step={100}
                   value={draft.priceMax}
                   onChange={e => setDraft(d => ({ ...d, priceMax: Math.max(Number(e.target.value), d.priceMin) }))}
-                  className="w-full accent-[#722ED1]"
+                  className="w-full accent-[var(--hz-primary)]"
                 />
               </div>
             </div>
@@ -659,13 +659,13 @@ function FilterModal({ initial, onApply, onClose }: {
 
           {subTab === 'material' && (
             <div className="flex flex-col items-center justify-center gap-2 py-10 text-center">
-              <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Material filters aren't available yet</span>
-              <span className="text-[12.5px] text-[#68636D] max-w-[300px]" style={{ fontFamily: FONT_BODY }}>Ask Hozie or your at-home consultant about specific materials.</span>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Material filters aren't available yet</span>
+              <span className="text-[12.5px] text-[var(--hz-ink-muted)] max-w-[300px]" style={{ fontFamily: FONT_BODY }}>Ask Hozie or your at-home consultant about specific materials.</span>
             </div>
           )}
 
           {subTab === 'sort' && (
-            <div className="flex flex-col divide-y divide-[#F4F0EC]">
+            <div className="flex flex-col divide-y divide-[var(--hz-surface-muted)]">
               {([
                 { id: 'default', label: 'Default' },
                 { id: 'price-asc', label: 'Price: Low to High' },
@@ -678,18 +678,18 @@ function FilterModal({ initial, onApply, onClose }: {
                 >
                   <span
                     className="w-5 h-5 rounded-full border flex items-center justify-center shrink-0"
-                    style={draft.sort === opt.id ? { borderColor: '#722ED1' } : { borderColor: '#D8D2CC' }}
+                    style={draft.sort === opt.id ? { borderColor: 'var(--hz-primary)' } : { borderColor: '#D8D2CC' }}
                   >
-                    {draft.sort === opt.id && <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#722ED1' }} />}
+                    {draft.sort === opt.id && <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--hz-primary)' }} />}
                   </span>
-                  <span className="text-[14px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{opt.label}</span>
+                  <span className="text-[14px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{opt.label}</span>
                 </button>
               ))}
             </div>
           )}
 
           {subTab === 'view' && (
-            <div className="flex flex-col divide-y divide-[#F4F0EC]">
+            <div className="flex flex-col divide-y divide-[var(--hz-surface-muted)]">
               {([
                 { id: 'list', label: 'List' },
                 { id: 'grid', label: 'Grid' },
@@ -701,21 +701,21 @@ function FilterModal({ initial, onApply, onClose }: {
                 >
                   <span
                     className="w-5 h-5 rounded-full border flex items-center justify-center shrink-0"
-                    style={draft.view === opt.id ? { borderColor: '#722ED1' } : { borderColor: '#D8D2CC' }}
+                    style={draft.view === opt.id ? { borderColor: 'var(--hz-primary)' } : { borderColor: '#D8D2CC' }}
                   >
-                    {draft.view === opt.id && <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#722ED1' }} />}
+                    {draft.view === opt.id && <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--hz-primary)' }} />}
                   </span>
-                  <span className="text-[14px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{opt.label}</span>
+                  <span className="text-[14px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{opt.label}</span>
                 </button>
               ))}
             </div>
           )}
         </div>
 
-        <div className="flex items-center gap-3 p-5 border-t border-[#F4F0EC]">
+        <div className="flex items-center gap-3 p-5 border-t border-[var(--hz-surface-muted)]">
           <button
             onClick={() => setDraft(DEFAULT_FILTERS)}
-            className="flex-1 h-11 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[14px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all bg-white"
+            className="flex-1 h-11 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[14px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all bg-[var(--hz-surface)]"
             style={{ fontFamily: FONT_BODY }}
           >
             Reset
@@ -723,7 +723,7 @@ function FilterModal({ initial, onApply, onClose }: {
           <button
             onClick={() => onApply(draft)}
             className="flex-1 h-11 rounded-[10px] text-white text-[14px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0"
-            style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
           >
             Apply
           </button>
@@ -737,10 +737,10 @@ function FilterModal({ initial, onApply, onClose }: {
 
 function CartStepper({ qty, onDecrement, onIncrement }: { qty: number; onDecrement: () => void; onIncrement: () => void }) {
   return (
-    <div className="flex items-center gap-1.5 rounded-[10px] border border-[#722ED1] shrink-0">
-      <button onClick={onDecrement} aria-label="Decrease quantity" className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-l-[9px]">−</button>
-      <span className="text-[13px] font-semibold text-[#242326] w-3 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
-      <button onClick={onIncrement} aria-label="Increase quantity" className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-r-[9px]">+</button>
+    <div className="flex items-center gap-1.5 rounded-[10px] border border-[var(--hz-primary)] shrink-0">
+      <button onClick={onDecrement} aria-label="Decrease quantity" className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-l-[9px]">−</button>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] w-3 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
+      <button onClick={onIncrement} aria-label="Increase quantity" className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-r-[9px]">+</button>
     </div>
   )
 }
@@ -755,19 +755,19 @@ function CartCard({ cart, onChangeQty, onRemove, onViewCart }: {
   const total = cart.reduce((sum, c) => sum + c.price * c.qty, 0)
 
   return (
-    <div className="bg-white border border-[#E3DDD7] rounded-[16px] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Cart</span>
+    <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Cart</span>
       <div className="flex flex-col">
         {cart.map((c, i) => (
-          <div key={c.cartId} className={`flex flex-col gap-2 py-3 ${i > 0 ? 'border-t border-[#F4F0EC]' : 'pt-0'}`}>
+          <div key={c.cartId} className={`flex flex-col gap-2 py-3 ${i > 0 ? 'border-t border-[var(--hz-surface-muted)]' : 'pt-0'}`}>
             <div className="flex items-start justify-between gap-3">
-              <span className="text-[13.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{c.title}</span>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{c.title}</span>
               <CartStepper qty={c.qty} onDecrement={() => onChangeQty(c.cartId, -1)} onIncrement={() => onChangeQty(c.cartId, 1)} />
             </div>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>₹{c.price}</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>₹{c.price}</span>
             <button
               onClick={() => onRemove(c.cartId)}
-              className="self-start text-[12.5px] text-[#722ED1] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
+              className="self-start text-[12.5px] text-[var(--hz-primary)] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
               style={{ fontFamily: FONT_BODY }}
             >
               Remove
@@ -775,11 +775,11 @@ function CartCard({ cart, onChangeQty, onRemove, onViewCart }: {
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-between gap-3 pt-3 border-t border-[#F4F0EC]">
-        <span className="text-[17px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>₹{total}</span>
+      <div className="flex items-center justify-between gap-3 pt-3 border-t border-[var(--hz-surface-muted)]">
+        <span className="text-[17px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>₹{total}</span>
         <button
           onClick={onViewCart}
-          className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+          className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
           style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
         >
           View Cart
@@ -873,7 +873,7 @@ export default function WallPanelsScreen({
   const activeFilterCount = countActiveFilters(filters)
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onBack={() => onNavigate('home-services')} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -888,8 +888,8 @@ export default function WallPanelsScreen({
               {/* Page context — same eyebrow + title treatment as every
                   other service-detail screen. */}
               <div className="flex flex-col gap-1.5">
-                <span className="text-[12px] tracking-[0.10em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Home Services</span>
-                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <span className="text-[12px] tracking-[0.10em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Home Services</span>
+                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   Wall Panels
                 </h1>
               </div>
@@ -902,8 +902,8 @@ export default function WallPanelsScreen({
 
                   <div id="wall-panels-designs" className="flex flex-col gap-3" style={{ scrollMarginTop: 24 }}>
                     <div className="flex flex-col gap-1">
-                      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Find your wall design</h2>
-                      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Every price is a starting estimate — confirmed on a free at-home visit.</p>
+                      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Find your wall design</h2>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Every price is a starting estimate — confirmed on a free at-home visit.</p>
                     </div>
                     <DesignTabs
                       active={activeTab}
@@ -915,12 +915,12 @@ export default function WallPanelsScreen({
                     {activeTab === 'all-looks' || activeTab === 'pastels' ? (
                       filteredDesigns.length === 0 ? (
                         <div className="flex flex-col items-center justify-center gap-2 rounded-[12px] p-10 text-center mt-1" style={CARD_SURFACE}>
-                          <div className="w-12 h-12 rounded-[12px] bg-[#F9F5FF] flex items-center justify-center text-[#722ED1]"><IcoPanel size={26} /></div>
-                          <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>No designs match your filters</span>
-                          <span className="text-[12.5px] text-[#68636D] max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Try widening the price range or clearing a collection filter.</span>
+                          <div className="w-12 h-12 rounded-[12px] bg-[#F9F5FF] flex items-center justify-center text-[var(--hz-primary)]"><IcoPanel size={26} /></div>
+                          <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>No designs match your filters</span>
+                          <span className="text-[12.5px] text-[var(--hz-ink-muted)] max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Try widening the price range or clearing a collection filter.</span>
                           <button
                             onClick={() => setFilters(DEFAULT_FILTERS)}
-                            className="h-9 px-4 mt-1 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[12.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all bg-white"
+                            className="h-9 px-4 mt-1 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all bg-[var(--hz-surface)]"
                             style={{ fontFamily: FONT_BODY }}
                           >
                             Clear filters
@@ -951,12 +951,12 @@ export default function WallPanelsScreen({
                       )
                     ) : (
                       <div className="flex flex-col items-center justify-center gap-2 rounded-[12px] p-10 text-center" style={CARD_SURFACE}>
-                        <div className="w-12 h-12 rounded-[12px] bg-[#F9F5FF] flex items-center justify-center text-[#722ED1]"><IcoPanel size={26} /></div>
-                        <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>More {DESIGN_TABS.find(t => t.id === activeTab)?.label} finishes coming soon</span>
-                        <span className="text-[12.5px] text-[#68636D] max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Book a free at-home consultation and our designer can show you options in this finish today.</span>
+                        <div className="w-12 h-12 rounded-[12px] bg-[#F9F5FF] flex items-center justify-center text-[var(--hz-primary)]"><IcoPanel size={26} /></div>
+                        <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>More {DESIGN_TABS.find(t => t.id === activeTab)?.label} finishes coming soon</span>
+                        <span className="text-[12.5px] text-[var(--hz-ink-muted)] max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Book a free at-home consultation and our designer can show you options in this finish today.</span>
                         <button
                           onClick={bookGeneralConsultation}
-                          className="h-9 px-4 mt-1 rounded-[10px] bg-[#722ED1] text-white text-[12.5px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0"
+                          className="h-9 px-4 mt-1 rounded-[10px] bg-[var(--hz-primary)] text-white text-[12.5px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0"
                           style={{ fontFamily: FONT_BODY }}
                         >
                           Book at-home consultation · ₹{CONSULTATION_PRICE}
@@ -969,29 +969,29 @@ export default function WallPanelsScreen({
                 {/* Right column — pinned on desktop, same as every other
                     service-detail screen. */}
                 <div className="flex flex-col gap-4 lg:sticky lg:top-[28px] lg:self-start lg:max-h-[calc(100vh-56px)] lg:overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
-                  <div className="bg-white border border-[#E3DDD7] rounded-[16px] p-5 flex items-start gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                  <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] p-5 flex items-start gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                     <div className="flex flex-col gap-2.5 flex-1">
-                      <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Houzeify Promise</span>
+                      <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Houzeify Promise</span>
                       {['Verified Professionals', 'Hassle Free Booking', 'Transparent Pricing'].map(t => (
-                        <span key={t} className="flex items-center gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+                        <span key={t} className="flex items-center gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                           <IcoCheck /> {t}
                         </span>
                       ))}
                     </div>
-                    <div className="w-11 h-11 rounded-full bg-[#F3EAFF] flex items-center justify-center shrink-0"><IcoShield /></div>
+                    <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><IcoShield /></div>
                   </div>
 
                   <CartCard cart={cart} onChangeQty={changeCartQty} onRemove={removeFromCart} onViewCart={viewCart} />
 
-                  <div className="bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-4 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                    <div className="w-10 h-10 rounded-[12px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
+                  <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-4 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                    <div className="w-10 h-10 rounded-[12px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
                     <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-                      <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Not sure which one?</span>
-                      <span className="text-[12px] text-[#68636D] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Ask Hozie to help you pick.</span>
+                      <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Not sure which one?</span>
+                      <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Ask Hozie to help you pick.</span>
                     </div>
                     <button
                       onClick={() => onNavigate(DASHBOARD_ROUTES.aiAdvisor)}
-                      className="h-8 px-3 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                      className="h-8 px-3 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       Ask Hozie →

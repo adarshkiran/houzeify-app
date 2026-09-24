@@ -31,7 +31,7 @@ const FONT_BODY = '"Inter Variable", sans-serif'
 const FONT_HEAD = '"Geist Variable", sans-serif'
 const CANVAS = '#FBF9F7'
 const focusRing =
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
 
 const IcoBack = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5" /></svg>
@@ -42,8 +42,8 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
 
 function SectionCard({ title, children }: { title?: string; children: ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <h2 className="text-[13px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 min-w-0" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <h2 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
       {children}
     </div>
   )
@@ -54,7 +54,7 @@ function TextLink({ label, onClick }: { label: string; onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className={`mt-3 inline-flex items-center min-h-11 text-[13px] font-semibold text-[#722ED1] cursor-pointer border-0 bg-transparent p-0 rounded-sm ${focusRing}`}
+      className={`mt-3 inline-flex items-center min-h-11 text-[13px] font-semibold text-[var(--hz-primary)] cursor-pointer border-0 bg-transparent p-0 rounded-sm ${focusRing}`}
       style={{ fontFamily: FONT_BODY }}
     >
       {label}
@@ -66,7 +66,7 @@ function SkeletonLines({ rows = 3 }: { rows?: number }) {
   return (
     <div className="flex flex-col gap-2" aria-hidden="true">
       {Array.from({ length: rows }, (_, i) => (
-        <div key={i} className="h-3 rounded-full bg-[#F4F0EC]" style={{ width: i === rows - 1 ? '55%' : '100%' }} />
+        <div key={i} className="h-3 rounded-full bg-[var(--hz-surface-muted)]" style={{ width: i === rows - 1 ? '55%' : '100%' }} />
       ))}
     </div>
   )
@@ -239,13 +239,13 @@ export default function ProjectWorkspaceScreen({
           : <Sidebar active="projects" onNavigate={onNavigate} />}
         <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6 min-w-0 pb-24 md:pb-6">
           <HIcon size={36} />
-          <h1 className="text-[15px] font-semibold text-[#242326] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>No active project yet.</h1>
-          <p className="text-[13px] text-[#68636D] m-0 max-w-[320px] text-center" style={{ fontFamily: FONT_BODY }}>Open a project from your Projects list to see its workspace.</p>
+          <h1 className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 text-center" style={{ fontFamily: FONT_HEAD }}>No active project yet.</h1>
+          <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px] text-center" style={{ fontFamily: FONT_BODY }}>Open a project from your Projects list to see its workspace.</p>
           <button
             type="button"
             onClick={goBack}
-            className={`h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white min-h-11 ${focusRing}`}
-            style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+            className={`h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)] min-h-11 ${focusRing}`}
+            style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
           >
             Back to Projects
           </button>
@@ -264,12 +264,12 @@ export default function ProjectWorkspaceScreen({
           : <Sidebar active="projects" onNavigate={onNavigate} />}
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
 
-          <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+          <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
             <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8 min-w-0">
               <button
                 type="button"
                 onClick={goBack}
-                className={`flex items-center gap-1.5 min-h-11 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0 rounded-sm ${focusRing}`}
+                className={`flex items-center gap-1.5 min-h-11 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0 rounded-sm ${focusRing}`}
                 style={{ fontFamily: FONT_BODY }}
               >
                 <IcoBack /> Back
@@ -288,7 +288,7 @@ export default function ProjectWorkspaceScreen({
                     type="button"
                     onClick={() => { void refreshProjects() }}
                     className={`min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 text-white shrink-0 ${focusRing}`}
-                    style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                    style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                   >
                     Try again
                   </button>
@@ -301,22 +301,22 @@ export default function ProjectWorkspaceScreen({
               )}
 
               <div className="min-w-0">
-                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Workspace</p>
-                <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{name}</h1>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Workspace</p>
+                <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{name}</h1>
                 <div className="flex items-center gap-3 mt-1.5 flex-wrap min-w-0">
                   {loc && (
-                    <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] min-w-0" style={{ fontFamily: FONT_BODY }}>
+                    <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] min-w-0" style={{ fontFamily: FONT_BODY }}>
                       <IcoMapPin /> <span className="min-w-0 break-words">{loc}</span>
                     </span>
                   )}
-                  {type && <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{type}</span>}
+                  {type && <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{type}</span>}
                   {resolvedStatus && (
-                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>
                       {resolvedStatus.toUpperCase()}
                     </span>
                   )}
                   {resolvedStage && (
-                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
                       {resolvedStage.toUpperCase()}
                     </span>
                   )}
@@ -330,36 +330,36 @@ export default function ProjectWorkspaceScreen({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
                     {resolvedStatus && (
                       <div className="min-w-0">
-                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Status</p>
-                        <p className="text-[15px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{resolvedStatus}</p>
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Status</p>
+                        <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{resolvedStatus}</p>
                       </div>
                     )}
                     {resolvedStage && (
                       <div className="min-w-0">
-                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Construction stage</p>
-                        <p className="text-[15px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{resolvedStage}</p>
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Construction stage</p>
+                        <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{resolvedStage}</p>
                       </div>
                     )}
                     {startDate && (
                       <div className="min-w-0">
-                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Start</p>
-                        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{startDate}</p>
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Start</p>
+                        <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{startDate}</p>
                       </div>
                     )}
                     {completionDate && (
                       <div className="min-w-0">
-                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Expected completion</p>
-                        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{completionDate}</p>
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Expected completion</p>
+                        <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{completionDate}</p>
                       </div>
                     )}
                     {latestActivity && (
                       <div className="min-w-0">
-                        <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Latest activity</p>
-                        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{latestActivity}</p>
+                        <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Latest activity</p>
+                        <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{latestActivity}</p>
                       </div>
                     )}
                     {!resolvedStatus && !resolvedStage && !startDate && !completionDate && !latestActivity && (
-                      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No status details are recorded for this project yet.</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No status details are recorded for this project yet.</p>
                     )}
                   </div>
                 )}
@@ -375,13 +375,13 @@ export default function ProjectWorkspaceScreen({
                       type="button"
                       onClick={() => setTimelineRefresh(n => n + 1)}
                       className={`min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 text-white shrink-0 ${focusRing}`}
-                      style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                      style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                     >
                       Try again
                     </button>
                   </div>
                 ) : timeline.length === 0 ? (
-                  <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                     {resolvedStage
                       ? `Current stage: ${resolvedStage}. Timeline stages will appear once this project uses a construction stage.`
                       : 'No construction stage has been set yet.'}
@@ -389,14 +389,14 @@ export default function ProjectWorkspaceScreen({
                 ) : (
                   <ol className="flex flex-col md:flex-row md:overflow-x-auto gap-3 m-0 p-0 list-none min-w-0">
                     {timeline.map(item => {
-                      const color = item.state === 'current' ? '#722ED1' : item.state === 'completed' ? '#15803D' : '#68636D'
-                      const bg = item.state === 'current' ? '#F8E3BD' : item.state === 'completed' ? '#C6F6D5' : '#F4F0EC'
+                      const color = item.state === 'current' ? 'var(--hz-primary)' : item.state === 'completed' ? '#15803D' : 'var(--hz-ink-muted)'
+                      const bg = item.state === 'current' ? '#F8E3BD' : item.state === 'completed' ? '#C6F6D5' : 'var(--hz-surface-muted)'
                       return (
                         <li key={item.id} className="md:min-w-[148px] rounded-[14px] p-4 min-w-0" style={{ backgroundColor: bg }}>
                           <p className="text-[11px] tracking-[0.06em] uppercase m-0" style={{ fontFamily: FONT_MONO, color }}>{item.state}</p>
-                          <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{item.name}</p>
+                          <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{item.name}</p>
                           {item.latestPublishedDate && (
-                            <p className="text-[12px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{formatDisplayDate(item.latestPublishedDate)}</p>
+                            <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{formatDisplayDate(item.latestPublishedDate)}</p>
                           )}
                         </li>
                       )
@@ -404,7 +404,7 @@ export default function ProjectWorkspaceScreen({
                   </ol>
                 )}
                 {latestProgress && (
-                  <p className="text-[12.5px] text-[#68636D] m-0 mt-3" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-3" style={{ fontFamily: FONT_BODY }}>
                     Latest update{latestProgressDate ? ` ${latestProgressDate}` : ''}: {latestProgress.title}
                   </p>
                 )}
@@ -425,14 +425,14 @@ export default function ProjectWorkspaceScreen({
                   <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{progressHook.errorMessage ?? 'Unable to load daily progress.'}</p>
                 ) : !latestProgress ? (
                   <>
-                    <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No daily progress recorded yet</p>
-                    <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Record your first daily update to keep the project construction record up to date.</p>
+                    <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>No daily progress recorded yet</p>
+                    <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Record your first daily update to keep the project construction record up to date.</p>
                     {sections.showAddProgress && (
                       <button
                         type="button"
                         onClick={() => navTo('create-daily-progress')}
                         className={`mt-3 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 min-h-11 ${focusRing}`}
-                        style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                        style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                       >
                         Add progress update
                       </button>
@@ -440,16 +440,16 @@ export default function ProjectWorkspaceScreen({
                   </>
                 ) : (
                   <>
-                    <p className="text-[12px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{latestProgressDate}</p>
-                    <p className="text-[15px] font-semibold text-[#242326] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{latestProgress.title}</p>
+                    <p className="text-[12px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{latestProgressDate}</p>
+                    <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 mt-1 break-words" style={{ fontFamily: FONT_HEAD }}>{latestProgress.title}</p>
                     {stageName(latestProgress.stage) && (
-                      <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{stageName(latestProgress.stage)}</p>
+                      <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{stageName(latestProgress.stage)}</p>
                     )}
                     {latestProgress.description && (
-                      <p className="text-[13px] text-[#68636D] m-0 mt-2 break-words" style={{ fontFamily: FONT_BODY }}>{latestProgress.description}</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2 break-words" style={{ fontFamily: FONT_BODY }}>{latestProgress.description}</p>
                     )}
                     {latestProgress.photos.length > 0 && (
-                      <p className="text-[12.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                      <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
                         {latestProgress.photos.length} photo{latestProgress.photos.length === 1 ? '' : 's'} attached
                       </p>
                     )}
@@ -467,8 +467,8 @@ export default function ProjectWorkspaceScreen({
                     <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{tasksHook.errorMessage ?? 'Unable to load tasks.'}</p>
                   ) : (
                     <>
-                      <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{activeTasks.length}</p>
-                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                      <p className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{activeTasks.length}</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
                         {activeTasks.length === 1 ? 'active task' : 'active tasks'}
                         {overdueTasks.length > 0 ? ` · ${overdueTasks.length} overdue` : ''}
                       </p>
@@ -483,8 +483,8 @@ export default function ProjectWorkspaceScreen({
                     <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{issuesHook.errorMessage ?? 'Unable to load issues.'}</p>
                   ) : (
                     <>
-                      <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{openIssues.length}</p>
-                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                      <p className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{openIssues.length}</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
                         {openIssues.length === 1 ? 'open issue' : 'open issues'}
                         {highOpenIssues.length > 0 ? ` · ${highOpenIssues.length} high priority` : ''}
                       </p>
@@ -503,23 +503,23 @@ export default function ProjectWorkspaceScreen({
                     <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{workforceHook.error ?? 'Unable to load workforce.'}</p>
                   ) : activeWorkforce.length === 0 ? (
                     <>
-                      <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No site team recorded yet</p>
-                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Add people to the site team so the project has a live workforce record.</p>
+                      <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>No site team recorded yet</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Add people to the site team so the project has a live workforce record.</p>
                       <TextLink label="Manage workforce →" onClick={() => navTo(PROJECT_NAV_ROUTES.workforce)} />
                     </>
                   ) : (
                     <>
-                      <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{activeWorkforce.length}</p>
-                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                      <p className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{activeWorkforce.length}</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
                         {activeWorkforce.length === 1 ? 'active site team member' : 'active site team members'}
                       </p>
                       <ul className="mt-3 m-0 pl-5 flex flex-col gap-1">
                         {activeWorkforce.slice(0, 6).map(member => (
-                          <li key={member.id} className="text-[13px] text-[#242326] break-words" style={{ fontFamily: FONT_BODY }}>{member.role}</li>
+                          <li key={member.id} className="text-[13px] text-[var(--hz-ink)] break-words" style={{ fontFamily: FONT_BODY }}>{member.role}</li>
                         ))}
                       </ul>
                       {activeWorkforce.length > 6 && (
-                        <p className="text-[12.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>+{activeWorkforce.length - 6} more</p>
+                        <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>+{activeWorkforce.length - 6} more</p>
                       )}
                       <TextLink label="View workforce →" onClick={() => navTo(PROJECT_NAV_ROUTES.workforce)} />
                     </>
@@ -535,8 +535,8 @@ export default function ProjectWorkspaceScreen({
                     <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{documentsHook.error ?? 'Unable to load documents.'}</p>
                   ) : (
                     <>
-                      <p className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{documentsHook.documents.length}</p>
-                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                      <p className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{documentsHook.documents.length}</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
                         {documentsHook.documents.length === 1 ? 'document' : 'documents'}
                       </p>
                       <TextLink label="Open documents →" onClick={() => navTo(PROJECT_NAV_ROUTES.documents)} />
@@ -551,13 +551,13 @@ export default function ProjectWorkspaceScreen({
                     <p className="text-[13px] text-[#B91C1C] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{boqHook.error ?? 'Unable to load the Bill of Quantities.'}</p>
                   ) : !boqHook.hasLoaded || boqHook.boq.totals.itemCount === 0 ? (
                     <>
-                      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No Bill of Quantities items recorded yet.</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No Bill of Quantities items recorded yet.</p>
                       <TextLink label="Open Bill of Quantities →" onClick={() => navTo(PROJECT_NAV_ROUTES.boq)} />
                     </>
                   ) : (
                     <>
-                      <p className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{formatInr(boqHook.boq.totals.total)}</p>
-                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                      <p className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{formatInr(boqHook.boq.totals.total)}</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
                         {boqHook.boq.totals.itemCount} {boqHook.boq.totals.itemCount === 1 ? 'item' : 'items'}
                       </p>
                       <TextLink label="Open Bill of Quantities →" onClick={() => navTo(PROJECT_NAV_ROUTES.boq)} />
@@ -578,25 +578,25 @@ export default function ProjectWorkspaceScreen({
                         type="button"
                         onClick={() => setCustomerRefresh(n => n + 1)}
                         className={`min-h-11 h-11 px-4 rounded-[12px] text-[13px] font-semibold cursor-pointer border-0 text-white shrink-0 ${focusRing}`}
-                        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                       >
                         Try again
                       </button>
                     </div>
                   ) : customer?.status === 'active' ? (
                     <>
-                      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Customer connected</p>
-                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>A homeowner is linked and can see published progress and shared documents.</p>
+                      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Customer connected</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>A homeowner is linked and can see published progress and shared documents.</p>
                     </>
                   ) : customer?.status === 'invited' ? (
                     <>
-                      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Customer invite pending</p>
-                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>An invite has been sent. They are not connected until they accept.</p>
+                      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Customer invite pending</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>An invite has been sent. They are not connected until they accept.</p>
                     </>
                   ) : (
                     <>
-                      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No customer connected</p>
-                      <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Link a homeowner so they can follow published construction progress.</p>
+                      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>No customer connected</p>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Link a homeowner so they can follow published construction progress.</p>
                     </>
                   )}
                   <TextLink label="Manage customer →" onClick={() => navTo(PROJECT_NAV_ROUTES.customer)} />

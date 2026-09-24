@@ -24,17 +24,17 @@ const IcoCalendar = () => (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="3" width="13" height="12" rx="1.5" /><path d="M2.5 7h13M6 1.5v3M12 1.5v3" /></svg>
 )
 const IcoCheck = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#722ED1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5" /></svg>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--hz-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5" /></svg>
 )
 
 function MobileTopBar({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
       </div>
-      <button onClick={onBack} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
+      <button onClick={onBack} className="text-[13px] text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
     </div>
   )
 }
@@ -98,16 +98,16 @@ export default function RenovateAIPlanScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onBack={() => onNavigate('renovate-review')} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="build" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
-            <button onClick={() => onNavigate('renovate-review')} className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
+            <button onClick={() => onNavigate('renovate-review')} className="text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
               Back
             </button>
           </header>
@@ -115,17 +115,17 @@ export default function RenovateAIPlanScreen({
           <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
             <div className="max-w-[720px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-12 flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>AI Renovation Plan</span>
-                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Your renovation plan is ready</h2>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>AI Renovation Plan</span>
+                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Your renovation plan is ready</h2>
               </div>
 
               <HozieInsightCard message={approach} />
 
-              <div className="rounded-[16px] bg-white p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }}>
-                <h2 className="text-[13px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Recommended Work</h2>
+              <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-3" style={{ border: '1px solid var(--hz-border)' }}>
+                <h2 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Recommended Work</h2>
                 <ul className="flex flex-col gap-2 m-0 p-0" style={{ listStyle: 'none' }}>
                   {recommendedWork.map(item => (
-                    <li key={item} className="flex items-center gap-2 text-[13.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+                    <li key={item} className="flex items-center gap-2 text-[13.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                       <IcoCheck /> {item}
                     </li>
                   ))}
@@ -134,27 +134,27 @@ export default function RenovateAIPlanScreen({
 
               <MetricCard eyebrow="Estimated Timeline" value={timeline} icon={<IcoCalendar />} />
 
-              <div className="rounded-[16px] bg-white p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }}>
-                <h2 className="text-[13px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Key Considerations</h2>
+              <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-3" style={{ border: '1px solid var(--hz-border)' }}>
+                <h2 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Key Considerations</h2>
                 <ul className="flex flex-col gap-1.5 m-0 pl-4">
-                  <li className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Final costs may vary based on actual site conditions.</li>
-                  <li className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Structural changes, if any, may require society/local approvals.</li>
-                  <li className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Material availability can affect the overall timeline.</li>
+                  <li className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Final costs may vary based on actual site conditions.</li>
+                  <li className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Structural changes, if any, may require society/local approvals.</li>
+                  <li className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Material availability can affect the overall timeline.</li>
                 </ul>
               </div>
 
-              <div className="rounded-[16px] bg-white p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }}>
-                <h2 className="text-[13px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Potential Additional Costs</h2>
+              <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-3" style={{ border: '1px solid var(--hz-border)' }}>
+                <h2 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Potential Additional Costs</h2>
                 <ul className="flex flex-col gap-1.5 m-0 pl-4">
-                  <li className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Structural or plumbing surprises found once work begins.</li>
-                  <li className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Upgrading to premium fixtures or materials.</li>
-                  <li className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Permit or approval fees, where applicable.</li>
+                  <li className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Structural or plumbing surprises found once work begins.</li>
+                  <li className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Upgrading to premium fixtures or materials.</li>
+                  <li className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Permit or approval fees, where applicable.</li>
                 </ul>
               </div>
 
               <button
                 onClick={handleContinue}
-                className="h-[52px] px-6 rounded-[12px] text-[14px] font-semibold transition-all duration-150 border-0 w-full sm:w-auto sm:min-w-[240px] bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]"
+                className="h-[52px] px-6 rounded-[12px] text-[14px] font-semibold transition-all duration-150 border-0 w-full sm:w-auto sm:min-w-[240px] bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]"
                 style={{ fontFamily: FONT_BODY }}
               >
                 View Estimated Cost →

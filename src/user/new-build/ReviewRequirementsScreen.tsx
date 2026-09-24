@@ -17,10 +17,10 @@ const FONT_HEAD = '"Geist Variable", sans-serif'
 
 function SectionCard({ title, action, children }: { title?: string; action?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
       {(title || action) && (
         <div className="flex items-center justify-between mb-3">
-          {title && <h2 className="text-[13px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
+          {title && <h2 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
           {action}
         </div>
       )}
@@ -31,14 +31,14 @@ function SectionCard({ title, action, children }: { title?: string; action?: Rea
 function Field({ label, value }: { label: string; value?: string }) {
   return (
     <div>
-      <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
-      <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{value ?? '—'}</p>
+      <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
+      <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{value ?? '—'}</p>
     </div>
   )
 }
 function EditLink({ onClick }: { onClick: () => void }) {
   return (
-    <button type="button" onClick={onClick} className="text-[12px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+    <button type="button" onClick={onClick} className="text-[12px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
       Edit →
     </button>
   )
@@ -75,10 +75,10 @@ export default function ReviewRequirementsScreen({
 
   if (!req) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <HIcon size={36} />
-        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Requirements not found.</p>
-        <button type="button" onClick={() => onNavigate('house-requirements')} className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+        <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Requirements not found.</p>
+        <button type="button" onClick={() => onNavigate('house-requirements')} className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0" style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
           Add House Requirements
         </button>
       </div>
@@ -91,21 +91,21 @@ export default function ReviewRequirementsScreen({
   ].filter((v): v is string => Boolean(v)).join(', ')
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="build" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="flex h-14 md:h-[64px] shrink-0 items-center justify-between px-4 md:px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
-            <h1 className="text-[16px] md:text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Review Requirements</h1>
-            <button onClick={() => onNavigate(hasHousePlan === 'yes' ? 'upload-plan' : 'house-requirements')} className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>Back</button>
+          <header className="flex h-14 md:h-[64px] shrink-0 items-center justify-between px-4 md:px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+            <h1 className="text-[16px] md:text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Review Requirements</h1>
+            <button onClick={() => onNavigate(hasHousePlan === 'yes' ? 'upload-plan' : 'house-requirements')} className="text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>Back</button>
           </header>
 
           <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
             <div className="max-w-[1040px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-12 flex flex-col gap-5">
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>New Build</span>
-                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Review your requirements</h2>
-                <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Confirm everything below before we generate your construction estimate.</p>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>New Build</span>
+                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Review your requirements</h2>
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Confirm everything below before we generate your construction estimate.</p>
               </div>
 
               {/* Two-column body — 6-7 stacked cards made for a very long
@@ -154,7 +154,7 @@ export default function ReviewRequirementsScreen({
                     <SectionCard title="Special Features" action={<EditLink onClick={() => onNavigate('house-requirements')} />}>
                       <div className="flex flex-wrap gap-2">
                         {req.specialRequirements.map(r => (
-                          <span key={r} className="px-2.5 py-1 rounded-full text-[12px] font-semibold" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_BODY }}>
+                          <span key={r} className="px-2.5 py-1 rounded-full text-[12px] font-semibold" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                             {SPECIAL_REQUIREMENT_LABELS[r]}
                           </span>
                         ))}
@@ -180,7 +180,7 @@ export default function ReviewRequirementsScreen({
               <button
                 onClick={handleContinue}
                 className="h-[52px] px-6 rounded-[12px] text-[14px] font-semibold text-white cursor-pointer border-0 hover:brightness-90 transition-all w-full sm:w-auto sm:min-w-[260px] self-start"
-                style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
               >
                 Generate Estimate →
               </button>

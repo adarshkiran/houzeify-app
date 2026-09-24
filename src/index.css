@@ -130,6 +130,22 @@
   --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
   --sidebar-border: oklch(0.923 0.003 48.717);
   --sidebar-ring: oklch(0.709 0.01 56.259);
+
+  /* Houzeify Figma palette bridges — screens still reference these via
+   * var(--hz-*). Values flip under .dark so Light/Dark in Account Settings
+   * themes the whole app without rewriting every screen layout. */
+  color-scheme: light;
+  --hz-surface: #FFFFFF;
+  --hz-surface-muted: #F4F0EC;
+  --hz-ink: #242326;
+  --hz-ink-muted: #68636D;
+  --hz-ink-subtle: #9A949D;
+  --hz-border: #E3DDD7;
+  --hz-primary: #722ED1;
+  --hz-primary-soft: #F3EAFF;
+  --hz-danger: #DC2626;
+  --hz-black: #1E1E1E;
+  --hz-on-primary: #FFFFFF;
 }
 
 @utility gradient-global { background-image: var(--gradient-global); }
@@ -141,6 +157,8 @@
 
 html, body, #root {
   height: 100%;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 /*
@@ -428,6 +446,19 @@ html, body, #root {
   --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.553 0.013 58.071);
+
+  color-scheme: dark;
+  --hz-surface: var(--card);
+  --hz-surface-muted: var(--muted);
+  --hz-ink: var(--foreground);
+  --hz-ink-muted: var(--muted-foreground);
+  --hz-ink-subtle: var(--muted-foreground);
+  --hz-border: var(--border);
+  --hz-primary: oklch(0.72 0.19 293);
+  --hz-primary-soft: color-mix(in oklch, var(--primary) 28%, transparent);
+  --hz-danger: oklch(0.704 0.191 22.216);
+  --hz-black: var(--foreground);
+  --hz-on-primary: #FFFFFF;
 }
 /* ---break---
  */

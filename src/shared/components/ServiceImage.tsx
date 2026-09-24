@@ -16,7 +16,7 @@
 import type { ReactNode } from 'react'
 
 const ACCENT_STYLES = {
-  purple: { background: 'linear-gradient(135deg, #F3EAFF 0%, #F9F5FF 100%)', icon: '#722ED1' },
+  purple: { background: 'linear-gradient(135deg, var(--hz-primary-soft) 0%, #F9F5FF 100%)', icon: 'var(--hz-primary)' },
   // Service/cleaning marketplace accent — used only where a card is
   // specifically a service action (e.g. Customer Home's "Home Services"
   // primary card), never applied broadly across the dashboard.
