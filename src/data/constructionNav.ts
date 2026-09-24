@@ -96,7 +96,7 @@ export const CUSTOMER_NAV_ROUTES = {
   liveSite: 'project-live-site', // NEW placeholder — shared with the project-nav Live Site tab
   documents: 'project-documents', // existing — reused
   questions: 'project-messages', // S16 — honest empty shell until message persistence exists
-  notifications: 'notifications', // existing
+  notifications: 'notifications', // S17 — honest empty shell until notification events exist
 } as const
 
 // ─── Placeholder content — one shared ComingSoonScreen renders all of the
