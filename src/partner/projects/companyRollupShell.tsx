@@ -6,16 +6,16 @@ import HIcon from '@/shared/components/HIcon'
 const FONT_BODY = '"Inter Variable", sans-serif'
 const FONT_HEAD = '"Geist Variable", sans-serif'
 
-export const COMPANY_ROLLUP_CANVAS = '#FBF9F7'
+export const COMPANY_ROLLUP_CANVAS = 'var(--hz-page)'
 
 export const companyRollupPrimaryBtnClass =
   'min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5A22A8]'
 
 export const companyRollupSecondaryBtnClass =
-  'min-h-11 h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
+  'min-h-11 h-11 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
 
-const panelClass = 'flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10'
-const panelStyle = { border: '1px solid #E3DDD7' as const }
+const panelClass = 'flex flex-col items-center text-center gap-4 rounded-[16px] bg-[var(--hz-surface)] p-10'
+const panelStyle = { border: '1px solid var(--hz-border)' as const }
 
 export function CompanyRollupNoOrg({
   body,
@@ -27,17 +27,17 @@ export function CompanyRollupNoOrg({
   return (
     <div className={panelClass} style={panelStyle}>
       <HIcon size={36} />
-      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
         Organization information unavailable.
       </p>
-      <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
         {body}
       </p>
       <button
         type="button"
         onClick={onSetup}
         className={companyRollupPrimaryBtnClass}
-        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         Set up organization
       </button>
@@ -48,7 +48,7 @@ export function CompanyRollupNoOrg({
 export function CompanyRollupLoading({ label }: { label: string }) {
   return (
     <div className={panelClass} style={panelStyle} aria-live="polite">
-      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
         {label}
       </p>
     </div>
@@ -67,17 +67,17 @@ export function CompanyRollupError({
   return (
     <div className={panelClass} style={panelStyle} role="alert">
       <HIcon size={36} />
-      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
         {title}
       </p>
-      <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
         {message}
       </p>
       <button
         type="button"
         onClick={onRetry}
         className={companyRollupPrimaryBtnClass}
-        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         Try again
       </button>
@@ -95,17 +95,17 @@ export function CompanyRollupEmptyProjects({
   return (
     <div className={panelClass} style={panelStyle}>
       <HIcon size={36} />
-      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+      <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
         No construction projects yet.
       </p>
-      <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
         {body}
       </p>
       <button
         type="button"
         onClick={onCreate}
         className={companyRollupPrimaryBtnClass}
-        style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         Create Project
       </button>

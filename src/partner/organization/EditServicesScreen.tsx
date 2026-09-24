@@ -153,17 +153,17 @@ function ServiceCategoryCard({ category, selected, onToggle }: {
       onClick={onToggle}
       className={[
         'relative text-left flex items-start gap-3 rounded-[14px] p-3.5 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <div className={['w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0', selected ? 'bg-white text-[#722ED1]' : 'bg-[#F4F0EC] text-[#68636D]'].join(' ')}>
+      <div className={['w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
         {SERVICE_CATEGORY_ICONS[category]}
       </div>
-      <span className={['text-[13px] font-semibold leading-tight pt-1.5', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
+      <span className={['text-[13px] font-semibold leading-tight pt-1.5', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
         {SERVICE_CATEGORY_LABELS[category]}
       </span>
       {selected && (
-        <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#722ED1' }}>
+        <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)' }}>
           <CheckIcon />
         </span>
       )}
@@ -192,19 +192,19 @@ function UnsavedChangesModal({ onStay, onDiscard, closeRef }: {
         aria-labelledby="unsaved-title"
         aria-describedby="unsaved-desc"
         onKeyDown={onKeyDown}
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
         <div className="flex items-center justify-between gap-2">
-          <h2 id="unsaved-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Unsaved changes</h2>
-          <button ref={closeRef} onClick={onStay} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
+          <h2 id="unsaved-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Unsaved changes</h2>
+          <button ref={closeRef} onClick={onStay} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
         </div>
-        <p id="unsaved-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p id="unsaved-desc" className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           You have service changes that haven't been saved.
         </p>
         <div className="flex gap-2.5 justify-end">
-          <button onClick={onStay} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Stay</button>
-          <button ref={discardRef} onClick={onDiscard} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#DC2626', fontFamily: FONT_BODY }}>Discard changes</button>
+          <button onClick={onStay} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Stay</button>
+          <button ref={discardRef} onClick={onDiscard} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-danger)', fontFamily: FONT_BODY }}>Discard changes</button>
         </div>
       </div>
     </>
@@ -362,11 +362,11 @@ export default function EditServicesScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={handleBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={handleBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Company / Professional Profile
           </button>
         </div>
@@ -375,41 +375,41 @@ export default function EditServicesScreen({
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
         <div className="max-w-[900px] mx-auto flex flex-col gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+            <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
               {initials}
             </div>
             <div>
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Edit Services</p>
-              <h1 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{displayName}</h1>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Edit Services</p>
+              <h1 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{displayName}</h1>
               {professionalTypeLabel && (
-                <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel} · {isOrganization ? 'Organization' : 'Individual'}</p>
+                <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel} · {isOrganization ? 'Organization' : 'Individual'}</p>
               )}
             </div>
           </div>
-          <p className="text-[13px] text-[#68636D] m-0 -mt-3" style={{ fontFamily: FONT_BODY }}>Choose the services you offer to homeowners.</p>
+          <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 -mt-3" style={{ fontFamily: FONT_BODY }}>Choose the services you offer to homeowners.</p>
 
           {/* Selected services summary */}
-          <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-            <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>Selected Services</p>
+          <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+            <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>Selected Services</p>
             {selected.length > 0 ? (
               <div className="flex flex-wrap gap-2">
                 {selected.map(c => (
-                  <span key={c} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-medium" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_BODY }}>
+                  <span key={c} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-medium" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                     <CheckIcon size={9} /> {SERVICE_CATEGORY_LABELS[c]}
                   </span>
                 ))}
               </div>
             ) : (
-              <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No services selected yet.</p>
+              <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>No services selected yet.</p>
             )}
           </div>
 
           {/* Search */}
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A949D]"><IcoSearch /></span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--hz-ink-subtle)]"><IcoSearch /></span>
             <input
               className="w-full h-10 pl-9 pr-3 rounded-[10px] text-[13.5px] outline-none"
-              style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }}
+              style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'white' }}
               placeholder="Search services…"
               value={query}
               onChange={e => setQuery(e.target.value)}
@@ -419,7 +419,7 @@ export default function EditServicesScreen({
           {/* Category grid */}
           {recommended.length > 0 && (
             <div>
-              <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>
+              <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>
                 Recommended for {professionalTypeLabel || 'you'}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -432,7 +432,7 @@ export default function EditServicesScreen({
 
           {other.length > 0 && (
             <div>
-              <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>
+              <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>
                 {hasRecommended ? 'Other Services' : 'All Services'}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -444,15 +444,15 @@ export default function EditServicesScreen({
           )}
 
           {recommended.length === 0 && other.length === 0 && (
-            <p className="text-[13px] text-[#9A949D] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No services match your search.</p>
+            <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0 text-center py-4" style={{ fontFamily: FONT_BODY }}>No services match your search.</p>
           )}
 
           {!canSave && (
             <p className="text-[12.5px] text-[#D97706] m-0" style={{ fontFamily: FONT_BODY }}>Select at least one service to save.</p>
           )}
           {saveError && (
-            <p className="text-[12.5px] text-[#DC2626] m-0" style={{ fontFamily: FONT_BODY }}>
-              Couldn't save your services. <button type="button" onClick={handleSave} className="underline cursor-pointer border-0 bg-transparent p-0 text-[#DC2626]">Try again</button>
+            <p className="text-[12.5px] text-[var(--hz-danger)] m-0" style={{ fontFamily: FONT_BODY }}>
+              Couldn't save your services. <button type="button" onClick={handleSave} className="underline cursor-pointer border-0 bg-transparent p-0 text-[var(--hz-danger)]">Try again</button>
             </p>
           )}
 
@@ -463,7 +463,7 @@ export default function EditServicesScreen({
               disabled={!canSave || saving}
               className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold border-0"
               style={{
-                backgroundColor: canSave && !saving ? '#722ED1' : '#CAC7C6',
+                backgroundColor: canSave && !saving ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                 color: canSave && !saving ? 'white' : '#A1A1A1',
                 fontFamily: FONT_BODY,
                 cursor: canSave && !saving ? 'pointer' : 'not-allowed',
@@ -471,7 +471,7 @@ export default function EditServicesScreen({
             >
               {saving ? 'Saving…' : 'Save Services'}
             </button>
-            <button type="button" onClick={handleBack} className="text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={handleBack} className="text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Cancel
             </button>
           </div>

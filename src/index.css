@@ -130,6 +130,28 @@
   --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
   --sidebar-border: oklch(0.923 0.003 48.717);
   --sidebar-ring: oklch(0.709 0.01 56.259);
+
+  /* Houzeify Figma palette bridges — screens still reference these via
+   * var(--hz-*). Values flip under .dark so Light/Dark in Account Settings
+   * themes the whole app without rewriting every screen layout. */
+  color-scheme: light;
+  --hz-surface: #FFFFFF;
+  --hz-surface-muted: #F4F0EC;
+  --hz-page: #FBF9F7;
+  --hz-ink: #242326;
+  --hz-ink-muted: #68636D;
+  --hz-ink-subtle: #9A949D;
+  --hz-border: #E3DDD7;
+  --hz-border-strong: #CAC7C6;
+  --hz-primary: #722ED1;
+  --hz-primary-soft: #F3EAFF;
+  --hz-primary-wash: #F9F5FF;
+  --hz-danger: #DC2626;
+  --hz-black: #1E1E1E;
+  --hz-on-primary: #FFFFFF;
+  --hz-success: #16A34A;
+  --hz-warning-soft: #FFF8E8;
+  --hz-warning-border: #F5CD7C;
 }
 
 @utility gradient-global { background-image: var(--gradient-global); }
@@ -141,6 +163,8 @@
 
 html, body, #root {
   height: 100%;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 /*
@@ -428,6 +452,25 @@ html, body, #root {
   --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.553 0.013 58.071);
+
+  color-scheme: dark;
+  --hz-surface: var(--card);
+  --hz-surface-muted: var(--muted);
+  --hz-page: var(--background);
+  --hz-ink: var(--foreground);
+  --hz-ink-muted: var(--muted-foreground);
+  --hz-ink-subtle: var(--muted-foreground);
+  --hz-border: var(--border);
+  --hz-border-strong: oklch(1 0 0 / 18%);
+  --hz-primary: oklch(0.72 0.19 293);
+  --hz-primary-soft: color-mix(in oklch, var(--primary) 28%, transparent);
+  --hz-primary-wash: color-mix(in oklch, var(--primary) 18%, var(--card));
+  --hz-danger: oklch(0.704 0.191 22.216);
+  --hz-black: var(--foreground);
+  --hz-on-primary: #FFFFFF;
+  --hz-success: oklch(0.65 0.17 145);
+  --hz-warning-soft: color-mix(in oklch, oklch(0.75 0.12 85) 22%, var(--card));
+  --hz-warning-border: oklch(0.75 0.12 85);
 }
 /* ---break---
  */

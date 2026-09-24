@@ -9,11 +9,11 @@ function AmbientBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true" style={{ zIndex: 0 }}>
       {/* Desktop */}
-      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
-      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
       {/* Mobile */}
-      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
-      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
     </div>
   )
 }
@@ -23,23 +23,23 @@ function AmbientBackground() {
 
 function VerifiedPhone({ phone }: { phone: string }) {
   return (
-    <div className="flex items-center gap-2.5 bg-[#F9F5FF] border border-[#722ED1]/15 rounded-[10px] px-3.5 py-2.5">
+    <div className="flex items-center gap-2.5 bg-[var(--hz-primary-wash)] border border-[var(--hz-primary)]/15 rounded-[10px] px-3.5 py-2.5">
       <div
         className="size-[18px] rounded-full flex items-center justify-center shrink-0"
-        style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}
+        style={{ backgroundColor: 'var(--hz-primary-soft)' }}
       >
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-          <path d="M2 5L4 7L8 3" stroke="#722ED1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 5L4 7L8 3" stroke="var(--hz-primary)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
       <span
-        className="text-[14px] font-semibold text-[#242326]"
+        className="text-[14px] font-semibold text-[var(--hz-ink)]"
         style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         +91 {phone}
       </span>
       <span
-        className="text-[12px] tracking-[0.12em] text-[#722ED1] uppercase ml-auto"
+        className="text-[12px] tracking-[0.12em] text-[var(--hz-primary)] uppercase ml-auto"
         style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
       >
         Verified
@@ -72,14 +72,14 @@ function InputField({
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center gap-2">
         <label
-          className="text-[13px] font-semibold text-[#242326]"
+          className="text-[13px] font-semibold text-[var(--hz-ink)]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           {label}
         </label>
         {optional && (
           <span
-            className="text-[11px] text-[#9A949D]"
+            className="text-[11px] text-[var(--hz-ink-subtle)]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Optional
@@ -94,30 +94,30 @@ function InputField({
         placeholder={placeholder}
         disabled={disabled}
         className={[
-          'h-[52px] px-4 text-[15px] text-[#242326] placeholder:text-[#CAC7C6] bg-white border rounded-[12px] outline-none transition-all duration-200 w-full',
+          'h-[52px] px-4 text-[15px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-[var(--hz-surface)] border rounded-[12px] outline-none transition-all duration-200 w-full',
           disabled ? 'opacity-60 cursor-not-allowed' : '',
           showError
-            ? 'border-[#DC2626] ring-2 ring-[#DC2626]/10'
-            : 'border-[#E3DDD7] focus:border-[#722ED1] focus:ring-2 focus:ring-[#722ED1]/10',
+            ? 'border-[var(--hz-danger)] ring-2 ring-[var(--hz-danger)]/10'
+            : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)] focus:ring-2 focus:ring-[var(--hz-primary)]/10',
         ].join(' ')}
         style={{ fontFamily: '"Inter Variable", sans-serif' }}
       />
       {showError && error && (
         <div
-          className="flex items-center gap-1.5 text-[#DC2626] text-[12px]"
+          className="flex items-center gap-1.5 text-[var(--hz-danger)] text-[12px]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <circle cx="7" cy="7" r="5.5" stroke="#DC2626" strokeWidth="1.2"/>
-            <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="#DC2626" strokeWidth="1.3" strokeLinecap="round"/>
-            <circle cx="7" cy="9.5" r="0.7" fill="#DC2626"/>
+            <circle cx="7" cy="7" r="5.5" stroke="var(--hz-danger)" strokeWidth="1.2"/>
+            <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="var(--hz-danger)" strokeWidth="1.3" strokeLinecap="round"/>
+            <circle cx="7" cy="9.5" r="0.7" fill="var(--hz-danger)"/>
           </svg>
           {error}
         </div>
       )}
       {helper && !showError && (
         <p
-          className="text-[11px] text-[#9A949D] m-0 leading-[1.5]"
+          className="text-[11px] text-[var(--hz-ink-subtle)] m-0 leading-[1.5]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           {helper}
@@ -177,13 +177,13 @@ export default function CreateAccountScreen({
   return (
     <div
       className="min-h-full flex flex-col items-center justify-center relative px-5 py-10"
-      style={{ backgroundColor: '#FFFFFF' }}
+      style={{ backgroundColor: 'var(--hz-surface)' }}
     >
       <AmbientBackground />
 
       {/* ── Card ── */}
       <div
-        className="relative z-10 w-full bg-white border border-[#E3DDD7] rounded-[24px]"
+        className="relative z-10 w-full bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[24px]"
         style={{
           maxWidth: 480,
           padding: 'clamp(24px, 5vw, 48px)',
@@ -198,7 +198,7 @@ export default function CreateAccountScreen({
 
         {/* Eyebrow */}
         <div
-          className="text-center text-[12px] tracking-[0.12em] text-[#722ED1] font-semibold uppercase mb-3"
+          className="text-center text-[12px] tracking-[0.12em] text-[var(--hz-primary)] font-semibold uppercase mb-3"
           style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
         >
           Create Your Account
@@ -206,7 +206,7 @@ export default function CreateAccountScreen({
 
         {/* Headline */}
         <h1
-          className="text-center text-[28px] sm:text-[38px] font-semibold text-[#242326] leading-[1.06] tracking-[-0.02em] m-0 mb-2"
+          className="text-center text-[28px] sm:text-[38px] font-semibold text-[var(--hz-ink)] leading-[1.06] tracking-[-0.02em] m-0 mb-2"
           style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           Let&apos;s get started.
@@ -214,7 +214,7 @@ export default function CreateAccountScreen({
 
         {/* Description */}
         <p
-          className="text-center text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mb-5"
+          className="text-center text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 mb-5"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Create your Houzeify workspace in a few seconds.
@@ -262,7 +262,7 @@ export default function CreateAccountScreen({
             isDisabled ? 'cursor-default' : 'cursor-pointer hover:brightness-90 active:scale-[0.99]',
           ].join(' ')}
           style={{
-            backgroundColor: stage === 'success' ? '#16A34A' : '#722ED1',
+            backgroundColor: stage === 'success' ? 'var(--hz-success)' : 'var(--hz-primary)',
             fontFamily: '"Inter Variable", sans-serif',
           }}
         >
@@ -281,15 +281,15 @@ export default function CreateAccountScreen({
 
         {/* Terms */}
         <p
-          className="text-center text-[11px] text-[#9A949D] leading-[1.65] m-0"
+          className="text-center text-[11px] text-[var(--hz-ink-subtle)] leading-[1.65] m-0"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           By continuing, you agree to our{' '}
-          <a href="#" className="text-[#722ED1] hover:underline" onClick={e => e.preventDefault()}>
+          <a href="#" className="text-[var(--hz-primary)] hover:underline" onClick={e => e.preventDefault()}>
             Terms of Service
           </a>
           {' '}and{' '}
-          <a href="#" className="text-[#722ED1] hover:underline" onClick={e => e.preventDefault()}>
+          <a href="#" className="text-[var(--hz-primary)] hover:underline" onClick={e => e.preventDefault()}>
             Privacy Policy
           </a>
           .
@@ -301,14 +301,14 @@ export default function CreateAccountScreen({
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
             <span
-              className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]"
+              className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]"
               style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
             >
               {item}
             </span>
             {i < arr.length - 1 && (
               <span
-                className="text-[12px] text-[#722ED1]"
+                className="text-[12px] text-[var(--hz-primary)]"
                 style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
               >
                 /

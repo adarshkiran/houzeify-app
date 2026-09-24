@@ -38,12 +38,12 @@ function Chip({ label, selected, onSelect }: { label: string; selected: boolean;
       className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
       style={{
         fontFamily: FONT_BODY,
-        backgroundColor: selected ? '#F3EAFF' : '#FFFFFF',
-        borderColor: selected ? '#722ED1' : '#CAC7C6',
-        color: selected ? '#722ED1' : '#1E1E1E',
+        backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+        color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
-      {selected && <span className="w-[14px] h-[14px] rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon /></span>}
+      {selected && <span className="w-[14px] h-[14px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon /></span>}
       {label}
     </button>
   )
@@ -51,12 +51,12 @@ function Chip({ label, selected, onSelect }: { label: string; selected: boolean;
 
 function MobileTopBar({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
       </div>
-      <button onClick={onBack} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
+      <button onClick={onBack} className="text-[13px] text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
     </div>
   )
 }
@@ -86,46 +86,46 @@ export default function RenovateEstimateScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onBack={() => onNavigate('renovate-ai-plan')} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="build" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
-            <button onClick={() => onNavigate('renovate-ai-plan')} className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
+            <button onClick={() => onNavigate('renovate-ai-plan')} className="text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
               Back
             </button>
           </header>
 
-          <div className="hidden md:block h-[2px] bg-[#F4F0EC] w-full shrink-0">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: `${(9 / TOTAL_STEPS) * 100}%` }} />
+          <div className="hidden md:block h-[2px] bg-[var(--hz-surface-muted)] w-full shrink-0">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: `${(9 / TOTAL_STEPS) * 100}%` }} />
           </div>
 
           <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
             <div className="max-w-[720px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-8 flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step {TOTAL_STEPS} of {TOTAL_STEPS}</span>
-                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Estimated Renovation Cost</h2>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step {TOTAL_STEPS} of {TOTAL_STEPS}</span>
+                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Estimated Renovation Cost</h2>
               </div>
 
               <div
                 className="rounded-[20px] p-6 sm:p-8 flex flex-col gap-3"
-                style={{ background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, #ffffff 55%)', border: '1px solid #E3DDD7', boxShadow: '0 4px 32px rgba(114,46,209,0.08)' }}
+                style={{ background: 'linear-gradient(135deg, var(--hz-primary-soft) 0%, var(--hz-surface) 55%)', border: '1px solid var(--hz-border)', boxShadow: '0 4px 32px color-mix(in oklch, var(--hz-primary) 14%, transparent)' }}
               >
-                <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Estimated Renovation Cost</span>
-                <span className="text-[36px] sm:text-[46px] font-semibold leading-none" style={{ fontFamily: FONT_HEAD, color: '#722ED1' }}>
+                <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Estimated Renovation Cost</span>
+                <span className="text-[36px] sm:text-[46px] font-semibold leading-none" style={{ fontFamily: FONT_HEAD, color: 'var(--hz-primary)' }}>
                   {formatINR(estimate.minCost)} – {formatINR(estimate.maxCost)}
                 </span>
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                   Preliminary estimate based on your requirements, location, area, and selected finish.
                 </p>
               </div>
 
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Modify finish to update estimate</span>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Modify finish to update estimate</span>
                 <div role="radiogroup" aria-label="Finish" className="flex flex-wrap gap-2">
                   {RENOVATION_FINISH_OPTIONS.map(opt => (
                     <Chip key={opt} label={RENOVATION_FINISH_LABELS[opt]} selected={selectedFinish === opt} onSelect={() => setSelectedFinish(opt)} />
@@ -133,13 +133,13 @@ export default function RenovateEstimateScreen({
                 </div>
               </div>
 
-              <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-3">
-                <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Cost Breakdown</span>
+              <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-3">
+                <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Cost Breakdown</span>
                 <div className="flex flex-col">
                   {estimate.breakdown.map((row, i) => (
-                    <div key={row.category} className="flex items-center justify-between py-2.5" style={{ borderTop: i === 0 ? 'none' : '1px solid #F4F0EC' }}>
-                      <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{row.category}</span>
-                      <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{formatINR(row.amount)}</span>
+                    <div key={row.category} className="flex items-center justify-between py-2.5" style={{ borderTop: i === 0 ? 'none' : '1px solid var(--hz-surface-muted)' }}>
+                      <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{row.category}</span>
+                      <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{formatINR(row.amount)}</span>
                     </div>
                   ))}
                 </div>

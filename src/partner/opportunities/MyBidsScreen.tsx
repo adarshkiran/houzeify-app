@@ -42,10 +42,10 @@ const ArrowRightIcon = () => (
 )
 
 function statusColor(status: BidStatus): { bg: string; fg: string; dot: string } {
-  if (status === 'accepted') return { bg: '#DCFCE7', fg: '#16A34A', dot: '#16A34A' }
-  if (status === 'rejected') return { bg: '#FEE2E2', fg: '#DC2626', dot: '#DC2626' }
-  if (status === 'withdrawn') return { bg: '#CAC7C6', fg: '#808080', dot: '#A1A1A1' }
-  return { bg: '#CAC7C6', fg: '#808080', dot: '#A1A1A1' } // submitted
+  if (status === 'accepted') return { bg: '#DCFCE7', fg: 'var(--hz-success)', dot: 'var(--hz-success)' }
+  if (status === 'rejected') return { bg: '#FEE2E2', fg: 'var(--hz-danger)', dot: 'var(--hz-danger)' }
+  if (status === 'withdrawn') return { bg: 'var(--hz-border-strong)', fg: '#808080', dot: '#A1A1A1' }
+  return { bg: 'var(--hz-border-strong)', fg: '#808080', dot: '#A1A1A1' } // submitted
 }
 
 // ─── Sidebar ────────────────────────────────────────────────────────────
@@ -56,9 +56,9 @@ function statusColor(status: BidStatus): { bg: string; fg: string; dot: string }
 
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div className="flex flex-col gap-1 rounded-[14px] bg-white border border-[#E3DDD7] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[20px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{value}</span>
-      <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+    <div className="flex flex-col gap-1 rounded-[14px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[20px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{value}</span>
+      <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
     </div>
   )
 }
@@ -72,9 +72,9 @@ function FilterChip({ label, selected, onClick }: { label: string; selected: boo
       className="h-8 px-3 rounded-full text-[12px] font-semibold cursor-pointer border transition-all"
       style={{
         fontFamily: FONT_BODY,
-        backgroundColor: selected ? '#F3EAFF' : '#FFFFFF',
-        borderColor: selected ? '#722ED1' : '#CAC7C6',
-        color: selected ? '#722ED1' : '#1E1E1E',
+        backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+        color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
       {label}
@@ -89,9 +89,9 @@ function formatSubmittedDate(iso: string): string {
 function BidCard({ bid, opportunity, onViewProject, onViewBid }: { bid: Bid; opportunity: ProjectOpportunity | undefined; onViewProject: () => void; onViewBid: () => void }) {
   const colors = statusColor(bid.status)
   return (
-    <div className="flex flex-col gap-2.5 rounded-[16px] bg-white border border-[#E3DDD7] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <div className="flex flex-col gap-2.5 rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
       <div className="flex items-start justify-between gap-2">
-        <button type="button" onClick={onViewProject} className="text-left text-[14.5px] font-semibold text-[#242326] leading-tight cursor-pointer bg-transparent border-0 p-0 hover:text-[#722ED1] hover:underline" style={{ fontFamily: FONT_HEAD }}>
+        <button type="button" onClick={onViewProject} className="text-left text-[14.5px] font-semibold text-[var(--hz-ink)] leading-tight cursor-pointer bg-transparent border-0 p-0 hover:text-[var(--hz-primary)] hover:underline" style={{ fontFamily: FONT_HEAD }}>
           {opportunity?.title ?? 'Project no longer available'}
         </button>
         <span className="shrink-0 flex items-center gap-1.5 h-6 px-2 rounded-full text-[10.5px] font-semibold tracking-[0.04em] uppercase" style={{ fontFamily: FONT_MONO, backgroundColor: colors.bg, color: colors.fg }}>
@@ -101,27 +101,27 @@ function BidCard({ bid, opportunity, onViewProject, onViewBid }: { bid: Bid; opp
       </div>
 
       {opportunity && (
-        <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+        <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
           <span className="flex items-center gap-1"><HomeIconSmall /> {OPPORTUNITY_PROJECT_TYPE_LABELS[opportunity.projectType]}</span>
-          <span className="text-[#CAC7C6]">·</span>
+          <span className="text-[var(--hz-border-strong)]">·</span>
           <span className="flex items-center gap-1"><PinIcon /> {opportunity.city}</span>
         </div>
       )}
 
       <div className="flex flex-col gap-0.5 pt-1">
-        <span className="text-[10px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Your bid</span>
-        <span className="text-[17px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{formatBidAmount(bid.amount)}</span>
+        <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Your bid</span>
+        <span className="text-[17px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{formatBidAmount(bid.amount)}</span>
       </div>
 
       <div className="flex items-center justify-between text-[12.5px]" style={{ fontFamily: FONT_BODY }}>
-        <span className="text-[#68636D]">{formatBidDuration(bid.duration, bid.durationUnit)}</span>
-        <span className="text-[#9A949D]">Submitted {formatSubmittedDate(bid.createdAt)}</span>
+        <span className="text-[var(--hz-ink-muted)]">{formatBidDuration(bid.duration, bid.durationUnit)}</span>
+        <span className="text-[var(--hz-ink-subtle)]">Submitted {formatSubmittedDate(bid.createdAt)}</span>
       </div>
 
       <button
         type="button"
         onClick={onViewBid}
-        className="self-start mt-1 flex items-center gap-1.5 h-9 px-3.5 rounded-[9px] text-[12.5px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all"
+        className="self-start mt-1 flex items-center gap-1.5 h-9 px-3.5 rounded-[9px] text-[12.5px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all"
         style={{ fontFamily: FONT_BODY }}
       >
         View Bid <ArrowRightIcon />
@@ -219,7 +219,7 @@ export default function MyBidsScreen({
   const hasAnyFilter = query.trim() !== '' || statusTab !== 'all'
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <PartnerNavRail active="bids" onNavigate={onNavigate} organizationId={organizationId} />
 
       <div className="flex-1 flex flex-col min-w-0 relative overflow-y-auto">
@@ -229,20 +229,20 @@ export default function MyBidsScreen({
 
             {/* Header */}
             <div className="flex flex-col gap-2">
-              <button type="button" onClick={handleBack} className="self-start text-[12.5px] font-semibold text-[#68636D] cursor-pointer bg-transparent border-0 hover:text-[#242326] hover:underline p-0 mb-1" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={handleBack} className="self-start text-[12.5px] font-semibold text-[var(--hz-ink-muted)] cursor-pointer bg-transparent border-0 hover:text-[var(--hz-ink)] hover:underline p-0 mb-1" style={{ fontFamily: FONT_BODY }}>
                 ← Back to Dashboard
               </button>
               <div className="flex items-center gap-2.5 flex-wrap">
-                <h1 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <h1 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   My Bids
                 </h1>
                 {isOrganization && companyName && (
-                  <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#722ED1] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
+                  <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-primary)] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
                     {companyName}
                   </span>
                 )}
               </div>
-              <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                 Track the projects you&apos;ve submitted proposals for.
               </p>
             </div>
@@ -265,15 +265,15 @@ export default function MyBidsScreen({
 
             {/* Search + sort */}
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <div className="flex items-center border rounded-[12px] bg-white h-[44px] overflow-hidden transition-colors border-[#E3DDD7] focus-within:border-[#722ED1]" style={{ maxWidth: 420, flex: 1, minWidth: 220 }}>
-                <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><SearchIcon /></div>
+              <div className="flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[44px] overflow-hidden transition-colors border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]" style={{ maxWidth: 420, flex: 1, minWidth: 220 }}>
+                <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><SearchIcon /></div>
                 <input
                   type="text"
                   value={query}
                   onChange={e => setQuery(e.target.value)}
                   placeholder="Search bids..."
                   aria-label="Search bids by project name or location"
-                  className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                  className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
               </div>
@@ -288,7 +288,7 @@ export default function MyBidsScreen({
               <button
                 type="button"
                 onClick={() => { setQuery(''); setStatusTab('all') }}
-                className="self-start -mt-3 text-[12px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline p-0"
+                className="self-start -mt-3 text-[12px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline p-0"
                 style={{ fontFamily: FONT_BODY }}
               >
                 Clear all filters
@@ -297,20 +297,20 @@ export default function MyBidsScreen({
 
             {/* Bid list */}
             {myBids.length === 0 ? (
-              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white border border-dashed border-[#E3DDD7] p-10">
-                <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}><IcoBids /></span>
-                <p className="text-[14px] text-[#242326] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>No bids yet</p>
-                <p className="text-[13px] text-[#68636D] leading-[1.6] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
+              <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] border border-dashed border-[var(--hz-border)] p-10">
+                <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}><IcoBids /></span>
+                <p className="text-[14px] text-[var(--hz-ink)] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>No bids yet</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
                   Projects you bid on will appear here.
                 </p>
-                <button type="button" onClick={handleDiscoverProjects} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all flex items-center gap-1.5 mt-1" style={{ fontFamily: FONT_BODY }}>
+                <button type="button" onClick={handleDiscoverProjects} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all flex items-center gap-1.5 mt-1" style={{ fontFamily: FONT_BODY }}>
                   Discover Projects <ArrowRightIcon />
                 </button>
               </div>
             ) : results.length === 0 ? (
-              <div className="flex flex-col items-center text-center gap-2.5 rounded-[16px] bg-white border border-dashed border-[#E3DDD7] p-10">
-                <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No bids match your filters.</p>
-                <button type="button" onClick={() => { setQuery(''); setStatusTab('all') }} className="text-[12.5px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline p-0" style={{ fontFamily: FONT_BODY }}>
+              <div className="flex flex-col items-center text-center gap-2.5 rounded-[16px] bg-[var(--hz-surface)] border border-dashed border-[var(--hz-border)] p-10">
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No bids match your filters.</p>
+                <button type="button" onClick={() => { setQuery(''); setStatusTab('all') }} className="text-[12.5px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline p-0" style={{ fontFamily: FONT_BODY }}>
                   Clear filters
                 </button>
               </div>

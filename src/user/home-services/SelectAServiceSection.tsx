@@ -30,8 +30,8 @@ export default function SelectAServiceSection({ tiles }: { tiles: SelectAService
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <span className="text-[12px] tracking-[0.10em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a service</span>
-        <h2 className="text-[20px] sm:text-[24px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+        <span className="text-[12px] tracking-[0.10em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a service</span>
+        <h2 className="text-[20px] sm:text-[24px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
           What do you need help with?
         </h2>
       </div>
@@ -44,9 +44,9 @@ export default function SelectAServiceSection({ tiles }: { tiles: SelectAService
           <button
             key={tile.id}
             onClick={tile.onClick}
-            className="group flex flex-col items-center gap-2 text-center bg-white rounded-[14px] border border-[#E3DDD7] p-2.5 cursor-pointer hover:border-[#722ED1] transition-all flex-1 min-w-[92px] sm:min-w-[104px]"
+            className="group flex flex-col items-center gap-2 text-center bg-[var(--hz-surface)] rounded-[14px] border border-[var(--hz-border)] p-2.5 cursor-pointer hover:border-[var(--hz-primary)] transition-all flex-1 min-w-[92px] sm:min-w-[104px]"
           >
-            <div className="relative w-full aspect-square rounded-[10px] overflow-hidden bg-[#F3EAFF]">
+            <div className="relative w-full aspect-square rounded-[10px] overflow-hidden bg-[var(--hz-primary-soft)]">
               {tile.image ? (
                 <img
                   src={tile.image}
@@ -55,12 +55,12 @@ export default function SelectAServiceSection({ tiles }: { tiles: SelectAService
                   style={{ objectPosition: '50% 20%' }}
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-[#722ED1] opacity-40">
+                <div className="absolute inset-0 flex items-center justify-center text-[var(--hz-primary)] opacity-40">
                   <div style={{ transform: 'scale(2)' }}>{tile.icon}</div>
                 </div>
               )}
             </div>
-            <span className="text-[11px] text-[#242326] leading-tight" style={{ fontFamily: FONT_BODY }}>{tile.label}</span>
+            <span className="text-[11px] text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_BODY }}>{tile.label}</span>
           </button>
         ))}
       </div>

@@ -29,8 +29,8 @@ const IcoPeople = ({ size = 28 }: { size?: number }) => (
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
       {children}
     </div>
   )
@@ -127,11 +127,11 @@ export default function ProjectTeamScreen({
 
   if (!hasProject) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
-          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
             Back to Workspace
           </button>
         </div>
@@ -151,7 +151,7 @@ export default function ProjectTeamScreen({
     : activeMembers.length > 0 || Boolean(organizationId && companyName)
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
@@ -161,24 +161,24 @@ export default function ProjectTeamScreen({
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[760px] mx-auto flex flex-col gap-6">
           <div>
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Team</p>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Team</p>
+            <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
             {location && (
-              <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+              <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                 <IcoMapPin /> {location}
               </span>
             )}
-            <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>People and professionals involved in this project.</p>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>People and professionals involved in this project.</p>
           </div>
 
           <SectionCard title="Project Owner">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center shrink-0" style={{ fontFamily: FONT_HEAD }}>
+              <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center shrink-0" style={{ fontFamily: FONT_HEAD }}>
                 <IcoHome />
               </div>
               <div className="min-w-0">
-                <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{ownerName}</p>
-                <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{ownerName}</p>
+                <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
                   {role === 'professional' ? 'Account' : 'Homeowner'}
                 </p>
               </div>
@@ -188,12 +188,12 @@ export default function ProjectTeamScreen({
           {organizationId && companyName && (
             <SectionCard title="Company">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+                <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
                   {companyName.slice(0, 2).toUpperCase()}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{companyName}</p>
-                  <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>Organization on this project</p>
+                  <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{companyName}</p>
+                  <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>Organization on this project</p>
                 </div>
               </div>
             </SectionCard>
@@ -207,19 +207,19 @@ export default function ProjectTeamScreen({
 
           <SectionCard title="Project Professionals">
             {isLoading ? (
-              <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Loading team…</p>
+              <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Loading team…</p>
             ) : isCustomer && customerStatus === 'error' ? (
-              <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Team details are unavailable right now.</p>
+              <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Team details are unavailable right now.</p>
             ) : customerLoaded && customerRoster.length > 0 ? (
               <div className="flex flex-col gap-3">
                 {customerRoster.map((row, index) => (
                   <div key={`${row.displayName}-${row.role}-${index}`} className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#F4F0EC] text-[#68636D] flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)] flex items-center justify-center shrink-0">
                       <IcoPeople size={18} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{row.displayName}</p>
-                      <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{row.role}</p>
+                      <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{row.displayName}</p>
+                      <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{row.role}</p>
                     </div>
                   </div>
                 ))}
@@ -228,21 +228,21 @@ export default function ProjectTeamScreen({
               <div className="flex flex-col gap-3">
                 {activeMembers.map(member => (
                   <div key={member.id} className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#F4F0EC] text-[#68636D] flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)] flex items-center justify-center shrink-0">
                       <IcoPeople size={18} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                      <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                         {memberLabel(member.userId, currentUserId)}
                       </p>
-                      <p className="text-[12px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{member.role}</p>
+                      <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>{member.role}</p>
                     </div>
                   </div>
                 ))}
                 <button
                   type="button"
                   onClick={() => onNavigate('project-workforce', projectId ? { project_id: projectId } : undefined)}
-                  className="self-start text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0 mt-1"
+                  className="self-start text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0 mt-1"
                   style={{ fontFamily: FONT_BODY }}
                 >
                   Manage Workforce →
@@ -250,10 +250,10 @@ export default function ProjectTeamScreen({
               </div>
             ) : (
               <div className="flex flex-col items-center text-center gap-2 py-4">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-subtle)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <IcoPeople />
                 </span>
-                <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>
                   {hasTeamPeople
                     ? 'No additional team members yet.'
                     : 'No team members have been added to this project yet.'}
@@ -262,7 +262,7 @@ export default function ProjectTeamScreen({
                   <button
                     type="button"
                     onClick={() => onNavigate('project-workforce', projectId ? { project_id: projectId } : undefined)}
-                    className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0 mt-1"
+                    className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0 mt-1"
                     style={{ fontFamily: FONT_BODY }}
                   >
                     Open Workforce →

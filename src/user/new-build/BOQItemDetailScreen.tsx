@@ -139,7 +139,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -158,9 +158,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4">
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -170,17 +170,17 @@ function SectionCard({ eyebrow, tag, children }: { eyebrow: string; tag?: React.
 
 function StatTile({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col gap-1 p-3 rounded-[12px] min-w-0" style={{ backgroundColor: '#FFFFFF' }}>
-      <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D] truncate" style={{ fontFamily: FONT_MONO }}>{label}</span>
-      <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{value}</span>
+    <div className="flex flex-col gap-1 p-3 rounded-[12px] min-w-0" style={{ backgroundColor: 'var(--hz-surface)' }}>
+      <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)] truncate" style={{ fontFamily: FONT_MONO }}>{label}</span>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{value}</span>
     </div>
   )
 }
 
 const IMPACT_META: Record<Exclude<ImpactLevel, 'baseline'>, { label: string; bg: string; fg: string }> = {
-  low: { label: 'LOW', bg: '#CAC7C6', fg: '#808080' },
-  medium: { label: 'MEDIUM', bg: '#F3EAFF', fg: '#722ED1' },
-  high: { label: 'HIGH', bg: '#722ED1', fg: '#FFFFFF' },
+  low: { label: 'LOW', bg: 'var(--hz-border-strong)', fg: '#808080' },
+  medium: { label: 'MEDIUM', bg: 'var(--hz-primary-soft)', fg: 'var(--hz-primary)' },
+  high: { label: 'HIGH', bg: 'var(--hz-primary)', fg: 'var(--hz-surface)' },
 }
 
 function SensitivityRow({ factor }: { factor: CostSensitivityFactor }) {
@@ -188,11 +188,11 @@ function SensitivityRow({ factor }: { factor: CostSensitivityFactor }) {
   const meta = IMPACT_META[factor.impact]
   return (
     <div className="flex items-center gap-3">
-      <span className="text-[13px] text-[#242326] w-[140px] sm:w-[150px] shrink-0 truncate" style={{ fontFamily: FONT_BODY }}>{factor.factor}</span>
-      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-        <div className="h-full rounded-full" style={{ width: `${fillPct}%`, backgroundColor: factor.impact === 'high' ? '#722ED1' : '#F3EAFF' }} />
+      <span className="text-[13px] text-[var(--hz-ink)] w-[140px] sm:w-[150px] shrink-0 truncate" style={{ fontFamily: FONT_BODY }}>{factor.factor}</span>
+      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-surface)' }}>
+        <div className="h-full rounded-full" style={{ width: `${fillPct}%`, backgroundColor: factor.impact === 'high' ? 'var(--hz-primary)' : 'var(--hz-primary-soft)' }} />
       </div>
-      <span className="text-[11px] font-semibold w-[64px] text-right shrink-0" style={{ fontFamily: FONT_MONO, color: meta.fg === '#FFFFFF' ? '#722ED1' : meta.fg }}>
+      <span className="text-[11px] font-semibold w-[64px] text-right shrink-0" style={{ fontFamily: FONT_MONO, color: meta.fg === 'var(--hz-surface)' ? 'var(--hz-primary)' : meta.fg }}>
         {meta.label}
       </span>
     </div>
@@ -204,11 +204,11 @@ function SensitivityRow({ factor }: { factor: CostSensitivityFactor }) {
 function Breadcrumb({ categoryName, itemName, onBOQ }: { categoryName: string; itemName: string; onBOQ: () => void }) {
   return (
     <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-[12px] flex-wrap min-w-0" style={{ fontFamily: FONT_BODY }}>
-      <button onClick={onBOQ} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: '#68636D' }}>Detailed BOQ</button>
-      <span aria-hidden="true" style={{ color: '#CAC7C6' }}>/</span>
-      <button onClick={onBOQ} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: '#68636D' }}>{categoryName}</button>
-      <span aria-hidden="true" style={{ color: '#CAC7C6' }}>/</span>
-      <span className="font-semibold truncate" style={{ color: '#242326' }}>{itemName}</span>
+      <button onClick={onBOQ} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: 'var(--hz-ink-muted)' }}>Detailed BOQ</button>
+      <span aria-hidden="true" style={{ color: 'var(--hz-border-strong)' }}>/</span>
+      <button onClick={onBOQ} className="border-0 bg-transparent cursor-pointer p-0 hover:underline shrink-0" style={{ color: 'var(--hz-ink-muted)' }}>{categoryName}</button>
+      <span aria-hidden="true" style={{ color: 'var(--hz-border-strong)' }}>/</span>
+      <span className="font-semibold truncate" style={{ color: 'var(--hz-ink)' }}>{itemName}</span>
     </nav>
   )
 }
@@ -223,20 +223,20 @@ function BOQItemHeader({ item, categoryName, onBOQ, onEdit }: {
       <Breadcrumb categoryName={categoryName} itemName={item.name} onBOQ={onBOQ} />
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div className="flex flex-col gap-2 min-w-0">
-          <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>
+          <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>
             BOQ Item · {String(item.itemNumber).padStart(2, '0')}
           </span>
-          <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] m-0 leading-[1.1]" style={{ fontFamily: FONT_HEAD }}>{item.name}</h1>
-          <p className="text-[14px] text-[#68636D] leading-[1.6] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>{item.description}</p>
-          <span className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em] w-fit" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#722ED1' }} aria-hidden="true" /> AI Estimated
+          <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.1]" style={{ fontFamily: FONT_HEAD }}>{item.name}</h1>
+          <p className="text-[14px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>{item.description}</p>
+          <span className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em] w-fit" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-primary)' }} aria-hidden="true" /> AI Estimated
           </span>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <button onClick={onBOQ} className="flex items-center gap-1.5 h-9 px-3.5 rounded-[10px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: FONT_BODY }}>
+          <button onClick={onBOQ} className="flex items-center gap-1.5 h-9 px-3.5 rounded-[10px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all" style={{ fontFamily: FONT_BODY }}>
             <IcoChevronLeft /> Back to BOQ
           </button>
-          <button onClick={onEdit} className="h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+          <button onClick={onEdit} className="h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
             Edit Item
           </button>
         </div>
@@ -250,17 +250,17 @@ function BOQItemHeader({ item, categoryName, onBOQ, onEdit }: {
 function BOQItemSummary({ item }: { item: BOQItem }) {
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.08s both' }}>
-      <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-5" style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Item Summary</span>
+      <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-5" style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Item Summary</span>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <StatTile label="Quantity" value={`${item.quantity.toLocaleString('en-IN')} ${item.unit}`} />
           <StatTile label="Material Rate" value={`₹${item.materialRate.toLocaleString('en-IN')} / ${item.unit}`} />
           <StatTile label="Material Cost" value={formatINR(item.materialCost)} />
           <StatTile label="Labour Cost" value={formatINR(item.labourCost)} />
         </div>
-        <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
-          <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: '#722ED1', fontFamily: FONT_MONO }}>Total Item Cost</span>
-          <span className="text-[32px] sm:text-[38px] font-semibold leading-none" style={{ color: '#722ED1', fontFamily: FONT_HEAD }}>{formatINR(item.totalCost)}</span>
+        <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
+          <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>Total Item Cost</span>
+          <span className="text-[32px] sm:text-[38px] font-semibold leading-none" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>{formatINR(item.totalCost)}</span>
         </div>
       </div>
     </div>
@@ -274,32 +274,32 @@ function CostCalculationCard({ item }: { item: BOQItem }) {
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.11s both' }}>
       <SectionCard
         eyebrow="Cost Calculation"
-        tag={<span className="text-[9px] uppercase tracking-[0.06em] px-2 py-1 rounded-[6px]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>AI Estimated Cost</span>}
+        tag={<span className="text-[9px] uppercase tracking-[0.06em] px-2 py-1 rounded-[6px]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>AI Estimated Cost</span>}
       >
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] uppercase tracking-[0.08em] text-[#68636D]" style={{ fontFamily: FONT_MONO }}>Material</span>
+          <span className="text-[10px] uppercase tracking-[0.08em] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>Material</span>
           <div className="flex items-center justify-between gap-2 flex-wrap">
-            <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
               {item.quantity.toLocaleString('en-IN')} {item.unit} × ₹{item.materialRate.toLocaleString('en-IN')} / {item.unit}
             </span>
-            <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>= {formatINR(item.materialCost)}</span>
+            <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>= {formatINR(item.materialCost)}</span>
           </div>
         </div>
 
-        <div className="flex flex-col gap-1 pt-4" style={{ borderTop: '1px solid #FFFFFF' }}>
-          <span className="text-[10px] uppercase tracking-[0.08em] text-[#68636D]" style={{ fontFamily: FONT_MONO }}>Labour</span>
+        <div className="flex flex-col gap-1 pt-4" style={{ borderTop: '1px solid var(--hz-surface)' }}>
+          <span className="text-[10px] uppercase tracking-[0.08em] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>Labour</span>
           <div className="flex items-center justify-between gap-2">
-            <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>Estimated labour</span>
-            <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{formatINR(item.labourCost)}</span>
+            <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Estimated labour</span>
+            <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{formatINR(item.labourCost)}</span>
           </div>
         </div>
 
-        <div className="rounded-[12px] p-4 flex items-center justify-between" style={{ backgroundColor: '#F9F5FF' }}>
-          <span className="text-[13px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_HEAD }}>Total</span>
-          <span className="text-[20px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_HEAD }}>{formatINR(item.totalCost)}</span>
+        <div className="rounded-[12px] p-4 flex items-center justify-between" style={{ backgroundColor: 'var(--hz-primary-wash)' }}>
+          <span className="text-[13px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>Total</span>
+          <span className="text-[20px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>{formatINR(item.totalCost)}</span>
         </div>
 
-        <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           This is an AI-estimated cost based on regional reference rates — not a guaranteed market quotation. Confirm final pricing with your contractor or supplier before procurement.
         </p>
       </SectionCard>
@@ -311,9 +311,9 @@ function CostCalculationCard({ item }: { item: BOQItem }) {
 
 function BasisRow({ label, value, first }: { label: string; value: string; first?: boolean }) {
   return (
-    <div className="flex items-center justify-between gap-3 py-2.5" style={{ borderTop: first ? 'none' : '1px solid #FFFFFF' }}>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[13px] font-semibold text-[#242326] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
+    <div className="flex items-center justify-between gap-3 py-2.5" style={{ borderTop: first ? 'none' : '1px solid var(--hz-surface)' }}>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
@@ -324,9 +324,9 @@ function CalculationFlow() {
     <div className="flex flex-col items-stretch gap-1.5 py-1">
       {steps.map((s, i) => (
         <div key={s} className="flex flex-col items-center gap-1.5">
-          <div className="w-full text-center py-2 px-3 rounded-[10px] text-[12px] font-medium" style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: FONT_BODY }}>{s}</div>
+          <div className="w-full text-center py-2 px-3 rounded-[10px] text-[12px] font-medium" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>{s}</div>
           {i < steps.length - 1 && (
-            <span aria-hidden="true" className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>
+            <span aria-hidden="true" className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>
               <IcoArrowDown />
             </span>
           )}
@@ -350,7 +350,7 @@ function CalculationBasisCard({ item, estimateVersion }: { item: BOQItem; estima
           <BasisRow label="Price basis" value={item.priceBasis ?? 'Regional planning estimate'} />
         </div>
         <CalculationFlow />
-        <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Hozie starts from your project's size and construction level, estimates how much of this item is typically needed for a project like yours, then applies a regional reference rate to arrive at material and labour cost.
         </p>
       </SectionCard>
@@ -379,10 +379,10 @@ function SpecificationCard({ item, categoryId }: { item: BOQItem; categoryId: st
 
         {!!item.applications?.length && (
           <div className="flex flex-col gap-2">
-            <span className="text-[10px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Used In</span>
+            <span className="text-[10px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Used In</span>
             <div className="flex flex-wrap gap-1.5">
               {item.applications.map(a => (
-                <span key={a} className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: FONT_BODY }}>{a}</span>
+                <span key={a} className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>{a}</span>
               ))}
             </div>
           </div>
@@ -411,7 +411,7 @@ function RateInformationCard({ item }: { item: BOQItem }) {
           <BasisRow label="Location" value={item.location ?? 'Hyderabad'} />
           <BasisRow label="Price status" value="Reference estimate" />
         </div>
-        <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Rate may change based on supplier, brand, quantity, delivery and market conditions.
         </p>
       </SectionCard>
@@ -427,27 +427,27 @@ function AIConfidenceCard({ item }: { item: BOQItem }) {
   const score = item.confidenceScore ?? 0
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.12s both' }}>
-      <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, #F9F5FF 0%, #FFFFFF 100%)', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ background: 'linear-gradient(135deg, var(--hz-primary-wash) 0%, var(--hz-surface) 100%)', border: '1px solid var(--hz-primary-soft)' }}>
         <div className="flex items-center gap-2.5">
-          <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-          <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Confidence</span>
+          <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+          <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Confidence</span>
         </div>
 
         <div className="flex items-end gap-2">
-          <span className="text-[40px] font-semibold leading-none" style={{ fontFamily: FONT_HEAD, color: '#722ED1' }}>{score}%</span>
-          <span className="text-[13px] text-[#68636D] mb-1" style={{ fontFamily: FONT_BODY }}>{CONFIDENCE_LABEL[item.confidence]}</span>
+          <span className="text-[40px] font-semibold leading-none" style={{ fontFamily: FONT_HEAD, color: 'var(--hz-primary)' }}>{score}%</span>
+          <span className="text-[13px] text-[var(--hz-ink-muted)] mb-1" style={{ fontFamily: FONT_BODY }}>{CONFIDENCE_LABEL[item.confidence]}</span>
         </div>
-        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
-          <div className="h-full rounded-full" style={{ width: `${score}%`, backgroundColor: '#722ED1' }} />
+        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
+          <div className="h-full rounded-full" style={{ width: `${score}%`, backgroundColor: 'var(--hz-primary)' }} />
         </div>
 
         {!!item.confidenceWhy?.length && (
           <div className="flex flex-col gap-1.5">
-            <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Why</span>
+            <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Why</span>
             <ul className="flex flex-col gap-1.5 m-0 p-0" style={{ listStyle: 'none' }}>
               {item.confidenceWhy.map(f => (
-                <li key={f} className="flex items-start gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                  <span aria-hidden="true" style={{ color: '#722ED1' }}>✓</span> {f}
+                <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                  <span aria-hidden="true" style={{ color: 'var(--hz-primary)' }}>✓</span> {f}
                 </li>
               ))}
             </ul>
@@ -455,12 +455,12 @@ function AIConfidenceCard({ item }: { item: BOQItem }) {
         )}
 
         {!!item.confidenceImprove?.length && (
-          <div className="flex flex-col gap-1.5 pt-1" style={{ borderTop: '1px solid rgba(243,234,255,0.10)' }}>
-            <span className="text-[9px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>What Can Improve Accuracy</span>
+          <div className="flex flex-col gap-1.5 pt-1" style={{ borderTop: '1px solid var(--hz-primary-soft)' }}>
+            <span className="text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>What Can Improve Accuracy</span>
             <ul className="flex flex-col gap-1.5 m-0 p-0" style={{ listStyle: 'none' }}>
               {item.confidenceImprove.map(f => (
-                <li key={f} className="flex items-start gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                  <span aria-hidden="true" style={{ color: '#9A949D' }}>—</span> {f}
+                <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                  <span aria-hidden="true" style={{ color: 'var(--hz-ink-subtle)' }}>—</span> {f}
                 </li>
               ))}
             </ul>
@@ -497,13 +497,13 @@ function RelatedBOQItems({ items, onOpen }: { items: BOQItem[]; onOpen: (id: str
             <button
               key={r.id}
               onClick={() => onOpen(r.id)}
-              className="w-full flex items-center justify-between gap-3 py-3 text-left cursor-pointer border-0 bg-transparent hover:bg-[#FFFFFF] transition-colors -mx-1 px-1 rounded-[8px]"
-              style={{ borderTop: i === 0 ? 'none' : '1px solid #FFFFFF' }}
+              className="w-full flex items-center justify-between gap-3 py-3 text-left cursor-pointer border-0 bg-transparent hover:bg-[var(--hz-surface)] transition-colors -mx-1 px-1 rounded-[8px]"
+              style={{ borderTop: i === 0 ? 'none' : '1px solid var(--hz-surface)' }}
             >
-              <span className="text-[13px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{r.name}</span>
+              <span className="text-[13px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{r.name}</span>
               <span className="flex items-center gap-2 shrink-0">
-                <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{formatINR(r.totalCost)}</span>
-                <span style={{ color: '#9A949D' }}><IcoChevronRight /></span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{formatINR(r.totalCost)}</span>
+                <span style={{ color: 'var(--hz-ink-subtle)' }}><IcoChevronRight /></span>
               </span>
             </button>
           ))}
@@ -518,15 +518,15 @@ function RelatedBOQItems({ items, onOpen }: { items: BOQItem[]; onOpen: (id: str
 function HozieAction({ item, onAskHozie }: { item: BOQItem; onAskHozie: () => void }) {
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.2s both' }}>
-      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+      <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
         <div className="flex items-center gap-2.5">
-          <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-          <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Ask Hozie</span>
+          <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+          <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Ask Hozie</span>
         </div>
-        <p className="text-[14px] text-[#242326] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[14px] text-[var(--hz-ink)] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
           "Why do I need {item.quantity.toLocaleString('en-IN')} {item.unit} of {item.name.toLowerCase()}?"
         </p>
-        <button onClick={onAskHozie} className="self-start h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onAskHozie} className="self-start h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           Ask Hozie →
         </button>
       </div>
@@ -539,8 +539,8 @@ function HozieAction({ item, onAskHozie }: { item: BOQItem; onAskHozie: () => vo
 function VersionInfo({ estimateVersion, boqVersionNumber, boqCreatedAt }: { estimateVersion?: EstimateVersion; boqVersionNumber?: number; boqCreatedAt?: string }) {
   return (
     <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.22s both' }}>
-      <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 flex-wrap">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase shrink-0" style={{ fontFamily: FONT_MONO }}>Version</span>
+      <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 flex-wrap">
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase shrink-0" style={{ fontFamily: FONT_MONO }}>Version</span>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           {/* Customer Implementation 10L — BOQ uses its own real version
               number, not the Estimate's (they diverge the moment a BOQ edit
@@ -552,8 +552,8 @@ function VersionInfo({ estimateVersion, boqVersionNumber, boqCreatedAt }: { esti
             ['Created', boqCreatedAt ? formatDateLabel(boqCreatedAt) : '—'],
           ].map(([label, value]) => (
             <div key={label} className="flex items-baseline gap-1.5">
-              <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}:</span>
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{value}</span>
+              <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}:</span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{value}</span>
             </div>
           ))}
         </div>
@@ -565,7 +565,7 @@ function VersionInfo({ estimateVersion, boqVersionNumber, boqCreatedAt }: { esti
 // ─── States ───────────────────────────────────────────────────────────────────
 
 function SkeletonBlock({ h = 14, w = '60%' }: { h?: number; w?: string }) {
-  return <div className="rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', height: h, width: w }} />
+  return <div className="rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', height: h, width: w }} />
 }
 
 function LoadingSkeleton() {
@@ -577,7 +577,7 @@ function LoadingSkeleton() {
         <SkeletonBlock h={12} w="55%" />
       </div>
       {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="bg-white rounded-[16px] border border-[#E3DDD7] p-6 flex flex-col gap-3">
+        <div key={i} className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-6 flex flex-col gap-3">
           <SkeletonBlock h={10} w="25%" />
           <SkeletonBlock h={16} w="70%" />
           <SkeletonBlock h={16} w="50%" />
@@ -589,20 +589,20 @@ function LoadingSkeleton() {
 
 function ErrorPanel({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-white rounded-[16px] border border-[#E3DDD7]">
-      <span style={{ color: '#DC2626' }}><IcoAlert /></span>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Unable to load this BOQ item.</p>
-      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Try again</button>
+    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <span style={{ color: 'var(--hz-danger)' }}><IcoAlert /></span>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Unable to load this BOQ item.</p>
+      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Try again</button>
     </div>
   )
 }
 
 function NotFoundPanel({ onBOQ }: { onBOQ: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-white rounded-[16px] border border-[#E3DDD7]">
-      <span style={{ color: '#9A949D' }}><IcoEmptyBox /></span>
-      <p className="text-[14px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>This BOQ item is no longer available in the active version.</p>
-      <button onClick={onBOQ} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Back to BOQ</button>
+    <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <span style={{ color: 'var(--hz-ink-subtle)' }}><IcoEmptyBox /></span>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>This BOQ item is no longer available in the active version.</p>
+      <button onClick={onBOQ} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Back to BOQ</button>
     </div>
   )
 }
@@ -662,15 +662,15 @@ export default function BOQItemDetailScreen({
     boq_item_id: item.id,
   })
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <button onClick={goBOQ} aria-label="Back to Detailed BOQ" className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: FONT_BODY }}>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <button onClick={goBOQ} aria-label="Back to Detailed BOQ" className="flex items-center gap-1 text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: FONT_BODY }}>
           <IcoChevronLeft /> BOQ
         </button>
-        <span className="text-[15px] font-semibold text-[#242326] truncate px-2" style={{ fontFamily: FONT_HEAD }}>BOQ Item</span>
-        <button onClick={goEdit} aria-label="Edit item" className="w-8 h-8 flex items-center justify-center text-[#722ED1] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate px-2" style={{ fontFamily: FONT_HEAD }}>BOQ Item</span>
+        <button onClick={goEdit} aria-label="Edit item" className="w-8 h-8 flex items-center justify-center text-[var(--hz-primary)] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -678,12 +678,12 @@ return (
 
         <div className="flex flex-col flex-1 min-h-0">
           {/* Desktop header */}
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>BOQ Item Detail</h1>
-              <span className="text-[13px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>BOQ Item Detail</h1>
+              <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
-            <span className="text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+            <span className="text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
               {estimateVersion ? `ESTIMATE V${estimateVersion.versionNumber}` : 'ESTIMATE'}
               {activeBOQVersion ? ` · BOQ V${activeBOQVersion.versionNumber}` : ''}
             </span>
@@ -728,16 +728,16 @@ return (
                   <VersionInfo estimateVersion={estimateVersion} boqVersionNumber={activeBOQVersion?.versionNumber} boqCreatedAt={overview?.createdAt} />
 
                   <div className="flex flex-col sm:flex-row gap-2.5 pb-1" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.24s both' }}>
-                    <button onClick={goBOQ} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>
+                    <button onClick={goBOQ} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>
                       Back to BOQ
                     </button>
-                    <button onClick={viewEstimate} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>
+                    <button onClick={viewEstimate} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>
                       View Estimate
                     </button>
-                    <button className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors flex items-center justify-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
+                    <button className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors flex items-center justify-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
                       <IcoDownload /> Download Item Details
                     </button>
-                    <button onClick={goEdit} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+                    <button onClick={goEdit} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                       Edit Item
                     </button>
                   </div>

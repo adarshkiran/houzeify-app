@@ -80,13 +80,13 @@ const IcoStar = ({ size = 12 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 12 12" fill="currentColor"><path d="M6 0.8l1.5 3.3 3.6.4-2.7 2.5.7 3.6L6 8.8 2.9 10.6l.7-3.6L.9 4.5l3.6-.4L6 .8Z"/></svg>
 )
 const IcoCheck = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#722ED1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5"/></svg>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--hz-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5"/></svg>
 )
 const IcoBolt = () => (
   <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor"><path d="M6.5 0.5L1.5 7h3.2l-.8 4.5L9.5 5H6.3l.2-4.5Z"/></svg>
 )
 const IcoShield = ({ size = 26 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 26 26" fill="none" stroke="#722ED1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg width={size} height={size} viewBox="0 0 26 26" fill="none" stroke="var(--hz-primary)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <path d="M13 3.5l8 3v5.5c0 5-3.4 8.7-8 10.5-4.6-1.8-8-5.5-8-10.5V6.5l8-3Z"/>
     <path d="M9.5 13l2.5 2.5 5-5"/>
   </svg>
@@ -1052,12 +1052,12 @@ interface Addable {
 
 function MobileTopBar({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2">
-        <button onClick={onBack} aria-label="Back to Services" className="w-8 h-8 -ml-1 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoBack /></button>
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Salon Luxe</span>
+        <button onClick={onBack} aria-label="Back to Services" className="w-8 h-8 -ml-1 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoBack /></button>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Salon Luxe</span>
       </div>
-      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
+      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
     </div>
   )
 }
@@ -1069,22 +1069,22 @@ function TopHeader({ onNavigate }: { onNavigate: (s: string, data?: Record<strin
   // decorative avatar.
   const { itemCount } = useCustomerCart()
   return (
-    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#E3DDD7]">
+    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
       <div className="flex items-center gap-3">
-        <button onClick={() => onNavigate('home-services')} aria-label="Back to Services" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"><IcoBack /></button>
-        <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Salon Luxe</h1>
+        <button onClick={() => onNavigate('home-services')} aria-label="Back to Services" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"><IcoBack /></button>
+        <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Salon Luxe</h1>
       </div>
       <div className="flex items-center gap-2">
-        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all"><IcoBell /></button>
+        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all"><IcoBell /></button>
         <button
           onClick={() => onNavigate('booking-details', { hoziehelper_checkout_origin: 'salon-luxe' })}
           aria-label={itemCount ? `Cart (${itemCount} item${itemCount === 1 ? '' : 's'})` : 'Cart'}
-          className="relative w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"
+          className="relative w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"
         >
           <IcoCart />
           {itemCount > 0 && (
             <span
-              className="absolute top-0.5 right-0.5 min-w-[15px] h-[15px] px-[3px] rounded-full bg-[#722ED1] text-white flex items-center justify-center text-[9px] font-bold leading-none"
+              className="absolute top-0.5 right-0.5 min-w-[15px] h-[15px] px-[3px] rounded-full bg-[var(--hz-primary)] text-white flex items-center justify-center text-[9px] font-bold leading-none"
               style={{ fontFamily: FONT_MONO }}
               aria-hidden="true"
             >
@@ -1115,8 +1115,8 @@ function ServiceTabs({ onJump }: { onJump: (id: string) => void }) {
     // whatever card was passing underneath showing through it. Frosted
     // glass background (translucent white + blur) so that gap reads as
     // deliberate rather than as a rendering bug either way.
-    <div className="bg-white/70 backdrop-blur-md border border-[#E3DDD7] rounded-[16px] p-4 flex flex-col gap-3 sticky top-0 z-10" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[11px] tracking-[0.10em] uppercase text-[#9A949D] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a service</span>
+    <div className="bg-[var(--hz-surface)]/70 backdrop-blur-md border border-[var(--hz-border)] rounded-[16px] p-4 flex flex-col gap-3 sticky top-0 z-10" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[11px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a service</span>
       {/* Single scrollable row instead of a 3-column grid — all targets
           stay reachable via horizontal scroll/swipe, each one keeping a
           fixed width so labels don't get squeezed. Scrollbar hidden the
@@ -1135,10 +1135,10 @@ function ServiceTabs({ onJump }: { onJump: (id: string) => void }) {
             // every label's BOTTOM flush with the same line.
             className="flex flex-col items-center justify-between gap-1.5 cursor-pointer border-0 bg-transparent p-0 shrink-0 w-[76px]"
           >
-            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[#E3DDD7] flex items-center justify-center bg-[#F9F5FF] text-[#722ED1] shrink-0">
+            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
               {s.icon}
             </div>
-            <span className="text-[12px] text-[#242326] text-center leading-tight" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
+            <span className="text-[12px] text-[var(--hz-ink)] text-center leading-tight" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
           </button>
         ))}
       </div>
@@ -1152,10 +1152,10 @@ function HeroBanner() {
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px] h-[170px] sm:h-[200px]"
-      style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, #F3EAFF 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="absolute inset-0 flex items-center px-5 sm:px-10 lg:px-12">
-        <h2 className="text-[20px] sm:text-[28px] lg:text-[32px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0 max-w-[150px] sm:max-w-[380px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+        <h2 className="text-[20px] sm:text-[28px] lg:text-[32px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0 max-w-[150px] sm:max-w-[380px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Top-rated care,<br />tailored for you
         </h2>
       </div>
@@ -1181,12 +1181,12 @@ function CategoryBanner({ title, subtitle, icon }: { title: string; subtitle: st
   return (
     <div
       className="w-full rounded-[16px] flex items-center gap-4 px-5 sm:px-8 py-5"
-      style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, #F3EAFF 60%, #FFF3EA 100%)' }}
+      style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
     >
-      <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-[14px] bg-white/70 flex items-center justify-center text-[#722ED1] shrink-0 shadow-sm">{icon}</div>
+      <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-[14px] bg-[var(--hz-surface)]/70 flex items-center justify-center text-[var(--hz-primary)] shrink-0 shadow-sm">{icon}</div>
       <div className="flex flex-col gap-1 min-w-0">
-        <span className="text-[16px] sm:text-[19px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{title}</span>
-        <span className="text-[12.5px] sm:text-[13px] text-[#68636D] leading-snug" style={{ fontFamily: FONT_BODY }}>{subtitle}</span>
+        <span className="text-[16px] sm:text-[19px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{title}</span>
+        <span className="text-[12.5px] sm:text-[13px] text-[var(--hz-ink-muted)] leading-snug" style={{ fontFamily: FONT_BODY }}>{subtitle}</span>
       </div>
     </div>
   )
@@ -1203,7 +1203,7 @@ function CategoryBanner({ title, subtitle, icon }: { title: string; subtitle: st
 // wanted.
 
 const CARD_SURFACE: React.CSSProperties = {
-  background: 'linear-gradient(180deg, #FFFFFF 0%, #FAFAFF 100%)',
+  background: 'linear-gradient(180deg, var(--hz-surface) 0%, #FAFAFF 100%)',
   border: '1px solid #EFE4FF',
 }
 const PHOTO_PANEL: React.CSSProperties = {
@@ -1211,14 +1211,14 @@ const PHOTO_PANEL: React.CSSProperties = {
   border: '1px solid #EFE4FF',
 }
 // Same button as the "Ask Hozie →" one in the right-column card below
-// (h-8, rounded-[10px], border-[#E3DDD7], purple text on white, same
+// (h-8, rounded-[10px], border-[var(--hz-border)], purple text on white, same
 // hover) — colors live in the className (not inline style) specifically
 // so the hover: variants can actually win the cascade; an inline style
 // applies unconditionally and would silently block any hover: class from
 // ever showing, which is exactly the bug this replaced.
 const NEUTRAL_BTN = 'h-8 px-3 rounded-[10px] border text-[12px] font-semibold cursor-pointer transition-all shrink-0'
-const NEUTRAL_BTN_DEFAULT = 'bg-white border-[#E3DDD7] text-[#722ED1] hover:bg-[#F3EAFF] hover:border-[#722ED1]'
-const NEUTRAL_BTN_ADDED = 'bg-[#F3EAFF] border-[#722ED1] text-[#722ED1] hover:bg-[#F3EAFF]'
+const NEUTRAL_BTN_DEFAULT = 'bg-[var(--hz-surface)] border-[var(--hz-border)] text-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)]'
+const NEUTRAL_BTN_ADDED = 'bg-[var(--hz-primary-soft)] border-[var(--hz-primary)] text-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)]'
 const NEUTRAL_BTN_FONT: React.CSSProperties = { fontFamily: FONT_BODY }
 
 // ─── Line item card ─────────────────────────────────────────────────────
@@ -1239,9 +1239,9 @@ function LineItemRow({ item, icon, onSelect, cartCount, getCartCount }: {
       <ServiceImage icon={icon} alt={item.title} className="w-32 h-32 rounded-[8px] shrink-0 mx-auto sm:mx-0" />
 
       <div className="flex-1 min-w-0 flex flex-col justify-center gap-1">
-        <span className="text-[15px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-        <span className="flex items-center gap-1 text-[11px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_HEAD }}><IcoStar size={11} /> {item.rating}</span>
-        <span className="text-[12px] text-[#68636D] leading-snug" style={{ fontFamily: FONT_BODY }}>{item.blurb}</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+        <span className="flex items-center gap-1 text-[11px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}><IcoStar size={11} /> {item.rating}</span>
+        <span className="text-[12px] text-[var(--hz-ink-muted)] leading-snug" style={{ fontFamily: FONT_BODY }}>{item.blurb}</span>
         {/* When this item has selectable variants, its own price/duration
             above are its cheapest option's "starting from" figures. Before
             anything is picked, an "N options" hint tells the user there's
@@ -1258,7 +1258,7 @@ function LineItemRow({ item, icon, onSelect, cartCount, getCartCount }: {
               ))}
             </div>
           ) : (
-            <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{item.options.length} options</span>
+            <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{item.options.length} options</span>
           )
         )}
       </div>
@@ -1266,9 +1266,9 @@ function LineItemRow({ item, icon, onSelect, cartCount, getCartCount }: {
       <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3 sm:w-[130px] shrink-0">
         <div className="text-left sm:text-right">
           <div className="text-[14px] whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>
-            <span className="line-through text-[#9A949D]">₹{item.originalPrice}</span> <span className="font-semibold text-[#242326]">₹{item.price}</span>
+            <span className="line-through text-[var(--hz-ink-subtle)]">₹{item.originalPrice}</span> <span className="font-semibold text-[var(--hz-ink)]">₹{item.price}</span>
           </div>
-          <div className="text-[11px] font-semibold text-[#722ED1] mt-0.5 whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>{formatDuration(item.durationMin)}</div>
+          <div className="text-[11px] font-semibold text-[var(--hz-primary)] mt-0.5 whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>{formatDuration(item.durationMin)}</div>
         </div>
         <button onClick={onSelect} className={`${NEUTRAL_BTN} ${cartCount ? NEUTRAL_BTN_ADDED : NEUTRAL_BTN_DEFAULT}`} style={NEUTRAL_BTN_FONT}>
           {cartCount ? `Added ×${cartCount}` : item.options ? 'Select' : 'Add'}
@@ -1298,16 +1298,16 @@ function OptionsModal({ item, icon, cartCountForOption, onAddOption, onClose }: 
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[440px] max-h-[80vh] overflow-y-auto rounded-[16px] bg-white flex flex-col"
+        className="w-full max-w-[440px] max-h-[80vh] overflow-y-auto rounded-[16px] bg-[var(--hz-surface)] flex flex-col"
         style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#F4F0EC] sticky top-0 bg-white">
+        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[var(--hz-surface-muted)] sticky top-0 bg-[var(--hz-surface)]">
           <div className="flex flex-col gap-0.5 min-w-0">
-            <span className="text-[16px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Choose an option</span>
+            <span className="text-[16px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Choose an option</span>
           </div>
-          <button onClick={onClose} aria-label="Close" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
+          <button onClick={onClose} aria-label="Close" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
             <IcoCloseX />
           </button>
         </div>
@@ -1317,15 +1317,15 @@ function OptionsModal({ item, icon, cartCountForOption, onAddOption, onClose }: 
             const cartCount = cartCountForOption(opt.id)
             return (
               <div key={opt.id} className="flex items-center gap-3 rounded-[12px] p-3" style={CARD_SURFACE}>
-                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[#722ED1] shrink-0">
+                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
                   {icon}
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col gap-1">
-                  <span className="text-[13.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{opt.label}</span>
+                  <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{opt.label}</span>
                   <span className="text-[13px] whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>
-                    <span className="line-through text-[#9A949D]">₹{opt.originalPrice}</span> <span className="font-semibold text-[#242326]">₹{opt.price}</span>
+                    <span className="line-through text-[var(--hz-ink-subtle)]">₹{opt.originalPrice}</span> <span className="font-semibold text-[var(--hz-ink)]">₹{opt.price}</span>
                   </span>
-                  <span className="text-[11px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_HEAD }}>{formatDuration(opt.durationMin)}</span>
+                  <span className="text-[11px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}>{formatDuration(opt.durationMin)}</span>
                 </div>
                 <button onClick={() => onAddOption(opt)} className={`${NEUTRAL_BTN} ${cartCount ? NEUTRAL_BTN_ADDED : NEUTRAL_BTN_DEFAULT}`} style={NEUTRAL_BTN_FONT}>
                   {cartCount ? `Added ×${cartCount}` : 'Add'}
@@ -1358,8 +1358,8 @@ function PackageCard({ pkg, onAdd, onEdit, cartCount, editButtonRef }: {
           no real photo behind it to badge over. */}
       <div className="relative shrink-0 w-full h-[100px] sm:w-[170px] sm:h-auto rounded-[8px] flex items-center justify-center" style={PHOTO_PANEL}>
         <div className="text-center leading-[1.05]">
-          <span className="block text-[28px] sm:text-[38px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{pkg.discountPct}%</span>
-          <span className="block text-[28px] sm:text-[38px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>OFF</span>
+          <span className="block text-[28px] sm:text-[38px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{pkg.discountPct}%</span>
+          <span className="block text-[28px] sm:text-[38px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>OFF</span>
         </div>
       </div>
 
@@ -1367,13 +1367,13 @@ function PackageCard({ pkg, onAdd, onEdit, cartCount, editButtonRef }: {
         {/* Middle: package info */}
         <div className="flex-1 min-w-0 flex flex-col gap-3">
           <div className="flex flex-col gap-1.5">
-            <span className="text-[13px] tracking-[0.06em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Package</span>
-            <span className="text-[17px] sm:text-[18px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{pkg.name}</span>
-            <span className="flex items-center gap-1 text-[11px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_HEAD }}><IcoStar size={11} /> {pkg.rating}</span>
+            <span className="text-[13px] tracking-[0.06em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Package</span>
+            <span className="text-[17px] sm:text-[18px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{pkg.name}</span>
+            <span className="flex items-center gap-1 text-[11px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}><IcoStar size={11} /> {pkg.rating}</span>
           </div>
           <ul className="flex flex-col gap-1 pl-4 m-0" style={{ listStyle: 'disc' }}>
             {pkg.includes.map(inc => (
-              <li key={inc.label} className="text-[12px] text-[#242326] leading-snug" style={{ fontFamily: FONT_BODY }}>
+              <li key={inc.label} className="text-[12px] text-[var(--hz-ink)] leading-snug" style={{ fontFamily: FONT_BODY }}>
                 <span className="font-semibold">{inc.label}:</span> {getSalonItem(inc.itemId).title}
               </li>
             ))}
@@ -1390,9 +1390,9 @@ function PackageCard({ pkg, onAdd, onEdit, cartCount, editButtonRef }: {
         <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between shrink-0 sm:w-[140px] gap-3">
           <div className="text-left sm:text-right">
             <div className="text-[14px] whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>
-              <span className="line-through text-[#9A949D]">₹{originalPrice}</span> <span className="font-semibold text-[#242326]">₹{price}</span>
+              <span className="line-through text-[var(--hz-ink-subtle)]">₹{originalPrice}</span> <span className="font-semibold text-[var(--hz-ink)]">₹{price}</span>
             </div>
-            <div className="text-[11px] font-semibold text-[#722ED1] mt-0.5 whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>{formatDuration(durationMin)}</div>
+            <div className="text-[11px] font-semibold text-[var(--hz-primary)] mt-0.5 whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>{formatDuration(durationMin)}</div>
           </div>
           <button onClick={onAdd} className={`${NEUTRAL_BTN} ${cartCount ? NEUTRAL_BTN_ADDED : NEUTRAL_BTN_DEFAULT}`} style={NEUTRAL_BTN_FONT}>
             {cartCount ? `Added ×${cartCount}` : 'Add'}
@@ -1408,8 +1408,8 @@ function PackageCard({ pkg, onAdd, onEdit, cartCount, editButtonRef }: {
 // below — a flatter, denser surface than CARD_SURFACE since a settings
 // list reads better than a stack of elevated cards at this density.
 const PKG_ROW_BASE = 'flex items-center gap-3 rounded-[10px] border px-3.5 py-3 transition-all'
-const PKG_ROW_DEFAULT = 'bg-white border-[#E3DDD7] hover:border-[#722ED1] cursor-pointer'
-const PKG_ROW_SELECTED = 'bg-[#F9F5FF] border-[#722ED1] cursor-pointer'
+const PKG_ROW_DEFAULT = 'bg-[var(--hz-surface)] border-[var(--hz-border)] hover:border-[var(--hz-primary)] cursor-pointer'
+const PKG_ROW_SELECTED = 'bg-[var(--hz-primary-wash)] border-[var(--hz-primary)] cursor-pointer'
 
 /** Generic single-select sub-picker — reused for both the waxing
  *  "choose the type of waxing" list (real per-area SalonItemOption[])
@@ -1450,13 +1450,13 @@ function PkgTypePickerModal({ title, options, currentId, onSelect, onClose, mode
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="w-full max-w-[420px] max-h-[70vh] rounded-[16px] bg-white flex flex-col overflow-hidden"
+        className="w-full max-w-[420px] max-h-[70vh] rounded-[16px] bg-[var(--hz-surface)] flex flex-col overflow-hidden"
         style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#F4F0EC] shrink-0">
-          <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{title}</span>
-          <button onClick={onClose} aria-label="Close" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
+        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[var(--hz-surface-muted)] shrink-0">
+          <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{title}</span>
+          <button onClick={onClose} aria-label="Close" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
             <IcoCloseX />
           </button>
         </div>
@@ -1470,25 +1470,25 @@ function PkgTypePickerModal({ title, options, currentId, onSelect, onClose, mode
                 aria-pressed={selected}
                 className={`${PKG_ROW_BASE} text-left ${selected ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}
               >
-                <span className={`w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center ${selected ? 'border-[#722ED1]' : 'border-[#DAD2E4]'}`}>
-                  {selected && <span className="w-2 h-2 rounded-full bg-[#722ED1]" />}
+                <span className={`w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center ${selected ? 'border-[var(--hz-primary)]' : 'border-[#DAD2E4]'}`}>
+                  {selected && <span className="w-2 h-2 rounded-full bg-[var(--hz-primary)]" />}
                 </span>
                 <span className="flex-1 min-w-0 flex flex-col">
-                  <span className="text-[13.5px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{opt.label}</span>
-                  {opt.note && <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{opt.note}</span>}
+                  <span className="text-[13.5px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{opt.label}</span>
+                  {opt.note && <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{opt.note}</span>}
                 </span>
-                <span className="text-[13px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{opt.price}</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{opt.price}</span>
               </button>
             )
           })}
         </div>
         {mode === 'confirm' && (
-          <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-[#F4F0EC] shrink-0">
+          <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-[var(--hz-surface-muted)] shrink-0">
             <button onClick={onClose} className={`${NEUTRAL_BTN} ${NEUTRAL_BTN_DEFAULT}`} style={NEUTRAL_BTN_FONT}>Cancel</button>
             <button
               onClick={handleApply}
               disabled={!staged}
-              className="h-8 px-4 rounded-[10px] bg-[#722ED1] text-white text-[12px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0 disabled:opacity-50 disabled:pointer-events-none"
+              className="h-8 px-4 rounded-[10px] bg-[var(--hz-primary)] text-white text-[12px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0 disabled:opacity-50 disabled:pointer-events-none"
               style={{ fontFamily: FONT_BODY }}
             >
               Apply
@@ -1609,27 +1609,27 @@ function PackageCustomiserModal({ onAddToCart, onClose }: {
         role="dialog"
         aria-modal="true"
         aria-labelledby="pkg-customiser-title"
-        className="w-full sm:max-w-[640px] h-[92vh] sm:h-auto sm:max-h-[85vh] rounded-t-[20px] sm:rounded-[16px] bg-white flex flex-col overflow-hidden"
+        className="w-full sm:max-w-[640px] h-[92vh] sm:h-auto sm:max-h-[85vh] rounded-t-[20px] sm:rounded-[16px] bg-[var(--hz-surface)] flex flex-col overflow-hidden"
         style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#F4F0EC] shrink-0">
+        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[var(--hz-surface-muted)] shrink-0">
           <div className="flex flex-col gap-0.5 min-w-0">
             <h2
               id="pkg-customiser-title"
               ref={titleRef}
               tabIndex={-1}
-              className="text-[17px] font-semibold text-[#242326] leading-tight m-0 outline-none"
+              className="text-[17px] font-semibold text-[var(--hz-ink)] leading-tight m-0 outline-none"
               style={{ fontFamily: FONT_HEAD }}
             >
               Monthly maintenance package
             </h2>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
               {lines.length > 0 ? `Est. ${formatDuration(totalDuration)} total` : 'Pick your services below'}
             </span>
           </div>
-          <button onClick={onClose} aria-label="Close package editor" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
+          <button onClick={onClose} aria-label="Close package editor" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
             <IcoCloseX />
           </button>
         </div>
@@ -1638,23 +1638,23 @@ function PackageCustomiserModal({ onAddToCart, onClose }: {
         <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-6">
           {/* Cleanup — single-select */}
           <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-            <legend className="text-[13px] font-semibold text-[#242326] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Cleanup</legend>
+            <legend className="text-[13px] font-semibold text-[var(--hz-ink)] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Cleanup</legend>
             {PKG_CLEANUP_CHOICES.map(c => (
               <label key={c.id} className={`${PKG_ROW_BASE} ${sel.cleanupId === c.id ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-                <input type="radio" name="pkg-cleanup" checked={sel.cleanupId === c.id} onChange={() => selectCleanup(c.id)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-                <span className="flex-1 text-[13.5px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{c.title}</span>
-                <span className="text-[13px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{c.price}</span>
+                <input type="radio" name="pkg-cleanup" checked={sel.cleanupId === c.id} onChange={() => selectCleanup(c.id)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+                <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{c.title}</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{c.price}</span>
               </label>
             ))}
             <label className={`${PKG_ROW_BASE} ${sel.cleanupId === null ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-              <input type="radio" name="pkg-cleanup" checked={sel.cleanupId === null} onChange={() => selectCleanup(null)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-              <span className="flex-1 text-[13.5px] font-medium text-[#68636D]" style={{ fontFamily: FONT_BODY }}>I don't need cleanup</span>
+              <input type="radio" name="pkg-cleanup" checked={sel.cleanupId === null} onChange={() => selectCleanup(null)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+              <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>I don't need cleanup</span>
             </label>
           </fieldset>
 
           {/* Waxing — multi-select, each area gets its own type picker */}
           <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-            <legend className="text-[13px] font-semibold text-[#242326] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Waxing</legend>
+            <legend className="text-[13px] font-semibold text-[var(--hz-ink)] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Waxing</legend>
             {PKG_WAX_AREAS.map(area => {
               const item = getSalonItem(area.id)
               const selected = isWaxSelected(area.id)
@@ -1663,49 +1663,49 @@ function PackageCustomiserModal({ onAddToCart, onClose }: {
                 <div key={area.id} className="flex flex-col gap-1.5">
                   <div className={`${PKG_ROW_BASE} ${selected ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
                     <label className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
-                      <input type="checkbox" checked={selected} onChange={() => toggleWaxArea(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-                      <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
+                      <input type="checkbox" checked={selected} onChange={() => toggleWaxArea(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+                      <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
                     </label>
                     {selected && type ? (
                       <button
                         ref={el => { triggerRefs.current[area.id] = el }}
                         onClick={() => setActiveSubPicker({ kind: 'wax', areaId: area.id })}
                         aria-label={`Wax type for ${area.title}: ${type.label}. Change.`}
-                        className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[11.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                        className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[11.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                         style={{ fontFamily: FONT_BODY }}
                       >
                         {type.label} <IcoChevronDown />
                       </button>
                     ) : (
-                      <span className="text-[12px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{item.price}</span>
+                      <span className="text-[12px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{item.price}</span>
                     )}
                   </div>
                   {/* Full body — real blurb, not fabricated copy, explains
                       what it replaces. */}
                   {area.id === 'wax-full-body' && selected && (
-                    <span className="text-[11px] text-[#9A949D] pl-3.5" style={{ fontFamily: FONT_BODY }}>{item.blurb} — replaces any individual areas above.</span>
+                    <span className="text-[11px] text-[var(--hz-ink-subtle)] pl-3.5" style={{ fontFamily: FONT_BODY }}>{item.blurb} — replaces any individual areas above.</span>
                   )}
                 </div>
               )
             })}
             <label className={`${PKG_ROW_BASE} ${sel.waxSelections.length === 0 ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-              <input type="checkbox" checked={sel.waxSelections.length === 0} onChange={clearWaxing} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-              <span className="flex-1 text-[13.5px] font-medium text-[#68636D]" style={{ fontFamily: FONT_BODY }}>I don't need waxing</span>
+              <input type="checkbox" checked={sel.waxSelections.length === 0} onChange={clearWaxing} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+              <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>I don't need waxing</span>
             </label>
           </fieldset>
 
           {/* Facial Hair Removal — multi-select, each area gets its own
               method picker */}
           <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-            <legend className="text-[13px] font-semibold text-[#242326] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Facial Hair Removal</legend>
+            <legend className="text-[13px] font-semibold text-[var(--hz-ink)] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Facial Hair Removal</legend>
             {PKG_FACE_AREAS.map(area => {
               const selected = isFaceSelected(area.id)
               const method = area.methods.find(m => m.id === faceMethodFor(area.id))
               return (
                 <div key={area.id} className={`${PKG_ROW_BASE} ${selected ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
                   <label className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
-                    <input type="checkbox" checked={selected} onChange={() => toggleFaceArea(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-                    <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
+                    <input type="checkbox" checked={selected} onChange={() => toggleFaceArea(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+                    <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
                   </label>
                   {selected && method ? (
                     area.methods.length > 1 ? (
@@ -1713,58 +1713,58 @@ function PackageCustomiserModal({ onAddToCart, onClose }: {
                         ref={el => { triggerRefs.current[area.id] = el }}
                         onClick={() => setActiveSubPicker({ kind: 'face', areaId: area.id })}
                         aria-label={`Hair-removal method for ${area.title}: ${method.label}. Change.`}
-                        className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[11.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                        className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[11.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                         style={{ fontFamily: FONT_BODY }}
                       >
                         {method.label} <IcoChevronDown />
                       </button>
                     ) : (
-                      <span className="text-[12px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY }}>{method.label}</span>
+                      <span className="text-[12px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY }}>{method.label}</span>
                     )
                   ) : (
-                    <span className="text-[12px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{area.methods[0].price}</span>
+                    <span className="text-[12px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{area.methods[0].price}</span>
                   )}
                 </div>
               )
             })}
             <label className={`${PKG_ROW_BASE} ${sel.faceSelections.length === 0 ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-              <input type="checkbox" checked={sel.faceSelections.length === 0} onChange={clearFaceRemoval} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-              <span className="flex-1 text-[13.5px] font-medium text-[#68636D]" style={{ fontFamily: FONT_BODY }}>I don't need facial hair removal</span>
+              <input type="checkbox" checked={sel.faceSelections.length === 0} onChange={clearFaceRemoval} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+              <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>I don't need facial hair removal</span>
             </label>
           </fieldset>
 
           {/* Mani-pedi — single-select */}
           <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-            <legend className="text-[13px] font-semibold text-[#242326] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Mani-pedi</legend>
+            <legend className="text-[13px] font-semibold text-[var(--hz-ink)] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Mani-pedi</legend>
             {PKG_MANI_PEDI_CHOICES.map(m => (
               <label key={m.id} className={`${PKG_ROW_BASE} ${sel.maniPediId === m.id ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-                <input type="radio" name="pkg-mani-pedi" checked={sel.maniPediId === m.id} onChange={() => selectManiPedi(m.id)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-                <span className="flex-1 text-[13.5px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{m.title}</span>
-                <span className="text-[13px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{m.price}</span>
+                <input type="radio" name="pkg-mani-pedi" checked={sel.maniPediId === m.id} onChange={() => selectManiPedi(m.id)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+                <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{m.title}</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{m.price}</span>
               </label>
             ))}
             <label className={`${PKG_ROW_BASE} ${sel.maniPediId === null ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-              <input type="radio" name="pkg-mani-pedi" checked={sel.maniPediId === null} onChange={() => selectManiPedi(null)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-              <span className="flex-1 text-[13.5px] font-medium text-[#68636D]" style={{ fontFamily: FONT_BODY }}>I don't need mani-pedi</span>
+              <input type="radio" name="pkg-mani-pedi" checked={sel.maniPediId === null} onChange={() => selectManiPedi(null)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+              <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>I don't need mani-pedi</span>
             </label>
           </fieldset>
         </div>
 
         {/* Sticky bottom summary */}
-        <div className="shrink-0 border-t border-[#F4F0EC] bg-white px-5 py-4 flex flex-col gap-2">
+        <div className="shrink-0 border-t border-[var(--hz-surface-muted)] bg-[var(--hz-surface)] px-5 py-4 flex flex-col gap-2">
           {validationMessage && (
             <span role="alert" className="text-[12px] text-[#B3261E] font-medium" style={{ fontFamily: FONT_BODY }}>{validationMessage}</span>
           )}
           <div className="flex items-center justify-between gap-3">
             <div className="flex flex-col">
-              <span className="text-[18px] font-semibold text-[#242326] whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>
-                ₹{totalPrice}{saved > 0 && <span className="line-through text-[#9A949D] text-[13px] font-normal ml-1.5">₹{totalOriginal}</span>}
+              <span className="text-[18px] font-semibold text-[var(--hz-ink)] whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>
+                ₹{totalPrice}{saved > 0 && <span className="line-through text-[var(--hz-ink-subtle)] text-[13px] font-normal ml-1.5">₹{totalOriginal}</span>}
               </span>
               {saved > 0 && <span className="text-[11.5px] font-semibold text-[#0F7A3D]" style={{ fontFamily: FONT_BODY }}>You save ₹{saved}</span>}
             </div>
             <button
               onClick={handleAddToCart}
-              className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+              className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
               style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
             >
               Add package to cart
@@ -1909,27 +1909,27 @@ function WaxGlowCustomiserModal({ onAddToCart, onClose }: {
         role="dialog"
         aria-modal="true"
         aria-labelledby="wg-customiser-title"
-        className="w-full sm:max-w-[640px] h-[92vh] sm:h-auto sm:max-h-[85vh] rounded-t-[20px] sm:rounded-[16px] bg-white flex flex-col overflow-hidden"
+        className="w-full sm:max-w-[640px] h-[92vh] sm:h-auto sm:max-h-[85vh] rounded-t-[20px] sm:rounded-[16px] bg-[var(--hz-surface)] flex flex-col overflow-hidden"
         style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#F4F0EC] shrink-0">
+        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[var(--hz-surface-muted)] shrink-0">
           <div className="flex flex-col gap-0.5 min-w-0">
             <h2
               id="wg-customiser-title"
               ref={titleRef}
               tabIndex={-1}
-              className="text-[17px] font-semibold text-[#242326] leading-tight m-0 outline-none"
+              className="text-[17px] font-semibold text-[var(--hz-ink)] leading-tight m-0 outline-none"
               style={{ fontFamily: FONT_HEAD }}
             >
               Wax &amp; Glow
             </h2>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
               {lines.length > 0 ? `Service time: ${formatDuration(totalDuration)}` : 'Pick your services below'}
             </span>
           </div>
-          <button onClick={onClose} aria-label="Close package editor" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
+          <button onClick={onClose} aria-label="Close package editor" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
             <IcoCloseX />
           </button>
         </div>
@@ -1939,7 +1939,7 @@ function WaxGlowCustomiserModal({ onAddToCart, onClose }: {
           {/* Waxing — multi-select, each area gets its own wax-type
               picker (Cancel/Apply, per the work order) */}
           <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-            <legend className="text-[13px] font-semibold text-[#242326] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Waxing</legend>
+            <legend className="text-[13px] font-semibold text-[var(--hz-ink)] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Waxing</legend>
             {PKG_WAX_AREAS.map(area => {
               const base = getSalonItem(area.id)
               const selected = isWaxSelected(area.id)
@@ -1949,47 +1949,47 @@ function WaxGlowCustomiserModal({ onAddToCart, onClose }: {
                 <div key={area.id} className="flex flex-col gap-1.5">
                   <div className={`${PKG_ROW_BASE} ${selected ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
                     <label className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
-                      <input type="checkbox" checked={selected} onChange={() => toggleWaxArea(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-                      <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
+                      <input type="checkbox" checked={selected} onChange={() => toggleWaxArea(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+                      <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
                     </label>
                     {selected && product ? (
                       <button
                         ref={el => { triggerRefs.current[area.id] = el }}
                         onClick={() => setActiveSubPicker({ kind: 'wax', areaId: area.id })}
                         aria-label={`Wax type for ${area.title}: ${product.label}. Change.`}
-                        className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[11.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                        className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[11.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                         style={{ fontFamily: FONT_BODY }}
                       >
                         {product.label} <IcoChevronDown />
                       </button>
                     ) : (
-                      <span className="text-[12px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{base.price}</span>
+                      <span className="text-[12px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{base.price}</span>
                     )}
                   </div>
                   {area.id === 'wax-full-body' && selected && (
-                    <span className="text-[11px] text-[#9A949D] pl-3.5" style={{ fontFamily: FONT_BODY }}>{base.blurb} — replaces any individual areas above.</span>
+                    <span className="text-[11px] text-[var(--hz-ink-subtle)] pl-3.5" style={{ fontFamily: FONT_BODY }}>{base.blurb} — replaces any individual areas above.</span>
                   )}
                 </div>
               )
             })}
             <label className={`${PKG_ROW_BASE} ${sel.waxSelections.length === 0 ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-              <input type="checkbox" checked={sel.waxSelections.length === 0} onChange={clearWaxing} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-              <span className="flex-1 text-[13.5px] font-medium text-[#68636D]" style={{ fontFamily: FONT_BODY }}>I don't need waxing</span>
+              <input type="checkbox" checked={sel.waxSelections.length === 0} onChange={clearWaxing} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+              <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>I don't need waxing</span>
             </label>
           </fieldset>
 
           {/* Facial Hair Removal — multi-select, each area gets its own
               method picker (Cancel/Apply) */}
           <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-            <legend className="text-[13px] font-semibold text-[#242326] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Facial Hair Removal</legend>
+            <legend className="text-[13px] font-semibold text-[var(--hz-ink)] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Facial Hair Removal</legend>
             {WG_FACE_AREAS.map(area => {
               const selected = isFaceSelected(area.id)
               const method = area.methods.find(m => m.id === faceMethodFor(area.id))
               return (
                 <div key={area.id} className={`${PKG_ROW_BASE} ${selected ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
                   <label className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
-                    <input type="checkbox" checked={selected} onChange={() => toggleFaceArea(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-                    <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
+                    <input type="checkbox" checked={selected} onChange={() => toggleFaceArea(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+                    <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
                   </label>
                   {selected && method ? (
                     area.methods.length > 1 ? (
@@ -1997,58 +1997,58 @@ function WaxGlowCustomiserModal({ onAddToCart, onClose }: {
                         ref={el => { triggerRefs.current[area.id] = el }}
                         onClick={() => setActiveSubPicker({ kind: 'face', areaId: area.id })}
                         aria-label={`Hair-removal method for ${area.title}: ${method.label}. Change.`}
-                        className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[11.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                        className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[11.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                         style={{ fontFamily: FONT_BODY }}
                       >
                         {method.label} <IcoChevronDown />
                       </button>
                     ) : (
-                      <span className="text-[12px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY }}>{method.label}</span>
+                      <span className="text-[12px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY }}>{method.label}</span>
                     )
                   ) : (
-                    <span className="text-[12px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{area.methods[0].price}</span>
+                    <span className="text-[12px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{area.methods[0].price}</span>
                   )}
                 </div>
               )
             })}
             <label className={`${PKG_ROW_BASE} ${sel.faceSelections.length === 0 ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-              <input type="checkbox" checked={sel.faceSelections.length === 0} onChange={clearFaceRemoval} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-              <span className="flex-1 text-[13.5px] font-medium text-[#68636D]" style={{ fontFamily: FONT_BODY }}>I don't need facial hair removal</span>
+              <input type="checkbox" checked={sel.faceSelections.length === 0} onChange={clearFaceRemoval} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+              <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>I don't need facial hair removal</span>
             </label>
           </fieldset>
 
           {/* Facials — single-select */}
           <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-            <legend className="text-[13px] font-semibold text-[#242326] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Facials</legend>
+            <legend className="text-[13px] font-semibold text-[var(--hz-ink)] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Facials</legend>
             {WG_FACIAL_CHOICES.map(f => (
               <label key={f.id} className={`${PKG_ROW_BASE} ${sel.facialId === f.id ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-                <input type="radio" name="wg-facial" checked={sel.facialId === f.id} onChange={() => selectFacial(f.id)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-                <span className="flex-1 text-[13.5px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{f.title}</span>
-                <span className="text-[13px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{f.price}</span>
+                <input type="radio" name="wg-facial" checked={sel.facialId === f.id} onChange={() => selectFacial(f.id)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+                <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{f.title}</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{f.price}</span>
               </label>
             ))}
             <label className={`${PKG_ROW_BASE} ${sel.facialId === null ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-              <input type="radio" name="wg-facial" checked={sel.facialId === null} onChange={() => selectFacial(null)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-              <span className="flex-1 text-[13.5px] font-medium text-[#68636D]" style={{ fontFamily: FONT_BODY }}>I don't need facials</span>
+              <input type="radio" name="wg-facial" checked={sel.facialId === null} onChange={() => selectFacial(null)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+              <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>I don't need facials</span>
             </label>
           </fieldset>
         </div>
 
         {/* Sticky bottom summary */}
-        <div className="shrink-0 border-t border-[#F4F0EC] bg-white px-5 py-4 flex flex-col gap-2">
+        <div className="shrink-0 border-t border-[var(--hz-surface-muted)] bg-[var(--hz-surface)] px-5 py-4 flex flex-col gap-2">
           {validationMessage && (
             <span role="alert" className="text-[12px] text-[#B3261E] font-medium" style={{ fontFamily: FONT_BODY }}>{validationMessage}</span>
           )}
           <div className="flex items-center justify-between gap-3">
             <div className="flex flex-col">
-              <span className="text-[18px] font-semibold text-[#242326] whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>
-                ₹{totalPrice}{saved > 0 && <span className="line-through text-[#9A949D] text-[13px] font-normal ml-1.5">₹{totalOriginal}</span>}
+              <span className="text-[18px] font-semibold text-[var(--hz-ink)] whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>
+                ₹{totalPrice}{saved > 0 && <span className="line-through text-[var(--hz-ink-subtle)] text-[13px] font-normal ml-1.5">₹{totalOriginal}</span>}
               </span>
               {saved > 0 && <span className="text-[11.5px] font-semibold text-[#0F7A3D]" style={{ fontFamily: FONT_BODY }}>You save ₹{saved}</span>}
             </div>
             <button
               onClick={handleAddToCart}
-              className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+              className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
               style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
             >
               Add package to cart
@@ -2110,17 +2110,17 @@ function SingleSelectSection({ legend, groupName, choices, selectedId, onSelect,
 }) {
   return (
     <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-      <legend className="text-[13px] font-semibold text-[#242326] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>{legend}</legend>
+      <legend className="text-[13px] font-semibold text-[var(--hz-ink)] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>{legend}</legend>
       {choices.map(c => (
         <label key={c.id} className={`${PKG_ROW_BASE} ${selectedId === c.id ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-          <input type="radio" name={groupName} checked={selectedId === c.id} onChange={() => onSelect(c.id)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-          <span className="flex-1 text-[13.5px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{c.title}</span>
-          <span className="text-[13px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{c.price}</span>
+          <input type="radio" name={groupName} checked={selectedId === c.id} onChange={() => onSelect(c.id)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+          <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{c.title}</span>
+          <span className="text-[13px] font-semibold text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_BODY }}>₹{c.price}</span>
         </label>
       ))}
       <label className={`${PKG_ROW_BASE} ${selectedId === null ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-        <input type="radio" name={groupName} checked={selectedId === null} onChange={() => onSelect(null)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-        <span className="flex-1 text-[13.5px] font-medium text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{optOutLabel}</span>
+        <input type="radio" name={groupName} checked={selectedId === null} onChange={() => onSelect(null)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+        <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{optOutLabel}</span>
       </label>
     </fieldset>
   )
@@ -2149,7 +2149,7 @@ function VariantMultiSection({
 }) {
   return (
     <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-      <legend className="text-[13px] font-semibold text-[#242326] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>{legend}</legend>
+      <legend className="text-[13px] font-semibold text-[var(--hz-ink)] px-0 mb-1" style={{ fontFamily: FONT_HEAD }}>{legend}</legend>
       {areas.map(area => {
         const selected = isSelected(area.id)
         const variants = getVariants(area.id)
@@ -2158,8 +2158,8 @@ function VariantMultiSection({
           <div key={area.id} className="flex flex-col gap-1.5">
             <div className={`${PKG_ROW_BASE} ${selected ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
               <label className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
-                <input type="checkbox" checked={selected} onChange={() => onToggle(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-                <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
+                <input type="checkbox" checked={selected} onChange={() => onToggle(area.id)} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+                <span className="flex-1 min-w-0 text-[13.5px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{area.title}</span>
               </label>
               {selected && current ? (
                 variants.length > 1 ? (
@@ -2167,27 +2167,27 @@ function VariantMultiSection({
                     ref={el => { triggerRefs.current[area.id] = el }}
                     onClick={() => onOpenPicker(area.id)}
                     aria-label={`${ariaLabelPrefix} for ${area.title}: ${current.label}. Change.`}
-                    className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[11.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                    className="flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[11.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                     style={{ fontFamily: FONT_BODY }}
                   >
                     {current.label} <IcoChevronDown />
                   </button>
                 ) : (
-                  <span className="text-[12px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY }}>{current.label}</span>
+                  <span className="text-[12px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY }}>{current.label}</span>
                 )
               ) : (
-                <span className="text-[12px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{variants[0]?.price ?? 0}</span>
+                <span className="text-[12px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY }}>from ₹{variants[0]?.price ?? 0}</span>
               )}
             </div>
             {fullBodyId === area.id && selected && fullBodyNote && (
-              <span className="text-[11px] text-[#9A949D] pl-3.5" style={{ fontFamily: FONT_BODY }}>{fullBodyNote}</span>
+              <span className="text-[11px] text-[var(--hz-ink-subtle)] pl-3.5" style={{ fontFamily: FONT_BODY }}>{fullBodyNote}</span>
             )}
           </div>
         )
       })}
       <label className={`${PKG_ROW_BASE} ${noneSelected ? PKG_ROW_SELECTED : PKG_ROW_DEFAULT}`}>
-        <input type="checkbox" checked={noneSelected} onChange={onClear} className="w-4 h-4 shrink-0" style={{ accentColor: '#722ED1' }} />
-        <span className="flex-1 text-[13.5px] font-medium text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{optOutLabel}</span>
+        <input type="checkbox" checked={noneSelected} onChange={onClear} className="w-4 h-4 shrink-0" style={{ accentColor: 'var(--hz-primary)' }} />
+        <span className="flex-1 text-[13.5px] font-medium text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{optOutLabel}</span>
       </label>
     </fieldset>
   )
@@ -2322,26 +2322,26 @@ function BuildYourOwnCustomiserModal({ onAddToCart, onClose }: {
         role="dialog"
         aria-modal="true"
         aria-labelledby="byo-customiser-title"
-        className="w-full sm:max-w-[640px] h-[92vh] sm:h-auto sm:max-h-[85vh] rounded-t-[20px] sm:rounded-[16px] bg-white flex flex-col overflow-hidden"
+        className="w-full sm:max-w-[640px] h-[92vh] sm:h-auto sm:max-h-[85vh] rounded-t-[20px] sm:rounded-[16px] bg-[var(--hz-surface)] flex flex-col overflow-hidden"
         style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#F4F0EC] shrink-0">
+        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[var(--hz-surface-muted)] shrink-0">
           <div className="flex flex-col gap-0.5 min-w-0">
             <h2
               id="byo-customiser-title"
               ref={titleRef}
               tabIndex={-1}
-              className="text-[17px] font-semibold text-[#242326] leading-tight m-0 outline-none"
+              className="text-[17px] font-semibold text-[var(--hz-ink)] leading-tight m-0 outline-none"
               style={{ fontFamily: FONT_HEAD }}
             >
               Build Your Own Package
             </h2>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
               {lines.length > 0 ? `Service time: ${formatDuration(totalDuration)}` : 'Pick your services below'}
             </span>
           </div>
-          <button onClick={onClose} aria-label="Close package editor" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
+          <button onClick={onClose} aria-label="Close package editor" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
             <IcoCloseX />
           </button>
         </div>
@@ -2364,7 +2364,7 @@ function BuildYourOwnCustomiserModal({ onAddToCart, onClose }: {
             fullBodyNote={`${getSalonItem('wax-full-body').blurb} — replaces any individual areas above.`}
             noneSelected={sel.waxSelections.length === 0}
           />
-          <div className="border-t border-[#F4F0EC]" />
+          <div className="border-t border-[var(--hz-surface-muted)]" />
 
           {/* 2. Facial & Cleanup */}
           <SingleSelectSection
@@ -2375,7 +2375,7 @@ function BuildYourOwnCustomiserModal({ onAddToCart, onClose }: {
             onSelect={id => { setValidationMessage(null); setSel(prev => ({ ...prev, facialCleanupId: id })) }}
             optOutLabel="I Don't Need Facial & Cleanup"
           />
-          <div className="border-t border-[#F4F0EC]" />
+          <div className="border-t border-[var(--hz-surface-muted)]" />
 
           {/* 3. Manicure */}
           <SingleSelectSection
@@ -2386,7 +2386,7 @@ function BuildYourOwnCustomiserModal({ onAddToCart, onClose }: {
             onSelect={id => { setValidationMessage(null); setSel(prev => ({ ...prev, manicureId: id })) }}
             optOutLabel="I Don't Need Manicure"
           />
-          <div className="border-t border-[#F4F0EC]" />
+          <div className="border-t border-[var(--hz-surface-muted)]" />
 
           {/* 4. Pedicure */}
           <SingleSelectSection
@@ -2397,7 +2397,7 @@ function BuildYourOwnCustomiserModal({ onAddToCart, onClose }: {
             onSelect={id => { setValidationMessage(null); setSel(prev => ({ ...prev, pedicureId: id })) }}
             optOutLabel="I Don't Need Pedicure"
           />
-          <div className="border-t border-[#F4F0EC]" />
+          <div className="border-t border-[var(--hz-surface-muted)]" />
 
           {/* 5. Facial Hair Removal */}
           <VariantMultiSection
@@ -2414,7 +2414,7 @@ function BuildYourOwnCustomiserModal({ onAddToCart, onClose }: {
             triggerRefs={triggerRefs}
             noneSelected={sel.faceSelections.length === 0}
           />
-          <div className="border-t border-[#F4F0EC]" />
+          <div className="border-t border-[var(--hz-surface-muted)]" />
 
           {/* 6. Head Massage */}
           <SingleSelectSection
@@ -2425,7 +2425,7 @@ function BuildYourOwnCustomiserModal({ onAddToCart, onClose }: {
             onSelect={id => { setValidationMessage(null); setSel(prev => ({ ...prev, headMassageId: id })) }}
             optOutLabel="I Don't Need Head Massage"
           />
-          <div className="border-t border-[#F4F0EC]" />
+          <div className="border-t border-[var(--hz-surface-muted)]" />
 
           {/* 7. Bleach & Detan */}
           <VariantMultiSection
@@ -2445,22 +2445,22 @@ function BuildYourOwnCustomiserModal({ onAddToCart, onClose }: {
         </div>
 
         {/* 8. Sticky package summary */}
-        <div className="shrink-0 border-t border-[#F4F0EC] bg-white px-5 py-4 flex flex-col gap-2">
+        <div className="shrink-0 border-t border-[var(--hz-surface-muted)] bg-[var(--hz-surface)] px-5 py-4 flex flex-col gap-2">
           {validationMessage && (
             <span role="alert" className="text-[12px] text-[#B3261E] font-medium" style={{ fontFamily: FONT_BODY }}>{validationMessage}</span>
           )}
           <div className="flex items-center justify-between gap-3">
             <div className="flex flex-col gap-0.5">
-              <span className="text-[18px] font-semibold text-[#242326] whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>
-                ₹{totalPrice}{saved > 0 && <span className="line-through text-[#9A949D] text-[13px] font-normal ml-1.5">₹{totalOriginal}</span>}
+              <span className="text-[18px] font-semibold text-[var(--hz-ink)] whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>
+                ₹{totalPrice}{saved > 0 && <span className="line-through text-[var(--hz-ink-subtle)] text-[13px] font-normal ml-1.5">₹{totalOriginal}</span>}
               </span>
-              <span className="text-[11.5px] font-semibold text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+              <span className="text-[11.5px] font-semibold text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                 {lines.length} service{lines.length !== 1 ? 's' : ''} selected{saved > 0 ? ` · You save ₹${saved}` : ''}
               </span>
             </div>
             <button
               onClick={handleAddToCart}
-              className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+              className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
               style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
             >
               Add package to cart
@@ -2519,10 +2519,10 @@ function BuildYourOwnCustomiserModal({ onAddToCart, onClose }: {
 
 function CartStepper({ qty, onDecrement, onIncrement }: { qty: number; onDecrement: () => void; onIncrement: () => void }) {
   return (
-    <div className="flex items-center gap-1.5 rounded-[10px] border border-[#722ED1] shrink-0">
-      <button onClick={onDecrement} aria-label="Decrease quantity" className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-l-[9px]">−</button>
-      <span className="text-[13px] font-semibold text-[#242326] w-3 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
-      <button onClick={onIncrement} aria-label="Increase quantity" className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-r-[9px]">+</button>
+    <div className="flex items-center gap-1.5 rounded-[10px] border border-[var(--hz-primary)] shrink-0">
+      <button onClick={onDecrement} aria-label="Decrease quantity" className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-l-[9px]">−</button>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] w-3 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
+      <button onClick={onIncrement} aria-label="Increase quantity" className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-r-[9px]">+</button>
     </div>
   )
 }
@@ -2539,24 +2539,24 @@ function CartCard({ cart, onChangeQty, onRemove, onViewCart }: {
   const saved = totalOriginal - total
 
   return (
-    <div className="bg-white border border-[#E3DDD7] rounded-[16px] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Cart</span>
+    <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Cart</span>
 
       <div className="flex flex-col">
         {cart.map((c, i) => (
-          <div key={c.cartId} className={`flex flex-col gap-2 py-3 ${i > 0 ? 'border-t border-[#F4F0EC]' : 'pt-0'}`}>
+          <div key={c.cartId} className={`flex flex-col gap-2 py-3 ${i > 0 ? 'border-t border-[var(--hz-surface-muted)]' : 'pt-0'}`}>
             <div className="flex items-start justify-between gap-3">
-              <span className="text-[13.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{c.title}</span>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{c.title}</span>
               <CartStepper qty={c.qty} onDecrement={() => onChangeQty(c.cartId, -1)} onIncrement={() => onChangeQty(c.cartId, 1)} />
             </div>
-            <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
               <span className="font-semibold">₹{c.price}</span>{' '}
-              <span className="line-through text-[#9A949D] text-[12px]">₹{c.originalPrice}</span>
+              <span className="line-through text-[var(--hz-ink-subtle)] text-[12px]">₹{c.originalPrice}</span>
             </span>
-            {c.duration && <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>• {c.duration}</span>}
+            {c.duration && <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>• {c.duration}</span>}
             <button
               onClick={() => onRemove(c.cartId)}
-              className="self-start text-[12.5px] text-[#722ED1] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
+              className="self-start text-[12.5px] text-[var(--hz-primary)] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
               style={{ fontFamily: FONT_BODY }}
             >
               Remove
@@ -2572,13 +2572,13 @@ function CartCard({ cart, onChangeQty, onRemove, onViewCart }: {
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-3 pt-3 border-t border-[#F4F0EC]">
-        <span className="text-[17px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
-          ₹{total} <span className="line-through text-[#9A949D] text-[13px] font-normal">₹{totalOriginal}</span>
+      <div className="flex items-center justify-between gap-3 pt-3 border-t border-[var(--hz-surface-muted)]">
+        <span className="text-[17px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
+          ₹{total} <span className="line-through text-[var(--hz-ink-subtle)] text-[13px] font-normal">₹{totalOriginal}</span>
         </span>
         <button
           onClick={onViewCart}
-          className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+          className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
           style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
         >
           View Cart
@@ -2693,7 +2693,7 @@ export default function SalonLuxeScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onBack={() => onNavigate('home-services')} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -2706,12 +2706,12 @@ export default function SalonLuxeScreen({
             <div className="flex flex-col gap-6" style={{ maxWidth: 1200, margin: '0 auto' }}>
 
               <div className="flex flex-col gap-1.5">
-                <span className="text-[12px] tracking-[0.10em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Women's Salon &amp; Spa</span>
-                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <span className="text-[12px] tracking-[0.10em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Women's Salon &amp; Spa</span>
+                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   Salon Luxe
                 </h1>
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-                  <span className="flex items-center gap-1 text-[#722ED1] font-semibold"><IcoStar /> 4.8</span> (1.8K bookings)
+                <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+                  <span className="flex items-center gap-1 text-[var(--hz-primary)] font-semibold"><IcoStar /> 4.8</span> (1.8K bookings)
                 </span>
               </div>
 
@@ -2722,7 +2722,7 @@ export default function SalonLuxeScreen({
                   <ServiceTabs onJump={jumpToSection} />
 
                   <div id="salon-luxe-section-packages" className="flex flex-col gap-3" style={{ scrollMarginTop: 230 }}>
-                    <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Super Saver Packages</h2>
+                    <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Super Saver Packages</h2>
                     <div className="flex flex-col gap-3">
                       {SALON_LUXE_PACKAGES.map(pkg => (
                         <PackageCard
@@ -2749,7 +2749,7 @@ export default function SalonLuxeScreen({
 
                   {SALON_LUXE_SECTIONS.map(section => (
                     <div key={section.id} id={`salon-luxe-section-${section.id}`} className="flex flex-col gap-3" style={{ scrollMarginTop: 230 }}>
-                      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{section.label}</h2>
+                      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{section.label}</h2>
 
                       {section.id === 'waxing' && (
                         <CategoryBanner
@@ -2811,29 +2811,29 @@ export default function SalonLuxeScreen({
                     pins relative to it — capped to the viewport height so
                     a long cart never grows taller than the screen. */}
                 <div className="flex flex-col gap-4 lg:sticky lg:top-[28px] lg:self-start lg:max-h-[calc(100vh-56px)] lg:overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
-                  <div className="bg-white border border-[#E3DDD7] rounded-[16px] p-5 flex items-start gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                  <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] p-5 flex items-start gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                     <div className="flex flex-col gap-2.5 flex-1">
-                      <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Houzeify Promise</span>
+                      <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Houzeify Promise</span>
                       {['Verified Professionals', 'Hassle Free Booking', 'Transparent Pricing'].map(t => (
-                        <span key={t} className="flex items-center gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+                        <span key={t} className="flex items-center gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                           <IcoCheck /> {t}
                         </span>
                       ))}
                     </div>
-                    <div className="w-11 h-11 rounded-full bg-[#F3EAFF] flex items-center justify-center shrink-0"><IcoShield /></div>
+                    <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><IcoShield /></div>
                   </div>
 
                   <CartCard cart={cart} onChangeQty={changeCartQty} onRemove={removeFromCart} onViewCart={viewCart} />
 
-                  <div className="bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-4 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                    <div className="w-10 h-10 rounded-[12px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
+                  <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-4 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                    <div className="w-10 h-10 rounded-[12px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
                     <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-                      <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Not sure which one?</span>
-                      <span className="text-[12px] text-[#68636D] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Ask Hozie to help you pick.</span>
+                      <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Not sure which one?</span>
+                      <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Ask Hozie to help you pick.</span>
                     </div>
                     <button
                       onClick={() => onNavigate(DASHBOARD_ROUTES.aiAdvisor)}
-                      className="h-8 px-3 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                      className="h-8 px-3 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       Ask Hozie →

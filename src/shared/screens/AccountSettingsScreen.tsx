@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Sidebar from '@/shared/components/Sidebar'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
+import AppearanceToggle from '@/shared/components/AppearanceToggle'
 import { useOrganizations } from '@/data/organizationState'
 import { useCustomerProfile } from '@/data/customerProfileState'
 import { usePartnerProfile } from '@/data/partnerProfileState'
@@ -53,8 +54,8 @@ const IcoLogout = () => (
 
 function SectionCard({ eyebrow, children }: { eyebrow: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{eyebrow}</p>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{eyebrow}</p>
       {children}
     </div>
   )
@@ -63,8 +64,8 @@ function SectionCard({ eyebrow, children }: { eyebrow: string; children: React.R
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3 py-2.5">
-      <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[13px] font-medium text-[#242326] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
+      <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] font-medium text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
@@ -72,8 +73,8 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 function NavRow({ label, onClick }: { label: string; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick} className="w-full flex items-center justify-between gap-3 py-2.5 cursor-pointer border-0 bg-transparent text-left">
-      <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
-      <span className="text-[#9A949D]"><IcoChevronRight /></span>
+      <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
+      <span className="text-[var(--hz-ink-subtle)]"><IcoChevronRight /></span>
     </button>
   )
 }
@@ -83,14 +84,14 @@ function SignOutModal({ onCancel, onConfirm }: { onCancel: () => void; onConfirm
     <>
       <div className="fixed inset-0 bg-black opacity-30 z-40" aria-hidden="true" onClick={onCancel} />
       <div role="dialog" aria-modal="true" aria-labelledby="account-signout-title"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
-        <h2 id="account-signout-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Sign out of Houzeify?</h2>
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can sign back in anytime to access your projects.</p>
+        <h2 id="account-signout-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Sign out of Houzeify?</h2>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can sign back in anytime to access your projects.</p>
         <div className="flex gap-2.5 justify-end">
-          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-          <button onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#DC2626', fontFamily: FONT_BODY }}>Sign out</button>
+          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+          <button onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-danger)', fontFamily: FONT_BODY }}>Sign out</button>
         </div>
       </div>
     </>
@@ -148,7 +149,7 @@ export default function AccountSettingsScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         {/* Shared screen: professionals → PartnerNavRail; customers → Sidebar
             with Settings highlighted in navBottom (S13). */}
@@ -157,9 +158,9 @@ export default function AccountSettingsScreen({
           : <Sidebar active={customerSidebarSettingsActive()} onNavigate={onNavigate} />}
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+          <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
             <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-              <button type="button" onClick={goBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={goBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                 <IcoBack /> {isProfessional ? 'Personal Profile' : 'Profile'}
               </button>
             </div>
@@ -168,13 +169,13 @@ export default function AccountSettingsScreen({
           <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
             <div className="max-w-[560px] mx-auto flex flex-col gap-6">
               <div>
-                <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Account Settings</p>
-                <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Account Settings</h1>
+                <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Account Settings</p>
+                <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Account Settings</h1>
               </div>
 
               {/* Account information — only genuinely real fields */}
               <SectionCard eyebrow="Account">
-                <div className="flex flex-col divide-y" style={{ borderColor: '#FFFFFF' }}>
+                <div className="flex flex-col divide-y" style={{ borderColor: 'var(--hz-surface)' }}>
                   {email && <InfoRow label="Email" value={email} />}
                   <InfoRow label="Role" value={isProfessional ? 'Professional' : 'Homeowner'} />
                   {isProfessional && (
@@ -201,10 +202,14 @@ export default function AccountSettingsScreen({
                 </SectionCard>
               )}
 
+              <SectionCard eyebrow="Appearance">
+                <AppearanceToggle showTitle={false} />
+              </SectionCard>
+
               {/* Sign out — reuses the one real sign-out action already
                   established elsewhere in this codebase. */}
               <SectionCard eyebrow="Account Actions">
-                <button type="button" onClick={() => setShowSignOutModal(true)} className="w-full flex items-center gap-2.5 py-2 cursor-pointer border-0 bg-transparent text-left" style={{ color: '#DC2626' }}>
+                <button type="button" onClick={() => setShowSignOutModal(true)} className="w-full flex items-center gap-2.5 py-2 cursor-pointer border-0 bg-transparent text-left" style={{ color: 'var(--hz-danger)' }}>
                   <IcoLogout />
                   <span className="text-[13px] font-medium" style={{ fontFamily: FONT_BODY }}>Sign out</span>
                 </button>

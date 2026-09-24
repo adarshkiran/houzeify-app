@@ -76,8 +76,8 @@ const LockIcon = () => (
 function FieldLabel({ children, optional }: { children: React.ReactNode; optional?: boolean }) {
   return (
     <div className="flex items-center gap-1.5 mb-1.5">
-      <label className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{children}</label>
-      {optional && <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
+      <label className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{children}</label>
+      {optional && <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
     </div>
   )
 }
@@ -97,7 +97,7 @@ function TextInput({ id, value, onChange, placeholder, error, describedBy, type 
       placeholder={placeholder}
       aria-invalid={error}
       aria-describedby={describedBy}
-      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', error ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', error ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
       style={{ fontFamily: FONT_BODY }}
     />
   )
@@ -117,12 +117,12 @@ function ChipGroup<T extends string>({ options, labels, value, onChange, ariaLab
           className="flex items-center gap-1 h-8 px-3 rounded-full text-[12px] font-semibold cursor-pointer border transition-all"
           style={{
             fontFamily: FONT_BODY,
-            backgroundColor: value === opt ? '#F3EAFF' : '#FFFFFF',
-            borderColor: value === opt ? '#722ED1' : '#CAC7C6',
-            color: value === opt ? '#722ED1' : '#1E1E1E',
+            backgroundColor: value === opt ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+            borderColor: value === opt ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+            color: value === opt ? 'var(--hz-primary)' : 'var(--hz-black)',
           }}
         >
-          {value === opt && <span className="w-3 h-3 rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>}
+          {value === opt && <span className="w-3 h-3 rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>}
           {labels[opt]}
         </button>
       ))}
@@ -141,7 +141,7 @@ function serviceCategoryLabel(slug: string): string {
 }
 
 function statusDotColor(status: ProjectStatus): string {
-  if (status === 'completed') return '#16A34A'
+  if (status === 'completed') return 'var(--hz-success)'
   if (status === 'ongoing') return '#D97706'
   return '#A1A1A1'
 }
@@ -151,52 +151,52 @@ function statusDotColor(status: ProjectStatus): string {
 function ProjectCard({ project, onEdit, onRemove }: { project: PortfolioProject; onEdit: () => void; onRemove: () => void }) {
   const cover = project.images.find(i => i.id === project.coverImageId) ?? project.images[0] ?? null
   return (
-    <div className="flex flex-col rounded-[16px] bg-white border border-[#E3DDD7] overflow-hidden" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <div className="h-[130px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F4F0EC' }}>
+    <div className="flex flex-col rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] overflow-hidden" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <div className="h-[130px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
         {cover ? (
           <img src={cover.url} alt={`${project.name} cover`} className="w-full h-full object-cover" />
         ) : (
-          <span className="text-[#CAC7C6]"><ImageIcon /></span>
+          <span className="text-[var(--hz-border-strong)]"><ImageIcon /></span>
         )}
       </div>
       <div className="flex flex-col gap-2 p-4">
         <div className="flex items-start justify-between gap-2">
-          <span className="text-[14px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{project.name}</span>
+          <span className="text-[14px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{project.name}</span>
           {project.visibility === 'private' && (
-            <span className="flex items-center gap-1 h-[20px] px-1.5 rounded-full text-[10px] font-semibold shrink-0" style={{ fontFamily: FONT_BODY, backgroundColor: '#F4F0EC', color: '#68636D' }}>
+            <span className="flex items-center gap-1 h-[20px] px-1.5 rounded-full text-[10px] font-semibold shrink-0" style={{ fontFamily: FONT_BODY, backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)' }}>
               <LockIcon /> Private
             </span>
           )}
         </div>
         <div className="flex items-center gap-1.5 flex-wrap text-[12px]" style={{ fontFamily: FONT_BODY }}>
-          <span className="text-[#68636D]">{PROJECT_TYPE_LABELS[project.projectType]}</span>
-          <span className="text-[#CAC7C6]">·</span>
-          <span className="flex items-center gap-1 font-semibold" style={{ color: statusDotColor(project.status) === '#16A34A' ? '#16A34A' : statusDotColor(project.status) === '#D97706' ? '#D97706' : '#808080' }}>
+          <span className="text-[var(--hz-ink-muted)]">{PROJECT_TYPE_LABELS[project.projectType]}</span>
+          <span className="text-[var(--hz-border-strong)]">·</span>
+          <span className="flex items-center gap-1 font-semibold" style={{ color: statusDotColor(project.status) === 'var(--hz-success)' ? 'var(--hz-success)' : statusDotColor(project.status) === '#D97706' ? '#D97706' : '#808080' }}>
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: statusDotColor(project.status) }} />
             {PROJECT_STATUS_LABELS[project.status]}
           </span>
           {project.year !== null && (
             <>
-              <span className="text-[#CAC7C6]">·</span>
-              <span className="text-[#68636D]">{project.year}</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
+              <span className="text-[var(--hz-ink-muted)]">{project.year}</span>
             </>
           )}
         </div>
-        <div className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+        <div className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
           📍 {project.location}{project.area ? ` · ${project.area.toLocaleString('en-IN')} ${project.areaUnit === 'sqft' ? 'sq ft' : 'sq m'}` : ''}
         </div>
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-[12px] text-[#722ED1] font-semibold" style={{ fontFamily: FONT_BODY }}>{COMPANY_ROLE_LABELS[project.companyRole]}</span>
+          <span className="text-[12px] text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_BODY }}>{COMPANY_ROLE_LABELS[project.companyRole]}</span>
           {project.relatedServiceCategory && (
             <>
-              <span className="text-[#CAC7C6] text-[12px]">·</span>
-              <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{serviceCategoryLabel(project.relatedServiceCategory)}</span>
+              <span className="text-[var(--hz-border-strong)] text-[12px]">·</span>
+              <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{serviceCategoryLabel(project.relatedServiceCategory)}</span>
             </>
           )}
         </div>
-        <div className="flex items-center gap-2 pt-2 mt-1 border-t border-[#E3DDD7]">
-          <button type="button" onClick={onEdit} className="h-8 px-3 rounded-[8px] text-[12px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] transition-colors" style={{ fontFamily: FONT_BODY }}>Edit</button>
-          <button type="button" onClick={onRemove} className="h-8 px-3 rounded-[8px] text-[12px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#DC2626] hover:border-[#DC2626] transition-colors" style={{ fontFamily: FONT_BODY }}>Remove</button>
+        <div className="flex items-center gap-2 pt-2 mt-1 border-t border-[var(--hz-border)]">
+          <button type="button" onClick={onEdit} className="h-8 px-3 rounded-[8px] text-[12px] font-semibold cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] hover:border-[var(--hz-primary)] transition-colors" style={{ fontFamily: FONT_BODY }}>Edit</button>
+          <button type="button" onClick={onRemove} className="h-8 px-3 rounded-[8px] text-[12px] font-semibold cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-danger)] hover:border-[var(--hz-danger)] transition-colors" style={{ fontFamily: FONT_BODY }}>Remove</button>
         </div>
       </div>
     </div>
@@ -313,14 +313,14 @@ function ProjectFormModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-form-title"
-        className="fixed inset-x-3 top-3 bottom-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:top-6 sm:bottom-6 sm:w-[560px] bg-white rounded-[18px] z-50 flex flex-col overflow-hidden"
+        className="fixed inset-x-3 top-3 bottom-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:top-6 sm:bottom-6 sm:w-[560px] bg-[var(--hz-surface)] rounded-[18px] z-50 flex flex-col overflow-hidden"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#E3DDD7] shrink-0">
-          <h2 id="project-form-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--hz-border)] shrink-0">
+          <h2 id="project-form-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
             {mode === 'edit' ? 'Edit portfolio project' : 'Add portfolio project'}
           </h2>
-          <button type="button" onClick={onCancel} aria-label="Close" className="flex items-center justify-center w-8 h-8 rounded-full border border-[#E3DDD7] bg-white text-[#9A949D] hover:text-[#68636D] cursor-pointer">
+          <button type="button" onClick={onCancel} aria-label="Close" className="flex items-center justify-center w-8 h-8 rounded-full border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-subtle)] hover:text-[var(--hz-ink-muted)] cursor-pointer">
             <CloseIcon />
           </button>
         </div>
@@ -362,11 +362,11 @@ function ProjectFormModal({
               <FieldLabel optional>Project size</FieldLabel>
               <div className="flex items-center gap-2">
                 <div className="flex-1"><TextInput id="pf-area" type="number" value={values.area} onChange={v => setValues(p => ({ ...p, area: v }))} placeholder="e.g. 12000" error={showError('area')} describedBy={showError('area') ? 'pf-area-error' : undefined} /></div>
-                <div role="radiogroup" aria-label="Area unit" className="flex items-center p-1 rounded-[8px] shrink-0" style={{ backgroundColor: '#F4F0EC' }}>
+                <div role="radiogroup" aria-label="Area unit" className="flex items-center p-1 rounded-[8px] shrink-0" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   {(['sqft', 'sqm'] as AreaUnit[]).map(u => (
                     <button key={u} type="button" role="radio" aria-checked={values.areaUnit === u} onClick={() => setValues(p => ({ ...p, areaUnit: u }))}
                       className="h-7 px-2.5 rounded-[6px] text-[11px] font-semibold cursor-pointer border-0 transition-all"
-                      style={{ fontFamily: FONT_BODY, backgroundColor: values.areaUnit === u ? '#FFFFFF' : 'transparent', color: values.areaUnit === u ? '#722ED1' : '#808080' }}
+                      style={{ fontFamily: FONT_BODY, backgroundColor: values.areaUnit === u ? 'var(--hz-surface)' : 'transparent', color: values.areaUnit === u ? 'var(--hz-primary)' : '#808080' }}
                     >{u === 'sqft' ? 'sq ft' : 'sq m'}</button>
                   ))}
                 </div>
@@ -399,17 +399,17 @@ function ProjectFormModal({
                     className="flex items-center gap-1 h-8 px-3 rounded-full text-[12px] font-semibold cursor-pointer border transition-all"
                     style={{
                       fontFamily: FONT_BODY,
-                      backgroundColor: values.relatedServiceCategory === cat ? '#F3EAFF' : '#FFFFFF',
-                      borderColor: values.relatedServiceCategory === cat ? '#722ED1' : '#CAC7C6',
-                      color: values.relatedServiceCategory === cat ? '#722ED1' : '#1E1E1E',
+                      backgroundColor: values.relatedServiceCategory === cat ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+                      borderColor: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+                      color: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : 'var(--hz-black)',
                     }}
                   >
-                    {values.relatedServiceCategory === cat && <span className="w-3 h-3 rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>}
+                    {values.relatedServiceCategory === cat && <span className="w-3 h-3 rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>}
                     {serviceCategoryLabel(cat)}
                   </button>
                 ))}
               </div>
-              <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Which of your services does this project demonstrate? Tap again to clear.</p>
+              <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Which of your services does this project demonstrate? Tap again to clear.</p>
             </div>
           )}
 
@@ -422,20 +422,20 @@ function ProjectFormModal({
               placeholder="Briefly describe the project, scope and your company's involvement."
               rows={3}
               maxLength={DESCRIPTION_MAX}
-              className="w-full px-3.5 py-2.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+              className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
               style={{ fontFamily: FONT_BODY }}
             />
-            <div className="flex justify-end mt-1"><span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{values.description.length}/{DESCRIPTION_MAX}</span></div>
+            <div className="flex justify-end mt-1"><span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{values.description.length}/{DESCRIPTION_MAX}</span></div>
           </div>
 
           <div>
             <FieldLabel optional>Project images</FieldLabel>
             <div className="flex flex-wrap gap-2.5">
               {images.map((img, i) => (
-                <div key={img.id} className="relative w-[84px] h-[84px] rounded-[10px] overflow-hidden border" style={{ borderColor: coverId === img.id ? '#722ED1' : '#CAC7C6', borderWidth: coverId === img.id ? 2 : 1 }}>
+                <div key={img.id} className="relative w-[84px] h-[84px] rounded-[10px] overflow-hidden border" style={{ borderColor: coverId === img.id ? 'var(--hz-primary)' : 'var(--hz-border-strong)', borderWidth: coverId === img.id ? 2 : 1 }}>
                   <img src={img.url} alt={`Project photo ${i + 1}`} className="w-full h-full object-cover" />
                   {coverId === img.id && (
-                    <span className="absolute top-1 left-1 flex items-center gap-0.5 h-[16px] px-1 rounded-full bg-[#722ED1] text-white" style={{ fontFamily: FONT_MONO, fontSize: '9px' }}>
+                    <span className="absolute top-1 left-1 flex items-center gap-0.5 h-[16px] px-1 rounded-full bg-[var(--hz-primary)] text-white" style={{ fontFamily: FONT_MONO, fontSize: '9px' }}>
                       <StarIcon size={7} /> Cover
                     </span>
                   )}
@@ -462,11 +462,11 @@ function ProjectFormModal({
                   onDragOver={e => e.preventDefault()}
                   onDragLeave={e => { e.preventDefault(); setIsDraggingPhoto(false) }}
                   onDrop={handlePhotoDrop}
-                  className="w-[84px] h-[84px] rounded-[10px] border border-dashed flex flex-col items-center justify-center gap-1 cursor-pointer text-[#722ED1] transition-colors"
-                  style={{ borderColor: isDraggingPhoto ? '#722ED1' : '#CAC7C6', backgroundColor: isDraggingPhoto ? '#F9F5FF' : 'transparent' }}
+                  className="w-[84px] h-[84px] rounded-[10px] border border-dashed flex flex-col items-center justify-center gap-1 cursor-pointer text-[var(--hz-primary)] transition-colors"
+                  style={{ borderColor: isDraggingPhoto ? 'var(--hz-primary)' : 'var(--hz-border-strong)', backgroundColor: isDraggingPhoto ? 'var(--hz-primary-wash)' : 'transparent' }}
                 >
                   {uploading ? (
-                    <svg className="animate-spin" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#722ED1" strokeWidth="2" strokeOpacity="0.25" /><path d="M8 2a6 6 0 0 1 6 6" stroke="#722ED1" strokeWidth="2" strokeLinecap="round" /></svg>
+                    <svg className="animate-spin" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="var(--hz-primary)" strokeWidth="2" strokeOpacity="0.25" /><path d="M8 2a6 6 0 0 1 6 6" stroke="var(--hz-primary)" strokeWidth="2" strokeLinecap="round" /></svg>
                   ) : (
                     <>
                       <UploadIcon />
@@ -477,7 +477,7 @@ function ProjectFormModal({
               )}
               <input ref={fileInputRef} id="pf-image-input" type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleFilesSelected} className="sr-only" />
             </div>
-            <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Up to {MAX_IMAGES_PER_PROJECT} images · JPG, PNG or WEBP · up to 10 MB each · drag & drop or browse. The first image is the cover by default.</p>
+            <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Up to {MAX_IMAGES_PER_PROJECT} images · JPG, PNG or WEBP · up to 10 MB each · drag & drop or browse. The first image is the cover by default.</p>
             {imageError && <FieldError id="pf-image-error" message={imageError} />}
           </div>
 
@@ -492,20 +492,20 @@ function ProjectFormModal({
                   aria-checked={visibility === v}
                   onClick={() => setVisibility(v)}
                   className="relative text-left flex flex-col gap-0.5 rounded-[10px] p-3 border transition-all cursor-pointer"
-                  style={{ backgroundColor: visibility === v ? '#F9F5FF' : '#FFFFFF', borderColor: visibility === v ? '#722ED1' : '#CAC7C6', borderWidth: visibility === v ? 2 : 1 }}
+                  style={{ backgroundColor: visibility === v ? 'var(--hz-primary-wash)' : 'var(--hz-surface)', borderColor: visibility === v ? 'var(--hz-primary)' : 'var(--hz-border-strong)', borderWidth: visibility === v ? 2 : 1 }}
                 >
-                  <span className="text-[13px] font-semibold" style={{ fontFamily: FONT_HEAD, color: visibility === v ? '#722ED1' : '#1E1E1E' }}>{VISIBILITY_LABELS[v]}</span>
-                  <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{VISIBILITY_DESCRIPTIONS[v]}</span>
-                  {visibility === v && <span className="absolute top-2.5 right-2.5 w-[15px] h-[15px] rounded-full bg-[#722ED1] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>}
+                  <span className="text-[13px] font-semibold" style={{ fontFamily: FONT_HEAD, color: visibility === v ? 'var(--hz-primary)' : 'var(--hz-black)' }}>{VISIBILITY_LABELS[v]}</span>
+                  <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{VISIBILITY_DESCRIPTIONS[v]}</span>
+                  {visibility === v && <span className="absolute top-2.5 right-2.5 w-[15px] h-[15px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>}
                 </button>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-2.5 px-5 py-4 border-t border-[#E3DDD7] shrink-0">
-          <button type="button" onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-          <button type="button" onClick={handleSave} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>Save project</button>
+        <div className="flex items-center justify-end gap-2.5 px-5 py-4 border-t border-[var(--hz-border)] shrink-0">
+          <button type="button" onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+          <button type="button" onClick={handleSave} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>Save project</button>
         </div>
       </div>
     </>
@@ -524,16 +524,16 @@ function DeleteProjectModal({ projectName, onCancel, onConfirm }: { projectName:
     <>
       <div className="fixed inset-0 bg-black opacity-30 z-40" aria-hidden="true" onClick={onCancel} />
       <div role="dialog" aria-modal="true" aria-labelledby="delete-project-title" aria-describedby="delete-project-desc"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
-        <h2 id="delete-project-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Remove portfolio project?</h2>
-        <p id="delete-project-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <h2 id="delete-project-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Remove portfolio project?</h2>
+        <p id="delete-project-desc" className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           This will remove &ldquo;{projectName}&rdquo; from your public company portfolio. It will not delete any project workspace.
         </p>
         <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:justify-end">
-          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 bg-[#DC2626] hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>Remove project</button>
+          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-danger)] hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>Remove project</button>
         </div>
       </div>
     </>
@@ -552,14 +552,14 @@ function SkipPortfolioModal({ onCancel, onConfirm }: { onCancel: () => void; onC
     <>
       <div className="fixed inset-0 bg-black opacity-30 z-40" aria-hidden="true" onClick={onCancel} />
       <div role="dialog" aria-modal="true" aria-labelledby="skip-portfolio-title" aria-describedby="skip-portfolio-desc"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
-        <h2 id="skip-portfolio-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Skip portfolio setup?</h2>
-        <p id="skip-portfolio-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can add projects later from your organization profile.</p>
+        <h2 id="skip-portfolio-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Skip portfolio setup?</h2>
+        <p id="skip-portfolio-desc" className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can add projects later from your organization profile.</p>
         <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:justify-end">
-          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Continue adding projects</button>
-          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>Skip</button>
+          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Continue adding projects</button>
+          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>Skip</button>
         </div>
       </div>
     </>
@@ -572,23 +572,23 @@ type SubmitStage = 'idle' | 'submitting'
 // established on Screens 020–025, reused here rather than a new component.
 function SummaryChip({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col gap-1 rounded-[14px] px-4 py-3" style={{ backgroundColor: '#F4F0EC' }}>
-      <span className="text-[10px] tracking-[0.08em] uppercase text-[#68636D]" style={{ fontFamily: FONT_MONO }}>{label}</span>
-      <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{value}</span>
+    <div className="flex flex-col gap-1 rounded-[14px] px-4 py-3" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+      <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>{label}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
 
 function HozieAssist({ onAskHozie }: { onAskHozie: () => void }) {
   return (
-    <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
       <div className="shrink-0"><HIcon size={32} /></div>
-      <p className="text-[13px] text-[#68636D] leading-[1.55] m-0 flex-1 min-w-[220px]" style={{ fontFamily: FONT_BODY }}>
-        <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>Need help writing a project description?</span>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0 flex-1 min-w-[220px]" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>Need help writing a project description?</span>
       </p>
       <button
         onClick={onAskHozie}
-        className="h-9 px-3.5 rounded-[9px] border border-[#E3DDD7] text-[#722ED1] text-[12.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+        className="h-9 px-3.5 rounded-[9px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
         style={{ fontFamily: FONT_BODY }}
       >
         Ask Hozie →
@@ -741,19 +741,19 @@ export default function PortfolioSetupScreen({
   const existingNamesFor = (excludeId?: string) => projects.filter(p => p.id !== excludeId).map(p => p.name)
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-between h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
           {!isProfessionalContext && (
-            <span className="text-[12px] tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 6 of 6</span>
+            <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 6 of 6</span>
           )}
         </div>
         {!isProfessionalContext && (
-          <div className="h-[2px] bg-[#F4F0EC] w-full">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '100%' }} />
+          <div className="h-[2px] bg-[var(--hz-surface-muted)] w-full">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '100%' }} />
           </div>
         )}
       </header>
@@ -764,14 +764,14 @@ export default function PortfolioSetupScreen({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Portfolio</span>
-            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Portfolio</span>
+            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               Showcase your work
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
               Add a few projects that show homeowners what you can do.
             </p>
-            <p className="text-[12.5px] text-[#9A949D] leading-[1.5] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[12.5px] text-[var(--hz-ink-subtle)] leading-[1.5] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
               You can add projects now or complete your portfolio later.
             </p>
           </div>
@@ -788,10 +788,10 @@ export default function PortfolioSetupScreen({
           {isProfessionalContext ? (
             <HozieAssist onAskHozie={handleAskHozie} />
           ) : (
-            <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
               <div className="shrink-0"><HIcon size={32} /></div>
-              <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
-                <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>A strong portfolio helps people understand your experience.</span>{' '}
+              <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>A strong portfolio helps people understand your experience.</span>{' '}
                 You can add projects now or finish your portfolio later.
               </p>
             </div>
@@ -804,28 +804,28 @@ export default function PortfolioSetupScreen({
             <div className="flex flex-col gap-5 order-1">
 
               {/* Portfolio status */}
-              <div className="flex items-center justify-between flex-wrap gap-3 rounded-[16px] bg-white border border-[#E3DDD7] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <div className="flex items-center justify-between flex-wrap gap-3 rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Portfolio</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{projects.length} project{projects.length === 1 ? '' : 's'} added</span>
-                  <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Recommended: add 2–3 projects</span>
+                  <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Portfolio</span>
+                  <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{projects.length} project{projects.length === 1 ? '' : 's'} added</span>
+                  <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Recommended: add 2–3 projects</span>
                 </div>
-                <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11.5px] font-semibold" style={{ fontFamily: FONT_BODY, backgroundColor: '#F4F0EC', color: '#68636D' }}>
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: projects.length === 0 ? '#A1A1A1' : '#722ED1' }} />
+                <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11.5px] font-semibold" style={{ fontFamily: FONT_BODY, backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)' }}>
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: projects.length === 0 ? '#A1A1A1' : 'var(--hz-primary)' }} />
                   {portfolioStatusLabel(projects.length)}
                 </span>
               </div>
 
               {projects.length === 0 ? (
-                <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white border border-dashed border-[#E3DDD7] p-8">
-                  <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}><ImageIcon /></span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Showcase your work</span>
-                  <p className="text-[13px] text-[#68636D] leading-[1.6] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>Projects you add here will appear on your professional profile.</p>
+                <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] border border-dashed border-[var(--hz-border)] p-8">
+                  <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}><ImageIcon /></span>
+                  <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Showcase your work</span>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>Projects you add here will appear on your professional profile.</p>
                   <div className="flex flex-col sm:flex-row items-center gap-2.5 mt-1 w-full sm:w-auto">
-                    <button onClick={openAddModal} className="h-11 px-4 rounded-[10px] text-[13.5px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all flex items-center gap-1.5 w-full sm:w-auto justify-center" style={{ fontFamily: FONT_BODY }}>
+                    <button onClick={openAddModal} className="h-11 px-4 rounded-[10px] text-[13.5px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all flex items-center gap-1.5 w-full sm:w-auto justify-center" style={{ fontFamily: FONT_BODY }}>
                       <PlusIcon /> Add your first project
                     </button>
-                    <button onClick={() => setShowSkipModal(true)} className="h-11 px-4 rounded-[10px] text-[13.5px] font-medium cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors w-full sm:w-auto" style={{ fontFamily: FONT_BODY }}>
+                    <button onClick={() => setShowSkipModal(true)} className="h-11 px-4 rounded-[10px] text-[13.5px] font-medium cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors w-full sm:w-auto" style={{ fontFamily: FONT_BODY }}>
                       Skip for now
                     </button>
                   </div>
@@ -833,8 +833,8 @@ export default function PortfolioSetupScreen({
               ) : (
                 <>
                   <div className="flex items-center justify-between">
-                    <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Your projects</span>
-                    <button onClick={openAddModal} className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
+                    <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Your projects</span>
+                    <button onClick={openAddModal} className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
                       <PlusIcon /> Add project
                     </button>
                   </div>
@@ -851,7 +851,7 @@ export default function PortfolioSetupScreen({
                 <button
                   onClick={proceed}
                   disabled={stage === 'submitting'}
-                  className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 px-6 flex items-center justify-center gap-2 bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] disabled:opacity-70"
+                  className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 px-6 flex items-center justify-center gap-2 bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] disabled:opacity-70"
                   style={{ fontFamily: FONT_BODY }}
                 >
                   {stage === 'submitting' ? (
@@ -861,7 +861,7 @@ export default function PortfolioSetupScreen({
                     </>
                   ) : projects.length > 0 ? 'Save portfolio & continue →' : 'Continue without portfolio →'}
                 </button>
-                <button onClick={handleBack} disabled={stage === 'submitting'} className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors disabled:opacity-60" style={{ fontFamily: FONT_BODY }}>
+                <button onClick={handleBack} disabled={stage === 'submitting'} className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors disabled:opacity-60" style={{ fontFamily: FONT_BODY }}>
                   ← Back
                 </button>
               </div>
@@ -873,40 +873,40 @@ export default function PortfolioSetupScreen({
                   data shown in the grid; there is no standalone public
                   profile page in this codebase yet, so this stays an
                   in-screen preview rather than linking to one. */}
-              <div className="rounded-[18px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Your Profile</span>
-                <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{resolvedCompanyName}</span>
+              <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Your Profile</span>
+                <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{resolvedCompanyName}</span>
                 {projects.length > 0 ? (
                   (() => {
                     const featured = projects[0]
                     const cover = featured.images.find(i => i.id === featured.coverImageId) ?? featured.images[0] ?? null
                     return (
-                      <div className="flex items-center gap-3 pt-1 border-t border-[#E3DDD7]">
-                        <div className="w-12 h-12 rounded-[10px] overflow-hidden shrink-0 flex items-center justify-center" style={{ backgroundColor: '#F4F0EC' }}>
-                          {cover ? <img src={cover.url} alt={`${featured.name} cover`} className="w-full h-full object-cover" /> : <span className="text-[#CAC7C6]"><ImageIcon /></span>}
+                      <div className="flex items-center gap-3 pt-1 border-t border-[var(--hz-border)]">
+                        <div className="w-12 h-12 rounded-[10px] overflow-hidden shrink-0 flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+                          {cover ? <img src={cover.url} alt={`${featured.name} cover`} className="w-full h-full object-cover" /> : <span className="text-[var(--hz-border-strong)]"><ImageIcon /></span>}
                         </div>
-                        <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{featured.name}</span>
+                        <span className="text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{featured.name}</span>
                       </div>
                     )
                   })()
                 ) : (
-                  <p className="text-[12.5px] text-[#9A949D] m-0 pt-1 border-t border-[#E3DDD7]" style={{ fontFamily: FONT_BODY }}>Your portfolio will appear here once you add a project.</p>
+                  <p className="text-[12.5px] text-[var(--hz-ink-subtle)] m-0 pt-1 border-t border-[var(--hz-border)]" style={{ fontFamily: FONT_BODY }}>Your portfolio will appear here once you add a project.</p>
                 )}
               </div>
 
               {/* Service context — read-only, matches Screen 025's pattern */}
               {isProfessionalContext && (
-                <div className="rounded-[14px] bg-white border border-[#E3DDD7] p-4">
+                <div className="rounded-[14px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4">
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Your Services</span>
-                    <button type="button" onClick={handleEditServices} className="text-[11.5px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline shrink-0" style={{ fontFamily: FONT_BODY }}>Edit services</button>
+                    <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Your Services</span>
+                    <button type="button" onClick={handleEditServices} className="text-[11.5px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline shrink-0" style={{ fontFamily: FONT_BODY }}>Edit services</button>
                   </div>
                   {services.length === 0 ? (
-                    <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No services selected yet.</p>
+                    <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>No services selected yet.</p>
                   ) : (
                     <div className="flex flex-col gap-1">
                       {services.map(s => (
-                        <span key={s} className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{serviceCategoryLabel(s)}</span>
+                        <span key={s} className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{serviceCategoryLabel(s)}</span>
                       ))}
                     </div>
                   )}
@@ -915,17 +915,17 @@ export default function PortfolioSetupScreen({
 
               {/* Location context — read-only, matches Screen 025's pattern */}
               {isProfessionalContext && (
-                <div className="rounded-[14px] bg-white border border-[#E3DDD7] p-4">
+                <div className="rounded-[14px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4">
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Service Areas</span>
-                    <button type="button" onClick={handleEditLocations} className="text-[11.5px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline shrink-0" style={{ fontFamily: FONT_BODY }}>Edit locations</button>
+                    <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Service Areas</span>
+                    <button type="button" onClick={handleEditLocations} className="text-[11.5px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline shrink-0" style={{ fontFamily: FONT_BODY }}>Edit locations</button>
                   </div>
                   {locations.length === 0 ? (
-                    <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No service areas selected yet.</p>
+                    <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>No service areas selected yet.</p>
                   ) : (
                     <div className="flex flex-col gap-1">
                       {locations.map(l => (
-                        <span key={l} className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{l}</span>
+                        <span key={l} className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{l}</span>
                       ))}
                     </div>
                   )}
@@ -933,9 +933,9 @@ export default function PortfolioSetupScreen({
               )}
 
               {projects.length > 0 ? (
-                <div className="rounded-[18px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                  <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Portfolio Summary</span>
-                  <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                  <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Portfolio Summary</span>
+                  <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                     <SummaryRow label="Projects" value={String(summary.totalProjects)} />
                     <SummaryRow label="Completed" value={String(summary.completed)} />
                     <SummaryRow label="Ongoing" value={String(summary.ongoing)} />
@@ -945,14 +945,14 @@ export default function PortfolioSetupScreen({
                   </div>
                 </div>
               ) : (
-                <div className="rounded-[18px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-2" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                  <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Portfolio Summary</span>
-                  <p className="text-[12.5px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Your summary will appear here once you add a project.</p>
+                <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-2" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                  <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Portfolio Summary</span>
+                  <p className="text-[12.5px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Your summary will appear here once you add a project.</p>
                 </div>
               )}
 
-              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
-                <p className="text-[12.5px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'var(--hz-primary-soft)', backgroundColor: 'var(--hz-primary-wash)' }}>
+                <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
                   Your portfolio isn&apos;t required to finish setup — you can add projects any time from your organization profile.
                 </p>
               </div>
@@ -962,11 +962,11 @@ export default function PortfolioSetupScreen({
       </main>
 
       {/* Mobile sticky actions */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-[#E3DDD7] px-5 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.06)' }}>
-        <button onClick={handleBack} disabled={stage === 'submitting'} className="h-[48px] px-4 rounded-[12px] text-[13px] font-medium cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] disabled:opacity-60 shrink-0" style={{ fontFamily: FONT_BODY }}>
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-5 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.06)' }}>
+        <button onClick={handleBack} disabled={stage === 'submitting'} className="h-[48px] px-4 rounded-[12px] text-[13px] font-medium cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] disabled:opacity-60 shrink-0" style={{ fontFamily: FONT_BODY }}>
           ← Back
         </button>
-        <button onClick={proceed} disabled={stage === 'submitting'} className="flex-1 h-[48px] text-[13.5px] font-semibold rounded-[12px] transition-all duration-200 flex items-center justify-center gap-2 bg-[#722ED1] text-white cursor-pointer disabled:opacity-70" style={{ fontFamily: FONT_BODY }}>
+        <button onClick={proceed} disabled={stage === 'submitting'} className="flex-1 h-[48px] text-[13.5px] font-semibold rounded-[12px] transition-all duration-200 flex items-center justify-center gap-2 bg-[var(--hz-primary)] text-white cursor-pointer disabled:opacity-70" style={{ fontFamily: FONT_BODY }}>
           {stage === 'submitting' ? 'Saving…' : projects.length > 0 ? 'Save portfolio & continue →' : 'Continue without portfolio →'}
         </button>
       </div>
@@ -975,8 +975,8 @@ export default function PortfolioSetupScreen({
       <footer className="hidden lg:flex shrink-0 justify-center items-center gap-2.5 pb-5 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>
@@ -1021,8 +1021,8 @@ export default function PortfolioSetupScreen({
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3 py-1.5">
-      <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[13px] font-semibold text-[#242326] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
+      <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }

@@ -51,9 +51,9 @@ const TeamIcon = () => (
 function ChecklistRow({ label, done }: { label: string; done: boolean }) {
   return (
     <div className="flex items-center justify-between py-1.5">
-      <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-        <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
+      <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+        <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
         {done ? 'Complete' : ''}
       </span>
     </div>
@@ -67,15 +67,15 @@ function NextStepCard({ icon, title, description, highlighted, onClick }: { icon
       onClick={onClick}
       className={[
         'relative text-left flex flex-col gap-2 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        highlighted ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        highlighted ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       {highlighted && (
-        <span className="absolute top-3 right-3 h-[18px] px-1.5 rounded-full text-[9px] font-semibold tracking-[0.04em] uppercase bg-[#722ED1] text-white flex items-center" style={{ fontFamily: FONT_MONO }}>Recommended</span>
+        <span className="absolute top-3 right-3 h-[18px] px-1.5 rounded-full text-[9px] font-semibold tracking-[0.04em] uppercase bg-[var(--hz-primary)] text-white flex items-center" style={{ fontFamily: FONT_MONO }}>Recommended</span>
       )}
-      <div className={['w-9 h-9 rounded-[9px] flex items-center justify-center shrink-0', highlighted ? 'bg-white text-[#722ED1]' : 'bg-[#F4F0EC] text-[#68636D]'].join(' ')}>{icon}</div>
-      <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{title}</span>
-      <span className="text-[12px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
+      <div className={['w-9 h-9 rounded-[9px] flex items-center justify-center shrink-0', highlighted ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>{icon}</div>
+      <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{title}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
     </button>
   )
 }
@@ -83,8 +83,8 @@ function NextStepCard({ icon, title, description, highlighted, onClick }: { icon
 function StatBlock({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col items-center gap-0.5 text-center">
-      <span className="text-[20px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{value}</span>
-      <span className="text-[10px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{label}</span>
+      <span className="text-[20px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{value}</span>
+      <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{label}</span>
     </div>
   )
 }
@@ -156,7 +156,7 @@ export default function OrganizationSubmittedScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
@@ -172,47 +172,47 @@ export default function OrganizationSubmittedScreen({
           {/* Success visual */}
           <div className="flex flex-col items-center gap-5 text-center">
             <div className="relative w-[84px] h-[84px] flex items-center justify-center" aria-hidden="true">
-              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(18px)' }} />
-              <span className="relative w-[72px] h-[72px] rounded-full flex items-center justify-center" style={{ backgroundColor: '#722ED1', boxShadow: '0 8px 30px rgba(243,234,255,0.10)' }}>
+              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', filter: 'blur(18px)' }} />
+              <span className="relative w-[72px] h-[72px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 30px var(--hz-primary-soft)' }}>
                 <BigCheckIcon />
               </span>
             </div>
             <div className="flex flex-col items-center gap-3">
-              <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Organization Setup</span>
-              <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+              <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Organization Setup</span>
+              <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
                 Your organization is ready to go
               </h1>
-              <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
                 Your organization profile has been submitted. We&apos;ll review your information and let you know when your profile is ready for homeowners.
               </p>
             </div>
           </div>
 
           {/* Organization card */}
-          <div className="w-full rounded-[18px] bg-white border border-[#E3DDD7] p-5 sm:p-6 flex flex-col items-center gap-3 text-center" style={{ maxWidth: 480, boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-            <span className="w-14 h-14 rounded-[14px] flex items-center justify-center text-[17px] font-semibold text-[#722ED1]" style={{ backgroundColor: '#F3EAFF' }}>{previewInitials}</span>
+          <div className="w-full rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col items-center gap-3 text-center" style={{ maxWidth: 480, boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <span className="w-14 h-14 rounded-[14px] flex items-center justify-center text-[17px] font-semibold text-[var(--hz-primary)]" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>{previewInitials}</span>
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[18px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{resolvedCompanyName}</span>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{COMPANY_TYPE_LABELS[resolvedCompanyType]}</span>
+              <span className="text-[18px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{resolvedCompanyName}</span>
+              <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{COMPANY_TYPE_LABELS[resolvedCompanyType]}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+            <div className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
               <PinIcon /> {resolvedLocation}
             </div>
-            <div className="flex items-center gap-2 pt-2 mt-1 border-t border-[#E3DDD7] w-full justify-center flex-wrap">
-              <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Owner</span>
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{resolvedOwnerName}</span>
-              <span className="text-[#CAC7C6]">·</span>
-              <span className="flex items-center gap-1.5 h-6 px-2 rounded-full text-[10.5px] font-semibold tracking-[0.04em] uppercase" style={{ fontFamily: FONT_MONO, backgroundColor: '#DCFCE7', color: '#16A34A' }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A]" /> Active
+            <div className="flex items-center gap-2 pt-2 mt-1 border-t border-[var(--hz-border)] w-full justify-center flex-wrap">
+              <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Owner</span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{resolvedOwnerName}</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
+              <span className="flex items-center gap-1.5 h-6 px-2 rounded-full text-[10.5px] font-semibold tracking-[0.04em] uppercase" style={{ fontFamily: FONT_MONO, backgroundColor: '#DCFCE7', color: 'var(--hz-success)' }}>
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-success)]" /> Active
               </span>
             </div>
           </div>
 
           {/* Setup summary + verification notice */}
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-5" style={{ maxWidth: 720 }}>
-            <div className="rounded-[16px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-1" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-              <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D] mb-1" style={{ fontFamily: FONT_MONO }}>Setup Complete</span>
-              <div className="flex flex-col divide-y divide-[#CAC7C6]">
+            <div className="rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-1" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] mb-1" style={{ fontFamily: FONT_MONO }}>Setup Complete</span>
+              <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                 {isProfessionalContext && <ChecklistRow label="Professional profile" done={setupStatus.professionalProfileComplete} />}
                 <ChecklistRow label="Organization information" done={setupStatus.companyInformationComplete} />
                 <ChecklistRow label="Services" done={setupStatus.servicesComplete} />
@@ -220,10 +220,10 @@ export default function OrganizationSubmittedScreen({
                 <ChecklistRow label="Portfolio" done={setupStatus.portfolioComplete} />
                 <ChecklistRow label="Team" done={setupStatus.teamSetupComplete} />
                 <div className="flex items-center justify-between py-1.5">
-                  <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>Business verification</span>
+                  <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Business verification</span>
                   {resolvedVerification === 'verified' ? (
-                    <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-                      <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
+                    <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+                      <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>
                       {VERIFICATION_STATUS_LABELS[resolvedVerification]}
                     </span>
                   ) : (
@@ -237,19 +237,19 @@ export default function OrganizationSubmittedScreen({
             </div>
 
             {resolvedVerification !== 'verified' && (
-              <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+              <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
                 <div className="flex items-center gap-2">
-                  <span className="text-[#722ED1] shrink-0"><ShieldIcon /></span>
-                  <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>
+                  <span className="text-[var(--hz-primary)] shrink-0"><ShieldIcon /></span>
+                  <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>
                     {resolvedVerification === 'pending' ? 'Verification Pending' : 'Business Verification'}
                   </span>
                 </div>
-                <p className="text-[13px] text-[#242326] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[13px] text-[var(--hz-ink)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
                   {resolvedVerification === 'pending'
                     ? 'Your organization is being reviewed. You can continue setting up your profile while verification is in progress.'
                     : 'Your organization is currently unverified. You can complete verification later from Organization Settings.'}
                 </p>
-                <button type="button" onClick={viewVerification} className="self-start text-[13px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline p-0" style={{ fontFamily: FONT_BODY }}>
+                <button type="button" onClick={viewVerification} className="self-start text-[13px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline p-0" style={{ fontFamily: FONT_BODY }}>
                   {resolvedVerification === 'pending' ? 'View verification status →' : 'Verify business →'}
                 </button>
               </div>
@@ -257,16 +257,16 @@ export default function OrganizationSubmittedScreen({
           </div>
 
           {/* Hozie welcome */}
-          <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-4" style={{ maxWidth: 720, boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-4" style={{ maxWidth: 720, boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="shrink-0"><HIcon size={36} /></div>
-            <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
-              <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>Welcome to Houzeify, {resolvedCompanyName}.</span>{' '}
+            <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+              <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>Welcome to Houzeify, {resolvedCompanyName}.</span>{' '}
               Your organization workspace is ready. You can now create projects, manage estimates, collaborate with your team and use Hozie for construction guidance.
             </p>
           </div>
 
           {/* Organization stats */}
-          <div className="w-full grid grid-cols-4 gap-3 rounded-[16px] bg-white border border-[#E3DDD7] py-4 px-2" style={{ maxWidth: 720, boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="w-full grid grid-cols-4 gap-3 rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] py-4 px-2" style={{ maxWidth: 720, boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <StatBlock label="Projects" value="0" />
             <StatBlock label="Team Members" value={String(teamMemberCount)} />
             <StatBlock label="Portfolio Projects" value={String(portfolioCount)} />
@@ -275,7 +275,7 @@ export default function OrganizationSubmittedScreen({
 
           {/* Next steps */}
           <div className="w-full flex flex-col gap-3" style={{ maxWidth: 900 }}>
-            <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D] text-center" style={{ fontFamily: FONT_MONO }}>What you can do next</span>
+            <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] text-center" style={{ fontFamily: FONT_MONO }}>What you can do next</span>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <NextStepCard icon={<CreateProjectIcon />} title="Create Project" description="Start a construction project." highlighted onClick={createProject} />
               <NextStepCard icon={<WorkspaceIcon />} title="View Organization Profile" description="See your saved organization details." onClick={viewOrganizationProfile} />
@@ -288,7 +288,7 @@ export default function OrganizationSubmittedScreen({
             <button
               onClick={goToDashboard}
               aria-label="Go to your professional dashboard"
-              className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 px-6 flex items-center justify-center gap-2 bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] w-full sm:w-auto"
+              className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 px-6 flex items-center justify-center gap-2 bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] w-full sm:w-auto"
               style={{ fontFamily: FONT_BODY }}
             >
               Go to Professional Dashboard <ArrowRightIcon />
@@ -296,13 +296,13 @@ export default function OrganizationSubmittedScreen({
             <button
               onClick={viewOrganizationProfile}
               aria-label="View your organization profile"
-              className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] transition-colors w-full sm:w-auto"
+              className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] hover:border-[var(--hz-primary)] transition-colors w-full sm:w-auto"
               style={{ fontFamily: FONT_BODY }}
             >
               View Organization Profile →
             </button>
           </div>
-          <p className="text-[12px] text-[#9A949D] text-center m-0" style={{ fontFamily: FONT_BODY }}>
+          <p className="text-[12px] text-[var(--hz-ink-subtle)] text-center m-0" style={{ fontFamily: FONT_BODY }}>
             You can add or edit your profile any time from your dashboard.
           </p>
         </div>
@@ -312,8 +312,8 @@ export default function OrganizationSubmittedScreen({
       <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-6 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>

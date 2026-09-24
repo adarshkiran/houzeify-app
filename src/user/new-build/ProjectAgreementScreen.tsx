@@ -25,8 +25,8 @@ const CURRENT_USER_ID = 'user-demo-001' // established demo-identity convention
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <h2 className="text-[13px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <h2 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
       {children}
     </div>
   )
@@ -34,8 +34,8 @@ function SectionCard({ title, children }: { title?: string; children: React.Reac
 function Field({ label, value }: { label: string; value?: string }) {
   return (
     <div>
-      <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
-      <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{value ?? '—'}</p>
+      <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
+      <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{value ?? '—'}</p>
     </div>
   )
 }
@@ -124,31 +124,31 @@ export default function ProjectAgreementScreen({
 
   if (!projectId || !bid || !agreement) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <HIcon size={36} />
-        <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Agreement not available yet.</p>
-        <p className="text-[13px] text-[#68636D] m-0 text-center max-w-[360px]" style={{ fontFamily: FONT_BODY }}>An agreement can only be assembled once a contractor has been awarded this project.</p>
+        <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Agreement not available yet.</p>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 text-center max-w-[360px]" style={{ fontFamily: FONT_BODY }}>An agreement can only be assembled once a contractor has been awarded this project.</p>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="build" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0">
-      <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={handleBack} className="text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>← Back</button>
+          <button type="button" onClick={handleBack} className="text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>← Back</button>
         </div>
       </header>
 
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-8">
         <div className="max-w-[720px] mx-auto flex flex-col gap-5">
           <div>
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Agreement</p>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your Project'}</h1>
-            <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Between {agreement.homeownerName} and {agreement.contractorName}</p>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Agreement</p>
+            <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{projectName || 'Your Project'}</h1>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Between {agreement.homeownerName} and {agreement.contractorName}</p>
           </div>
 
           <SectionCard title="Cost & Timeline">
@@ -161,29 +161,29 @@ export default function ProjectAgreementScreen({
           </SectionCard>
 
           <SectionCard title="Scope of Work">
-            <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.scope}</p>
+            <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.scope}</p>
           </SectionCard>
 
           <SectionCard title="Inclusions">
-            <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.inclusions}</p>
+            <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.inclusions}</p>
           </SectionCard>
 
           <SectionCard title="Exclusions">
-            <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.exclusions}</p>
+            <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.exclusions}</p>
           </SectionCard>
 
           <SectionCard title="Payment Terms">
-            <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.paymentTerms}</p>
+            <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.paymentTerms}</p>
           </SectionCard>
 
           <SectionCard title="Responsibilities">
-            <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.responsibilities}</p>
+            <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>{agreement.responsibilities}</p>
           </SectionCard>
 
           <button
             onClick={handleContinue}
             className="h-[52px] rounded-[12px] text-white text-[14px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-            style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
           >
             Continue to Review →
           </button>

@@ -57,28 +57,28 @@ function ProfessionalTypeCard({ type, selected, onSelect }: { type: Professional
       className={[
         'relative text-left flex items-start gap-3.5 rounded-[16px] p-4 sm:p-5 transition-all duration-150 outline-none cursor-pointer',
         selected
-          ? 'bg-[#F9F5FF] border-[1.5px] border-[#722ED1]'
-          : 'bg-white border border-[#E3DDD7] hover:border-[#E3DDD7] hover:bg-[#FFFFFF]',
+          ? 'bg-[var(--hz-primary-wash)] border-[1.5px] border-[var(--hz-primary)]'
+          : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:border-[var(--hz-border)] hover:bg-[var(--hz-surface)]',
       ].join(' ')}
     >
       <span
         aria-hidden="true"
-        className={['w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0', selected ? 'bg-white text-[#722ED1]' : 'bg-[#F4F0EC] text-[#68636D]'].join(' ')}
+        className={['w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}
       >
         {PROFESSIONAL_TYPE_ICONS[type]}
       </span>
       <div className="flex flex-col gap-1 min-w-0 flex-1">
-        <span className={['text-[14.5px] font-semibold leading-snug', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
+        <span className={['text-[14.5px] font-semibold leading-snug', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
           {content.title}
         </span>
-        <p className="text-[12.5px] text-[#68636D] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
           {content.description}
         </p>
       </div>
       <span
         aria-hidden="true"
         className="w-[20px] h-[20px] rounded-full flex items-center justify-center shrink-0 mt-0.5"
-        style={{ backgroundColor: selected ? '#722ED1' : 'transparent', border: selected ? 'none' : '1.5px solid #CAC7C6' }}
+        style={{ backgroundColor: selected ? 'var(--hz-primary)' : 'transparent', border: selected ? 'none' : '1.5px solid var(--hz-border-strong)' }}
       >
         {selected && <CheckIcon size={10} />}
       </span>
@@ -90,8 +90,8 @@ function ProfessionalTypeCard({ type, selected, onSelect }: { type: Professional
 
 function OtherTypeField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   return (
-    <div className="rounded-[16px] border border-[#E3DDD7] bg-white p-4 sm:p-5 flex flex-col gap-2">
-      <label htmlFor="professional-type-other" className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+    <div className="rounded-[16px] border border-[var(--hz-border)] bg-[var(--hz-surface)] p-4 sm:p-5 flex flex-col gap-2">
+      <label htmlFor="professional-type-other" className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
         Tell us what best describes your work.
       </label>
       <input
@@ -101,10 +101,10 @@ function OtherTypeField({ value, onChange }: { value: string; onChange: (v: stri
         maxLength={PROFESSIONAL_TYPE_OTHER_MAX}
         onChange={e => onChange(e.target.value)}
         placeholder="e.g. Civil consultant, landscape contractor..."
-        className="w-full h-11 px-3.5 rounded-[10px] border border-[#E3DDD7] bg-white text-[13.5px] text-[#242326] placeholder-[#9A949D] outline-none focus:border-[#722ED1] focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all"
+        className="w-full h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:border-[var(--hz-primary)] focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all"
         style={{ fontFamily: FONT_BODY }}
       />
-      <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Professional type · required</span>
+      <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Professional type · required</span>
     </div>
   )
 }
@@ -113,12 +113,12 @@ function OtherTypeField({ value, onChange }: { value: string; onChange: (v: stri
 
 function HozieAssist({ onAskHozie }: { onAskHozie: () => void }) {
   return (
-    <div className="w-full flex items-center gap-3.5 bg-white border border-[#E3DDD7] rounded-[16px] px-4 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <div className="w-9 h-9 rounded-[11px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={22} /></div>
+    <div className="w-full flex items-center gap-3.5 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-4 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <div className="w-9 h-9 rounded-[11px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={22} /></div>
       <div className="flex flex-col gap-0.5 flex-1 min-w-[180px]">
-        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Not sure which option fits?</span>
+        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Not sure which option fits?</span>
       </div>
-      <button onClick={onAskHozie} className="h-8 px-3.5 rounded-[9px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0" style={{ fontFamily: FONT_BODY }}>
+      <button onClick={onAskHozie} className="h-8 px-3.5 rounded-[9px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0" style={{ fontFamily: FONT_BODY }}>
         Ask Hozie →
       </button>
     </div>
@@ -184,7 +184,7 @@ export default function ProfessionalTypeScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
@@ -199,11 +199,11 @@ export default function ProfessionalTypeScreen({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Professional Profile</span>
-            <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] leading-[1.1] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Professional Profile</span>
+            <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] leading-[1.1] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               What type of professional are you?
             </h1>
-            <p className="text-[14px] text-[#68636D] leading-[1.6] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
               {isOrganization
                 ? "Tell us what best describes your company's role so we can show your team the right opportunities and tools."
                 : 'Tell us what best describes your role so we can show you the right opportunities and tools.'}
@@ -221,7 +221,7 @@ export default function ProfessionalTypeScreen({
           {type === 'other' && <OtherTypeField value={otherText} onChange={setOtherText} />}
 
           {/* Why we ask */}
-          <p className="text-center text-[12.5px] text-[#9A949D] leading-[1.55] m-0 max-w-[520px] mx-auto" style={{ fontFamily: FONT_BODY }}>
+          <p className="text-center text-[12.5px] text-[var(--hz-ink-subtle)] leading-[1.55] m-0 max-w-[520px] mx-auto" style={{ fontFamily: FONT_BODY }}>
             Your professional type helps Houzeify show you relevant projects, service requests and opportunities.
           </p>
 
@@ -238,8 +238,8 @@ export default function ProfessionalTypeScreen({
                   'h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 w-full sm:w-[220px]',
                   'flex items-center justify-center gap-2',
                   canContinue
-                    ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
-                    : 'bg-[#F4F0EC] text-[#9A949D] cursor-not-allowed',
+                    ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
+                    : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-not-allowed',
                 ].join(' ')}
                 style={{ fontFamily: FONT_BODY }}
               >
@@ -247,7 +247,7 @@ export default function ProfessionalTypeScreen({
               </button>
               <button
                 onClick={handleBack}
-                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors"
+                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors"
                 style={{ fontFamily: FONT_BODY }}
               >
                 ← Back

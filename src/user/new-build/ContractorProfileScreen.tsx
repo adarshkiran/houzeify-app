@@ -37,7 +37,7 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 const CheckBadgeIcon = ({ size = 13 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const PortfolioEmptyIcon = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#A1A1A1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="6" width="22" height="17" rx="2" /><path d="M3 19l6-6 4 4 6-7 6 8" /></svg>
@@ -50,8 +50,8 @@ const StarIcon = ({ size = 13, filled = true }: { size?: number; filled?: boolea
 
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      <h2 className="text-[14px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      <h2 className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>
       {children}
     </div>
   )
@@ -59,7 +59,7 @@ function SectionCard({ title, children }: { title: string; children: React.React
 
 function Chip({ label }: { label: string }) {
   return (
-    <span className="px-2.5 py-1.5 rounded-full text-[12px] font-medium" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_BODY }}>
+    <span className="px-2.5 py-1.5 rounded-full text-[12px] font-medium" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
       {label}
     </span>
   )
@@ -67,9 +67,9 @@ function Chip({ label }: { label: string }) {
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-2" style={{ borderTop: '1px solid #F4F0EC' }}>
-      <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[12.5px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{value}</span>
+    <div className="flex items-center justify-between py-2" style={{ borderTop: '1px solid var(--hz-surface-muted)' }}>
+      <span className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[12.5px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
@@ -207,30 +207,30 @@ export default function ContractorProfileScreen({
       type="button"
       onClick={handleInvite}
       className={`${selectClass} text-white w-full`}
-      style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+      style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
     >
       Invite Contractor →
     </button>
   )
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="contractors" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0">
 
       {/* Header */}
-      <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
           <button
             type="button"
             onClick={() => onNavigate('find-contractors')}
-            className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0"
+            className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0"
             style={{ fontFamily: FONT_BODY }}
           >
             <IcoBack /> Back to Contractors
           </button>
-          <span className="text-[11px] tracking-[0.08em] uppercase text-[#9A949D] hidden sm:block" style={{ fontFamily: FONT_MONO }}>
+          <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)] hidden sm:block" style={{ fontFamily: FONT_MONO }}>
             Professional Profile
           </span>
         </div>
@@ -240,12 +240,12 @@ export default function ContractorProfileScreen({
         <div className="max-w-[980px] mx-auto flex flex-col gap-5">
           {!listing ? (
             <div className="flex flex-col items-center justify-center text-center gap-3 py-24">
-              <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Profile not found.</p>
+              <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Profile not found.</p>
               <button
                 type="button"
                 onClick={() => onNavigate('find-contractors')}
                 className={selectClass}
-                style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
               >
                 Back to Contractors
               </button>
@@ -253,19 +253,19 @@ export default function ContractorProfileScreen({
           ) : (
             <>
               {/* Profile hero */}
-              <div className="rounded-[16px] bg-white p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4" style={{ border: '1px solid #E3DDD7' }}>
+              <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4" style={{ border: '1px solid var(--hz-border)' }}>
                 {logoUrl && listing.kind === 'organization' ? (
-                  <img src={logoUrl} alt={listing.name} className="w-16 h-16 rounded-full object-cover shrink-0" style={{ border: '1px solid #E3DDD7' }} />
+                  <img src={logoUrl} alt={listing.name} className="w-16 h-16 rounded-full object-cover shrink-0" style={{ border: '1px solid var(--hz-border)' }} />
                 ) : (
-                  <div className="w-16 h-16 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[18px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+                  <div className="w-16 h-16 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[18px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
                     {listing.kind === 'organization' ? companyInitials(listing.name) : profileInitials(listing.name)}
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h1 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{listing.name}</h1>
+                    <h1 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{listing.name}</h1>
                     {listing.verificationStatus === 'verified' && (
-                      <span className="flex items-center gap-1 text-[12px] font-medium text-[#16A34A]" style={{ fontFamily: FONT_BODY }}>
+                      <span className="flex items-center gap-1 text-[12px] font-medium text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}>
                         <CheckBadgeIcon /> Verified
                       </span>
                     )}
@@ -275,17 +275,17 @@ export default function ContractorProfileScreen({
                       </span>
                     )}
                     {(listing.verificationStatus === 'rejected' || listing.verificationStatus === 'needs-information') && (
-                      <span className="px-2 py-0.5 rounded-full text-[11px] font-medium" style={{ backgroundColor: '#FEE2E2', color: '#DC2626', fontFamily: FONT_BODY }}>
+                      <span className="px-2 py-0.5 rounded-full text-[11px] font-medium" style={{ backgroundColor: '#FEE2E2', color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>
                         Not Verified
                       </span>
                     )}
                   </div>
-                  <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
                     {listing.professionalType ? PROFESSIONAL_TYPE_CONTENT[listing.professionalType].title : (listing.kind === 'organization' ? 'Organization' : 'Individual Professional')}
                     {' · '}{listing.kind === 'organization' ? 'Organization' : 'Individual'}
                   </p>
                   {listing.location && (
-                    <span className="flex items-center gap-1.5 text-[12.5px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                    <span className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink-muted)] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                       <IcoMapPin /> {listing.location}
                     </span>
                   )}
@@ -295,10 +295,10 @@ export default function ContractorProfileScreen({
 
               {/* Considering for project */}
               {hasProject && (
-                <div className="rounded-[14px] p-4 flex flex-col gap-0.5" style={{ backgroundColor: '#F9F5FF', border: '1px solid #F3EAFF' }}>
-                  <span className="text-[11px] tracking-[0.06em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Considering for</span>
-                  <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{projectName}</span>
-                  <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>This professional can be invited to this project.</span>
+                <div className="rounded-[14px] p-4 flex flex-col gap-0.5" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
+                  <span className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Considering for</span>
+                  <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{projectName}</span>
+                  <span className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>This professional can be invited to this project.</span>
                 </div>
               )}
 
@@ -307,7 +307,7 @@ export default function ContractorProfileScreen({
                 {/* LEFT */}
                 <div className="flex flex-col gap-5 min-w-0">
                   <SectionCard title="About">
-                    <p className="text-[13.5px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+                    <p className="text-[13.5px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
                       {listing.about || 'No company description available.'}
                     </p>
                   </SectionCard>
@@ -318,7 +318,7 @@ export default function ContractorProfileScreen({
                         {listing.serviceCategories.map(c => <Chip key={c} label={SERVICE_CATEGORY_LABELS[c]} />)}
                       </div>
                     ) : (
-                      <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No services listed yet.</p>
+                      <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>No services listed yet.</p>
                     )}
                   </SectionCard>
 
@@ -328,15 +328,15 @@ export default function ContractorProfileScreen({
                         {portfolioProjects.map(p => {
                           const cover = p.images.find(img => img.id === p.coverImageId) ?? p.images[0]
                           return (
-                            <div key={p.id} className="rounded-[12px] overflow-hidden" style={{ border: '1px solid #E3DDD7' }}>
+                            <div key={p.id} className="rounded-[12px] overflow-hidden" style={{ border: '1px solid var(--hz-border)' }}>
                               {cover ? (
                                 <img src={cover.url} alt={p.name} className="w-full h-28 object-cover" />
                               ) : (
-                                <div className="w-full h-28 flex items-center justify-center" style={{ backgroundColor: '#F4F0EC' }}><PortfolioEmptyIcon /></div>
+                                <div className="w-full h-28 flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)' }}><PortfolioEmptyIcon /></div>
                               )}
                               <div className="p-2.5">
-                                <p className="text-[13px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{p.name}</p>
-                                <p className="text-[11.5px] text-[#68636D] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
+                                <p className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{p.name}</p>
+                                <p className="text-[11.5px] text-[var(--hz-ink-muted)] m-0 mt-0.5" style={{ fontFamily: FONT_BODY }}>
                                   {PROJECT_TYPE_LABELS[p.projectType]}{p.location ? ` · ${p.location}` : ''}
                                 </p>
                               </div>
@@ -345,7 +345,7 @@ export default function ContractorProfileScreen({
                         })}
                       </div>
                     ) : (
-                      <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No portfolio projects added yet.</p>
+                      <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>No portfolio projects added yet.</p>
                     )}
                   </SectionCard>
 
@@ -353,7 +353,7 @@ export default function ContractorProfileScreen({
                     <div className="flex items-center gap-1 mb-2 opacity-40" aria-hidden="true">
                       {Array.from({ length: 5 }).map((_, i) => <StarIcon key={i} filled={false} />)}
                     </div>
-                    <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Reviews will appear after completed projects.</p>
+                    <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Reviews will appear after completed projects.</p>
                   </SectionCard>
                 </div>
 
@@ -373,22 +373,22 @@ export default function ContractorProfileScreen({
                     {listing.serviceCities.length > 0 ? (
                       <div className="flex flex-col gap-1.5">
                         {listing.serviceCities.map(city => (
-                          <span key={city} className="flex items-center gap-1.5 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+                          <span key={city} className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                             <IcoMapPin /> {city}
                           </span>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>No service areas listed yet.</p>
+                      <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>No service areas listed yet.</p>
                     )}
                   </SectionCard>
 
                   {matchReasons.length > 0 && (
                     <div className="rounded-[16px] p-5" style={{ backgroundColor: '#DCFCE7', border: '1px solid #D3EFDD' }}>
-                      <h2 className="text-[12px] tracking-[0.04em] font-semibold text-[#16A34A] m-0 mb-2.5" style={{ fontFamily: FONT_HEAD }}>WHY THIS PROFESSIONAL MATCHES</h2>
+                      <h2 className="text-[12px] tracking-[0.04em] font-semibold text-[var(--hz-success)] m-0 mb-2.5" style={{ fontFamily: FONT_HEAD }}>WHY THIS PROFESSIONAL MATCHES</h2>
                       <div className="flex flex-col gap-1.5">
                         {matchReasons.map(reason => (
-                          <span key={reason} className="flex items-center gap-1.5 text-[13px] text-[#16A34A]" style={{ fontFamily: FONT_BODY }}>
+                          <span key={reason} className="flex items-center gap-1.5 text-[13px] text-[var(--hz-success)]" style={{ fontFamily: FONT_BODY }}>
                             <CheckBadgeIcon /> {reason}
                           </span>
                         ))}
@@ -406,7 +406,7 @@ export default function ContractorProfileScreen({
 
       {/* Mobile sticky CTA — same fixed-bottom pattern used elsewhere (e.g. CompareServiceQuotesScreen) */}
       {listing && (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white px-4 py-3" style={{ borderTop: '1px solid #F4F0EC', boxShadow: '0 -8px 24px rgba(0,0,0,0.08)' }}>
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-[var(--hz-surface)] px-4 py-3" style={{ borderTop: '1px solid var(--hz-surface-muted)', boxShadow: '0 -8px 24px rgba(0,0,0,0.08)' }}>
           {inviteButton}
         </div>
       )}

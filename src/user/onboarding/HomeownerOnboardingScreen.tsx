@@ -49,8 +49,8 @@ const UserIcon = () => (
 function QuestionLabel({ index, question }: { index: number; question: string }) {
   return (
     <div className="flex flex-col gap-1 mb-3">
-      <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Question {index}</span>
-      <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{question}</span>
+      <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Question {index}</span>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{question}</span>
     </div>
   )
 }
@@ -64,13 +64,13 @@ function OptionCard({ title, description, selected, onSelect }: { title: string;
       onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
-      <span className="text-[12px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
+      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
       {selected && (
-        <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-full bg-[#722ED1] flex items-center justify-center" aria-hidden="true">
+        <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center" aria-hidden="true">
           <CheckIcon size={9} />
         </span>
       )}
@@ -88,12 +88,12 @@ function ServiceChip({ label, selected, onSelect }: { label: string; selected: b
       className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
       style={{
         fontFamily: FONT_BODY,
-        backgroundColor: selected ? '#F3EAFF' : '#FFFFFF',
-        borderColor: selected ? '#722ED1' : '#CAC7C6',
-        color: selected ? '#722ED1' : '#1E1E1E',
+        backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+        color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
-      {selected && <span className="w-[14px] h-[14px] rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>}
+      {selected && <span className="w-[14px] h-[14px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>}
       {label}
     </button>
   )
@@ -189,16 +189,16 @@ export default function HomeownerOnboardingScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-between h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
-          <span className="text-[12px] tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 1 of 4</span>
+          <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 1 of 4</span>
         </div>
-        <div className="h-[2px] bg-[#F4F0EC] w-full">
-          <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '25%' }} />
+        <div className="h-[2px] bg-[var(--hz-surface-muted)] w-full">
+          <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '25%' }} />
         </div>
       </header>
 
@@ -208,19 +208,19 @@ export default function HomeownerOnboardingScreen({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Homeowner Setup</span>
-            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Homeowner Setup</span>
+            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               {headerContent.title}
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
               {headerContent.description}
             </p>
           </div>
 
           {/* Hozie intro */}
-          <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5" style={{ maxWidth: 700, margin: '0 auto', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5" style={{ maxWidth: 700, margin: '0 auto', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="shrink-0"><HIcon size={32} /></div>
-            <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>{headerContent.hozieMessage}</p>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>{headerContent.hozieMessage}</p>
           </div>
 
           {/* Intent-specific questions */}
@@ -250,7 +250,7 @@ export default function HomeownerOnboardingScreen({
                       <OptionCard key={opt.value} title={opt.title} description={opt.description} selected={hasHousePlan === opt.value} onSelect={() => setHasHousePlan(opt.value)} />
                     ))}
                   </div>
-                  <p className="text-[11px] text-[#9A949D] mt-2 m-0" style={{ fontFamily: FONT_BODY }}>You&apos;ll be able to upload your plan later — no need to do that here.</p>
+                  <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-2 m-0" style={{ fontFamily: FONT_BODY }}>You&apos;ll be able to upload your plan later — no need to do that here.</p>
                 </div>
               </>
             )}
@@ -300,16 +300,16 @@ export default function HomeownerOnboardingScreen({
 
           {/* Your name */}
           <div className="flex flex-col gap-3">
-            <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Your Name</span>
-            <div className="max-w-[360px] w-full flex items-center border rounded-[12px] bg-white h-[48px] overflow-hidden transition-colors border-[#E3DDD7] focus-within:border-[#722ED1]">
-              <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><UserIcon /></div>
+            <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Your Name</span>
+            <div className="max-w-[360px] w-full flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[48px] overflow-hidden transition-colors border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]">
+              <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><UserIcon /></div>
               <input
                 id="onboarding-name"
                 type="text"
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Enter your name"
-                className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                 style={{ fontFamily: FONT_BODY }}
               />
             </div>
@@ -317,21 +317,21 @@ export default function HomeownerOnboardingScreen({
 
           {/* Personalization summary */}
           {summaryLines.length > 0 && (
-            <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+            <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-[7px] bg-white flex items-center justify-center shrink-0"><HIcon size={16} /></span>
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Your Starting Point</span>
+                <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Your Starting Point</span>
               </div>
-              <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{INTENT_LABELS[intent]}</span>
+              <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{INTENT_LABELS[intent]}</span>
               <div className="flex flex-col gap-1.5">
                 {summaryLines.map(line => (
                   <div key={line} className="flex items-center gap-2">
-                    <span className="w-4 h-4 rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
-                    <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{line}</span>
+                    <span className="w-4 h-4 rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
+                    <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{line}</span>
                   </div>
                 ))}
               </div>
-              <p className="text-[11px] text-[#722ED1] opacity-80 m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Hozie will use this to personalize your next steps.</p>
+              <p className="text-[11px] text-[var(--hz-primary)] opacity-80 m-0 mt-1" style={{ fontFamily: FONT_BODY }}>Hozie will use this to personalize your next steps.</p>
             </div>
           )}
 
@@ -345,7 +345,7 @@ export default function HomeownerOnboardingScreen({
                 className={[
                   'h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 w-full sm:w-[220px]',
                   'flex items-center justify-center gap-2',
-                  canContinue ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[#F4F0EC] text-[#9A949D] cursor-pointer',
+                  canContinue ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-pointer',
                 ].join(' ')}
                 style={{ fontFamily: FONT_BODY }}
               >
@@ -362,13 +362,13 @@ export default function HomeownerOnboardingScreen({
               <button
                 onClick={handleBack}
                 disabled={stage === 'submitting'}
-                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
+                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
                 style={{ fontFamily: FONT_BODY }}
               >
                 ← Back
               </button>
             </div>
-            <p className="text-[11px] text-[#9A949D] text-center m-0 max-w-[420px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[11px] text-[var(--hz-ink-subtle)] text-center m-0 max-w-[420px]" style={{ fontFamily: FONT_BODY }}>
               Your information is used to personalize your Houzeify experience. You can change these details later.
             </p>
           </div>
@@ -379,8 +379,8 @@ export default function HomeownerOnboardingScreen({
       <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-5 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>

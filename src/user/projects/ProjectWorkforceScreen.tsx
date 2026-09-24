@@ -64,8 +64,8 @@ const IcoWorkforce = ({ size = 28 }: { size?: number }) => (
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#68636D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-muted)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
       {children}
     </div>
   )
@@ -192,9 +192,9 @@ export default function ProjectWorkforceScreen({
   const [roleInput, setRoleInput] = useState('')
   const [addError, setAddError] = useState<string | null>(null)
 
-  const selectClass = 'min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
+  const selectClass = 'min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
   const inputClass = 'w-full h-10 px-3 rounded-[10px] text-[13.5px] outline-none'
-  const inputStyle = { border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }
+  const inputStyle = { border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'white' }
 
   function goToWorkspace() {
     onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)
@@ -207,11 +207,11 @@ export default function ProjectWorkforceScreen({
 
   if (!hasProject) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-page)' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
-          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
             Back to Workspace
           </button>
         </div>
@@ -259,7 +259,7 @@ export default function ProjectWorkforceScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-page)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
@@ -270,21 +270,21 @@ export default function ProjectWorkforceScreen({
         <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
           <div className="flex items-start justify-between gap-3 flex-wrap min-w-0">
             <div className="min-w-0">
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Workforce</p>
-              <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Workforce</p>
+              <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
               {location && (
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> {location}
                 </span>
               )}
-              <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>The on-site crew and team members for this project.</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>The on-site crew and team members for this project.</p>
             </div>
             {canManageWorkforce && (
               <button
                 type="button"
                 onClick={() => { setShowForm(s => !s); setAddError(null) }}
                 className={selectClass}
-                style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
               >
                 + Add to Site Team
               </button>
@@ -307,7 +307,7 @@ export default function ProjectWorkforceScreen({
                   // whose whole roster is already on the site team — without
                   // this, the picker is a silent dead end: just an
                   // unhelpful "Select a person" with nothing to select.
-                  <p className="text-[12.5px] text-[#68636D] m-0 -mt-2" style={{ fontFamily: FONT_BODY }}>
+                  <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 -mt-2" style={{ fontFamily: FONT_BODY }}>
                     No organization members are available to add.
                   </p>
                 )}
@@ -328,20 +328,20 @@ export default function ProjectWorkforceScreen({
                         key={suggestion}
                         type="button"
                         onClick={() => setRoleInput(suggestion)}
-                        className="min-h-11 h-11 px-3 rounded-full text-[11.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                        style={{ fontFamily: FONT_BODY, backgroundColor: '#F4F0EC', color: '#68636D' }}
+                        className="min-h-11 h-11 px-3 rounded-full text-[11.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                        style={{ fontFamily: FONT_BODY, backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)' }}
                       >
                         {suggestion}
                       </button>
                     ))}
                   </div>
                 </div>
-                {addError && <p className="text-[12.5px] text-[#DC2626] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{addError}</p>}
+                {addError && <p className="text-[12.5px] text-[var(--hz-danger)] m-0" style={{ fontFamily: FONT_BODY }} role="alert">{addError}</p>}
                 <div className="flex items-center gap-3">
-                  <button type="button" onClick={handleAddMember} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                  <button type="button" onClick={handleAddMember} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                     Add Member
                   </button>
-                  <button type="button" onClick={() => { setShowForm(false); resetAddForm() }} className="text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent py-2.5 -my-2.5" style={{ fontFamily: FONT_BODY }}>
+                  <button type="button" onClick={() => { setShowForm(false); resetAddForm() }} className="text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent py-2.5 -my-2.5" style={{ fontFamily: FONT_BODY }}>
                     Cancel
                   </button>
                 </div>
@@ -356,8 +356,8 @@ export default function ProjectWorkforceScreen({
                 <button
                   type="button"
                   onClick={() => { void refetch() }}
-                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                  style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                 >
                   Try again
                 </button>
@@ -369,39 +369,39 @@ export default function ProjectWorkforceScreen({
           {isCustomer ? (
             <div className="flex flex-col gap-3">
               {customerRoster.length === 0 ? (
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>No site team has been added for this project yet.</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>No site team has been added for this project yet.</p>
               ) : customerRoster.map(member => (
-                <div key={`${member.displayName}-${member.role}`} className="rounded-[14px] bg-white p-4" style={{ border: '1px solid #E3DDD7' }}>
+                <div key={`${member.displayName}-${member.role}`} className="rounded-[14px] bg-[var(--hz-surface)] p-4" style={{ border: '1px solid var(--hz-border)' }}>
                   <p className="text-[14px] font-semibold m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{member.displayName}</p>
-                  <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{member.role}</p>
+                  <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{member.role}</p>
                 </div>
               ))}
             </div>
           ) : isLoading ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <IcoWorkforce />
                 </span>
-                <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading site team…</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Loading site team…</p>
               </div>
             </SectionCard>
           ) : workforceStatus === 'error' ? null : members.length === 0 ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#68636D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <IcoWorkforce />
                 </span>
                 {canManageWorkforce ? (
                   <>
-                    <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No site team members yet.</p>
-                    <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Add the people working on this project to build its site team.</p>
-                    <button type="button" onClick={() => setShowForm(true)} className={`${selectClass} mt-2`} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                    <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No site team members yet.</p>
+                    <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Add the people working on this project to build its site team.</p>
+                    <button type="button" onClick={() => setShowForm(true)} className={`${selectClass} mt-2`} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                       Add to Site Team
                     </button>
                   </>
                 ) : (
-                  <p className="text-[13px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>No site team has been added for this project yet.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>No site team has been added for this project yet.</p>
                 )}
               </div>
             </SectionCard>
@@ -478,45 +478,45 @@ function WorkforceMemberCard({
   }
 
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
       <div className="flex items-start justify-between gap-3 flex-wrap">
         <div className="min-w-0 flex-1">
-          <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+          <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
             {memberLabel(member.userId, currentUserId)}
           </p>
           {isEditing ? (
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               <input
                 className="h-9 px-3 rounded-[10px] text-[13px] outline-none"
-                style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white', width: 220 }}
+                style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'white', width: 220 }}
                 value={roleValue}
                 onChange={e => { setRoleValue(e.target.value); setEditError(null) }}
               />
-              <button type="button" onClick={handleSave} className="h-9 px-3.5 rounded-[10px] text-[12.5px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+              <button type="button" onClick={handleSave} className="h-9 px-3.5 rounded-[10px] text-[12.5px] font-semibold cursor-pointer border-0" style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                 Save
               </button>
               <button
                 type="button"
                 onClick={() => { setIsEditing(false); setRoleValue(member.role); setEditError(null) }}
-                className="text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent py-2.5 -my-2.5"
+                className="text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent py-2.5 -my-2.5"
                 style={{ fontFamily: FONT_BODY }}
               >
                 Cancel
               </button>
             </div>
           ) : (
-            <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{member.role}</p>
+            <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{member.role}</p>
           )}
-          <p className="text-[12px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Added {formatAddedDate(member.createdAt)}</p>
-          {editError && <p className="text-[12px] text-[#DC2626] m-0 mt-1.5" style={{ fontFamily: FONT_BODY }}>{editError}</p>}
-          {removeError && <p className="text-[12px] text-[#DC2626] m-0 mt-1.5" style={{ fontFamily: FONT_BODY }}>{removeError}</p>}
+          <p className="text-[12px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Added {formatAddedDate(member.createdAt)}</p>
+          {editError && <p className="text-[12px] text-[var(--hz-danger)] m-0 mt-1.5" style={{ fontFamily: FONT_BODY }}>{editError}</p>}
+          {removeError && <p className="text-[12px] text-[var(--hz-danger)] m-0 mt-1.5" style={{ fontFamily: FONT_BODY }}>{removeError}</p>}
         </div>
         {canManage && !isEditing && (
           <div className="flex items-center gap-4 shrink-0">
-            <button type="button" onClick={() => setIsEditing(true)} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent py-2.5 -my-2.5" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={() => setIsEditing(true)} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent py-2.5 -my-2.5" style={{ fontFamily: FONT_BODY }}>
               Edit role
             </button>
-            <button type="button" onClick={handleRemove} className="text-[12.5px] font-semibold text-[#DC2626] hover:underline cursor-pointer border-0 bg-transparent py-2.5 -my-2.5" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={handleRemove} className="text-[12.5px] font-semibold text-[var(--hz-danger)] hover:underline cursor-pointer border-0 bg-transparent py-2.5 -my-2.5" style={{ fontFamily: FONT_BODY }}>
               Remove
             </button>
           </div>

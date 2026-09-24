@@ -5,10 +5,17 @@ export type MobilePrimaryNavItemId = 'home' | 'projects' | 'profile'
 export interface MobilePrimaryNavProps {
   active: MobilePrimaryNavItemId
   onNavigate: (item: MobilePrimaryNavItemId) => void
+  /** Opens the full navigation drawer. Shown as the leftmost footer control. */
+  onOpenMenu?: () => void
   /** When false, render nothing. Default true. */
   enabled?: boolean
 }
 
+const IcoMenu = () => (
+  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+    <path d="M3 5h12M3 9h12M3 13h12" />
+  </svg>
+)
 const IcoHome = () => (
   <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M2 9L9 3l7 6" />
@@ -39,12 +46,13 @@ const ITEMS: Array<{
 
 /**
  * Shared mobile primary navigation (below md).
- * Home / Projects / Profile — same destinations as the prior Home-only bottom bar.
+ * Menu (optional) / Home / Projects / Profile.
  * Renders fixed; adds padding class on the shell parent so content is not covered.
  */
 export function MobilePrimaryNav({
   active,
   onNavigate,
+  onOpenMenu,
   enabled = true,
 }: MobilePrimaryNavProps) {
   const sentinelRef = useRef<HTMLDivElement>(null)
@@ -63,6 +71,13 @@ export function MobilePrimaryNav({
     return null
   }
 
+  const tabClass = (isActive: boolean) =>
+    [
+      'flex min-h-11 min-w-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg px-2 py-2',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      isActive ? 'text-primary' : 'text-muted-foreground',
+    ].join(' ')
+
   return (
     <>
       <div ref={sentinelRef} className="md:hidden" aria-hidden="true" />
@@ -72,6 +87,17 @@ export function MobilePrimaryNav({
         aria-label="Primary"
       >
         <div className="flex items-stretch justify-around px-2 pt-1">
+          {onOpenMenu && (
+            <button
+              type="button"
+              onClick={onOpenMenu}
+              aria-label="Open navigation menu"
+              className={tabClass(false)}
+            >
+              <IcoMenu />
+              <span className="text-[10px] font-medium leading-tight font-sans">Menu</span>
+            </button>
+          )}
           {ITEMS.map(({ id, label, Icon }) => {
             const isActive = active === id
             return (
@@ -80,11 +106,7 @@ export function MobilePrimaryNav({
                 type="button"
                 onClick={() => onNavigate(id)}
                 aria-current={isActive ? 'page' : undefined}
-                className={[
-                  'flex min-h-11 min-w-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg px-2 py-2',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-                  isActive ? 'text-primary' : 'text-muted-foreground',
-                ].join(' ')}
+                className={tabClass(isActive)}
               >
                 <Icon />
                 <span className="text-[10px] font-medium leading-tight font-sans">{label}</span>

@@ -58,12 +58,12 @@ let uploadCounter = 0
 
 function MobileTopBar({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
       </div>
-      <button onClick={onBack} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
+      <button onClick={onBack} className="text-[13px] text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
     </div>
   )
 }
@@ -107,30 +107,30 @@ export default function RenovateUploadScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onBack={() => onNavigate('renovate-budget-timeline')} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="build" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
-            <button onClick={() => onNavigate('renovate-budget-timeline')} className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
+            <button onClick={() => onNavigate('renovate-budget-timeline')} className="text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
               Back
             </button>
           </header>
 
-          <div className="hidden md:block h-[2px] bg-[#F4F0EC] w-full shrink-0">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: `${(5 / TOTAL_STEPS) * 100}%` }} />
+          <div className="hidden md:block h-[2px] bg-[var(--hz-surface-muted)] w-full shrink-0">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: `${(5 / TOTAL_STEPS) * 100}%` }} />
           </div>
 
           <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
             <div className="max-w-[900px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-12 flex flex-col gap-8">
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 5 of {TOTAL_STEPS}</span>
-                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Show us your space</h2>
-                <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Photos, videos, floor plans, existing designs or measurements — anything that helps us understand your space.</p>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 5 of {TOTAL_STEPS}</span>
+                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Show us your space</h2>
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Photos, videos, floor plans, existing designs or measurements — anything that helps us understand your space.</p>
               </div>
 
               <div
@@ -144,44 +144,44 @@ export default function RenovateUploadScreen({
                 onDragLeave={e => { e.preventDefault(); setIsDragging(false) }}
                 onDrop={e => { e.preventDefault(); setIsDragging(false); addFiles(e.dataTransfer.files) }}
                 className="flex flex-col items-center justify-center text-center gap-3 cursor-pointer transition-colors outline-none max-w-[640px]"
-                style={{ minHeight: 260, borderRadius: 20, border: `1px dashed ${isDragging ? '#722ED1' : '#CAC7C6'}`, backgroundColor: isDragging ? '#F9F5FF' : '#FFFFFF', padding: '32px 20px' }}
+                style={{ minHeight: 260, borderRadius: 20, border: `1px dashed ${isDragging ? 'var(--hz-primary)' : 'var(--hz-border-strong)'}`, backgroundColor: isDragging ? 'var(--hz-primary-wash)' : 'var(--hz-surface)', padding: '32px 20px' }}
               >
                 <input ref={photoInputRef} type="file" multiple accept="image/*,video/*,.pdf" className="sr-only" onChange={e => { addFiles(e.target.files); e.target.value = '' }} />
                 <input ref={planInputRef} type="file" multiple accept=".pdf,.dwg,.dxf,image/*" className="sr-only" onChange={e => { addFiles(e.target.files); e.target.value = '' }} />
                 <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" className="sr-only" onChange={e => { addFiles(e.target.files); e.target.value = '' }} />
 
-                <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}><IcoUploadCloud /></span>
-                <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+                <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}><IcoUploadCloud /></span>
+                <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
                   {isDragging ? 'Drop your files here' : 'Drag and drop your files here'}
                 </span>
-                <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>or</span>
+                <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>or</span>
                 <div className="flex flex-wrap items-center justify-center gap-2" onClick={e => e.stopPropagation()}>
-                  <button onClick={() => cameraInputRef.current?.click()} className="flex items-center gap-1.5 h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+                  <button onClick={() => cameraInputRef.current?.click()} className="flex items-center gap-1.5 h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                     <IcoCamera /> Take Photo
                   </button>
-                  <button onClick={() => photoInputRef.current?.click()} className="flex items-center gap-1.5 h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-semibold cursor-pointer hover:bg-[#F4F0EC] transition-all bg-white" style={{ fontFamily: FONT_BODY }}>
+                  <button onClick={() => photoInputRef.current?.click()} className="flex items-center gap-1.5 h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-semibold cursor-pointer hover:bg-[var(--hz-surface-muted)] transition-all bg-[var(--hz-surface)]" style={{ fontFamily: FONT_BODY }}>
                     <IcoImage /> Upload Photos
                   </button>
-                  <button onClick={() => planInputRef.current?.click()} className="flex items-center gap-1.5 h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-semibold cursor-pointer hover:bg-[#F4F0EC] transition-all bg-white" style={{ fontFamily: FONT_BODY }}>
+                  <button onClick={() => planInputRef.current?.click()} className="flex items-center gap-1.5 h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-semibold cursor-pointer hover:bg-[var(--hz-surface-muted)] transition-all bg-[var(--hz-surface)]" style={{ fontFamily: FONT_BODY }}>
                     <IcoPlan /> Upload Plan
                   </button>
                 </div>
-                <span className="text-[11px] text-[#9A949D] pt-1" style={{ fontFamily: FONT_BODY }}>Maximum {MAX_FILE_SIZE_MB} MB per file</span>
+                <span className="text-[11px] text-[var(--hz-ink-subtle)] pt-1" style={{ fontFamily: FONT_BODY }}>Maximum {MAX_FILE_SIZE_MB} MB per file</span>
               </div>
 
               {error && <p className="text-[12.5px] text-[#B91C1C] m-0 max-w-[640px]" style={{ fontFamily: FONT_BODY }}>{error}</p>}
 
               {files.length > 0 && (
                 <div className="flex flex-col gap-2 max-w-[640px]">
-                  <span className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{files.length} file{files.length > 1 ? 's' : ''} uploaded</span>
+                  <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{files.length} file{files.length > 1 ? 's' : ''} uploaded</span>
                   {files.map(f => (
-                    <div key={f.id} className="flex items-center gap-3 rounded-[12px] border border-[#E3DDD7] px-4 py-3">
-                      <span className="text-[#722ED1] shrink-0"><IcoFile /></span>
+                    <div key={f.id} className="flex items-center gap-3 rounded-[12px] border border-[var(--hz-border)] px-4 py-3">
+                      <span className="text-[var(--hz-primary)] shrink-0"><IcoFile /></span>
                       <div className="flex flex-col min-w-0 flex-1">
-                        <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{f.name}</span>
-                        <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{f.sizeLabel}</span>
+                        <span className="text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{f.name}</span>
+                        <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{f.sizeLabel}</span>
                       </div>
-                      <button onClick={() => removeFile(f.id)} aria-label={`Remove ${f.name}`} className="w-7 h-7 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] transition-all border-0 bg-transparent cursor-pointer shrink-0">
+                      <button onClick={() => removeFile(f.id)} aria-label={`Remove ${f.name}`} className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] transition-all border-0 bg-transparent cursor-pointer shrink-0">
                         <IcoClose />
                       </button>
                     </div>
@@ -192,14 +192,14 @@ export default function RenovateUploadScreen({
               <div className="flex flex-col items-start sm:flex-row sm:items-center gap-4">
                 <button
                   onClick={handleContinue}
-                  className="h-[52px] px-6 rounded-[12px] text-[14px] font-semibold transition-all duration-150 border-0 w-full sm:w-auto sm:min-w-[240px] bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]"
+                  className="h-[52px] px-6 rounded-[12px] text-[14px] font-semibold transition-all duration-150 border-0 w-full sm:w-auto sm:min-w-[240px] bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]"
                   style={{ fontFamily: FONT_BODY }}
                 >
                   Continue →
                 </button>
                 <button
                   onClick={handleContinue}
-                  className="text-[13px] font-semibold text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent"
+                  className="text-[13px] font-semibold text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent"
                   style={{ fontFamily: FONT_BODY }}
                 >
                   Skip for now

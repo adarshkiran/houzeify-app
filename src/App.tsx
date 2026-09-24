@@ -585,6 +585,69 @@ function getInitialScreen(): AppScreen {
   return (ALL_SCREEN_IDS as string[]).includes(param ?? '') ? (param as AppScreen) : 'splash'
 }
 
+/** Screens that need a project_id for SubNav / workspace chrome to render. */
+function screenNeedsDevProject(s: AppScreen): boolean {
+  return (
+    s === 'project-workspace' ||
+    s === 'project-overview' ||
+    s === 'project-progress' ||
+    s === 'project-timeline' ||
+    s === 'project-tasks' ||
+    s === 'project-issues' ||
+    s === 'project-workforce' ||
+    s === 'project-documents' ||
+    s === 'project-boq' ||
+    s === 'project-team' ||
+    s === 'project-customer' ||
+    s === 'project-reports' ||
+    s === 'project-live-site' ||
+    s === 'project-settings' ||
+    s === 'project-messages' ||
+    s === 'project-photos' ||
+    s === 'create-daily-progress'
+  )
+}
+
+function screenNeedsDevPartner(s: AppScreen): boolean {
+  return (
+    screenNeedsDevProject(s) ||
+    s === 'professional-dashboard' ||
+    s === 'company-projects' ||
+    s === 'company-progress' ||
+    s === 'site-operations' ||
+    s === 'workforce' ||
+    s === 'company-documents' ||
+    s === 'company-reports' ||
+    s === 'live-site' ||
+    s === 'create-construction-project' ||
+    s === 'discover-projects' ||
+    s === 'my-bids'
+  )
+}
+
+/**
+ * DEV deep-link seed — `?screen=` bypasses onboarding, but project SubNav and
+ * partner rails still need role / project_id. Without this, refreshing
+ * project-overview or professional-dashboard look blank or bounce to homeowner Home.
+ */
+function getDevDeepLinkSeed(screen: AppScreen): Record<string, string> {
+  if (!DEV_SCREEN_TOOLS) return {}
+  if (!screenNeedsDevPartner(screen) && !screenNeedsDevProject(screen)) return {}
+  const seed: Record<string, string> = {
+    role: 'professional',
+    account_type: 'organization',
+    professional_type: 'general-contractor',
+  }
+  if (screenNeedsDevProject(screen)) {
+    seed.project_id = 'demo-project-preview'
+    seed.project_name = 'Sample Construction Project'
+    seed.project_stage = 'foundation'
+    seed.property_type = 'House'
+    seed.location = 'Hyderabad, Telangana'
+  }
+  return seed
+}
+
 // ─── Session persistence — Flow 05 (Partner Authentication & Entry) ────────
 // projectData was pure in-memory React state with zero persistence: the
 // `screen` id round-trips through the URL (getInitialScreen/syncScreenUrl
@@ -669,18 +732,18 @@ function DevScreenSwitcher({ current, onJump }: { current: AppScreen; onJump: (s
         <div
           style={{
             position: 'absolute', bottom: 52, right: 0, width: 280, maxHeight: 420,
-            backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7', borderRadius: 14,
+            backgroundColor: 'var(--hz-surface)', border: '1px solid var(--hz-border)', borderRadius: 14,
             boxShadow: '0 12px 40px rgba(36,35,38,0.18)', display: 'flex', flexDirection: 'column', overflow: 'hidden',
           }}
         >
-          <div style={{ padding: '10px 12px', borderBottom: '1px solid #F4F0EC', flexShrink: 0 }}>
+          <div style={{ padding: '10px 12px', borderBottom: '1px solid var(--hz-surface-muted)', flexShrink: 0 }}>
             <input
               autoFocus
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder="Jump to screen…"
               style={{
-                width: '100%', height: 32, padding: '0 10px', borderRadius: 8, border: '1px solid #E3DDD7',
+                width: '100%', height: 32, padding: '0 10px', borderRadius: 8, border: '1px solid var(--hz-border)',
                 fontSize: 12.5, outline: 'none', boxSizing: 'border-box',
               }}
             />
@@ -688,7 +751,7 @@ function DevScreenSwitcher({ current, onJump }: { current: AppScreen; onJump: (s
           <div style={{ overflowY: 'auto', padding: '4px 0' }}>
             {filteredGroups.map(g => (
               <div key={g.label}>
-                <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9A949D', padding: '8px 12px 4px', fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--hz-ink-subtle)', padding: '8px 12px 4px', fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                   {g.label}
                 </div>
                 {g.screens.map(s => (
@@ -699,10 +762,10 @@ function DevScreenSwitcher({ current, onJump }: { current: AppScreen; onJump: (s
                       display: 'block', width: '100%', textAlign: 'left', padding: '7px 12px', fontSize: 13,
                       border: 'none', cursor: 'pointer',
                       backgroundColor: current === s.id ? '#E9D8FD' : 'transparent',
-                      color: current === s.id ? '#1E1E1E' : '#1E1E1E',
+                      color: current === s.id ? 'var(--hz-black)' : 'var(--hz-black)',
                       fontWeight: current === s.id ? 600 : 400,
                     }}
-                    onMouseEnter={e => { if (current !== s.id) e.currentTarget.style.backgroundColor = '#CAC7C6' }}
+                    onMouseEnter={e => { if (current !== s.id) e.currentTarget.style.backgroundColor = 'var(--hz-border-strong)' }}
                     onMouseLeave={e => { if (current !== s.id) e.currentTarget.style.backgroundColor = 'transparent' }}
                   >
                     {s.label}
@@ -711,7 +774,7 @@ function DevScreenSwitcher({ current, onJump }: { current: AppScreen; onJump: (s
               </div>
             ))}
             {filteredGroups.length === 0 && (
-              <div style={{ padding: 16, fontSize: 12.5, color: '#9A949D', textAlign: 'center' }}>No matching screen.</div>
+              <div style={{ padding: 16, fontSize: 12.5, color: 'var(--hz-ink-subtle)', textAlign: 'center' }}>No matching screen.</div>
             )}
           </div>
         </div>
@@ -722,7 +785,7 @@ function DevScreenSwitcher({ current, onJump }: { current: AppScreen; onJump: (s
         title="Jump to screen"
         style={{
           width: 44, height: 44, borderRadius: '50%', border: 'none', cursor: 'pointer',
-          backgroundColor: '#ECFF77', color: '#242326', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          backgroundColor: '#ECFF77', color: 'var(--hz-ink)', display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 4px 16px rgba(233,216,253,0.35)',
         }}
       >
@@ -782,10 +845,14 @@ export default function App() {
   const [screen, setScreenState] = useState<AppScreen>(getInitialScreen)
   const [fading, setFading] = useState(false)
   const [phone, setPhone] = useState('98765 43210')
-  const [projectData, setProjectData] = useState<Record<string, string>>(() => ({
-    ...INITIAL_PROJECT_DATA,
-    ...readSessionSnapshot(),
-  }))
+  const [projectData, setProjectData] = useState<Record<string, string>>(() => {
+    const initialScreen = getInitialScreen()
+    return {
+      ...INITIAL_PROJECT_DATA,
+      ...readSessionSnapshot(),
+      ...getDevDeepLinkSeed(initialScreen),
+    }
+  })
 
   const setScreen = (s: AppScreen) => {
     setScreenState(s)
@@ -2951,7 +3018,22 @@ export default function App() {
         </div>
       )}
 
-      {DEV_SCREEN_TOOLS && <DevScreenSwitcher current={screen} onJump={setScreen} />}
+      {DEV_SCREEN_TOOLS && (
+        <DevScreenSwitcher
+          current={screen}
+          onJump={(s) => {
+            // Project SubNav only mounts when project_id is set. Seed a demo
+            // project when jumping straight to project screens from the switcher
+            // so those rails are previewable without going through create/list.
+            const seed = getDevDeepLinkSeed(s)
+            if (Object.keys(seed).length > 0) {
+              navigateTo(s, seed)
+            } else {
+              setScreen(s)
+            }
+          }}
+        />
+      )}
     </div>
     </SubscriptionProvider>
     </CustomerAddressProvider>

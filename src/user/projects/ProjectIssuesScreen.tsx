@@ -44,7 +44,7 @@ const IcoMapPin = ({ size = 13 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 12.5S11.5 8.6 11.5 5.5A4.5 4.5 0 007 1 4.5 4.5 0 002.5 5.5C2.5 8.6 7 12.5 7 12.5z" /><circle cx="7" cy="5.5" r="1.5" /></svg>
 )
 const IcoResolved = ({ size = 15 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#16A34A" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  <svg width={size} height={size} viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="var(--hz-success)" /><path d="M4 7l2 2 4-4.5" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 )
 const IcoIssues = ({ size = 28 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 2L16.5 15.5H1.5L9 2z" strokeLinejoin="round" /><path d="M9 7.5v3" strokeLinecap="round" /><circle cx="9" cy="12.75" r="0.15" fill="currentColor" /></svg>
@@ -52,17 +52,17 @@ const IcoIssues = ({ size = 28 }: { size?: number }) => (
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_MONO }}>{title}</p>}
       {children}
     </div>
   )
 }
 
 const PRIORITY_COLORS: Record<IssuePriority, { bg: string; fg: string }> = {
-  low: { bg: '#CAC7C6', fg: '#808080' },
+  low: { bg: 'var(--hz-border-strong)', fg: '#808080' },
   medium: { bg: '#FEF3C7', fg: '#D97706' },
-  high: { bg: '#FEE2E2', fg: '#DC2626' },
+  high: { bg: '#FEE2E2', fg: 'var(--hz-danger)' },
 }
 
 // Established convention (TeamManagementScreen.tsx, carried into
@@ -162,9 +162,9 @@ export default function ProjectIssuesScreen({
   const [createError, setCreateError] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
 
-  const selectClass = 'min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
+  const selectClass = 'min-h-11 h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]'
   const inputClass = 'w-full h-10 px-3 rounded-[10px] text-[13.5px] outline-none'
-  const inputStyle = { border: '1px solid #E3DDD7', fontFamily: FONT_BODY, backgroundColor: 'white' }
+  const inputStyle = { border: '1px solid var(--hz-border)', fontFamily: FONT_BODY, backgroundColor: 'white' }
 
   function goToWorkspace() {
     onNavigate('project-workspace', projectId ? { project_id: projectId } : undefined)
@@ -179,11 +179,11 @@ export default function ProjectIssuesScreen({
 
   if (!hasProject) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FBF9F7' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-page)' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
-          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+          <button type="button" onClick={goToWorkspace} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
             Back to Workspace
           </button>
         </div>
@@ -254,7 +254,7 @@ export default function ProjectIssuesScreen({
   const bannerError = errorMessage || actionError
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FBF9F7' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-page)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="projects" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
@@ -265,20 +265,20 @@ export default function ProjectIssuesScreen({
         <div className="max-w-[820px] mx-auto flex flex-col gap-6 min-w-0">
           <div className="flex items-start justify-between gap-3 flex-wrap min-w-0">
             <div className="min-w-0">
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Issues</p>
-              <h1 className="text-[22px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Project Issues</p>
+              <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>{projectName}</h1>
               {location && (
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+                <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] mt-1.5" style={{ fontFamily: FONT_BODY }}>
                   <IcoMapPin /> {location}
                 </span>
               )}
-              <p className="text-[13px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Track site issues and observations for this project.</p>
+              <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>Track site issues and observations for this project.</p>
             </div>
             <button
               type="button"
               onClick={() => { setShowForm(s => !s); setCreateError(null) }}
               className={selectClass}
-              style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+              style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
             >
               + Report Issue
             </button>
@@ -299,7 +299,7 @@ export default function ProjectIssuesScreen({
                     onChange={e => { setTitle(e.target.value); setTitleError(undefined) }}
                     aria-invalid={Boolean(titleError)}
                   />
-                  {titleError && <p className="text-[12px] text-[#DC2626] m-0 mt-1" style={{ fontFamily: FONT_BODY }} role="alert">{titleError}</p>}
+                  {titleError && <p className="text-[12px] text-[var(--hz-danger)] m-0 mt-1" style={{ fontFamily: FONT_BODY }} role="alert">{titleError}</p>}
                 </div>
                 <label className="sr-only" htmlFor="new-issue-description">Description</label>
                 <textarea
@@ -330,12 +330,12 @@ export default function ProjectIssuesScreen({
                     ))}
                   </select>
                 </div>
-                {createError && <p className="text-[12.5px] text-[#DC2626] m-0" style={{ fontFamily: FONT_BODY }}>{createError} <button type="button" onClick={handleCreate} className="underline cursor-pointer border-0 bg-transparent p-0 text-[#DC2626]">Try again</button></p>}
+                {createError && <p className="text-[12.5px] text-[var(--hz-danger)] m-0" style={{ fontFamily: FONT_BODY }}>{createError} <button type="button" onClick={handleCreate} className="underline cursor-pointer border-0 bg-transparent p-0 text-[var(--hz-danger)]">Try again</button></p>}
                 <div className="flex items-center gap-3">
-                  <button type="button" onClick={handleCreate} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                  <button type="button" onClick={handleCreate} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                     Create Issue
                   </button>
-                  <button type="button" onClick={() => { setShowForm(false); resetForm() }} className="text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+                  <button type="button" onClick={() => { setShowForm(false); resetForm() }} className="text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                     Cancel
                   </button>
                 </div>
@@ -350,8 +350,8 @@ export default function ProjectIssuesScreen({
                 <button
                   type="button"
                   onClick={() => { void refresh() }}
-                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]"
-                  style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                  className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--hz-primary)]"
+                  style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                 >
                   Try again
                 </button>
@@ -370,10 +370,10 @@ export default function ProjectIssuesScreen({
                   key={tab.id}
                   type="button"
                   onClick={() => setFilter(tab.id)}
-                  className="min-h-11 h-11 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+                  className="min-h-11 h-11 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
                   style={{
                     fontFamily: FONT_BODY,
-                    backgroundColor: filter === tab.id ? '#722ED1' : '#CAC7C6',
+                    backgroundColor: filter === tab.id ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                     color: filter === tab.id ? 'white' : '#808080',
                   }}
                 >
@@ -387,21 +387,21 @@ export default function ProjectIssuesScreen({
           {isLoading ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-subtle)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <IcoIssues />
                 </span>
-                <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Loading issues…</p>
+                <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Loading issues…</p>
               </div>
             </SectionCard>
           ) : issuesStatus === 'error' ? null : issues.length === 0 ? (
             <SectionCard>
               <div className="flex flex-col items-center text-center gap-2 py-6">
-                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[#9A949D]" style={{ backgroundColor: '#F4F0EC' }}>
+                <span className="w-11 h-11 rounded-full flex items-center justify-center text-[var(--hz-ink-subtle)]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                   <IcoIssues />
                 </span>
-                <p className="text-[14px] font-semibold text-[#242326] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No issues reported</p>
-                <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Site issues and observations will appear here.</p>
-                <button type="button" onClick={() => setShowForm(true)} className={`${selectClass} mt-2 min-h-11`} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+                <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-1" style={{ fontFamily: FONT_HEAD }}>No issues reported</p>
+                <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Site issues and observations will appear here.</p>
+                <button type="button" onClick={() => setShowForm(true)} className={`${selectClass} mt-2 min-h-11`} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
                   Report Issue
                 </button>
               </div>
@@ -425,25 +425,25 @@ function IssueCard({ issue, currentUserId, onStatusChange }: { issue: Constructi
   const isResolved = issue.status === 'resolved'
   const stageName = stageLabel(issue.stage)
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7', opacity: isResolved ? 0.75 : 1 }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)', opacity: isResolved ? 0.75 : 1 }}>
       <div className="flex items-start justify-between gap-3 flex-wrap">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
             {isResolved && <IcoResolved />}
             <p
-              className="text-[14px] font-semibold text-[#242326] m-0"
+              className="text-[14px] font-semibold text-[var(--hz-ink)] m-0"
               style={{ fontFamily: FONT_HEAD, textDecoration: isResolved ? 'line-through' : 'none' }}
             >
               {issue.title}
             </p>
             {stageName && (
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-[0.03em]" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>
                 {stageName.toUpperCase()}
               </span>
             )}
           </div>
           {issue.description && (
-            <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{issue.description}</p>
+            <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>{issue.description}</p>
           )}
           <div className="flex items-center gap-3 mt-3 flex-wrap">
             {issue.priority && (
@@ -451,13 +451,13 @@ function IssueCard({ issue, currentUserId, onStatusChange }: { issue: Constructi
                 {ISSUE_PRIORITY_LABELS[issue.priority].toUpperCase()}
               </span>
             )}
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Reported by: <strong className="text-[#242326]">{memberLabel(issue.reportedBy, currentUserId)}</strong></span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Reported by: <strong className="text-[var(--hz-ink)]">{memberLabel(issue.reportedBy, currentUserId)}</strong></span>
             {issue.assigneeId && (
-              <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Assigned to: <strong className="text-[#242326]">{memberLabel(issue.assigneeId, currentUserId)}</strong></span>
+              <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Assigned to: <strong className="text-[var(--hz-ink)]">{memberLabel(issue.assigneeId, currentUserId)}</strong></span>
             )}
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Reported: {formatIssueDate(issue.createdAt)}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Reported: {formatIssueDate(issue.createdAt)}</span>
             {issue.resolvedAt && (
-              <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Resolved: {formatIssueDate(issue.resolvedAt)}</span>
+              <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Resolved: {formatIssueDate(issue.resolvedAt)}</span>
             )}
           </div>
         </div>
@@ -465,7 +465,7 @@ function IssueCard({ issue, currentUserId, onStatusChange }: { issue: Constructi
           value={issue.status}
           onChange={e => onStatusChange(issue.id, e.target.value as IssueStatus)}
           className="h-8 px-2.5 rounded-[8px] text-[12px] font-semibold cursor-pointer outline-none shrink-0"
-          style={{ fontFamily: FONT_BODY, border: '1px solid #E3DDD7', backgroundColor: '#FFFFFF', color: '#242326' }}
+          style={{ fontFamily: FONT_BODY, border: '1px solid var(--hz-border)', backgroundColor: 'var(--hz-surface)', color: 'var(--hz-ink)' }}
         >
           {ISSUE_STATUSES.map(s => (
             <option key={s} value={s}>{ISSUE_STATUS_LABELS[s]}</option>

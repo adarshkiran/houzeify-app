@@ -34,7 +34,7 @@ const FONT_HEAD = '"Geist Variable", sans-serif'
 // subtle white-to-lavender gradient + hairline border, so each service
 // reads as its own card instead of a plain divider-separated list row.
 const CARD_SURFACE: React.CSSProperties = {
-  background: 'linear-gradient(180deg, #FFFFFF 0%, #FAFAFF 100%)',
+  background: 'linear-gradient(180deg, var(--hz-surface) 0%, #FAFAFF 100%)',
   border: '1px solid #EFE4FF',
 }
 
@@ -66,10 +66,10 @@ const IcoClock = () => (
   </svg>
 )
 const IcoCheck = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#722ED1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5"/></svg>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--hz-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5"/></svg>
 )
 const IcoShield = ({ size = 26 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 26 26" fill="none" stroke="#722ED1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg width={size} height={size} viewBox="0 0 26 26" fill="none" stroke="var(--hz-primary)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <path d="M13 3.5l8 3v5.5c0 5-3.4 8.7-8 10.5-4.6-1.8-8-5.5-8-10.5V6.5l8-3Z"/>
     <path d="M9.5 13l2.5 2.5 5-5"/>
   </svg>
@@ -119,7 +119,7 @@ const IcoTaskPacking = () => (
   </svg>
 )
 const IcoCross = () => (
-  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round"><path d="M2.5 2.5l10 10M12.5 2.5l-10 10"/></svg>
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="var(--hz-danger)" strokeWidth="2" strokeLinecap="round"><path d="M2.5 2.5l10 10M12.5 2.5l-10 10"/></svg>
 )
 const IcoCloseX = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
@@ -381,12 +381,12 @@ const SECTIONS: HoziehelperSection[] = [
 
 function MobileTopBar({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2">
-        <button onClick={onBack} aria-label="Back to Services" className="w-8 h-8 -ml-1 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoBack /></button>
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>HozieHelp Gold</span>
+        <button onClick={onBack} aria-label="Back to Services" className="w-8 h-8 -ml-1 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoBack /></button>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>HozieHelp Gold</span>
       </div>
-      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
+      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
     </div>
   )
 }
@@ -398,22 +398,22 @@ function TopHeader({ onNavigate }: { onNavigate: (s: string, data?: Record<strin
   // decorative avatar.
   const { itemCount } = useCustomerCart()
   return (
-    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#E3DDD7]">
+    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
       <div className="flex items-center gap-3">
-        <button onClick={() => onNavigate('home-services')} aria-label="Back to Services" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"><IcoBack /></button>
-        <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>HozieHelp Gold</h1>
+        <button onClick={() => onNavigate('home-services')} aria-label="Back to Services" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"><IcoBack /></button>
+        <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>HozieHelp Gold</h1>
       </div>
       <div className="flex items-center gap-2">
-        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all"><IcoBell /></button>
+        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all"><IcoBell /></button>
         <button
           onClick={() => onNavigate('booking-details', { hoziehelper_checkout_origin: 'hoziehelper-gold' })}
           aria-label={itemCount ? `Cart (${itemCount} item${itemCount === 1 ? '' : 's'})` : 'Cart'}
-          className="relative w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"
+          className="relative w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"
         >
           <IcoCart />
           {itemCount > 0 && (
             <span
-              className="absolute top-0.5 right-0.5 min-w-[15px] h-[15px] px-[3px] rounded-full bg-[#722ED1] text-white flex items-center justify-center text-[9px] font-bold leading-none"
+              className="absolute top-0.5 right-0.5 min-w-[15px] h-[15px] px-[3px] rounded-full bg-[var(--hz-primary)] text-white flex items-center justify-center text-[9px] font-bold leading-none"
               style={{ fontFamily: FONT_MONO }}
               aria-hidden="true"
             >
@@ -439,8 +439,8 @@ function ServiceTabs({ onJump }: { onJump: (id: HoziehelperSection['id']) => voi
     // (translucent white + blur) — same fix applied across every
     // "Select a service" panel in this app (Salon Luxe, HozieHelp Gold/
     // Standard) and the pattern to reuse for any future one.
-    <div className="bg-white/70 backdrop-blur-md border border-[#E3DDD7] rounded-[16px] p-4 flex flex-col gap-3 sticky top-0 z-10" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[11px] tracking-[0.10em] uppercase text-[#9A949D] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a service</span>
+    <div className="bg-[var(--hz-surface)]/70 backdrop-blur-md border border-[var(--hz-border)] rounded-[16px] p-4 flex flex-col gap-3 sticky top-0 z-10" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[11px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a service</span>
       <div className="flex gap-3">
         {SECTIONS.map(s => (
           <button
@@ -448,10 +448,10 @@ function ServiceTabs({ onJump }: { onJump: (id: HoziehelperSection['id']) => voi
             onClick={() => onJump(s.id)}
             className="flex flex-col items-center justify-between gap-1.5 cursor-pointer border-0 bg-transparent p-0"
           >
-            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[#E3DDD7]">
+            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)]">
               <img src={s.items[0].image} alt={s.label} className="w-full h-full object-cover" style={{ objectPosition: '50% 15%' }} />
             </div>
-            <span className="text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
+            <span className="text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
           </button>
         ))}
       </div>
@@ -465,10 +465,10 @@ function HeroBanner() {
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px]"
-      style={{ maxWidth: 990, height: 300, background: 'linear-gradient(120deg, #F9F5FF 0%, #F3EAFF 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, height: 300, background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="absolute inset-0 flex items-center px-5 sm:px-10 lg:px-12">
-        <h2 className="text-[22px] sm:text-[32px] lg:text-[40px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0 max-w-[150px] sm:max-w-[420px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+        <h2 className="text-[22px] sm:text-[32px] lg:text-[40px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0 max-w-[150px] sm:max-w-[420px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Top rated Help.<br />Premium service
         </h2>
       </div>
@@ -513,14 +513,14 @@ function LineItemRow({ item, onSelect, cartCount }: { item: HoziehelperLineItem;
         )}
       </div>
       <div className="flex flex-col gap-1 min-w-0 flex-1">
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-        <span className="flex items-center gap-1.5 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-          <span className="flex items-center gap-1 text-[#722ED1] font-semibold"><IcoStar /> {item.rating}</span>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+        <span className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+          <span className="flex items-center gap-1 text-[var(--hz-primary)] font-semibold"><IcoStar /> {item.rating}</span>
         </span>
-        <span className="text-[13.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[13.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
           Starts at <span className="font-semibold">₹{item.price}</span>{' '}
-          <span className="line-through text-[#9A949D]">₹{item.originalPrice}</span>
-          <span className="flex items-center gap-1 text-[#68636D] mt-0.5"><IcoClock /> {item.duration}</span>
+          <span className="line-through text-[var(--hz-ink-subtle)]">₹{item.originalPrice}</span>
+          <span className="flex items-center gap-1 text-[var(--hz-ink-muted)] mt-0.5"><IcoClock /> {item.duration}</span>
         </span>
       </div>
       <div className="shrink-0 flex flex-col items-center gap-1.5">
@@ -528,8 +528,8 @@ function LineItemRow({ item, onSelect, cartCount }: { item: HoziehelperLineItem;
           onClick={onSelect}
           className={
             cartCount
-              ? 'h-9 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0'
-              : 'h-9 px-5 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[13px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white'
+              ? 'h-9 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0'
+              : 'h-9 px-5 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[13px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)]'
           }
           style={cartCount ? { fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' } : { fontFamily: FONT_BODY }}
         >
@@ -541,7 +541,7 @@ function LineItemRow({ item, onSelect, cartCount }: { item: HoziehelperLineItem;
           </span>
         ) : (
           item.optionsCount && (
-            <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{item.optionsCount} options</span>
+            <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{item.optionsCount} options</span>
           )
         )}
       </div>
@@ -564,7 +564,7 @@ function OptionsRow({ options, onSelect, isInCart }: { options: DurationOption[]
       <button
         onClick={() => scrollByCard(-1)}
         aria-label="Scroll options left"
-        className="hidden sm:flex shrink-0 w-8 h-8 rounded-full items-center justify-center border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#722ED1] hover:text-[#722ED1] transition-all cursor-pointer"
+        className="hidden sm:flex shrink-0 w-8 h-8 rounded-full items-center justify-center border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)] transition-all cursor-pointer"
       >
         <IcoChevronLeft />
       </button>
@@ -582,14 +582,14 @@ function OptionsRow({ options, onSelect, isInCart }: { options: DurationOption[]
                   <IcoCheckSmall size={13} />
                 </span>
               )}
-              <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{opt.duration}</span>
-              <span className="flex items-center gap-1 text-[11.5px] text-[#722ED1] font-semibold" style={{ fontFamily: FONT_BODY }}><IcoStar size={10} /> {opt.rating}</span>
-              <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                ₹{opt.price} <span className="line-through text-[#9A949D]">₹{opt.originalPrice}</span>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{opt.duration}</span>
+              <span className="flex items-center gap-1 text-[11.5px] text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_BODY }}><IcoStar size={10} /> {opt.rating}</span>
+              <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                ₹{opt.price} <span className="line-through text-[var(--hz-ink-subtle)]">₹{opt.originalPrice}</span>
               </span>
               <button
                 onClick={() => onSelect(opt)}
-                className="h-8 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[12.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white"
+                className="h-8 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)]"
                 style={{ fontFamily: FONT_BODY }}
               >
                 Add
@@ -604,7 +604,7 @@ function OptionsRow({ options, onSelect, isInCart }: { options: DurationOption[]
       <button
         onClick={() => scrollByCard(1)}
         aria-label="Scroll options right"
-        className="hidden sm:flex shrink-0 w-8 h-8 rounded-full items-center justify-center border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#722ED1] hover:text-[#722ED1] transition-all cursor-pointer"
+        className="hidden sm:flex shrink-0 w-8 h-8 rounded-full items-center justify-center border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)] transition-all cursor-pointer"
       >
         <IcoChevronRight />
       </button>
@@ -621,13 +621,13 @@ function OptionsRow({ options, onSelect, isInCart }: { options: DurationOption[]
 function PlanCard({ plan }: { plan: SaverPlan }) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-1.5 rounded-[14px] p-4" style={{ width: 200, border: '2px solid #722ED1', backgroundColor: '#F9F5FF' }}>
-        <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{plan.label}</span>
-        <span className="text-[15px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+      <div className="flex flex-col gap-1.5 rounded-[14px] p-4" style={{ width: 200, border: '2px solid var(--hz-primary)', backgroundColor: 'var(--hz-primary-wash)' }}>
+        <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{plan.label}</span>
+        <span className="text-[15px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
           <span className="font-semibold">₹{plan.packPrice}</span>{' '}
-          <span className="line-through text-[#9A949D] text-[12.5px]">₹{plan.packOriginalPrice}</span>
+          <span className="line-through text-[var(--hz-ink-subtle)] text-[12.5px]">₹{plan.packOriginalPrice}</span>
         </span>
-        <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>₹{plan.perServicePrice}/service</span>
+        <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>₹{plan.perServicePrice}/service</span>
         <span
           className="inline-flex items-center gap-1 self-start text-[11px] font-semibold px-2 py-[3px] rounded-full"
           style={{ backgroundColor: '#E9FBEF', color: '#1E8E3E', fontFamily: FONT_BODY }}
@@ -635,8 +635,8 @@ function PlanCard({ plan }: { plan: SaverPlan }) {
           <IcoBolt /> {plan.discountPct}% off
         </span>
       </div>
-      <span className="flex items-center gap-2 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-        <span className="w-4 h-4 rounded-full border border-[#9A949D] flex items-center justify-center shrink-0 text-[10px]">i</span>
+      <span className="flex items-center gap-2 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+        <span className="w-4 h-4 rounded-full border border-[var(--hz-ink-subtle)] flex items-center justify-center shrink-0 text-[10px]">i</span>
         Get a pack & pay just ₹{plan.perServicePrice}{' '}
         <span className="line-through">₹{plan.perServiceOriginalPrice}</span> per service
       </span>
@@ -662,7 +662,7 @@ function SelectableDurationRow({ options, selectedId, onSelect }: { options: Dur
       <button
         onClick={() => scrollByCard(-1)}
         aria-label="Scroll durations left"
-        className="hidden sm:flex shrink-0 w-8 h-8 rounded-full items-center justify-center border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#722ED1] hover:text-[#722ED1] transition-all cursor-pointer"
+        className="hidden sm:flex shrink-0 w-8 h-8 rounded-full items-center justify-center border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)] transition-all cursor-pointer"
       >
         <IcoChevronLeft />
       </button>
@@ -674,10 +674,10 @@ function SelectableDurationRow({ options, selectedId, onSelect }: { options: Dur
               key={opt.id}
               onClick={() => onSelect(opt.id)}
               className="shrink-0 flex flex-col gap-1 rounded-[14px] p-3 text-left cursor-pointer transition-all"
-              style={{ width: 132, border: active ? '2px solid #722ED1' : '1px solid #E3DDD7', backgroundColor: active ? '#F3EAFF' : '#FFFFFF' }}
+              style={{ width: 132, border: active ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)', backgroundColor: active ? 'var(--hz-primary-soft)' : 'var(--hz-surface)' }}
             >
-              <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{opt.duration}</span>
-              <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>₹{opt.price}</span>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{opt.duration}</span>
+              <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>₹{opt.price}</span>
             </button>
           )
         })}
@@ -685,7 +685,7 @@ function SelectableDurationRow({ options, selectedId, onSelect }: { options: Dur
       <button
         onClick={() => scrollByCard(1)}
         aria-label="Scroll durations right"
-        className="hidden sm:flex shrink-0 w-8 h-8 rounded-full items-center justify-center border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#722ED1] hover:text-[#722ED1] transition-all cursor-pointer"
+        className="hidden sm:flex shrink-0 w-8 h-8 rounded-full items-center justify-center border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)] transition-all cursor-pointer"
       >
         <IcoChevronRight />
       </button>
@@ -707,15 +707,15 @@ function SelectablePlanCard({ active, onClick, label, sublabel, price, originalP
     <button
       onClick={onClick}
       className="flex flex-col gap-1.5 rounded-[14px] p-4 text-left cursor-pointer transition-all"
-      style={{ width: 190, border: active ? '2px solid #722ED1' : '1px solid #E3DDD7', backgroundColor: active ? '#F9F5FF' : '#FFFFFF' }}
+      style={{ width: 190, border: active ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)', backgroundColor: active ? 'var(--hz-primary-wash)' : 'var(--hz-surface)' }}
     >
-      <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
-      {sublabel && <span className="text-[12px] text-[#68636D] -mt-1" style={{ fontFamily: FONT_BODY }}>{sublabel}</span>}
-      <span className="text-[15px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+      <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
+      {sublabel && <span className="text-[12px] text-[var(--hz-ink-muted)] -mt-1" style={{ fontFamily: FONT_BODY }}>{sublabel}</span>}
+      <span className="text-[15px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
         <span className="font-semibold">₹{price}</span>{' '}
-        <span className="line-through text-[#9A949D] text-[12.5px]">₹{originalPrice}</span>
+        <span className="line-through text-[var(--hz-ink-subtle)] text-[12.5px]">₹{originalPrice}</span>
       </span>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>₹{perService}/service</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>₹{perService}/service</span>
       <span
         className="inline-flex items-center gap-1 self-start text-[11px] font-semibold px-2 py-[3px] rounded-full"
         style={{ backgroundColor: '#E9FBEF', color: '#1E8E3E', fontFamily: FONT_BODY }}
@@ -729,15 +729,15 @@ function SelectablePlanCard({ active, onClick, label, sublabel, price, originalP
 function FaqRow({ q, a, defaultOpen }: { q: string; a: string; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(Boolean(defaultOpen))
   return (
-    <div className="border-b border-[#F4F0EC] last:border-b-0 py-3">
+    <div className="border-b border-[var(--hz-surface-muted)] last:border-b-0 py-3">
       <button
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between gap-3 text-left cursor-pointer border-0 bg-transparent p-0"
       >
-        <span className="text-[13.5px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{q}</span>
-        <span className={`shrink-0 text-[#9A949D] transition-transform ${open ? 'rotate-180' : ''}`}><IcoChevronDown /></span>
+        <span className="text-[13.5px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{q}</span>
+        <span className={`shrink-0 text-[var(--hz-ink-subtle)] transition-transform ${open ? 'rotate-180' : ''}`}><IcoChevronDown /></span>
       </button>
-      {open && <p className="text-[13px] text-[#68636D] leading-[1.55] mt-2 mb-0" style={{ fontFamily: FONT_BODY }}>{a}</p>}
+      {open && <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] mt-2 mb-0" style={{ fontFamily: FONT_BODY }}>{a}</p>}
     </div>
   )
 }
@@ -783,41 +783,41 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
         role="dialog"
         aria-modal="true"
         aria-label={item.title}
-        className="w-full flex flex-col bg-white rounded-[20px] overflow-hidden"
+        className="w-full flex flex-col bg-[var(--hz-surface)] rounded-[20px] overflow-hidden"
         style={{ maxWidth: 760, maxHeight: '88vh', boxShadow: '0 20px 60px rgba(0,0,0,0.28)' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 px-6 py-4 border-b border-[#F4F0EC] shrink-0">
+        <div className="flex items-center gap-3 px-6 py-4 border-b border-[var(--hz-surface-muted)] shrink-0">
           <div className="w-12 h-12 rounded-[10px] overflow-hidden shrink-0">
             <img src={item.image} alt={item.title} className="w-full h-full object-cover" style={{ objectPosition: '50% 15%' }} />
           </div>
           <div className="flex flex-col min-w-0 flex-1 gap-0.5">
-            <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-            <span className="flex items-center gap-1 text-[12px] text-[#722ED1] font-semibold" style={{ fontFamily: FONT_BODY }}><IcoStar size={10} /> {item.rating}</span>
+            <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+            <span className="flex items-center gap-1 text-[12px] text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_BODY }}><IcoStar size={10} /> {item.rating}</span>
           </div>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"
+            className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"
           >
             <IcoCloseX />
           </button>
         </div>
 
         {/* Body — one scrollable panel, minimal scrollbar */}
-        <div className="flex flex-col gap-6 px-6 py-5 overflow-y-auto scrollbar-thin" style={{ scrollbarWidth: 'thin', scrollbarColor: '#E3DDD7 transparent' }}>
+        <div className="flex flex-col gap-6 px-6 py-5 overflow-y-auto scrollbar-thin" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--hz-border) transparent' }}>
           {item.laterOptions && laterSelected && (
             <div className="flex flex-col gap-4">
-              <h3 className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Select requirements</h3>
+              <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Select requirements</h3>
 
               <div className="flex flex-col gap-2">
-                <span className="text-[11px] tracking-[0.08em] uppercase text-[#9A949D] font-semibold" style={{ fontFamily: FONT_MONO }}>Select duration</span>
+                <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)] font-semibold" style={{ fontFamily: FONT_MONO }}>Select duration</span>
                 <SelectableDurationRow options={item.laterOptions} selectedId={laterSelected.id} onSelect={setLaterId} />
               </div>
 
               <div className="flex flex-col gap-2">
-                <span className="text-[11px] tracking-[0.08em] uppercase text-[#9A949D] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a plan</span>
+                <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a plan</span>
                 {item.plans ? (
                   // Fixed, single pack (Saver Pack's Later row) — the plan
                   // itself doesn't change with duration, so it's the same
@@ -849,8 +849,8 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
                         discountPct={71}
                       />
                     </div>
-                    <span className="flex items-center gap-2 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-                      <span className="w-4 h-4 rounded-full border border-[#9A949D] flex items-center justify-center shrink-0 text-[10px]">i</span>
+                    <span className="flex items-center gap-2 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+                      <span className="w-4 h-4 rounded-full border border-[var(--hz-ink-subtle)] flex items-center justify-center shrink-0 text-[10px]">i</span>
                       Get a pack & pay just ₹{packPerService} <span className="line-through">₹{laterSelected.originalPrice}</span> per service
                     </span>
                   </>
@@ -861,16 +861,16 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
 
           {item.durationOptions && (
             <div className="flex flex-col gap-4">
-              {item.plans && <h3 className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Select requirements</h3>}
+              {item.plans && <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Select requirements</h3>}
 
               <div className="flex flex-col gap-2">
-                {item.plans && <span className="text-[11px] tracking-[0.08em] uppercase text-[#9A949D] font-semibold" style={{ fontFamily: FONT_MONO }}>Select duration</span>}
+                {item.plans && <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)] font-semibold" style={{ fontFamily: FONT_MONO }}>Select duration</span>}
                 <OptionsRow options={item.durationOptions} onSelect={onSelectOption} isInCart={opt => cartQtyFor(`${item.id}-${opt.id}`)} />
               </div>
 
               {item.plans && (
                 <div className="flex flex-col gap-2">
-                  <span className="text-[11px] tracking-[0.08em] uppercase text-[#9A949D] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a plan</span>
+                  <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a plan</span>
                   <PlanCard plan={item.plans[0]} />
                 </div>
               )}
@@ -878,27 +878,27 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
           )}
 
           {/* One help who can do it all + What's excluded, side by side */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 pt-6 border-t border-[#F4F0EC]">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 pt-6 border-t border-[var(--hz-surface-muted)]">
           <div className="flex flex-col gap-3">
-            <h3 className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>One help who can do it all</h3>
+            <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>One help who can do it all</h3>
             <div className="grid grid-cols-3 gap-2.5">
               {TASK_LIST.map(t => (
                 <div key={t.id} className="flex flex-col gap-1.5 items-center text-center">
-                  <div className="w-11 h-11 rounded-[10px] bg-[#F4F0EC] flex items-center justify-center text-[#68636D] [&_svg]:w-[16px] [&_svg]:h-[16px]">{t.icon}</div>
-                  <span className="text-[11px] text-[#242326] leading-tight" style={{ fontFamily: FONT_BODY }}>{t.label}</span>
+                  <div className="w-11 h-11 rounded-[10px] bg-[var(--hz-surface-muted)] flex items-center justify-center text-[var(--hz-ink-muted)] [&_svg]:w-[16px] [&_svg]:h-[16px]">{t.icon}</div>
+                  <span className="text-[11px] text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_BODY }}>{t.label}</span>
                 </div>
               ))}
             </div>
-            <span className="flex items-center gap-2 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-              <span className="w-4 h-4 rounded-full border border-[#9A949D] flex items-center justify-center shrink-0 text-[10px]">i</span>
+            <span className="flex items-center gap-2 text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+              <span className="w-4 h-4 rounded-full border border-[var(--hz-ink-subtle)] flex items-center justify-center shrink-0 text-[10px]">i</span>
               Please provide cleaning equipment & supplies to the help
             </span>
           </div>
 
-          <div className="flex flex-col rounded-[14px] border border-[#E3DDD7] p-4 h-fit" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-            <span className="text-[13.5px] font-semibold text-[#242326] mb-2" style={{ fontFamily: FONT_HEAD }}>What&apos;s excluded</span>
+          <div className="flex flex-col rounded-[14px] border border-[var(--hz-border)] p-4 h-fit" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] mb-2" style={{ fontFamily: FONT_HEAD }}>What&apos;s excluded</span>
             {EXCLUDED_LIST.map(x => (
-              <span key={x} className="flex items-center gap-2 text-[13px] text-[#242326] py-1.5" style={{ fontFamily: FONT_BODY }}>
+              <span key={x} className="flex items-center gap-2 text-[13px] text-[var(--hz-ink)] py-1.5" style={{ fontFamily: FONT_BODY }}>
                 <IcoCross /> {x}
               </span>
             ))}
@@ -906,53 +906,53 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
         </div>
 
         {/* How long does it take? */}
-        <div className="flex flex-col gap-3 pt-6 border-t border-[#F4F0EC]">
+        <div className="flex flex-col gap-3 pt-6 border-t border-[var(--hz-surface-muted)]">
           <div className="flex flex-col gap-1">
-            <h3 className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>How long does it take?</h3>
-            <p className="text-[12.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>These are approximate times for a 3BHK home — you can ask the help to customise as per your need.</p>
+            <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>How long does it take?</h3>
+            <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>These are approximate times for a 3BHK home — you can ask the help to customise as per your need.</p>
           </div>
           <div className="flex flex-col">
             {TIME_BREAKDOWN.map(t => (
-              <div key={t.id} className="flex items-center gap-3 py-2.5 border-b border-[#F4F0EC] last:border-b-0">
-                <span className="w-8 h-8 rounded-[8px] bg-[#F4F0EC] flex items-center justify-center text-[#68636D] shrink-0">{t.icon}</span>
+              <div key={t.id} className="flex items-center gap-3 py-2.5 border-b border-[var(--hz-surface-muted)] last:border-b-0">
+                <span className="w-8 h-8 rounded-[8px] bg-[var(--hz-surface-muted)] flex items-center justify-center text-[var(--hz-ink-muted)] shrink-0">{t.icon}</span>
                 <span className="flex-1 min-w-0 flex flex-col">
-                  <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{t.label}</span>
-                  <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{t.note}</span>
+                  <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{t.label}</span>
+                  <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{t.note}</span>
                 </span>
-                <span className="text-[13px] text-[#242326] font-medium shrink-0" style={{ fontFamily: FONT_BODY }}>{t.minutes}</span>
+                <span className="text-[13px] text-[var(--hz-ink)] font-medium shrink-0" style={{ fontFamily: FONT_BODY }}>{t.minutes}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Houzeify Cover */}
-        <div className="flex items-center gap-3 rounded-[14px] border border-[#E3DDD7] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-          <div className="w-11 h-11 rounded-full bg-[#F3EAFF] flex items-center justify-center shrink-0"><IcoShield size={22} /></div>
+        <div className="flex items-center gap-3 rounded-[14px] border border-[var(--hz-border)] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><IcoShield size={22} /></div>
           <div className="flex flex-col gap-0.5">
-            <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Stay stress-free with Houzeify Cover</span>
-            <span className="text-[12px] text-[#68636D] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Up to ₹10,000 cover if any damage happens during the job.</span>
+            <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Stay stress-free with Houzeify Cover</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Up to ₹10,000 cover if any damage happens during the job.</span>
           </div>
         </div>
 
         {/* FAQ */}
-        <div className="flex flex-col rounded-[14px] border border-[#E3DDD7] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-          <span className="text-[13.5px] font-semibold text-[#242326] mb-1" style={{ fontFamily: FONT_HEAD }}>Frequently asked questions</span>
+        <div className="flex flex-col rounded-[14px] border border-[var(--hz-border)] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] mb-1" style={{ fontFamily: FONT_HEAD }}>Frequently asked questions</span>
           {FAQS.map((f, i) => <FaqRow key={f.q} q={f.q} a={f.a} defaultOpen={i === 0} />)}
         </div>
 
         {/* Rating summary */}
-        <div className="flex flex-col gap-3 rounded-[14px] border border-[#E3DDD7] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)', maxWidth: 480 }}>
-          <span className="flex items-center gap-2 text-[28px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+        <div className="flex flex-col gap-3 rounded-[14px] border border-[var(--hz-border)] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)', maxWidth: 480 }}>
+          <span className="flex items-center gap-2 text-[28px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
             <IcoStar size={22} /> 4.83
           </span>
           <div className="flex flex-col gap-1.5">
             {RATING_BREAKDOWN.map(r => (
               <div key={r.stars} className="flex items-center gap-2">
-                <span className="flex items-center gap-1 text-[11.5px] text-[#68636D] shrink-0" style={{ fontFamily: FONT_BODY, width: 28 }}><IcoStar size={10} />{r.stars}</span>
-                <div className="flex-1 h-1.5 rounded-full bg-[#F4F0EC] overflow-hidden">
-                  <div className="h-full bg-[#722ED1] rounded-full" style={{ width: `${(r.count / totalReviews) * 100}%` }} />
+                <span className="flex items-center gap-1 text-[11.5px] text-[var(--hz-ink-muted)] shrink-0" style={{ fontFamily: FONT_BODY, width: 28 }}><IcoStar size={10} />{r.stars}</span>
+                <div className="flex-1 h-1.5 rounded-full bg-[var(--hz-surface-muted)] overflow-hidden">
+                  <div className="h-full bg-[var(--hz-primary)] rounded-full" style={{ width: `${(r.count / totalReviews) * 100}%` }} />
                 </div>
-                <span className="text-[11.5px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY, width: 32, textAlign: 'right' }}>{r.count}</span>
+                <span className="text-[11.5px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY, width: 32, textAlign: 'right' }}>{r.count}</span>
               </div>
             ))}
           </div>
@@ -962,22 +962,22 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
             presented as if it were real customer feedback. */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <h3 className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>All reviews</h3>
+            <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>All reviews</h3>
             <span
-              className="text-[10.5px] tracking-[0.04em] uppercase font-semibold px-2 py-[3px] rounded-full text-[#68636D]"
-              style={{ fontFamily: FONT_MONO, backgroundColor: '#F4F0EC' }}
+              className="text-[10.5px] tracking-[0.04em] uppercase font-semibold px-2 py-[3px] rounded-full text-[var(--hz-ink-muted)]"
+              style={{ fontFamily: FONT_MONO, backgroundColor: 'var(--hz-surface-muted)' }}
             >
               Preview data — not a real review
             </span>
           </div>
           <div className="flex flex-col">
             {SAMPLE_REVIEWS.map((r, i) => (
-              <div key={r.id} className={`flex flex-col gap-1.5 py-4 ${i > 0 ? 'border-t border-[#F4F0EC]' : ''}`}>
+              <div key={r.id} className={`flex flex-col gap-1.5 py-4 ${i > 0 ? 'border-t border-[var(--hz-surface-muted)]' : ''}`}>
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{r.name}</span>
-                  <span className="flex items-center gap-1 text-[12px] text-[#722ED1] font-semibold shrink-0"><IcoStar size={11} /> {r.stars}</span>
+                  <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{r.name}</span>
+                  <span className="flex items-center gap-1 text-[12px] text-[var(--hz-primary)] font-semibold shrink-0"><IcoStar size={11} /> {r.stars}</span>
                 </div>
-                <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>{r.text}</p>
+                <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>{r.text}</p>
               </div>
             ))}
           </div>
@@ -994,17 +994,17 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
             both `plans` and `laterOptions` — its footer is the dedicated
             laterOptions+plans branch further below, which books for real. */}
         {item.plans && !item.laterOptions && (
-          <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-[#F4F0EC] shrink-0">
+          <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-[var(--hz-surface-muted)] shrink-0">
             <div className="flex flex-col gap-0.5">
-              <span className="text-[19px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+              <span className="text-[19px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
                 ₹{item.plans[0].packPrice}{' '}
-                <span className="line-through text-[#9A949D] text-[14px] font-normal">₹{item.plans[0].packOriginalPrice}</span>
+                <span className="line-through text-[var(--hz-ink-subtle)] text-[14px] font-normal">₹{item.plans[0].packOriginalPrice}</span>
               </span>
-              <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{item.plans[0].servicesCount} services</span>
+              <span className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{item.plans[0].servicesCount} services</span>
             </div>
             <button
               onClick={onClose}
-              className="h-11 px-8 rounded-[12px] bg-[#722ED1] text-white text-[14.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+              className="h-11 px-8 rounded-[12px] bg-[var(--hz-primary)] text-white text-[14.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
               style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
             >
               Done
@@ -1018,17 +1018,17 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
             above (this row has no per-card "Add" to fall back on — the
             duration cards are select-only). */}
         {item.laterOptions && laterSelected && item.plans && (
-          <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-[#F4F0EC] shrink-0">
+          <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-[var(--hz-surface-muted)] shrink-0">
             <div className="flex flex-col gap-0.5">
-              <span className="text-[19px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+              <span className="text-[19px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
                 ₹{item.plans[0].packPrice}{' '}
-                <span className="line-through text-[#9A949D] text-[14px] font-normal">₹{item.plans[0].packOriginalPrice}</span>
+                <span className="line-through text-[var(--hz-ink-subtle)] text-[14px] font-normal">₹{item.plans[0].packOriginalPrice}</span>
               </span>
-              <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{item.plans[0].servicesCount} services</span>
+              <span className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{item.plans[0].servicesCount} services</span>
             </div>
             <button
               onClick={() => onSelectLaterPack(laterSelected, item.plans![0])}
-              className="h-11 px-8 rounded-[12px] bg-[#722ED1] text-white text-[14.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+              className="h-11 px-8 rounded-[12px] bg-[var(--hz-primary)] text-white text-[14.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
               style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
             >
               Done
@@ -1037,21 +1037,21 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
         )}
 
         {item.laterOptions && laterSelected && !item.plans && (
-          <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-[#F4F0EC] shrink-0">
+          <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-[var(--hz-surface-muted)] shrink-0">
             <div className="flex flex-col gap-0.5">
-              <span className="text-[19px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+              <span className="text-[19px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
                 ₹{laterPlan === 'pack' ? packTotal : laterSelected.price}{' '}
-                <span className="line-through text-[#9A949D] text-[14px] font-normal">
+                <span className="line-through text-[var(--hz-ink-subtle)] text-[14px] font-normal">
                   ₹{laterPlan === 'pack' ? packOriginalTotal : laterSelected.originalPrice}
                 </span>
               </span>
-              <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+              <span className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                 {laterPlan === 'pack' ? '3 services' : '1 service'}
               </span>
             </div>
             <button
               onClick={() => onSelectLater(laterSelected, laterPlan)}
-              className="h-11 px-8 rounded-[12px] bg-[#722ED1] text-white text-[14.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+              className="h-11 px-8 rounded-[12px] bg-[var(--hz-primary)] text-white text-[14.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
               style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
             >
               Done
@@ -1069,19 +1069,19 @@ function OptionsModal({ item, cart, onClose, onSelectOption, onSelectLater, onSe
 
 function CartStepper({ qty, onDecrement, onIncrement }: { qty: number; onDecrement: () => void; onIncrement: () => void }) {
   return (
-    <div className="flex items-center gap-1.5 rounded-[10px] border border-[#722ED1] shrink-0">
+    <div className="flex items-center gap-1.5 rounded-[10px] border border-[var(--hz-primary)] shrink-0">
       <button
         onClick={onDecrement}
         aria-label="Decrease quantity"
-        className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-l-[9px]"
+        className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-l-[9px]"
       >
         −
       </button>
-      <span className="text-[13px] font-semibold text-[#242326] w-3 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] w-3 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
       <button
         onClick={onIncrement}
         aria-label="Increase quantity"
-        className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-r-[9px]"
+        className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-r-[9px]"
       >
         +
       </button>
@@ -1101,24 +1101,24 @@ function CartCard({ cart, onChangeQty, onRemove, onViewCart }: {
   const saved = totalOriginal - total
 
   return (
-    <div className="bg-white border border-[#E3DDD7] rounded-[16px] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Cart</span>
+    <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Cart</span>
 
       <div className="flex flex-col">
         {cart.map((c, i) => (
-          <div key={c.cartId} className={`flex flex-col gap-2 py-3 ${i > 0 ? 'border-t border-[#F4F0EC]' : 'pt-0'}`}>
+          <div key={c.cartId} className={`flex flex-col gap-2 py-3 ${i > 0 ? 'border-t border-[var(--hz-surface-muted)]' : 'pt-0'}`}>
             <div className="flex items-start justify-between gap-3">
-              <span className="text-[13.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{c.title}</span>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{c.title}</span>
               <CartStepper qty={c.qty} onDecrement={() => onChangeQty(c.cartId, -1)} onIncrement={() => onChangeQty(c.cartId, 1)} />
             </div>
-            <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
               <span className="font-semibold">₹{c.price}</span>{' '}
-              <span className="line-through text-[#9A949D] text-[12px]">₹{c.originalPrice}</span>
+              <span className="line-through text-[var(--hz-ink-subtle)] text-[12px]">₹{c.originalPrice}</span>
             </span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>• {c.duration}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>• {c.duration}</span>
             <button
               onClick={() => onRemove(c.cartId)}
-              className="self-start text-[12.5px] text-[#722ED1] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
+              className="self-start text-[12.5px] text-[var(--hz-primary)] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
               style={{ fontFamily: FONT_BODY }}
             >
               Remove
@@ -1134,13 +1134,13 @@ function CartCard({ cart, onChangeQty, onRemove, onViewCart }: {
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-3 pt-3 border-t border-[#F4F0EC]">
-        <span className="text-[17px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
-          ₹{total} <span className="line-through text-[#9A949D] text-[13px] font-normal">₹{totalOriginal}</span>
+      <div className="flex items-center justify-between gap-3 pt-3 border-t border-[var(--hz-surface-muted)]">
+        <span className="text-[17px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
+          ₹{total} <span className="line-through text-[var(--hz-ink-subtle)] text-[13px] font-normal">₹{totalOriginal}</span>
         </span>
         <button
           onClick={onViewCart}
-          className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+          className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
           style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
         >
           View Cart
@@ -1276,7 +1276,7 @@ export default function HoziehelperGoldScreen({
       .reduce((sum, c) => sum + c.qty, 0)
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onBack={() => onNavigate('home-services')} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -1290,12 +1290,12 @@ export default function HoziehelperGoldScreen({
 
               {/* Title + rating */}
               <div className="flex flex-col gap-1.5">
-                <span className="text-[12px] tracking-[0.10em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>HozieHelp</span>
-                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <span className="text-[12px] tracking-[0.10em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>HozieHelp</span>
+                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   HozieHelp Gold
                 </h1>
-                <span className="flex items-center gap-1.5 text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
-                  <span className="flex items-center gap-1 text-[#722ED1] font-semibold"><IcoStar /> 4.8</span> (3.2K bookings)
+                <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+                  <span className="flex items-center gap-1 text-[var(--hz-primary)] font-semibold"><IcoStar /> 4.8</span> (3.2K bookings)
                 </span>
               </div>
 
@@ -1307,7 +1307,7 @@ export default function HoziehelperGoldScreen({
 
                   {SECTIONS.map(section => (
                     <div key={section.id} id={`hoziehelper-section-${section.id}`} className="flex flex-col" style={{ scrollMarginTop: 230 }}>
-                      <h2 className="text-[19px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{section.label}</h2>
+                      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{section.label}</h2>
                       <div className="flex flex-col gap-3">
                         {section.items.map(item => (
                           <LineItemRow key={item.id} item={item} onSelect={() => handleAdd(item)} cartCount={cartCountForItem(item)} />
@@ -1326,29 +1326,29 @@ export default function HoziehelperGoldScreen({
                     so a long cart never grows taller than the screen.
                     Same pattern as Salon Luxe's own right column. */}
                 <div className="flex flex-col gap-4 lg:sticky lg:top-[28px] lg:self-start lg:max-h-[calc(100vh-56px)] lg:overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
-                  <div className="bg-white border border-[#E3DDD7] rounded-[16px] p-5 flex items-start gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                  <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] p-5 flex items-start gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                     <div className="flex flex-col gap-2.5 flex-1">
-                      <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Houzeify Promise</span>
+                      <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Houzeify Promise</span>
                       {['Verified Professionals', 'Hassle Free Booking', 'Transparent Pricing'].map(t => (
-                        <span key={t} className="flex items-center gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+                        <span key={t} className="flex items-center gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                           <IcoCheck /> {t}
                         </span>
                       ))}
                     </div>
-                    <div className="w-11 h-11 rounded-full bg-[#F3EAFF] flex items-center justify-center shrink-0"><IcoShield /></div>
+                    <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><IcoShield /></div>
                   </div>
 
                   <CartCard cart={cart} onChangeQty={changeCartQty} onRemove={removeFromCart} onViewCart={viewCart} />
 
-                  <div className="bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-4 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                    <div className="w-10 h-10 rounded-[12px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
+                  <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-4 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                    <div className="w-10 h-10 rounded-[12px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
                     <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-                      <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Not sure which one?</span>
-                      <span className="text-[12px] text-[#68636D] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Ask Hozie to help you pick.</span>
+                      <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Not sure which one?</span>
+                      <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Ask Hozie to help you pick.</span>
                     </div>
                     <button
                       onClick={() => onNavigate(DASHBOARD_ROUTES.aiAdvisor)}
-                      className="h-8 px-3 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                      className="h-8 px-3 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       Ask Hozie →

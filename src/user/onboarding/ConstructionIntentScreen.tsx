@@ -46,7 +46,7 @@ const CheckIcon = ({ size = 9 }: { size?: number }) => (
 // ─── Shared bits ────────────────────────────────────────────────────────
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D] block mb-2" style={{ fontFamily: FONT_MONO }}>{children}</span>
+  return <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] block mb-2" style={{ fontFamily: FONT_MONO }}>{children}</span>
 }
 
 // Single-select option card — radio semantics.
@@ -59,13 +59,13 @@ function OptionCard({ title, description, selected, onSelect }: { title: string;
       onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
-      <span className="text-[12px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
+      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
       {selected && (
-        <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-full bg-[#722ED1] flex items-center justify-center" aria-hidden="true">
+        <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center" aria-hidden="true">
           <CheckIcon />
         </span>
       )}
@@ -83,13 +83,13 @@ function MultiOptionCard({ title, description, selected, onToggle }: { title: st
       onClick={onToggle}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
-      <span className="text-[12px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
+      <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>
       {selected && (
-        <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-[5px] bg-[#722ED1] flex items-center justify-center" aria-hidden="true">
+        <span className="absolute top-3 right-3 w-[16px] h-[16px] rounded-[5px] bg-[var(--hz-primary)] flex items-center justify-center" aria-hidden="true">
           <CheckIcon />
         </span>
       )}
@@ -107,12 +107,12 @@ function Chip({ label, selected, onToggle, multi }: { label: string; selected: b
       className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
       style={{
         fontFamily: FONT_BODY,
-        backgroundColor: selected ? '#F3EAFF' : '#FFFFFF',
-        borderColor: selected ? '#722ED1' : '#CAC7C6',
-        color: selected ? '#722ED1' : '#1E1E1E',
+        backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+        color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
-      {selected && <span className={['flex items-center justify-center shrink-0 bg-[#722ED1]', multi ? 'w-[14px] h-[14px] rounded-[4px]' : 'w-[14px] h-[14px] rounded-full'].join(' ')} aria-hidden="true"><CheckIcon size={8} /></span>}
+      {selected && <span className={['flex items-center justify-center shrink-0 bg-[var(--hz-primary)]', multi ? 'w-[14px] h-[14px] rounded-[4px]' : 'w-[14px] h-[14px] rounded-full'].join(' ')} aria-hidden="true"><CheckIcon size={8} /></span>}
       {label}
     </button>
   )
@@ -124,17 +124,17 @@ type SubmitStage = 'idle' | 'submitting'
 
 function MissingIntentView({ onNavigate }: { onNavigate: (screen: string, data?: Record<string, string>) => void }) {
   return (
-    <div className="min-h-full flex flex-col items-center justify-center relative px-5 py-10" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col items-center justify-center relative px-5 py-10" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <div className="relative z-10 flex flex-col items-center text-center gap-4 max-w-[420px]">
         <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto mb-2" style={{ mixBlendMode: 'multiply' }} />
-        <p className="text-[15px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_HEAD }}>Let&apos;s start by choosing what you&apos;d like to do.</p>
+        <p className="text-[15px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_HEAD }}>Let&apos;s start by choosing what you&apos;d like to do.</p>
         {/* The former Screen 007 (PrimaryIntentScreen) this recovered to was
             removed as an orphaned, no-longer-reachable step — 'account-created'
             is the real current entry point into both the homeowner and
             professional paths. */}
         <button
           onClick={() => onNavigate('account-created')}
-          className="h-[48px] px-5 rounded-[12px] text-[14px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all"
+          className="h-[48px] px-5 rounded-[12px] text-[14px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all"
           style={{ fontFamily: FONT_BODY }}
         >
           Choose your goal →
@@ -364,16 +364,16 @@ function HomeIntentForm({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-between h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
-          <span className="text-[12px] tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 4 of 4</span>
+          <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 4 of 4</span>
         </div>
-        <div className="h-[2px] bg-[#F4F0EC] w-full">
-          <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '100%' }} />
+        <div className="h-[2px] bg-[var(--hz-surface-muted)] w-full">
+          <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '100%' }} />
         </div>
       </header>
 
@@ -383,19 +383,19 @@ function HomeIntentForm({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>{headerContent.eyebrow}</span>
-            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>{headerContent.eyebrow}</span>
+            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               {headerContent.title}
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
               {headerContent.description}
             </p>
           </div>
 
           {/* Hozie intro */}
-          <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5" style={{ maxWidth: 700, margin: '0 auto', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5" style={{ maxWidth: 700, margin: '0 auto', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="shrink-0"><HIcon size={32} /></div>
-            <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>{headerContent.hozieMessage}</p>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>{headerContent.hozieMessage}</p>
           </div>
 
           {/* Intent-specific questions */}
@@ -417,7 +417,7 @@ function HomeIntentForm({
                 <div>
                   <div className="flex items-center gap-1.5 mb-2">
                     <SectionLabel>How many bedrooms?</SectionLabel>
-                    <span className="text-[11px] text-[#9A949D] -mt-2" style={{ fontFamily: FONT_BODY }}>Optional</span>
+                    <span className="text-[11px] text-[var(--hz-ink-subtle)] -mt-2" style={{ fontFamily: FONT_BODY }}>Optional</span>
                   </div>
                   <div role="radiogroup" aria-label="How many bedrooms?" className="flex flex-wrap gap-2">
                     {HOME_BHK_OPTIONS.map(opt => (
@@ -429,7 +429,7 @@ function HomeIntentForm({
                 <div>
                   <div className="flex items-center gap-1.5 mb-2">
                     <SectionLabel>Roughly how big is it?</SectionLabel>
-                    <span className="text-[11px] text-[#9A949D] -mt-2" style={{ fontFamily: FONT_BODY }}>Optional</span>
+                    <span className="text-[11px] text-[var(--hz-ink-subtle)] -mt-2" style={{ fontFamily: FONT_BODY }}>Optional</span>
                   </div>
                   <div className="flex items-center gap-2 max-w-[280px]">
                     <input
@@ -440,18 +440,18 @@ function HomeIntentForm({
                       onChange={e => setHomeBuiltUpArea(e.target.value.replace(/[^0-9]/g, ''))}
                       placeholder="e.g. 1800"
                       aria-label="Approximate built-up area in square feet"
-                      className="w-full h-11 px-3.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors"
+                      className="w-full h-11 px-3.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors"
                       style={{ fontFamily: FONT_BODY }}
                     />
-                    <span className="text-[12.5px] text-[#68636D] shrink-0" style={{ fontFamily: FONT_BODY }}>sq ft</span>
+                    <span className="text-[12.5px] text-[var(--hz-ink-muted)] shrink-0" style={{ fontFamily: FONT_BODY }}>sq ft</span>
                   </div>
-                  <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Approximate is fine — leave blank if you're not sure yet.</p>
+                  <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Approximate is fine — leave blank if you're not sure yet.</p>
                 </div>
 
                 <div>
                   <div className="flex items-center gap-1.5 mb-2">
                     <SectionLabel>How many floors?</SectionLabel>
-                    <span className="text-[11px] text-[#9A949D] -mt-2" style={{ fontFamily: FONT_BODY }}>Optional</span>
+                    <span className="text-[11px] text-[var(--hz-ink-subtle)] -mt-2" style={{ fontFamily: FONT_BODY }}>Optional</span>
                   </div>
                   <div role="radiogroup" aria-label="How many floors?" className="flex flex-wrap gap-2">
                     {HOME_FLOOR_COUNT_OPTIONS.map(opt => (
@@ -475,7 +475,7 @@ function HomeIntentForm({
                 <div>
                   <div className="flex items-center gap-1.5 mb-2">
                     <SectionLabel>Which part of your home?</SectionLabel>
-                    <span className="text-[11px] text-[#9A949D] -mt-2" style={{ fontFamily: FONT_BODY }}>Optional</span>
+                    <span className="text-[11px] text-[var(--hz-ink-subtle)] -mt-2" style={{ fontFamily: FONT_BODY }}>Optional</span>
                   </div>
                   <div role="group" aria-label="Which part of your home?" className="flex flex-wrap gap-2">
                     {HOME_AREA_OPTIONS.map(area => (
@@ -497,14 +497,14 @@ function HomeIntentForm({
                   </div>
                   {serviceCategory && usesFreeTextIntent(serviceCategory) && (
                     <div className="mt-3">
-                      <label htmlFor="other-description" className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>Tell us what you need</label>
+                      <label htmlFor="other-description" className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>Tell us what you need</label>
                       <textarea
                         id="other-description"
                         value={otherDescription}
                         onChange={e => setOtherDescription(e.target.value)}
                         placeholder="Briefly describe the service you're looking for."
                         rows={2}
-                        className="w-full px-3.5 py-2.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none max-w-[500px]"
+                        className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none max-w-[500px]"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -540,16 +540,16 @@ function HomeIntentForm({
 
           {/* Summary */}
           {summaryLines.length > 0 && (
-            <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+            <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-[7px] bg-white flex items-center justify-center shrink-0"><HIcon size={16} /></span>
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>{homeIntentSummaryTitle(intent)}</span>
+                <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>{homeIntentSummaryTitle(intent)}</span>
               </div>
               <div className="flex flex-col gap-1.5">
                 {summaryLines.map((line, i) => (
                   <div key={`${line}-${i}`} className="flex items-center gap-2">
-                    <span className="w-4 h-4 rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
-                    <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{line}</span>
+                    <span className="w-4 h-4 rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
+                    <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{line}</span>
                   </div>
                 ))}
               </div>
@@ -566,7 +566,7 @@ function HomeIntentForm({
                 className={[
                   'h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 w-full sm:w-[220px]',
                   'flex items-center justify-center gap-2',
-                  canContinue ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[#F4F0EC] text-[#9A949D] cursor-pointer',
+                  canContinue ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-pointer',
                 ].join(' ')}
                 style={{ fontFamily: FONT_BODY }}
               >
@@ -583,7 +583,7 @@ function HomeIntentForm({
               <button
                 onClick={handleBack}
                 disabled={stage === 'submitting'}
-                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
+                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
                 style={{ fontFamily: FONT_BODY }}
               >
                 ← Back
@@ -597,8 +597,8 @@ function HomeIntentForm({
       <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-5 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>

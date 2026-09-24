@@ -51,14 +51,14 @@ const CheckDot = () => (<svg width="10" height="10" viewBox="0 0 10 10" fill="no
 
 function SummaryChip({ label, value, icon, onChange }: { label: string; value: string; icon: React.ReactNode; onChange: () => void }) {
   return (
-    <div className="flex items-center gap-3 rounded-[14px] px-4 py-3" style={{ backgroundColor: '#F4F0EC' }}>
+    <div className="flex items-center gap-3 rounded-[14px] px-4 py-3" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
       <div className="flex flex-col gap-1 flex-1 min-w-0">
-        <span className="text-[10px] tracking-[0.08em] uppercase text-[#68636D]" style={{ fontFamily: FONT_MONO }}>{label}</span>
-        <span className="flex items-center gap-1.5 text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>{label}</span>
+        <span className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>
           {icon} {value}
         </span>
       </div>
-      <button onClick={onChange} className="shrink-0 text-[12px] font-medium text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+      <button onClick={onChange} className="shrink-0 text-[12px] font-medium text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
         Change
       </button>
     </div>
@@ -70,17 +70,17 @@ function SummaryChip({ label, value, icon, onChange }: { label: string; value: s
 function Field({ label, required, error, hint, children }: { label: string; required?: boolean; error?: string; hint?: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-[12.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
-        {label}{required && <span style={{ color: '#DC2626' }}> *</span>}
+      <label className="text-[12.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
+        {label}{required && <span style={{ color: 'var(--hz-danger)' }}> *</span>}
       </label>
       {children}
-      {hint && !error && <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{hint}</span>}
-      {error && <span className="text-[11.5px]" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>{error}</span>}
+      {hint && !error && <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{hint}</span>}
+      {error && <span className="text-[11.5px]" style={{ color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>{error}</span>}
     </div>
   )
 }
 
-const inputClass = 'w-full h-11 px-3.5 rounded-[10px] border bg-white text-[13.5px] text-[#242326] placeholder-[#9A949D] outline-none focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all'
+const inputClass = 'w-full h-11 px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all'
 
 // ─── Chip — Partner UX Architecture (Years of Experience / Languages) ──────
 
@@ -89,10 +89,10 @@ function Chip({ label, selected, onToggle, multi }: { label: string; selected: b
     <button
       type="button" role={multi ? 'checkbox' : 'radio'} aria-checked={selected} onClick={onToggle}
       className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
-      style={{ fontFamily: FONT_BODY, backgroundColor: selected ? '#F3EAFF' : '#FFFFFF', borderColor: selected ? '#722ED1' : '#CAC7C6', color: selected ? '#722ED1' : '#1E1E1E' }}
+      style={{ fontFamily: FONT_BODY, backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)', borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)', color: selected ? 'var(--hz-primary)' : 'var(--hz-black)' }}
     >
       {selected && (
-        <span className={['flex items-center justify-center shrink-0 bg-[#722ED1]', multi ? 'w-[14px] h-[14px] rounded-[4px]' : 'w-[14px] h-[14px] rounded-full'].join(' ')} aria-hidden="true"><CheckDot /></span>
+        <span className={['flex items-center justify-center shrink-0 bg-[var(--hz-primary)]', multi ? 'w-[14px] h-[14px] rounded-[4px]' : 'w-[14px] h-[14px] rounded-full'].join(' ')} aria-hidden="true"><CheckDot /></span>
       )}
       {label}
     </button>
@@ -121,20 +121,20 @@ function PhotoUpload({ label, shape, dataUrl, initials, uploading, error, onFile
   const inputId = `photo-upload-${shape}`
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-[12.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
+      <span className="text-[12.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{label}</span>
       <div className="flex items-center gap-3">
         <div
-          className={['w-16 h-16 flex items-center justify-center overflow-hidden bg-[#F3EAFF] text-[#722ED1] font-semibold text-[16px] shrink-0 relative', shape === 'circle' ? 'rounded-full' : 'rounded-[14px]'].join(' ')}
+          className={['w-16 h-16 flex items-center justify-center overflow-hidden bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] font-semibold text-[16px] shrink-0 relative', shape === 'circle' ? 'rounded-full' : 'rounded-[14px]'].join(' ')}
           style={{ fontFamily: FONT_HEAD }}
         >
           {dataUrl ? <img src={dataUrl} alt="" className="w-full h-full object-cover" /> : initials}
         </div>
         <div className="flex flex-col gap-1">
-          <label htmlFor={inputId} className="h-9 px-3.5 rounded-[9px] border border-[#E3DDD7] bg-white text-[#242326] text-[12.5px] font-medium cursor-pointer hover:bg-[#F4F0EC] transition-all flex items-center gap-1.5 w-fit" style={{ fontFamily: FONT_BODY }}>
+          <label htmlFor={inputId} className="h-9 px-3.5 rounded-[9px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] text-[12.5px] font-medium cursor-pointer hover:bg-[var(--hz-surface-muted)] transition-all flex items-center gap-1.5 w-fit" style={{ fontFamily: FONT_BODY }}>
             {uploading ? <SpinnerIcon /> : <UploadIcon />} {dataUrl ? 'Replace' : 'Upload'}
           </label>
           {dataUrl && (
-            <button onClick={onRemove} className="text-[11.5px] text-[#9A949D] hover:text-[#DC2626] cursor-pointer border-0 bg-transparent p-0 self-start flex items-center gap-1" style={{ fontFamily: FONT_BODY }}>
+            <button onClick={onRemove} className="text-[11.5px] text-[var(--hz-ink-subtle)] hover:text-[var(--hz-danger)] cursor-pointer border-0 bg-transparent p-0 self-start flex items-center gap-1" style={{ fontFamily: FONT_BODY }}>
               <CloseIcon /> Remove
             </button>
           )}
@@ -146,9 +146,9 @@ function PhotoUpload({ label, shape, dataUrl, initials, uploading, error, onFile
         />
       </div>
       {error && (
-        <span className="text-[11.5px] flex items-center gap-2" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>
+        <span className="text-[11.5px] flex items-center gap-2" style={{ color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>
           {error}
-          <button onClick={() => inputRef.current?.click()} className="text-[#722ED1] font-medium hover:underline cursor-pointer border-0 bg-transparent p-0">Try again</button>
+          <button onClick={() => inputRef.current?.click()} className="text-[var(--hz-primary)] font-medium hover:underline cursor-pointer border-0 bg-transparent p-0">Try again</button>
         </span>
       )}
     </div>
@@ -166,23 +166,23 @@ function ProfilePreview({ photoUrl, initials, name, typeLabel, locationLabel, ab
   about: string
 }) {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 flex flex-col gap-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[11px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Profile Preview</span>
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 flex flex-col gap-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[11px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Profile Preview</span>
       <div className="flex items-start gap-3">
-        <div className="w-12 h-12 rounded-[12px] bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center font-semibold text-[14px] overflow-hidden shrink-0" style={{ fontFamily: FONT_HEAD }}>
+        <div className="w-12 h-12 rounded-[12px] bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center font-semibold text-[14px] overflow-hidden shrink-0" style={{ fontFamily: FONT_HEAD }}>
           {photoUrl ? <img src={photoUrl} alt="" className="w-full h-full object-cover" /> : initials}
         </div>
         <div className="flex flex-col gap-1 min-w-0">
-          <span className="text-[14.5px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{name || 'Your name'}</span>
+          <span className="text-[14.5px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{name || 'Your name'}</span>
           <span className="flex items-center gap-1 text-[11.5px] font-medium text-[#D97706]" style={{ fontFamily: FONT_BODY }}>
             <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#D97706' }} /> Verification pending
           </span>
-          <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{typeLabel}{locationLabel ? ` · ${locationLabel}` : ''}</span>
+          <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{typeLabel}{locationLabel ? ` · ${locationLabel}` : ''}</span>
         </div>
       </div>
-      <div className="flex flex-col gap-1 pt-2 border-t border-[#E3DDD7]">
-        <span className="text-[10.5px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>About</span>
-        <p className="text-[12.5px] text-[#68636D] leading-[1.5] m-0 line-clamp-3" style={{ fontFamily: FONT_BODY }}>
+      <div className="flex flex-col gap-1 pt-2 border-t border-[var(--hz-border)]">
+        <span className="text-[10.5px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>About</span>
+        <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.5] m-0 line-clamp-3" style={{ fontFamily: FONT_BODY }}>
           {about.trim() || 'Not added yet.'}
         </p>
       </div>
@@ -195,14 +195,14 @@ function ProfilePreview({ photoUrl, initials, name, typeLabel, locationLabel, ab
 function CompletenessRow({ label, state }: { label: string; state: 'done' | 'next' | 'pending' }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-[12.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[12.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
       {state === 'done' && (
-        <span className="flex items-center gap-1.5 text-[11.5px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_MONO }}>
-          <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center"><CheckDot /></span> Complete
+        <span className="flex items-center gap-1.5 text-[11.5px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+          <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center"><CheckDot /></span> Complete
         </span>
       )}
-      {state === 'next' && <span className="text-[11.5px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_MONO }}>● Next</span>}
-      {state === 'pending' && <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>○ Pending</span>}
+      {state === 'next' && <span className="text-[11.5px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>● Next</span>}
+      {state === 'pending' && <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>○ Pending</span>}
     </div>
   )
 }
@@ -211,10 +211,10 @@ function CompletenessRow({ label, state }: { label: string; state: 'done' | 'nex
 
 function HozieAssist({ onAskHozie }: { onAskHozie: () => void }) {
   return (
-    <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[14px] px-4 py-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[14px] px-4 py-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
       <div className="shrink-0"><HIcon size={24} /></div>
-      <span className="text-[12.5px] text-[#242326] flex-1" style={{ fontFamily: FONT_BODY }}>Need help writing your profile?</span>
-      <button onClick={onAskHozie} className="h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0" style={{ fontFamily: FONT_BODY }}>
+      <span className="text-[12.5px] text-[var(--hz-ink)] flex-1" style={{ fontFamily: FONT_BODY }}>Need help writing your profile?</span>
+      <button onClick={onAskHozie} className="h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0" style={{ fontFamily: FONT_BODY }}>
         Ask Hozie →
       </button>
     </div>
@@ -462,16 +462,16 @@ export default function ProfessionalProfileSetupScreen({
   const previewAbout = isOrganization ? companyAbout : about
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-between h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
-          <span className="text-[12px] tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 3 of 8</span>
+          <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 3 of 8</span>
         </div>
-        <div className="h-[2px] bg-[#F4F0EC] w-full">
-          <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '37.5%' }} />
+        <div className="h-[2px] bg-[var(--hz-surface-muted)] w-full">
+          <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '37.5%' }} />
         </div>
       </header>
 
@@ -481,11 +481,11 @@ export default function ProfessionalProfileSetupScreen({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Professional Profile</span>
-            <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] leading-[1.1] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Professional Profile</span>
+            <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] leading-[1.1] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               Let&apos;s set up your profile.
             </h1>
-            <p className="text-[14px] text-[#68636D] leading-[1.6] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
               Add the basic information homeowners will see when they discover your profile.
             </p>
           </div>
@@ -510,15 +510,15 @@ export default function ProfessionalProfileSetupScreen({
                   <Field label="Full Name" required error={attemptedSubmit ? individualErrors.fullName : undefined}>
                     <input
                       type="text" value={fullName} onChange={e => setFullName(e.target.value)}
-                      className={inputClass} style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && individualErrors.fullName ? '#DC2626' : '#CAC7C6' }}
+                      className={inputClass} style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && individualErrors.fullName ? 'var(--hz-danger)' : 'var(--hz-border-strong)' }}
                     />
                   </Field>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Field label="Phone">
-                      <input type="text" value={phone} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: '#E3DDD7' }} />
+                      <input type="text" value={phone} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: 'var(--hz-border)' }} />
                     </Field>
                     <Field label="Email">
-                      <input type="text" value={email} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: '#E3DDD7' }} />
+                      <input type="text" value={email} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: 'var(--hz-border)' }} />
                     </Field>
                   </div>
                   <PhotoUpload
@@ -529,15 +529,15 @@ export default function ProfessionalProfileSetupScreen({
                     <input
                       type="text" value={displayName} onChange={e => setDisplayName(e.target.value)}
                       placeholder="e.g. Raja Shaker Reddy or Raja Reddy Constructions"
-                      className={inputClass} style={{ fontFamily: FONT_BODY, borderColor: '#E3DDD7' }}
+                      className={inputClass} style={{ fontFamily: FONT_BODY, borderColor: 'var(--hz-border)' }}
                     />
                   </Field>
                   <Field label="Bio / About" error={attemptedSubmit ? individualErrors.about : undefined} hint={`${about.trim().length}/${ABOUT_MAX} characters (min ${ABOUT_MIN} if added)`}>
                     <textarea
                       value={about} onChange={e => setAbout(e.target.value.slice(0, ABOUT_MAX))} rows={4}
                       placeholder="Tell homeowners briefly about your experience and the work you do."
-                      className="w-full px-3.5 py-2.5 rounded-[10px] border bg-white text-[13.5px] text-[#242326] placeholder-[#9A949D] outline-none focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all resize-none"
-                      style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && individualErrors.about ? '#DC2626' : '#CAC7C6' }}
+                      className="w-full px-3.5 py-2.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all resize-none"
+                      style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && individualErrors.about ? 'var(--hz-danger)' : 'var(--hz-border-strong)' }}
                     />
                   </Field>
                   <Field label="Years of Experience">
@@ -561,18 +561,18 @@ export default function ProfessionalProfileSetupScreen({
                     <input
                       type="text" value={companyName} onChange={e => setCompanyName(e.target.value)}
                       placeholder="e.g. Mantoor Developers" className={inputClass}
-                      style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && !organizationValid ? '#DC2626' : '#CAC7C6' }}
+                      style={{ fontFamily: FONT_BODY, borderColor: attemptedSubmit && !organizationValid ? 'var(--hz-danger)' : 'var(--hz-border-strong)' }}
                     />
                   </Field>
                   <Field label="Company Owner / Primary Contact" hint="Derived from your account — automatically set.">
-                    <input type="text" value={ORGANIZATION_OWNER_NAME} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: '#E3DDD7' }} />
+                    <input type="text" value={ORGANIZATION_OWNER_NAME} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: 'var(--hz-border)' }} />
                   </Field>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Field label="Business Email">
-                      <input type="text" value={DEFAULT_EMAIL} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: '#E3DDD7' }} />
+                      <input type="text" value={DEFAULT_EMAIL} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: 'var(--hz-border)' }} />
                     </Field>
                     <Field label="Business Phone">
-                      <input type="text" value={DEFAULT_PHONE} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: '#E3DDD7' }} />
+                      <input type="text" value={DEFAULT_PHONE} disabled className={inputClass + ' opacity-70 cursor-not-allowed'} style={{ fontFamily: FONT_BODY, borderColor: 'var(--hz-border)' }} />
                     </Field>
                   </div>
                   <PhotoUpload
@@ -583,8 +583,8 @@ export default function ProfessionalProfileSetupScreen({
                     <textarea
                       value={companyAbout} onChange={e => setCompanyAbout(e.target.value.slice(0, ABOUT_MAX))} rows={4}
                       placeholder="Briefly describe your company, experience and the type of work you undertake."
-                      className="w-full px-3.5 py-2.5 rounded-[10px] border bg-white text-[13.5px] text-[#242326] placeholder-[#9A949D] outline-none focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all resize-none"
-                      style={{ fontFamily: FONT_BODY, borderColor: '#E3DDD7' }}
+                      className="w-full px-3.5 py-2.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all resize-none"
+                      style={{ fontFamily: FONT_BODY, borderColor: 'var(--hz-border)' }}
                     />
                   </Field>
                 </>
@@ -598,8 +598,8 @@ export default function ProfessionalProfileSetupScreen({
                 typeLabel={isOrganization ? (COMPANY_TYPE_LABELS['other' as CompanyType] ?? 'Company') : professionalTypeLabel}
                 locationLabel={location} about={previewAbout}
               />
-              <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 flex flex-col gap-3">
-                <span className="text-[11px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Profile Setup</span>
+              <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 flex flex-col gap-3">
+                <span className="text-[11px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Profile Setup</span>
                 <CompletenessRow label="Basic information" state={canContinue ? 'done' : 'pending'} />
                 <CompletenessRow label="Verification" state="next" />
                 <CompletenessRow label="Services" state="pending" />
@@ -611,10 +611,10 @@ export default function ProfessionalProfileSetupScreen({
 
           {stage === 'error' && (
             <div className="rounded-[12px] px-4 py-3 flex flex-col gap-1" style={{ backgroundColor: '#FEE2E2' }}>
-              <span className="text-[13px] font-semibold" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>
+              <span className="text-[13px] font-semibold" style={{ color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>
                 {saveErrorMessage || "We couldn't save your profile."}
               </span>
-              <span className="text-[12px]" style={{ color: '#DC2626', fontFamily: FONT_BODY }}>Your information is still here.</span>
+              <span className="text-[12px]" style={{ color: 'var(--hz-danger)', fontFamily: FONT_BODY }}>Your information is still here.</span>
             </div>
           )}
 
@@ -625,7 +625,7 @@ export default function ProfessionalProfileSetupScreen({
                 onClick={handleContinue}
                 disabled={stage === 'submitting'}
                 aria-label={stage === 'error' ? 'Try again' : 'Continue'}
-                className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 w-full sm:w-[220px] flex items-center justify-center gap-2 bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
+                className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 w-full sm:w-[220px] flex items-center justify-center gap-2 bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
                 style={{ fontFamily: FONT_BODY }}
               >
                 {stage === 'submitting' ? (<><SpinnerIcon /> Saving…</>) : stage === 'error' ? 'Try again' : (<>Continue <ArrowRightIcon /></>)}
@@ -633,7 +633,7 @@ export default function ProfessionalProfileSetupScreen({
               <button
                 onClick={handleBack}
                 disabled={stage === 'submitting'}
-                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
+                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
                 style={{ fontFamily: FONT_BODY }}
               >
                 ← Back

@@ -131,7 +131,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -150,9 +150,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
-    <div className={['bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <div className={['bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -161,8 +161,8 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 }
 
 function ChangeText({ amount }: { amount: number }) {
-  if (amount === 0) return <span className="text-[12px] font-medium" style={{ color: '#9A949D', fontFamily: FONT_MONO }}>₹0</span>
-  return <span className="text-[12px] font-semibold" style={{ color: amount > 0 ? '#D97706' : '#16A34A', fontFamily: FONT_MONO }}>{formatChange(amount)}</span>
+  if (amount === 0) return <span className="text-[12px] font-medium" style={{ color: 'var(--hz-ink-subtle)', fontFamily: FONT_MONO }}>₹0</span>
+  return <span className="text-[12px] font-semibold" style={{ color: amount > 0 ? '#D97706' : 'var(--hz-success)', fontFamily: FONT_MONO }}>{formatChange(amount)}</span>
 }
 
 // ─── Update summary ───────────────────────────────────────────────────────────
@@ -171,27 +171,27 @@ function UpdateSummary({ rev }: { rev: EstimateRevision }) {
   const change = rev.newTotal - rev.previousTotal
   const changePct = Math.round((change / rev.previousTotal) * 1000) / 10
   return (
-    <div className="w-full bg-white rounded-[24px] border border-[#E3DDD7] p-6 sm:p-8 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <div className="w-full bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] p-6 sm:p-8 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Current Estimate</span>
-          <span className="text-[22px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>{formatLakh(rev.previousRange.min)} — {formatLakh(rev.previousRange.max)}</span>
-          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Estimate V2 · Active</span>
+          <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Current Estimate</span>
+          <span className="text-[22px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>{formatLakh(rev.previousRange.min)} — {formatLakh(rev.previousRange.max)}</span>
+          <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Estimate V2 · Active</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Updated Estimate</span>
-          <span className="text-[22px] font-semibold leading-none" style={{ color: '#722ED1', fontFamily: FONT_HEAD }}>{formatLakh(rev.newRange.min)} — {formatLakh(rev.newRange.max)}</span>
-          <span className="text-[11px] text-[#722ED1]" style={{ fontFamily: FONT_BODY }}>Estimate V3 · Draft</span>
+          <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Updated Estimate</span>
+          <span className="text-[22px] font-semibold leading-none" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>{formatLakh(rev.newRange.min)} — {formatLakh(rev.newRange.max)}</span>
+          <span className="text-[11px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_BODY }}>Estimate V3 · Draft</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Change</span>
+          <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Change</span>
           <span className="text-[22px] font-semibold leading-none" style={{ color: '#D97706', fontFamily: FONT_HEAD }}>+₹{change.toLocaleString('en-IN')}</span>
           <span className="text-[11px]" style={{ color: '#D97706', fontFamily: FONT_BODY }}>+{changePct}%</span>
         </div>
       </div>
-      <div className="flex items-center gap-2 pt-1 border-t border-[#FFFFFF]">
-        <span className="text-[9px] px-2 py-0.5 rounded-full uppercase font-semibold" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_MONO }}>Preliminary</span>
-        <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>This is a preliminary updated estimate, not a final construction quotation.</p>
+      <div className="flex items-center gap-2 pt-1 border-t border-[var(--hz-surface)]">
+        <span className="text-[9px] px-2 py-0.5 rounded-full uppercase font-semibold" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_MONO }}>Preliminary</span>
+        <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>This is a preliminary updated estimate, not a final construction quotation.</p>
       </div>
     </div>
   )
@@ -205,22 +205,22 @@ function ApprovedChanges({ rev, className }: { rev: EstimateRevision; className?
   return (
     <SectionCard
       eyebrow="Approved Changes"
-      tag={<span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{rev.approvedChanges.length} changes applied</span>}
+      tag={<span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{rev.approvedChanges.length} changes applied</span>}
       className={className}
     >
-      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: '#FFFFFF' }}>
+      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: 'var(--hz-surface)' }}>
         {visible.map(c => (
           <li key={c.id} className="flex items-center justify-between gap-3 py-2.5">
             <div className="flex flex-col min-w-0">
-              <span className="text-[13px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{c.label}</span>
-              <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{c.currentValue} → {c.planValue}</span>
+              <span className="text-[13px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{c.label}</span>
+              <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{c.currentValue} → {c.planValue}</span>
             </div>
             <span className="text-[13px] font-semibold shrink-0" style={{ color: '#D97706', fontFamily: FONT_MONO }}>+₹{c.impact.toLocaleString('en-IN')}</span>
           </li>
         ))}
       </ul>
       {rev.approvedChanges.length > 5 && (
-        <button onClick={() => setShowAll(v => !v)} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={() => setShowAll(v => !v)} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           {showAll ? 'Show fewer ←' : 'View all changes →'}
         </button>
       )}
@@ -236,25 +236,25 @@ function EstimateBreakdown({ rev, className }: { rev: EstimateRevision; classNam
       <div className="overflow-x-auto">
         <table className="w-full border-collapse" style={{ fontFamily: FONT_BODY }}>
           <thead>
-            <tr className="border-b border-[#E3DDD7]">
+            <tr className="border-b border-[var(--hz-border)]">
               {['Category', 'Current V2', 'Updated V3', 'Change'].map(h => (
-                <th key={h} className="text-left py-2 px-2 text-[10px] uppercase tracking-[0.06em] text-[#9A949D] font-medium" style={{ fontFamily: FONT_MONO }}>{h}</th>
+                <th key={h} className="text-left py-2 px-2 text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)] font-medium" style={{ fontFamily: FONT_MONO }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {rev.categoryBreakdown.map(row => (
-              <tr key={row.category} className="border-b border-[#FFFFFF] last:border-b-0">
-                <td className="py-2.5 px-2 text-[13px] text-[#242326]">{row.label}</td>
-                <td className="py-2.5 px-2 text-[13px] text-[#68636D]" style={{ fontFamily: FONT_MONO }}>{formatLakh(row.before)}</td>
-                <td className="py-2.5 px-2 text-[13px] text-[#242326] font-medium" style={{ fontFamily: FONT_MONO }}>{formatLakh(row.after)}</td>
+              <tr key={row.category} className="border-b border-[var(--hz-surface)] last:border-b-0">
+                <td className="py-2.5 px-2 text-[13px] text-[var(--hz-ink)]">{row.label}</td>
+                <td className="py-2.5 px-2 text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>{formatLakh(row.before)}</td>
+                <td className="py-2.5 px-2 text-[13px] text-[var(--hz-ink)] font-medium" style={{ fontFamily: FONT_MONO }}>{formatLakh(row.after)}</td>
                 <td className="py-2.5 px-2"><ChangeText amount={row.after - row.before} /></td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Demonstration values — real values come from the estimate calculation service.</p>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Demonstration values — real values come from the estimate calculation service.</p>
     </SectionCard>
   )
 }
@@ -264,10 +264,10 @@ function EstimateBreakdown({ rev, className }: { rev: EstimateRevision; classNam
 function CostRow({ label, before, after }: { label: string; before: number; after: number }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-[11px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{label}</span>
+      <span className="text-[11px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{label}</span>
       <div className="flex items-center justify-between gap-2 text-[13px]" style={{ fontFamily: FONT_BODY }}>
-        <span className="text-[#68636D]">V2: <strong style={{ color: '#242326' }}>{formatLakh(before)}</strong></span>
-        <span className="text-[#722ED1]">V3: <strong>{formatLakh(after)}</strong></span>
+        <span className="text-[var(--hz-ink-muted)]">V2: <strong style={{ color: 'var(--hz-ink)' }}>{formatLakh(before)}</strong></span>
+        <span className="text-[var(--hz-primary)]">V3: <strong>{formatLakh(after)}</strong></span>
         <ChangeText amount={after - before} />
       </div>
     </div>
@@ -281,14 +281,14 @@ function CostSummary({ rev, className }: { rev: EstimateRevision; className?: st
     <SectionCard eyebrow="Cost Summary" className={className}>
       <CostRow label="Material" before={rev.materialCostBefore} after={rev.materialCostAfter} />
       <CostRow label="Labour" before={rev.labourCostBefore} after={rev.labourCostAfter} />
-      <div className="pt-2 border-t border-[#FFFFFF]">
+      <div className="pt-2 border-t border-[var(--hz-surface)]">
         <CostRow label="Total" before={totalBefore} after={totalAfter} />
       </div>
-      <div className="pt-2 border-t border-[#FFFFFF] flex flex-col gap-1.5">
-        <span className="text-[11px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Final Project Estimate Range</span>
+      <div className="pt-2 border-t border-[var(--hz-surface)] flex flex-col gap-1.5">
+        <span className="text-[11px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Final Project Estimate Range</span>
         <div className="flex items-center justify-between gap-2 text-[13px]" style={{ fontFamily: FONT_BODY }}>
-          <span className="text-[#68636D]">V2: <strong style={{ color: '#242326' }}>{formatLakh(rev.previousRange.min)}—{formatLakh(rev.previousRange.max)}</strong></span>
-          <span className="text-[#722ED1]">V3: <strong>{formatLakh(rev.newRange.min)}—{formatLakh(rev.newRange.max)}</strong></span>
+          <span className="text-[var(--hz-ink-muted)]">V2: <strong style={{ color: 'var(--hz-ink)' }}>{formatLakh(rev.previousRange.min)}—{formatLakh(rev.previousRange.max)}</strong></span>
+          <span className="text-[var(--hz-primary)]">V3: <strong>{formatLakh(rev.newRange.min)}—{formatLakh(rev.newRange.max)}</strong></span>
         </div>
       </div>
     </SectionCard>
@@ -309,15 +309,15 @@ const KEY_ASSUMPTION_CHANGES = [
 function WhatChanged({ className }: { className?: string }) {
   return (
     <SectionCard eyebrow="Hozie Updated" className={className}>
-      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: '#FFFFFF' }}>
+      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: 'var(--hz-surface)' }}>
         {KEY_ASSUMPTION_CHANGES.map(c => (
           <li key={c.label} className="flex items-center justify-between gap-3 py-2">
-            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{c.label}</span>
-            <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{c.from} → <span style={{ color: '#722ED1' }}>{c.to}</span></span>
+            <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{c.label}</span>
+            <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{c.from} → <span style={{ color: 'var(--hz-primary)' }}>{c.to}</span></span>
           </li>
         ))}
       </ul>
-      <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>{KEY_ASSUMPTION_CHANGES.length} quantity assumptions updated.</p>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>{KEY_ASSUMPTION_CHANGES.length} quantity assumptions updated.</p>
     </SectionCard>
   )
 }
@@ -327,12 +327,12 @@ function WhatDidNotChange({ rev, className }: { rev: EstimateRevision; className
     <SectionCard eyebrow="No Change" className={className}>
       <div className="flex flex-wrap gap-2">
         {rev.unchangedCategories.map(c => (
-          <span key={c} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-medium" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_BODY }}>
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> {c}
+          <span key={c} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-medium" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" /> {c}
           </span>
         ))}
       </div>
-      <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>These items were not affected by the approved plan changes.</p>
+      <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>These items were not affected by the approved plan changes.</p>
     </SectionCard>
   )
 }
@@ -342,15 +342,15 @@ function WhatDidNotChange({ rev, className }: { rev: EstimateRevision; className
 function HozieUpdateCard({ rev, onAskHozie, className }: { rev: EstimateRevision; onAskHozie: () => void; className?: string }) {
   const change = rev.newTotal - rev.previousTotal
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
-        <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-        <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Updated Your Estimate</span>
+        <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Updated Your Estimate</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
         "The plan showed approximately 40 sq ft more built-up area than the current project assumption. Based on the changes you approved, the preliminary estimate increases by approximately ₹{change.toLocaleString('en-IN')}."
       </p>
-      <button onClick={onAskHozie} className="self-start h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+      <button onClick={onAskHozie} className="self-start h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
         Ask Hozie →
       </button>
     </div>
@@ -364,17 +364,17 @@ function EstimateConfidence({ rev, className }: { rev: EstimateRevision; classNa
   return (
     <SectionCard eyebrow="Updated Estimate Confidence" className={className}>
       <div className="flex items-end gap-3">
-        <span className="text-[32px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>{rev.confidenceAfter}%</span>
-        <span className="inline-flex items-center gap-1.5 mb-1 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: FONT_MONO }}>
-          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#16A34A' }} aria-hidden="true" /> High
+        <span className="text-[32px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>{rev.confidenceAfter}%</span>
+        <span className="inline-flex items-center gap-1.5 mb-1 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)', fontFamily: FONT_MONO }}>
+          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-success)' }} aria-hidden="true" /> High
         </span>
       </div>
       <div className="flex items-center gap-4 text-[12px]" style={{ fontFamily: FONT_BODY }}>
-        <span className="text-[#68636D]">Previous: <strong style={{ color: '#242326' }}>{rev.confidenceBefore}%</strong></span>
-        <span style={{ color: '#16A34A' }}>Improvement: <strong>+{improvement}%</strong></span>
+        <span className="text-[var(--hz-ink-muted)]">Previous: <strong style={{ color: 'var(--hz-ink)' }}>{rev.confidenceBefore}%</strong></span>
+        <span style={{ color: 'var(--hz-success)' }}>Improvement: <strong>+{improvement}%</strong></span>
       </div>
-      <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Plan-derived measurements were incorporated into the calculation.</p>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Plan-derived measurements were incorporated into the calculation.</p>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
         Confidence reflects the completeness and clarity of the available project information. It is not a construction cost guarantee.
       </p>
     </SectionCard>
@@ -395,15 +395,15 @@ function AssumptionList({ rev, className }: { rev: EstimateRevision; className?:
   ]
   return (
     <SectionCard eyebrow="Updated Assumptions" className={className}>
-      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: '#FFFFFF' }}>
+      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: 'var(--hz-surface)' }}>
         {rows.map(r => (
           <li key={r.label} className="flex items-center justify-between gap-3 py-2">
-            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{r.label}</span>
-            <span className="text-[13px] font-medium text-[#242326] text-right" style={{ fontFamily: FONT_BODY }}>{r.value}</span>
+            <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{r.label}</span>
+            <span className="text-[13px] font-medium text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_BODY }}>{r.value}</span>
           </li>
         ))}
       </ul>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>These assumptions are view-only here. Adjustments can be made from the Estimate Revision tool.</p>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>These assumptions are view-only here. Adjustments can be made from the Estimate Revision tool.</p>
     </SectionCard>
   )
 }
@@ -414,35 +414,35 @@ function VersionCreation({ rev, active, className }: { rev: EstimateRevision; ac
   return (
     <SectionCard eyebrow="Version Creation" className={className}>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="flex flex-col gap-1.5 rounded-[12px] p-4" style={{ backgroundColor: '#FFFFFF' }}>
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Current Version</span>
-          <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Estimate V2</span>
+        <div className="flex flex-col gap-1.5 rounded-[12px] p-4" style={{ backgroundColor: 'var(--hz-surface)' }}>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Current Version</span>
+          <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Estimate V2</span>
           <span
             className="inline-flex items-center gap-1.5 w-fit px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.04em]"
-            style={{ backgroundColor: active ? '#CAC7C6' : '#DCFCE7', color: active ? '#808080' : '#16A34A', fontFamily: FONT_MONO }}
+            style={{ backgroundColor: active ? 'var(--hz-border-strong)' : '#DCFCE7', color: active ? '#808080' : 'var(--hz-success)', fontFamily: FONT_MONO }}
           >
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: active ? '#A1A1A1' : '#16A34A' }} aria-hidden="true" />
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: active ? '#A1A1A1' : 'var(--hz-success)' }} aria-hidden="true" />
             {active ? 'Superseded' : 'Active'}
           </span>
         </div>
-        <div className="flex flex-col gap-1.5 rounded-[12px] p-4" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>New Version</span>
-          <span className="text-[15px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_HEAD }}>Estimate V3</span>
+        <div className="flex flex-col gap-1.5 rounded-[12px] p-4" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>New Version</span>
+          <span className="text-[15px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>Estimate V3</span>
           <span
             className="inline-flex items-center gap-1.5 w-fit px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.04em]"
-            style={{ backgroundColor: active ? '#DCFCE7' : '#F3EAFF', color: active ? '#16A34A' : '#722ED1', fontFamily: FONT_MONO }}
+            style={{ backgroundColor: active ? '#DCFCE7' : 'var(--hz-primary-soft)', color: active ? 'var(--hz-success)' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
           >
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: active ? '#16A34A' : '#722ED1' }} aria-hidden="true" />
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: active ? 'var(--hz-success)' : 'var(--hz-primary)' }} aria-hidden="true" />
             {active ? 'Active' : 'Draft'}
           </span>
         </div>
       </div>
       <div className="flex flex-col gap-1.5 text-[12px]" style={{ fontFamily: FONT_BODY }}>
-        <div className="flex items-center justify-between"><span className="text-[#68636D]">Parent</span><span className="text-[#242326] font-medium">Estimate V2</span></div>
-        <div className="flex items-center justify-between"><span className="text-[#68636D]">Source</span><span className="text-[#242326] font-medium">Plan Analysis V1</span></div>
-        <div className="flex items-center justify-between"><span className="text-[#68636D]">Approved changes</span><span className="text-[#242326] font-medium">{rev.approvedChanges.length}</span></div>
+        <div className="flex items-center justify-between"><span className="text-[var(--hz-ink-muted)]">Parent</span><span className="text-[var(--hz-ink)] font-medium">Estimate V2</span></div>
+        <div className="flex items-center justify-between"><span className="text-[var(--hz-ink-muted)]">Source</span><span className="text-[var(--hz-ink)] font-medium">Plan Analysis V1</span></div>
+        <div className="flex items-center justify-between"><span className="text-[var(--hz-ink-muted)]">Approved changes</span><span className="text-[var(--hz-ink)] font-medium">{rev.approvedChanges.length}</span></div>
       </div>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Estimate V2 {active ? 'remains available in version history.' : 'remains unchanged.'}</p>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Estimate V2 {active ? 'remains available in version history.' : 'remains unchanged.'}</p>
     </SectionCard>
   )
 }
@@ -460,20 +460,20 @@ const READY_CHECKLIST = [
 
 function ReviewBeforeActivating({ onCreate, onBack, className }: { onCreate: () => void; onBack: () => void; className?: string }) {
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-4 bg-white border border-[#E3DDD7]', className].filter(Boolean).join(' ')}>
-      <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Ready to create Estimate V3?</span>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-4 bg-[var(--hz-surface)] border border-[var(--hz-border)]', className].filter(Boolean).join(' ')}>
+      <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Ready to create Estimate V3?</span>
       <ul className="flex flex-col gap-2 m-0 p-0" style={{ listStyle: 'none' }}>
         {READY_CHECKLIST.map(item => (
-          <li key={item} className="flex items-center gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-            <span className="shrink-0" style={{ color: '#16A34A' }}><IcoCheckOutline /></span> {item}
+          <li key={item} className="flex items-center gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+            <span className="shrink-0" style={{ color: 'var(--hz-success)' }}><IcoCheckOutline /></span> {item}
           </li>
         ))}
       </ul>
       <div className="flex flex-wrap gap-2.5 pt-1">
-        <button onClick={onCreate} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onCreate} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           Create Estimate V3 →
         </button>
-        <button onClick={onBack} className="h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>
+        <button onClick={onBack} className="h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>
           Go back and adjust changes
         </button>
       </div>
@@ -499,29 +499,29 @@ function CreateEstimateModal({ rev, onCancel, onConfirm }: { rev: EstimateRevisi
         role="dialog"
         aria-modal="true"
         aria-labelledby="create-v3-title"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
         <div className="flex items-center justify-between gap-2">
-          <h2 id="create-v3-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Create Estimate V3</h2>
-          <button onClick={onCancel} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
+          <h2 id="create-v3-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Create Estimate V3</h2>
+          <button onClick={onCancel} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>New estimate</span>
-          <span className="text-[18px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_HEAD }}>{formatLakh(rev.newRange.min)} — {formatLakh(rev.newRange.max)}</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>New estimate</span>
+          <span className="text-[18px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>{formatLakh(rev.newRange.min)} — {formatLakh(rev.newRange.max)}</span>
         </div>
         <div className="flex items-center justify-between text-[13px]" style={{ fontFamily: FONT_BODY }}>
-          <span className="text-[#68636D]">Change</span>
+          <span className="text-[var(--hz-ink-muted)]">Change</span>
           <span className="font-semibold" style={{ color: '#D97706' }}>+₹{change.toLocaleString('en-IN')}</span>
         </div>
         <div className="flex flex-col gap-1 text-[12px]" style={{ fontFamily: FONT_BODY }}>
-          <span className="text-[#68636D]">Based on:</span>
-          <span className="text-[#242326] font-medium">Plan Analysis V1 · {rev.approvedChanges.length} approved changes</span>
+          <span className="text-[var(--hz-ink-muted)]">Based on:</span>
+          <span className="text-[var(--hz-ink)] font-medium">Plan Analysis V1 · {rev.approvedChanges.length} approved changes</span>
         </div>
-        <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Estimate V2 will remain available in version history.</p>
+        <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Estimate V2 will remain available in version history.</p>
         <div className="flex gap-2.5 justify-end pt-1">
-          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
             Create & Activate V3
           </button>
         </div>
@@ -540,31 +540,31 @@ function UpdateSuccess({ rev, onViewEstimate, onViewVersionHistory, className }:
 }) {
   const change = rev.newTotal - rev.previousTotal
   return (
-    <div className={['w-full bg-white rounded-[24px] border border-[#E3DDD7] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-5', className].filter(Boolean).join(' ')} style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: '#16A34A' }}><IcoCheck /></span>
+    <div className={['w-full bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-5', className].filter(Boolean).join(' ')} style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)' }}><IcoCheck /></span>
       <div className="flex flex-col gap-1.5">
-        <span className="text-[14px] font-semibold uppercase tracking-[0.06em]" style={{ color: '#16A34A', fontFamily: FONT_MONO }}>Estimate V3 Active ✓</span>
-        <p className="text-[14px] text-[#242326] leading-[1.6] m-0 max-w-[440px]" style={{ fontFamily: FONT_BODY }}>Your estimate has been updated using the approved plan findings.</p>
+        <span className="text-[14px] font-semibold uppercase tracking-[0.06em]" style={{ color: 'var(--hz-success)', fontFamily: FONT_MONO }}>Estimate V3 Active ✓</span>
+        <p className="text-[14px] text-[var(--hz-ink)] leading-[1.6] m-0 max-w-[440px]" style={{ fontFamily: FONT_BODY }}>Your estimate has been updated using the approved plan findings.</p>
       </div>
       <div className="grid grid-cols-3 gap-4 sm:gap-8">
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Previous</span>
-          <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{formatLakh(rev.previousRange.min)}–{formatLakh(rev.previousRange.max)}</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Previous</span>
+          <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{formatLakh(rev.previousRange.min)}–{formatLakh(rev.previousRange.max)}</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Current</span>
-          <span className="text-[14px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>{formatLakh(rev.newRange.min)}–{formatLakh(rev.newRange.max)}</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Current</span>
+          <span className="text-[14px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>{formatLakh(rev.newRange.min)}–{formatLakh(rev.newRange.max)}</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Change</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Change</span>
           <span className="text-[14px] font-semibold" style={{ color: '#D97706', fontFamily: FONT_BODY }}>+₹{change.toLocaleString('en-IN')}</span>
         </div>
       </div>
       <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
-        <button onClick={onViewEstimate} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onViewEstimate} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           View Updated Estimate →
         </button>
-        <button onClick={onViewVersionHistory} className="h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>
+        <button onClick={onViewVersionHistory} className="h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>
           View Version History
         </button>
       </div>
@@ -574,15 +574,15 @@ function UpdateSuccess({ rev, onViewEstimate, onViewVersionHistory, className }:
 
 function BOQUpdateNotice({ onUpdateBOQ, className }: { onUpdateBOQ: () => void; className?: string }) {
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3 bg-white border border-[#E3DDD7]', className].filter(Boolean).join(' ')}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)]', className].filter(Boolean).join(' ')}>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>BOQ Relationship</span>
-        <span className="text-[11px] px-2.5 py-1 rounded-full" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>BOQ V{boqActiveVersion.versionNumber + 1} · Draft</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>BOQ Relationship</span>
+        <span className="text-[11px] px-2.5 py-1 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>BOQ V{boqActiveVersion.versionNumber + 1} · Draft</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
         Based on Estimate V3. Your BOQ can now be regenerated using the updated estimate.
       </p>
-      <button onClick={onUpdateBOQ} className="self-start h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+      <button onClick={onUpdateBOQ} className="self-start h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
         Update BOQ →
       </button>
     </div>
@@ -593,13 +593,13 @@ function BOQUpdateNotice({ onUpdateBOQ, className }: { onUpdateBOQ: () => void; 
 
 function EstimateError({ onRetry, onBack }: { onRetry: () => void; onBack: () => void }) {
   return (
-    <div role="alert" className="w-full max-w-[560px] mx-auto bg-white rounded-[24px] border border-[#E3DDD7] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}><IcoWarning /></span>
-      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn't create the updated estimate.</h2>
-      <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Estimate V2 remains unchanged.</p>
+    <div role="alert" className="w-full max-w-[560px] mx-auto bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: 'var(--hz-danger)' }}><IcoWarning /></span>
+      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn't create the updated estimate.</h2>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Estimate V2 remains unchanged.</p>
       <div className="flex flex-col sm:flex-row gap-2.5 pt-1 w-full sm:w-auto">
-        <button onClick={onBack} className="h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Back</button>
-        <button onClick={onRetry} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Try again</button>
+        <button onClick={onBack} className="h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Back</button>
+        <button onClick={onRetry} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Try again</button>
       </div>
     </div>
   )
@@ -608,10 +608,10 @@ function EstimateError({ onRetry, onBack }: { onRetry: () => void; onBack: () =>
 function CalculatingPanel({ label }: { label: string }) {
   return (
     <div className="w-full max-w-[420px] mx-auto flex flex-col items-center text-center gap-4 py-16">
-      <div className="w-14 h-14 rounded-[16px] flex items-center justify-center" style={{ backgroundColor: '#F3EAFF', animation: 'estimatePulse 2s ease-in-out infinite' }}>
+      <div className="w-14 h-14 rounded-[16px] flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', animation: 'estimatePulse 2s ease-in-out infinite' }}>
         <HIcon size={32} />
       </div>
-      <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
     </div>
   )
 }
@@ -675,7 +675,7 @@ export default function EstimateUpdateScreen({
 
   if (status === 'error') {
  return (
-      <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+      <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
         <div className="flex flex-1 min-h-0 relative z-10">
           <Sidebar active="build" onNavigate={onNavigate} />
           <div className="flex flex-col flex-1 min-h-0">
@@ -689,12 +689,12 @@ export default function EstimateUpdateScreen({
   }
 
   return (
-    <div className="flex flex-col" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Estimate Update</span>
-        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: status === 'active' ? '#DCFCE7' : '#F3EAFF', color: status === 'active' ? '#16A34A' : '#722ED1', fontFamily: FONT_MONO }}>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Estimate Update</span>
+        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: status === 'active' ? '#DCFCE7' : 'var(--hz-primary-soft)', color: status === 'active' ? 'var(--hz-success)' : 'var(--hz-primary)', fontFamily: FONT_MONO }}>
           {status === 'active' ? 'ACTIVE' : 'DRAFT'}
         </span>
       </div>
@@ -703,16 +703,16 @@ export default function EstimateUpdateScreen({
         <Sidebar active="build" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Estimate Update</h1>
-              <span className="text-[13px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Estimate Update</h1>
+              <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
             <span
               className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0"
-              style={{ backgroundColor: status === 'active' ? '#DCFCE7' : '#F3EAFF', color: status === 'active' ? '#16A34A' : '#722ED1', fontFamily: FONT_MONO }}
+              style={{ backgroundColor: status === 'active' ? '#DCFCE7' : 'var(--hz-primary-soft)', color: status === 'active' ? 'var(--hz-success)' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
             >
-              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: status === 'active' ? '#16A34A' : '#722ED1' }} aria-hidden="true" />
+              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: status === 'active' ? 'var(--hz-success)' : 'var(--hz-primary)' }} aria-hidden="true" />
               {status === 'active' ? 'Estimate V3 Active' : 'Estimate V3 · Draft'}
             </span>
           </header>
@@ -722,17 +722,17 @@ export default function EstimateUpdateScreen({
 
               {/* Page header */}
               <div className="flex flex-col gap-3">
-                <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Estimate Update</span>
-                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Your estimate is ready to update.</h1>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Estimate Update</span>
+                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Your estimate is ready to update.</h1>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
                   Hozie has applied the plan findings you approved. Review the updated estimate before making it active.
                 </p>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1">
-                  <span className="text-[12px] text-[#242326] font-medium" style={{ fontFamily: FONT_BODY }}>{projectName} · {location} · 2,600 sq ft</span>
-                  <span className="inline-flex items-center gap-1.5 text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                    <span className="shrink-0" style={{ color: '#722ED1' }}><IcoFile /></span> House_Floor_Plan.pdf
+                  <span className="text-[12px] text-[var(--hz-ink)] font-medium" style={{ fontFamily: FONT_BODY }}>{projectName} · {location} · 2,600 sq ft</span>
+                  <span className="inline-flex items-center gap-1.5 text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                    <span className="shrink-0" style={{ color: 'var(--hz-primary)' }}><IcoFile /></span> House_Floor_Plan.pdf
                   </span>
-                  <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Estimate V2 → Estimate V3 · Draft</span>
+                  <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Estimate V2 → Estimate V3 · Draft</span>
                 </div>
               </div>
 
@@ -783,8 +783,8 @@ export default function EstimateUpdateScreen({
 
           {/* Sticky action (mobile) */}
           {status === 'ready' && (
-            <div className="lg:hidden sticky bottom-0 z-20 bg-white border-t border-[#E3DDD7] px-4 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
-              <button onClick={createV3} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+            <div className="lg:hidden sticky bottom-0 z-20 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
+              <button onClick={createV3} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                 Create Estimate V3 →
               </button>
             </div>

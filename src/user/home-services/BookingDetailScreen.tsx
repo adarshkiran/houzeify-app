@@ -43,8 +43,8 @@ const IcoClock = () => (
 )
 
 const STATUS_STYLE: Record<CustomerBooking['status'], { bg: string; color: string }> = {
-  confirmed: { bg: '#DCFCE7', color: '#16A34A' },
-  cancelled: { bg: '#F4F0EC', color: '#68636D' },
+  confirmed: { bg: '#DCFCE7', color: 'var(--hz-success)' },
+  cancelled: { bg: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)' },
 }
 
 function formatDate(iso: string): string {
@@ -55,16 +55,16 @@ function formatDate(iso: string): string {
 
 function ItemRow({ item, isLast }: { item: CustomerBookingItem; isLast: boolean }) {
   return (
-    <div className={`flex items-start justify-between gap-3 py-3 ${isLast ? '' : 'border-b border-[#F4F0EC]'}`}>
+    <div className={`flex items-start justify-between gap-3 py-3 ${isLast ? '' : 'border-b border-[var(--hz-surface-muted)]'}`}>
       <div className="flex flex-col gap-0.5 min-w-0">
-        <span className="text-[13.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-        {item.duration && <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{item.duration}</span>}
-        <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Qty {item.qty}</span>
+        <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+        {item.duration && <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{item.duration}</span>}
+        <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Qty {item.qty}</span>
       </div>
       <div className="flex flex-col items-end gap-0.5 shrink-0">
-        <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>₹{item.price * item.qty}</span>
+        <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>₹{item.price * item.qty}</span>
         {item.originalPrice > item.price && (
-          <span className="text-[11.5px] line-through text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>₹{item.originalPrice * item.qty}</span>
+          <span className="text-[11.5px] line-through text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>₹{item.originalPrice * item.qty}</span>
         )}
       </div>
     </div>
@@ -87,18 +87,18 @@ function CancelConfirmModal({ onCancel, onConfirm }: { onCancel: () => void; onC
         role="dialog"
         aria-modal="true"
         aria-labelledby="cancel-booking-title"
-        className="w-full bg-white rounded-[16px] p-6 flex flex-col gap-4"
+        className="w-full bg-[var(--hz-surface)] rounded-[16px] p-6 flex flex-col gap-4"
         style={{ maxWidth: 400, boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
         onClick={e => e.stopPropagation()}
       >
-        <h2 id="cancel-booking-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Cancel this booking?</h2>
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <h2 id="cancel-booking-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Cancel this booking?</h2>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           This will mark the booking as cancelled. Free cancellations apply if done more than 24 hrs before the service — otherwise a fee may apply.
         </p>
         <div className="flex gap-2.5 justify-end">
           <button
             onClick={onCancel}
-            className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
+            className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors"
             style={{ fontFamily: FONT_BODY }}
           >
             Keep booking
@@ -106,7 +106,7 @@ function CancelConfirmModal({ onCancel, onConfirm }: { onCancel: () => void; onC
           <button
             onClick={onConfirm}
             className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-            style={{ backgroundColor: '#DC2626', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-danger)', fontFamily: FONT_BODY }}
           >
             Cancel booking
           </button>
@@ -118,13 +118,13 @@ function CancelConfirmModal({ onCancel, onConfirm }: { onCancel: () => void; onC
 
 function BookingNotFound({ onBack }: { onBack: () => void }) {
   return (
-    <div className="min-h-full flex flex-col items-center justify-center relative px-5 py-10" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col items-center justify-center relative px-5 py-10" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <div className="relative z-10 flex flex-col items-center text-center gap-4 max-w-[420px]">
         <HIcon size={32} />
-        <p className="text-[15px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn&apos;t find that booking.</p>
+        <p className="text-[15px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn&apos;t find that booking.</p>
         <button
           onClick={onBack}
-          className="h-[48px] px-5 rounded-[12px] text-[14px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all"
+          className="h-[48px] px-5 rounded-[12px] text-[14px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all"
           style={{ fontFamily: FONT_BODY }}
         >
           Back to My Bookings
@@ -177,18 +177,18 @@ export default function BookingDetailScreen({
   return (
     <div className="flex flex-col" style={{ minHeight: '100%', backgroundColor: '#FAF9F7' }}>
       {/* Header */}
-      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-white border-b border-[#E3DDD7]">
+      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
         <button
           onClick={goBack}
           aria-label="Back to My Bookings"
-          className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent shrink-0"
+          className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent shrink-0"
         >
           <IcoBack />
         </button>
         <HIcon size={30} />
         <div className="flex flex-col min-w-0">
-          <h1 className="text-[17px] font-semibold text-[#242326] m-0 leading-tight" style={{ fontFamily: FONT_HEAD }}>Booking Detail</h1>
-          <span className="text-[12px] text-[#68636D] leading-tight hidden sm:block" style={{ fontFamily: FONT_BODY }}>{booking.displayId}</span>
+          <h1 className="text-[17px] font-semibold text-[var(--hz-ink)] m-0 leading-tight" style={{ fontFamily: FONT_HEAD }}>Booking Detail</h1>
+          <span className="text-[12px] text-[var(--hz-ink-muted)] leading-tight hidden sm:block" style={{ fontFamily: FONT_BODY }}>{booking.displayId}</span>
         </div>
       </header>
 
@@ -196,10 +196,10 @@ export default function BookingDetailScreen({
         <div className="flex flex-col gap-4" style={{ maxWidth: 560, margin: '0 auto' }}>
 
           {/* Status + reference */}
-          <div className="flex items-center justify-between bg-white rounded-[16px] border border-[#E3DDD7] px-5 py-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="flex items-center justify-between bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] px-5 py-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10.5px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Booking Reference</span>
-              <span className="text-[14.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_MONO }}>{booking.displayId}</span>
+              <span className="text-[10.5px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Booking Reference</span>
+              <span className="text-[14.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_MONO }}>{booking.displayId}</span>
             </div>
             <span className="px-2.5 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.03em]" style={{ backgroundColor: statusStyle.bg, color: statusStyle.color, fontFamily: FONT_MONO }}>
               {booking.status.toUpperCase()}
@@ -207,54 +207,54 @@ export default function BookingDetailScreen({
           </div>
 
           {/* Services */}
-          <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-            <h3 className="text-[16px] font-semibold text-[#242326] m-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Services</h3>
+          <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0 mb-1" style={{ fontFamily: FONT_HEAD }}>Services</h3>
             <div className="flex flex-col">
               {booking.items.map((it, i) => (
                 <ItemRow key={it.cartId} item={it} isLast={i === booking.items.length - 1} />
               ))}
             </div>
-            <div className="flex flex-col gap-1.5 pt-3 mt-1 border-t border-[#F4F0EC]">
+            <div className="flex flex-col gap-1.5 pt-3 mt-1 border-t border-[var(--hz-surface-muted)]">
               <div className="flex items-center justify-between text-[13px]" style={{ fontFamily: FONT_BODY }}>
-                <span className="text-[#68636D]">Item total</span>
-                <span className="text-[#242326]">₹{booking.subtotal}</span>
+                <span className="text-[var(--hz-ink-muted)]">Item total</span>
+                <span className="text-[var(--hz-ink)]">₹{booking.subtotal}</span>
               </div>
               <div className="flex items-center justify-between text-[13px]" style={{ fontFamily: FONT_BODY }}>
-                <span className="text-[#68636D]">Taxes and fee</span>
-                <span className="text-[#242326]">₹{booking.taxesAndFee}</span>
+                <span className="text-[var(--hz-ink-muted)]">Taxes and fee</span>
+                <span className="text-[var(--hz-ink)]">₹{booking.taxesAndFee}</span>
               </div>
               {booking.tip > 0 && (
                 <div className="flex items-center justify-between text-[13px]" style={{ fontFamily: FONT_BODY }}>
-                  <span className="text-[#68636D]">Tip</span>
-                  <span className="text-[#242326]">₹{booking.tip}</span>
+                  <span className="text-[var(--hz-ink-muted)]">Tip</span>
+                  <span className="text-[var(--hz-ink)]">₹{booking.tip}</span>
                 </div>
               )}
-              <div className="flex items-center justify-between pt-1.5 mt-0.5 border-t border-[#F4F0EC]">
-                <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Amount paid</span>
-                <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>₹{booking.amountToPay}</span>
+              <div className="flex items-center justify-between pt-1.5 mt-0.5 border-t border-[var(--hz-surface-muted)]">
+                <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Amount paid</span>
+                <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>₹{booking.amountToPay}</span>
               </div>
             </div>
           </div>
 
           {/* Address */}
-          <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-full bg-[#F4F0EC] flex items-center justify-center text-[#68636D] shrink-0"><IcoPin /></div>
+              <div className="w-9 h-9 rounded-full bg-[var(--hz-surface-muted)] flex items-center justify-center text-[var(--hz-ink-muted)] shrink-0"><IcoPin /></div>
               <div className="flex flex-col gap-0.5 min-w-0">
-                <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Service Address</span>
-                <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{booking.address.label}</span>
-                <span className="text-[13px] text-[#68636D] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>{formatCustomerAddress(booking.address)}</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Service Address</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{booking.address.label}</span>
+                <span className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>{formatCustomerAddress(booking.address)}</span>
               </div>
             </div>
           </div>
 
           {/* Date & Time */}
-          <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-[#F4F0EC] flex items-center justify-center text-[#68636D] shrink-0"><IcoClock /></div>
+              <div className="w-9 h-9 rounded-full bg-[var(--hz-surface-muted)] flex items-center justify-center text-[var(--hz-ink-muted)] shrink-0"><IcoClock /></div>
               <div className="flex flex-col gap-0.5 min-w-0">
-                <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Date & Time</span>
-                <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{booking.slot.label}</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Date & Time</span>
+                <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{booking.slot.label}</span>
               </div>
             </div>
           </div>
@@ -262,15 +262,15 @@ export default function BookingDetailScreen({
           {/* Notes + photos — only shown when actually provided, never an
               empty "Notes" card. */}
           {(booking.notes.trim().length > 0 || booking.photos.length > 0) && (
-            <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-              <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Notes for the professional</span>
+            <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Notes for the professional</span>
               {booking.notes.trim().length > 0 && (
-                <p className="text-[13px] text-[#242326] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>{booking.notes}</p>
+                <p className="text-[13px] text-[var(--hz-ink)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>{booking.notes}</p>
               )}
               {booking.photos.length > 0 && (
                 <div className="flex items-center gap-2.5 flex-wrap">
                   {booking.photos.map(p => (
-                    <img key={p.id} src={p.url} alt={p.fileName} className="w-16 h-16 rounded-[10px] object-cover border border-[#E3DDD7]" />
+                    <img key={p.id} src={p.url} alt={p.fileName} className="w-16 h-16 rounded-[10px] object-cover border border-[var(--hz-border)]" />
                   ))}
                 </div>
               )}
@@ -284,7 +284,7 @@ export default function BookingDetailScreen({
           <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={handleBookAgain}
-              className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 active:scale-[0.99] transition-all flex-1"
+              className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 active:scale-[0.99] transition-all flex-1"
               style={{ fontFamily: FONT_BODY }}
             >
               Book Again
@@ -293,7 +293,7 @@ export default function BookingDetailScreen({
               <button
                 onClick={() => setCancelModalOpen(true)}
                 className="h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border transition-colors flex-1"
-                style={{ fontFamily: FONT_BODY, borderColor: '#E3DDD7', color: '#DC2626', backgroundColor: 'white' }}
+                style={{ fontFamily: FONT_BODY, borderColor: 'var(--hz-border)', color: 'var(--hz-danger)', backgroundColor: 'white' }}
               >
                 Cancel Booking
               </button>
@@ -301,8 +301,8 @@ export default function BookingDetailScreen({
           </div>
 
           <div className="flex items-center justify-between px-1">
-            <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Booked {formatDate(booking.createdAt)}</span>
-            <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }} title={summarizeBookingItems(booking)}>
+            <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Booked {formatDate(booking.createdAt)}</span>
+            <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }} title={summarizeBookingItems(booking)}>
               {booking.items.length} service{booking.items.length === 1 ? '' : 's'}
             </span>
           </div>

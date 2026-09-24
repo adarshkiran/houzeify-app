@@ -161,23 +161,23 @@ function ServiceCategoryCard({ category, selected, isPrimary, onToggle }: {
       onClick={onToggle}
       className={[
         'relative text-left flex items-start gap-3 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <div className={['w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0', selected ? 'bg-white text-[#722ED1]' : 'bg-[#F4F0EC] text-[#68636D]'].join(' ')}>
+      <div className={['w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0', selected ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
         {SERVICE_CATEGORY_ICONS[category]}
       </div>
       <div className="flex flex-col gap-1 min-w-0 flex-1">
-        <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
+        <span className={['text-[13.5px] font-semibold leading-tight', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
           {SERVICE_CATEGORY_LABELS[category]}
         </span>
-        <span className="text-[12px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>
           {SERVICE_CATEGORY_DESCRIPTIONS[category]}
         </span>
         {selected && (
           <span
             className="inline-flex items-center gap-1 w-fit mt-1 h-[20px] px-2 rounded-full text-[10px] font-semibold tracking-[0.04em] uppercase"
-            style={{ fontFamily: FONT_MONO, backgroundColor: isPrimary ? '#722ED1' : '#F3EAFF', color: isPrimary ? '#FFFFFF' : '#722ED1' }}
+            style={{ fontFamily: FONT_MONO, backgroundColor: isPrimary ? 'var(--hz-primary)' : 'var(--hz-primary-soft)', color: isPrimary ? 'var(--hz-surface)' : 'var(--hz-primary)' }}
           >
             {isPrimary ? <><StarIcon size={8} /> Primary</> : <><CheckIcon size={8} /> Selected</>}
           </span>
@@ -213,21 +213,21 @@ function OtherServicesCard({
         aria-haspopup="true"
         className={[
           'relative text-left flex items-start gap-3 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer w-full',
-          expanded ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+          expanded ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
         ].join(' ')}
       >
-        <div className={['w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0', expanded ? 'bg-white text-[#722ED1]' : 'bg-[#F4F0EC] text-[#68636D]'].join(' ')}>
+        <div className={['w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0', expanded ? 'bg-[var(--hz-surface)] text-[var(--hz-primary)]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-muted)]'].join(' ')}>
           <MoreServicesIcon />
         </div>
         <div className="flex flex-col gap-1 min-w-0 flex-1">
-          <span className={['text-[13.5px] font-semibold leading-tight', expanded ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
+          <span className={['text-[13.5px] font-semibold leading-tight', expanded ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>
             Other Services
           </span>
-          <span className="text-[12px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>
+          <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>
             {selectedCount > 0 ? `${selectedCount} more selected — tap to edit` : 'Browse categories not listed above.'}
           </span>
         </div>
-        <span className="shrink-0 mt-1 text-[#9A949D]" style={{ transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s ease' }}>
+        <span className="shrink-0 mt-1 text-[var(--hz-ink-subtle)]" style={{ transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s ease' }}>
           <ChevronDownIcon size={14} />
         </span>
       </button>
@@ -235,7 +235,7 @@ function OtherServicesCard({
         <div
           role="group"
           aria-label="Other service categories"
-          className="absolute left-0 top-[calc(100%+6px)] z-20 w-full min-w-[240px] max-h-[300px] overflow-y-auto bg-white border border-[#E3DDD7] rounded-[12px] p-1.5 flex flex-col gap-0.5"
+          className="absolute left-0 top-[calc(100%+6px)] z-20 w-full min-w-[240px] max-h-[300px] overflow-y-auto bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[12px] p-1.5 flex flex-col gap-0.5"
           style={{ boxShadow: '0 12px 32px rgba(36,35,38,0.16)' }}
         >
           {categories.map(category => {
@@ -247,15 +247,15 @@ function OtherServicesCard({
                 role="checkbox"
                 aria-checked={checked}
                 onClick={() => onToggleCategory(category)}
-                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[8px] text-left cursor-pointer bg-transparent border-0 hover:bg-[#F4F0EC] transition-colors"
+                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[8px] text-left cursor-pointer bg-transparent border-0 hover:bg-[var(--hz-surface-muted)] transition-colors"
               >
                 <span
                   className="w-[18px] h-[18px] rounded-[5px] flex items-center justify-center shrink-0 border transition-colors"
-                  style={{ backgroundColor: checked ? '#722ED1' : '#FFFFFF', borderColor: checked ? '#722ED1' : '#CAC7C6' }}
+                  style={{ backgroundColor: checked ? 'var(--hz-primary)' : 'var(--hz-surface)', borderColor: checked ? 'var(--hz-primary)' : 'var(--hz-border-strong)' }}
                 >
                   {checked && <CheckIcon size={10} />}
                 </span>
-                <span className="text-[13px] text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[13px] text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>
                   {SERVICE_CATEGORY_LABELS[category]}
                 </span>
               </button>
@@ -272,23 +272,23 @@ function OtherServicesCard({
 // established on Screens 020–023, reused here rather than a new component.
 function SummaryChip({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col gap-1 rounded-[14px] px-4 py-3" style={{ backgroundColor: '#F4F0EC' }}>
-      <span className="text-[10px] tracking-[0.08em] uppercase text-[#68636D]" style={{ fontFamily: FONT_MONO }}>{label}</span>
-      <span className="text-[13px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{value}</span>
+    <div className="flex flex-col gap-1 rounded-[14px] px-4 py-3" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+      <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>{label}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
 
 function HozieAssist({ onAskHozie }: { onAskHozie: () => void }) {
   return (
-    <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
       <div className="shrink-0"><HIcon size={32} /></div>
-      <p className="text-[13px] text-[#68636D] leading-[1.55] m-0 flex-1 min-w-[220px]" style={{ fontFamily: FONT_BODY }}>
-        <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>Not sure which services to add?</span>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0 flex-1 min-w-[220px]" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>Not sure which services to add?</span>
       </p>
       <button
         onClick={onAskHozie}
-        className="h-9 px-3.5 rounded-[9px] border border-[#E3DDD7] text-[#722ED1] text-[12.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+        className="h-9 px-3.5 rounded-[9px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
         style={{ fontFamily: FONT_BODY }}
       >
         Ask Hozie →
@@ -474,19 +474,19 @@ export default function ServiceCategoriesScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-between h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
           {!isProfessionalContext && (
-            <span className="text-[12px] tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 4 of 5</span>
+            <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 4 of 5</span>
           )}
         </div>
         {!isProfessionalContext && (
-          <div className="h-[2px] bg-[#F4F0EC] w-full">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '80%' }} />
+          <div className="h-[2px] bg-[var(--hz-surface-muted)] w-full">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '80%' }} />
           </div>
         )}
       </header>
@@ -497,11 +497,11 @@ export default function ServiceCategoriesScreen({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Services</span>
-            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Services</span>
+            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               What services do you provide?
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
               Select the services your business offers so we can connect you with relevant homeowners and projects.
             </p>
           </div>
@@ -516,10 +516,10 @@ export default function ServiceCategoriesScreen({
 
           {/* Hozie intro — unchanged for the homeowner-organization path */}
           {!isProfessionalContext && (
-            <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
               <div className="shrink-0"><HIcon size={32} /></div>
-              <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
-                <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>Tell me what your company does.</span>{' '}
+              <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>Tell me what your company does.</span>{' '}
                 I&apos;ll use these categories to personalize your workspace and help match you with relevant construction opportunities.
               </p>
             </div>
@@ -538,7 +538,7 @@ export default function ServiceCategoriesScreen({
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <FieldLabelStatic>Select every service your company provides</FieldLabelStatic>
-                  <span className="text-[12px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>
+                  <span className="text-[12px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>
                     {selected.length} selected
                   </span>
                 </div>
@@ -546,7 +546,7 @@ export default function ServiceCategoriesScreen({
                 {hasRecommended ? (
                   <>
                     <div className="flex flex-col gap-2">
-                      <span className="text-[11px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>
+                      <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>
                         Recommended for {displayProfessionLabel}
                       </span>
                       {/* auto-fit/minmax, not a fixed 3-column grid — a
@@ -618,11 +618,11 @@ export default function ServiceCategoriesScreen({
                       rows={3}
                       maxLength={SERVICE_DESCRIPTION_MAX}
                       aria-describedby="service-description-count"
-                      className="w-full px-4 py-3 rounded-[12px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                      className="w-full px-4 py-3 rounded-[12px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                       style={{ fontFamily: FONT_BODY }}
                     />
                     <div className="flex items-center justify-end mt-1.5">
-                      <span id="service-description-count" className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{description.length}/{SERVICE_DESCRIPTION_MAX}</span>
+                      <span id="service-description-count" className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{description.length}/{SERVICE_DESCRIPTION_MAX}</span>
                     </div>
                   </div>
 
@@ -640,21 +640,21 @@ export default function ServiceCategoriesScreen({
                           className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
                           style={{
                             fontFamily: FONT_BODY,
-                            backgroundColor: serviceArea === area ? '#F3EAFF' : '#FFFFFF',
-                            borderColor: serviceArea === area ? '#722ED1' : '#CAC7C6',
-                            color: serviceArea === area ? '#722ED1' : '#1E1E1E',
+                            backgroundColor: serviceArea === area ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+                            borderColor: serviceArea === area ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+                            color: serviceArea === area ? 'var(--hz-primary)' : 'var(--hz-black)',
                           }}
                         >
                           {serviceArea === area && (
-                            <span className="w-[14px] h-[14px] rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
+                            <span className="w-[14px] h-[14px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
                           )}
                           {SERVICE_AREA_LABELS[area]}
                         </button>
                       ))}
                     </div>
                     {(serviceArea === 'city' || serviceArea === 'state') && (
-                      <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>
-                        Based on your company location: <span className="font-semibold text-[#68636D]">{serviceArea === 'city' ? city : state}</span>
+                      <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>
+                        Based on your company location: <span className="font-semibold text-[var(--hz-ink-muted)]">{serviceArea === 'city' ? city : state}</span>
                       </p>
                     )}
                   </div>
@@ -676,13 +676,13 @@ export default function ServiceCategoriesScreen({
                           className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
                           style={{
                             fontFamily: FONT_BODY,
-                            backgroundColor: yearsInBusiness === y ? '#F3EAFF' : '#FFFFFF',
-                            borderColor: yearsInBusiness === y ? '#722ED1' : '#CAC7C6',
-                            color: yearsInBusiness === y ? '#722ED1' : '#1E1E1E',
+                            backgroundColor: yearsInBusiness === y ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+                            borderColor: yearsInBusiness === y ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+                            color: yearsInBusiness === y ? 'var(--hz-primary)' : 'var(--hz-black)',
                           }}
                         >
                           {yearsInBusiness === y && (
-                            <span className="w-[14px] h-[14px] rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
+                            <span className="w-[14px] h-[14px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
                           )}
                           {YEARS_IN_BUSINESS_LABELS[y]}
                         </button>
@@ -707,17 +707,17 @@ export default function ServiceCategoriesScreen({
                           className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
                           style={{
                             fontFamily: FONT_BODY,
-                            backgroundColor: serviceModes.includes(mode) ? '#F3EAFF' : '#FFFFFF',
-                            borderColor: serviceModes.includes(mode) ? '#722ED1' : '#CAC7C6',
-                            color: serviceModes.includes(mode) ? '#722ED1' : '#1E1E1E',
+                            backgroundColor: serviceModes.includes(mode) ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+                            borderColor: serviceModes.includes(mode) ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+                            color: serviceModes.includes(mode) ? 'var(--hz-primary)' : 'var(--hz-black)',
                           }}
                         >
                           {serviceModes.includes(mode) && (
-                            <span className="w-[14px] h-[14px] rounded-[4px] bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
+                            <span className="w-[14px] h-[14px] rounded-[4px] bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
                           )}
                           {SERVICE_MODE_LABELS[mode]}
                           {recommendedServiceModes.includes(mode) && !serviceModes.includes(mode) && (
-                            <span className="text-[10px] text-[#9A949D]">· Recommended</span>
+                            <span className="text-[10px] text-[var(--hz-ink-subtle)]">· Recommended</span>
                           )}
                         </button>
                       ))}
@@ -741,17 +741,17 @@ export default function ServiceCategoriesScreen({
                           className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
                           style={{
                             fontFamily: FONT_BODY,
-                            backgroundColor: pricingModel === model ? '#F3EAFF' : '#FFFFFF',
-                            borderColor: pricingModel === model ? '#722ED1' : '#CAC7C6',
-                            color: pricingModel === model ? '#722ED1' : '#1E1E1E',
+                            backgroundColor: pricingModel === model ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+                            borderColor: pricingModel === model ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+                            color: pricingModel === model ? 'var(--hz-primary)' : 'var(--hz-black)',
                           }}
                         >
                           {pricingModel === model && (
-                            <span className="w-[14px] h-[14px] rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
+                            <span className="w-[14px] h-[14px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={8} /></span>
                           )}
                           {PRICING_MODEL_LABELS[model]}
                           {recommendedPricingModels.includes(model) && pricingModel !== model && (
-                            <span className="text-[10px] text-[#9A949D]">· Recommended</span>
+                            <span className="text-[10px] text-[var(--hz-ink-subtle)]">· Recommended</span>
                           )}
                         </button>
                       ))}
@@ -761,11 +761,11 @@ export default function ServiceCategoriesScreen({
               </div>
 
               {/* Why we ask */}
-              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'rgba(243,234,255,0.10)', backgroundColor: '#F9F5FF' }}>
-                <span className="text-[#722ED1] mt-0.5 shrink-0"><InfoIcon /></span>
+              <div className="flex items-start gap-2.5 px-4 py-3.5 rounded-[12px] border" style={{ borderColor: 'var(--hz-primary-soft)', backgroundColor: 'var(--hz-primary-wash)' }}>
+                <span className="text-[var(--hz-primary)] mt-0.5 shrink-0"><InfoIcon /></span>
                 <div className="flex flex-col gap-1">
-                  <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Why service categories matter</span>
-                  <p className="text-[12.5px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+                  <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Why service categories matter</span>
+                  <p className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
                     Houzeify uses these categories to personalize your organization workspace and help relevant people discover your company. Selecting a category doesn&apos;t guarantee leads or projects.
                   </p>
                 </div>
@@ -780,7 +780,7 @@ export default function ServiceCategoriesScreen({
                   className={[
                     'h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 px-6',
                     'flex items-center justify-center gap-2',
-                    canContinue ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[#F4F0EC] text-[#9A949D] cursor-pointer',
+                    canContinue ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-pointer',
                   ].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 >
@@ -797,7 +797,7 @@ export default function ServiceCategoriesScreen({
                 <button
                   onClick={handleBack}
                   disabled={stage === 'submitting'}
-                  className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
+                  className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors disabled:opacity-60"
                   style={{ fontFamily: FONT_BODY }}
                 >
                   ← Back
@@ -807,62 +807,62 @@ export default function ServiceCategoriesScreen({
 
             {/* Live company preview */}
             <div className="order-2 lg:sticky lg:top-6">
-              <div className="rounded-[18px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{isIndividual ? 'Profile Preview' : 'Company Preview'}</span>
+              <div className="rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{isIndividual ? 'Profile Preview' : 'Company Preview'}</span>
 
                 <div className="flex items-center gap-3">
-                  <span className="w-12 h-12 rounded-[12px] flex items-center justify-center shrink-0 text-[15px] font-semibold text-[#722ED1]" style={{ backgroundColor: '#F3EAFF', border: '1px solid #E3DDD7' }}>
+                  <span className="w-12 h-12 rounded-[12px] flex items-center justify-center shrink-0 text-[15px] font-semibold text-[var(--hz-primary)]" style={{ backgroundColor: 'var(--hz-primary-soft)', border: '1px solid var(--hz-border)' }}>
                     {previewInitials}
                   </span>
                   <div className="flex flex-col min-w-0 gap-0.5">
-                    <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{resolvedCompanyName}</span>
+                    <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{resolvedCompanyName}</span>
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: isVerified ? '#16A34A' : '#999999', fontFamily: FONT_BODY }}>
-                        {isVerified && <span className="w-3.5 h-3.5 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>}
+                      <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: isVerified ? 'var(--hz-success)' : '#999999', fontFamily: FONT_BODY }}>
+                        {isVerified && <span className="w-3.5 h-3.5 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={7} /></span>}
                         {isVerified ? 'Verified' : 'Not verified'}
                       </span>
-                      <span className="text-[11px] text-[#9A949D]">·</span>
-                      <span className="text-[11px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{isIndividual ? professionalTypeLabel : COMPANY_TYPE_LABELS[resolvedCompanyType]}</span>
+                      <span className="text-[11px] text-[var(--hz-ink-subtle)]">·</span>
+                      <span className="text-[11px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{isIndividual ? professionalTypeLabel : COMPANY_TYPE_LABELS[resolvedCompanyType]}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1.5 pt-3 border-t border-[#E3DDD7]">
-                  <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Services</span>
+                <div className="flex flex-col gap-1.5 pt-3 border-t border-[var(--hz-border)]">
+                  <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Services</span>
                   {selected.length === 0 ? (
-                    <span className="text-[12.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>No services selected yet.</span>
+                    <span className="text-[12.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>No services selected yet.</span>
                   ) : (
                     <div className="flex flex-col gap-1">
                       {primaryService && (
-                        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{SERVICE_CATEGORY_LABELS[primaryService]}</span>
+                        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{SERVICE_CATEGORY_LABELS[primaryService]}</span>
                       )}
                       {secondaryServices.map(category => (
-                        <span key={category} className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{SERVICE_CATEGORY_LABELS[category]}</span>
+                        <span key={category} className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{SERVICE_CATEGORY_LABELS[category]}</span>
                       ))}
                     </div>
                   )}
                 </div>
 
-                <div className="flex flex-col gap-0.5 pt-3 border-t border-[#E3DDD7]">
-                  <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Service Area</span>
-                  <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+                <div className="flex flex-col gap-0.5 pt-3 border-t border-[var(--hz-border)]">
+                  <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Service Area</span>
+                  <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                     {serviceArea === 'city' ? city : serviceArea === 'state' ? state : SERVICE_AREA_LABELS[serviceArea]}
                   </span>
                 </div>
 
                 {yearsInBusiness && (
-                  <div className="flex flex-col gap-0.5 pt-3 border-t border-[#E3DDD7]">
-                    <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Experience</span>
-                    <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{YEARS_IN_BUSINESS_LABELS[yearsInBusiness]}</span>
+                  <div className="flex flex-col gap-0.5 pt-3 border-t border-[var(--hz-border)]">
+                    <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Experience</span>
+                    <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{YEARS_IN_BUSINESS_LABELS[yearsInBusiness]}</span>
                   </div>
                 )}
 
                 {selected.length > 0 && (
-                  <div className="flex flex-col gap-1.5 pt-3 border-t border-[#E3DDD7]">
-                    <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Hozie will recommend</span>
+                  <div className="flex flex-col gap-1.5 pt-3 border-t border-[var(--hz-border)]">
+                    <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Hozie will recommend</span>
                     <div className="flex flex-wrap gap-1.5">
                       {recommendations.recommendedTools.slice(0, 4).map(tool => (
-                        <span key={tool} className="h-6 px-2 rounded-full flex items-center text-[11px] font-semibold" style={{ fontFamily: FONT_BODY, backgroundColor: '#F4F0EC', color: '#242326' }}>{tool}</span>
+                        <span key={tool} className="h-6 px-2 rounded-full flex items-center text-[11px] font-semibold" style={{ fontFamily: FONT_BODY, backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)' }}>{tool}</span>
                       ))}
                     </div>
                   </div>
@@ -874,11 +874,11 @@ export default function ServiceCategoriesScreen({
       </main>
 
       {/* Mobile sticky actions */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-[#E3DDD7] px-5 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.06)' }}>
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-5 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.06)' }}>
         <button
           onClick={handleBack}
           disabled={stage === 'submitting'}
-          className="h-[48px] px-4 rounded-[12px] text-[13px] font-medium cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] disabled:opacity-60 shrink-0"
+          className="h-[48px] px-4 rounded-[12px] text-[13px] font-medium cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] disabled:opacity-60 shrink-0"
           style={{ fontFamily: FONT_BODY }}
         >
           ← Back
@@ -890,7 +890,7 @@ export default function ServiceCategoriesScreen({
           className={[
             'flex-1 h-[48px] text-[13.5px] font-semibold rounded-[12px] transition-all duration-200',
             'flex items-center justify-center gap-2',
-            canContinue ? 'bg-[#722ED1] text-white cursor-pointer' : 'bg-[#F4F0EC] text-[#9A949D] cursor-pointer',
+            canContinue ? 'bg-[var(--hz-primary)] text-white cursor-pointer' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-pointer',
           ].join(' ')}
           style={{ fontFamily: FONT_BODY }}
         >
@@ -902,8 +902,8 @@ export default function ServiceCategoriesScreen({
       <footer className="hidden lg:flex shrink-0 justify-center items-center gap-2.5 pb-5 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>
@@ -918,8 +918,8 @@ function FieldLabelStatic({ children, optional }: { children: React.ReactNode; o
     // centered awkwardly between those lines instead of dropping cleanly
     // onto its own line below.
     <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 mb-2">
-      <span className="text-[13px] font-semibold text-[#242326] leading-snug" style={{ fontFamily: FONT_BODY }}>{children}</span>
-      {optional && <span className="text-[11px] text-[#9A949D] shrink-0" style={{ fontFamily: FONT_BODY }}>Optional</span>}
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] leading-snug" style={{ fontFamily: FONT_BODY }}>{children}</span>
+      {optional && <span className="text-[11px] text-[var(--hz-ink-subtle)] shrink-0" style={{ fontFamily: FONT_BODY }}>Optional</span>}
     </div>
   )
 }

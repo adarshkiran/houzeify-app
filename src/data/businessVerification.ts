@@ -92,10 +92,10 @@ export const VERIFICATION_AREA_STATUS_LABELS: Record<ProfessionalVerificationAre
 }
 
 export const VERIFICATION_AREA_STATUS_COLORS: Record<ProfessionalVerificationAreaStatus, { bg: string; fg: string; dot: string }> = {
-  'not-submitted': { bg: '#CAC7C6', fg: '#808080', dot: '#A1A1A1' },
+  'not-submitted': { bg: 'var(--hz-border-strong)', fg: '#808080', dot: '#A1A1A1' },
   'under-review': { bg: '#FEF3C7', fg: '#D97706', dot: '#D97706' },
-  verified: { bg: '#DCFCE7', fg: '#16A34A', dot: '#16A34A' },
-  'needs-attention': { bg: '#FEE2E2', fg: '#DC2626', dot: '#DC2626' },
+  verified: { bg: '#DCFCE7', fg: 'var(--hz-success)', dot: 'var(--hz-success)' },
+  'needs-attention': { bg: '#FEE2E2', fg: 'var(--hz-danger)', dot: 'var(--hz-danger)' },
   'not-applicable': { bg: '#e9e9e9', fg: '#999999', dot: '#999999' },
 }
 

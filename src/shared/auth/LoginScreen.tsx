@@ -12,11 +12,11 @@ function AmbientBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true" style={{ zIndex: 0 }}>
       {/* Desktop */}
-      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
-      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
       {/* Mobile */}
-      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
-      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
     </div>
   )
 }
@@ -43,16 +43,16 @@ function CircularConfidence({ value }: { value: number }) {
   return (
     <div className="relative w-[52px] h-[52px]">
       <svg width="52" height="52" viewBox="0 0 52 52" className="absolute inset-0">
-        <circle cx="26" cy="26" r={r} fill="none" stroke="#CAC7C6" strokeWidth="4" />
+        <circle cx="26" cy="26" r={r} fill="none" stroke="var(--hz-border-strong)" strokeWidth="4" />
         <circle
-          cx="26" cy="26" r={r} fill="none" stroke="#722ED1" strokeWidth="4"
+          cx="26" cy="26" r={r} fill="none" stroke="var(--hz-primary)" strokeWidth="4"
           strokeDasharray={circ} strokeDashoffset={offset}
           strokeLinecap="round" transform="rotate(-90 26 26)"
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
         <span
-          className="text-[12px] font-bold text-[#722ED1] leading-none"
+          className="text-[12px] font-bold text-[var(--hz-primary)] leading-none"
           style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           {value}%
@@ -68,19 +68,19 @@ function CostRow({ label, amount, pct }: { label: string; amount: string; pct: n
   return (
     <div className="flex items-center gap-2.5">
       <div
-        className="w-[84px] shrink-0 text-[12px] tracking-[0.10em] text-[#9A949D]"
+        className="w-[84px] shrink-0 text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)]"
         style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
       >
         {label}
       </div>
-      <div className="flex-1 h-[2.5px] bg-[#F4F0EC] rounded-full overflow-hidden">
+      <div className="flex-1 h-[2.5px] bg-[var(--hz-surface-muted)] rounded-full overflow-hidden">
         <div
-          className="h-full bg-[#722ED1] rounded-full"
+          className="h-full bg-[var(--hz-primary)] rounded-full"
           style={{ width: `${pct}%`, opacity: 0.5 + pct * 0.008 }}
         />
       </div>
       <div
-        className="w-[46px] text-right text-[11px] font-semibold text-[#242326]"
+        className="w-[46px] text-right text-[11px] font-semibold text-[var(--hz-ink)]"
         style={{ fontFamily: '"Geist Variable", sans-serif' }}
       >
         {amount}
@@ -94,7 +94,7 @@ function CostRow({ label, amount, pct }: { label: string; amount: string; pct: n
 function FloorPlanBG() {
   return (
     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 440 210" fill="none" preserveAspectRatio="xMidYMid meet">
-      <g stroke="#722ED1" opacity="0.10">
+      <g stroke="var(--hz-primary)" opacity="0.10">
         <rect x="20" y="14" width="400" height="182" strokeWidth="1.5" />
         <line x1="196" y1="14" x2="196" y2="196" strokeWidth="1.5" />
         <line x1="20" y1="108" x2="196" y2="108" strokeWidth="1" />
@@ -108,20 +108,20 @@ function FloorPlanBG() {
         <line x1="430" y1="14" x2="430" y2="196" strokeWidth="0.5" />
         <line x1="424" y1="14" x2="436" y2="14" strokeWidth="0.5" />
         <line x1="424" y1="196" x2="436" y2="196" strokeWidth="0.5" />
-        <circle cx="20" cy="14" r="1.5" fill="#722ED1" />
-        <circle cx="196" cy="14" r="1.5" fill="#722ED1" />
-        <circle cx="308" cy="14" r="1.5" fill="#722ED1" />
-        <circle cx="420" cy="14" r="1.5" fill="#722ED1" />
-        <circle cx="20" cy="108" r="1.5" fill="#722ED1" />
-        <circle cx="196" cy="108" r="1.5" fill="#722ED1" />
+        <circle cx="20" cy="14" r="1.5" fill="var(--hz-primary)" />
+        <circle cx="196" cy="14" r="1.5" fill="var(--hz-primary)" />
+        <circle cx="308" cy="14" r="1.5" fill="var(--hz-primary)" />
+        <circle cx="420" cy="14" r="1.5" fill="var(--hz-primary)" />
+        <circle cx="20" cy="108" r="1.5" fill="var(--hz-primary)" />
+        <circle cx="196" cy="108" r="1.5" fill="var(--hz-primary)" />
       </g>
-      <text x="108" y="63" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1" opacity="0.10">LIVING</text>
-      <text x="108" y="154" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1" opacity="0.10">KITCHEN</text>
-      <text x="252" y="63" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1" opacity="0.10">MASTER</text>
-      <text x="364" y="63" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="#722ED1" opacity="0.10">BEDROOM</text>
-      <text x="308" y="158" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="#722ED1" opacity="0.10">BATH</text>
-      <text x="220" y="3" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="#722ED1" opacity="0.10">5600</text>
-      <text x="439" y="110" textAnchor="start" fontSize="7" fontFamily="monospace" fill="#722ED1" opacity="0.10" transform="rotate(90 439 110)">3800</text>
+      <text x="108" y="63" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">LIVING</text>
+      <text x="108" y="154" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">KITCHEN</text>
+      <text x="252" y="63" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">MASTER</text>
+      <text x="364" y="63" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">BEDROOM</text>
+      <text x="308" y="158" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">BATH</text>
+      <text x="220" y="3" textAnchor="middle" fontSize="7" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">5600</text>
+      <text x="439" y="110" textAnchor="start" fontSize="7" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10" transform="rotate(90 439 110)">3800</text>
     </svg>
   )
 }
@@ -132,7 +132,7 @@ function RightBlueprintBG() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 680 900" fill="none" preserveAspectRatio="xMidYMid slice">
-        <g stroke="#722ED1" opacity="0.038">
+        <g stroke="var(--hz-primary)" opacity="0.038">
           <rect x="55" y="90" width="255" height="175" strokeWidth="1.5" />
           <rect x="55" y="265" width="255" height="155" strokeWidth="1.5" />
           <rect x="310" y="90" width="200" height="155" strokeWidth="1.5" />
@@ -149,21 +149,21 @@ function RightBlueprintBG() {
           <line x1="22" y1="420" x2="34" y2="420" strokeWidth="0.5" />
           {[100, 180, 260, 340, 420].map(y =>
             [75, 183, 310, 410, 510].map(x => (
-              <circle key={`${x}-${y}`} cx={x} cy={y} r="1" fill="#722ED1" opacity="0.5" />
+              <circle key={`${x}-${y}`} cx={x} cy={y} r="1" fill="var(--hz-primary)" opacity="0.5" />
             ))
           )}
           <path d="M 55 140 A 32 32 0 0 1 87 108" strokeWidth="0.75" fill="none" />
           <path d="M 310 340 A 24 24 0 0 0 286 364" strokeWidth="0.75" fill="none" />
         </g>
-        <text x="283" y="49" textAnchor="middle" fontSize="10" fontFamily="monospace" fill="#722ED1" opacity="0.08">3800</text>
-        <text x="26" y="263" textAnchor="middle" fontSize="10" fontFamily="monospace" fill="#722ED1" opacity="0.08" transform="rotate(-90 26 263)">5600</text>
-        <text x="183" y="178" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="#722ED1" opacity="0.10">LIVING</text>
-        <text x="183" y="340" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="#722ED1" opacity="0.10">KITCHEN</text>
-        <text x="410" y="178" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="#722ED1" opacity="0.10">MASTER</text>
-        <text x="410" y="336" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="#722ED1" opacity="0.10">BATH</text>
-        <text x="55" y="88" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1" opacity="0.08">A1</text>
-        <text x="310" y="88" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1" opacity="0.08">B1</text>
-        <text x="510" y="88" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="#722ED1" opacity="0.08">C1</text>
+        <text x="283" y="49" textAnchor="middle" fontSize="10" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.08">3800</text>
+        <text x="26" y="263" textAnchor="middle" fontSize="10" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.08" transform="rotate(-90 26 263)">5600</text>
+        <text x="183" y="178" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">LIVING</text>
+        <text x="183" y="340" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">KITCHEN</text>
+        <text x="410" y="178" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">MASTER</text>
+        <text x="410" y="336" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.10">BATH</text>
+        <text x="55" y="88" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.08">A1</text>
+        <text x="310" y="88" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.08">B1</text>
+        <text x="510" y="88" textAnchor="middle" fontSize="8" fontFamily="monospace" fill="var(--hz-primary)" opacity="0.08">C1</text>
       </svg>
     </div>
   )
@@ -183,13 +183,13 @@ function MetadataLabels() {
       {items.map(({ key, val, highlight }) => (
         <div key={key} className="flex flex-col gap-0.5">
           <div
-            className="text-[12px] tracking-[0.14em] text-[#CAC7C6] uppercase"
+            className="text-[12px] tracking-[0.14em] text-[var(--hz-border-strong)] uppercase"
             style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
           >
             {key}
           </div>
           <div
-            className={`text-[12px] tracking-[0.08em] ${highlight ? 'text-[#722ED1]' : 'text-[#9A949D]'}`}
+            className={`text-[12px] tracking-[0.08em] ${highlight ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink-subtle)]'}`}
             style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
           >
             {val}
@@ -211,7 +211,7 @@ function ProductCard() {
   ]
   return (
     <div
-      className="bg-white border border-[#E3DDD7] rounded-[24px] overflow-hidden"
+      className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[24px] overflow-hidden"
       style={{
         width: 'clamp(320px, 50vw, 520px)',
         boxShadow: '0 8px 40px rgba(36,35,38,0.10)',
@@ -219,18 +219,18 @@ function ProductCard() {
       }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#E3DDD7]">
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-[var(--hz-border)]">
         <div className="flex items-center gap-2.5">
           <HIcon size={32} />
           <div>
             <div
-              className="text-[14px] font-bold text-[#242326] tracking-[-0.01em]"
+              className="text-[14px] font-bold text-[var(--hz-ink)] tracking-[-0.01em]"
               style={{ fontFamily: '"Geist Variable", sans-serif' }}
             >
               HOZIE
             </div>
             <div
-              className="text-[12px] tracking-[0.1em] uppercase text-[#722ED1] mt-0.5"
+              className="text-[12px] tracking-[0.1em] uppercase text-[var(--hz-primary)] mt-0.5"
               style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
             >
               AI Construction Advisor
@@ -239,11 +239,11 @@ function ProductCard() {
         </div>
         <div className="flex items-center gap-1.5">
           <div
-            className="size-[7px] rounded-full bg-[#722ED1]"
+            className="size-[7px] rounded-full bg-[var(--hz-primary)]"
             style={{ animation: 'hozieStatusPulse 2.2s ease-in-out infinite' }}
           />
           <span
-            className="text-[12px] tracking-[0.08em] text-[#722ED1]"
+            className="text-[12px] tracking-[0.08em] text-[var(--hz-primary)]"
             style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
           >
             READY
@@ -252,7 +252,7 @@ function ProductCard() {
       </div>
 
       {/* Project + Estimate */}
-      <div className="relative px-5 pt-4 pb-4 border-b border-[#E3DDD7] overflow-hidden">
+      <div className="relative px-5 pt-4 pb-4 border-b border-[var(--hz-border)] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <FloorPlanBG />
         </div>
@@ -260,19 +260,19 @@ function ProductCard() {
           <div className="flex-1 flex flex-col gap-3">
             <div>
               <div
-                className="text-[12px] tracking-[0.14em] text-[#9A949D] mb-1 uppercase"
+                className="text-[12px] tracking-[0.14em] text-[var(--hz-ink-subtle)] mb-1 uppercase"
                 style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
               >
                 Your Project
               </div>
               <div
-                className="text-[13px] font-bold text-[#242326]"
+                className="text-[13px] font-bold text-[var(--hz-ink)]"
                 style={{ fontFamily: '"Geist Variable", sans-serif' }}
               >
                 3 BHK G+1 HOME
               </div>
               <div
-                className="text-[12px] text-[#68636D] mt-0.5 tracking-[0.05em]"
+                className="text-[12px] text-[var(--hz-ink-muted)] mt-0.5 tracking-[0.05em]"
                 style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
               >
                 HYDERABAD  ·  2,400 SQ FT
@@ -280,13 +280,13 @@ function ProductCard() {
             </div>
             <div>
               <div
-                className="text-[12px] tracking-[0.12em] text-[#9A949D] mb-1 uppercase"
+                className="text-[12px] tracking-[0.12em] text-[var(--hz-ink-subtle)] mb-1 uppercase"
                 style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
               >
                 Estimated Construction Cost
               </div>
               <div
-                className="text-[22px] font-bold text-[#722ED1] tracking-[-0.02em] leading-tight"
+                className="text-[22px] font-bold text-[var(--hz-primary)] tracking-[-0.02em] leading-tight"
                 style={{ fontFamily: '"Geist Variable", sans-serif' }}
               >
                 ₹29.8L – ₹35.2L
@@ -295,7 +295,7 @@ function ProductCard() {
           </div>
           <div className="flex flex-col items-center gap-1 shrink-0">
             <div
-              className="text-[12px] tracking-[0.10em] text-[#9A949D] mb-1 text-center uppercase"
+              className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] mb-1 text-center uppercase"
               style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
             >
               AI Confidence
@@ -311,17 +311,17 @@ function ProductCard() {
       </div>
 
       {/* HOZIE AI message */}
-      <div className="mx-4 mb-4 bg-[#F9F5FF] border border-[#722ED1]/30 rounded-[12px] px-3.5 py-2.5 flex items-center gap-2.5">
+      <div className="mx-4 mb-4 bg-[var(--hz-primary-wash)] border border-[var(--hz-primary)]/30 rounded-[12px] px-3.5 py-2.5 flex items-center gap-2.5">
         <HIcon size={22} />
         <div>
           <div
-            className="text-[12px] tracking-[0.08em] text-[#722ED1] font-semibold"
+            className="text-[12px] tracking-[0.08em] text-[var(--hz-primary)] font-semibold"
             style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
           >
             HOZIE
           </div>
           <div
-            className="text-[12px] text-[#242326]"
+            className="text-[12px] text-[var(--hz-ink)]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Your initial estimate is ready.
@@ -368,19 +368,19 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
       {/* Eyebrow + headline + description */}
       <div className="flex flex-col gap-2.5">
         <div
-          className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold"
+          className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold"
           style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
         >
           Hello how are you!
         </div>
         <h1
-          className="text-[36px] sm:text-[40px] font-semibold text-[#242326] leading-[1.05] tracking-[-0.02em] m-0"
+          className="text-[36px] sm:text-[40px] font-semibold text-[var(--hz-ink)] leading-[1.05] tracking-[-0.02em] m-0"
           style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           Welcome back.
         </h1>
         <p
-          className="text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[340px]"
+          className="text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[340px]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Continue planning your build with Hozie.
@@ -390,7 +390,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
       {/* Form fields */}
       <div className="flex flex-col gap-3.5">
         <label
-          className="text-[13px] font-semibold text-[#242326]"
+          className="text-[13px] font-semibold text-[var(--hz-ink)]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Mobile number
@@ -399,17 +399,17 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
         {/* Phone input row */}
         <div
           className={[
-            'flex items-stretch border rounded-[12px] overflow-hidden bg-white transition-all duration-200 h-[52px]',
+            'flex items-stretch border rounded-[12px] overflow-hidden bg-[var(--hz-surface)] transition-all duration-200 h-[52px]',
             showError
-              ? 'border-[#DC2626] ring-2 ring-[#DC2626]/10'
-              : 'border-[#E3DDD7] focus-within:border-[#722ED1] focus-within:ring-2 focus-within:ring-[#722ED1]/10',
+              ? 'border-[var(--hz-danger)] ring-2 ring-[var(--hz-danger)]/10'
+              : 'border-[var(--hz-border)] focus-within:border-[var(--hz-primary)] focus-within:ring-2 focus-within:ring-[var(--hz-primary)]/10',
           ].join(' ')}
         >
           {/* Country selector */}
-          <div className="flex items-center justify-center gap-1.5 px-3 border-r border-[#E3DDD7] shrink-0 select-none cursor-default">
+          <div className="flex items-center justify-center gap-1.5 px-3 border-r border-[var(--hz-border)] shrink-0 select-none cursor-default">
             <span className="text-[16px] leading-none">🇮🇳</span>
             <span
-              className="text-[13px] font-medium text-[#242326]"
+              className="text-[13px] font-medium text-[var(--hz-ink)]"
               style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               +91
@@ -430,7 +430,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
             }}
             onBlur={() => setTouched(true)}
             placeholder="98765 43210"
-            className="flex-1 px-3 text-[15px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+            className="flex-1 px-3 text-[15px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           />
 
@@ -438,8 +438,8 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
           {phone.length === 10 && isValid && (
             <div className="flex items-center pr-3 shrink-0">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="6.5" stroke="#16A34A" strokeWidth="1.2"/>
-                <path d="M5 8L7 10L11 6" stroke="#16A34A" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="8" cy="8" r="6.5" stroke="var(--hz-success)" strokeWidth="1.2"/>
+                <path d="M5 8L7 10L11 6" stroke="var(--hz-success)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
           )}
@@ -448,13 +448,13 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
         {/* Error message */}
         {showError && (
           <div
-            className="flex items-center gap-1.5 text-[#DC2626] text-[12px]"
+            className="flex items-center gap-1.5 text-[var(--hz-danger)] text-[12px]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <circle cx="7" cy="7" r="5.5" stroke="#DC2626" strokeWidth="1.2"/>
-              <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="#DC2626" strokeWidth="1.3" strokeLinecap="round"/>
-              <circle cx="7" cy="9.5" r="0.7" fill="#DC2626"/>
+              <circle cx="7" cy="7" r="5.5" stroke="var(--hz-danger)" strokeWidth="1.2"/>
+              <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="var(--hz-danger)" strokeWidth="1.3" strokeLinecap="round"/>
+              <circle cx="7" cy="9.5" r="0.7" fill="var(--hz-danger)"/>
             </svg>
             Please enter a valid 10-digit mobile number.
           </div>
@@ -463,13 +463,13 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
         {/* Submit error (real backend failure — invalid phone, cooldown, network, ...) */}
         {submitError && (
           <div
-            className="flex items-center gap-1.5 text-[#DC2626] text-[12px]"
+            className="flex items-center gap-1.5 text-[var(--hz-danger)] text-[12px]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <circle cx="7" cy="7" r="5.5" stroke="#DC2626" strokeWidth="1.2"/>
-              <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="#DC2626" strokeWidth="1.3" strokeLinecap="round"/>
-              <circle cx="7" cy="9.5" r="0.7" fill="#DC2626"/>
+              <circle cx="7" cy="7" r="5.5" stroke="var(--hz-danger)" strokeWidth="1.2"/>
+              <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="var(--hz-danger)" strokeWidth="1.3" strokeLinecap="round"/>
+              <circle cx="7" cy="9.5" r="0.7" fill="var(--hz-danger)"/>
             </svg>
             {submitError}
           </div>
@@ -484,7 +484,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
             loading ? 'cursor-wait' : 'cursor-pointer hover:brightness-90 active:scale-[0.99]',
             !isValid && !loading ? 'opacity-60' : '',
           ].join(' ')}
-          style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+          style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
         >
           {loading ? (
             <>
@@ -501,7 +501,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
 
         {/* Helper text */}
         <p
-          className="text-[12px] text-[#9A949D] text-center m-0 leading-[1.6]"
+          className="text-[12px] text-[var(--hz-ink-subtle)] text-center m-0 leading-[1.6]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           We&apos;ll send a one-time verification code to your mobile number.
@@ -510,19 +510,19 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
 
       {/* OR divider */}
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-[#F4F0EC]" />
+        <div className="flex-1 h-px bg-[var(--hz-surface-muted)]" />
         <span
-          className="text-[12px] text-[#9A949D]"
+          className="text-[12px] text-[var(--hz-ink-subtle)]"
           style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
         >
           OR
         </span>
-        <div className="flex-1 h-px bg-[#F4F0EC]" />
+        <div className="flex-1 h-px bg-[var(--hz-surface-muted)]" />
       </div>
 
       {/* Google button */}
       <button
-        className="h-[48px] w-full flex items-center justify-center gap-2.5 bg-white border border-[#E3DDD7] rounded-[12px] text-[14px] font-medium text-[#242326] cursor-pointer transition-all duration-200 hover:border-[#722ED1] hover:bg-[#F3EAFF]"
+        className="h-[48px] w-full flex items-center justify-center gap-2.5 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[12px] text-[14px] font-medium text-[var(--hz-ink)] cursor-pointer transition-all duration-200 hover:border-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)]"
         style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         <GoogleIcon />
@@ -531,12 +531,12 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
 
       {/* Create account */}
       <p
-        className="text-center text-[13px] text-[#68636D] m-0"
+        className="text-center text-[13px] text-[var(--hz-ink-muted)] m-0"
         style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         Don&apos;t have a Houzeify account?{' '}
         <button
-          className="text-[#722ED1] font-semibold cursor-pointer bg-transparent border-none p-0 hover:underline"
+          className="text-[var(--hz-primary)] font-semibold cursor-pointer bg-transparent border-none p-0 hover:underline"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Create account →
@@ -545,15 +545,15 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
 
       {/* Terms */}
       <p
-        className="text-center text-[11px] text-[#9A949D] m-0 leading-[1.65]"
+        className="text-center text-[11px] text-[var(--hz-ink-subtle)] m-0 leading-[1.65]"
         style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         By continuing, you agree to our{' '}
-        <a href="#" className="text-[#722ED1] hover:underline" onClick={e => e.preventDefault()}>
+        <a href="#" className="text-[var(--hz-primary)] hover:underline" onClick={e => e.preventDefault()}>
           Terms of Service
         </a>
         {' '}and{' '}
-        <a href="#" className="text-[#722ED1] hover:underline" onClick={e => e.preventDefault()}>
+        <a href="#" className="text-[var(--hz-primary)] hover:underline" onClick={e => e.preventDefault()}>
           Privacy Policy
         </a>
         .
@@ -568,12 +568,12 @@ export default function LoginScreen({ onNavigate }: { onNavigate: (screen: strin
   return (
     <div
       className="min-h-full flex flex-col relative overflow-hidden"
-      style={{ backgroundColor: '#FFFFFF' }}
+      style={{ backgroundColor: 'var(--hz-surface)' }}
     >
       <AmbientBackground />
       {/* ── Header ── */}
       <header
-        className="h-14 lg:h-[64px] flex items-center justify-between px-5 sm:px-8 lg:px-12 shrink-0 relative z-10 border-b border-[#E3DDD7]/50"
+        className="h-14 lg:h-[64px] flex items-center justify-between px-5 sm:px-8 lg:px-12 shrink-0 relative z-10 border-b border-[var(--hz-border)]/50"
         style={{ animation: 'welcomeFadeDown 0.4s ease-out 0.1s both' }}
       >
         <img
@@ -584,13 +584,13 @@ export default function LoginScreen({ onNavigate }: { onNavigate: (screen: strin
         />
         <div className="flex items-center gap-2 sm:gap-3">
           <span
-            className="hidden sm:block text-[13px] text-[#68636D]"
+            className="hidden sm:block text-[13px] text-[var(--hz-ink-muted)]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Already have an account?
           </span>
           <button
-            className="h-9 px-4 border border-[#E3DDD7] rounded-[10px] bg-transparent text-[13px] font-medium text-[#242326] cursor-pointer transition-all duration-200 hover:border-[#722ED1] hover:bg-[#F3EAFF]"
+            className="h-9 px-4 border border-[var(--hz-border)] rounded-[10px] bg-transparent text-[13px] font-medium text-[var(--hz-ink)] cursor-pointer transition-all duration-200 hover:border-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Log in
@@ -610,7 +610,7 @@ export default function LoginScreen({ onNavigate }: { onNavigate: (screen: strin
         </div>
 
         {/* Vertical divider */}
-        <div className="hidden lg:block w-px bg-[#F4F0EC]/80 self-stretch" />
+        <div className="hidden lg:block w-px bg-[var(--hz-surface-muted)]/80 self-stretch" />
 
         {/* Right panel — product visual */}
         <div
@@ -632,14 +632,14 @@ export default function LoginScreen({ onNavigate }: { onNavigate: (screen: strin
             {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
               <span key={item} className="flex items-center gap-2.5">
                 <span
-                  className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]"
+                  className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]"
                   style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
                 >
                   {item}
                 </span>
                 {i < arr.length - 1 && (
                   <span
-                    className="text-[12px] text-[#722ED1]"
+                    className="text-[12px] text-[var(--hz-primary)]"
                     style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
                   >
                     /

@@ -127,7 +127,7 @@ function ProgressFill() {
 
 function ProgressBarTrack() {
   return (
-    <div className="bg-[#F9F5FF] content-stretch flex h-[6px] items-center relative rounded-[3px] shrink-0 w-[240px] lg:w-[400px]" data-name="progress-bar-track">
+    <div className="bg-[var(--hz-primary-wash)] content-stretch flex h-[6px] items-center relative rounded-[3px] shrink-0 w-[240px] lg:w-[400px]" data-name="progress-bar-track">
       <ProgressFill />
     </div>
   );

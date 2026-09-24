@@ -66,7 +66,7 @@ const ArrowRightIcon = () => (
 // ─── Shared bits ────────────────────────────────────────────────────────
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D] block mb-2" style={{ fontFamily: FONT_MONO }}>{children}</span>
+  return <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] block mb-2" style={{ fontFamily: FONT_MONO }}>{children}</span>
 }
 
 function FilterChip({ label, selected, onClick }: { label: string; selected: boolean; onClick: () => void }) {
@@ -78,9 +78,9 @@ function FilterChip({ label, selected, onClick }: { label: string; selected: boo
       className="h-8 px-3 rounded-full text-[12px] font-semibold cursor-pointer border transition-all"
       style={{
         fontFamily: FONT_BODY,
-        backgroundColor: selected ? '#F3EAFF' : '#FFFFFF',
-        borderColor: selected ? '#722ED1' : '#CAC7C6',
-        color: selected ? '#722ED1' : '#1E1E1E',
+        backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+        color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
       {label}
@@ -91,33 +91,33 @@ function FilterChip({ label, selected, onClick }: { label: string; selected: boo
 function OpportunityCard({ opportunity, isMatch, onView }: { opportunity: ProjectOpportunity; isMatch: boolean; onView: () => void }) {
   const budget = formatBudgetRange(opportunity.budgetMin, opportunity.budgetMax)
   return (
-    <div className="flex flex-col gap-2.5 rounded-[16px] bg-white border border-[#E3DDD7] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+    <div className="flex flex-col gap-2.5 rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
       <div className="flex items-start justify-between gap-2">
-        <span className="text-[14.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{opportunity.title}</span>
-        <span className="shrink-0 h-6 px-2 rounded-full text-[10.5px] font-semibold tracking-[0.04em] uppercase flex items-center" style={{ fontFamily: FONT_MONO, backgroundColor: '#F4F0EC', color: '#68636D' }}>
+        <span className="text-[14.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{opportunity.title}</span>
+        <span className="shrink-0 h-6 px-2 rounded-full text-[10.5px] font-semibold tracking-[0.04em] uppercase flex items-center" style={{ fontFamily: FONT_MONO, backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)' }}>
           {OPPORTUNITY_STATUS_LABELS[opportunity.status]}
         </span>
       </div>
-      <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+      <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
         <span className="flex items-center gap-1"><HomeIconSmall /> {OPPORTUNITY_PROJECT_TYPE_LABELS[opportunity.projectType]}</span>
-        <span className="text-[#CAC7C6]">·</span>
+        <span className="text-[var(--hz-border-strong)]">·</span>
         <span className="flex items-center gap-1"><PinIcon /> {opportunity.location}</span>
       </div>
       <div className="flex items-center gap-1.5 flex-wrap text-[12.5px]" style={{ fontFamily: FONT_BODY }}>
-        {budget && <span className="font-semibold text-[#242326]">Budget: {budget}</span>}
-        {budget && <span className="text-[#CAC7C6]">·</span>}
-        <span className="text-[#9A949D]">{formatPostedDate(opportunity.postedAt)}</span>
+        {budget && <span className="font-semibold text-[var(--hz-ink)]">Budget: {budget}</span>}
+        {budget && <span className="text-[var(--hz-border-strong)]">·</span>}
+        <span className="text-[var(--hz-ink-subtle)]">{formatPostedDate(opportunity.postedAt)}</span>
       </div>
       {isMatch && (
-        <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-          <span className="w-4 h-4 rounded-full bg-[#16A34A] flex items-center justify-center" aria-hidden="true"><CheckIcon /></span>
+        <span className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+          <span className="w-4 h-4 rounded-full bg-[var(--hz-success)] flex items-center justify-center" aria-hidden="true"><CheckIcon /></span>
           Matches your services
         </span>
       )}
       <button
         type="button"
         onClick={onView}
-        className="self-start mt-1 flex items-center gap-1.5 h-9 px-3.5 rounded-[9px] text-[12.5px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all"
+        className="self-start mt-1 flex items-center gap-1.5 h-9 px-3.5 rounded-[9px] text-[12.5px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all"
         style={{ fontFamily: FONT_BODY }}
       >
         View Opportunity <ArrowRightIcon />
@@ -207,7 +207,7 @@ export default function DiscoverProjectsScreen({
   const hasAnyFilter = query.trim() !== '' || filters.serviceCategory || filters.city || filters.projectType || filters.minBudget !== null || quickFilter !== 'all'
 
   return (
-    <div className="h-full flex" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="h-full flex" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <PartnerNavRail active="opportunities" onNavigate={onNavigate} organizationId={organizationId} />
 
       <div className="flex-1 flex flex-col min-w-0 relative overflow-y-auto">
@@ -217,34 +217,34 @@ export default function DiscoverProjectsScreen({
 
             {/* Header */}
             <div className="flex flex-col gap-2">
-              <button type="button" onClick={handleBack} className="self-start text-[12.5px] font-semibold text-[#68636D] cursor-pointer bg-transparent border-0 hover:text-[#242326] hover:underline p-0 mb-1" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={handleBack} className="self-start text-[12.5px] font-semibold text-[var(--hz-ink-muted)] cursor-pointer bg-transparent border-0 hover:text-[var(--hz-ink)] hover:underline p-0 mb-1" style={{ fontFamily: FONT_BODY }}>
                 ← Back to Dashboard
               </button>
               <div className="flex items-center gap-2.5 flex-wrap">
-                <h1 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <h1 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   Discover Projects
                 </h1>
                 {isOrganization && companyName && (
-                  <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[#E3DDD7] text-[#722ED1] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
+                  <span className="flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-primary)] font-semibold text-[12px]" style={{ fontFamily: FONT_BODY }}>
                     {companyName}
                   </span>
                 )}
               </div>
-              <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
                 Find construction projects that match your services and locations.
               </p>
             </div>
 
             {/* Search */}
-            <div className="flex items-center border rounded-[12px] bg-white h-[48px] overflow-hidden transition-colors border-[#E3DDD7] focus-within:border-[#722ED1]" style={{ maxWidth: 480 }}>
-              <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[#9A949D]"><SearchIcon /></div>
+            <div className="flex items-center border rounded-[12px] bg-[var(--hz-surface)] h-[48px] overflow-hidden transition-colors border-[var(--hz-border)] focus-within:border-[var(--hz-primary)]" style={{ maxWidth: 480 }}>
+              <div className="flex items-center pl-3.5 pr-2 shrink-0 text-[var(--hz-ink-subtle)]"><SearchIcon /></div>
               <input
                 type="text"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Search projects..."
                 aria-label="Search projects by name, location or service"
-                className="flex-1 h-full pr-4 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                className="flex-1 h-full pr-4 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                 style={{ fontFamily: FONT_BODY }}
               />
             </div>
@@ -262,7 +262,7 @@ export default function DiscoverProjectsScreen({
 
               {/* Left — filters + matching profile */}
               <div className="flex flex-col gap-5 order-2 lg:order-1">
-                <div className="rounded-[16px] bg-white border border-[#E3DDD7] p-4 flex flex-col gap-4">
+                <div className="rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4 flex flex-col gap-4">
                   <div>
                     <SectionLabel>Service</SectionLabel>
                     <div className="flex flex-wrap gap-1.5">
@@ -305,7 +305,7 @@ export default function DiscoverProjectsScreen({
                     <button
                       type="button"
                       onClick={() => { setFilters(EMPTY_FILTERS); setQuery(''); setQuickFilter('all') }}
-                      className="self-start text-[12px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline p-0"
+                      className="self-start text-[12px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline p-0"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       Clear all filters
@@ -314,37 +314,37 @@ export default function DiscoverProjectsScreen({
                 </div>
 
                 {/* Matching profile */}
-                <div className="rounded-[16px] bg-white border border-[#E3DDD7] p-4 flex flex-col gap-3">
+                <div className="rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-4 flex flex-col gap-3">
                   <SectionLabel>Your Matching Profile</SectionLabel>
 
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Services</span>
-                      <button type="button" onClick={handleEditServices} className="text-[11px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline" style={{ fontFamily: FONT_BODY }}>Edit Services →</button>
+                      <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Services</span>
+                      <button type="button" onClick={handleEditServices} className="text-[11px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline" style={{ fontFamily: FONT_BODY }}>Edit Services →</button>
                     </div>
                     {myServices.length === 0 ? (
-                      <span className="text-[12.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>No services selected yet.</span>
+                      <span className="text-[12.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>No services selected yet.</span>
                     ) : (
-                      myServices.map(s => <span key={s} className="text-[12.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{SERVICE_CATEGORY_LABELS[s]}</span>)
+                      myServices.map(s => <span key={s} className="text-[12.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{SERVICE_CATEGORY_LABELS[s]}</span>)
                     )}
                   </div>
 
-                  <div className="flex flex-col gap-1 pt-2 border-t border-[#E3DDD7]">
+                  <div className="flex flex-col gap-1 pt-2 border-t border-[var(--hz-border)]">
                     <div className="flex items-center justify-between">
-                      <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Service areas</span>
-                      <button type="button" onClick={handleEditLocations} className="text-[11px] font-semibold text-[#722ED1] cursor-pointer bg-transparent border-0 hover:underline" style={{ fontFamily: FONT_BODY }}>Edit Locations →</button>
+                      <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Service areas</span>
+                      <button type="button" onClick={handleEditLocations} className="text-[11px] font-semibold text-[var(--hz-primary)] cursor-pointer bg-transparent border-0 hover:underline" style={{ fontFamily: FONT_BODY }}>Edit Locations →</button>
                     </div>
                     {myCities.length === 0 ? (
-                      <span className="text-[12.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>No service areas selected yet.</span>
+                      <span className="text-[12.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>No service areas selected yet.</span>
                     ) : (
-                      myCities.map(c => <span key={c} className="text-[12.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{c}</span>)
+                      myCities.map(c => <span key={c} className="text-[12.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{c}</span>)
                     )}
                   </div>
 
                   {professionalTypeLabel && (
-                    <div className="flex flex-col gap-0.5 pt-2 border-t border-[#E3DDD7]">
-                      <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Professional type</span>
-                      <span className="text-[12.5px] text-[#242326] font-semibold" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel}</span>
+                    <div className="flex flex-col gap-0.5 pt-2 border-t border-[var(--hz-border)]">
+                      <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Professional type</span>
+                      <span className="text-[12.5px] text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_BODY }}>{professionalTypeLabel}</span>
                     </div>
                   )}
                 </div>
@@ -353,9 +353,9 @@ export default function DiscoverProjectsScreen({
               {/* Right — results */}
               <div className="flex flex-col gap-4 order-1 lg:order-2 min-w-0">
                 <div className="flex items-center justify-between flex-wrap gap-2">
-                  <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{results.length} project{results.length === 1 ? '' : 's'}</span>
+                  <span className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{results.length} project{results.length === 1 ? '' : 's'}</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>SORT</span>
+                    <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>SORT</span>
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {SORT_OPTIONS.map(opt => (
                         <FilterChip key={opt} label={SORT_OPTION_LABELS[opt]} selected={sort === opt} onClick={() => setSort(opt)} />
@@ -365,17 +365,17 @@ export default function DiscoverProjectsScreen({
                 </div>
 
                 {results.length === 0 ? (
-                  <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white border border-dashed border-[#E3DDD7] p-10">
-                    <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}><IcoOpportunities /></span>
-                    <p className="text-[14px] text-[#242326] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>No projects match your services right now.</p>
-                    <p className="text-[13px] text-[#68636D] leading-[1.6] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
+                  <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-[var(--hz-surface)] border border-dashed border-[var(--hz-border)] p-10">
+                    <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}><IcoOpportunities /></span>
+                    <p className="text-[14px] text-[var(--hz-ink)] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>No projects match your services right now.</p>
+                    <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
                       Try expanding your service areas or checking back later.
                     </p>
                     <div className="flex flex-col sm:flex-row items-center gap-2.5 mt-1">
-                      <button type="button" onClick={handleEditServices} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
+                      <button type="button" onClick={handleEditServices} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
                         Adjust Services
                       </button>
-                      <button type="button" onClick={handleEditLocations} className="h-10 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors" style={{ fontFamily: FONT_BODY }}>
+                      <button type="button" onClick={handleEditLocations} className="h-10 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors" style={{ fontFamily: FONT_BODY }}>
                         Adjust Service Locations
                       </button>
                     </div>

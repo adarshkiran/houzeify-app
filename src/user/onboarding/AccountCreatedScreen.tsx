@@ -7,11 +7,11 @@ function AmbientBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true" style={{ zIndex: 0 }}>
       {/* Desktop */}
-      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
-      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: '#722ED1', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ left: 176, bottom: 148, width: 392, height: 392, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
+      <div className="hidden lg:block absolute rounded-full" style={{ right: 79, top: 42, width: 400, height: 400, backgroundColor: 'var(--hz-primary)', opacity: 0.3, filter: 'blur(400px)' }} />
       {/* Mobile */}
-      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
-      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: '#722ED1', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ left: -121, bottom: -10, width: 311, height: 311, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
+      <div className="lg:hidden absolute rounded-full" style={{ right: -105, top: 64, width: 265, height: 265, backgroundColor: 'var(--hz-primary)', opacity: 0.2, filter: 'blur(200px)' }} />
     </div>
   )
 }
@@ -25,7 +25,7 @@ function SuccessBadge() {
       style={{
         width: 26,
         height: 26,
-        backgroundColor: '#16A34A',
+        backgroundColor: 'var(--hz-success)',
         animation: 'successBadgePop 0.38s cubic-bezier(0.34,1.56,0.64,1) 0.60s both',
       }}
     >
@@ -55,7 +55,7 @@ function IconWithGlow({ size }: { size: number }) {
         className="absolute rounded-full pointer-events-none"
         style={{
           inset: '-70%',
-          background: 'radial-gradient(circle at center, rgba(243,234,255,0.10) 0%, transparent 68%)',
+          background: 'radial-gradient(circle at center, var(--hz-primary-soft) 0%, transparent 68%)',
           filter: 'blur(12px)',
         }}
       />
@@ -77,7 +77,7 @@ export default function AccountCreatedScreen({
   return (
     <div
       className="min-h-full flex flex-col items-center justify-between relative px-5 py-10"
-      style={{ backgroundColor: '#FFFFFF' }}
+      style={{ backgroundColor: 'var(--hz-surface)' }}
     >
       <AmbientBackground />
 
@@ -94,7 +94,7 @@ export default function AccountCreatedScreen({
 
         {/* Eyebrow */}
         <div
-          className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold"
+          className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold"
           style={{
             fontFamily: '"Sometype Mono:SemiBold", monospace',
             animation: 'welcomeFadeUp 0.4s ease-out 0.42s both',
@@ -105,7 +105,7 @@ export default function AccountCreatedScreen({
 
         {/* Headline */}
         <h1
-          className="text-[34px] sm:text-[48px] font-semibold text-[#242326] leading-[1.04] tracking-[-0.025em] m-0"
+          className="text-[34px] sm:text-[48px] font-semibold text-[var(--hz-ink)] leading-[1.04] tracking-[-0.025em] m-0"
           style={{
             fontFamily: '"Geist Variable", sans-serif',
             animation: 'welcomeFadeUp 0.4s ease-out 0.50s both',
@@ -116,7 +116,7 @@ export default function AccountCreatedScreen({
 
         {/* Description */}
         <p
-          className="text-[15px] sm:text-[16px] text-[#68636D] leading-[1.7] m-0 max-w-[320px]"
+          className="text-[15px] sm:text-[16px] text-[var(--hz-ink-muted)] leading-[1.7] m-0 max-w-[320px]"
           style={{
             fontFamily: '"Inter Variable", sans-serif',
             animation: 'welcomeFadeUp 0.4s ease-out 0.56s both',
@@ -136,11 +136,11 @@ export default function AccountCreatedScreen({
             style={{ backgroundColor: 'rgba(22,163,74,0.12)' }}
           >
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-              <path d="M2 5L4 7L8 3" stroke="#16A34A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 5L4 7L8 3" stroke="var(--hz-success)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
           <span
-            className="text-[13px] font-medium text-[#722ED1]"
+            className="text-[13px] font-medium text-[var(--hz-primary)]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Account created successfully
@@ -165,7 +165,7 @@ export default function AccountCreatedScreen({
               New Home" card). */}
           <button
             onClick={() => onNavigate('homeowner-profile', { onboarding_flow: 'true', full_name: fullName ?? '' })}
-            className="h-[52px] bg-[#722ED1] text-white text-[14px] font-semibold rounded-[12px] cursor-pointer transition-all duration-200 hover:brightness-90 active:scale-[0.99] flex items-center justify-center w-full sm:w-[260px]"
+            className="h-[52px] bg-[var(--hz-primary)] text-white text-[14px] font-semibold rounded-[12px] cursor-pointer transition-all duration-200 hover:brightness-90 active:scale-[0.99] flex items-center justify-center w-full sm:w-[260px]"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Go to Houzeify →
@@ -173,7 +173,7 @@ export default function AccountCreatedScreen({
 
           <button
             onClick={() => onNavigate('dashboard-home')}
-            className="text-[13px] text-[#9A949D] bg-transparent border-none cursor-pointer hover:text-[#68636D] transition-colors duration-200"
+            className="text-[13px] text-[var(--hz-ink-subtle)] bg-transparent border-none cursor-pointer hover:text-[var(--hz-ink-muted)] transition-colors duration-200"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Skip
@@ -192,7 +192,7 @@ export default function AccountCreatedScreen({
               Professional Type → Account Type → Partner Dashboard chain. */}
           <button
             onClick={() => onNavigate(nextScreenForIntent('professional'), { role: roleForIntent('professional') })}
-            className="text-[12.5px] text-[#722ED1] font-medium bg-transparent border-none cursor-pointer hover:underline transition-colors duration-200"
+            className="text-[12.5px] text-[var(--hz-primary)] font-medium bg-transparent border-none cursor-pointer hover:underline transition-colors duration-200"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             I&apos;m a professional / business →
@@ -211,14 +211,14 @@ export default function AccountCreatedScreen({
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
             <span
-              className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]"
+              className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]"
               style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
             >
               {item}
             </span>
             {i < arr.length - 1 && (
               <span
-                className="text-[12px] text-[#722ED1]"
+                className="text-[12px] text-[var(--hz-primary)]"
                 style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
               >
                 /

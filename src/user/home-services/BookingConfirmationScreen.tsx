@@ -71,12 +71,12 @@ interface BookingSnapshot {
 
 function SummaryRow({ item, isLast }: { item: CustomerCartItem; isLast: boolean }) {
   return (
-    <div className={`flex items-start justify-between gap-3 py-3 ${isLast ? '' : 'border-b border-[#F4F0EC]'}`}>
+    <div className={`flex items-start justify-between gap-3 py-3 ${isLast ? '' : 'border-b border-[var(--hz-surface-muted)]'}`}>
       <div className="flex flex-col gap-0.5 min-w-0">
-        <span className="text-[13.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-        <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Qty {item.qty}</span>
+        <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+        <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Qty {item.qty}</span>
       </div>
-      <span className="text-[13.5px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: FONT_HEAD }}>₹{item.price * item.qty}</span>
+      <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] shrink-0" style={{ fontFamily: FONT_HEAD }}>₹{item.price * item.qty}</span>
     </div>
   )
 }
@@ -89,13 +89,13 @@ function SummaryRow({ item, isLast }: { item: CustomerCartItem; isLast: boolean 
 
 function NothingToConfirm({ onReturnHome }: { onReturnHome: () => void }) {
   return (
-    <div className="min-h-full flex flex-col items-center justify-center relative px-5 py-10" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col items-center justify-center relative px-5 py-10" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <div className="relative z-10 flex flex-col items-center text-center gap-4 max-w-[420px]">
         <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto mb-2" style={{ mixBlendMode: 'multiply' }} />
-        <p className="text-[15px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_HEAD }}>There&apos;s no booking to confirm.</p>
+        <p className="text-[15px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_HEAD }}>There&apos;s no booking to confirm.</p>
         <button
           onClick={onReturnHome}
-          className="h-[48px] px-5 rounded-[12px] text-[14px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all"
+          className="h-[48px] px-5 rounded-[12px] text-[14px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all"
           style={{ fontFamily: FONT_BODY }}
         >
           Return to Home
@@ -193,7 +193,7 @@ export default function BookingConfirmationScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Header — centred logo, no back action: mirrors
           ServiceRequestSubmittedScreen's own header exactly. There's
@@ -212,19 +212,19 @@ export default function BookingConfirmationScreen({
               Only the icon/copy vary; layout stays the same. */}
           <div className="flex flex-col items-center gap-5 text-center" role="status">
             <div className="relative w-[84px] h-[84px] flex items-center justify-center" aria-hidden="true">
-              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(18px)' }} />
-              <span className="relative w-[72px] h-[72px] rounded-full flex items-center justify-center" style={{ backgroundColor: booking ? '#722ED1' : '#B45309', boxShadow: '0 8px 30px rgba(243,234,255,0.10)' }}>
+              <span className="absolute inset-0 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', filter: 'blur(18px)' }} />
+              <span className="relative w-[72px] h-[72px] rounded-full flex items-center justify-center" style={{ backgroundColor: booking ? 'var(--hz-primary)' : '#B45309', boxShadow: '0 8px 30px var(--hz-primary-soft)' }}>
                 {booking ? <BigCheckIcon /> : <IncompleteIcon />}
               </span>
             </div>
             <div className="flex flex-col items-center gap-3">
-              <span className="text-[12px] tracking-[0.12em] uppercase font-semibold" style={{ fontFamily: FONT_MONO, color: booking ? '#722ED1' : '#B45309' }}>
+              <span className="text-[12px] tracking-[0.12em] uppercase font-semibold" style={{ fontFamily: FONT_MONO, color: booking ? 'var(--hz-primary)' : '#B45309' }}>
                 {booking ? 'Booking Confirmed' : 'Booking Incomplete'}
               </span>
-              <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] leading-[1.1] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+              <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] leading-[1.1] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
                 {booking ? 'Your service is booked.' : "We couldn't complete your booking."}
               </h1>
-              <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[520px]" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[520px]" style={{ fontFamily: FONT_BODY }}>
                 {booking
                   ? "We've confirmed your booking. The professional will arrive at the scheduled time."
                   : 'A service address and time were missing, so nothing was booked. Please go back and add them to finish.'}
@@ -235,15 +235,15 @@ export default function BookingConfirmationScreen({
           {/* Booking reference — only shown when a real record was actually
               persisted; see BookingSnapshot's own doc comment. */}
           {booking && (
-            <div className="w-full flex items-center justify-between gap-3 rounded-[14px] bg-white border border-[#E3DDD7] px-5 py-3.5 flex-wrap" style={{ maxWidth: 480 }}>
+            <div className="w-full flex items-center justify-between gap-3 rounded-[14px] bg-[var(--hz-surface)] border border-[var(--hz-border)] px-5 py-3.5 flex-wrap" style={{ maxWidth: 480 }}>
               <div className="flex flex-col gap-0.5">
-                <span className="text-[10.5px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Booking Reference</span>
-                <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_MONO }}>{booking.displayId}</span>
+                <span className="text-[10.5px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Booking Reference</span>
+                <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_MONO }}>{booking.displayId}</span>
               </div>
               <button
                 onClick={handleCopy}
                 aria-label="Copy booking reference"
-                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all"
                 style={{ fontFamily: FONT_BODY }}
               >
                 <CopyIcon /> {copied ? 'Copied!' : 'Copy'}
@@ -252,10 +252,10 @@ export default function BookingConfirmationScreen({
           )}
 
           {/* Booking summary */}
-          <div className="w-full rounded-[18px] bg-white border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4" style={{ maxWidth: 480, boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="w-full rounded-[18px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4" style={{ maxWidth: 480, boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-[7px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
-              <span className="text-[11px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Your Booking</span>
+              <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
+              <span className="text-[11px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Your Booking</span>
             </div>
 
             <div className="flex flex-col">
@@ -263,33 +263,33 @@ export default function BookingConfirmationScreen({
                 <SummaryRow key={it.cartId} item={it} isLast={i === snapshot.items.length - 1} />
               ))}
             </div>
-            <div className="flex items-center justify-between pt-1 border-t border-[#E3DDD7]">
-              <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Total</span>
-              <span className="text-[14.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>₹{snapshot.subtotal}</span>
+            <div className="flex items-center justify-between pt-1 border-t border-[var(--hz-border)]">
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Total</span>
+              <span className="text-[14.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>₹{snapshot.subtotal}</span>
             </div>
 
-            <div className="flex flex-col gap-2.5 pt-1 border-t border-[#E3DDD7]">
+            <div className="flex flex-col gap-2.5 pt-1 border-t border-[var(--hz-border)]">
               {snapshot.address && (
                 <div className="flex items-start gap-2.5">
-                  <span className="text-[#9A949D] shrink-0 mt-0.5"><PinIcon /></span>
-                  <span className="text-[12.5px] text-[#242326] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>
+                  <span className="text-[var(--hz-ink-subtle)] shrink-0 mt-0.5"><PinIcon /></span>
+                  <span className="text-[12.5px] text-[var(--hz-ink)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>
                     <span className="font-semibold">{snapshot.address.label}</span> — {formatCustomerAddress(snapshot.address)}
                   </span>
                 </div>
               )}
               {snapshot.slot && (
                 <div className="flex items-center gap-2.5">
-                  <span className="text-[#9A949D] shrink-0"><ClockIcon /></span>
-                  <span className="text-[12.5px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{snapshot.slot.label}</span>
+                  <span className="text-[var(--hz-ink-subtle)] shrink-0"><ClockIcon /></span>
+                  <span className="text-[12.5px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{snapshot.slot.label}</span>
                 </div>
               )}
             </div>
           </div>
 
           {/* Hozie */}
-          <div className="w-full flex items-center gap-3.5 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-4 flex-wrap" style={{ maxWidth: 480 }}>
-            <div className="w-10 h-10 rounded-[12px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
-            <p className="text-[13px] text-[#242326] leading-[1.5] m-0 flex-1 min-w-[200px]" style={{ fontFamily: FONT_BODY }}>
+          <div className="w-full flex items-center gap-3.5 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-4 flex-wrap" style={{ maxWidth: 480 }}>
+            <div className="w-10 h-10 rounded-[12px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
+            <p className="text-[13px] text-[var(--hz-ink)] leading-[1.5] m-0 flex-1 min-w-[200px]" style={{ fontFamily: FONT_BODY }}>
               I&apos;ll remind you as the appointment gets closer. Ask me anytime if plans change.
             </p>
           </div>
@@ -299,7 +299,7 @@ export default function BookingConfirmationScreen({
             <button
               onClick={booking ? viewBooking : backToHome}
               aria-label={booking ? 'View booking details' : 'Back to Home'}
-              className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 px-6 flex items-center justify-center gap-2 bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] w-full sm:w-auto"
+              className="h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 px-6 flex items-center justify-center gap-2 bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99] w-full sm:w-auto"
               style={{ fontFamily: FONT_BODY }}
             >
               {booking ? 'View Booking Details' : 'Back to Home'}
@@ -308,7 +308,7 @@ export default function BookingConfirmationScreen({
               <button
                 onClick={backToHome}
                 aria-label="Back to Home"
-                className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#242326] hover:border-[#722ED1] transition-colors w-full sm:w-auto"
+                className="h-[52px] text-[13.5px] font-medium rounded-[12px] px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] hover:border-[var(--hz-primary)] transition-colors w-full sm:w-auto"
                 style={{ fontFamily: FONT_BODY }}
               >
                 Back to Home
@@ -322,8 +322,8 @@ export default function BookingConfirmationScreen({
       <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-6 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>

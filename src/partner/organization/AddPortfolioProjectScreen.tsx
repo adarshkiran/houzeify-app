@@ -80,8 +80,8 @@ const StarIcon = ({ size = 10 }: { size?: number }) => (
 function FieldLabel({ children, optional }: { children: React.ReactNode; optional?: boolean }) {
   return (
     <div className="flex items-center gap-1.5 mb-1.5">
-      <label className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{children}</label>
-      {optional && <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
+      <label className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{children}</label>
+      {optional && <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
     </div>
   )
 }
@@ -101,7 +101,7 @@ function TextInput({ id, value, onChange, placeholder, error, describedBy, type 
       placeholder={placeholder}
       aria-invalid={error}
       aria-describedby={describedBy}
-      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', error ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+      className={['w-full h-[44px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', error ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
       style={{ fontFamily: FONT_BODY }}
     />
   )
@@ -121,12 +121,12 @@ function ChipGroup<T extends string>({ options, labels, value, onChange, ariaLab
           className="flex items-center gap-1 h-8 px-3 rounded-full text-[12px] font-semibold cursor-pointer border transition-all"
           style={{
             fontFamily: FONT_BODY,
-            backgroundColor: value === opt ? '#F3EAFF' : '#FFFFFF',
-            borderColor: value === opt ? '#722ED1' : '#CAC7C6',
-            color: value === opt ? '#722ED1' : '#1E1E1E',
+            backgroundColor: value === opt ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+            borderColor: value === opt ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+            color: value === opt ? 'var(--hz-primary)' : 'var(--hz-black)',
           }}
         >
-          {value === opt && <span className="w-3 h-3 rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>}
+          {value === opt && <span className="w-3 h-3 rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>}
           {labels[opt]}
         </button>
       ))}
@@ -229,15 +229,15 @@ export default function AddPortfolioProjectScreen({
   // ─── Individual / no-organization safety — never save under a fake id ────
   if (!resolvedOrganizationId) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <div className="relative z-10 flex flex-col items-center gap-3 text-center max-w-[420px]">
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Portfolio projects are currently available for organization profiles.</p>
-          <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Portfolio projects are currently available for organization profiles.</p>
+          <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
             {isOrganization
               ? 'Complete your organization setup to start adding portfolio projects.'
               : 'Individual professional profiles don’t support portfolio projects yet.'}
           </p>
-          <button type="button" onClick={goToPortfolio} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+          <button type="button" onClick={goToPortfolio} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
             Back to Portfolio
           </button>
         </div>
@@ -332,11 +332,11 @@ export default function AddPortfolioProjectScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goToPortfolio} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={goToPortfolio} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Portfolio
           </button>
         </div>
@@ -345,14 +345,14 @@ export default function AddPortfolioProjectScreen({
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
         <div className="max-w-[720px] mx-auto flex flex-col gap-6">
           <div>
-            <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Add Portfolio Project</p>
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Showcase your completed and ongoing work.</h1>
-            <p className="text-[12.5px] text-[#68636D] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>Add Portfolio Project</p>
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Showcase your completed and ongoing work.</h1>
+            <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
               {companyName || 'Your organization'}{professionalTypeLabel ? ` · ${professionalTypeLabel}` : ''}
             </p>
           </div>
 
-          <div className="rounded-[16px] bg-white p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }}>
+          <div className="rounded-[16px] bg-[var(--hz-surface)] p-5 flex flex-col gap-4" style={{ border: '1px solid var(--hz-border)' }}>
             <div>
               <FieldLabel>Project name</FieldLabel>
               <TextInput id="pf-name" value={values.name} onChange={v => { setValues(p => ({ ...p, name: v })); setSaveError(false) }} placeholder="e.g. Mantoor Residency" error={showError('name')} describedBy={showError('name') ? 'pf-name-error' : undefined} />
@@ -389,11 +389,11 @@ export default function AddPortfolioProjectScreen({
                 <FieldLabel optional>Project size</FieldLabel>
                 <div className="flex items-center gap-2">
                   <div className="flex-1"><TextInput id="pf-area" type="number" value={values.area} onChange={v => setValues(p => ({ ...p, area: v }))} placeholder="e.g. 12000" error={showError('area')} describedBy={showError('area') ? 'pf-area-error' : undefined} /></div>
-                  <div role="radiogroup" aria-label="Area unit" className="flex items-center p-1 rounded-[8px] shrink-0" style={{ backgroundColor: '#F4F0EC' }}>
+                  <div role="radiogroup" aria-label="Area unit" className="flex items-center p-1 rounded-[8px] shrink-0" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                     {(['sqft', 'sqm'] as AreaUnit[]).map(u => (
                       <button key={u} type="button" role="radio" aria-checked={values.areaUnit === u} onClick={() => setValues(p => ({ ...p, areaUnit: u }))}
                         className="h-7 px-2.5 rounded-[6px] text-[11px] font-semibold cursor-pointer border-0 transition-all"
-                        style={{ fontFamily: FONT_BODY, backgroundColor: values.areaUnit === u ? '#FFFFFF' : 'transparent', color: values.areaUnit === u ? '#722ED1' : '#808080' }}
+                        style={{ fontFamily: FONT_BODY, backgroundColor: values.areaUnit === u ? 'var(--hz-surface)' : 'transparent', color: values.areaUnit === u ? 'var(--hz-primary)' : '#808080' }}
                       >{u === 'sqft' ? 'sq ft' : 'sq m'}</button>
                     ))}
                   </div>
@@ -426,17 +426,17 @@ export default function AddPortfolioProjectScreen({
                       className="flex items-center gap-1 h-8 px-3 rounded-full text-[12px] font-semibold cursor-pointer border transition-all"
                       style={{
                         fontFamily: FONT_BODY,
-                        backgroundColor: values.relatedServiceCategory === cat ? '#F3EAFF' : '#FFFFFF',
-                        borderColor: values.relatedServiceCategory === cat ? '#722ED1' : '#CAC7C6',
-                        color: values.relatedServiceCategory === cat ? '#722ED1' : '#1E1E1E',
+                        backgroundColor: values.relatedServiceCategory === cat ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+                        borderColor: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+                        color: values.relatedServiceCategory === cat ? 'var(--hz-primary)' : 'var(--hz-black)',
                       }}
                     >
-                      {values.relatedServiceCategory === cat && <span className="w-3 h-3 rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>}
+                      {values.relatedServiceCategory === cat && <span className="w-3 h-3 rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon size={7} /></span>}
                       {SERVICE_CATEGORY_LABELS[cat]}
                     </button>
                   ))}
                 </div>
-                <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Which of your services does this project demonstrate? Tap again to clear.</p>
+                <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Which of your services does this project demonstrate? Tap again to clear.</p>
               </div>
             )}
 
@@ -449,20 +449,20 @@ export default function AddPortfolioProjectScreen({
                 placeholder="Briefly describe the project, scope and your company's involvement."
                 rows={3}
                 maxLength={DESCRIPTION_MAX}
-                className="w-full px-3.5 py-2.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                 style={{ fontFamily: FONT_BODY }}
               />
-              <div className="flex justify-end mt-1"><span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{values.description.length}/{DESCRIPTION_MAX}</span></div>
+              <div className="flex justify-end mt-1"><span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{values.description.length}/{DESCRIPTION_MAX}</span></div>
             </div>
 
             <div>
               <FieldLabel optional>Project images</FieldLabel>
               <div className="flex flex-wrap gap-2.5">
                 {images.map((img, i) => (
-                  <div key={img.id} className="relative w-[84px] h-[84px] rounded-[10px] overflow-hidden border" style={{ borderColor: coverId === img.id ? '#722ED1' : '#CAC7C6', borderWidth: coverId === img.id ? 2 : 1 }}>
+                  <div key={img.id} className="relative w-[84px] h-[84px] rounded-[10px] overflow-hidden border" style={{ borderColor: coverId === img.id ? 'var(--hz-primary)' : 'var(--hz-border-strong)', borderWidth: coverId === img.id ? 2 : 1 }}>
                     <img src={img.url} alt={`Project photo ${i + 1}`} className="w-full h-full object-cover" />
                     {coverId === img.id && (
-                      <span className="absolute top-1 left-1 flex items-center gap-0.5 h-[16px] px-1 rounded-full bg-[#722ED1] text-white" style={{ fontFamily: FONT_MONO, fontSize: '9px' }}>
+                      <span className="absolute top-1 left-1 flex items-center gap-0.5 h-[16px] px-1 rounded-full bg-[var(--hz-primary)] text-white" style={{ fontFamily: FONT_MONO, fontSize: '9px' }}>
                         <StarIcon size={7} /> Cover
                       </span>
                     )}
@@ -489,11 +489,11 @@ export default function AddPortfolioProjectScreen({
                     onDragOver={e => e.preventDefault()}
                     onDragLeave={e => { e.preventDefault(); setIsDraggingPhoto(false) }}
                     onDrop={handlePhotoDrop}
-                    className="w-[84px] h-[84px] rounded-[10px] border border-dashed flex flex-col items-center justify-center gap-1 cursor-pointer text-[#722ED1] transition-colors"
-                    style={{ borderColor: isDraggingPhoto ? '#722ED1' : '#CAC7C6', backgroundColor: isDraggingPhoto ? '#F9F5FF' : 'transparent' }}
+                    className="w-[84px] h-[84px] rounded-[10px] border border-dashed flex flex-col items-center justify-center gap-1 cursor-pointer text-[var(--hz-primary)] transition-colors"
+                    style={{ borderColor: isDraggingPhoto ? 'var(--hz-primary)' : 'var(--hz-border-strong)', backgroundColor: isDraggingPhoto ? 'var(--hz-primary-wash)' : 'transparent' }}
                   >
                     {uploading ? (
-                      <svg className="animate-spin" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#722ED1" strokeWidth="2" strokeOpacity="0.25" /><path d="M8 2a6 6 0 0 1 6 6" stroke="#722ED1" strokeWidth="2" strokeLinecap="round" /></svg>
+                      <svg className="animate-spin" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="var(--hz-primary)" strokeWidth="2" strokeOpacity="0.25" /><path d="M8 2a6 6 0 0 1 6 6" stroke="var(--hz-primary)" strokeWidth="2" strokeLinecap="round" /></svg>
                     ) : (
                       <>
                         <UploadIcon />
@@ -504,7 +504,7 @@ export default function AddPortfolioProjectScreen({
                 )}
                 <input ref={fileInputRef} id="pf-image-input" type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleFilesSelected} className="sr-only" />
               </div>
-              <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Up to {MAX_IMAGES_PER_PROJECT} images · JPG, PNG or WEBP · up to 10 MB each · drag & drop or browse. The first image is the cover by default.</p>
+              <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>Up to {MAX_IMAGES_PER_PROJECT} images · JPG, PNG or WEBP · up to 10 MB each · drag & drop or browse. The first image is the cover by default.</p>
               {imageError && <FieldError id="pf-image-error" message={imageError} />}
             </div>
 
@@ -519,11 +519,11 @@ export default function AddPortfolioProjectScreen({
                     aria-checked={visibility === v}
                     onClick={() => setVisibility(v)}
                     className="relative text-left flex flex-col gap-0.5 rounded-[10px] p-3 border transition-all cursor-pointer"
-                    style={{ backgroundColor: visibility === v ? '#F9F5FF' : '#FFFFFF', borderColor: visibility === v ? '#722ED1' : '#CAC7C6', borderWidth: visibility === v ? 2 : 1 }}
+                    style={{ backgroundColor: visibility === v ? 'var(--hz-primary-wash)' : 'var(--hz-surface)', borderColor: visibility === v ? 'var(--hz-primary)' : 'var(--hz-border-strong)', borderWidth: visibility === v ? 2 : 1 }}
                   >
-                    <span className="text-[13px] font-semibold" style={{ fontFamily: FONT_HEAD, color: visibility === v ? '#722ED1' : '#1E1E1E' }}>{VISIBILITY_LABELS[v]}</span>
-                    <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{VISIBILITY_DESCRIPTIONS[v]}</span>
-                    {visibility === v && <span className="absolute top-2.5 right-2.5 w-[15px] h-[15px] rounded-full bg-[#722ED1] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>}
+                    <span className="text-[13px] font-semibold" style={{ fontFamily: FONT_HEAD, color: visibility === v ? 'var(--hz-primary)' : 'var(--hz-black)' }}>{VISIBILITY_LABELS[v]}</span>
+                    <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{VISIBILITY_DESCRIPTIONS[v]}</span>
+                    {visibility === v && <span className="absolute top-2.5 right-2.5 w-[15px] h-[15px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center" aria-hidden="true"><CheckIcon size={8} /></span>}
                   </button>
                 ))}
               </div>
@@ -531,16 +531,16 @@ export default function AddPortfolioProjectScreen({
           </div>
 
           {saveError && (
-            <p className="text-[12.5px] text-[#DC2626] m-0" style={{ fontFamily: FONT_BODY }}>
-              Couldn't save this portfolio project. <button type="button" onClick={handleSave} className="underline cursor-pointer border-0 bg-transparent p-0 text-[#DC2626]">Try again</button>
+            <p className="text-[12.5px] text-[var(--hz-danger)] m-0" style={{ fontFamily: FONT_BODY }}>
+              Couldn't save this portfolio project. <button type="button" onClick={handleSave} className="underline cursor-pointer border-0 bg-transparent p-0 text-[var(--hz-danger)]">Try again</button>
             </p>
           )}
 
           <div className="flex items-center gap-3 pb-4">
-            <button type="button" onClick={handleSave} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY, cursor: 'pointer' }}>
+            <button type="button" onClick={handleSave} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY, cursor: 'pointer' }}>
               Add Portfolio Project
             </button>
-            <button type="button" onClick={goToPortfolio} className="text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={goToPortfolio} className="text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Cancel
             </button>
           </div>

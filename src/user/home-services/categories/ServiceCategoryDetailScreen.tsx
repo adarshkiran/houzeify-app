@@ -255,7 +255,7 @@ function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; labe
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -271,27 +271,27 @@ function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; labe
 
 function MobileTopBar({ title, onBack }: { title: string; onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-      <button onClick={onBack} aria-label="Back to Home Services" className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px] shrink-0" style={{ fontFamily: FONT_BODY }}>
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+      <button onClick={onBack} aria-label="Back to Home Services" className="flex items-center gap-1 text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer text-[13px] shrink-0" style={{ fontFamily: FONT_BODY }}>
         <IcoChevronLeft /> Services
       </button>
-      <span className="text-[15px] font-semibold text-[#242326] truncate px-2" style={{ fontFamily: FONT_HEAD }}>{title}</span>
-      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer shrink-0"><IcoBell /></button>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate px-2" style={{ fontFamily: FONT_HEAD }}>{title}</span>
+      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer shrink-0"><IcoBell /></button>
     </div>
   )
 }
 
 function TopHeader({ title, userInitials, onNavigate }: { title: string; userInitials: string; onNavigate: (s: string) => void }) {
   return (
-    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#E3DDD7]">
-      <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{title}</h1>
+    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+      <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>{title}</h1>
       <div className="flex items-center gap-2">
-        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all"><IcoBell /></button>
-        <button onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="flex items-center gap-2 ml-1 px-2 py-1 rounded-[10px] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent">
+        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all"><IcoBell /></button>
+        <button onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="flex items-center gap-2 ml-1 px-2 py-1 rounded-[10px] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-transparent">
           {/* Customer Implementation 09G — real onboarding initials
               (initials(full_name ‖ preferred_name)); "?" when no name.
               Was a literal hardcoded "AK". */}
-          <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{userInitials}</div>
+          <div className="w-8 h-8 rounded-full bg-[var(--hz-primary)] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{userInitials}</div>
         </button>
       </div>
     </header>
@@ -304,10 +304,10 @@ function TopHeader({ title, userInitials, onNavigate }: { title: string; userIni
 function Breadcrumb({ catalogueTitle, onBack }: { catalogueTitle: string; onBack: () => void }) {
   return (
     <div className="flex items-center justify-between">
-      <button onClick={onBack} className="hidden md:flex items-center gap-1.5 text-[13px] text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+      <button onClick={onBack} className="hidden md:flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
         <IcoChevronLeft /> Back
       </button>
-      <span className="text-[11.5px] tracking-[0.10em] uppercase text-[#9A949D] ml-auto" style={{ fontFamily: FONT_MONO }}>{catalogueTitle}</span>
+      <span className="text-[11.5px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] ml-auto" style={{ fontFamily: FONT_MONO }}>{catalogueTitle}</span>
     </div>
   )
 }
@@ -318,8 +318,8 @@ function LocationBar({ city, state, onChangeLocation, onSetLocation }: { city?: 
   if (!city) {
     return (
       <div className="flex items-center gap-3 flex-wrap">
-        <span className="flex items-center gap-1.5 text-[13px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}><IcoMapPin /> Location not set</span>
-        <button onClick={onSetLocation} className="h-8 px-3 rounded-[8px] bg-[#722ED1] text-white text-[12px] font-medium cursor-pointer hover:brightness-90 transition-all border-0" style={{ fontFamily: FONT_BODY }}>
+        <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}><IcoMapPin /> Location not set</span>
+        <button onClick={onSetLocation} className="h-8 px-3 rounded-[8px] bg-[var(--hz-primary)] text-white text-[12px] font-medium cursor-pointer hover:brightness-90 transition-all border-0" style={{ fontFamily: FONT_BODY }}>
           Set location
         </button>
       </div>
@@ -327,10 +327,10 @@ function LocationBar({ city, state, onChangeLocation, onSetLocation }: { city?: 
   }
   return (
     <div className="flex items-center gap-2.5 flex-wrap">
-      <span className="flex items-center gap-1.5 text-[13px] text-[#242326] font-medium" style={{ fontFamily: FONT_BODY }}>
+      <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink)] font-medium" style={{ fontFamily: FONT_BODY }}>
         <IcoMapPin /> {[city, state].filter(Boolean).join(', ')}
       </span>
-      <button onClick={onChangeLocation} className="text-[12.5px] text-[#722ED1] font-medium hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+      <button onClick={onChangeLocation} className="text-[12.5px] text-[var(--hz-primary)] font-medium hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
         Change →
       </button>
     </div>
@@ -343,12 +343,12 @@ function ServiceHero({ category }: { category: ServiceCategory }) {
   const meta = getServiceCategory(category)
   return (
     <div className="flex items-start gap-4">
-      <span className="w-14 h-14 rounded-[16px] bg-[#F3EAFF] flex items-center justify-center text-[#722ED1] shrink-0">
+      <span className="w-14 h-14 rounded-[16px] bg-[var(--hz-primary-soft)] flex items-center justify-center text-[var(--hz-primary)] shrink-0">
         {CATEGORY_ICONS[category] ?? CATEGORY_ICONS.other}
       </span>
       <div className="flex flex-col gap-1 min-w-0 pt-0.5">
-        <h1 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0 leading-[1.1]" style={{ fontFamily: FONT_HEAD }}>{meta?.name ?? 'Service'}</h1>
-        <p className="text-[14px] text-[#68636D] leading-[1.6] m-0 max-w-[520px]" style={{ fontFamily: FONT_BODY }}>{SERVICE_HERO_DESCRIPTIONS[category]}</p>
+        <h1 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.1]" style={{ fontFamily: FONT_HEAD }}>{meta?.name ?? 'Service'}</h1>
+        <p className="text-[14px] text-[var(--hz-ink-muted)] leading-[1.6] m-0 max-w-[520px]" style={{ fontFamily: FONT_BODY }}>{SERVICE_HERO_DESCRIPTIONS[category]}</p>
       </div>
     </div>
   )
@@ -365,13 +365,13 @@ function IntentCard({ title, description, selected, multi, onSelect }: { title: 
       onClick={onSelect}
       className={[
         'relative text-left flex flex-col gap-1 rounded-[14px] p-4 transition-all duration-200 outline-none cursor-pointer h-full',
-        selected ? 'bg-[#F9F5FF] border-2 border-[#722ED1]' : 'bg-white border border-[#E3DDD7] hover:bg-[#FFFFFF] hover:border-[#722ED1]',
+        selected ? 'bg-[var(--hz-primary-wash)] border-2 border-[var(--hz-primary)]' : 'bg-[var(--hz-surface)] border border-[var(--hz-border)] hover:bg-[var(--hz-surface)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
-      <span className={['text-[13.5px] font-semibold leading-tight pr-5', selected ? 'text-[#722ED1]' : 'text-[#242326]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
-      {description && <span className="text-[12px] text-[#68636D] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>}
+      <span className={['text-[13.5px] font-semibold leading-tight pr-5', selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'].join(' ')} style={{ fontFamily: FONT_HEAD }}>{title}</span>
+      {description && <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.45]" style={{ fontFamily: FONT_BODY }}>{description}</span>}
       {selected && (
-        <span className={['absolute top-3 right-3 w-[16px] h-[16px] bg-[#722ED1] flex items-center justify-center', multi ? 'rounded-[5px]' : 'rounded-full'].join(' ')} aria-hidden="true">
+        <span className={['absolute top-3 right-3 w-[16px] h-[16px] bg-[var(--hz-primary)] flex items-center justify-center', multi ? 'rounded-[5px]' : 'rounded-full'].join(' ')} aria-hidden="true">
           <IcoCheck />
         </span>
       )}
@@ -383,15 +383,15 @@ function IntentCard({ title, description, selected, multi, onSelect }: { title: 
 
 function HozieAssist({ onAskHozie }: { onAskHozie: () => void }) {
   return (
-    <div className="w-full flex items-center gap-4 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-4 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <div className="w-10 h-10 rounded-[12px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
+    <div className="w-full flex items-center gap-4 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-4 flex-wrap" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <div className="w-10 h-10 rounded-[12px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
       <div className="flex flex-col gap-0.5 flex-1 min-w-[220px]">
-        <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Not sure what you need?</span>
-        <span className="text-[12.5px] text-[#68636D] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Not sure what you need?</span>
+        <span className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>
           Tell Hozie what&apos;s wrong or what you&apos;d like to change — e.g. &ldquo;My bathroom floor is leaking.&rdquo;
         </span>
       </div>
-      <button onClick={onAskHozie} className="h-9 px-4 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[12.5px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0" style={{ fontFamily: FONT_BODY }}>
+      <button onClick={onAskHozie} className="h-9 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12.5px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0" style={{ fontFamily: FONT_BODY }}>
         Ask Hozie →
       </button>
     </div>
@@ -403,16 +403,16 @@ function HozieAssist({ onAskHozie }: { onAskHozie: () => void }) {
 function ServiceSummary({ lines }: { lines: string[] }) {
   if (lines.length === 0) return null
   return (
-    <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="w-full rounded-[16px] p-5 flex flex-col gap-2.5" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2">
-        <span className="w-6 h-6 rounded-[7px] bg-white flex items-center justify-center shrink-0"><HIcon size={16} /></span>
-        <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Your Service</span>
+        <span className="w-6 h-6 rounded-[7px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={16} /></span>
+        <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Your Service</span>
       </div>
       <div className="flex flex-col gap-1.5">
         {lines.map((line, i) => (
           <div key={`${line}-${i}`} className="flex items-center gap-2">
-            <span className="w-4 h-4 rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><IcoCheck size={8} /></span>
-            <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{line}</span>
+            <span className="w-4 h-4 rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><IcoCheck size={8} /></span>
+            <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{line}</span>
           </div>
         ))}
       </div>
@@ -423,15 +423,15 @@ function ServiceSummary({ lines }: { lines: string[] }) {
 // ─── Loading / unavailable ──────────────────────────────────────────────────
 
 function DetailSkeleton() {
-  const bar = (w: string, h = 14) => <div className="rounded-full bg-[#F4F0EC]" style={{ width: w, height: h, animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />
+  const bar = (w: string, h = 14) => <div className="rounded-full bg-[var(--hz-surface-muted)]" style={{ width: w, height: h, animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />
   return (
     <div className="flex flex-col gap-6" style={{ maxWidth: 1000, margin: '0 auto' }}>
       <div className="flex items-start gap-4">
-        <div className="w-14 h-14 rounded-[16px] bg-[#F4F0EC]" style={{ animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />
+        <div className="w-14 h-14 rounded-[16px] bg-[var(--hz-surface-muted)]" style={{ animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />
         <div className="flex flex-col gap-2 flex-1">{bar('30%', 22)}{bar('60%')}</div>
       </div>
       <div className="grid grid-cols-2 gap-3">
-        {[0, 1, 2, 3].map(i => <div key={i} className="rounded-[14px] border border-[#E3DDD7]" style={{ height: 72, animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />)}
+        {[0, 1, 2, 3].map(i => <div key={i} className="rounded-[14px] border border-[var(--hz-border)]" style={{ height: 72, animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />)}
       </div>
     </div>
   )
@@ -440,8 +440,8 @@ function DetailSkeleton() {
 function ServiceUnavailable({ onBrowse }: { onBrowse: () => void }) {
   return (
     <div className="flex flex-col items-center text-center gap-4 py-20" style={{ maxWidth: 420, margin: '0 auto' }}>
-      <p className="text-[15px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>This service is currently unavailable.</p>
-      <button onClick={onBrowse} className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[15px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>This service is currently unavailable.</p>
+      <button onClick={onBrowse} className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0" style={{ fontFamily: FONT_BODY }}>
         Browse services
       </button>
     </div>
@@ -503,7 +503,7 @@ export default function ServiceCategoryDetailScreen({
 
   if (status !== 'ready' || !resolvedCategory) {
     return (
-      <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+      <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
         <MobileTopBar title={catalogueTitle} onBack={goHomeServices} />
         <div className="flex flex-1 min-h-0 relative z-10">
           <Sidebar active="services" onNavigate={onNavigate} />
@@ -558,7 +558,7 @@ export default function ServiceCategoryDetailScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar title={meta?.name ?? 'Service'} onBack={goHomeServices} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -581,11 +581,11 @@ export default function ServiceCategoryDetailScreen({
               />
 
               <div className="flex flex-col gap-3">
-                <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>What do you want to do?</span>
+                <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>What do you want to do?</span>
 
                 {usesFreeTextIntent(resolvedCategory) ? (
                   <div className="flex flex-col gap-1.5 max-w-[520px]">
-                    <label htmlFor="other-service-description" className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+                    <label htmlFor="other-service-description" className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                       Tell us what you need
                     </label>
                     <textarea
@@ -594,7 +594,7 @@ export default function ServiceCategoryDetailScreen({
                       onChange={e => setOtherDescription(e.target.value)}
                       placeholder="Describe the service you need..."
                       rows={3}
-                      className="w-full px-3.5 py-2.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                       style={{ fontFamily: FONT_BODY }}
                     />
                   </div>
@@ -621,7 +621,7 @@ export default function ServiceCategoryDetailScreen({
               <div className="flex flex-col-reverse sm:flex-row items-center gap-3 sm:justify-between">
                 <button
                   onClick={goHomeServices}
-                  className="h-[48px] px-5 rounded-[12px] w-full sm:w-auto cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] text-[13.5px] font-medium hover:border-[#A1A1A1] transition-colors"
+                  className="h-[48px] px-5 rounded-[12px] w-full sm:w-auto cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] text-[13.5px] font-medium hover:border-[#A1A1A1] transition-colors"
                   style={{ fontFamily: FONT_BODY }}
                 >
                   ← Back
@@ -632,7 +632,7 @@ export default function ServiceCategoryDetailScreen({
                   aria-label="Ask Hozie"
                   className={[
                     'h-[48px] px-6 rounded-[12px] w-full sm:w-auto text-[14px] font-semibold transition-all duration-200 cursor-pointer',
-                    canContinue ? 'bg-[#722ED1] text-white hover:brightness-90 active:scale-[0.99]' : 'bg-[#F4F0EC] text-[#9A949D]',
+                    canContinue ? 'bg-[var(--hz-primary)] text-white hover:brightness-90 active:scale-[0.99]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)]',
                   ].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 >

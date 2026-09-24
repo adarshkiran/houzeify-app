@@ -148,7 +148,7 @@ interface Category {
 
 const DEFAULT_CATEGORIES: Category[] = [
   { id: 'materials',   label: 'Materials',   amount: '₹18.2L', pct: 61, icon: <IcoMaterials />,   dest: 'material-estimate',       detail: 'Cement, steel, bricks, aggregates and other raw materials.',  color: '#7C3AED', bg: '#F1E9FE' },
-  { id: 'labour',      label: 'Labour',      amount: '₹8.4L',  pct: 28, icon: <IcoLabour />,      dest: 'labour-estimate',         detail: 'Civil, plumbing, electrical and finishing labour charges.',    color: '#16A34A', bg: '#E3FBF0' },
+  { id: 'labour',      label: 'Labour',      amount: '₹8.4L',  pct: 28, icon: <IcoLabour />,      dest: 'labour-estimate',         detail: 'Civil, plumbing, electrical and finishing labour charges.',    color: 'var(--hz-success)', bg: '#E3FBF0' },
   { id: 'finishing',   label: 'Finishing',   amount: '₹4.1L',  pct: 14, icon: <IcoFinishing />,   dest: 'finishing-details',       detail: 'Flooring, painting, doors, windows and interior finishes.',   color: '#D97706', bg: '#FFEEE0' },
   { id: 'services',    label: 'Services',    amount: '₹2.2L',  pct:  7, icon: <IcoServices />,    dest: 'services-details',        detail: 'Electrical, plumbing, HVAC and sanitation installations.',    color: '#FBBF24', bg: '#FFF8E1' },
   { id: 'contingency', label: 'Contingency', amount: '₹1.7L',  pct:  6, icon: <IcoContingency />, dest: 'contingency-assumptions', detail: 'Buffer for unforeseen costs and estimation variance.',        color: '#8C8C8C', bg: '#F0F0F0' },
@@ -171,7 +171,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -191,39 +191,39 @@ function NavItem({ icon, label, active, onClick }: {
 function TotalCard({ categories, heroRange, avgLabel, confidence }: { categories: Category[]; heroRange: string; avgLabel: string; confidence: number }) {
   return (
     <div
-      className="bg-white rounded-[20px] border border-[#E3DDD7] p-6 sm:p-7 flex flex-col gap-4"
+      className="bg-[var(--hz-surface)] rounded-[20px] border border-[var(--hz-border)] p-6 sm:p-7 flex flex-col gap-4"
       style={{
         boxShadow: '0 2px 24px rgba(243,234,255,0.07), 0 1px 4px rgba(0,0,0,0.04)',
-        background: 'linear-gradient(135deg, rgba(243,234,255,0.10) 0%, #ffffff 55%)',
+        background: 'linear-gradient(135deg, var(--hz-primary-soft) 0%, var(--hz-surface) 55%)',
       }}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+          <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
             Total Estimated Cost
           </span>
-          <div className="text-[34px] sm:text-[40px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>
+          <div className="text-[34px] sm:text-[40px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>
             {heroRange}
           </div>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+            <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
               Estimated average:
             </span>
-            <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+            <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
               {avgLabel}
             </span>
           </div>
         </div>
         <div className="flex flex-col items-end gap-2 shrink-0">
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#F3EAFF]" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#722ED1]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
-            <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{confidence}% confidence</span>
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)]" style={{ border: '1px solid var(--hz-primary-soft)' }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
+            <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{confidence}% confidence</span>
           </div>
           <div className="flex flex-col gap-1 w-[140px]">
-            <div className="h-1.5 bg-[#F3EAFF] rounded-full overflow-hidden">
-              <div className="h-full bg-[#722ED1] rounded-full" style={{ width: `${confidence}%` }} />
+            <div className="h-1.5 bg-[var(--hz-primary-soft)] rounded-full overflow-hidden">
+              <div className="h-full bg-[var(--hz-primary)] rounded-full" style={{ width: `${confidence}%` }} />
             </div>
-            <span className="text-[12px] text-[#9A949D] text-right" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI CONFIDENCE</span>
+            <span className="text-[12px] text-[var(--hz-ink-subtle)] text-right" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI CONFIDENCE</span>
           </div>
         </div>
       </div>
@@ -239,7 +239,7 @@ function TotalCard({ categories, heroRange, avgLabel, confidence }: { categories
           {categories.map(c => (
             <div key={c.id} className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-sm" style={{ backgroundColor: c.color }} />
-              <span className="text-[11px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{c.label}</span>
+              <span className="text-[11px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{c.label}</span>
             </div>
           ))}
         </div>
@@ -253,7 +253,7 @@ function TotalCard({ categories, heroRange, avgLabel, confidence }: { categories
 function CategoryCard({ cat, onNavigate }: { cat: Category; onNavigate: (s: string) => void }) {
   return (
     <div
-      className="bg-white rounded-[14px] border border-[#E3DDD7] overflow-hidden"
+      className="bg-[var(--hz-surface)] rounded-[14px] border border-[var(--hz-border)] overflow-hidden"
       style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.04)', animation: 'welcomeFadeUp 0.4s ease-out both' }}
     >
       {/* Left accent bar */}
@@ -267,7 +267,7 @@ function CategoryCard({ cat, onNavigate }: { cat: Category; onNavigate: (s: stri
                 {cat.icon}
               </div>
               <span
-                className="text-[14px] font-semibold text-[#242326]"
+                className="text-[14px] font-semibold text-[var(--hz-ink)]"
                 style={{ fontFamily: '"Geist Variable", sans-serif' }}
               >
                 {cat.label}
@@ -275,7 +275,7 @@ function CategoryCard({ cat, onNavigate }: { cat: Category; onNavigate: (s: stri
             </div>
             <div className="flex items-center gap-3 shrink-0">
               <span
-                className="text-[18px] sm:text-[20px] font-semibold text-[#242326]"
+                className="text-[18px] sm:text-[20px] font-semibold text-[var(--hz-ink)]"
                 style={{ fontFamily: '"Geist Variable", sans-serif' }}
               >
                 {cat.amount}
@@ -300,7 +300,7 @@ function CategoryCard({ cat, onNavigate }: { cat: Category; onNavigate: (s: stri
           {/* Detail text + link */}
           <div className="flex items-center justify-between gap-3">
             <span
-              className="text-[12px] text-[#9A949D] leading-[1.5]"
+              className="text-[12px] text-[var(--hz-ink-subtle)] leading-[1.5]"
               style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               {cat.detail}
@@ -323,16 +323,16 @@ function CategoryCard({ cat, onNavigate }: { cat: Category; onNavigate: (s: stri
 
 function HozieInsightPanel() {
   return (
-    <div className="rounded-[16px] px-5 py-4 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] px-5 py-4 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0">
+        <div className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0">
           <HIcon size={20} />
         </div>
-        <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+        <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
           Hozie Insight
         </span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.7] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.7] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         &ldquo;Materials are currently the largest cost driver. Changes in steel, cement and finishing specifications can significantly affect your final estimate.&rdquo;
       </p>
     </div>
@@ -341,8 +341,8 @@ function HozieInsightPanel() {
 
 function EstimateSummaryPanel({ categories }: { categories: Category[] }) {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
-      <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
+      <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
         Summary
       </span>
       <div className="flex flex-col gap-2.5">
@@ -350,17 +350,17 @@ function EstimateSummaryPanel({ categories }: { categories: Category[] }) {
           <div key={cat.id} className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: cat.color }} />
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{cat.label}</span>
+              <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{cat.label}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{cat.amount}</span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{cat.amount}</span>
               <span className="text-[12px] w-[28px] text-right" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: cat.color }}>{cat.pct}%</span>
             </div>
           </div>
         ))}
-        <div className="border-t border-[#E3DDD7] pt-2.5 flex items-center justify-between">
-          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Total (avg)</span>
-          <span className="text-[14px] font-semibold text-[#722ED1]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>₹32.5L</span>
+        <div className="border-t border-[var(--hz-border)] pt-2.5 flex items-center justify-between">
+          <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Total (avg)</span>
+          <span className="text-[14px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>₹32.5L</span>
         </div>
       </div>
     </div>
@@ -391,7 +391,7 @@ export default function CostBreakdownScreen({
   const categories: Category[] = breakdown
     ? [
         { id: 'materials', label: 'Materials', amount: formatLakh(breakdown.materialCost), pct: Math.round((breakdown.materialCost / avgTotal) * 100), icon: <IcoMaterials />, dest: 'material-estimate', detail: 'Cement, steel, bricks, aggregates and other raw materials.', color: '#7C3AED', bg: '#F1E9FE' },
-        { id: 'labour', label: 'Labour', amount: formatLakh(breakdown.labourCost), pct: Math.round((breakdown.labourCost / avgTotal) * 100), icon: <IcoLabour />, dest: 'labour-estimate', detail: 'Civil, plumbing, electrical and finishing labour charges.', color: '#16A34A', bg: '#E3FBF0' },
+        { id: 'labour', label: 'Labour', amount: formatLakh(breakdown.labourCost), pct: Math.round((breakdown.labourCost / avgTotal) * 100), icon: <IcoLabour />, dest: 'labour-estimate', detail: 'Civil, plumbing, electrical and finishing labour charges.', color: 'var(--hz-success)', bg: '#E3FBF0' },
         { id: 'finishing', label: 'Finishing', amount: formatLakh(breakdown.finishingCost), pct: Math.round((breakdown.finishingCost / avgTotal) * 100), icon: <IcoFinishing />, dest: 'finishing-details', detail: 'Flooring, painting, doors, windows and interior finishes.', color: '#D97706', bg: '#FFEEE0' },
         { id: 'services', label: 'Services', amount: formatLakh(breakdown.servicesCost), pct: Math.round((breakdown.servicesCost / avgTotal) * 100), icon: <IcoServices />, dest: 'services-details', detail: 'Electrical, plumbing, HVAC and sanitation installations.', color: '#FBBF24', bg: '#FFF8E1' },
         { id: 'contingency', label: 'Contingency', amount: formatLakh(breakdown.contingencyCost), pct: Math.round((breakdown.contingencyCost / avgTotal) * 100), icon: <IcoContingency />, dest: 'contingency-assumptions', detail: 'Buffer for unforeseen costs and estimation variance.', color: '#8C8C8C', bg: '#F0F0F0' },
@@ -402,17 +402,17 @@ export default function CostBreakdownScreen({
   const confidence = version?.confidence ?? 86
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
         <div className="flex items-center gap-2">
-          <button onClick={() => onNavigate('estimate-dashboard')} className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+          <button onClick={() => onNavigate('estimate-dashboard')} className="flex items-center gap-1 text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             <IcoChevronLeft /> Estimate
           </button>
         </div>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Cost Breakdown</span>
-        <button className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Cost Breakdown</span>
+        <button className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -420,25 +420,25 @@ export default function CostBreakdownScreen({
 
         <div className="flex flex-col flex-1 min-h-0">
           {/* Desktop header */}
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Cost Breakdown
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <button className="hidden sm:flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <button className="hidden sm:flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 <IcoEdit /> Edit estimate
               </button>
-              <button className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <button className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
               </button>
               <button
                 onClick={() => onNavigate('estimate-dashboard')}
-                className="hidden sm:flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
+                className="hidden sm:flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoChevronLeft /> Back to Estimate
@@ -452,13 +452,13 @@ export default function CostBreakdownScreen({
 
               {/* Intro */}
               <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
-                <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                   Estimate Breakdown
                 </span>
-                <h2 className="text-[32px] sm:text-[40px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+                <h2 className="text-[32px] sm:text-[40px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                   Where your money goes.
                 </h2>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 mt-2" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   Hozie has grouped your estimated construction cost into the major areas of work.
                 </p>
               </div>
@@ -499,13 +499,13 @@ export default function CostBreakdownScreen({
                   >
                     <button
                       onClick={() => onNavigate('material-estimate')}
-                      className="w-full h-[46px] rounded-[12px] bg-[#722ED1] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0"
+                      className="w-full h-[46px] rounded-[12px] bg-[var(--hz-primary)] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0"
                       style={{ fontFamily: '"Inter Variable", sans-serif' }}
                     >
                       View Material Estimate →
                     </button>
                     <button
-                      className="w-full h-[46px] rounded-[12px] bg-white border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer hover:bg-[#F4F0EC] transition-all"
+                      className="w-full h-[46px] rounded-[12px] bg-[var(--hz-surface)] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer hover:bg-[var(--hz-surface-muted)] transition-all"
                       style={{ fontFamily: '"Inter Variable", sans-serif' }}
                     >
                       View BOQ →
@@ -514,7 +514,7 @@ export default function CostBreakdownScreen({
 
                   {/* Disclaimer */}
                   <p
-                    className="text-[10px] text-[#9A949D] leading-[1.7] m-0"
+                    className="text-[10px] text-[var(--hz-ink-subtle)] leading-[1.7] m-0"
                     style={{ fontFamily: '"Inter Variable", sans-serif', animation: 'welcomeFadeUp 0.4s ease-out 0.36s both' }}
                   >
                     AI-generated estimate based on the information provided. Actual costs may vary based on design, specifications, site conditions and contractor pricing.

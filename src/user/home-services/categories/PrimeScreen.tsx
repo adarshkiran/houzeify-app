@@ -75,13 +75,13 @@ const IcoCart = () => (
   </svg>
 )
 const IcoCheck = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#722ED1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5" /></svg>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--hz-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5" /></svg>
 )
 const IcoBolt = () => (
   <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor"><path d="M6.5 0.5L1.5 7h3.2l-.8 4.5L9.5 5H6.3l.2-4.5Z" /></svg>
 )
 const IcoShield = ({ size = 26 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 26 26" fill="none" stroke="#722ED1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg width={size} height={size} viewBox="0 0 26 26" fill="none" stroke="var(--hz-primary)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <path d="M13 3.5l8 3v5.5c0 5-3.4 8.7-8 10.5-4.6-1.8-8-5.5-8-10.5V6.5l8-3Z" />
     <path d="M9.5 13l2.5 2.5 5-5" />
   </svg>
@@ -399,12 +399,12 @@ interface Addable {
 
 function MobileTopBar({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2">
-        <button onClick={onBack} aria-label="Back to Services" className="w-8 h-8 -ml-1 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoBack /></button>
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Prime</span>
+        <button onClick={onBack} aria-label="Back to Services" className="w-8 h-8 -ml-1 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoBack /></button>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Prime</span>
       </div>
-      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
+      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
     </div>
   )
 }
@@ -415,22 +415,22 @@ function TopHeader({ onNavigate }: { onNavigate: (s: string, data?: Record<strin
   // one shared Customer cart, not a decorative icon.
   const { itemCount } = useCustomerCart()
   return (
-    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#E3DDD7]">
+    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
       <div className="flex items-center gap-3">
-        <button onClick={() => onNavigate('home-services')} aria-label="Back to Services" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"><IcoBack /></button>
-        <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Prime</h1>
+        <button onClick={() => onNavigate('home-services')} aria-label="Back to Services" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"><IcoBack /></button>
+        <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Prime</h1>
       </div>
       <div className="flex items-center gap-2">
-        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all"><IcoBell /></button>
+        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all"><IcoBell /></button>
         <button
           onClick={() => onNavigate('booking-details', { hoziehelper_checkout_origin: 'prime' })}
           aria-label={itemCount ? `Cart (${itemCount} item${itemCount === 1 ? '' : 's'})` : 'Cart'}
-          className="relative w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"
+          className="relative w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"
         >
           <IcoCart />
           {itemCount > 0 && (
             <span
-              className="absolute top-0.5 right-0.5 min-w-[15px] h-[15px] px-[3px] rounded-full bg-[#722ED1] text-white flex items-center justify-center text-[9px] font-bold leading-none"
+              className="absolute top-0.5 right-0.5 min-w-[15px] h-[15px] px-[3px] rounded-full bg-[var(--hz-primary)] text-white flex items-center justify-center text-[9px] font-bold leading-none"
               style={{ fontFamily: FONT_MONO }}
               aria-hidden="true"
             >
@@ -455,8 +455,8 @@ const JUMP_TARGETS: { id: string; label: string; icon: React.ReactNode }[] = [
 
 function ServiceTabs({ onJump }: { onJump: (id: string) => void }) {
   return (
-    <div className="bg-white/70 backdrop-blur-md border border-[#E3DDD7] rounded-[16px] p-4 flex flex-col gap-3 sticky top-0 z-10" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[11px] tracking-[0.10em] uppercase text-[#9A949D] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a service</span>
+    <div className="bg-[var(--hz-surface)]/70 backdrop-blur-md border border-[var(--hz-border)] rounded-[16px] p-4 flex flex-col gap-3 sticky top-0 z-10" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[11px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] font-semibold" style={{ fontFamily: FONT_MONO }}>Select a service</span>
       <div className="flex gap-3 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
         {JUMP_TARGETS.map(s => (
           <button
@@ -473,10 +473,10 @@ function ServiceTabs({ onJump }: { onJump: (id: string) => void }) {
             // as ending at the same place.
             className="flex flex-col items-center justify-between gap-1.5 cursor-pointer border-0 bg-transparent p-0 shrink-0 w-[76px]"
           >
-            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[#E3DDD7] flex items-center justify-center bg-[#F9F5FF] text-[#722ED1] shrink-0">
+            <div className="w-14 h-14 rounded-[12px] overflow-hidden border border-[var(--hz-border)] flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
               {s.icon}
             </div>
-            <span className="text-[12px] text-[#242326] text-center leading-tight" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
+            <span className="text-[12px] text-[var(--hz-ink)] text-center leading-tight" style={{ fontFamily: FONT_BODY }}>{s.label}</span>
           </button>
         ))}
       </div>
@@ -491,14 +491,14 @@ function HeroBanner({ onExplore, onViewPackages }: { onExplore: () => void; onVi
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px]"
-      style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, #F3EAFF 45%, #FFF3EA 100%)' }}
+      style={{ maxWidth: 990, background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
     >
       <div className="relative flex flex-col gap-4 px-5 sm:px-10 lg:px-12 py-8 sm:py-10">
-        <span className="text-[11px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Prime</span>
-        <h2 className="text-[22px] sm:text-[30px] lg:text-[34px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0 max-w-[70%] sm:max-w-[420px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+        <span className="text-[11px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Prime</span>
+        <h2 className="text-[22px] sm:text-[30px] lg:text-[34px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0 max-w-[70%] sm:max-w-[420px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Everyday beauty,<br />thoughtfully done.
         </h2>
-        <p className="text-[13px] sm:text-[14.5px] text-[#68636D] leading-[1.5] m-0 max-w-[70%] sm:max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13px] sm:text-[14.5px] text-[var(--hz-ink-muted)] leading-[1.5] m-0 max-w-[70%] sm:max-w-[380px]" style={{ fontFamily: FONT_BODY }}>
           Professional salon services for hair, skin, hands, feet and more.
         </p>
         {/* flex-wrap + the same 70%-on-mobile cap as the heading/copy
@@ -508,14 +508,14 @@ function HeroBanner({ onExplore, onViewPackages }: { onExplore: () => void; onVi
         <div className="flex flex-wrap items-center gap-3 mt-1 max-w-[70%] sm:max-w-none">
           <button
             onClick={onExplore}
-            className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+            className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
             style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
           >
             Explore services
           </button>
           <button
             onClick={onViewPackages}
-            className="h-10 px-5 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[13px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+            className="h-10 px-5 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[13px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
             style={{ fontFamily: FONT_BODY }}
           >
             View packages
@@ -539,12 +539,12 @@ function CategoryBanner({ title, subtitle, icon }: { title: string; subtitle: st
   return (
     <div
       className="w-full rounded-[16px] flex items-center gap-4 px-5 sm:px-8 py-5"
-      style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, #F3EAFF 60%, #FFF3EA 100%)' }}
+      style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 60%, #FFF3EA 100%)' }}
     >
-      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[14px] bg-white/70 flex items-center justify-center text-[#722ED1] shrink-0 shadow-sm">{icon}</div>
+      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[14px] bg-[var(--hz-surface)]/70 flex items-center justify-center text-[var(--hz-primary)] shrink-0 shadow-sm">{icon}</div>
       <div className="flex flex-col gap-1 min-w-0">
-        <span className="text-[16px] sm:text-[19px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{title}</span>
-        <span className="text-[12.5px] sm:text-[13px] text-[#68636D] leading-snug" style={{ fontFamily: FONT_BODY }}>{subtitle}</span>
+        <span className="text-[16px] sm:text-[19px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{title}</span>
+        <span className="text-[12.5px] sm:text-[13px] text-[var(--hz-ink-muted)] leading-snug" style={{ fontFamily: FONT_BODY }}>{subtitle}</span>
       </div>
     </div>
   )
@@ -564,7 +564,7 @@ const SECTION_SUBTITLES: Record<string, string> = {
 // ─── Card chrome — same calm, neutral language as Salon Luxe's own cards ──
 
 const CARD_SURFACE: React.CSSProperties = {
-  background: 'linear-gradient(180deg, #FFFFFF 0%, #FAFAFF 100%)',
+  background: 'linear-gradient(180deg, var(--hz-surface) 0%, #FAFAFF 100%)',
   border: '1px solid #EFE4FF',
 }
 const PHOTO_PANEL: React.CSSProperties = {
@@ -572,8 +572,8 @@ const PHOTO_PANEL: React.CSSProperties = {
   border: '1px solid #EFE4FF',
 }
 const NEUTRAL_BTN = 'h-8 px-3 rounded-[10px] border text-[12px] font-semibold cursor-pointer transition-all shrink-0'
-const NEUTRAL_BTN_DEFAULT = 'bg-white border-[#E3DDD7] text-[#722ED1] hover:bg-[#F3EAFF] hover:border-[#722ED1]'
-const NEUTRAL_BTN_ADDED = 'bg-[#F3EAFF] border-[#722ED1] text-[#722ED1] hover:bg-[#F3EAFF]'
+const NEUTRAL_BTN_DEFAULT = 'bg-[var(--hz-surface)] border-[var(--hz-border)] text-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)]'
+const NEUTRAL_BTN_ADDED = 'bg-[var(--hz-primary-soft)] border-[var(--hz-primary)] text-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)]'
 const NEUTRAL_BTN_FONT: React.CSSProperties = { fontFamily: FONT_BODY }
 
 function LineItemRow({ item, icon, onSelect, cartCount, getCartCount }: {
@@ -591,8 +591,8 @@ function LineItemRow({ item, icon, onSelect, cartCount, getCartCount }: {
     <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 rounded-[12px] p-4" style={CARD_SURFACE}>
       <ServiceImage icon={icon} alt={item.title} className="w-32 h-32 rounded-[8px] shrink-0 mx-auto sm:mx-0" />
       <div className="flex-1 min-w-0 flex flex-col justify-center gap-1">
-        <span className="text-[15px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-        <span className="text-[12px] text-[#68636D] leading-snug" style={{ fontFamily: FONT_BODY }}>{item.blurb}</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+        <span className="text-[12px] text-[var(--hz-ink-muted)] leading-snug" style={{ fontFamily: FONT_BODY }}>{item.blurb}</span>
         {item.options && (
           selectedOptions.length > 0 ? (
             <div className="flex flex-col gap-0.5 mt-0.5">
@@ -603,16 +603,16 @@ function LineItemRow({ item, icon, onSelect, cartCount, getCartCount }: {
               ))}
             </div>
           ) : (
-            <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{item.options.length} options</span>
+            <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{item.options.length} options</span>
           )
         )}
       </div>
       <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3 sm:w-[130px] shrink-0">
         <div className="text-left sm:text-right">
           <div className="text-[14px] whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>
-            <span className="line-through text-[#9A949D]">₹{item.originalPrice}</span> <span className="font-semibold text-[#242326]">₹{item.price}</span>
+            <span className="line-through text-[var(--hz-ink-subtle)]">₹{item.originalPrice}</span> <span className="font-semibold text-[var(--hz-ink)]">₹{item.price}</span>
           </div>
-          <div className="text-[11px] font-semibold text-[#722ED1] mt-0.5 whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>{formatDuration(item.durationMin)}</div>
+          <div className="text-[11px] font-semibold text-[var(--hz-primary)] mt-0.5 whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>{formatDuration(item.durationMin)}</div>
         </div>
         <button onClick={onSelect} className={`${NEUTRAL_BTN} ${cartCount ? NEUTRAL_BTN_ADDED : NEUTRAL_BTN_DEFAULT}`} style={NEUTRAL_BTN_FONT}>
           {cartCount ? `Added ×${cartCount}` : item.options ? 'Select' : 'Add'}
@@ -642,16 +642,16 @@ function OptionsModal({ item, icon, cartCountForOption, onAddOption, onClose }: 
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[440px] max-h-[80vh] overflow-y-auto rounded-[16px] bg-white flex flex-col"
+        className="w-full max-w-[440px] max-h-[80vh] overflow-y-auto rounded-[16px] bg-[var(--hz-surface)] flex flex-col"
         style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.18)' }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#F4F0EC] sticky top-0 bg-white">
+        <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[var(--hz-surface-muted)] sticky top-0 bg-[var(--hz-surface)]">
           <div className="flex flex-col gap-0.5 min-w-0">
-            <span className="text-[16px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Choose an option</span>
+            <span className="text-[16px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Choose an option</span>
           </div>
-          <button onClick={onClose} aria-label="Close" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
+          <button onClick={onClose} aria-label="Close" className="w-8 h-8 -mr-1 -mt-1 shrink-0 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] rounded-[10px] transition-all border-0 bg-transparent cursor-pointer">
             <IcoCloseX />
           </button>
         </div>
@@ -660,15 +660,15 @@ function OptionsModal({ item, icon, cartCountForOption, onAddOption, onClose }: 
             const cartCount = cartCountForOption(opt.id)
             return (
               <div key={opt.id} className="flex items-center gap-3 rounded-[12px] p-3" style={CARD_SURFACE}>
-                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[#F9F5FF] text-[#722ED1] shrink-0">
+                <div className="w-32 h-32 rounded-[10px] overflow-hidden flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)] shrink-0">
                   {icon}
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col gap-1">
-                  <span className="text-[13.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{opt.label}</span>
+                  <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{opt.label}</span>
                   <span className="text-[13px] whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>
-                    <span className="line-through text-[#9A949D]">₹{opt.originalPrice}</span> <span className="font-semibold text-[#242326]">₹{opt.price}</span>
+                    <span className="line-through text-[var(--hz-ink-subtle)]">₹{opt.originalPrice}</span> <span className="font-semibold text-[var(--hz-ink)]">₹{opt.price}</span>
                   </span>
-                  <span className="text-[11px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_HEAD }}>{formatDuration(opt.durationMin)}</span>
+                  <span className="text-[11px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}>{formatDuration(opt.durationMin)}</span>
                 </div>
                 <button onClick={() => onAddOption(opt)} className={`${NEUTRAL_BTN} ${cartCount ? NEUTRAL_BTN_ADDED : NEUTRAL_BTN_DEFAULT}`} style={NEUTRAL_BTN_FONT}>
                   {cartCount ? `Added ×${cartCount}` : 'Add'}
@@ -688,19 +688,19 @@ function PackageCard({ pkg, onAdd, cartCount }: { pkg: PrimePackage; onAdd: () =
     <div className="flex flex-col sm:flex-row items-stretch gap-4 sm:gap-5 rounded-[12px] p-4" style={CARD_SURFACE}>
       <div className="relative shrink-0 w-full h-[100px] sm:w-[170px] sm:h-auto rounded-[8px] flex items-center justify-center" style={PHOTO_PANEL}>
         <div className="text-center leading-[1.05]">
-          <span className="block text-[28px] sm:text-[38px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{pkg.discountPct}%</span>
-          <span className="block text-[28px] sm:text-[38px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>OFF</span>
+          <span className="block text-[28px] sm:text-[38px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{pkg.discountPct}%</span>
+          <span className="block text-[28px] sm:text-[38px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>OFF</span>
         </div>
       </div>
       <div className="flex-1 min-w-0 flex flex-col sm:flex-row gap-4">
         <div className="flex-1 min-w-0 flex flex-col gap-3">
           <div className="flex flex-col gap-1.5">
-            <span className="text-[13px] tracking-[0.06em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Package</span>
-            <span className="text-[17px] sm:text-[18px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{pkg.name}</span>
+            <span className="text-[13px] tracking-[0.06em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Package</span>
+            <span className="text-[17px] sm:text-[18px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{pkg.name}</span>
           </div>
           <ul className="flex flex-col gap-1 pl-4 m-0" style={{ listStyle: 'disc' }}>
             {pkg.includes.map(inc => (
-              <li key={inc.label} className="text-[12px] text-[#242326] leading-snug" style={{ fontFamily: FONT_BODY }}>
+              <li key={inc.label} className="text-[12px] text-[var(--hz-ink)] leading-snug" style={{ fontFamily: FONT_BODY }}>
                 <span className="font-semibold">{inc.label}:</span> {getPrimeItem(inc.itemId).title}
               </li>
             ))}
@@ -709,9 +709,9 @@ function PackageCard({ pkg, onAdd, cartCount }: { pkg: PrimePackage; onAdd: () =
         <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between shrink-0 sm:w-[140px] gap-3">
           <div className="text-left sm:text-right">
             <div className="text-[14px] whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>
-              <span className="line-through text-[#9A949D]">₹{originalPrice}</span> <span className="font-semibold text-[#242326]">₹{price}</span>
+              <span className="line-through text-[var(--hz-ink-subtle)]">₹{originalPrice}</span> <span className="font-semibold text-[var(--hz-ink)]">₹{price}</span>
             </div>
-            <div className="text-[11px] font-semibold text-[#722ED1] mt-0.5 whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>{formatDuration(durationMin)}</div>
+            <div className="text-[11px] font-semibold text-[var(--hz-primary)] mt-0.5 whitespace-nowrap" style={{ fontFamily: FONT_HEAD }}>{formatDuration(durationMin)}</div>
           </div>
           <button onClick={onAdd} className={`${NEUTRAL_BTN} ${cartCount ? NEUTRAL_BTN_ADDED : NEUTRAL_BTN_DEFAULT}`} style={NEUTRAL_BTN_FONT}>
             {cartCount ? `Added ×${cartCount}` : 'Add'}
@@ -728,16 +728,16 @@ function EditorialFeature({ onExplore }: { onExplore: () => void }) {
   return (
     <div
       className="relative w-full overflow-hidden rounded-[20px] flex items-center"
-      style={{ minHeight: 200, background: 'linear-gradient(120deg, #FFF3EA 0%, #F3EAFF 55%, #F9F5FF 100%)' }}
+      style={{ minHeight: 200, background: 'linear-gradient(120deg, #FFF3EA 0%, var(--hz-primary-soft) 55%, var(--hz-primary-wash) 100%)' }}
     >
       <div className="flex flex-col gap-3 px-6 sm:px-10 py-8 max-w-[420px]">
-        <h2 className="text-[20px] sm:text-[26px] font-semibold text-[#242326] leading-[1.15] m-0" style={{ fontFamily: FONT_HEAD }}>Ready for Your Next Appointment</h2>
-        <p className="text-[13px] sm:text-[14px] text-[#68636D] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
+        <h2 className="text-[20px] sm:text-[26px] font-semibold text-[var(--hz-ink)] leading-[1.15] m-0" style={{ fontFamily: FONT_HEAD }}>Ready for Your Next Appointment</h2>
+        <p className="text-[13px] sm:text-[14px] text-[var(--hz-ink-muted)] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
           Complete your routine with facials, waxing and finishing touches — all in one easy visit.
         </p>
         <button
           onClick={onExplore}
-          className="self-start h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 mt-1"
+          className="self-start h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 mt-1"
           style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
         >
           Explore beauty services
@@ -751,10 +751,10 @@ function EditorialFeature({ onExplore }: { onExplore: () => void }) {
 
 function CartStepper({ qty, onDecrement, onIncrement }: { qty: number; onDecrement: () => void; onIncrement: () => void }) {
   return (
-    <div className="flex items-center gap-1.5 rounded-[10px] border border-[#722ED1] shrink-0">
-      <button onClick={onDecrement} aria-label="Decrease quantity" className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-l-[9px]">−</button>
-      <span className="text-[13px] font-semibold text-[#242326] w-3 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
-      <button onClick={onIncrement} aria-label="Increase quantity" className="w-7 h-7 flex items-center justify-center text-[#722ED1] text-[16px] font-semibold cursor-pointer hover:bg-[#F3EAFF] transition-all border-0 bg-transparent rounded-r-[9px]">+</button>
+    <div className="flex items-center gap-1.5 rounded-[10px] border border-[var(--hz-primary)] shrink-0">
+      <button onClick={onDecrement} aria-label="Decrease quantity" className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-l-[9px]">−</button>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] w-3 text-center" style={{ fontFamily: FONT_BODY }}>{qty}</span>
+      <button onClick={onIncrement} aria-label="Increase quantity" className="w-7 h-7 flex items-center justify-center text-[var(--hz-primary)] text-[16px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] transition-all border-0 bg-transparent rounded-r-[9px]">+</button>
     </div>
   )
 }
@@ -771,23 +771,23 @@ function CartCard({ cart, onChangeQty, onRemove, onViewCart }: {
   const saved = totalOriginal - total
 
   return (
-    <div className="bg-white border border-[#E3DDD7] rounded-[16px] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Cart</span>
+    <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] p-5 flex flex-col gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Cart</span>
       <div className="flex flex-col">
         {cart.map((c, i) => (
-          <div key={c.cartId} className={`flex flex-col gap-2 py-3 ${i > 0 ? 'border-t border-[#F4F0EC]' : 'pt-0'}`}>
+          <div key={c.cartId} className={`flex flex-col gap-2 py-3 ${i > 0 ? 'border-t border-[var(--hz-surface-muted)]' : 'pt-0'}`}>
             <div className="flex items-start justify-between gap-3">
-              <span className="text-[13.5px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{c.title}</span>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{c.title}</span>
               <CartStepper qty={c.qty} onDecrement={() => onChangeQty(c.cartId, -1)} onIncrement={() => onChangeQty(c.cartId, 1)} />
             </div>
-            <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+            <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
               <span className="font-semibold">₹{c.price}</span>{' '}
-              <span className="line-through text-[#9A949D] text-[12px]">₹{c.originalPrice}</span>
+              <span className="line-through text-[var(--hz-ink-subtle)] text-[12px]">₹{c.originalPrice}</span>
             </span>
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>• {c.duration}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>• {c.duration}</span>
             <button
               onClick={() => onRemove(c.cartId)}
-              className="self-start text-[12.5px] text-[#722ED1] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
+              className="self-start text-[12.5px] text-[var(--hz-primary)] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
               style={{ fontFamily: FONT_BODY }}
             >
               Remove
@@ -801,13 +801,13 @@ function CartCard({ cart, onChangeQty, onRemove, onViewCart }: {
           <span className="text-[12.5px] text-white font-medium" style={{ fontFamily: FONT_BODY }}>Congratulations! ₹{saved} saved on this order</span>
         </div>
       )}
-      <div className="flex items-center justify-between gap-3 pt-3 border-t border-[#F4F0EC]">
-        <span className="text-[17px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
-          ₹{total} <span className="line-through text-[#9A949D] text-[13px] font-normal">₹{totalOriginal}</span>
+      <div className="flex items-center justify-between gap-3 pt-3 border-t border-[var(--hz-surface-muted)]">
+        <span className="text-[17px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
+          ₹{total} <span className="line-through text-[var(--hz-ink-subtle)] text-[13px] font-normal">₹{totalOriginal}</span>
         </span>
         <button
           onClick={onViewCart}
-          className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
+          className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 shrink-0"
           style={{ fontFamily: FONT_BODY, boxShadow: '0 2px 8px rgba(114,46,209,0.25)' }}
         >
           View Cart
@@ -877,7 +877,7 @@ export default function PrimeScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onBack={() => onNavigate('home-services')} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -892,8 +892,8 @@ export default function PrimeScreen({
               {/* 01 — Page context: same eyebrow + title treatment as
                   Salon Luxe, per explicit instruction. */}
               <div className="flex flex-col gap-1.5">
-                <span className="text-[12px] tracking-[0.10em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Women's Salon &amp; Spa</span>
-                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <span className="text-[12px] tracking-[0.10em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Women's Salon &amp; Spa</span>
+                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] leading-[1.12] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   Prime
                 </h1>
               </div>
@@ -912,8 +912,8 @@ export default function PrimeScreen({
                       sections, matching the reference's own placement. */}
                   <div id="prime-section-packages" className="flex flex-col gap-3" style={{ scrollMarginTop: 230 }}>
                     <div className="flex flex-col gap-1">
-                      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Prime Packages</h2>
-                      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Curated combinations for a complete salon experience.</p>
+                      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Prime Packages</h2>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Curated combinations for a complete salon experience.</p>
                     </div>
                     <div className="flex flex-col gap-3">
                       {PRIME_PACKAGES.map(pkg => (
@@ -930,8 +930,8 @@ export default function PrimeScreen({
                   {/* Popular services */}
                   <div className="flex flex-col gap-3">
                     <div className="flex flex-col gap-1">
-                      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Popular services</h2>
-                      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Easy-to-book beauty services for your everyday needs.</p>
+                      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Popular services</h2>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Easy-to-book beauty services for your everyday needs.</p>
                     </div>
                     <div className="flex flex-col gap-3">
                       {POPULAR_ITEM_IDS.map(id => {
@@ -957,7 +957,7 @@ export default function PrimeScreen({
                       Luxe's own catalogue order exactly. */}
                   {PRIME_SECTIONS.map(section => (
                     <div key={section.id} id={`prime-section-${section.id}`} className="flex flex-col gap-3" style={{ scrollMarginTop: 230 }}>
-                      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{section.label}</h2>
+                      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{section.label}</h2>
 
                       {section.id === 'glow-rituals' ? (
                         // Each item gets its own large banner directly above
@@ -1004,8 +1004,8 @@ export default function PrimeScreen({
                   {/* Additional Prime services */}
                   <div className="flex flex-col gap-3">
                     <div className="flex flex-col gap-1">
-                      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>More for you</h2>
-                      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>A few more everyday services worth adding on.</p>
+                      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>More for you</h2>
+                      <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>A few more everyday services worth adding on.</p>
                     </div>
                     <div className="flex flex-col gap-3">
                       {MORE_FOR_YOU_ITEM_IDS.map(id => {
@@ -1028,29 +1028,29 @@ export default function PrimeScreen({
 
                 {/* Right column — pinned on desktop, same as Salon Luxe */}
                 <div className="flex flex-col gap-4 lg:sticky lg:top-[28px] lg:self-start lg:max-h-[calc(100vh-56px)] lg:overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
-                  <div className="bg-white border border-[#E3DDD7] rounded-[16px] p-5 flex items-start gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                  <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] p-5 flex items-start gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
                     <div className="flex flex-col gap-2.5 flex-1">
-                      <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Houzeify Promise</span>
+                      <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Houzeify Promise</span>
                       {['Verified Professionals', 'Hassle Free Booking', 'Transparent Pricing'].map(t => (
-                        <span key={t} className="flex items-center gap-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+                        <span key={t} className="flex items-center gap-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                           <IcoCheck /> {t}
                         </span>
                       ))}
                     </div>
-                    <div className="w-11 h-11 rounded-full bg-[#F3EAFF] flex items-center justify-center shrink-0"><IcoShield /></div>
+                    <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><IcoShield /></div>
                   </div>
 
                   <CartCard cart={cart} onChangeQty={changeCartQty} onRemove={removeFromCart} onViewCart={viewCart} />
 
-                  <div className="bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-4 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-                    <div className="w-10 h-10 rounded-[12px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
+                  <div className="bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-4 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+                    <div className="w-10 h-10 rounded-[12px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={24} /></div>
                     <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-                      <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Not sure which one?</span>
-                      <span className="text-[12px] text-[#68636D] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Ask Hozie to help you pick.</span>
+                      <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Not sure which one?</span>
+                      <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.5]" style={{ fontFamily: FONT_BODY }}>Ask Hozie to help you pick.</span>
                     </div>
                     <button
                       onClick={() => onNavigate(DASHBOARD_ROUTES.aiAdvisor)}
-                      className="h-8 px-3 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white shrink-0"
+                      className="h-8 px-3 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)] shrink-0"
                       style={{ fontFamily: FONT_BODY }}
                     >
                       Ask Hozie →

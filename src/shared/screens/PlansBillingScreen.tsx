@@ -87,10 +87,10 @@ const IcoClose = () => (
 // rather than inventing a second pattern. ───────────────────────────────────
 function Notice({ message, onDismiss }: { message: string; onDismiss: () => void }) {
   return (
-    <div role="status" className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-[12px] px-4 py-3 bg-white border border-[#E3DDD7] max-w-[92vw]" style={{ boxShadow: '0 8px 30px rgba(36,35,38,0.14)' }}>
-      <span style={{ color: '#722ED1' }} className="shrink-0"><IcoInfo /></span>
-      <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{message}</span>
-      <button onClick={onDismiss} aria-label="Dismiss" className="w-6 h-6 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors shrink-0"><IcoClose /></button>
+    <div role="status" className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-[12px] px-4 py-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] max-w-[92vw]" style={{ boxShadow: '0 8px 30px rgba(36,35,38,0.14)' }}>
+      <span style={{ color: 'var(--hz-primary)' }} className="shrink-0"><IcoInfo /></span>
+      <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{message}</span>
+      <button onClick={onDismiss} aria-label="Dismiss" className="w-6 h-6 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors shrink-0"><IcoClose /></button>
     </div>
   )
 }
@@ -211,36 +211,36 @@ function PlanCard({
     <div
       className="flex flex-col rounded-[20px] overflow-hidden"
       style={{
-        border: plan.recommended ? '2px solid #722ED1' : '1px solid #E3DDD7',
-        background: plan.recommended ? 'linear-gradient(180deg, #F9F5FF 0%, #FFFFFF 55%)' : '#FFFFFF',
+        border: plan.recommended ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)',
+        background: plan.recommended ? 'linear-gradient(180deg, var(--hz-primary-wash) 0%, var(--hz-surface) 55%)' : 'var(--hz-surface)',
         boxShadow: plan.recommended ? '0 10px 30px -12px rgba(114,46,209,0.22)' : '0 1px 8px rgba(0,0,0,0.04)',
       }}
     >
       <div className="flex flex-col gap-4 p-6">
         <div className="flex items-start justify-between gap-2">
-          <span className="text-[22px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{plan.name}</span>
+          <span className="text-[22px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{plan.name}</span>
           {plan.recommended && (
-            <span className="flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-semibold shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', border: '1px solid #E3C9FF', fontFamily: FONT_MONO }}>
+            <span className="flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-semibold shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', border: '1px solid #E3C9FF', fontFamily: FONT_MONO }}>
               <IcoStar /> Recommended
             </span>
           )}
         </div>
 
-        <p className="text-[13.5px] text-[#68636D] m-0 leading-relaxed min-h-[40px]" style={{ fontFamily: FONT_BODY }}>{plan.positioning}</p>
+        <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 leading-relaxed min-h-[40px]" style={{ fontFamily: FONT_BODY }}>{plan.positioning}</p>
 
         {isCustom ? (
           <div className="flex flex-col gap-0.5 min-h-[64px] justify-end">
-            <span className="text-[36px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>Custom pricing</span>
+            <span className="text-[36px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>Custom pricing</span>
           </div>
         ) : (
           <div className="flex flex-col gap-0.5 min-h-[64px] justify-end">
             <div className="flex items-start gap-0.5">
-              <span className="text-[20px] font-semibold text-[#242326] mt-1.5" style={{ fontFamily: FONT_HEAD }}>₹</span>
-              <span className="text-[40px] font-semibold text-[#242326] leading-none tabular-nums" style={{ fontFamily: FONT_HEAD }}>{(price as number).toLocaleString('en-IN')}</span>
+              <span className="text-[20px] font-semibold text-[var(--hz-ink)] mt-1.5" style={{ fontFamily: FONT_HEAD }}>₹</span>
+              <span className="text-[40px] font-semibold text-[var(--hz-ink)] leading-none tabular-nums" style={{ fontFamily: FONT_HEAD }}>{(price as number).toLocaleString('en-IN')}</span>
             </div>
           </div>
         )}
-        <span className="text-[12.5px] text-[#9A949D] -mt-3" style={{ fontFamily: FONT_BODY }}>{footerNote}</span>
+        <span className="text-[12.5px] text-[var(--hz-ink-subtle)] -mt-3" style={{ fontFamily: FONT_BODY }}>{footerNote}</span>
 
         <button
           type="button"
@@ -248,8 +248,8 @@ function PlanCard({
           className="h-12 rounded-[12px] text-[14px] font-semibold cursor-pointer transition-all active:scale-[0.99]"
           style={
             plan.recommended || isCustom
-              ? { backgroundColor: '#722ED1', color: '#FFFFFF', border: '0' }
-              : { backgroundColor: 'transparent', color: '#722ED1', border: '1.5px solid #722ED1' }
+              ? { backgroundColor: 'var(--hz-primary)', color: 'var(--hz-on-primary)', border: '0' }
+              : { backgroundColor: 'transparent', color: 'var(--hz-primary)', border: '1.5px solid var(--hz-primary)' }
           }
         >
           {isCustom ? 'Coming soon' : 'Get started'}
@@ -260,13 +260,13 @@ function PlanCard({
 
       <div className="flex flex-col gap-4 p-6">
         <div className="flex flex-col gap-0.5">
-          <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Features</span>
-          <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{featuresSubtitle}</span>
+          <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Features</span>
+          <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{featuresSubtitle}</span>
         </div>
         <ul className="flex flex-col gap-3.5 m-0 p-0" style={{ listStyle: 'none' }}>
           {featureLines.map(f => (
             <li key={f.text} className="flex items-start gap-2.5" title={f.note}>
-              <span className="shrink-0 mt-[1px]" style={{ color: '#722ED1' }}><IcoCheckCircle /></span>
+              <span className="shrink-0 mt-[1px]" style={{ color: 'var(--hz-primary)' }}><IcoCheckCircle /></span>
               <span className="text-[13.5px] text-[#3A363D] leading-snug" style={{ fontFamily: FONT_BODY }}>{f.text}</span>
             </li>
           ))}
@@ -280,15 +280,15 @@ function PlanCard({
 
 function CycleToggle({ cycle, onChange, maxSavingsPct }: { cycle: BillingCycle; onChange: (c: BillingCycle) => void; maxSavingsPct: number | null }) {
   return (
-    <div role="group" aria-label="Billing cycle" className="inline-flex p-1.5 rounded-full gap-1 self-start" style={{ backgroundColor: '#F3EAFF' }}>
+    <div role="group" aria-label="Billing cycle" className="inline-flex p-1.5 rounded-full gap-1 self-start" style={{ backgroundColor: 'var(--hz-primary-soft)' }}>
       <button
         type="button"
         aria-pressed={cycle === 'monthly'}
         onClick={() => onChange('monthly')}
         className="h-10 px-5 rounded-full text-[13.5px] font-semibold cursor-pointer border-0 transition-colors"
         style={{
-          backgroundColor: cycle === 'monthly' ? '#722ED1' : 'transparent',
-          color: cycle === 'monthly' ? '#FFFFFF' : '#5B4A78',
+          backgroundColor: cycle === 'monthly' ? 'var(--hz-primary)' : 'transparent',
+          color: cycle === 'monthly' ? 'var(--hz-surface)' : '#5B4A78',
           fontFamily: FONT_BODY,
         }}
       >
@@ -300,8 +300,8 @@ function CycleToggle({ cycle, onChange, maxSavingsPct }: { cycle: BillingCycle; 
         onClick={() => onChange('yearly')}
         className="h-10 px-5 rounded-full text-[13.5px] font-semibold cursor-pointer border-0 transition-colors flex items-center gap-1.5"
         style={{
-          backgroundColor: cycle === 'yearly' ? '#722ED1' : 'transparent',
-          color: cycle === 'yearly' ? '#FFFFFF' : '#5B4A78',
+          backgroundColor: cycle === 'yearly' ? 'var(--hz-primary)' : 'transparent',
+          color: cycle === 'yearly' ? 'var(--hz-surface)' : '#5B4A78',
           fontFamily: FONT_BODY,
         }}
       >
@@ -309,7 +309,7 @@ function CycleToggle({ cycle, onChange, maxSavingsPct }: { cycle: BillingCycle; 
         {maxSavingsPct !== null && (
           <span
             className="text-[11px] font-semibold px-1.5 py-0.5 rounded-full"
-            style={{ backgroundColor: cycle === 'yearly' ? 'rgba(255,255,255,0.22)' : '#E3C9FF', color: cycle === 'yearly' ? '#FFFFFF' : '#722ED1', fontFamily: FONT_MONO }}
+            style={{ backgroundColor: cycle === 'yearly' ? 'rgba(255,255,255,0.22)' : '#E3C9FF', color: cycle === 'yearly' ? 'var(--hz-surface)' : 'var(--hz-primary)', fontFamily: FONT_MONO }}
           >
             Save up to {maxSavingsPct}%
           </span>
@@ -375,7 +375,7 @@ export default function PlansBillingScreen({
   const maxSavingsPct = savingsPcts.length ? Math.round(Math.max(...savingsPcts)) : null
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <div className="flex flex-1 min-h-0 relative z-10">
         {/* Shared screen — professionals get the company PartnerNavRail
             (Plans & Billing highlighted), homeowners the customer Sidebar. */}
@@ -384,9 +384,9 @@ export default function PlansBillingScreen({
           : <Sidebar active="billing" onNavigate={onNavigate} />}
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="shrink-0 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+          <header className="shrink-0 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
             <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-              <button type="button" onClick={goBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+              <button type="button" onClick={goBack} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
                 <IcoBack /> Back
               </button>
             </div>
@@ -395,11 +395,11 @@ export default function PlansBillingScreen({
           <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-10">
             <div className="max-w-[1160px] mx-auto flex flex-col gap-8">
               <div className="flex flex-col gap-2">
-                <span className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Plans &amp; Billing</span>
-                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Plans &amp; Billing</span>
+                <h1 className="text-[26px] sm:text-[32px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                   {isProfessional ? 'Choose your partner plan' : 'Choose your plan'}
                 </h1>
-                <p className="text-[14px] text-[#68636D] m-0 max-w-[600px] leading-relaxed" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 max-w-[600px] leading-relaxed" style={{ fontFamily: FONT_BODY }}>
                   {isProfessional
                     ? 'Pick the plan that fits how you use Houzeify to find, bid on and deliver projects — upgrade any time as your business grows.'
                     : 'Pick the plan that fits how you use Houzeify to plan, price and manage your build or renovation — upgrade any time as your project moves forward.'}
@@ -444,9 +444,9 @@ export default function PlansBillingScreen({
                 </div>
               )}
 
-              <div className="flex items-start gap-2.5 px-4 py-3 rounded-[10px]" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(114,46,209,0.12)' }}>
-                <span className="mt-0.5 shrink-0" style={{ color: '#722ED1' }}><IcoInfo /></span>
-                <p className="text-[12.5px] text-[#68636D] m-0 leading-relaxed" style={{ fontFamily: FONT_BODY }}>
+              <div className="flex items-start gap-2.5 px-4 py-3 rounded-[10px]" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid color-mix(in oklch, var(--hz-primary) 20%, transparent)' }}>
+                <span className="mt-0.5 shrink-0" style={{ color: 'var(--hz-primary)' }}><IcoInfo /></span>
+                <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0 leading-relaxed" style={{ fontFamily: FONT_BODY }}>
                   Home Services are pay-per-booking and don&apos;t require a Houzeify subscription.
                 </p>
               </div>

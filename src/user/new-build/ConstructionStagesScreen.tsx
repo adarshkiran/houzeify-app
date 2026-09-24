@@ -145,7 +145,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -163,9 +163,9 @@ function NavItem({ icon, label, active, onClick }: {
 // ─── Status badge (never color-only) ─────────────────────────────────────────
 
 const STATUS_META: Record<StageStatus, { label: string; bg: string; fg: string; dot: string }> = {
-  completed: { label: 'Completed', bg: '#E3FBF0', fg: '#0F7A4E', dot: '#16A34A' },
+  completed: { label: 'Completed', bg: '#E3FBF0', fg: '#0F7A4E', dot: 'var(--hz-success)' },
   'in-progress': { label: 'In Progress', bg: '#FFEEE0', fg: '#C2410C', dot: '#D97706' },
-  upcoming: { label: 'Upcoming', bg: '#CAC7C6', fg: '#808080', dot: '#A1A1A1' },
+  upcoming: { label: 'Upcoming', bg: 'var(--hz-border-strong)', fg: '#808080', dot: '#A1A1A1' },
 }
 
 function StageStatusBadge({ status }: { status: StageStatus }) {
@@ -195,11 +195,11 @@ function ProjectProgress({ percent }: { percent: number }) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Project Progress</span>
-        <span className="text-[13px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{percent}%</span>
+        <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Project Progress</span>
+        <span className="text-[13px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: 'var(--hz-primary)' }}>{percent}%</span>
       </div>
-      <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: '#F4F0EC' }}>
-        <div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: '#722ED1', transition: 'width 0.9s cubic-bezier(0.4,0,0.2,1)' }} />
+      <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+        <div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: 'var(--hz-primary)', transition: 'width 0.9s cubic-bezier(0.4,0,0.2,1)' }} />
       </div>
     </div>
   )
@@ -209,7 +209,7 @@ function ProjectProgress({ percent }: { percent: number }) {
 
 function ViewToggle({ view, onChange }: { view: 'timeline' | 'list'; onChange: (v: 'timeline' | 'list') => void }) {
   return (
-    <div role="tablist" aria-label="Stage view" className="inline-flex items-center gap-0.5 p-0.5 rounded-[10px]" style={{ backgroundColor: '#F4F0EC' }}>
+    <div role="tablist" aria-label="Stage view" className="inline-flex items-center gap-0.5 p-0.5 rounded-[10px]" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
       {(['timeline', 'list'] as const).map(v => (
         <button
           key={v}
@@ -219,8 +219,8 @@ function ViewToggle({ view, onChange }: { view: 'timeline' | 'list'; onChange: (
           className="h-8 px-3 rounded-[8px] text-[12px] font-semibold cursor-pointer border-0 flex items-center gap-1.5 transition-colors"
           style={{
             fontFamily: '"Inter Variable", sans-serif',
-            backgroundColor: view === v ? '#FFFFFF' : 'transparent',
-            color: view === v ? '#722ED1' : '#808080',
+            backgroundColor: view === v ? 'var(--hz-surface)' : 'transparent',
+            color: view === v ? 'var(--hz-primary)' : '#808080',
             boxShadow: view === v ? '0 1px 4px rgba(0,0,0,0.06)' : 'none',
           }}
         >
@@ -249,9 +249,9 @@ function FilterChips({ value, onChange }: { value: 'all' | StageStatus; onChange
           className="h-8 px-3.5 rounded-full text-[12px] font-semibold cursor-pointer border shrink-0 transition-colors"
           style={{
             fontFamily: '"Inter Variable", sans-serif',
-            backgroundColor: value === opt.value ? '#F3EAFF' : '#FFFFFF',
-            color: value === opt.value ? '#722ED1' : '#808080',
-            borderColor: value === opt.value ? '#722ED1' : '#CAC7C6',
+            backgroundColor: value === opt.value ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+            color: value === opt.value ? 'var(--hz-primary)' : '#808080',
+            borderColor: value === opt.value ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
           }}
         >
           {opt.label}
@@ -266,28 +266,28 @@ function FilterChips({ value, onChange }: { value: 'all' | StageStatus; onChange
 function DependencyIndicator({ stage }: { stage: ConstructionStage }) {
   if (stage.dependencies.length === 0) {
     return (
-      <p className="text-[12px] text-[#9A949D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         No dependencies — this is the first stage.
       </p>
     )
   }
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Depends On</span>
+      <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Depends On</span>
       {stage.dependencies.map(depId => {
         const dep = stageById(depId)
         if (!dep) return null
         return (
           <div key={depId} className="flex flex-col items-start gap-1">
-            <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{dep.name}</span>
+            <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{dep.name}</span>
             <span
               aria-hidden="true"
               className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-              style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}
+              style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}
             >
               <IcoArrowDown />
             </span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{stage.name}</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{stage.name}</span>
           </div>
         )
       })}
@@ -300,16 +300,16 @@ function DependencyIndicator({ stage }: { stage: ConstructionStage }) {
 function TagList({ label, items, empty }: { label: string; items: string[]; empty?: string }) {
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{label}</span>
+      <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{label}</span>
       {items.length === 0 ? (
-        <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{empty ?? 'None'}</span>
+        <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{empty ?? 'None'}</span>
       ) : (
         <div className="flex flex-wrap gap-1.5">
           {items.map(item => (
             <span
               key={item}
               className="px-2.5 py-1 rounded-full text-[11px]"
-              style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7', color: '#242326', fontFamily: '"Inter Variable", sans-serif' }}
+              style={{ backgroundColor: 'var(--hz-surface)', border: '1px solid var(--hz-border)', color: 'var(--hz-ink)', fontFamily: '"Inter Variable", sans-serif' }}
             >
               {item}
             </span>
@@ -331,11 +331,11 @@ function StageCard({ stage, expanded, onToggle, onAskHozie }: {
   const isCurrent = stage.status === 'in-progress'
   return (
     <div
-      className="flex-1 min-w-0 bg-white overflow-hidden transition-all duration-200"
+      className="flex-1 min-w-0 bg-[var(--hz-surface)] overflow-hidden transition-all duration-200"
       style={{
-        border: isCurrent ? '2px solid #D97706' : '1px solid #CAC7C6',
+        border: isCurrent ? '2px solid #D97706' : '1px solid var(--hz-border-strong)',
         borderRadius: 16,
-        backgroundColor: isCurrent ? '#FFF7F0' : '#FFFFFF',
+        backgroundColor: isCurrent ? '#FFF7F0' : 'var(--hz-surface)',
       }}
     >
       <button
@@ -347,34 +347,34 @@ function StageCard({ stage, expanded, onToggle, onAskHozie }: {
       >
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-2 mb-1.5">
-            <span className="text-[12px] font-semibold" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: '#9A949D' }}>
+            <span className="text-[12px] font-semibold" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: 'var(--hz-ink-subtle)' }}>
               STAGE {String(stage.order).padStart(2, '0')}
             </span>
             <StageStatusBadge status={stage.status} />
           </div>
-          <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#242326] m-0 mb-1" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-[var(--hz-ink)] m-0 mb-1" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
             {stage.name}
           </h3>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{stageDurationLabel(stage)}</span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(stage.estimatedCost)}</span>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{stageDurationLabel(stage)}</span>
+            <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(stage.estimatedCost)}</span>
           </div>
           {!expanded && (
-            <p className="text-[12px] text-[#9A949D] m-0 mt-2 line-clamp-1" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+            <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0 mt-2 line-clamp-1" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
               {stage.activities.join(' · ')}
             </p>
           )}
         </div>
         <span
           className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-200"
-          style={{ backgroundColor: '#F4F0EC', color: '#68636D', transform: expanded ? 'rotate(180deg)' : 'none' }}
+          style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', transform: expanded ? 'rotate(180deg)' : 'none' }}
         >
           <IcoChevronDown />
         </span>
       </button>
 
       {expanded && (
-        <div id={`stage-panel-${stage.id}`} className="px-4 sm:px-5 pb-5 flex flex-col gap-4 border-t" style={{ borderColor: '#FFFFFF' }}>
+        <div id={`stage-panel-${stage.id}`} className="px-4 sm:px-5 pb-5 flex flex-col gap-4 border-t" style={{ borderColor: 'var(--hz-surface)' }}>
           <div className="grid sm:grid-cols-2 gap-4 pt-4">
             <TagList label="Major Activities" items={stage.activities} />
             <TagList label="Materials Involved" items={stage.materials} empty="Not applicable for this stage" />
@@ -383,14 +383,14 @@ function StageCard({ stage, expanded, onToggle, onAskHozie }: {
           </div>
           <div className="rounded-[12px] p-4" style={{ backgroundColor: 'rgba(255,255,255,0.6)' }}>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="w-5 h-5 rounded-[6px] bg-white flex items-center justify-center shrink-0"><HIcon size={14} /></span>
-              <span className="text-[12px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Note</span>
+              <span className="w-5 h-5 rounded-[6px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={14} /></span>
+              <span className="text-[12px] uppercase tracking-[0.08em] text-[var(--hz-primary)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Note</span>
             </div>
-            <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{stage.note}</p>
+            <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{stage.note}</p>
           </div>
           <div className="flex gap-2.5">
             <button
-              className="flex-1 h-9 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[12px] font-medium cursor-pointer bg-white hover:bg-[#F4F0EC] transition-colors"
+              className="flex-1 h-9 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[12px] font-medium cursor-pointer bg-[var(--hz-surface)] hover:bg-[var(--hz-surface-muted)] transition-colors"
               style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               Edit assumption
@@ -398,7 +398,7 @@ function StageCard({ stage, expanded, onToggle, onAskHozie }: {
             <button
               onClick={onAskHozie}
               className="flex-1 h-9 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-              style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+              style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
             >
               Ask Hozie
             </button>
@@ -416,15 +416,15 @@ function StageIndicator({ status, isLast }: { status: StageStatus; isLast: boole
   // The line below a stage reflects progress already made — only a completed
   // stage "fills" the segment beneath it; in-progress/upcoming stay neutral
   // since the path hasn't been travelled past that point yet.
-  const lineColor = status === 'completed' ? meta.dot : '#CAC7C6'
+  const lineColor = status === 'completed' ? meta.dot : 'var(--hz-border-strong)'
   return (
     <div className="hidden sm:flex flex-col items-center shrink-0" style={{ width: 32 }}>
       <div
         className="rounded-full flex items-center justify-center shrink-0"
         style={{
           width: 32, height: 32,
-          backgroundColor: status === 'upcoming' ? '#FFFFFF' : meta.dot,
-          border: status === 'upcoming' ? '2px solid #CAC7C6' : 'none',
+          backgroundColor: status === 'upcoming' ? 'var(--hz-surface)' : meta.dot,
+          border: status === 'upcoming' ? '2px solid var(--hz-border-strong)' : 'none',
         }}
       >
         {status === 'completed' && <IcoCheck />}
@@ -438,26 +438,26 @@ function StageIndicator({ status, isLast }: { status: StageStatus; isLast: boole
 
 function StageListRow({ stage, onOpen }: { stage: ConstructionStage; onOpen: () => void }) {
   return (
-    <tr onClick={onOpen} className="border-b border-[#FFFFFF] cursor-pointer hover:bg-[#FFFFFF] transition-colors" style={{ minHeight: 56 }}>
+    <tr onClick={onOpen} className="border-b border-[var(--hz-surface)] cursor-pointer hover:bg-[var(--hz-surface)] transition-colors" style={{ minHeight: 56 }}>
       <td className="px-4 py-3.5">
-        <span className="text-[12px] font-semibold text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{String(stage.order).padStart(2, '0')}</span>
+        <span className="text-[12px] font-semibold text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{String(stage.order).padStart(2, '0')}</span>
       </td>
       <td className="px-4 py-3.5">
-        <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{stage.name}</span>
+        <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{stage.name}</span>
       </td>
       <td className="px-4 py-3.5"><StageStatusBadge status={stage.status} /></td>
       <td className="px-4 py-3.5 hidden sm:table-cell">
-        <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{stageDurationLabel(stage)}</span>
+        <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{stageDurationLabel(stage)}</span>
       </td>
       <td className="px-4 py-3.5">
-        <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(stage.estimatedCost)}</span>
+        <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(stage.estimatedCost)}</span>
       </td>
       <td className="px-4 py-3.5 text-right">
         <button
           onClick={e => { e.stopPropagation(); onOpen() }}
           aria-label={`View details for ${stage.name}`}
           className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-          style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+          style={{ color: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
         >
           View details →
         </button>
@@ -470,21 +470,21 @@ function StageListRow({ stage, onOpen }: { stage: ConstructionStage; onOpen: () 
 
 function SkeletonStage() {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 flex flex-col gap-2">
-      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', width: '30%' }} />
-      <div className="h-4 rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', width: '45%' }} />
-      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: '#FFFFFF', width: '60%' }} />
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 flex flex-col gap-2">
+      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', width: '30%' }} />
+      <div className="h-4 rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', width: '45%' }} />
+      <div className="h-3 rounded-full animate-pulse" style={{ backgroundColor: 'var(--hz-surface)', width: '60%' }} />
     </div>
   )
 }
 
 function NoProjectState() {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 py-16 px-6 text-center bg-white rounded-[16px] border border-[#E3DDD7]">
-      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F4F0EC', color: '#9A949D' }}>
+    <div className="flex flex-col items-center justify-center gap-3 py-16 px-6 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-subtle)' }}>
         <IcoNoProject />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Create a project to generate your construction roadmap.
       </p>
     </div>
@@ -493,17 +493,17 @@ function NoProjectState() {
 
 function ErrorState({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 py-16 px-6 text-center bg-white rounded-[16px] border border-[#E3DDD7]">
-      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}>
+    <div className="flex flex-col items-center justify-center gap-3 py-16 px-6 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: 'var(--hz-danger)' }}>
         <IcoAlert />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Unable to load construction stages.
       </p>
       <button
         onClick={onRetry}
         className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0"
-        style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+        style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Retry
       </button>
@@ -552,20 +552,20 @@ export default function ConstructionStagesScreen({
 
   const askHozie = () => onNavigate('ai-advisor', { project_id: projectId || boqOverview.projectId })
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
         <button
           onClick={() => onNavigate('estimate-dashboard')}
           aria-label="Back to estimate"
-          className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]"
+          className="flex items-center gap-1 text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer text-[13px]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoChevronLeft /> Estimate
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Construction Stages</span>
-        <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Construction Stages</span>
+        <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
@@ -573,26 +573,26 @@ return (
 
         <div className="flex flex-col flex-1 min-h-0">
           {/* Desktop header */}
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Construction Stages
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+              <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => onNavigate('estimate-dashboard')}
-                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoChevronLeft /> Back to estimate
               </button>
               <button
                 aria-label="Download PDF"
-                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-all"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
@@ -611,19 +611,19 @@ return (
                   {/* Intro */}
                   <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
                     <div>
-                      <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                      <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                         Construction Roadmap
                       </span>
-                      <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+                      <h2 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                         How your home will be built.
                       </h2>
-                      <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[560px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                      <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 mt-2 max-w-[560px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                         Hozie has organized your project into construction stages so you can understand the sequence, time and major costs involved.
                       </p>
                     </div>
-                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#F3EAFF] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#722ED1]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
-                      <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>78% AI confidence</span>
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[var(--hz-primary-soft)] self-start shrink-0" style={{ border: '1px solid var(--hz-primary-soft)' }}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--hz-primary)]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
+                      <span className="text-[11px] font-medium text-[var(--hz-primary)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>78% AI confidence</span>
                     </div>
                   </div>
 
@@ -635,7 +635,7 @@ return (
                   </div>
 
                   {/* Progress */}
-                  <div className="bg-white p-5" style={{ border: '1px solid #E3DDD7', borderRadius: 16, animation: 'welcomeFadeUp 0.4s ease-out 0.14s both' }}>
+                  <div className="bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)', borderRadius: 16, animation: 'welcomeFadeUp 0.4s ease-out 0.14s both' }}>
                     <ProjectProgress percent={18} />
                   </div>
 
@@ -663,8 +663,8 @@ return (
                         {Array.from({ length: 4 }).map((_, i) => <SkeletonStage key={i} />)}
                       </div>
                     ) : filteredStages.length === 0 ? (
-                      <div className="flex flex-col items-center justify-center gap-2 py-14 text-center bg-white rounded-[16px] border border-[#E3DDD7]">
-                        <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>No stages match this filter.</p>
+                      <div className="flex flex-col items-center justify-center gap-2 py-14 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+                        <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>No stages match this filter.</p>
                       </div>
                     ) : view === 'timeline' ? (
                       <div className="flex flex-col gap-4 sm:gap-3">
@@ -681,16 +681,16 @@ return (
                         ))}
                       </div>
                     ) : (
-                      <div className="bg-white overflow-hidden" style={{ border: '1px solid #E3DDD7', borderRadius: 16 }}>
+                      <div className="bg-[var(--hz-surface)] overflow-hidden" style={{ border: '1px solid var(--hz-border)', borderRadius: 16 }}>
                         <div className="overflow-x-auto">
                           <table className="w-full border-collapse" style={{ minWidth: 560 }}>
                             <thead>
-                              <tr style={{ backgroundColor: '#F4F0EC' }}>
+                              <tr style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
                                 {['#', 'Stage', 'Status', 'Duration', 'Cost', 'Action'].map((h, i) => (
                                   <th
                                     key={h}
                                     scope="col"
-                                    className={['px-4 py-3 text-left text-[12px] sm:text-[12px] uppercase tracking-[0.08em] text-[#68636D]', i === 3 ? 'hidden sm:table-cell' : '', i === 5 ? 'text-right' : ''].join(' ')}
+                                    className={['px-4 py-3 text-left text-[12px] sm:text-[12px] uppercase tracking-[0.08em] text-[var(--hz-ink-muted)]', i === 3 ? 'hidden sm:table-cell' : '', i === 5 ? 'text-right' : ''].join(' ')}
                                     style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
                                   >
                                     {h}
@@ -716,14 +716,14 @@ return (
 
           {status === 'ready' && (
             <div
-              className="sticky bottom-0 z-20 bg-white border-t border-[#E3DDD7] px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+              className="sticky bottom-0 z-20 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
               style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}
             >
-              <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>10 STAGES · 18% COMPLETE</span>
+              <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>10 STAGES · 18% COMPLETE</span>
               <div className="flex items-center gap-2.5 w-full sm:w-auto">
                 <button
                   onClick={() => onNavigate('labour-estimate', { project_name: projectName, location })}
-                  className="flex-1 sm:flex-none h-11 px-5 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
+                  className="flex-1 sm:flex-none h-11 px-5 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors"
                   style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   Back to Labour
@@ -731,7 +731,7 @@ return (
                 <button
                   onClick={() => onNavigate('cost-assumptions', { project_name: projectName, location })}
                   className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                  style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
+                  style={{ backgroundColor: 'var(--hz-primary)', fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   Continue to Cost Assumptions →
                 </button>

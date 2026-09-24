@@ -28,7 +28,7 @@ export default function HIcon({ size = 36, shadow = false }: HIconProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#722ED1',
+        backgroundColor: 'var(--hz-primary)',
         borderRadius: Math.round(16 * scale),
         boxShadow: shadow ? '0px 12px 16px rgba(0,0,0,0.17)' : undefined,
       }}
@@ -46,7 +46,7 @@ export default function HIcon({ size = 36, shadow = false }: HIconProps) {
 export function HLogoMark({ size = 36 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d={SYMBOL_PATH} fill="#722ED1" />
+      <path d={SYMBOL_PATH} fill="var(--hz-primary)" />
     </svg>
   )
 }

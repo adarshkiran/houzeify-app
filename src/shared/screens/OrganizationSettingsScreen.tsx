@@ -50,10 +50,10 @@ const IcoProfile = () => (
 
 function SectionCard({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
       <div className="flex items-center gap-2.5 mb-3">
-        <span className="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>{icon}</span>
-        <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>{title}</p>
+        <span className="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>{icon}</span>
+        <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_MONO }}>{title}</p>
       </div>
       {children}
     </div>
@@ -64,8 +64,8 @@ function Field({ label, value }: { label: string; value?: string }) {
   if (!value) return null
   return (
     <div>
-      <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
-      <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
+      <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
+      <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{value}</p>
     </div>
   )
 }
@@ -115,11 +115,11 @@ export default function OrganizationSettingsScreen({
 
   if (!hasOrganization) {
     return (
-      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative items-center justify-center gap-4 px-6" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <div className="relative z-10 flex flex-col items-center gap-4 text-center">
           <HIcon size={36} />
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Organization information unavailable.</p>
-          <button type="button" onClick={goToProfile} className={selectClass} style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Organization information unavailable.</p>
+          <button type="button" onClick={goToProfile} className={selectClass} style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}>
             ← Back to Profile
           </button>
         </div>
@@ -140,11 +140,11 @@ export default function OrganizationSettingsScreen({
   const resolvedVerification = parseVerificationStatus(verification.status)
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
-      <header className="shrink-0 relative z-10 bg-white" style={{ borderBottom: '1px solid #F4F0EC' }}>
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)]" style={{ borderBottom: '1px solid var(--hz-surface-muted)' }}>
         <div className="flex items-center h-14 px-4 sm:px-6 lg:px-8">
-          <button type="button" onClick={goToProfile} className="flex items-center gap-1.5 text-[13px] font-medium text-[#68636D] hover:text-[#242326] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={goToProfile} className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
             <IcoBack /> Back
           </button>
         </div>
@@ -153,17 +153,17 @@ export default function OrganizationSettingsScreen({
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-8">
         <div className="max-w-[720px] mx-auto flex flex-col gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-[#F3EAFF] text-[#722ED1] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
+            <div className="w-11 h-11 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)] flex items-center justify-center text-[13px] font-bold shrink-0" style={{ fontFamily: FONT_HEAD }}>
               {initials}
             </div>
             <div>
-              <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Organization Settings</p>
-              <h1 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{companyName}</h1>
+              <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>Organization Settings</p>
+              <h1 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{companyName}</h1>
             </div>
           </div>
 
           {/* Organization summary */}
-          <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
+          <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <Field label="Organization Name" value={companyName} />
               <Field label="Owner / Primary Contact" value={companyOwner} />
@@ -182,58 +182,58 @@ export default function OrganizationSettingsScreen({
                 <Field label="Company Type" value={companyTypeLabel} />
               </div>
             ) : (
-              <p className="text-[13px] text-[#9A949D] m-0 mb-4" style={{ fontFamily: FONT_BODY }}>No business information added yet.</p>
+              <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0 mb-4" style={{ fontFamily: FONT_BODY }}>No business information added yet.</p>
             )}
-            <button type="button" onClick={() => onNavigate('company-information')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={() => onNavigate('company-information')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Edit Business Information →
             </button>
           </SectionCard>
 
           {/* Verification — real organizationId-scoped status (Module 02) */}
           <SectionCard icon={<IcoVerified />} title="Verification">
-            <p className="text-[13.5px] font-semibold text-[#242326] m-0 mb-4" style={{ fontFamily: FONT_HEAD }}>
+            <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0 mb-4" style={{ fontFamily: FONT_HEAD }}>
               {resolvedVerification === 'not-started' ? 'Verification not started.' : VERIFICATION_STATUS_LABELS[resolvedVerification]}
             </p>
-            <button type="button" onClick={() => onNavigate('business-verification')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={() => onNavigate('business-verification')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               {resolvedVerification === 'not-started' ? 'Start Verification →' : 'View Verification →'}
             </button>
           </SectionCard>
 
           {/* Team */}
           <SectionCard icon={<IcoTeam />} title="Team">
-            <p className="text-[13px] text-[#68636D] m-0 mb-4" style={{ fontFamily: FONT_BODY }}>Manage the people who work with your organization.</p>
-            <button type="button" onClick={() => onNavigate('team-management')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mb-4" style={{ fontFamily: FONT_BODY }}>Manage the people who work with your organization.</p>
+            <button type="button" onClick={() => onNavigate('team-management')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Manage Team →
             </button>
           </SectionCard>
 
           {/* Roles & Permissions */}
           <SectionCard icon={<IcoShield />} title="Roles &amp; Permissions">
-            <p className="text-[12px] text-[#9A949D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>Reference only — not yet assigned to any team member.</p>
+            <p className="text-[12px] text-[var(--hz-ink-subtle)] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>Reference only — not yet assigned to any team member.</p>
             <div className="flex flex-col gap-3 mb-4">
               {ROLE_ORDER.map(role => (
-                <div key={role} className="pb-3" style={{ borderBottom: role !== 'viewer' ? '1px solid #CAC7C6' : 'none' }}>
+                <div key={role} className="pb-3" style={{ borderBottom: role !== 'viewer' ? '1px solid var(--hz-border-strong)' : 'none' }}>
                   <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{ROLE_LABELS[role]}</span>
-                    <span className="text-[11.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{ROLE_SHORT_DESCRIPTIONS[role]}</span>
+                    <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{ROLE_LABELS[role]}</span>
+                    <span className="text-[11.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{ROLE_SHORT_DESCRIPTIONS[role]}</span>
                   </div>
                   <div className="flex flex-wrap gap-1.5 mt-1.5">
                     {ROLE_PERMISSIONS[role].map(p => (
-                      <span key={p} className="px-2 py-0.5 rounded-full text-[10.5px] font-medium" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_BODY }}>{p}</span>
+                      <span key={p} className="px-2 py-0.5 rounded-full text-[10.5px] font-medium" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>{p}</span>
                     ))}
                   </div>
                 </div>
               ))}
             </div>
-            <button type="button" onClick={() => onNavigate('roles-permissions')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={() => onNavigate('roles-permissions')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Roles &amp; Permissions →
             </button>
           </SectionCard>
 
           {/* Organization Profile */}
           <SectionCard icon={<IcoProfile />} title="Organization Profile">
-            <p className="text-[13px] text-[#68636D] m-0 mb-4" style={{ fontFamily: FONT_BODY }}>Controls your organization's public-facing professional identity.</p>
-            <button type="button" onClick={() => onNavigate('organization-profile')} className="text-[12.5px] font-semibold text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mb-4" style={{ fontFamily: FONT_BODY }}>Controls your organization's public-facing professional identity.</p>
+            <button type="button" onClick={() => onNavigate('organization-profile')} className="text-[12.5px] font-semibold text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
               Organization Profile →
             </button>
           </SectionCard>

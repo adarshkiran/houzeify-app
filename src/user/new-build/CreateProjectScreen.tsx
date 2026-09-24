@@ -172,8 +172,8 @@ function NavItem({ icon, label, active, onClick }: {
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
         active
-          ? 'bg-[#F3EAFF] text-[#722ED1]'
-          : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+          ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]'
+          : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -210,7 +210,7 @@ function ProgressSteps({ current }: { current: number }) {
                   className="w-5 h-5 rounded-full flex items-center justify-center text-[12px] font-bold shrink-0"
                   style={{
                     fontFamily: '"Sometype Mono:SemiBold", monospace',
-                    backgroundColor: active || done ? '#722ED1' : '#CAC7C6',
+                    backgroundColor: active || done ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
                     color: active || done ? 'white' : '#A1A1A1',
                   }}
                 >
@@ -222,7 +222,7 @@ function ProgressSteps({ current }: { current: number }) {
                   className="text-[12px] tracking-[0.08em] leading-none"
                   style={{
                     fontFamily: '"Sometype Mono:SemiBold", monospace',
-                    color: active ? '#722ED1' : done ? '#722ED1' : '#A1A1A1',
+                    color: active ? 'var(--hz-primary)' : done ? 'var(--hz-primary)' : '#A1A1A1',
                   }}
                 >
                   {step.label}
@@ -231,7 +231,7 @@ function ProgressSteps({ current }: { current: number }) {
             </div>
             {/* Connector line */}
             {i < steps.length - 1 && (
-              <div className="h-px mx-3 flex-1" style={{ width: 48, backgroundColor: done ? '#722ED1' : '#CAC7C6' }} />
+              <div className="h-px mx-3 flex-1" style={{ width: 48, backgroundColor: done ? 'var(--hz-primary)' : 'var(--hz-border-strong)' }} />
             )}
           </div>
         )
@@ -263,29 +263,29 @@ function StageCard({ stage, selected, onSelect }: { stage: StageOption; selected
       className={[
         'relative flex flex-col gap-2 p-4 rounded-[12px] text-left cursor-pointer transition-all duration-150 border outline-none',
         selected
-          ? 'bg-[#F9F5FF] border-[#722ED1] border-2'
-          : 'bg-white border-[#E3DDD7] hover:bg-[#F9F5FF] hover:border-[#722ED1]',
+          ? 'bg-[var(--hz-primary-wash)] border-[var(--hz-primary)] border-2'
+          : 'bg-[var(--hz-surface)] border-[var(--hz-border)] hover:bg-[var(--hz-primary-wash)] hover:border-[var(--hz-primary)]',
       ].join(' ')}
     >
       {/* Selected check */}
       {selected && (
         <div
-          className="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#722ED1] flex items-center justify-center"
+          className="absolute top-3 right-3 w-5 h-5 rounded-full bg-[var(--hz-primary)] flex items-center justify-center"
           style={{ animation: 'successBadgePop 0.3s cubic-bezier(0.34,1.56,0.64,1) both' }}
         >
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </div>
       )}
-      <span className={selected ? 'text-[#722ED1]' : 'text-[#9A949D]'}>{stage.icon}</span>
+      <span className={selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink-subtle)]'}>{stage.icon}</span>
       <div className="flex flex-col gap-0.5">
         <span
-          className={`text-[13px] font-semibold leading-tight ${selected ? 'text-[#722ED1]' : 'text-[#242326]'}`}
+          className={`text-[13px] font-semibold leading-tight ${selected ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink)]'}`}
           style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           {stage.title}
         </span>
         <span
-          className="text-[12px] text-[#68636D] leading-[1.5]"
+          className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.5]"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           {stage.desc}
@@ -300,7 +300,7 @@ function StageCard({ stage, selected, onSelect }: { stage: StageOption; selected
 function FormLabel({ children }: { children: React.ReactNode }) {
   return (
     <span
-      className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]"
+      className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]"
       style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
     >
       {children}
@@ -312,14 +312,14 @@ function FormLabel({ children }: { children: React.ReactNode }) {
 
 function MobileTopBar({ onCancel }: { onCancel: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Create project
         </span>
       </div>
-      <button onClick={onCancel} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <button onClick={onCancel} className="text-[13px] text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Cancel
       </button>
     </div>
@@ -426,7 +426,7 @@ export default function CreateProjectScreen({
   const hasHomeInfo = Boolean(homeType)
 
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile bar */}
       <MobileTopBar onCancel={() => onNavigate('ai-advisor')} />
@@ -439,16 +439,16 @@ return (
         <div className="flex flex-col flex-1 min-h-0">
 
           {/* Desktop Header */}
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <h1
-              className="text-[20px] font-semibold text-[#242326] m-0"
+              className="text-[20px] font-semibold text-[var(--hz-ink)] m-0"
               style={{ fontFamily: '"Geist Variable", sans-serif' }}
             >
               Create project
             </h1>
             <button
               onClick={() => onNavigate('ai-advisor')}
-              className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent"
+              className="text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent"
               style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               Cancel
@@ -456,8 +456,8 @@ return (
           </header>
 
           {/* Progress bar strip */}
-          <div className="hidden md:block h-[2px] bg-[#F4F0EC] w-full shrink-0">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '33%' }} />
+          <div className="hidden md:block h-[2px] bg-[var(--hz-surface-muted)] w-full shrink-0">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '33%' }} />
           </div>
 
           {/* Scrollable content */}
@@ -475,19 +475,19 @@ return (
                 style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}
               >
                 <span
-                  className="text-[12px] tracking-[0.10em] uppercase text-[#722ED1]"
+                  className="text-[12px] tracking-[0.10em] uppercase text-[var(--hz-primary)]"
                   style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
                 >
                   New Construction Project
                 </span>
                 <h2
-                  className="text-[30px] sm:text-[40px] font-semibold text-[#242326] m-0 leading-[1.08]"
+                  className="text-[30px] sm:text-[40px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]"
                   style={{ fontFamily: '"Geist Variable", sans-serif' }}
                 >
                   Let&apos;s create your project.
                 </h2>
                 <p
-                  className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0"
+                  className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0"
                   style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   Hozie will use these details to build your construction estimate.
@@ -496,7 +496,7 @@ return (
 
               {/* Form card */}
               <div
-                className="bg-white rounded-[20px] border border-[#E3DDD7] p-6 sm:p-8 flex flex-col gap-6"
+                className="bg-[var(--hz-surface)] rounded-[20px] border border-[var(--hz-border)] p-6 sm:p-8 flex flex-col gap-6"
                 style={{ boxShadow: '0 2px 20px rgba(0,0,0,0.04), 0 1px 4px rgba(0,0,0,0.03)', animation: 'welcomeFadeUp 0.45s ease-out 0.12s both' }}
               >
                 {/* Field 1: Project name */}
@@ -507,32 +507,32 @@ return (
                     placeholder="My New Home"
                     value={projectName}
                     onChange={e => setProjectName(e.target.value)}
-                    className="w-full h-[52px] px-4 rounded-[12px] border border-[#E3DDD7] bg-white text-[15px] text-[#242326] outline-none transition-all placeholder-[#CAC7C6]"
+                    className="w-full h-[52px] px-4 rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[15px] text-[var(--hz-ink)] outline-none transition-all placeholder-[var(--hz-border-strong)]"
                     style={{
                       fontFamily: '"Inter Variable", sans-serif',
                     }}
-                    onFocus={e => { e.currentTarget.style.borderColor = '#722ED1'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(114,46,209,0.08)' }}
-                    onBlur={e => { e.currentTarget.style.borderColor = '#CAC7C6'; e.currentTarget.style.boxShadow = 'none' }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--hz-primary)'; e.currentTarget.style.boxShadow = '0 0 0 3px color-mix(in oklch, var(--hz-primary) 14%, transparent)' }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'var(--hz-border-strong)'; e.currentTarget.style.boxShadow = 'none' }}
                   />
-                  <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                  <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     Give your project a name you&apos;ll recognize later.
                   </span>
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-[#E3DDD7]" />
+                <div className="border-t border-[var(--hz-border)]" />
 
                 {/* Field 2: Property type */}
                 <div className="flex flex-col gap-2">
                   <FormLabel>What are you building?</FormLabel>
-                  <div className="flex flex-col rounded-[12px] border border-[#E3DDD7] bg-[#FFFFFF] overflow-hidden">
+                  <div className="flex flex-col rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface)] overflow-hidden">
                     <div className="flex items-center justify-between px-4 h-[52px]">
                       <div className="flex items-center gap-3">
-                        <span className="text-[15px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                        <span className="text-[15px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           {propertyType}
                         </span>
                         <span
-                          className="text-[12px] tracking-[0.10em] px-2 py-0.5 rounded-full bg-[#F3EAFF] text-[#722ED1]"
+                          className="text-[12px] tracking-[0.10em] px-2 py-0.5 rounded-full bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]"
                           style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}
                         >
                           {propertyBadge[propertyType] ?? 'HOME'}
@@ -540,7 +540,7 @@ return (
                       </div>
                       <button
                         onClick={() => setChangingType(v => !v)}
-                        className="text-[13px] text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent"
+                        className="text-[13px] text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent"
                         style={{ fontFamily: '"Inter Variable", sans-serif' }}
                       >
                         {changingType ? 'Done' : 'Change'}
@@ -556,22 +556,22 @@ return (
                         that reach 035 without it keep the exact field they
                         had before. */}
                     {hasHomeInfo && (homeStageBhkLine || homeAreaFloorLine) && (
-                      <div className="flex flex-col gap-1 px-4 py-3 border-t border-[#E3DDD7]">
-                        <span className="text-[11px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                      <div className="flex flex-col gap-1 px-4 py-3 border-t border-[var(--hz-border)]">
+                        <span className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                           From your Home details
                         </span>
                         {homeStageBhkLine && (
-                          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{homeStageBhkLine}</span>
+                          <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{homeStageBhkLine}</span>
                         )}
                         {homeAreaFloorLine && (
-                          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{homeAreaFloorLine}</span>
+                          <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{homeAreaFloorLine}</span>
                         )}
-                        <span className="flex items-center gap-1 text-[12px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                        <span className="flex items-center gap-1 text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           <IcoLocation /> {location}
                         </span>
                         <button
                           onClick={() => onNavigate('home-intent')}
-                          className="self-start mt-1 text-[12.5px] text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0"
+                          className="self-start mt-1 text-[12.5px] text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent p-0"
                           style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Edit in Your Home →
@@ -590,8 +590,8 @@ return (
                           className={[
                             'h-8 px-3 rounded-full border text-[12px] cursor-pointer transition-all',
                             propertyType === pt
-                              ? 'bg-[#722ED1] border-[#722ED1] text-white'
-                              : 'bg-white border-[#E3DDD7] text-[#68636D] hover:border-[#722ED1] hover:text-[#722ED1]',
+                              ? 'bg-[var(--hz-primary)] border-[var(--hz-primary)] text-white'
+                              : 'bg-[var(--hz-surface)] border-[var(--hz-border)] text-[var(--hz-ink-muted)] hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)]',
                           ].join(' ')}
                           style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
@@ -603,17 +603,17 @@ return (
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-[#E3DDD7]" />
+                <div className="border-t border-[var(--hz-border)]" />
 
                 {/* Field 3: Location */}
                 <div className="flex flex-col gap-2">
                   <FormLabel>Where are you building?</FormLabel>
                   {editingLocation ? (
                     <div
-                      className="flex items-center gap-3 px-4 h-[52px] rounded-[12px] border border-[#722ED1] bg-white"
-                      style={{ boxShadow: '0 0 0 3px rgba(114,46,209,0.08)' }}
+                      className="flex items-center gap-3 px-4 h-[52px] rounded-[12px] border border-[var(--hz-primary)] bg-[var(--hz-surface)]"
+                      style={{ boxShadow: '0 0 0 3px color-mix(in oklch, var(--hz-primary) 14%, transparent)' }}
                     >
-                      <span className="text-[#9A949D] shrink-0"><IcoLocation /></span>
+                      <span className="text-[var(--hz-ink-subtle)] shrink-0"><IcoLocation /></span>
                       <input
                         autoFocus
                         type="text"
@@ -621,21 +621,21 @@ return (
                         onChange={e => setLocation(e.target.value)}
                         onBlur={() => setEditingLocation(false)}
                         onKeyDown={e => { if (e.key === 'Enter') setEditingLocation(false) }}
-                        className="flex-1 bg-transparent outline-none text-[15px] text-[#242326]"
+                        className="flex-1 bg-transparent outline-none text-[15px] text-[var(--hz-ink)]"
                         style={{ fontFamily: '"Inter Variable", sans-serif' }}
                       />
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between px-4 h-[52px] rounded-[12px] border border-[#E3DDD7] bg-[#FFFFFF]">
+                    <div className="flex items-center justify-between px-4 h-[52px] rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface)]">
                       <div className="flex items-center gap-3">
-                        <span className="text-[#9A949D] shrink-0"><IcoLocation /></span>
-                        <span className="text-[15px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                        <span className="text-[var(--hz-ink-subtle)] shrink-0"><IcoLocation /></span>
+                        <span className="text-[15px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           {location}
                         </span>
                       </div>
                       <button
                         onClick={() => setEditingLocation(true)}
-                        className="text-[13px] text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent"
+                        className="text-[13px] text-[var(--hz-primary)] hover:underline cursor-pointer border-0 bg-transparent"
                         style={{ fontFamily: '"Inter Variable", sans-serif' }}
                       >
                         Change
@@ -645,7 +645,7 @@ return (
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-[#E3DDD7]" />
+                <div className="border-t border-[var(--hz-border)]" />
 
                 {/* Field 4: Stage */}
                 <div className="flex flex-col gap-3">
@@ -666,16 +666,16 @@ return (
               {/* Hozie Tip */}
               <div
                 className="flex items-start gap-3 px-5 py-4 rounded-[12px]"
-                style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)', animation: 'welcomeFadeUp 0.4s ease-out 0.22s both' }}
+                style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)', animation: 'welcomeFadeUp 0.4s ease-out 0.22s both' }}
               >
-                <div className="shrink-0 w-8 h-8 rounded-[10px] bg-white flex items-center justify-center">
+                <div className="shrink-0 w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center">
                   <HIcon size={20} />
                 </div>
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-[12px] tracking-[0.08em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+                  <span className="text-[12px] tracking-[0.08em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                     Hozie Tip
                   </span>
-                  <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                  <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     You don&apos;t need everything ready. We can start with what you know and fill in the details later.
                   </p>
                 </div>
@@ -692,8 +692,8 @@ return (
                   className={[
                     'h-[52px] px-6 rounded-[12px] text-[14px] font-semibold transition-all duration-150 border-0 w-full sm:w-auto sm:min-w-[240px]',
                     canContinue
-                      ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
-                      : 'bg-[#F4F0EC] text-[#9A949D] cursor-not-allowed',
+                      ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
+                      : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-not-allowed',
                   ].join(' ')}
                   style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
@@ -706,8 +706,8 @@ return (
                   className={[
                     'h-[52px] px-6 rounded-[12px] text-[14px] font-semibold transition-all duration-150 border w-full sm:w-auto',
                     canContinue
-                      ? 'border-[#E3DDD7] bg-white text-[#242326] cursor-pointer hover:bg-[#F4F0EC]'
-                      : 'border-[#E3DDD7] bg-[#FFFFFF] text-[#9A949D] cursor-not-allowed',
+                      ? 'border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink)] cursor-pointer hover:bg-[var(--hz-surface-muted)]'
+                      : 'border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-subtle)] cursor-not-allowed',
                   ].join(' ')}
                   style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
@@ -716,7 +716,7 @@ return (
 
                 <button
                   onClick={() => onNavigate('ai-advisor')}
-                  className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent"
+                  className="text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent"
                   style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   ← Back to Hozie

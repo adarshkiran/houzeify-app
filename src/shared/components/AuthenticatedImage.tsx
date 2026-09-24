@@ -57,7 +57,7 @@ export default function AuthenticatedImage({
   if (!contentUrl || status === 'error') {
     return (
       <div
-        className={`flex items-center justify-center bg-[#F4F0EC] text-[#9A949D] text-[12px] ${className ?? ''}`}
+        className={`flex items-center justify-center bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] text-[12px] ${className ?? ''}`}
         style={{ fontFamily: FONT_BODY }}
         role="img"
         aria-label={unavailableLabel}
@@ -70,7 +70,7 @@ export default function AuthenticatedImage({
   if (status === 'loading' || status === 'idle' || !objectUrl) {
     return (
       <div
-        className={`flex items-center justify-center bg-[#F4F0EC] text-[#9A949D] text-[12px] animate-pulse ${className ?? ''}`}
+        className={`flex items-center justify-center bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] text-[12px] animate-pulse ${className ?? ''}`}
         style={{ fontFamily: FONT_BODY }}
         aria-busy="true"
       >

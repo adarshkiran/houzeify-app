@@ -26,7 +26,7 @@ const CheckIcon = ({ size = 8 }: { size?: number }) => (
 )
 
 function FormLabel({ children }: { children: React.ReactNode }) {
-  return <span className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{children}</span>
+  return <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{children}</span>
 }
 
 function Chip({ label, selected, onSelect }: { label: string; selected: boolean; onSelect: () => void }) {
@@ -39,12 +39,12 @@ function Chip({ label, selected, onSelect }: { label: string; selected: boolean;
       className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
       style={{
         fontFamily: FONT_BODY,
-        backgroundColor: selected ? '#F3EAFF' : '#FFFFFF',
-        borderColor: selected ? '#722ED1' : '#CAC7C6',
-        color: selected ? '#722ED1' : '#1E1E1E',
+        backgroundColor: selected ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+        borderColor: selected ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+        color: selected ? 'var(--hz-primary)' : 'var(--hz-black)',
       }}
     >
-      {selected && <span className="w-[14px] h-[14px] rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon /></span>}
+      {selected && <span className="w-[14px] h-[14px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><CheckIcon /></span>}
       {label}
     </button>
   )
@@ -96,12 +96,12 @@ function ChipFieldGroup({ field, value, onSelect }: { field: ChipField; value?: 
 
 function MobileTopBar({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Renovate</span>
       </div>
-      <button onClick={onBack} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
+      <button onClick={onBack} className="text-[13px] text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
     </div>
   )
 }
@@ -145,31 +145,31 @@ export default function RenovateSpaceDetailsScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onBack={() => onNavigate('renovate-select-area', { renovation_areas: renovationAreas ?? '' })} />
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="build" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
-            <button onClick={() => onNavigate('renovate-select-area', { renovation_areas: renovationAreas ?? '' })} className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Renovate</h1>
+            <button onClick={() => onNavigate('renovate-select-area', { renovation_areas: renovationAreas ?? '' })} className="text-[13px] text-[var(--hz-ink-muted)] hover:text-[var(--hz-ink)] transition-colors cursor-pointer border-0 bg-transparent" style={{ fontFamily: FONT_BODY }}>
               Back
             </button>
           </header>
 
-          <div className="hidden md:block h-[2px] bg-[#F4F0EC] w-full shrink-0">
-            <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: `${(2 / TOTAL_STEPS) * 100}%` }} />
+          <div className="hidden md:block h-[2px] bg-[var(--hz-surface-muted)] w-full shrink-0">
+            <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: `${(2 / TOTAL_STEPS) * 100}%` }} />
           </div>
 
           <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
             <div className="max-w-[900px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-12 flex flex-col gap-8">
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 2 of {TOTAL_STEPS}</span>
-                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Tell us about your space</h2>
-                <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
-                  Renovating: <strong style={{ color: '#242326' }}>{areas.map(a => RENOVATION_AREA_LABELS[a]).join(', ')}</strong>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 2 of {TOTAL_STEPS}</span>
+                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Tell us about your space</h2>
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>
+                  Renovating: <strong style={{ color: 'var(--hz-ink)' }}>{areas.map(a => RENOVATION_AREA_LABELS[a]).join(', ')}</strong>
                 </p>
               </div>
 
@@ -183,16 +183,16 @@ export default function RenovateSpaceDetailsScreen({
                       value={areaSize}
                       onChange={e => setAreaSize(e.target.value)}
                       placeholder="e.g. 150"
-                      className="h-11 px-4 rounded-[10px] border border-[#E3DDD7] text-[14px] text-[#242326] outline-none focus:border-[#722ED1] transition-colors w-[180px]"
+                      className="h-11 px-4 rounded-[10px] border border-[var(--hz-border)] text-[14px] text-[var(--hz-ink)] outline-none focus:border-[var(--hz-primary)] transition-colors w-[180px]"
                       style={{ fontFamily: FONT_BODY }}
                     />
-                    <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>sq.ft</span>
+                    <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>sq.ft</span>
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-2">
                   <FormLabel>Location</FormLabel>
-                  <span className="text-[14px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{location}</span>
+                  <span className="text-[14px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{location}</span>
                 </div>
 
                 {fields.map(field => (
@@ -205,7 +205,7 @@ export default function RenovateSpaceDetailsScreen({
                 disabled={!canContinue}
                 className={[
                   'h-[52px] px-6 rounded-[12px] text-[14px] font-semibold transition-all duration-150 border-0 w-full sm:w-auto sm:min-w-[240px]',
-                  canContinue ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[#F4F0EC] text-[#9A949D] cursor-not-allowed',
+                  canContinue ? 'bg-[var(--hz-primary)] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)] cursor-not-allowed',
                 ].join(' ')}
                 style={{ fontFamily: FONT_BODY }}
               >

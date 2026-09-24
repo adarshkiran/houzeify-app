@@ -35,18 +35,18 @@ const IcoPin = () => (
 )
 
 const STATUS_STYLE: Record<CustomerBooking['status'], { bg: string; color: string }> = {
-  confirmed: { bg: '#DCFCE7', color: '#16A34A' },
-  cancelled: { bg: '#F4F0EC', color: '#68636D' },
+  confirmed: { bg: '#DCFCE7', color: 'var(--hz-success)' },
+  cancelled: { bg: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)' },
 }
 
 function MobileTopBar({ onNavigate }: { onNavigate: (screen: string, data?: Record<string, string>) => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>My Bookings</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>My Bookings</span>
       </div>
-      <button onClick={() => onNavigate('homeowner-profile')} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
+      <button onClick={() => onNavigate('homeowner-profile')} className="text-[13px] text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer" style={{ fontFamily: FONT_BODY }}>Back</button>
     </div>
   )
 }
@@ -57,27 +57,27 @@ function BookingRow({ booking, onClick }: { booking: CustomerBooking; onClick: (
     <button
       type="button"
       onClick={onClick}
-      className="w-full flex items-center justify-between gap-3 rounded-[14px] bg-white p-4 text-left cursor-pointer hover:border-[#722ED1] transition-colors"
-      style={{ border: '1px solid #E3DDD7', fontFamily: FONT_BODY }}
+      className="w-full flex items-center justify-between gap-3 rounded-[14px] bg-[var(--hz-surface)] p-4 text-left cursor-pointer hover:border-[var(--hz-primary)] transition-colors"
+      style={{ border: '1px solid var(--hz-border)', fontFamily: FONT_BODY }}
     >
       <div className="flex flex-col gap-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-[10.5px] tracking-[0.06em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{booking.displayId}</span>
+          <span className="text-[10.5px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{booking.displayId}</span>
         </div>
-        <span className="text-[14.5px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{summarizeBookingItems(booking)}</span>
+        <span className="text-[14.5px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{summarizeBookingItems(booking)}</span>
         <div className="flex items-center gap-3 flex-wrap">
-          <span className="text-[12.5px] text-[#68636D]">{booking.slot.label}</span>
-          <span className="flex items-center gap-1 text-[12.5px] text-[#68636D]">
+          <span className="text-[12.5px] text-[var(--hz-ink-muted)]">{booking.slot.label}</span>
+          <span className="flex items-center gap-1 text-[12.5px] text-[var(--hz-ink-muted)]">
             <IcoPin /> {booking.address.label}
           </span>
         </div>
       </div>
       <div className="flex items-center gap-3 shrink-0">
-        <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>₹{booking.amountToPay}</span>
+        <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>₹{booking.amountToPay}</span>
         <span className="px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-[0.03em] whitespace-nowrap" style={{ backgroundColor: style.bg, color: style.color, fontFamily: FONT_MONO }}>
           {booking.status.toUpperCase()}
         </span>
-        <span className="text-[#9A949D]"><IcoChevronRight /></span>
+        <span className="text-[var(--hz-ink-subtle)]"><IcoChevronRight /></span>
       </div>
     </button>
   )
@@ -95,18 +95,18 @@ export default function MyBookingsScreen({
   }
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
       <MobileTopBar onNavigate={onNavigate} />
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="profile" onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>My Bookings</h1>
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>My Bookings</h1>
             <button
               type="button"
               onClick={() => onNavigate('homeowner-profile')}
-              className="flex items-center gap-1.5 h-10 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white"
-              style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+              className="flex items-center gap-1.5 h-10 px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-[var(--hz-surface)]"
+              style={{ border: '1px solid var(--hz-border)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}
             >
               <IcoBack /> Back
             </button>
@@ -115,25 +115,25 @@ export default function MyBookingsScreen({
           <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
             <div className="max-w-[880px] mx-auto px-5 sm:px-8 lg:px-10 pt-8 pb-12 flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] tracking-[0.06em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>Service Bookings</span>
-                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <span className="text-[12px] tracking-[0.06em] uppercase text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>Service Bookings</span>
+                <h2 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
                   {bookings.length > 0 ? `${bookings.length} booking${bookings.length === 1 ? '' : 's'}` : 'No bookings yet'}
                 </h2>
-                <p className="text-[13.5px] text-[#68636D] m-0 max-w-[520px]" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0 max-w-[520px]" style={{ fontFamily: FONT_BODY }}>
                   Every service you book with Houzeify shows up here, with the address, date and time you chose.
                 </p>
               </div>
 
               {bookings.length === 0 ? (
-                <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+                <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-[var(--hz-surface)] p-10" style={{ border: '1px solid var(--hz-border)' }}>
                   <HIcon size={36} />
-                  <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>You haven&apos;t booked a service yet.</p>
-                  <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Book a professional for cleaning, repairs and more — it&apos;ll show up here once confirmed.</p>
+                  <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>You haven&apos;t booked a service yet.</p>
+                  <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>Book a professional for cleaning, repairs and more — it&apos;ll show up here once confirmed.</p>
                   <button
                     type="button"
                     onClick={() => onNavigate('home-services', { service_entry: '', service_group: '' })}
                     className="h-10 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
-                    style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+                    style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
                   >
                     Browse Services
                   </button>

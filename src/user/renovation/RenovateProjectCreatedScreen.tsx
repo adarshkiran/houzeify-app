@@ -35,8 +35,8 @@ const BigCheckIcon = () => (
 
 function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white p-5" style={{ border: '1px solid #E3DDD7' }}>
-      {title && <h2 className="text-[13px] font-semibold text-[#242326] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
+    <div className="rounded-[16px] bg-[var(--hz-surface)] p-5" style={{ border: '1px solid var(--hz-border)' }}>
+      {title && <h2 className="text-[13px] font-semibold text-[var(--hz-ink)] m-0 mb-3" style={{ fontFamily: FONT_HEAD }}>{title}</h2>}
       {children}
     </div>
   )
@@ -44,8 +44,8 @@ function SectionCard({ title, children }: { title?: string; children: React.Reac
 function Field({ label, value }: { label: string; value?: string }) {
   return (
     <div>
-      <p className="text-[11px] tracking-[0.06em] uppercase text-[#9A949D] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
-      <p className="text-[13.5px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{value ?? '—'}</p>
+      <p className="text-[11px] tracking-[0.06em] uppercase text-[var(--hz-ink-subtle)] m-0 mb-1" style={{ fontFamily: FONT_MONO }}>{label}</p>
+      <p className="text-[13.5px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{value ?? '—'}</p>
     </div>
   )
 }
@@ -146,14 +146,14 @@ export default function RenovateProjectCreatedScreen({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <main className="flex-1 overflow-y-auto relative z-10 px-4 sm:px-6 py-10">
         <div className="max-w-[560px] mx-auto flex flex-col gap-6">
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: '#722ED1', boxShadow: '0 8px 26px rgba(243,234,255,0.10)' }}>
+            <span className="relative w-[62px] h-[62px] rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary)', boxShadow: '0 8px 26px var(--hz-primary-soft)' }}>
               <BigCheckIcon />
             </span>
-            <h1 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Your renovation project is ready</h1>
+            <h1 className="text-[22px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Your renovation project is ready</h1>
           </div>
 
           <SectionCard>
@@ -173,7 +173,7 @@ export default function RenovateProjectCreatedScreen({
             onClick={viewProject}
             disabled={saving}
             className="h-[52px] rounded-[12px] text-white text-[14px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all disabled:opacity-60"
-            style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
           >
             {saving ? 'Saving…' : 'View Project'}
           </button>

@@ -102,27 +102,27 @@ function MiniCalendar({ selectedDate, onSelect }: { selectedDate: Date | null; o
   const isSelected = (d: Date) => !!selectedDate && d.toDateString() === selectedDate.toDateString()
 
   return (
-    <div className="flex flex-col gap-3 rounded-[14px] border border-[#E3DDD7] p-4">
+    <div className="flex flex-col gap-3 rounded-[14px] border border-[var(--hz-border)] p-4">
       <div className="flex items-center justify-between">
         <button
           onClick={() => setViewMonth(new Date(year, month - 1, 1))}
           aria-label="Previous month"
-          className="w-7 h-7 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent"
+          className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-transparent"
         >
           <IcoChevronLeft />
         </button>
-        <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{monthLabel}</span>
+        <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{monthLabel}</span>
         <button
           onClick={() => setViewMonth(new Date(year, month + 1, 1))}
           aria-label="Next month"
-          className="w-7 h-7 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent"
+          className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-transparent"
         >
           <IcoChevronRight />
         </button>
       </div>
       <div className="grid grid-cols-7 gap-1">
         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
-          <span key={i} className="text-[11px] text-[#9A949D] font-semibold text-center py-1" style={{ fontFamily: FONT_BODY }}>{d}</span>
+          <span key={i} className="text-[11px] text-[var(--hz-ink-subtle)] font-semibold text-center py-1" style={{ fontFamily: FONT_BODY }}>{d}</span>
         ))}
         {cells.map((d, i) =>
           d ? (
@@ -133,9 +133,9 @@ function MiniCalendar({ selectedDate, onSelect }: { selectedDate: Date | null; o
               className="h-8 rounded-[8px] text-[12.5px] font-medium transition-all"
               style={{
                 fontFamily: FONT_BODY,
-                border: isSelected(d) ? '2px solid #722ED1' : '1px solid transparent',
-                backgroundColor: isSelected(d) ? '#F3EAFF' : 'transparent',
-                color: isPast(d) ? '#C9C2BB' : isSelected(d) ? '#722ED1' : '#242326',
+                border: isSelected(d) ? '2px solid var(--hz-primary)' : '1px solid transparent',
+                backgroundColor: isSelected(d) ? 'var(--hz-primary-soft)' : 'transparent',
+                color: isPast(d) ? '#C9C2BB' : isSelected(d) ? 'var(--hz-primary)' : 'var(--hz-ink)',
                 cursor: isPast(d) ? 'not-allowed' : 'pointer',
               }}
             >
@@ -200,18 +200,18 @@ export default function DateTimeScreen({
   return (
     <div className="flex flex-col" style={{ minHeight: '100%', backgroundColor: '#FAF9F7' }}>
       {/* Header */}
-      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-white border-b border-[#E3DDD7]">
+      <header className="h-16 shrink-0 flex items-center gap-3 px-4 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
         <button
           onClick={goBack}
           aria-label="Back to Address"
-          className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent shrink-0"
+          className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent shrink-0"
         >
           <IcoBack />
         </button>
         <HIcon size={30} />
         <div className="flex flex-col min-w-0">
-          <h1 className="text-[17px] font-semibold text-[#242326] m-0 leading-tight" style={{ fontFamily: FONT_HEAD }}>Date & Time</h1>
-          <span className="text-[12px] text-[#68636D] leading-tight hidden sm:block" style={{ fontFamily: FONT_BODY }}>When should the professional arrive?</span>
+          <h1 className="text-[17px] font-semibold text-[var(--hz-ink)] m-0 leading-tight" style={{ fontFamily: FONT_HEAD }}>Date & Time</h1>
+          <span className="text-[12px] text-[var(--hz-ink-muted)] leading-tight hidden sm:block" style={{ fontFamily: FONT_BODY }}>When should the professional arrive?</span>
         </div>
       </header>
 
@@ -222,69 +222,69 @@ export default function DateTimeScreen({
               subtotal), nothing invented, same numbers Booking Details and
               Checkout already show. */}
           {items.length > 0 && (
-            <div className="flex items-center justify-between bg-white rounded-[16px] border border-[#E3DDD7] px-5 py-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-              <span className="text-[13.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{itemCount} service{itemCount === 1 ? '' : 's'} in your booking</span>
-              <span className="text-[14.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>₹{subtotal}</span>
+            <div className="flex items-center justify-between bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] px-5 py-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <span className="text-[13.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{itemCount} service{itemCount === 1 ? '' : 's'} in your booking</span>
+              <span className="text-[14.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>₹{subtotal}</span>
             </div>
           )}
 
           {/* Instant — always unavailable, no live-dispatch backend here
               (unchanged framing from CheckoutScreen's own SlotModal). */}
-          <div className="flex items-center justify-between gap-3 rounded-[14px] border border-[#E3DDD7] bg-white p-4 opacity-60">
+          <div className="flex items-center justify-between gap-3 rounded-[14px] border border-[var(--hz-border)] bg-[var(--hz-surface)] p-4 opacity-60">
             <div className="flex flex-col gap-1.5">
-              <span className="inline-flex items-center gap-1.5 w-fit px-2.5 py-1 rounded-full text-[12px] font-semibold" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: FONT_BODY }}>
+              <span className="inline-flex items-center gap-1.5 w-fit px-2.5 py-1 rounded-full text-[12px] font-semibold" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
                 <IcoBolt size={12} /> Instant
               </span>
-              <span className="text-[13.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>In 15 mins</span>
+              <span className="text-[13.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>In 15 mins</span>
               <span className="text-[12.5px] font-semibold" style={{ color: '#B45309', fontFamily: FONT_BODY }}>Unavailable at the moment</span>
             </div>
             <span className="w-5 h-5 rounded-full border border-[#C9C2BB] shrink-0" />
           </div>
 
           {/* Schedule for later — the only real path, same as before. */}
-          <div className="rounded-[14px] border-2 border-[#722ED1] bg-white p-4 flex flex-col gap-4">
+          <div className="rounded-[14px] border-2 border-[var(--hz-primary)] bg-[var(--hz-surface)] p-4 flex flex-col gap-4">
             <div className="flex items-center justify-between gap-3">
               <div className="flex flex-col gap-0.5">
-                <span className="text-[14.5px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Schedule for later</span>
-                <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Select your preferred day & time</span>
+                <span className="text-[14.5px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Schedule for later</span>
+                <span className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Select your preferred day & time</span>
               </div>
-              <span className="w-5 h-5 rounded-full border-2 border-[#722ED1] flex items-center justify-center shrink-0">
-                <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#722ED1' }} />
+              <span className="w-5 h-5 rounded-full border-2 border-[var(--hz-primary)] flex items-center justify-center shrink-0">
+                <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--hz-primary)' }} />
               </span>
             </div>
 
             <div className="flex gap-3">
-              <div className="flex flex-col items-center justify-center gap-0.5 rounded-[12px] border border-[#E3DDD7] px-5 py-2.5 opacity-45 bg-white">
-                <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Today</span>
-                <span className="text-[16px] font-semibold text-[#9A949D]" style={{ fontFamily: FONT_HEAD }}>{today.getDate()}</span>
+              <div className="flex flex-col items-center justify-center gap-0.5 rounded-[12px] border border-[var(--hz-border)] px-5 py-2.5 opacity-45 bg-[var(--hz-surface)]">
+                <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Today</span>
+                <span className="text-[16px] font-semibold text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_HEAD }}>{today.getDate()}</span>
               </div>
               <button
                 onClick={() => { setDayChoice('tomorrow'); setCalendarOpen(false) }}
-                className="flex flex-col items-center justify-center gap-0.5 rounded-[12px] px-5 py-2.5 bg-white cursor-pointer transition-all"
-                style={{ border: dayChoice === 'tomorrow' ? '2px solid #722ED1' : '1px solid #E3DDD7' }}
+                className="flex flex-col items-center justify-center gap-0.5 rounded-[12px] px-5 py-2.5 bg-[var(--hz-surface)] cursor-pointer transition-all"
+                style={{ border: dayChoice === 'tomorrow' ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)' }}
               >
-                <span className="text-[12px] font-semibold" style={{ color: dayChoice === 'tomorrow' ? '#722ED1' : '#68636D', fontFamily: FONT_BODY }}>{tomorrowLabel}</span>
-                <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{tomorrow.getDate()}</span>
+                <span className="text-[12px] font-semibold" style={{ color: dayChoice === 'tomorrow' ? 'var(--hz-primary)' : 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>{tomorrowLabel}</span>
+                <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{tomorrow.getDate()}</span>
               </button>
               <button
                 onClick={() => {
                   if (customDate) { setDayChoice('custom'); setCalendarOpen(false) }
                   else setCalendarOpen(o => !o)
                 }}
-                className="flex flex-col items-center justify-center gap-0.5 rounded-[12px] px-5 py-2.5 bg-white cursor-pointer transition-all"
-                style={{ border: dayChoice === 'custom' ? '2px solid #722ED1' : '1px solid #E3DDD7' }}
+                className="flex flex-col items-center justify-center gap-0.5 rounded-[12px] px-5 py-2.5 bg-[var(--hz-surface)] cursor-pointer transition-all"
+                style={{ border: dayChoice === 'custom' ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)' }}
               >
                 {customDate ? (
                   <>
-                    <span className="text-[12px] font-semibold" style={{ color: dayChoice === 'custom' ? '#722ED1' : '#68636D', fontFamily: FONT_BODY }}>
+                    <span className="text-[12px] font-semibold" style={{ color: dayChoice === 'custom' ? 'var(--hz-primary)' : 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
                       {customDate.toLocaleDateString('en-US', { weekday: 'short' })}
                     </span>
-                    <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{customDate.getDate()}</span>
+                    <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{customDate.getDate()}</span>
                   </>
                 ) : (
                   <>
-                    <span className={dayChoice === 'custom' ? 'text-[#722ED1]' : 'text-[#68636D]'}><IcoCalendar /></span>
-                    <span className="text-[11.5px] font-semibold" style={{ color: dayChoice === 'custom' ? '#722ED1' : '#68636D', fontFamily: FONT_BODY }}>Custom</span>
+                    <span className={dayChoice === 'custom' ? 'text-[var(--hz-primary)]' : 'text-[var(--hz-ink-muted)]'}><IcoCalendar /></span>
+                    <span className="text-[11.5px] font-semibold" style={{ color: dayChoice === 'custom' ? 'var(--hz-primary)' : 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>Custom</span>
                   </>
                 )}
               </button>
@@ -299,8 +299,8 @@ export default function DateTimeScreen({
           </div>
 
           {/* Select start time */}
-          <div className="rounded-[16px] border border-[#E3DDD7] bg-white p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-            <h3 className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Select start time of service</h3>
+          <div className="rounded-[16px] border border-[var(--hz-border)] bg-[var(--hz-surface)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <h3 className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Select start time of service</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
               {SLOT_TIMES.map(slot => {
                 const active = pendingTime === slot.time
@@ -311,9 +311,9 @@ export default function DateTimeScreen({
                     className="relative h-11 rounded-[10px] text-[13px] font-semibold cursor-pointer transition-all"
                     style={{
                       fontFamily: FONT_BODY,
-                      border: active ? '2px solid #722ED1' : '1px solid #E3DDD7',
-                      color: active ? '#722ED1' : '#242326',
-                      backgroundColor: active ? '#F3EAFF' : 'white',
+                      border: active ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border)',
+                      color: active ? 'var(--hz-primary)' : 'var(--hz-ink)',
+                      backgroundColor: active ? 'var(--hz-primary-soft)' : 'white',
                     }}
                   >
                     {slot.time}
@@ -335,13 +335,13 @@ export default function DateTimeScreen({
           screen in this flow uses `sticky` (App.tsx's screen-transition
           wrapper animates with a `transform`). */}
       <div
-        className="sticky bottom-0 bg-white border-t border-[#E3DDD7] px-4 lg:px-8 py-3.5 flex flex-col gap-2 z-20 shrink-0"
+        className="sticky bottom-0 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 lg:px-8 py-3.5 flex flex-col gap-2 z-20 shrink-0"
         style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.06)' }}
       >
         <div className="flex items-center justify-between gap-3" style={{ maxWidth: 560, margin: '0 auto', width: '100%' }}>
           <div className="flex flex-col min-w-0">
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Selected slot</span>
-            <span className="text-[13.5px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD, maxWidth: 220 }}>
+            <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Selected slot</span>
+            <span className="text-[13.5px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD, maxWidth: 220 }}>
               {pendingTime ? `${selectedDayFullLabel} - ${pendingTime}` : 'Choose a time'}
             </span>
           </div>
@@ -352,8 +352,8 @@ export default function DateTimeScreen({
             style={{
               fontFamily: FONT_BODY,
               cursor: canContinue ? 'pointer' : 'not-allowed',
-              backgroundColor: canContinue ? '#722ED1' : '#F4F0EC',
-              color: canContinue ? 'white' : '#9A949D',
+              backgroundColor: canContinue ? 'var(--hz-primary)' : 'var(--hz-surface-muted)',
+              color: canContinue ? 'white' : 'var(--hz-ink-subtle)',
               boxShadow: canContinue ? '0 2px 8px rgba(114,46,209,0.25)' : undefined,
             }}
           >

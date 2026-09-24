@@ -176,7 +176,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -195,9 +195,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4">
+    <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -207,9 +207,9 @@ function SectionCard({ eyebrow, tag, children }: { eyebrow: string; tag?: React.
 
 function Row({ label, value, first }: { label: string; value: string; first?: boolean }) {
   return (
-    <div className="flex items-center justify-between gap-3 py-2.5" style={{ borderTop: first ? 'none' : '1px solid #FFFFFF' }}>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[13px] font-semibold text-[#242326] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
+    <div className="flex items-center justify-between gap-3 py-2.5" style={{ borderTop: first ? 'none' : '1px solid var(--hz-surface)' }}>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
@@ -222,7 +222,7 @@ function fmtQty(n: number): string {
 
 function CalculatorMode({ mode, onChange }: { mode: CalculatorMode; onChange: (m: CalculatorMode) => void }) {
   return (
-    <div role="radiogroup" aria-label="Calculator mode" className="inline-flex items-center gap-1 p-1 rounded-[10px] w-fit" style={{ backgroundColor: '#F4F0EC' }}>
+    <div role="radiogroup" aria-label="Calculator mode" className="inline-flex items-center gap-1 p-1 rounded-[10px] w-fit" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
       {(['project', 'custom'] as CalculatorMode[]).map(m => (
         <button
           key={m}
@@ -232,8 +232,8 @@ function CalculatorMode({ mode, onChange }: { mode: CalculatorMode; onChange: (m
           className="h-9 px-5 rounded-[8px] text-[13px] font-semibold cursor-pointer border-0 capitalize transition-colors"
           style={{
             fontFamily: FONT_BODY,
-            backgroundColor: mode === m ? '#FFFFFF' : 'transparent',
-            color: mode === m ? '#722ED1' : '#808080',
+            backgroundColor: mode === m ? 'var(--hz-surface)' : 'transparent',
+            color: mode === m ? 'var(--hz-primary)' : '#808080',
             boxShadow: mode === m ? '0 1px 4px rgba(0,0,0,0.06)' : 'none',
           }}
         >
@@ -261,7 +261,7 @@ function CustomInputsPanel({ input, onChange }: { input: ProjectCalcInput; onCha
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="mc-area" className="text-[12px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>Built-up area</label>
+        <label htmlFor="mc-area" className="text-[12px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Built-up area</label>
         <div className="flex items-center gap-2">
           <input
             id="mc-area"
@@ -270,15 +270,15 @@ function CustomInputsPanel({ input, onChange }: { input: ProjectCalcInput; onCha
             min="0"
             value={input.builtUpArea}
             onChange={e => onChange({ ...input, builtUpArea: e.target.value === '' ? 0 : Number(e.target.value) })}
-            className="h-10 px-3 rounded-[10px] border border-[#E3DDD7] text-[13px] text-[#242326] outline-none focus:border-[#722ED1] transition-colors bg-white"
+            className="h-10 px-3 rounded-[10px] border border-[var(--hz-border)] text-[13px] text-[var(--hz-ink)] outline-none focus:border-[var(--hz-primary)] transition-colors bg-[var(--hz-surface)]"
             style={{ maxWidth: 160 }}
           />
-          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>sq ft</span>
+          <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>sq ft</span>
         </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="mc-floors" className="text-[12px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>Floor count</label>
+        <label htmlFor="mc-floors" className="text-[12px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Floor count</label>
         <input
           id="mc-floors"
           type="number"
@@ -286,14 +286,14 @@ function CustomInputsPanel({ input, onChange }: { input: ProjectCalcInput; onCha
           min="1"
           value={input.floors}
           onChange={e => onChange({ ...input, floors: e.target.value === '' ? 1 : Number(e.target.value) })}
-          className="h-10 px-3 rounded-[10px] border border-[#E3DDD7] text-[13px] text-[#242326] outline-none focus:border-[#722ED1] transition-colors bg-white"
+          className="h-10 px-3 rounded-[10px] border border-[var(--hz-border)] text-[13px] text-[var(--hz-ink)] outline-none focus:border-[var(--hz-primary)] transition-colors bg-[var(--hz-surface)]"
           style={{ maxWidth: 160 }}
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <span className="text-[12px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>Construction type</span>
-        <div role="radiogroup" aria-label="Construction type" className="inline-flex items-center gap-1 p-1 rounded-[10px] w-fit" style={{ backgroundColor: '#F4F0EC' }}>
+        <span className="text-[12px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Construction type</span>
+        <div role="radiogroup" aria-label="Construction type" className="inline-flex items-center gap-1 p-1 rounded-[10px] w-fit" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
           {(Object.keys(CONSTRUCTION_LEVEL_MULTIPLIER) as ConstructionLevel[]).map(level => (
             <button
               key={level}
@@ -303,8 +303,8 @@ function CustomInputsPanel({ input, onChange }: { input: ProjectCalcInput; onCha
               className="h-8 px-3.5 rounded-[8px] text-[12px] font-semibold cursor-pointer border-0 transition-colors"
               style={{
                 fontFamily: FONT_BODY,
-                backgroundColor: input.constructionLevel === level ? '#FFFFFF' : 'transparent',
-                color: input.constructionLevel === level ? '#722ED1' : '#808080',
+                backgroundColor: input.constructionLevel === level ? 'var(--hz-surface)' : 'transparent',
+                color: input.constructionLevel === level ? 'var(--hz-primary)' : '#808080',
                 boxShadow: input.constructionLevel === level ? '0 1px 4px rgba(0,0,0,0.06)' : 'none',
               }}
             >
@@ -328,26 +328,26 @@ function MaterialCard({ material, result, selected, onSelect }: {
   return (
     <button
       onClick={onSelect}
-      className="text-left flex flex-col gap-3 p-4 rounded-[14px] bg-white cursor-pointer transition-all"
+      className="text-left flex flex-col gap-3 p-4 rounded-[14px] bg-[var(--hz-surface)] cursor-pointer transition-all"
       style={{
-        border: selected ? '2px solid #722ED1' : '1px solid #CAC7C6',
-        boxShadow: selected ? '0 4px 16px rgba(243,234,255,0.10)' : 'none',
+        border: selected ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border-strong)',
+        boxShadow: selected ? '0 4px 16px var(--hz-primary-soft)' : 'none',
       }}
     >
-      <span className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>
+      <span className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>
         {MATERIAL_ICONS[material.id]}
       </span>
       <div className="flex flex-col gap-0.5">
-        <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{material.name}</span>
+        <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{material.name}</span>
         {result ? (
-          <span className="text-[18px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>
-            {fmtQty(result.quantity)} <span className="text-[12px] font-normal text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{result.unit}</span>
+          <span className="text-[18px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>
+            {fmtQty(result.quantity)} <span className="text-[12px] font-normal text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{result.unit}</span>
           </span>
         ) : (
-          <span className="text-[13px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Not calculated</span>
+          <span className="text-[13px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Not calculated</span>
         )}
       </div>
-      <span className="text-[11px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>View calculation →</span>
+      <span className="text-[11px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>View calculation →</span>
     </button>
   )
 }
@@ -373,92 +373,92 @@ function CalculationPanel({
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2.5">
-          <span className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1' }}>
+          <span className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)' }}>
             {MATERIAL_ICONS[material.id]}
           </span>
-          <span className="text-[16px] font-semibold text-[#242326] uppercase tracking-[0.02em]" style={{ fontFamily: FONT_HEAD }}>{material.name}</span>
+          <span className="text-[16px] font-semibold text-[var(--hz-ink)] uppercase tracking-[0.02em]" style={{ fontFamily: FONT_HEAD }}>{material.name}</span>
         </div>
-        <span className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em]" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
-          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#722ED1' }} aria-hidden="true" /> AI Estimate
+        <span className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.06em]" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>
+          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-primary)' }} aria-hidden="true" /> AI Estimate
         </span>
       </div>
 
-      <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
-        <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: '#722ED1', fontFamily: FONT_MONO }}>Estimated Quantity</span>
-        <span className="text-[32px] font-semibold leading-none" style={{ color: '#722ED1', fontFamily: FONT_HEAD }}>
+      <div className="rounded-[14px] p-5 flex flex-col gap-1" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
+        <span className="text-[9px] uppercase tracking-[0.08em]" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>Estimated Quantity</span>
+        <span className="text-[32px] font-semibold leading-none" style={{ color: 'var(--hz-primary)', fontFamily: FONT_HEAD }}>
           {fmtQty(result.quantity)} <span className="text-[16px] font-normal">{result.unit}</span>
         </span>
         {result.approxWeightMT != null && (
-          <span className="text-[12px] text-[#68636D] mt-1" style={{ fontFamily: FONT_BODY }}>Approximate weight: {result.approxWeightMT} MT</span>
+          <span className="text-[12px] text-[var(--hz-ink-muted)] mt-1" style={{ fontFamily: FONT_BODY }}>Approximate weight: {result.approxWeightMT} MT</span>
         )}
       </div>
 
       <div className="flex flex-col">
-        <span className="text-[10px] uppercase tracking-[0.08em] text-[#9A949D] pb-1" style={{ fontFamily: FONT_MONO }}>Calculation Basis</span>
+        <span className="text-[10px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)] pb-1" style={{ fontFamily: FONT_MONO }}>Calculation Basis</span>
         <Row first label="Built-up area" value={`${defaultProjectInput.builtUpArea.toLocaleString('en-IN')} sq ft`} />
         <Row label="Construction type" value={material.constructionTypeLabel} />
         <Row label="Estimated consumption" value={`${assumptions.consumptionFactor} ${material.consumptionUnit}`} />
       </div>
 
-      <div className="rounded-[12px] p-4 flex flex-col gap-1" style={{ backgroundColor: '#FFFFFF' }}>
-        <span className="text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+      <div className="rounded-[12px] p-4 flex flex-col gap-1" style={{ backgroundColor: 'var(--hz-surface)' }}>
+        <span className="text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
           {defaultProjectInput.builtUpArea.toLocaleString('en-IN')} × {assumptions.consumptionFactor} <span aria-hidden="true">≈</span> {result.rawQuantity.toLocaleString('en-IN')} {material.unit}
         </span>
-        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+        <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
           Rounded: {fmtQty(result.quantity)} {material.unit}
         </span>
       </div>
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-[10px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Estimated Range</span>
+          <span className="text-[10px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Estimated Range</span>
           <ConfidenceBadge level={result.confidence} />
         </div>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>
           {fmtQty(result.minQuantity)} — {fmtQty(result.maxQuantity)} {material.unit}
         </span>
-        <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Actual quantity can vary based on structural design, concrete mix, wall thickness, wastage and site conditions.
         </p>
       </div>
 
       {boqComparison && (
-        <div className="rounded-[12px] p-4 flex flex-col gap-2" style={{ backgroundColor: '#F4F0EC' }}>
-          <span className="text-[10px] uppercase tracking-[0.08em] text-[#68636D]" style={{ fontFamily: FONT_MONO }}>Compare with BOQ</span>
+        <div className="rounded-[12px] p-4 flex flex-col gap-2" style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+          <span className="text-[10px] uppercase tracking-[0.08em] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>Compare with BOQ</span>
           <div className="grid grid-cols-3 gap-2">
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>BOQ quantity</span>
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{boqComparison.boqQuantity} {boqComparison.boqUnit}</span>
+              <span className="text-[10px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>BOQ quantity</span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{boqComparison.boqQuantity} {boqComparison.boqUnit}</span>
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Calculator</span>
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{boqComparison.calculatorQuantity} {boqComparison.boqUnit}</span>
+              <span className="text-[10px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Calculator</span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{boqComparison.calculatorQuantity} {boqComparison.boqUnit}</span>
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Difference</span>
-              <span className="text-[13px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>{boqComparison.difference > 0 ? '+' : ''}{boqComparison.difference} {boqComparison.boqUnit}</span>
+              <span className="text-[10px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Difference</span>
+              <span className="text-[13px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>{boqComparison.difference > 0 ? '+' : ''}{boqComparison.difference} {boqComparison.boqUnit}</span>
             </div>
           </div>
-          <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>The BOQ quantity is not automatically changed by this calculator.</p>
+          <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>The BOQ quantity is not automatically changed by this calculator.</p>
         </div>
       )}
 
-      <div className="flex flex-col gap-3 pt-1" style={{ borderTop: '1px solid #FFFFFF' }}>
+      <div className="flex flex-col gap-3 pt-1" style={{ borderTop: '1px solid var(--hz-surface)' }}>
         <div className="flex items-center justify-between">
-          <button onClick={() => setShowAdjust(s => !s)} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+          <button onClick={() => setShowAdjust(s => !s)} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
             {showAdjust ? 'Hide assumptions' : 'Adjust assumptions'}
           </button>
           {isCustomAssumptions && (
-            <button onClick={onResetAssumptions} className="text-[11px] font-medium cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#9A949D', fontFamily: FONT_BODY }}>
+            <button onClick={onResetAssumptions} className="text-[11px] font-medium cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-ink-subtle)', fontFamily: FONT_BODY }}>
               Reset to default
             </button>
           )}
         </div>
 
         {showAdjust && (
-          <div className="flex flex-col gap-4 rounded-[12px] p-4" style={{ backgroundColor: '#FFFFFF' }}>
+          <div className="flex flex-col gap-4 rounded-[12px] p-4" style={{ backgroundColor: 'var(--hz-surface)' }}>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="mc-factor" className="flex items-center justify-between text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+              <label htmlFor="mc-factor" className="flex items-center justify-between text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                 <span>Consumption</span>
                 <span className="font-semibold">{assumptions.consumptionFactor} {material.consumptionUnit}</span>
               </label>
@@ -470,11 +470,11 @@ function CalculationPanel({
                 step={0.01}
                 value={assumptions.consumptionFactor}
                 onChange={e => onAssumptionsChange({ ...assumptions, consumptionFactor: Number(e.target.value) })}
-                style={{ accentColor: '#722ED1' }}
+                style={{ accentColor: 'var(--hz-primary)' }}
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="mc-wastage" className="flex items-center justify-between text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+              <label htmlFor="mc-wastage" className="flex items-center justify-between text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
                 <span>Wastage</span>
                 <span className="font-semibold">{assumptions.wastagePct}%</span>
               </label>
@@ -486,7 +486,7 @@ function CalculationPanel({
                 step={1}
                 value={assumptions.wastagePct}
                 onChange={e => onAssumptionsChange({ ...assumptions, wastagePct: Number(e.target.value) })}
-                style={{ accentColor: '#722ED1' }}
+                style={{ accentColor: 'var(--hz-primary)' }}
               />
             </div>
             <Row first label="Unit" value={material.unit} />
@@ -495,10 +495,10 @@ function CalculationPanel({
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2.5">
-        <button onClick={onViewFullDetail} className="flex-1 h-10 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>
+        <button onClick={onViewFullDetail} className="flex-1 h-10 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>
           Full material detail →
         </button>
-        <button onClick={onAskHozie} className="flex-1 h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onAskHozie} className="flex-1 h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           Ask Hozie
         </button>
       </div>
@@ -517,7 +517,7 @@ function MaterialSummary({ results }: { results: Map<MaterialCalcId, MaterialCal
           <thead>
             <tr>
               {['Material', 'Quantity', 'Unit', 'Estimated Cost'].map((h, i) => (
-                <th key={h} scope="col" className={['px-2 py-2 text-left text-[9px] uppercase tracking-[0.08em] text-[#9A949D]', i === 3 ? 'text-right' : ''].join(' ')} style={{ fontFamily: FONT_MONO }}>{h}</th>
+                <th key={h} scope="col" className={['px-2 py-2 text-left text-[9px] uppercase tracking-[0.08em] text-[var(--hz-ink-subtle)]', i === 3 ? 'text-right' : ''].join(' ')} style={{ fontFamily: FONT_MONO }}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -525,18 +525,18 @@ function MaterialSummary({ results }: { results: Map<MaterialCalcId, MaterialCal
             {rows.map(m => {
               const r = results.get(m.id)
               return (
-                <tr key={m.id} style={{ borderTop: '1px solid #FFFFFF' }}>
-                  <td className="px-2 py-2.5 text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{m.name}</td>
-                  <td className="px-2 py-2.5 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{r ? fmtQty(r.quantity) : '—'}</td>
-                  <td className="px-2 py-2.5 text-[12px] uppercase tracking-[0.04em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{m.unit}</td>
-                  <td className="px-2 py-2.5 text-[13px] font-semibold text-[#242326] text-right" style={{ fontFamily: FONT_HEAD }}>{r ? formatINR(r.estimatedCost) : '—'}</td>
+                <tr key={m.id} style={{ borderTop: '1px solid var(--hz-surface)' }}>
+                  <td className="px-2 py-2.5 text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{m.name}</td>
+                  <td className="px-2 py-2.5 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{r ? fmtQty(r.quantity) : '—'}</td>
+                  <td className="px-2 py-2.5 text-[12px] uppercase tracking-[0.04em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{m.unit}</td>
+                  <td className="px-2 py-2.5 text-[13px] font-semibold text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_HEAD }}>{r ? formatINR(r.estimatedCost) : '—'}</td>
                 </tr>
               )
             })}
           </tbody>
         </table>
       </div>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0">
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0">
         Demonstration values only. Concrete and mortar are excluded from this summary — they're derived volumes of the cement, sand and aggregate already listed above, and including them would double-count the same material.
       </p>
     </SectionCard>
@@ -547,15 +547,15 @@ function MaterialSummary({ results }: { results: Map<MaterialCalcId, MaterialCal
 
 function HozieInsight({ onAnalyzePlan }: { onAnalyzePlan: () => void }) {
   return (
-    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className="rounded-[16px] p-5 flex flex-col gap-3" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
-        <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-        <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Insight</span>
+        <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Insight</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
         "Steel quantity depends heavily on structural design. Once you upload the structural drawings, Hozie can replace this preliminary estimate with a more project-specific quantity."
       </p>
-      <button onClick={onAnalyzePlan} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>Analyze my plan →</button>
+      <button onClick={onAnalyzePlan} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Analyze my plan →</button>
     </div>
   )
 }
@@ -571,10 +571,10 @@ function BOQConnection({ onViewBOQ }: { onViewBOQ: () => void }) {
         <Row label="Built-up area" value={`${defaultProjectInput.builtUpArea.toLocaleString('en-IN')} sq ft`} />
         <Row label="Construction level" value={defaultProjectInput.constructionLevel} />
       </div>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
         The calculator uses these project details by default. Calculated quantities don't automatically change the BOQ.
       </p>
-      <button onClick={onViewBOQ} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>View BOQ →</button>
+      <button onClick={onViewBOQ} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>View BOQ →</button>
     </SectionCard>
   )
 }
@@ -611,13 +611,13 @@ function BottomSheet({ open, onClose, children }: { open: boolean; onClose: () =
         role="dialog"
         aria-modal="true"
         className={[
-          'lg:hidden fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-[20px] max-h-[86vh] flex flex-col transition-transform duration-300 ease-out',
+          'lg:hidden fixed inset-x-0 bottom-0 z-50 bg-[var(--hz-surface)] rounded-t-[20px] max-h-[86vh] flex flex-col transition-transform duration-300 ease-out',
           open ? 'translate-y-0' : 'translate-y-full',
         ].join(' ')}
         style={{ boxShadow: '0 -8px 40px rgba(36,35,38,0.12)' }}
       >
-        <div className="flex items-center justify-end px-5 py-3 border-b border-[#E3DDD7] shrink-0">
-          <button ref={closeRef} onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
+        <div className="flex items-center justify-end px-5 py-3 border-b border-[var(--hz-border)] shrink-0">
+          <button ref={closeRef} onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
         </div>
         <div className="flex-1 overflow-y-auto px-5 py-5">{children}</div>
       </div>
@@ -630,20 +630,20 @@ function BottomSheet({ open, onClose, children }: { open: boolean; onClose: () =
 function CalculatingPanel() {
   return (
     <div className="flex flex-col items-center justify-center text-center gap-3 py-14">
-      <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F3EAFF', animation: 'aiIconGlow 1.6s ease-in-out infinite' }}>
+      <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', animation: 'aiIconGlow 1.6s ease-in-out infinite' }}>
         <HIcon size={26} />
       </div>
-      <span className="text-[12px] uppercase tracking-[0.10em]" style={{ fontFamily: FONT_MONO, color: '#722ED1' }}>Hozie is calculating material requirements…</span>
+      <span className="text-[12px] uppercase tracking-[0.10em]" style={{ fontFamily: FONT_MONO, color: 'var(--hz-primary)' }}>Hozie is calculating material requirements…</span>
     </div>
   )
 }
 
 function ErrorPanel({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center gap-3 py-14 bg-white rounded-[16px] border border-[#E3DDD7]">
-      <span style={{ color: '#DC2626' }}><IcoAlert /></span>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Unable to calculate material quantities.</p>
-      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Try again</button>
+    <div className="flex flex-col items-center justify-center text-center gap-3 py-14 bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)]">
+      <span style={{ color: 'var(--hz-danger)' }}><IcoAlert /></span>
+      <p className="text-[14px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Unable to calculate material quantities.</p>
+      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Try again</button>
     </div>
   )
 }
@@ -728,25 +728,25 @@ export default function MaterialCalculatorScreen({
     />
   )
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Material Calculator</span>
-        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>BOQ V{boqActiveVersion.versionNumber}</span>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Material Calculator</span>
+        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>BOQ V{boqActiveVersion.versionNumber}</span>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="calc" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Material Calculator</h1>
-              <span className="text-[13px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Material Calculator</h1>
+              <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#722ED1' }} /> BOQ V{boqActiveVersion.versionNumber} · ACTIVE
+            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--hz-primary)' }} /> BOQ V{boqActiveVersion.versionNumber} · ACTIVE
             </span>
           </header>
 
@@ -754,12 +754,12 @@ return (
             <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col gap-6 pb-24 lg:pb-8">
 
               <div className="flex flex-col gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
-                <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Material Calculator</span>
-                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>How much material do you need?</h1>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Material Calculator</span>
+                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>How much material do you need?</h1>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
                   Estimate the major construction materials required for your project. Hozie uses your project details and construction assumptions to provide approximate quantities.
                 </p>
-                <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{projectName} · {defaultProjectInput.builtUpArea.toLocaleString('en-IN')} sq ft</span>
+                <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{projectName} · {defaultProjectInput.builtUpArea.toLocaleString('en-IN')} sq ft</span>
               </div>
 
               <div className="flex flex-col lg:flex-row gap-6 items-start">
@@ -771,13 +771,13 @@ return (
                     <button
                       onClick={calculate}
                       className="hidden lg:block w-full h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                      style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                      style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
                     >
                       {mode === 'project' ? 'Calculate materials →' : 'Calculate →'}
                     </button>
                   </SectionCard>
                   {status === 'results' && (
-                    <button onClick={reset} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#68636D', fontFamily: FONT_BODY }}>
+                    <button onClick={reset} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
                       Reset calculation
                     </button>
                   )}
@@ -787,9 +787,9 @@ return (
                 {/* Right: results */}
                 <div className="w-full lg:flex-1 min-w-0 flex flex-col gap-6">
                   {status === 'initial' && (
-                    <div className="flex flex-col items-center justify-center text-center gap-2 py-14 bg-white rounded-[16px] border border-dashed" style={{ borderColor: '#E3DDD7' }}>
-                      <span style={{ color: '#9A949D' }}><IcoCalc /></span>
-                      <p className="text-[13px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Run the calculator to see estimated quantities for cement, steel, sand and more.</p>
+                    <div className="flex flex-col items-center justify-center text-center gap-2 py-14 bg-[var(--hz-surface)] rounded-[16px] border border-dashed" style={{ borderColor: 'var(--hz-border)' }}>
+                      <span style={{ color: 'var(--hz-ink-subtle)' }}><IcoCalc /></span>
+                      <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Run the calculator to see estimated quantities for cement, steel, sand and more.</p>
                     </div>
                   )}
 
@@ -798,8 +798,8 @@ return (
 
                   {status === 'results' && (
                     <>
-                      <div className="flex items-center gap-1.5 text-[12px]" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#16A34A' }} /> Material estimate ready ✓
+                      <div className="flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--hz-success)' }} /> Material estimate ready ✓
                       </div>
 
                       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.1s both' }}>
@@ -810,7 +810,7 @@ return (
 
                       {/* Desktop inline panel */}
                       {selectedMaterial && selectedResult && selectedAssumptions && (
-                        <div className="hidden lg:block bg-white rounded-[16px] border-2 p-5 sm:p-6" style={{ borderColor: '#722ED1', animation: 'welcomeFadeUp 0.4s ease-out both' }}>
+                        <div className="hidden lg:block bg-[var(--hz-surface)] rounded-[16px] border-2 p-5 sm:p-6" style={{ borderColor: 'var(--hz-primary)', animation: 'welcomeFadeUp 0.4s ease-out both' }}>
                           {panelFor(selectedMaterial, selectedResult)}
                         </div>
                       )}
@@ -835,12 +835,12 @@ return (
 
           {/* Sticky calculate button (mobile) */}
           {status !== 'results' && (
-            <div className="lg:hidden sticky bottom-0 z-20 bg-white border-t border-[#E3DDD7] px-4 py-3" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
+            <div className="lg:hidden sticky bottom-0 z-20 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 py-3" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
               <button
                 onClick={calculate}
                 disabled={status === 'calculating'}
                 className="w-full h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all disabled:opacity-60"
-                style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+                style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
               >
                 {mode === 'project' ? 'Calculate materials →' : 'Calculate →'}
               </button>

@@ -402,7 +402,7 @@ function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; labe
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -418,29 +418,29 @@ function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; labe
 
 function MobileTopBar({ title, onBack }: { title: string; onBack: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-2">
-        <button onClick={onBack} aria-label="Back to your dashboard" className="w-8 h-8 -ml-1 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer">
+        <button onClick={onBack} aria-label="Back to your dashboard" className="w-8 h-8 -ml-1 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3L4 8l6 5"/></svg>
         </button>
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{title}</span>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{title}</span>
       </div>
-      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
+      <button aria-label="Notifications" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer"><IcoBell /></button>
     </div>
   )
 }
 
 function TopHeader({ title, userInitials, onNavigate }: { title: string; userInitials: string; onNavigate: (s: string) => void }) {
   return (
-    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#E3DDD7]">
-      <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h1>
+    <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+      <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h1>
       <div className="flex items-center gap-2">
-        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all"><IcoBell /></button>
-        <button onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="flex items-center gap-2 ml-1 px-2 py-1 rounded-[10px] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent">
+        <button aria-label="Notifications" className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all"><IcoBell /></button>
+        <button onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="flex items-center gap-2 ml-1 px-2 py-1 rounded-[10px] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-transparent">
           {/* Customer Implementation 10D — real onboarding initials
               (initials(full_name ‖ preferred_name)); "?" when no name.
               Was a literal hardcoded "AK". */}
-          <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{userInitials}</div>
+          <div className="w-8 h-8 rounded-full bg-[var(--hz-primary)] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{userInitials}</div>
         </button>
       </div>
     </header>
@@ -454,12 +454,12 @@ function LocationBar({ city, state, onChangeLocation, onSetLocation }: { city?: 
   if (!city) {
     return (
       <div className="flex items-center gap-3 flex-wrap">
-        <span className="flex items-center gap-1.5 text-[13px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>
+        <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>
           <IcoMapPin /> Location not set
         </span>
         <button
           onClick={onSetLocation}
-          className="h-8 px-3 rounded-[8px] bg-[#722ED1] text-white text-[12px] font-medium cursor-pointer hover:brightness-90 transition-all border-0"
+          className="h-8 px-3 rounded-[8px] bg-[var(--hz-primary)] text-white text-[12px] font-medium cursor-pointer hover:brightness-90 transition-all border-0"
           style={{ fontFamily: FONT_BODY }}
         >
           Set location
@@ -469,10 +469,10 @@ function LocationBar({ city, state, onChangeLocation, onSetLocation }: { city?: 
   }
   return (
     <div className="flex items-center gap-2.5 flex-wrap">
-      <span className="flex items-center gap-1.5 text-[13px] text-[#242326] font-medium" style={{ fontFamily: FONT_BODY }}>
+      <span className="flex items-center gap-1.5 text-[13px] text-[var(--hz-ink)] font-medium" style={{ fontFamily: FONT_BODY }}>
         <IcoMapPin /> {[city, state].filter(Boolean).join(', ')}
       </span>
-      <button onClick={onChangeLocation} className="text-[12.5px] text-[#722ED1] font-medium hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
+      <button onClick={onChangeLocation} className="text-[12.5px] text-[var(--hz-primary)] font-medium hover:underline cursor-pointer border-0 bg-transparent p-0" style={{ fontFamily: FONT_BODY }}>
         Change location →
       </button>
     </div>
@@ -485,14 +485,14 @@ function ServiceSearch({ value, onChange }: { value: string; onChange: (v: strin
   return (
     <div className="relative w-full">
       <label htmlFor="service-search" className="sr-only">Search for a service</label>
-      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9A949D] pointer-events-none"><IcoSearch /></span>
+      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--hz-ink-subtle)] pointer-events-none"><IcoSearch /></span>
       <input
         id="service-search"
         type="text"
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder="Search for a service..."
-        className="w-full h-[52px] pl-11 pr-4 rounded-[14px] border border-[#E3DDD7] bg-white text-[14.5px] text-[#242326] placeholder-[#9A949D] outline-none focus:border-[#722ED1] focus:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all"
+        className="w-full h-[52px] pl-11 pr-4 rounded-[14px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[14.5px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] outline-none focus:border-[var(--hz-primary)] focus:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all"
         style={{ fontFamily: FONT_BODY }}
       />
     </div>
@@ -509,16 +509,16 @@ function ServiceCategoryCard({ category, onSelect }: { category: ServiceCategory
   return (
     <button
       onClick={onSelect}
-      className={`group relative text-left flex flex-col gap-2.5 rounded-[16px] border border-[#E3DDD7] bg-white overflow-hidden cursor-pointer transition-all duration-150 outline-none hover:-translate-y-[1px] ${accent === 'orange' ? 'hover:border-[#FF5500]' : 'hover:border-[#722ED1]'}`}
+      className={`group relative text-left flex flex-col gap-2.5 rounded-[16px] border border-[var(--hz-border)] bg-[var(--hz-surface)] overflow-hidden cursor-pointer transition-all duration-150 outline-none hover:-translate-y-[1px] ${accent === 'orange' ? 'hover:border-[#FF5500]' : 'hover:border-[var(--hz-primary)]'}`}
       style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}
     >
       <ServiceImage icon={iconForCategory(category)} alt={category.name} accent={accent} className="w-full aspect-square" />
       <div className="flex items-start justify-between gap-2 px-3.5 pb-3.5">
         <div className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-[14px] font-semibold text-[#242326] leading-tight" style={{ fontFamily: FONT_HEAD }}>{category.name}</span>
-          <span className="text-[12px] text-[#68636D] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{category.description}</span>
+          <span className="text-[14px] font-semibold text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_HEAD }}>{category.name}</span>
+          <span className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{category.description}</span>
         </div>
-        <span className={`shrink-0 text-[#CAC7C6] mt-1 transition-colors ${accent === 'orange' ? 'group-hover:text-[#FF5500]' : 'group-hover:text-[#722ED1]'}`}><IcoArrow /></span>
+        <span className={`shrink-0 text-[var(--hz-border-strong)] mt-1 transition-colors ${accent === 'orange' ? 'group-hover:text-[#FF5500]' : 'group-hover:text-[var(--hz-primary)]'}`}><IcoArrow /></span>
       </div>
     </button>
   )
@@ -529,7 +529,7 @@ function ServiceCategoryCard({ category, onSelect }: { category: ServiceCategory
 function SearchResults({ query, results, onSelect, onAskHozie }: { query: string; results: ServiceCategoryMeta[]; onSelect: (id: string) => void; onAskHozie: () => void }) {
   return (
     <div className="flex flex-col gap-3" aria-live="polite">
-      <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>
+      <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>
         {results.length > 0 ? `Results for "${query}"` : 'Search'}
       </span>
       {results.length > 0 ? (
@@ -539,12 +539,12 @@ function SearchResults({ query, results, onSelect, onAskHozie }: { query: string
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-6 flex flex-col items-center text-center gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-          <p className="text-[14px] text-[#242326] m-0" style={{ fontFamily: FONT_BODY }}>No matching services found.</p>
-          <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Try another search or ask Hozie.</p>
+        <div className="bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-6 flex flex-col items-center text-center gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <p className="text-[14px] text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_BODY }}>No matching services found.</p>
+          <p className="text-[13px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Try another search or ask Hozie.</p>
           <button
             onClick={onAskHozie}
-            className="h-9 px-4 rounded-[10px] bg-[#722ED1] text-white text-[12.5px] font-medium cursor-pointer hover:brightness-90 transition-all border-0"
+            className="h-9 px-4 rounded-[10px] bg-[var(--hz-primary)] text-white text-[12.5px] font-medium cursor-pointer hover:brightness-90 transition-all border-0"
             style={{ fontFamily: FONT_BODY }}
           >
             Ask Hozie →
@@ -558,13 +558,13 @@ function SearchResults({ query, results, onSelect, onAskHozie }: { query: string
 // ─── Loading / error ────────────────────────────────────────────────────────
 
 function ServicesSkeleton() {
-  const bar = (w: string, h = 14) => <div className="rounded-full bg-[#F4F0EC]" style={{ width: w, height: h, animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />
+  const bar = (w: string, h = 14) => <div className="rounded-full bg-[var(--hz-surface-muted)]" style={{ width: w, height: h, animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />
   return (
     <div className="flex flex-col gap-6" style={{ maxWidth: 1200, margin: '0 auto' }}>
       <div className="flex flex-col gap-2">{bar('30%', 12)}{bar('55%', 30)}{bar('45%', 14)}</div>
       {bar('52px', 52)}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {[0, 1, 2, 3].map(i => <div key={i} className="rounded-[16px] border border-[#E3DDD7]" style={{ height: 100, animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />)}
+        {[0, 1, 2, 3].map(i => <div key={i} className="rounded-[16px] border border-[var(--hz-border)]" style={{ height: 100, animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />)}
       </div>
     </div>
   )
@@ -573,8 +573,8 @@ function ServicesSkeleton() {
 function ServicesErrorState({ onRetry }: { onRetry: () => void }) {
   return (
     <div className="flex flex-col items-center text-center gap-4 py-20" style={{ maxWidth: 420, margin: '0 auto' }}>
-      <p className="text-[15px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>We couldn&apos;t load services.</p>
-      <button onClick={onRetry} className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[15px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>We couldn&apos;t load services.</p>
+      <button onClick={onRetry} className="h-10 px-5 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0" style={{ fontFamily: FONT_BODY }}>
         Try again
       </button>
     </div>
@@ -616,7 +616,7 @@ function ServicesErrorState({ onRetry }: { onRetry: () => void }) {
 // is for line icons and would fade a photo out against its own background).
 
 const IcoCheck = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#722ED1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5" /></svg>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--hz-primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 7.3L5.3 10L11.5 3.5" /></svg>
 )
 const IcoStar = ({ size = 11 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 12 12" fill="currentColor"><path d="M6 0.8l1.5 3.3 3.6.4-2.7 2.5.7 3.6L6 8.8 2.9 10.6l.7-3.6L.9 4.5l3.6-.4L6 .8Z" /></svg>
@@ -679,9 +679,9 @@ function HomePreviewCard({ item, onSelect }: { item: HomePreviewItem; onSelect?:
   return (
     <button
       onClick={onSelect}
-      className="group flex flex-col gap-2 text-left bg-white rounded-[14px] border border-[#E3DDD7] p-2.5 cursor-pointer hover:border-[#722ED1] transition-all flex-1 min-w-[148px] sm:min-w-[164px]"
+      className="group flex flex-col gap-2 text-left bg-[var(--hz-surface)] rounded-[14px] border border-[var(--hz-border)] p-2.5 cursor-pointer hover:border-[var(--hz-primary)] transition-all flex-1 min-w-[148px] sm:min-w-[164px]"
     >
-      <div className="relative w-full aspect-square rounded-[10px] overflow-hidden bg-[#F3EAFF] flex items-center justify-center text-[#722ED1]">
+      <div className="relative w-full aspect-square rounded-[10px] overflow-hidden bg-[var(--hz-primary-soft)] flex items-center justify-center text-[var(--hz-primary)]">
         {item.image ? (
           <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
         ) : (
@@ -696,13 +696,13 @@ function HomePreviewCard({ item, onSelect }: { item: HomePreviewItem; onSelect?:
           </span>
         )}
       </div>
-      <span className="text-[12.5px] font-semibold text-[#242326] leading-tight line-clamp-2" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
-      <span className="flex items-center gap-1 text-[10.5px] font-semibold text-[#722ED1]" style={{ fontFamily: FONT_HEAD }}>
-        <IcoStar /> {item.rating} <span className="text-[#9A949D] font-normal">({item.reviews})</span>
+      <span className="text-[12.5px] font-semibold text-[var(--hz-ink)] leading-tight line-clamp-2" style={{ fontFamily: FONT_HEAD }}>{item.title}</span>
+      <span className="flex items-center gap-1 text-[10.5px] font-semibold text-[var(--hz-primary)]" style={{ fontFamily: FONT_HEAD }}>
+        <IcoStar /> {item.rating} <span className="text-[var(--hz-ink-subtle)] font-normal">({item.reviews})</span>
       </span>
       <span className="text-[12.5px]" style={{ fontFamily: FONT_BODY }}>
-        {item.originalPrice && <span className="line-through text-[#9A949D] mr-1">₹{item.originalPrice.toLocaleString('en-IN')}</span>}
-        <span className="font-semibold text-[#242326]">₹{item.price.toLocaleString('en-IN')}</span>
+        {item.originalPrice && <span className="line-through text-[var(--hz-ink-subtle)] mr-1">₹{item.originalPrice.toLocaleString('en-IN')}</span>}
+        <span className="font-semibold text-[var(--hz-ink)]">₹{item.price.toLocaleString('en-IN')}</span>
       </span>
     </button>
   )
@@ -721,13 +721,13 @@ function HomeCarouselSection({ title, subtitle, items, onSeeAll }: {
     <div className="flex flex-col gap-3">
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-0.5">
-          <h2 className="text-[19px] sm:text-[22px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h2>
-          {subtitle && <p className="text-[12.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>{subtitle}</p>}
+          <h2 className="text-[19px] sm:text-[22px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>{title}</h2>
+          {subtitle && <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>{subtitle}</p>}
         </div>
         {onSeeAll && (
           <button
             onClick={onSeeAll}
-            className="shrink-0 h-8 px-3 rounded-[10px] border border-[#E3DDD7] text-[#722ED1] text-[12px] font-semibold cursor-pointer hover:bg-[#F3EAFF] hover:border-[#722ED1] transition-all bg-white"
+            className="shrink-0 h-8 px-3 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-primary)] text-[12px] font-semibold cursor-pointer hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] transition-all bg-[var(--hz-surface)]"
             style={{ fontFamily: FONT_BODY }}
           >
             See all
@@ -780,27 +780,27 @@ function HomePromoBanner({ badge, heading, subtext, ctaLabel, onCta, gradient, i
       )}
       <h3
         className={`font-semibold leading-[1.2] m-0 relative z-[1] ${compact ? 'text-[16px] max-w-[85%]' : 'text-[20px] sm:text-[24px] max-w-[60%] sm:max-w-[420px]'}`}
-        style={{ fontFamily: FONT_HEAD, color: image ? '#FFFFFF' : '#242326', textShadow: image ? '0 1px 6px rgba(0,0,0,0.25)' : undefined }}
+        style={{ fontFamily: FONT_HEAD, color: image ? 'var(--hz-surface)' : 'var(--hz-ink)', textShadow: image ? '0 1px 6px rgba(0,0,0,0.25)' : undefined }}
       >
         {heading}
       </h3>
       {subtext && (
         <p
           className={`leading-[1.4] m-0 relative z-[1] ${compact ? 'text-[11.5px] max-w-[85%]' : 'text-[13px] max-w-[60%] sm:max-w-[380px]'}`}
-          style={{ fontFamily: FONT_BODY, color: image ? 'rgba(255,255,255,0.88)' : '#68636D' }}
+          style={{ fontFamily: FONT_BODY, color: image ? 'rgba(255,255,255,0.88)' : 'var(--hz-ink-muted)' }}
         >
           {subtext}
         </p>
       )}
       <button
         onClick={onCta}
-        className={`self-start rounded-[10px] bg-[#242326] text-white font-semibold cursor-pointer hover:brightness-110 active:scale-[0.99] transition-all border-0 relative z-[1] ${compact ? 'h-8 px-3 text-[12px]' : 'h-10 px-4 text-[13px]'}`}
+        className={`self-start rounded-[10px] bg-[var(--hz-ink)] text-white font-semibold cursor-pointer hover:brightness-110 active:scale-[0.99] transition-all border-0 relative z-[1] ${compact ? 'h-8 px-3 text-[12px]' : 'h-10 px-4 text-[13px]'}`}
         style={{ fontFamily: FONT_BODY }}
       >
         {ctaLabel}
       </button>
       {!image && (
-        <div className={`absolute text-[#722ED1] opacity-[0.16] pointer-events-none ${compact ? 'right-2 bottom-2' : 'right-4 bottom-2'}`} style={{ transform: compact ? 'scale(2.6)' : 'scale(4)' }}>
+        <div className={`absolute text-[var(--hz-primary)] opacity-[0.16] pointer-events-none ${compact ? 'right-2 bottom-2' : 'right-4 bottom-2'}`} style={{ transform: compact ? 'scale(2.6)' : 'scale(4)' }}>
           {icon}
         </div>
       )}
@@ -819,18 +819,18 @@ function HomeStoryCard({ title, icon, image, onSelect }: { title: string; icon: 
     <button
       onClick={onSelect}
       className="group relative overflow-hidden rounded-[14px] flex-1 min-w-[130px] h-[190px] flex items-end p-3 cursor-pointer border-0"
-      style={{ background: image ? undefined : 'linear-gradient(160deg, #F3EAFF 0%, #F9F5FF 55%, #FFF3EA 100%)' }}
+      style={{ background: image ? undefined : 'linear-gradient(160deg, var(--hz-primary-soft) 0%, var(--hz-primary-wash) 55%, #FFF3EA 100%)' }}
     >
       {image ? (
         <img src={image} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" />
       ) : (
-        <div className="absolute inset-0 flex items-center justify-center text-[#722ED1] opacity-25">
+        <div className="absolute inset-0 flex items-center justify-center text-[var(--hz-primary)] opacity-25">
           <div style={{ transform: 'scale(2.4)' }}>{icon}</div>
         </div>
       )}
       <span
         className="relative z-[1] text-[13px] font-semibold leading-tight text-left"
-        style={{ fontFamily: FONT_HEAD, color: '#242326' }}
+        style={{ fontFamily: FONT_HEAD, color: 'var(--hz-ink)' }}
       >
         {title}
       </span>
@@ -999,25 +999,25 @@ function ServiceGroupsLanding({
           Booking / Transparent Pricing) in place of fabricated stats. */}
       <div
         className="relative w-full overflow-hidden rounded-[20px]"
-        style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, #F3EAFF 45%, #FFF3EA 100%)' }}
+        style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
       >
         <div className="relative flex flex-col gap-4 px-5 sm:px-10 lg:px-12 py-8 sm:py-10">
-          <span className="text-[11px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Services</span>
-          <h1 className="text-[24px] sm:text-[32px] lg:text-[36px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0 max-w-[75%] sm:max-w-[460px]" style={{ fontFamily: FONT_HEAD }}>
+          <span className="text-[11px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Services</span>
+          <h1 className="text-[24px] sm:text-[32px] lg:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0 max-w-[75%] sm:max-w-[460px]" style={{ fontFamily: FONT_HEAD }}>
             Home services, right at your doorstep.
           </h1>
-          <p className="text-[13px] sm:text-[14.5px] text-[#68636D] leading-[1.5] m-0 max-w-[75%] sm:max-w-[420px]" style={{ fontFamily: FONT_BODY }}>
+          <p className="text-[13px] sm:text-[14.5px] text-[var(--hz-ink-muted)] leading-[1.5] m-0 max-w-[75%] sm:max-w-[420px]" style={{ fontFamily: FONT_BODY }}>
             Verified professionals for repairs, cleaning, salon care & more — booked in a few taps, at a price you can trust.
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-1">
             {['Verified Professionals', 'Hassle Free Booking', 'Transparent Pricing'].map(t => (
-              <span key={t} className="flex items-center gap-1.5 text-[12.5px] text-[#242326] font-medium" style={{ fontFamily: FONT_BODY }}>
+              <span key={t} className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink)] font-medium" style={{ fontFamily: FONT_BODY }}>
                 <IcoCheck /> {t}
               </span>
             ))}
           </div>
         </div>
-        <div className="absolute right-0 bottom-0 top-0 w-[30%] sm:w-[34%] flex items-center justify-center text-[#722ED1] opacity-20">
+        <div className="absolute right-0 bottom-0 top-0 w-[30%] sm:w-[34%] flex items-center justify-center text-[var(--hz-primary)] opacity-20">
           <div style={{ transform: 'scale(3.4)' }}><IcoHomeGeneral /></div>
         </div>
       </div>
@@ -1040,7 +1040,7 @@ function ServiceGroupsLanding({
 
       {/* ── In the spotlight ── */}
       <div className="flex flex-col gap-3">
-        <h2 className="text-[19px] sm:text-[22px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>In the spotlight</h2>
+        <h2 className="text-[19px] sm:text-[22px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>In the spotlight</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <HomePromoBanner
             badge="Trending"
@@ -1048,7 +1048,7 @@ function ServiceGroupsLanding({
             subtext="Wall panels"
             ctaLabel="Explore"
             onCta={() => onNavigate('wall-panels-installation')}
-            gradient="linear-gradient(135deg, #F4F0EC 0%, #E9E1D8 100%)"
+            gradient="linear-gradient(135deg, var(--hz-surface-muted) 0%, #E9E1D8 100%)"
             icon={<IcoFlooring />}
             image={wallPanelsBannerImg}
             compact
@@ -1058,7 +1058,7 @@ function ServiceGroupsLanding({
             subtext="Essential Home Repairs"
             ctaLabel="Book now"
             onCta={onOpenElectricianPlumberCarpenter}
-            gradient="linear-gradient(135deg, #F9F5FF 0%, #F3EAFF 100%)"
+            gradient="linear-gradient(135deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 100%)"
             icon={<IcoTool />}
             image={electricianBannerImg}
             compact
@@ -1082,8 +1082,8 @@ function ServiceGroupsLanding({
       {/* ── Thoughtful curations ── */}
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-0.5">
-          <h2 className="text-[19px] sm:text-[22px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>Thoughtful curations</h2>
-          <p className="text-[12.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>of our finest experiences</p>
+          <h2 className="text-[19px] sm:text-[22px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>Thoughtful curations</h2>
+          <p className="text-[12.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>of our finest experiences</p>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
           <HomeStoryCard title="Facials & Cleanups" icon={<IcoLipstick />} image={tcFacialsCleanupsImg} onSelect={onOpenWomensSalonSpa} />
@@ -1247,14 +1247,14 @@ function HoziehelperModal({ onClose, onSelectTier }: { onClose: () => void; onSe
         role="dialog"
         aria-label="HozieHelp"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 420, maxHeight: '88vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-center justify-end px-4 pt-4 shrink-0">
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoHozieClose />
           </button>
@@ -1262,7 +1262,7 @@ function HoziehelperModal({ onClose, onSelectTier }: { onClose: () => void; onSe
 
         <div className="overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
           {/* Hero */}
-          <div className="relative overflow-hidden px-6 pt-3 pb-8 mt-1" style={{ background: 'linear-gradient(135deg, #722ED1 0%, #5B1FB0 100%)' }}>
+          <div className="relative overflow-hidden px-6 pt-3 pb-8 mt-1" style={{ background: 'linear-gradient(135deg, var(--hz-primary) 0%, #5B1FB0 100%)' }}>
             <div className="absolute -top-1 -right-1 opacity-90" style={{ transform: 'rotate(12deg)' }}><IcoHozieBroom /></div>
             <div className="absolute bottom-3 -left-2 opacity-90" style={{ transform: 'rotate(-18deg)' }}><IcoHozieBroom size={26} /></div>
             <div className="relative flex flex-col gap-2 items-start pt-2">
@@ -1281,7 +1281,7 @@ function HoziehelperModal({ onClose, onSelectTier }: { onClose: () => void; onSe
               <button
                 key={tier.id}
                 onClick={() => onSelectTier(tier)}
-                className={`w-full flex items-center gap-4 text-left px-5 py-5 cursor-pointer border-0 bg-white hover:bg-[#F9F5FF] transition-colors ${i > 0 ? 'border-t border-[#F4F0EC]' : ''}`}
+                className={`w-full flex items-center gap-4 text-left px-5 py-5 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${i > 0 ? 'border-t border-[var(--hz-surface-muted)]' : ''}`}
               >
                 <div className="relative shrink-0">
                   <div className="w-[96px] h-[128px] rounded-[14px] overflow-hidden shrink-0" aria-label={tier.title} role="img">
@@ -1297,14 +1297,14 @@ function HoziehelperModal({ onClose, onSelectTier }: { onClose: () => void; onSe
                   )}
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col gap-1">
-                  <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{tier.title}</span>
-                  <span className="text-[13.5px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{tier.price}</span>
-                  <span className="flex items-center gap-1.5 text-[12.5px] text-[#68636D] font-semibold" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                  <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{tier.title}</span>
+                  <span className="text-[13.5px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{tier.price}</span>
+                  <span className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink-muted)] font-semibold" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     <IcoHozieClock /> {tier.earliest}
                   </span>
-                  <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{tier.description}</span>
+                  <span className="text-[12.5px] text-[var(--hz-ink-muted)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{tier.description}</span>
                 </div>
-                <span className="shrink-0 text-[#9A949D]"><IcoHozieChevron /></span>
+                <span className="shrink-0 text-[var(--hz-ink-subtle)]"><IcoHozieChevron /></span>
               </button>
             ))}
           </div>
@@ -1351,17 +1351,17 @@ function WomensSalonSpaModal({ onClose, onSelectCategory }: { onClose: () => voi
         role="dialog"
         aria-label="Women's Salon & Spa"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 560, maxHeight: '88vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-start justify-between gap-3 px-6 pt-6 shrink-0">
-          <h2 className="text-[26px] sm:text-[30px] font-bold text-[#242326] leading-tight m-0" style={{ fontFamily: FONT_HEAD }}>
+          <h2 className="text-[26px] sm:text-[30px] font-bold text-[var(--hz-ink)] leading-tight m-0" style={{ fontFamily: FONT_HEAD }}>
             Women's Salon & Spa
           </h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white shrink-0"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)] shrink-0"
           >
             <IcoHozieClose />
           </button>
@@ -1373,9 +1373,9 @@ function WomensSalonSpaModal({ onClose, onSelectCategory }: { onClose: () => voi
               <button
                 key={id}
                 onClick={() => onSelectCategory(id)}
-                className="group flex flex-col items-center gap-2.5 text-center bg-white rounded-[16px] border border-[#E3DDD7] p-3 cursor-pointer hover:border-[#722ED1] transition-all"
+                className="group flex flex-col items-center gap-2.5 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-3 cursor-pointer hover:border-[var(--hz-primary)] transition-all"
               >
-                <div className="relative w-full aspect-square rounded-[12px] overflow-hidden bg-[#F3EAFF]">
+                <div className="relative w-full aspect-square rounded-[12px] overflow-hidden bg-[var(--hz-primary-soft)]">
                   {/* Grayscale by default, full color on hover/focus — these
                       four only have one image each (no separate hover
                       asset like the landing tiles above), so the reveal is
@@ -1387,7 +1387,7 @@ function WomensSalonSpaModal({ onClose, onSelectCategory }: { onClose: () => voi
                     style={{ objectPosition: '50% 20%' }}
                   />
                 </div>
-                <span className="text-[13px] text-[#242326] leading-tight" style={{ fontFamily: FONT_BODY }}>{category.name}</span>
+                <span className="text-[13px] text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_BODY }}>{category.name}</span>
               </button>
             ))}
           </div>
@@ -1452,7 +1452,7 @@ function SalonTierRow({ tier, isFirst, onSelect }: { tier: SalonTier; isFirst: b
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-white hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[#F4F0EC]'}`}
+      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
       <div className="relative shrink-0">
         <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0" aria-label={tier.title} role="img">
@@ -1468,10 +1468,10 @@ function SalonTierRow({ tier, isFirst, onSelect }: { tier: SalonTier; isFirst: b
         )}
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{tier.title}</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{tier.title}</span>
         <div className="flex flex-wrap gap-1.5">
           {tier.tags.map(tag => (
-            <span key={tag} className="px-2 py-[3px] rounded-[6px] bg-[#F4F0EC] text-[11px] text-[#68636D] font-semibold" style={{ fontFamily: FONT_BODY }}>{tag}</span>
+            <span key={tag} className="px-2 py-[3px] rounded-[6px] bg-[var(--hz-surface-muted)] text-[11px] text-[var(--hz-ink-muted)] font-semibold" style={{ fontFamily: FONT_BODY }}>{tag}</span>
           ))}
         </div>
         {tier.earliest && (
@@ -1479,9 +1479,9 @@ function SalonTierRow({ tier, isFirst, onSelect }: { tier: SalonTier; isFirst: b
             <IcoClock /> {tier.earliest}
           </span>
         )}
-        <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>Starting at ₹{tier.startingPrice}</span>
+        <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>Starting at ₹{tier.startingPrice}</span>
       </div>
-      <span className="shrink-0 text-[#9A949D]"><IcoHozieChevron /></span>
+      <span className="shrink-0 text-[var(--hz-ink-subtle)]"><IcoHozieChevron /></span>
     </button>
   )
 }
@@ -1497,22 +1497,22 @@ function SalonForWomenModal({ onBack, onClose, onSelectTier }: { onBack: () => v
         role="dialog"
         aria-label="Salon for Women"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 520, maxHeight: '90vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-center justify-between gap-2 px-4 pt-4 shrink-0">
           <button
             onClick={onBack}
             aria-label="Back to Women's Salon & Spa"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoChevronLeft />
           </button>
-          <h2 className="text-[17px] font-bold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Salon for Women</h2>
+          <h2 className="text-[17px] font-bold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Salon for Women</h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoHozieClose />
           </button>
@@ -1521,7 +1521,7 @@ function SalonForWomenModal({ onBack, onClose, onSelectTier }: { onBack: () => v
         <div className="overflow-y-auto px-5 pt-3 pb-5" style={{ scrollbarWidth: 'none' }}>
           <div
             className="relative w-full overflow-hidden rounded-[16px] h-[150px] sm:h-[140px]"
-            style={{ background: 'linear-gradient(120deg, #F9F5FF 0%, #F3EAFF 45%, #FFF3EA 100%)' }}
+            style={{ background: 'linear-gradient(120deg, var(--hz-primary-wash) 0%, var(--hz-primary-soft) 45%, #FFF3EA 100%)' }}
           >
             <div className="absolute inset-0 flex items-center px-4 sm:px-5">
               {/* max-w and font sizes shrink at this modal's own narrow
@@ -1529,10 +1529,10 @@ function SalonForWomenModal({ onBack, onClose, onSelectTier }: { onBack: () => v
                   column instead of overflowing under the image — same
                   fix as HeroBanner's in HoziehelperGoldScreen.tsx. */}
               <div className="flex flex-col gap-1.5 max-w-[128px] sm:max-w-[220px]">
-                <h3 className="text-[16px] sm:text-[19px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
+                <h3 className="text-[16px] sm:text-[19px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>
                   Salon &amp; spa,<br />styled for you
                 </h3>
-                <p className="text-[11px] sm:text-[12.5px] text-[#68636D] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
+                <p className="text-[11px] sm:text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.5] m-0" style={{ fontFamily: FONT_BODY }}>
                   Skilled stylists, at your doorstep.
                 </p>
               </div>
@@ -1545,8 +1545,8 @@ function SalonForWomenModal({ onBack, onClose, onSelectTier }: { onBack: () => v
             />
           </div>
 
-          <h3 className="text-[14px] font-semibold text-[#242326] m-0 mt-5 mb-2" style={{ fontFamily: FONT_HEAD }}>Choose your professional</h3>
-          <div className="border border-[#E3DDD7] rounded-[16px] overflow-hidden">
+          <h3 className="text-[14px] font-semibold text-[var(--hz-ink)] m-0 mt-5 mb-2" style={{ fontFamily: FONT_HEAD }}>Choose your professional</h3>
+          <div className="border border-[var(--hz-border)] rounded-[16px] overflow-hidden">
             {SALON_TIERS.map((tier, i) => (
               <SalonTierRow key={tier.id} tier={tier} isFirst={i === 0} onSelect={() => onSelectTier(tier)} />
             ))}
@@ -1586,10 +1586,10 @@ function SpaTierRow({ tier, isFirst, onSelect }: { tier: SpaTier; isFirst: boole
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-white hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[#F4F0EC]'}`}
+      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
       <div className="relative shrink-0">
-        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[#F9F5FF] text-[#722ED1]" aria-label={tier.title} role="img">
+        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]" aria-label={tier.title} role="img">
           <IcoSpaLeaf />
         </div>
         {tier.topRated && (
@@ -1602,16 +1602,16 @@ function SpaTierRow({ tier, isFirst, onSelect }: { tier: SpaTier; isFirst: boole
         )}
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{tier.title}</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{tier.title}</span>
         {tier.tag && (
-          <span className="self-start px-2 py-[3px] rounded-[6px] bg-[#F4F0EC] text-[11px] tracking-[0.04em] uppercase text-[#68636D] font-semibold" style={{ fontFamily: FONT_BODY }}>{tier.tag}</span>
+          <span className="self-start px-2 py-[3px] rounded-[6px] bg-[var(--hz-surface-muted)] text-[11px] tracking-[0.04em] uppercase text-[var(--hz-ink-muted)] font-semibold" style={{ fontFamily: FONT_BODY }}>{tier.tag}</span>
         )}
         <div className="flex flex-wrap gap-x-2 gap-y-0.5">
-          <span className="text-[13px] text-[#242326] font-medium whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>Starts at ₹{tier.startingPrice}</span>
-          <span className="text-[12.5px] text-[#68636D] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{tier.description}</span>
+          <span className="text-[13px] text-[var(--hz-ink)] font-medium whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>Starts at ₹{tier.startingPrice}</span>
+          <span className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{tier.description}</span>
         </div>
       </div>
-      <span className="shrink-0 text-[#9A949D]"><IcoHozieChevron /></span>
+      <span className="shrink-0 text-[var(--hz-ink-subtle)]"><IcoHozieChevron /></span>
     </button>
   )
 }
@@ -1627,28 +1627,28 @@ function SpaForWomenModal({ onBack, onClose, onSelectTier }: { onBack: () => voi
         role="dialog"
         aria-label="Spa for Women"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 520, maxHeight: '90vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-start justify-between gap-2 px-4 pt-4 shrink-0">
           <button
             onClick={onBack}
             aria-label="Back to Women's Salon & Spa"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoChevronLeft />
           </button>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoHozieClose />
           </button>
         </div>
 
-        <h2 className="text-[22px] font-bold text-[#242326] m-0 px-5 pt-2 pb-4" style={{ fontFamily: FONT_HEAD }}>Select your preference</h2>
-        <div className="border-t border-[#E3DDD7]" />
+        <h2 className="text-[22px] font-bold text-[var(--hz-ink)] m-0 px-5 pt-2 pb-4" style={{ fontFamily: FONT_HEAD }}>Select your preference</h2>
+        <div className="border-t border-[var(--hz-border)]" />
 
         <div className="overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
           {SPA_TIERS.map((tier, i) => (
@@ -1703,17 +1703,17 @@ function MensSalonMassageModal({ onClose, onSelectCategory }: { onClose: () => v
         role="dialog"
         aria-label="Men's Salon & Massage"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 560, maxHeight: '88vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-start justify-between gap-3 px-6 pt-6 shrink-0">
-          <h2 className="text-[26px] sm:text-[30px] font-bold text-[#242326] leading-tight m-0" style={{ fontFamily: FONT_HEAD }}>
+          <h2 className="text-[26px] sm:text-[30px] font-bold text-[var(--hz-ink)] leading-tight m-0" style={{ fontFamily: FONT_HEAD }}>
             Men's Salon &amp; Massage
           </h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white shrink-0"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)] shrink-0"
           >
             <IcoHozieClose />
           </button>
@@ -1725,12 +1725,12 @@ function MensSalonMassageModal({ onClose, onSelectCategory }: { onClose: () => v
               <button
                 key={id}
                 onClick={() => onSelectCategory(id)}
-                className="group flex flex-col items-center gap-2.5 text-center bg-white rounded-[16px] border border-[#E3DDD7] p-3 cursor-pointer hover:border-[#722ED1] transition-all"
+                className="group flex flex-col items-center gap-2.5 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-3 cursor-pointer hover:border-[var(--hz-primary)] transition-all"
               >
-                <div className="relative w-full aspect-square rounded-[12px] overflow-hidden bg-[#F3EAFF] flex items-center justify-center text-[#722ED1]">
+                <div className="relative w-full aspect-square rounded-[12px] overflow-hidden bg-[var(--hz-primary-soft)] flex items-center justify-center text-[var(--hz-primary)]">
                   {icon}
                 </div>
-                <span className="text-[13px] text-[#242326] leading-tight" style={{ fontFamily: FONT_BODY }}>{category.name}</span>
+                <span className="text-[13px] text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_BODY }}>{category.name}</span>
               </button>
             ))}
           </div>
@@ -1765,12 +1765,12 @@ function CleaningPestControlModal({ onClose, onSelectCategory }: { onClose: () =
     <button
       key={category.id}
       onClick={() => onSelectCategory(category.id)}
-      className="group flex flex-col items-center gap-2.5 text-center bg-white rounded-[16px] border border-[#E3DDD7] p-3 cursor-pointer hover:border-[#722ED1] transition-all"
+      className="group flex flex-col items-center gap-2.5 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-3 cursor-pointer hover:border-[var(--hz-primary)] transition-all"
     >
-      <div className="relative w-full aspect-square rounded-[12px] overflow-hidden bg-[#F3EAFF] flex items-center justify-center text-[#722ED1]">
+      <div className="relative w-full aspect-square rounded-[12px] overflow-hidden bg-[var(--hz-primary-soft)] flex items-center justify-center text-[var(--hz-primary)]">
         {iconForCategory(category)}
       </div>
-      <span className="text-[13px] text-[#242326] leading-tight" style={{ fontFamily: FONT_BODY }}>{category.name}</span>
+      <span className="text-[13px] text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_BODY }}>{category.name}</span>
     </button>
   )
 
@@ -1784,17 +1784,17 @@ function CleaningPestControlModal({ onClose, onSelectCategory }: { onClose: () =
         role="dialog"
         aria-label="Cleaning & Pest Control"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 560, maxHeight: '88vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-start justify-between gap-3 px-6 pt-6 shrink-0">
-          <h2 className="text-[26px] sm:text-[30px] font-bold text-[#242326] leading-tight m-0" style={{ fontFamily: FONT_HEAD }}>
+          <h2 className="text-[26px] sm:text-[30px] font-bold text-[var(--hz-ink)] leading-tight m-0" style={{ fontFamily: FONT_HEAD }}>
             Cleaning &amp; Pest Control
           </h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white shrink-0"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)] shrink-0"
           >
             <IcoHozieClose />
           </button>
@@ -1802,13 +1802,13 @@ function CleaningPestControlModal({ onClose, onSelectCategory }: { onClose: () =
 
         <div className="overflow-y-auto px-6 pt-5 pb-6 flex flex-col gap-6" style={{ scrollbarWidth: 'none' }}>
           <div className="flex flex-col gap-3">
-            <h3 className="text-[15px] font-bold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Cleaning</h3>
+            <h3 className="text-[15px] font-bold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Cleaning</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {cleaningItems.map(renderTile)}
             </div>
           </div>
           <div className="flex flex-col gap-3">
-            <h3 className="text-[15px] font-bold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Pest Control</h3>
+            <h3 className="text-[15px] font-bold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Pest Control</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {pestItems.map(renderTile)}
             </div>
@@ -1840,16 +1840,16 @@ function ElectricianPlumberCarpenterModal({ onClose, onSelectCategory }: { onClo
     <button
       key={category.id}
       onClick={() => onSelectCategory(category.id)}
-      className="group flex flex-col items-center gap-2.5 text-center bg-white rounded-[16px] border border-[#E3DDD7] p-3 cursor-pointer hover:border-[#722ED1] transition-all"
+      className="group flex flex-col items-center gap-2.5 text-center bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-3 cursor-pointer hover:border-[var(--hz-primary)] transition-all"
     >
-      <div className="relative w-full aspect-square rounded-[12px] overflow-hidden bg-[#F3EAFF] flex items-center justify-center text-[#722ED1]">
+      <div className="relative w-full aspect-square rounded-[12px] overflow-hidden bg-[var(--hz-primary-soft)] flex items-center justify-center text-[var(--hz-primary)]">
         {category.id === 'wall-panels-installation' ? (
           <img src={iconWallPanels} alt="" className="w-full h-full object-cover" />
         ) : (
           iconForCategory(category)
         )}
       </div>
-      <span className="text-[13px] text-[#242326] leading-tight" style={{ fontFamily: FONT_BODY }}>{category.name}</span>
+      <span className="text-[13px] text-[var(--hz-ink)] leading-tight" style={{ fontFamily: FONT_BODY }}>{category.name}</span>
     </button>
   )
 
@@ -1863,17 +1863,17 @@ function ElectricianPlumberCarpenterModal({ onClose, onSelectCategory }: { onClo
         role="dialog"
         aria-label="Essential Home Repairs"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 560, maxHeight: '88vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-start justify-between gap-3 px-6 pt-6 shrink-0">
-          <h2 className="text-[26px] sm:text-[30px] font-bold text-[#242326] leading-tight m-0" style={{ fontFamily: FONT_HEAD }}>
+          <h2 className="text-[26px] sm:text-[30px] font-bold text-[var(--hz-ink)] leading-tight m-0" style={{ fontFamily: FONT_HEAD }}>
             Essential Home Repairs
           </h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white shrink-0"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)] shrink-0"
           >
             <IcoHozieClose />
           </button>
@@ -1881,13 +1881,13 @@ function ElectricianPlumberCarpenterModal({ onClose, onSelectCategory }: { onClo
 
         <div className="overflow-y-auto px-6 pt-5 pb-6 flex flex-col gap-6" style={{ scrollbarWidth: 'none' }}>
           <div className="flex flex-col gap-3">
-            <h3 className="text-[15px] font-bold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Home repairs</h3>
+            <h3 className="text-[15px] font-bold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Home repairs</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {repairItems.map(renderTile)}
             </div>
           </div>
           <div className="flex flex-col gap-3">
-            <h3 className="text-[15px] font-bold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Home installation</h3>
+            <h3 className="text-[15px] font-bold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Home installation</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {installItems.map(renderTile)}
             </div>
@@ -1930,10 +1930,10 @@ function MensSalonTierRow({ tier, isFirst, onSelect }: { tier: MensSalonTier; is
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-white hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[#F4F0EC]'}`}
+      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
       <div className="relative shrink-0">
-        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[#F9F5FF] text-[#722ED1]" aria-label={tier.title} role="img">
+        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]" aria-label={tier.title} role="img">
           <IcoRazor />
         </div>
         {tier.topRated && (
@@ -1946,18 +1946,18 @@ function MensSalonTierRow({ tier, isFirst, onSelect }: { tier: MensSalonTier; is
         )}
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{tier.title}</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{tier.title}</span>
         <div className="flex flex-wrap gap-1.5">
           {tier.tags.map(tag => (
-            <span key={tag} className="px-2 py-[3px] rounded-[6px] bg-[#F4F0EC] text-[11px] text-[#68636D] font-semibold" style={{ fontFamily: FONT_BODY }}>{tag}</span>
+            <span key={tag} className="px-2 py-[3px] rounded-[6px] bg-[var(--hz-surface-muted)] text-[11px] text-[var(--hz-ink-muted)] font-semibold" style={{ fontFamily: FONT_BODY }}>{tag}</span>
           ))}
         </div>
         <div className="flex flex-wrap gap-x-2 gap-y-0.5">
-          <span className="text-[13px] text-[#242326] font-medium whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>Starts at ₹{tier.startingPrice}</span>
-          <span className="text-[12.5px] text-[#68636D] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{tier.description}</span>
+          <span className="text-[13px] text-[var(--hz-ink)] font-medium whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>Starts at ₹{tier.startingPrice}</span>
+          <span className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{tier.description}</span>
         </div>
       </div>
-      <span className="shrink-0 text-[#9A949D]"><IcoHozieChevron /></span>
+      <span className="shrink-0 text-[var(--hz-ink-subtle)]"><IcoHozieChevron /></span>
     </button>
   )
 }
@@ -1973,28 +1973,28 @@ function SalonForMenModal({ onBack, onClose, onSelectTier }: { onBack: () => voi
         role="dialog"
         aria-label="Salon for Men"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 520, maxHeight: '90vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-start justify-between gap-2 px-4 pt-4 shrink-0">
           <button
             onClick={onBack}
             aria-label="Back to Men's Salon & Massage"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoChevronLeft />
           </button>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoHozieClose />
           </button>
         </div>
 
-        <h2 className="text-[22px] font-bold text-[#242326] m-0 px-5 pt-2 pb-4" style={{ fontFamily: FONT_HEAD }}>Select your preference</h2>
-        <div className="border-t border-[#E3DDD7]" />
+        <h2 className="text-[22px] font-bold text-[var(--hz-ink)] m-0 px-5 pt-2 pb-4" style={{ fontFamily: FONT_HEAD }}>Select your preference</h2>
+        <div className="border-t border-[var(--hz-border)]" />
 
         <div className="overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
           {MENS_SALON_TIERS.map((tier, i) => (
@@ -2036,16 +2036,16 @@ function PaintingScopeRow({ scope, isFirst, onSelect }: { scope: PaintingScope; 
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-5 py-4 cursor-pointer border-0 bg-white hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[#F4F0EC]'}`}
+      className={`w-full flex items-center gap-4 text-left px-5 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
-      <div className="w-[76px] h-[76px] rounded-[14px] shrink-0 flex items-center justify-center bg-[#F9F5FF] text-[#722ED1]">
+      <div className="w-[76px] h-[76px] rounded-[14px] shrink-0 flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]">
         {scope.icon}
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{scope.title}</span>
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{scope.description}</span>
+        <span className="text-[16px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{scope.title}</span>
+        <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{scope.description}</span>
       </div>
-      <span className="shrink-0 text-[#9A949D]"><IcoHozieChevron /></span>
+      <span className="shrink-0 text-[var(--hz-ink-subtle)]"><IcoHozieChevron /></span>
     </button>
   )
 }
@@ -2061,31 +2061,31 @@ function PaintingWaterproofingModal({ onClose, onSelectScope }: { onClose: () =>
         role="dialog"
         aria-label="Painting & Waterproofing"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 520, maxHeight: '90vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-start justify-between gap-2 px-4 pt-4 shrink-0">
           <button
             onClick={onClose}
             aria-label="Back"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoChevronLeft />
           </button>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoHozieClose />
           </button>
         </div>
 
         <div className="px-5 pt-2 pb-4 flex flex-col gap-1">
-          <h2 className="text-[22px] font-bold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Painting &amp; Waterproofing</h2>
-          <span className="text-[14px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Select your scope</span>
+          <h2 className="text-[22px] font-bold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Painting &amp; Waterproofing</h2>
+          <span className="text-[14px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Select your scope</span>
         </div>
-        <div className="border-t border-[#E3DDD7]" />
+        <div className="border-t border-[var(--hz-border)]" />
 
         <div className="overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
           {PAINTING_SCOPES.map((scope, i) => (
@@ -2129,10 +2129,10 @@ function MassageTierRow({ tier, isFirst, onSelect }: { tier: MassageTier; isFirs
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-white hover:bg-[#F9F5FF] transition-colors ${isFirst ? '' : 'border-t border-[#F4F0EC]'}`}
+      className={`w-full flex items-center gap-4 text-left px-4 py-4 cursor-pointer border-0 bg-[var(--hz-surface)] hover:bg-[var(--hz-primary-wash)] transition-colors ${isFirst ? '' : 'border-t border-[var(--hz-surface-muted)]'}`}
     >
       <div className="relative shrink-0">
-        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[#F9F5FF] text-[#722ED1]" aria-label={tier.title} role="img">
+        <div className="w-[76px] h-[96px] rounded-[14px] overflow-hidden shrink-0 flex items-center justify-center bg-[var(--hz-primary-wash)] text-[var(--hz-primary)]" aria-label={tier.title} role="img">
           <IcoMassageTable />
         </div>
         {tier.topRated && (
@@ -2145,13 +2145,13 @@ function MassageTierRow({ tier, isFirst, onSelect }: { tier: MassageTier; isFirs
         )}
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{tier.title}</span>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{tier.title}</span>
         <div className="flex flex-wrap gap-x-2 gap-y-0.5">
-          <span className="text-[13px] text-[#242326] font-medium whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>Starts at ₹{tier.startingPrice}</span>
-          <span className="text-[12.5px] text-[#68636D] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{tier.description}</span>
+          <span className="text-[13px] text-[var(--hz-ink)] font-medium whitespace-nowrap" style={{ fontFamily: FONT_BODY }}>Starts at ₹{tier.startingPrice}</span>
+          <span className="text-[12.5px] text-[var(--hz-ink-muted)] leading-[1.4]" style={{ fontFamily: FONT_BODY }}>{tier.description}</span>
         </div>
       </div>
-      <span className="shrink-0 text-[#9A949D]"><IcoHozieChevron /></span>
+      <span className="shrink-0 text-[var(--hz-ink-subtle)]"><IcoHozieChevron /></span>
     </button>
   )
 }
@@ -2167,28 +2167,28 @@ function MassageForMenModal({ onBack, onClose, onSelectTier }: { onBack: () => v
         role="dialog"
         aria-label="Massage for Men"
         onClick={e => e.stopPropagation()}
-        className="w-full bg-white rounded-[20px] overflow-hidden flex flex-col"
+        className="w-full bg-[var(--hz-surface)] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxWidth: 520, maxHeight: '90vh', boxShadow: '0 20px 60px rgba(36,35,38,0.20)' }}
       >
         <div className="flex items-start justify-between gap-2 px-4 pt-4 shrink-0">
           <button
             onClick={onBack}
             aria-label="Back to Men's Salon & Massage"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoChevronLeft />
           </button>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#242326] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hz-ink)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-[var(--hz-surface)]"
           >
             <IcoHozieClose />
           </button>
         </div>
 
-        <h2 className="text-[22px] font-bold text-[#242326] m-0 px-5 pt-2 pb-4" style={{ fontFamily: FONT_HEAD }}>Select your preference</h2>
-        <div className="border-t border-[#E3DDD7]" />
+        <h2 className="text-[22px] font-bold text-[var(--hz-ink)] m-0 px-5 pt-2 pb-4" style={{ fontFamily: FONT_HEAD }}>Select your preference</h2>
+        <div className="border-t border-[var(--hz-border)]" />
 
         <div className="overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
           {MASSAGE_FOR_MEN_TIERS.map((tier, i) => (
@@ -2572,7 +2572,7 @@ export default function HomeServicesScreen({
   const hasError = loadError
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       <MobileTopBar title="Services" onBack={() => onNavigate('dashboard-home')} />
 

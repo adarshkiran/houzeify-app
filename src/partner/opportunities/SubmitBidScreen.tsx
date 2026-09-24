@@ -67,8 +67,8 @@ function fileIcon(doc: { mimeType: string; name: string }) {
 function FieldLabel({ children, optional }: { children: React.ReactNode; optional?: boolean }) {
   return (
     <div className="flex items-center gap-1.5 mb-1.5">
-      <label className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{children}</label>
-      {optional && <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
+      <label className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{children}</label>
+      {optional && <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Optional</span>}
     </div>
   )
 }
@@ -78,8 +78,8 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 }
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-white border border-[#E3DDD7] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{title}</span>
+    <div className="rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{title}</span>
       {children}
     </div>
   )
@@ -87,8 +87,8 @@ function SectionCard({ title, children }: { title: string; children: React.React
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3 py-1.5">
-      <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-      <span className="text-[13px] font-semibold text-[#242326] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
+      <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] font-semibold text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_BODY }}>{value}</span>
     </div>
   )
 }
@@ -155,16 +155,16 @@ export default function SubmitBidScreen({
 
   if (!opportunity && !invitationValid) {
     return (
-      <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <header className="shrink-0 relative z-10">
           <div className="flex items-center h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
             <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
           </div>
         </header>
         <main className="flex-1 flex flex-col items-center justify-center gap-4 px-5 py-10 text-center relative z-10">
-          <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: '#F4F0EC', color: '#9A949D' }}><EmptyIcon /></span>
-          <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
-          <button type="button" onClick={handleBackToProjects} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
+          <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-subtle)' }}><EmptyIcon /></span>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Project not found.</p>
+          <button type="button" onClick={handleBackToProjects} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
             ← Back to Projects
           </button>
         </main>
@@ -242,22 +242,22 @@ function BidForm({
 
   if (existingBid) {
     return (
-      <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
         <header className="shrink-0 relative z-10">
           <div className="flex items-center h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
             <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
           </div>
         </header>
         <main className="flex-1 flex flex-col items-center justify-center gap-4 px-5 py-10 text-center relative z-10">
-          <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: '#16A34A' }}>
+          <span className="w-12 h-12 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', color: 'var(--hz-success)' }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
           </span>
-          <p className="text-[15px] font-semibold text-[#242326] m-0 max-w-[360px]" style={{ fontFamily: FONT_HEAD }}>You have already submitted a bid for this project.</p>
+          <p className="text-[15px] font-semibold text-[var(--hz-ink)] m-0 max-w-[360px]" style={{ fontFamily: FONT_HEAD }}>You have already submitted a bid for this project.</p>
           <div className="flex items-center gap-2.5">
-            <button type="button" onClick={() => onNavigate('my-bids', { bid_id: existingBid.id })} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={() => onNavigate('my-bids', { bid_id: existingBid.id })} className="h-10 px-4 rounded-[10px] text-[13px] font-semibold cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 transition-all" style={{ fontFamily: FONT_BODY }}>
               View My Bid
             </button>
-            <button type="button" onClick={handleBack} className="h-10 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors" style={{ fontFamily: FONT_BODY }}>
+            <button type="button" onClick={handleBack} className="h-10 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors" style={{ fontFamily: FONT_BODY }}>
               ← Back to Project
             </button>
           </div>
@@ -315,9 +315,9 @@ function BidForm({
   const amountSummary = values.amount.trim() && !errors.amount ? formatBidAmount(Number(values.amount)) : '—'
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
 
-      <header className="shrink-0 relative z-10 bg-white border-b border-[#E3DDD7]">
+      <header className="shrink-0 relative z-10 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
         <div className="flex items-center h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
         </div>
@@ -326,19 +326,19 @@ function BidForm({
       <main className="flex-1 relative z-10 px-5 sm:px-8 lg:px-10 py-6 sm:py-8 w-full pb-28 lg:pb-8">
         <div className="w-full flex flex-col gap-6" style={{ maxWidth: 1100, margin: '0 auto' }}>
 
-          <button type="button" onClick={handleBack} className="self-start text-[12.5px] font-semibold text-[#68636D] cursor-pointer bg-transparent border-0 hover:text-[#242326] hover:underline p-0" style={{ fontFamily: FONT_BODY }}>
+          <button type="button" onClick={handleBack} className="self-start text-[12.5px] font-semibold text-[var(--hz-ink-muted)] cursor-pointer bg-transparent border-0 hover:text-[var(--hz-ink)] hover:underline p-0" style={{ fontFamily: FONT_BODY }}>
             ← Back to Project
           </button>
 
           <div className="flex flex-col gap-2">
-            <span className="text-[10px] tracking-[0.10em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Submit Bid</span>
-            <h1 className="text-[24px] sm:text-[28px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>Submit your bid</h1>
-            <p className="text-[13.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Review your proposal details before sending it to the homeowner.</p>
-            <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[#68636D] mt-1" style={{ fontFamily: FONT_BODY }}>
-              <span className="font-semibold text-[#242326]">{opportunityTitle}</span>
-              <span className="text-[#CAC7C6]">·</span>
+            <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Submit Bid</span>
+            <h1 className="text-[24px] sm:text-[28px] font-semibold text-[var(--hz-ink)] leading-[1.15] tracking-[-0.01em] m-0" style={{ fontFamily: FONT_HEAD }}>Submit your bid</h1>
+            <p className="text-[13.5px] text-[var(--hz-ink-muted)] m-0" style={{ fontFamily: FONT_BODY }}>Review your proposal details before sending it to the homeowner.</p>
+            <div className="flex items-center gap-1.5 flex-wrap text-[12.5px] text-[var(--hz-ink-muted)] mt-1" style={{ fontFamily: FONT_BODY }}>
+              <span className="font-semibold text-[var(--hz-ink)]">{opportunityTitle}</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
               <span className="flex items-center gap-1"><HomeIconSmall /> {opportunityProjectType}</span>
-              <span className="text-[#CAC7C6]">·</span>
+              <span className="text-[var(--hz-border-strong)]">·</span>
               <span className="flex items-center gap-1"><PinIcon /> {opportunityLocation}</span>
             </div>
           </div>
@@ -353,8 +353,8 @@ function BidForm({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <FieldLabel>Your bid amount</FieldLabel>
-                    <div className="flex items-center border rounded-[10px] bg-white h-[44px] overflow-hidden transition-colors" style={{ borderColor: showError('amount') ? '#D97706' : '#CAC7C6' }}>
-                      <div className="flex items-center pl-3.5 pr-1 shrink-0 text-[#68636D] font-semibold text-[14px]" style={{ fontFamily: FONT_BODY }}>₹</div>
+                    <div className="flex items-center border rounded-[10px] bg-[var(--hz-surface)] h-[44px] overflow-hidden transition-colors" style={{ borderColor: showError('amount') ? '#D97706' : 'var(--hz-border-strong)' }}>
+                      <div className="flex items-center pl-3.5 pr-1 shrink-0 text-[var(--hz-ink-muted)] font-semibold text-[14px]" style={{ fontFamily: FONT_BODY }}>₹</div>
                       <input
                         id="bid-amount"
                         type="number"
@@ -367,7 +367,7 @@ function BidForm({
                         placeholder="e.g. 4200000"
                         aria-invalid={showError('amount')}
                         aria-describedby={showError('amount') ? 'bid-amount-error' : undefined}
-                        className="flex-1 h-full pr-3 text-[14px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
+                        className="flex-1 h-full pr-3 text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] bg-transparent outline-none border-none"
                         style={{ fontFamily: FONT_BODY }}
                       />
                     </div>
@@ -389,14 +389,14 @@ function BidForm({
                         placeholder="e.g. 12"
                         aria-invalid={showError('duration')}
                         aria-describedby={showError('duration') ? 'bid-duration-error' : undefined}
-                        className={['w-[84px] h-[44px] px-3 rounded-[10px] border bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', showError('duration') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                        className={['w-[84px] h-[44px] px-3 rounded-[10px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', showError('duration') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                         style={{ fontFamily: FONT_BODY }}
                       />
                       <select
                         aria-label="Duration unit"
                         value={values.durationUnit}
                         onChange={e => setValues(p => ({ ...p, durationUnit: e.target.value as BidDurationUnit }))}
-                        className="flex-1 h-[44px] px-3 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[14px] text-[#242326] outline-none transition-colors cursor-pointer"
+                        className="flex-1 h-[44px] px-3 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] outline-none transition-colors cursor-pointer"
                         style={{ fontFamily: FONT_BODY }}
                       >
                         {BID_DURATION_UNIT_OPTIONS.map(u => <option key={u} value={u}>{BID_DURATION_UNIT_LABELS[u]}</option>)}
@@ -417,7 +417,7 @@ function BidForm({
                     onBlur={() => markTouched('proposedStartDate')}
                     aria-invalid={showError('proposedStartDate')}
                     aria-describedby={showError('proposedStartDate') ? 'bid-start-date-error' : undefined}
-                    className={['w-full sm:w-[220px] h-[44px] px-3.5 rounded-[10px] border bg-white text-[13.5px] text-[#242326] outline-none transition-colors', showError('proposedStartDate') ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                    className={['w-full sm:w-[220px] h-[44px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] outline-none transition-colors', showError('proposedStartDate') ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                     style={{ fontFamily: FONT_BODY }}
                   />
                   {showError('proposedStartDate') && <FieldError id="bid-start-date-error" message={errors.proposedStartDate} />}
@@ -432,10 +432,10 @@ function BidForm({
                   placeholder="Explain your approach, experience and what you propose to deliver."
                   rows={4}
                   maxLength={PROPOSAL_MAX}
-                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
-                <div className="flex justify-end -mt-1"><span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{values.proposal.length}/{PROPOSAL_MAX}</span></div>
+                <div className="flex justify-end -mt-1"><span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{values.proposal.length}/{PROPOSAL_MAX}</span></div>
               </SectionCard>
 
               <SectionCard title="What's Included">
@@ -445,10 +445,10 @@ function BidForm({
                   placeholder="Materials, labour, site supervision, execution..."
                   rows={3}
                   maxLength={INCLUDED_MAX}
-                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
-                <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Descriptive information only — this isn&apos;t a BOQ.</p>
+                <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Descriptive information only — this isn&apos;t a BOQ.</p>
               </SectionCard>
 
               <SectionCard title="Exclusions / Notes">
@@ -458,7 +458,7 @@ function BidForm({
                   placeholder="Mention anything that is not included in your proposed price."
                   rows={3}
                   maxLength={EXCLUSIONS_MAX}
-                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                   style={{ fontFamily: FONT_BODY }}
                 />
               </SectionCard>
@@ -467,24 +467,24 @@ function BidForm({
                 {attachments.length > 0 && (
                   <div className="flex flex-col gap-2">
                     {attachments.map(doc => (
-                      <div key={doc.id} className="flex items-center gap-3 rounded-[10px] border border-[#E3DDD7] p-2.5">
-                        <span className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: '#F4F0EC', color: '#68636D' }}>{fileIcon(doc)}</span>
+                      <div key={doc.id} className="flex items-center gap-3 rounded-[10px] border border-[var(--hz-border)] p-2.5">
+                        <span className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink-muted)' }}>{fileIcon(doc)}</span>
                         <div className="flex flex-col min-w-0 flex-1">
-                          <span className="text-[12.5px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{doc.name}</span>
-                          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{DOCUMENT_TYPE_LABELS[doc.type]} · {formatFileSize(doc.size)}</span>
+                          <span className="text-[12.5px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{doc.name}</span>
+                          <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{DOCUMENT_TYPE_LABELS[doc.type]} · {formatFileSize(doc.size)}</span>
                         </div>
-                        <button type="button" onClick={() => removeAttachment(doc.id)} aria-label={`Remove ${doc.name}`} className="flex items-center justify-center w-7 h-7 rounded-full border border-[#E3DDD7] bg-white text-[#9A949D] hover:text-[#68636D] cursor-pointer shrink-0">
+                        <button type="button" onClick={() => removeAttachment(doc.id)} aria-label={`Remove ${doc.name}`} className="flex items-center justify-center w-7 h-7 rounded-full border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-subtle)] hover:text-[var(--hz-ink-muted)] cursor-pointer shrink-0">
                           <CloseIcon />
                         </button>
                       </div>
                     ))}
                   </div>
                 )}
-                <label htmlFor="bid-attachment-input" className="self-start flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border border-[#E3DDD7] bg-white text-[#722ED1] hover:border-[#722ED1] hover:bg-[#F3EAFF] transition-colors" style={{ fontFamily: FONT_BODY }}>
+                <label htmlFor="bid-attachment-input" className="self-start flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-primary)] hover:border-[var(--hz-primary)] hover:bg-[var(--hz-primary-soft)] transition-colors" style={{ fontFamily: FONT_BODY }}>
                   <UploadIcon /> Add supporting document
                 </label>
                 <input ref={fileInputRef} id="bid-attachment-input" type="file" multiple accept="application/pdf,image/jpeg,image/png,.dwg,.dxf" onChange={handleFilesSelected} className="sr-only" />
-                <p className="text-[11px] text-[#9A949D] m-0" style={{ fontFamily: FONT_BODY }}>Optional — PDF, JPG, PNG, DWG or DXF, up to 25 MB each.</p>
+                <p className="text-[11px] text-[var(--hz-ink-subtle)] m-0" style={{ fontFamily: FONT_BODY }}>Optional — PDF, JPG, PNG, DWG or DXF, up to 25 MB each.</p>
                 {attachmentError && <FieldError id="bid-attachment-error" message={attachmentError} />}
               </SectionCard>
             </div>
@@ -493,22 +493,22 @@ function BidForm({
             <div className="flex flex-col gap-5 order-2 lg:sticky lg:top-6">
 
               <SectionCard title="Project">
-                <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{opportunityTitle}</span>
-                <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                <span className="text-[14px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{opportunityTitle}</span>
+                <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                   <SummaryRow label="Budget" value={opportunityBudget ?? 'Not specified'} />
                   <SummaryRow label="Location" value={opportunityLocation} />
                 </div>
               </SectionCard>
 
               <SectionCard title="Your Bid">
-                <div className="flex flex-col divide-y divide-[#CAC7C6]">
+                <div className="flex flex-col divide-y divide-[var(--hz-border-strong)]">
                   <SummaryRow label="Bid amount" value={amountSummary} />
                   <SummaryRow label="Duration" value={durationSummary} />
                   <SummaryRow label="Start" value={values.proposedStartDate ? values.proposedStartDate : 'Not specified'} />
                 </div>
                 <div className="flex items-center gap-1.5 pt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#A1A1A1]" />
-                  <span className="text-[12px] font-semibold text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Draft</span>
+                  <span className="text-[12px] font-semibold text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Draft</span>
                 </div>
               </SectionCard>
 
@@ -517,7 +517,7 @@ function BidForm({
                 onClick={handleSubmit}
                 disabled={stage === 'submitting'}
                 aria-label="Submit bid"
-                className="hidden lg:flex items-center justify-center gap-2 h-[52px] text-[14px] font-semibold rounded-[12px] cursor-pointer border-0 bg-[#722ED1] text-white hover:brightness-90 active:scale-[0.99] transition-all disabled:opacity-70"
+                className="hidden lg:flex items-center justify-center gap-2 h-[52px] text-[14px] font-semibold rounded-[12px] cursor-pointer border-0 bg-[var(--hz-primary)] text-white hover:brightness-90 active:scale-[0.99] transition-all disabled:opacity-70"
                 style={{ fontFamily: FONT_BODY }}
               >
                 {stage === 'submitting' ? (
@@ -533,13 +533,13 @@ function BidForm({
       </main>
 
       {/* Mobile sticky submit */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-[#E3DDD7] px-5 py-3" style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.06)' }}>
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-5 py-3" style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.06)' }}>
         <button
           type="button"
           onClick={handleSubmit}
           disabled={stage === 'submitting'}
           aria-label="Submit bid"
-          className="w-full h-[48px] text-[13.5px] font-semibold rounded-[12px] cursor-pointer border-0 bg-[#722ED1] text-white flex items-center justify-center gap-2 disabled:opacity-70"
+          className="w-full h-[48px] text-[13.5px] font-semibold rounded-[12px] cursor-pointer border-0 bg-[var(--hz-primary)] text-white flex items-center justify-center gap-2 disabled:opacity-70"
           style={{ fontFamily: FONT_BODY }}
         >
           {stage === 'submitting' ? 'Submitting...' : 'Submit Bid →'}

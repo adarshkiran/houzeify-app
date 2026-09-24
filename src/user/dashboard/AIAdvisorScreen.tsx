@@ -142,7 +142,7 @@ const IcoArrow = () => (
   </svg>
 )
 const IcoCheck = () => (
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#722ED1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="var(--hz-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M2 6l3 3 5-5"/>
   </svg>
 )
@@ -172,8 +172,8 @@ function NavItem({ icon, label, active, onClick }: {
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
         active
-          ? 'bg-[#F3EAFF] text-[#722ED1]'
-          : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+          ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]'
+          : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -196,28 +196,28 @@ function NavItem({ icon, label, active, onClick }: {
 
 function AIAdvisorHeader({ onBack, onNew }: { onBack: () => void; onNew: () => void }) {
   return (
-    <header className="shrink-0 flex items-center justify-between px-4 sm:px-5 lg:px-8 bg-white border-b border-[#E3DDD7]" style={{ height: 64 }}>
+    <header className="shrink-0 flex items-center justify-between px-4 sm:px-5 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]" style={{ height: 64 }}>
       <div className="flex items-center gap-3 min-w-0">
         <button
           onClick={onBack}
           aria-label="Back to your dashboard"
-          className="w-9 h-9 shrink-0 rounded-[10px] flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer border-0 bg-transparent"
+          className="w-9 h-9 shrink-0 rounded-[10px] flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer border-0 bg-transparent"
         >
           <IcoBack />
         </button>
-        <div className="w-10 h-10 rounded-[12px] bg-[#F3EAFF] flex items-center justify-center shrink-0" style={{ boxShadow: '0 0 0 1px rgba(243,234,255,0.10)' }}>
+        <div className="w-10 h-10 rounded-[12px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0" style={{ boxShadow: '0 0 0 1px var(--hz-primary-soft)' }}>
           <HIcon size={26} />
         </div>
         <div className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-[15px] font-semibold text-[#242326] leading-none truncate" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hozie</span>
-          <span className="text-[11px] tracking-[0.08em] text-[#722ED1] leading-none" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI HOME ADVISOR</span>
+          <span className="text-[15px] font-semibold text-[var(--hz-ink)] leading-none truncate" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hozie</span>
+          <span className="text-[11px] tracking-[0.08em] text-[var(--hz-primary)] leading-none" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI HOME ADVISOR</span>
         </div>
       </div>
 
       <div className="flex items-center gap-2 shrink-0">
         <button
           onClick={onNew}
-          className="flex items-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer bg-transparent"
+          className="flex items-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)] transition-all cursor-pointer bg-transparent"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoPlus />
@@ -232,12 +232,12 @@ function AIAdvisorHeader({ onBack, onNew }: { onBack: () => void; onNew: () => v
 
 function ContextBar({ primaryLabel, locationLabel, intentLabel }: { primaryLabel: string; locationLabel?: string; intentLabel: string }) {
   return (
-    <div className="shrink-0 border-b border-[#E3DDD7] bg-[#FFFFFF] px-4 sm:px-5 lg:px-8 py-2.5 flex items-center gap-2 flex-wrap">
-      <span className="flex items-center gap-1.5 text-[12.5px] text-[#242326] font-medium" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+    <div className="shrink-0 border-b border-[var(--hz-border)] bg-[var(--hz-surface)] px-4 sm:px-5 lg:px-8 py-2.5 flex items-center gap-2 flex-wrap">
+      <span className="flex items-center gap-1.5 text-[12.5px] text-[var(--hz-ink)] font-medium" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         <IcoHomePin /> {primaryLabel}
-        {locationLabel && <span className="text-[#9A949D] font-normal"> · {locationLabel}</span>}
+        {locationLabel && <span className="text-[var(--hz-ink-subtle)] font-normal"> · {locationLabel}</span>}
       </span>
-      <span className="text-[11.5px] font-semibold text-[#722ED1] bg-[#F3EAFF] px-2.5 py-1 rounded-full" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <span className="text-[11.5px] font-semibold text-[var(--hz-primary)] bg-[var(--hz-primary-soft)] px-2.5 py-1 rounded-full" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         {intentLabel}
       </span>
     </div>
@@ -250,7 +250,7 @@ function SuggestedPrompt({ label, onClick }: { label: string; onClick: () => voi
   return (
     <button
       onClick={onClick}
-      className="text-left px-4 py-3 rounded-[12px] border border-[#E3DDD7] bg-white text-[13.5px] text-[#242326] hover:bg-[#F9F5FF] hover:border-[#722ED1] cursor-pointer transition-all outline-none"
+      className="text-left px-4 py-3 rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] hover:bg-[var(--hz-primary-wash)] hover:border-[var(--hz-primary)] cursor-pointer transition-all outline-none"
       style={{ fontFamily: '"Inter Variable", sans-serif', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
     >
       {label}
@@ -295,13 +295,13 @@ function HozieMessage({ content, actions, onAction }: {
 }) {
   return (
     <div className="flex gap-3 items-start" style={{ animation: 'welcomeFadeUp 0.35s ease-out both' }} role="group" aria-label="Hozie">
-      <div className="w-8 h-8 rounded-[10px] bg-[#F3EAFF] flex items-center justify-center shrink-0 mt-0.5" aria-hidden="true">
+      <div className="w-8 h-8 rounded-[10px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0 mt-0.5" aria-hidden="true">
         <HIcon size={20} />
       </div>
       <div className="flex flex-col gap-3 flex-1 min-w-0">
         <div className="flex flex-col gap-1.5">
           <span className="sr-only">Hozie:</span>
-          <div className="text-[15px] text-[#242326] leading-[1.7]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+          <div className="text-[15px] text-[var(--hz-ink)] leading-[1.7]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
             {renderMessageContent(content)}
           </div>
         </div>
@@ -311,7 +311,7 @@ function HozieMessage({ content, actions, onAction }: {
               <button
                 key={a.label}
                 onClick={() => onAction(a)}
-                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F3EAFF] hover:border-[#722ED1] hover:text-[#722ED1] transition-all cursor-pointer bg-white"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[var(--hz-border)] text-[12px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-primary-soft)] hover:border-[var(--hz-primary)] hover:text-[var(--hz-primary)] transition-all cursor-pointer bg-[var(--hz-surface)]"
                 style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 {a.label}
@@ -331,8 +331,8 @@ function UserMessage({ content }: { content: string }) {
     <div className="flex justify-end" style={{ animation: 'welcomeFadeUp 0.3s ease-out both' }}>
       <span className="sr-only">You:</span>
       <div
-        className="max-w-[75%] px-4 py-3 rounded-[16px] rounded-br-[4px] text-[14px] text-[#242326] leading-[1.65] whitespace-pre-wrap"
-        style={{ backgroundColor: '#F9F5FF', fontFamily: '"Inter Variable", sans-serif' }}
+        className="max-w-[75%] px-4 py-3 rounded-[16px] rounded-br-[4px] text-[14px] text-[var(--hz-ink)] leading-[1.65] whitespace-pre-wrap"
+        style={{ backgroundColor: 'var(--hz-primary-wash)', fontFamily: '"Inter Variable", sans-serif' }}
       >
         {content}
       </div>
@@ -345,14 +345,14 @@ function UserMessage({ content }: { content: string }) {
 function TypingIndicator() {
   return (
     <div className="flex gap-3 items-start" aria-live="polite">
-      <div className="w-8 h-8 rounded-[10px] bg-[#F3EAFF] flex items-center justify-center shrink-0 mt-0.5" style={{ animation: 'aiIconGlow 1.8s ease-in-out infinite' }} aria-hidden="true">
+      <div className="w-8 h-8 rounded-[10px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0 mt-0.5" style={{ animation: 'aiIconGlow 1.8s ease-in-out infinite' }} aria-hidden="true">
         <HIcon size={20} />
       </div>
-      <div className="flex items-center gap-2 py-2.5 px-4 rounded-[14px] bg-white border border-[#E3DDD7]">
+      <div className="flex items-center gap-2 py-2.5 px-4 rounded-[14px] bg-[var(--hz-surface)] border border-[var(--hz-border)]">
         {[0, 1, 2].map(i => (
-          <span key={i} className="w-2 h-2 rounded-full bg-[#722ED1] block" style={{ animation: `hozieStatusPulse 1.2s ease-in-out ${i * 0.18}s infinite` }} />
+          <span key={i} className="w-2 h-2 rounded-full bg-[var(--hz-primary)] block" style={{ animation: `hozieStatusPulse 1.2s ease-in-out ${i * 0.18}s infinite` }} />
         ))}
-        <span className="text-[12px] text-[#722ED1] ml-1" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie is thinking...</span>
+        <span className="text-[12px] text-[var(--hz-primary)] ml-1" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie is thinking...</span>
       </div>
     </div>
   )
@@ -366,13 +366,13 @@ function ErrorBubble({ onRetry }: { onRetry: () => void }) {
       <div className="w-8 h-8 rounded-[10px] bg-[#FEE2E2] flex items-center justify-center shrink-0 mt-0.5" aria-hidden="true">
         <HIcon size={20} />
       </div>
-      <div className="flex flex-col gap-2.5 py-2.5 px-4 rounded-[14px] bg-white border border-[#E3DDD7]">
-        <p className="m-0 text-[14px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+      <div className="flex flex-col gap-2.5 py-2.5 px-4 rounded-[14px] bg-[var(--hz-surface)] border border-[var(--hz-border)]">
+        <p className="m-0 text-[14px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           I couldn&apos;t complete that response.<br />Please try again.
         </p>
         <button
           onClick={onRetry}
-          className="self-start h-8 px-3 rounded-[8px] bg-[#722ED1] text-white text-[12px] font-medium cursor-pointer hover:brightness-90 border-0"
+          className="self-start h-8 px-3 rounded-[8px] bg-[var(--hz-primary)] text-white text-[12px] font-medium cursor-pointer hover:brightness-90 border-0"
           style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Try again
@@ -398,9 +398,9 @@ function ChatComposer({ value, onChange, onSubmit, onAttach, disabled }: {
     }
   }
   return (
-    <div className="shrink-0 flex flex-col gap-2 px-4 pb-4 pt-3 bg-gradient-to-t from-[#FFFFFF] via-[#FFFFFF] to-transparent" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
+    <div className="shrink-0 flex flex-col gap-2 px-4 pb-4 pt-3 bg-gradient-to-t from-[var(--hz-surface)] via-[var(--hz-surface)] to-transparent" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
       <div
-        className="flex items-end gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-4 py-2.5 focus-within:border-[#722ED1] focus-within:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all"
+        className="flex items-end gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-4 py-2.5 focus-within:border-[var(--hz-primary)] focus-within:shadow-[0_0_0_3px_color-mix(in oklch, var(--hz-primary) 14%, transparent)] transition-all"
         style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.06)', minHeight: 56 }}
       >
         <div className="shrink-0 flex items-center justify-center opacity-50 h-9">
@@ -410,7 +410,7 @@ function ChatComposer({ value, onChange, onSubmit, onAttach, disabled }: {
           rows={1}
           placeholder="Ask Hozie anything about your home..."
           aria-label="Ask Hozie anything about your home"
-          className="flex-1 bg-transparent outline-none resize-none text-[14px] text-[#242326] placeholder-[#9A949D] py-2 leading-[1.5]"
+          className="flex-1 bg-transparent outline-none resize-none text-[14px] text-[var(--hz-ink)] placeholder-[var(--hz-ink-subtle)] py-2 leading-[1.5]"
           style={{ fontFamily: '"Inter Variable", sans-serif', maxHeight: 120 }}
           value={value}
           onChange={e => onChange(e.target.value)}
@@ -423,7 +423,7 @@ function ChatComposer({ value, onChange, onSubmit, onAttach, disabled }: {
               onClick={onAttach}
               aria-label="Upload your house plan"
               title="Upload plan"
-              className="w-8 h-8 flex items-center justify-center rounded-[8px] text-[#9A949D] hover:text-[#68636D] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent"
+              className="w-8 h-8 flex items-center justify-center rounded-[8px] text-[var(--hz-ink-subtle)] hover:text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] transition-all cursor-pointer border-0 bg-transparent"
             >
               <IcoAttachment />
             </button>
@@ -435,15 +435,15 @@ function ChatComposer({ value, onChange, onSubmit, onAttach, disabled }: {
             className={[
               'w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 transition-all duration-150 border-0',
               value.trim() && !disabled
-                ? 'bg-[#722ED1] cursor-pointer hover:brightness-90 active:scale-95'
-                : 'bg-[#F4F0EC] cursor-not-allowed',
+                ? 'bg-[var(--hz-primary)] cursor-pointer hover:brightness-90 active:scale-95'
+                : 'bg-[var(--hz-surface-muted)] cursor-not-allowed',
             ].join(' ')}
           >
             <IcoSend />
           </button>
         </div>
       </div>
-      <p className="text-center text-[11.5px] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+      <p className="text-center text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
         Hozie can make mistakes. Review important estimates before making decisions.
       </p>
     </div>
@@ -455,24 +455,24 @@ function ChatComposer({ value, onChange, onSubmit, onAttach, disabled }: {
 function NewConversationModal({ onConfirm, onCancel }: { onConfirm: () => void; onCancel: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-5" style={{ backgroundColor: 'rgba(36,35,38,0.4)' }} role="dialog" aria-modal="true" aria-labelledby="new-convo-title">
-      <div className="w-full max-w-[380px] bg-white rounded-[18px] p-6 flex flex-col gap-4" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
-        <h3 id="new-convo-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+      <div className="w-full max-w-[380px] bg-[var(--hz-surface)] rounded-[18px] p-6 flex flex-col gap-4" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
+        <h3 id="new-convo-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Start a new conversation?
         </h3>
-        <p className="text-[13.5px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+        <p className="text-[13.5px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           Starting a new conversation won&apos;t affect your projects or data.
         </p>
         <div className="flex gap-2.5 justify-end mt-1">
           <button
             onClick={onCancel}
-            className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] bg-white text-[#68636D] text-[13px] font-medium cursor-pointer hover:bg-[#F4F0EC] transition-all"
+            className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] text-[13px] font-medium cursor-pointer hover:bg-[var(--hz-surface-muted)] transition-all"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="h-10 px-4 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0"
+            className="h-10 px-4 rounded-[10px] bg-[var(--hz-primary)] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0"
             style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Start new
@@ -498,19 +498,19 @@ function RightContextPanel({
   ].filter((x): x is string => Boolean(x))
 
   return (
-    <aside className="hidden xl:flex flex-col shrink-0 overflow-y-auto gap-4 p-4 border-l border-[#E3DDD7] bg-white" style={{ width: 296, scrollbarWidth: 'none' }}>
+    <aside className="hidden xl:flex flex-col shrink-0 overflow-y-auto gap-4 p-4 border-l border-[var(--hz-border)] bg-[var(--hz-surface)]" style={{ width: 296, scrollbarWidth: 'none' }}>
       <div className="flex flex-col gap-3">
-        <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+        <span className="text-[12px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
           Project Context
         </span>
-        <div className="rounded-[14px] border border-[#E3DDD7] bg-[#FFFFFF] overflow-hidden">
-          <div className="px-4 py-3 border-b border-[#E3DDD7]">
-            <span className="text-[12px] tracking-[0.06em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+        <div className="rounded-[14px] border border-[var(--hz-border)] bg-[var(--hz-surface)] overflow-hidden">
+          <div className="px-4 py-3 border-b border-[var(--hz-border)]">
+            <span className="text-[12px] tracking-[0.06em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
               {state.hasProject ? 'Current Project' : 'Status'}
             </span>
           </div>
           <div className="px-4 py-3.5 flex flex-col gap-2.5">
-            <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+            <p className="text-[14px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
               {state.hasProject ? state.projectName : 'No project yet'}
             </p>
             {[
@@ -518,9 +518,9 @@ function RightContextPanel({
               state.hasProject ? ['Status', projectStageLabel(state.projectStage) ?? '—'] : null,
             ].filter((r): r is [string, string] => Boolean(r)).map(([k, v]) => (
               <div key={k} className="flex items-center justify-between gap-2">
-                <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{k}</span>
+                <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{k}</span>
                 <span
-                  className={k === 'Status' ? 'text-[11px] text-[#722ED1] bg-[#F3EAFF] px-2 py-0.5 rounded-full font-medium' : 'text-[11px] text-[#242326]'}
+                  className={k === 'Status' ? 'text-[11px] text-[var(--hz-primary)] bg-[var(--hz-primary-soft)] px-2 py-0.5 rounded-full font-medium' : 'text-[11px] text-[var(--hz-ink)]'}
                   style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   {v}
@@ -532,12 +532,12 @@ function RightContextPanel({
       </div>
 
       <div className="flex flex-col gap-2.5">
-        <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Knows</span>
+        <span className="text-[12px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Knows</span>
         <div className="flex flex-col gap-2">
           {known.map(item => (
             <div key={item} className="flex items-center gap-2.5">
-              <div className="w-5 h-5 rounded-full bg-[#F3EAFF] flex items-center justify-center shrink-0"><IcoCheck /></div>
-              <span className="text-[12px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item}</span>
+              <div className="w-5 h-5 rounded-full bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><IcoCheck /></div>
+              <span className="text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item}</span>
             </div>
           ))}
         </div>
@@ -550,15 +550,15 @@ function RightContextPanel({
 
 function MobileTopBar({ onBack, onNew }: { onBack: () => void; onNew: () => void }) {
   return (
-    <div className="flex md:hidden h-14 items-center justify-between px-3 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
+    <div className="flex md:hidden h-14 items-center justify-between px-3 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
       <div className="flex items-center gap-1.5 min-w-0">
-        <button onClick={onBack} aria-label="Back to your dashboard" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer shrink-0">
+        <button onClick={onBack} aria-label="Back to your dashboard" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer shrink-0">
           <IcoBack />
         </button>
-        <div className="w-8 h-8 rounded-[10px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={22} /></div>
-        <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hozie</span>
+        <div className="w-8 h-8 rounded-[10px] bg-[var(--hz-primary-soft)] flex items-center justify-center shrink-0"><HIcon size={22} /></div>
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hozie</span>
       </div>
-      <button onClick={onNew} aria-label="New conversation" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer shrink-0"><IcoPlus /></button>
+      <button onClick={onNew} aria-label="New conversation" className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] border-0 bg-transparent cursor-pointer shrink-0"><IcoPlus /></button>
     </div>
   )
 }
@@ -711,7 +711,7 @@ export default function AIAdvisorScreen({
   const suggestions = SUGGESTED_QUESTIONS[resolvedIntent]
 
   return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       <MobileTopBar onBack={() => onNavigate(homeRoute)} onNew={handleNewClick} />
 
@@ -732,17 +732,17 @@ export default function AIAdvisorScreen({
                 <div className="max-w-[900px] mx-auto px-4 pt-8 pb-4 flex flex-col gap-6">
                   {messages.length === 0 && (
                     <div className="flex flex-col items-center text-center gap-5 py-6" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
-                      <div className="w-12 h-12 rounded-[14px] bg-[#F3EAFF] flex items-center justify-center" aria-hidden="true">
+                      <div className="w-12 h-12 rounded-[14px] bg-[var(--hz-primary-soft)] flex items-center justify-center" aria-hidden="true">
                         <HIcon size={28} />
                       </div>
                       <div className="flex flex-col gap-2 max-w-[440px]">
-                        <h2 className="text-[24px] sm:text-[26px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
+                        <h2 className="text-[24px] sm:text-[26px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                           Hi, I&apos;m Hozie.
                         </h2>
-                        <p className="text-[14.5px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                        <p className="text-[14.5px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           Your AI advisor for everything home and construction.
                         </p>
-                        <p className="text-[13.5px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
+                        <p className="text-[13.5px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           Ask me about costs, plans, materials, contractors, services or your next step.
                         </p>
                       </div>

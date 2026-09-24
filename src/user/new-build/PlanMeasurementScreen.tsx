@@ -189,7 +189,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -208,9 +208,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
-    <div className={['bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <div className={['bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -219,10 +219,10 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 }
 
 const STATUS_STYLES: Record<MeasurementStatus, { bg: string; color: string; dot: string }> = {
-  confirmed: { bg: '#DCFCE7', color: '#16A34A', dot: '#16A34A' },
+  confirmed: { bg: '#DCFCE7', color: 'var(--hz-success)', dot: 'var(--hz-success)' },
   'needs-review': { bg: '#FEF3C7', color: '#D97706', dot: '#D97706' },
-  'user-adjusted': { bg: '#F3EAFF', color: '#722ED1', dot: '#722ED1' },
-  unavailable: { bg: '#CAC7C6', color: '#9A949D', dot: '#A1A1A1' },
+  'user-adjusted': { bg: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', dot: 'var(--hz-primary)' },
+  unavailable: { bg: 'var(--hz-border-strong)', color: 'var(--hz-ink-subtle)', dot: '#A1A1A1' },
 }
 
 function StatusBadge({ status }: { status: MeasurementStatus }) {
@@ -240,8 +240,8 @@ function StatusBadge({ status }: { status: MeasurementStatus }) {
 
 function SourceLevelBadge({ level }: { level: 'ai-measured' | 'user-verified' }) {
   const style = level === 'ai-measured'
-    ? { bg: '#CAC7C6', color: '#68636D', label: 'AI Measured' }
-    : { bg: '#DCFCE7', color: '#16A34A', label: 'User Verified' }
+    ? { bg: 'var(--hz-border-strong)', color: 'var(--hz-ink-muted)', label: 'AI Measured' }
+    : { bg: '#DCFCE7', color: 'var(--hz-success)', label: 'User Verified' }
   return (
     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-[0.05em]" style={{ backgroundColor: style.bg, color: style.color, fontFamily: FONT_MONO }}>
       {style.label}
@@ -253,11 +253,11 @@ function ProgressStat({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{label}</span>
-        <span className="text-[12px] font-semibold" style={{ color: '#722ED1', fontFamily: FONT_MONO }}>{value}%</span>
+        <span className="text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+        <span className="text-[12px] font-semibold" style={{ color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>{value}%</span>
       </div>
-      <div className="h-1.5 w-full bg-[#F4F0EC] rounded-full overflow-hidden">
-        <div className="h-full bg-[#722ED1] rounded-full" style={{ width: `${value}%` }} />
+      <div className="h-1.5 w-full bg-[var(--hz-surface-muted)] rounded-full overflow-hidden">
+        <div className="h-full bg-[var(--hz-primary)] rounded-full" style={{ width: `${value}%` }} />
       </div>
     </div>
   )
@@ -267,12 +267,12 @@ function ProgressStat({ label, value }: { label: string; value: number }) {
 
 function MeasurementMetric({ icon, eyebrow, value, sub, className }: { icon: React.ReactNode; eyebrow: string; value: string; sub?: React.ReactNode; className?: string }) {
   return (
-    <div className={['bg-white rounded-[16px] border border-[#E3DDD7] p-4 sm:p-5 flex flex-col gap-2', className].filter(Boolean).join(' ')}>
+    <div className={['bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-4 sm:p-5 flex flex-col gap-2', className].filter(Boolean).join(' ')}>
       <div className="flex items-center gap-2">
-        <span style={{ color: '#722ED1' }}>{icon}</span>
-        <span className="text-[10px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span style={{ color: 'var(--hz-primary)' }}>{icon}</span>
+        <span className="text-[10px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
       </div>
-      <span className="text-[22px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>{value}</span>
+      <span className="text-[22px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>{value}</span>
       {sub}
     </div>
   )
@@ -289,7 +289,7 @@ function MeasurementSummary({ result }: { result: PlanMeasurementResult }) {
         sub={<span className="text-[11px] text-[#D97706]" style={{ fontFamily: FONT_BODY }}>+{deltaValue} sq ft vs current</span>}
         className="col-span-2 lg:col-span-1"
       />
-      <MeasurementMetric icon={<IcoFloors />} eyebrow="Floors" value={result.floorCount} sub={<span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{result.floorCountNumber} floors</span>} />
+      <MeasurementMetric icon={<IcoFloors />} eyebrow="Floors" value={result.floorCount} sub={<span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{result.floorCountNumber} floors</span>} />
       <MeasurementMetric icon={<IcoBed />} eyebrow="Bedrooms" value={String(result.bedroomCount)} />
       <MeasurementMetric icon={<IcoBath />} eyebrow="Bathrooms" value={String(result.bathroomCount)} />
       <MeasurementMetric icon={<IcoLayers />} eyebrow="Rooms Measured" value={String(result.rooms.length)} />
@@ -319,19 +319,19 @@ function MeasurementViewer({ result, selectedRoomId, onSelectRoom, className }: 
   const roomsWithBox = result.rooms.filter(r => r.boundingBox)
 
   return (
-    <div className={['w-full bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <div className={['w-full bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Measurement Viewer</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Measurement Viewer</span>
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center rounded-[10px] border border-[#E3DDD7] overflow-hidden">
-            <button aria-label="Zoom out" onClick={zoomOut} className="w-8 h-8 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoZoomOut /></button>
-            <span className="text-[11px] px-2 min-w-[38px] text-center text-[#68636D]" style={{ fontFamily: FONT_MONO }}>{zoom}%</span>
-            <button aria-label="Zoom in" onClick={zoomIn} className="w-8 h-8 flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoZoomIn /></button>
+          <div className="flex items-center rounded-[10px] border border-[var(--hz-border)] overflow-hidden">
+            <button aria-label="Zoom out" onClick={zoomOut} className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoZoomOut /></button>
+            <span className="text-[11px] px-2 min-w-[38px] text-center text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_MONO }}>{zoom}%</span>
+            <button aria-label="Zoom in" onClick={zoomIn} className="w-8 h-8 flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoZoomIn /></button>
           </div>
-          <button aria-label="Fit to screen" onClick={fit} className="h-8 px-2.5 rounded-[10px] border border-[#E3DDD7] flex items-center gap-1.5 text-[11px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
+          <button aria-label="Fit to screen" onClick={fit} className="h-8 px-2.5 rounded-[10px] border border-[var(--hz-border)] flex items-center gap-1.5 text-[11px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
             <IcoFit /> Fit
           </button>
-          <button aria-label="Reset view" onClick={reset} className="h-8 px-2.5 rounded-[10px] border border-[#E3DDD7] flex items-center gap-1.5 text-[11px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
+          <button aria-label="Reset view" onClick={reset} className="h-8 px-2.5 rounded-[10px] border border-[var(--hz-border)] flex items-center gap-1.5 text-[11px] text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer bg-transparent transition-colors" style={{ fontFamily: FONT_BODY }}>
             <IcoReset /> Reset
           </button>
         </div>
@@ -344,17 +344,17 @@ function MeasurementViewer({ result, selectedRoomId, onSelectRoom, className }: 
           { key: 'labels', label: 'Show room labels', value: showLabels, set: setShowLabels },
         ].map(t => (
           <button key={t.key} role="switch" aria-checked={t.value} onClick={() => t.set(v => !v)} className="inline-flex items-center gap-2 cursor-pointer border-0 bg-transparent p-0">
-            <span className="relative rounded-full transition-colors shrink-0" style={{ width: 30, height: 18, backgroundColor: t.value ? '#722ED1' : '#CAC7C6' }}>
-              <span className="absolute top-[2px] w-3.5 h-3.5 rounded-full bg-white transition-all" style={{ left: t.value ? 14 : 2, boxShadow: '0 1px 2px rgba(0,0,0,0.2)' }} />
+            <span className="relative rounded-full transition-colors shrink-0" style={{ width: 30, height: 18, backgroundColor: t.value ? 'var(--hz-primary)' : 'var(--hz-border-strong)' }}>
+              <span className="absolute top-[2px] w-3.5 h-3.5 rounded-full bg-[var(--hz-surface)] transition-all" style={{ left: t.value ? 14 : 2, boxShadow: '0 1px 2px rgba(0,0,0,0.2)' }} />
             </span>
-            <span className="text-[12px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{t.label}</span>
+            <span className="text-[12px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{t.label}</span>
           </button>
         ))}
       </div>
 
-      <div ref={viewerRef} className="rounded-[12px] border border-[#E3DDD7] overflow-auto" style={{ height: 500, backgroundColor: '#FFFFFF' }}>
+      <div ref={viewerRef} className="rounded-[12px] border border-[var(--hz-border)] overflow-auto" style={{ height: 500, backgroundColor: 'var(--hz-surface)' }}>
         <div style={{ width: `${zoom}%`, minWidth: 320, padding: 16 }}>
-          <div className="relative w-full" style={{ aspectRatio: '7 / 5', backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7', borderRadius: 8 }}>
+          <div className="relative w-full" style={{ aspectRatio: '7 / 5', backgroundColor: 'var(--hz-surface)', border: '1px solid var(--hz-border)', borderRadius: 8 }}>
             {roomsWithBox.map(r => {
               const box = r.boundingBox!
               const isSelected = r.roomId === selectedRoomId
@@ -367,25 +367,25 @@ function MeasurementViewer({ result, selectedRoomId, onSelectRoom, className }: 
                   className="absolute flex flex-col items-start justify-end text-left cursor-pointer border-0 p-0"
                   style={{
                     left: `${box.x * 100}%`, top: `${box.y * 100}%`, width: `${box.width * 100}%`, height: `${box.height * 100}%`,
-                    border: isSelected ? '2px solid #722ED1' : '1px solid #CAC7C6',
+                    border: isSelected ? '2px solid var(--hz-primary)' : '1px solid var(--hz-border-strong)',
                     borderRadius: 4,
-                    backgroundColor: isSelected ? 'rgba(243,234,255,0.10)' : 'rgba(243,234,255,0.04)',
+                    backgroundColor: isSelected ? 'var(--hz-primary-soft)' : 'rgba(243,234,255,0.04)',
                     transition: 'all 0.15s ease',
                   }}
                 >
                   <span className="m-1 flex flex-col gap-0.5 max-w-full">
                     {showLabels && (
-                      <span className="inline-block px-1.5 py-0.5 rounded-[6px] text-[9px] font-semibold uppercase leading-tight truncate max-w-full" style={{ backgroundColor: 'rgba(255,255,255,0.94)', color: '#242326', fontFamily: FONT_MONO }}>
+                      <span className="inline-block px-1.5 py-0.5 rounded-[6px] text-[9px] font-semibold uppercase leading-tight truncate max-w-full" style={{ backgroundColor: 'rgba(255,255,255,0.94)', color: 'var(--hz-ink)', fontFamily: FONT_MONO }}>
                         {r.name}
                       </span>
                     )}
                     {showDimensions && (
-                      <span className="inline-block px-1.5 py-0.5 rounded-[6px] text-[9px] leading-tight truncate max-w-full" style={{ backgroundColor: 'rgba(255,255,255,0.9)', color: '#68636D', fontFamily: FONT_BODY }}>
+                      <span className="inline-block px-1.5 py-0.5 rounded-[6px] text-[9px] leading-tight truncate max-w-full" style={{ backgroundColor: 'rgba(255,255,255,0.9)', color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
                         {r.length} × {r.width} ft
                       </span>
                     )}
                     {showAreas && (
-                      <span className="inline-block px-1.5 py-0.5 rounded-[6px] text-[9px] leading-tight truncate max-w-full" style={{ backgroundColor: 'rgba(255,255,255,0.9)', color: '#722ED1', fontFamily: FONT_BODY }}>
+                      <span className="inline-block px-1.5 py-0.5 rounded-[6px] text-[9px] leading-tight truncate max-w-full" style={{ backgroundColor: 'rgba(255,255,255,0.9)', color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                         {r.area} sq ft
                       </span>
                     )}
@@ -396,7 +396,7 @@ function MeasurementViewer({ result, selectedRoomId, onSelectRoom, className }: 
           </div>
         </div>
       </div>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
         Schematic representation with measurement overlays — the underlying drawing is never redrawn or altered. Click a room to select it.
       </p>
     </div>
@@ -434,63 +434,63 @@ function BuiltUpAreaCard({ result, confirmed, onConfirm, adjustment, onAdjust, c
       className={className}
     >
       <div className="flex flex-col gap-1">
-        <span className="text-[26px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>{displayValue.toLocaleString('en-IN')} sq ft</span>
+        <span className="text-[26px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>{displayValue.toLocaleString('en-IN')} sq ft</span>
         {adjustment && (
-          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>AI measured: {result.builtUpArea.value.toLocaleString('en-IN')} sq ft</span>
+          <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>AI measured: {result.builtUpArea.value.toLocaleString('en-IN')} sq ft</span>
         )}
       </div>
       <div className="flex flex-col gap-1.5 text-[12px]" style={{ fontFamily: FONT_BODY }}>
-        <div className="flex items-center justify-between"><span className="text-[#68636D]">Current project</span><span className="text-[#242326] font-medium">{result.currentProjectAreaSqft.toLocaleString('en-IN')} sq ft</span></div>
-        <div className="flex items-center justify-between"><span className="text-[#68636D]">Difference</span><span className="font-semibold" style={{ color: '#D97706' }}>+{deltaValue} sq ft · +{deltaPct}%</span></div>
-        <div className="flex items-center justify-between"><span className="text-[#68636D]">Confidence</span><span className="text-[#242326] font-medium">{result.builtUpArea.confidence}% · {confidenceLabel(result.builtUpArea.confidence)}</span></div>
+        <div className="flex items-center justify-between"><span className="text-[var(--hz-ink-muted)]">Current project</span><span className="text-[var(--hz-ink)] font-medium">{result.currentProjectAreaSqft.toLocaleString('en-IN')} sq ft</span></div>
+        <div className="flex items-center justify-between"><span className="text-[var(--hz-ink-muted)]">Difference</span><span className="font-semibold" style={{ color: '#D97706' }}>+{deltaValue} sq ft · +{deltaPct}%</span></div>
+        <div className="flex items-center justify-between"><span className="text-[var(--hz-ink-muted)]">Confidence</span><span className="text-[var(--hz-ink)] font-medium">{result.builtUpArea.confidence}% · {confidenceLabel(result.builtUpArea.confidence)}</span></div>
       </div>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Basis: Detected external plan boundary and available dimensions.</p>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Basis: Detected external plan boundary and available dimensions.</p>
       <div className="flex items-center gap-2">
         <StatusBadge status={status} />
       </div>
 
       {adjusting ? (
-        <div className="flex flex-col gap-2.5 pt-1 border-t border-[#FFFFFF]">
+        <div className="flex flex-col gap-2.5 pt-1 border-t border-[var(--hz-surface)]">
           <label className="flex flex-col gap-1">
-            <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Built-up area (sq ft)</span>
+            <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Built-up area (sq ft)</span>
             <input
               type="number"
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}
-              className="h-9 px-2.5 rounded-[8px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] outline-none focus:border-[#722ED1] transition-colors"
+              className="h-9 px-2.5 rounded-[8px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13px] text-[var(--hz-ink)] outline-none focus:border-[var(--hz-primary)] transition-colors"
               style={{ fontFamily: FONT_BODY }}
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Reason (optional)</span>
+            <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Reason (optional)</span>
             <input
               type="text"
               value={inputReason}
               onChange={e => setInputReason(e.target.value)}
               placeholder="e.g. Measured on-site"
-              className="h-9 px-2.5 rounded-[8px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] outline-none focus:border-[#722ED1] transition-colors placeholder:text-[#9A949D]"
+              className="h-9 px-2.5 rounded-[8px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13px] text-[var(--hz-ink)] outline-none focus:border-[var(--hz-primary)] transition-colors placeholder:text-[var(--hz-ink-subtle)]"
               style={{ fontFamily: FONT_BODY }}
             />
           </label>
           <div className="flex gap-2">
-            <button onClick={() => setAdjusting(false)} className="h-9 px-3.5 rounded-[8px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-            <button onClick={submit} className="h-9 px-3.5 rounded-[8px] text-[12px] font-semibold text-white cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Save adjustment</button>
+            <button onClick={() => setAdjusting(false)} className="h-9 px-3.5 rounded-[8px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+            <button onClick={submit} className="h-9 px-3.5 rounded-[8px] text-[12px] font-semibold text-white cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Save adjustment</button>
           </div>
         </div>
       ) : (
         <div className="flex flex-wrap gap-2 pt-1">
           {!confirmed && !adjustment && (
-            <button onClick={onConfirm} className="h-9 px-4 rounded-[10px] text-[12px] font-semibold cursor-pointer border-0 text-white hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+            <button onClick={onConfirm} className="h-9 px-4 rounded-[10px] text-[12px] font-semibold cursor-pointer border-0 text-white hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
               Confirm area
             </button>
           )}
-          <button onClick={() => { setAdjusting(true); setInputValue(String(displayValue)) }} className="h-9 px-4 rounded-[10px] text-[12px] font-medium cursor-pointer border border-[#E3DDD7] bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ color: '#242326', fontFamily: FONT_BODY }}>
+          <button onClick={() => { setAdjusting(true); setInputValue(String(displayValue)) }} className="h-9 px-4 rounded-[10px] text-[12px] font-medium cursor-pointer border border-[var(--hz-border)] bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>
             Adjust measurement
           </button>
         </div>
       )}
       {!adjusting && (confirmed || adjustment) && (
-        <p className="text-[11px] leading-[1.6] m-0" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
+        <p className="text-[11px] leading-[1.6] m-0" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
           {adjustment ? "Your value is saved locally — nothing in your project has changed yet." : "Marked as reviewed — this doesn't change your project area yet."}
         </p>
       )}
@@ -504,21 +504,21 @@ function FloorBreakdown({ result, className }: { result: PlanMeasurementResult; 
   return (
     <SectionCard eyebrow="Floor Area" className={className}>
       {!result.floorAreasAvailable || result.floorAreas.length === 0 ? (
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Floor-level measurement unavailable from this drawing.</p>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Floor-level measurement unavailable from this drawing.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {result.floorAreas.map(f => (
             <div key={f.id} className="flex flex-col gap-1.5">
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{f.label}</span>
+                <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{f.label}</span>
                 {f.status === 'needs-review' && <StatusBadge status="needs-review" />}
               </div>
-              <span className="text-[20px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>{f.value.toLocaleString('en-IN')} sq ft</span>
+              <span className="text-[20px] font-semibold text-[var(--hz-ink)] leading-none" style={{ fontFamily: FONT_HEAD }}>{f.value.toLocaleString('en-IN')} sq ft</span>
             </div>
           ))}
-          <div className="flex flex-col gap-1.5 sm:border-l sm:border-[#FFFFFF] sm:pl-4">
-            <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Total</span>
-            <span className="text-[20px] font-semibold text-[#722ED1] leading-none" style={{ fontFamily: FONT_HEAD }}>{result.builtUpArea.value.toLocaleString('en-IN')} sq ft</span>
+          <div className="flex flex-col gap-1.5 sm:border-l sm:border-[var(--hz-surface)] sm:pl-4">
+            <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Total</span>
+            <span className="text-[20px] font-semibold text-[var(--hz-primary)] leading-none" style={{ fontFamily: FONT_HEAD }}>{result.builtUpArea.value.toLocaleString('en-IN')} sq ft</span>
           </div>
         </div>
       )}
@@ -540,9 +540,9 @@ function RoomMeasurementTable({ rooms, selectedRoomId, onSelectRoom, className }
       <div className="hidden lg:block overflow-x-auto">
         <table className="w-full border-collapse" style={{ fontFamily: FONT_BODY }}>
           <thead>
-            <tr className="border-b border-[#E3DDD7]">
+            <tr className="border-b border-[var(--hz-border)]">
               {['Room', 'Floor', 'Dimensions', 'Area', 'Confidence', 'Status'].map(h => (
-                <th key={h} className="text-left py-2 px-2 text-[10px] uppercase tracking-[0.06em] text-[#9A949D] font-medium" style={{ fontFamily: FONT_MONO }}>{h}</th>
+                <th key={h} className="text-left py-2 px-2 text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)] font-medium" style={{ fontFamily: FONT_MONO }}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -550,16 +550,16 @@ function RoomMeasurementTable({ rooms, selectedRoomId, onSelectRoom, className }
             {rooms.map(r => {
               const isSelected = r.roomId === selectedRoomId
               return (
-                <tr key={r.id} style={{ backgroundColor: isSelected ? '#F9F5FF' : undefined }} className="border-b border-[#FFFFFF] transition-colors hover:bg-[#FFFFFF]">
+                <tr key={r.id} style={{ backgroundColor: isSelected ? 'var(--hz-primary-wash)' : undefined }} className="border-b border-[var(--hz-surface)] transition-colors hover:bg-[var(--hz-surface)]">
                   <td className="py-2.5 px-2">
-                    <button onClick={() => onSelectRoom(r.roomId)} aria-pressed={isSelected} className="text-[13px] font-medium text-left cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#242326', fontFamily: FONT_BODY }}>
+                    <button onClick={() => onSelectRoom(r.roomId)} aria-pressed={isSelected} className="text-[13px] font-medium text-left cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>
                       {r.name}
                     </button>
                   </td>
-                  <td className="py-2.5 px-2 text-[13px] text-[#68636D]">{r.floor}</td>
-                  <td className="py-2.5 px-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_MONO }}>{r.length} × {r.width} ft</td>
-                  <td className="py-2.5 px-2 text-[13px] text-[#242326]" style={{ fontFamily: FONT_MONO }}>{r.area} sq ft</td>
-                  <td className="py-2.5 px-2 text-[13px] text-[#242326]">{r.confidence}% · {confidenceLabel(r.confidence)}</td>
+                  <td className="py-2.5 px-2 text-[13px] text-[var(--hz-ink-muted)]">{r.floor}</td>
+                  <td className="py-2.5 px-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_MONO }}>{r.length} × {r.width} ft</td>
+                  <td className="py-2.5 px-2 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_MONO }}>{r.area} sq ft</td>
+                  <td className="py-2.5 px-2 text-[13px] text-[var(--hz-ink)]">{r.confidence}% · {confidenceLabel(r.confidence)}</td>
                   <td className="py-2.5 px-2"><StatusBadge status={r.status} /></td>
                 </tr>
               )
@@ -578,17 +578,17 @@ function RoomMeasurementTable({ rooms, selectedRoomId, onSelectRoom, className }
               onClick={() => onSelectRoom(r.roomId)}
               aria-pressed={isSelected}
               className="flex flex-col gap-2 rounded-[12px] p-3.5 text-left cursor-pointer border transition-colors"
-              style={{ borderColor: isSelected ? '#722ED1' : '#CAC7C6', backgroundColor: isSelected ? '#F9F5FF' : '#FFFFFF' }}
+              style={{ borderColor: isSelected ? 'var(--hz-primary)' : 'var(--hz-border-strong)', backgroundColor: isSelected ? 'var(--hz-primary-wash)' : 'var(--hz-surface)' }}
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>{r.name}</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{r.name}</span>
                 <StatusBadge status={r.status} />
               </div>
-              <div className="flex items-center justify-between gap-2 text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+              <div className="flex items-center justify-between gap-2 text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                 <span>{r.floor} · {r.length} × {r.width} ft</span>
                 <span style={{ fontFamily: FONT_MONO }}>{r.area} sq ft</span>
               </div>
-              <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{r.confidence}% confidence · {confidenceLabel(r.confidence)}</span>
+              <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{r.confidence}% confidence · {confidenceLabel(r.confidence)}</span>
             </button>
           )
         })}
@@ -607,35 +607,35 @@ function RoomDetailPanel({ room, onViewOnPlan, onMarkForReview, className }: {
 }) {
   return (
     <SectionCard eyebrow="Selected Room" tag={<StatusBadge status={room.status} />} className={className}>
-      <span className="text-[18px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{room.name}</span>
+      <span className="text-[18px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{room.name}</span>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Floor</span>
-          <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{room.floor}</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Floor</span>
+          <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{room.floor}</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Dimensions</span>
-          <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_MONO }}>{room.length} × {room.width} ft</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Dimensions</span>
+          <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_MONO }}>{room.length} × {room.width} ft</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Area</span>
-          <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_MONO }}>{room.area} sq ft</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Area</span>
+          <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_MONO }}>{room.area} sq ft</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Confidence</span>
-          <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{room.confidence}%</span>
+          <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Confidence</span>
+          <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{room.confidence}%</span>
         </div>
       </div>
-      <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[12px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
         Measurement source: Dimension labels detected from drawing.
         {room.reviewReason && <span> {room.reviewReason}</span>}
       </p>
       <div className="flex flex-wrap gap-2.5">
-        <button onClick={onViewOnPlan} className="h-9 px-4 rounded-[10px] text-[12px] font-semibold cursor-pointer border-0 text-white hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onViewOnPlan} className="h-9 px-4 rounded-[10px] text-[12px] font-semibold cursor-pointer border-0 text-white hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           View on plan
         </button>
         {room.status !== 'needs-review' && (
-          <button onClick={onMarkForReview} className="h-9 px-4 rounded-[10px] text-[12px] font-medium cursor-pointer border border-[#E3DDD7] bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ color: '#242326', fontFamily: FONT_BODY }}>
+          <button onClick={onMarkForReview} className="h-9 px-4 rounded-[10px] text-[12px] font-medium cursor-pointer border border-[var(--hz-border)] bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>
             Mark for review
           </button>
         )}
@@ -655,11 +655,11 @@ function ConfidenceSection({ result, className }: { result: PlanMeasurementResul
         <ProgressStat label="Room dimensions" value={c.roomDimensions} />
         <ProgressStat label="Room areas" value={c.roomAreas} />
         <ProgressStat label="Floor areas" value={c.floorAreas} />
-        <div className="pt-1 border-t border-[#FFFFFF]">
+        <div className="pt-1 border-t border-[var(--hz-surface)]">
           <ProgressStat label="Overall" value={c.overall} />
         </div>
       </div>
-      <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
         Confidence indicates how clearly Hozie could interpret the drawing. It does not replace architectural or engineering verification.
       </p>
     </SectionCard>
@@ -673,21 +673,21 @@ function NeedsReview({ result, onReview, className }: { result: PlanMeasurementR
   return (
     <SectionCard
       eyebrow="Needs Review"
-      tag={<span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{result.needsReview.length} measurements</span>}
+      tag={<span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{result.needsReview.length} measurements</span>}
       className={className}
     >
-      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: '#FFFFFF' }}>
+      <ul className="flex flex-col divide-y m-0 p-0" style={{ listStyle: 'none', borderColor: 'var(--hz-surface)' }}>
         {result.needsReview.map((item, i) => (
           <li key={item.id} className="flex items-start justify-between gap-3 py-3">
             <div className="flex items-start gap-2.5 min-w-0">
               <span className="shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-semibold" style={{ backgroundColor: '#FEF3C7', color: '#D97706', fontFamily: FONT_MONO }}>{i + 1}</span>
               <div className="flex flex-col min-w-0">
-                <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{item.measurementLabel}</span>
-                <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{item.reason}</span>
-                <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{item.confidence}% confidence</span>
+                <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{item.measurementLabel}</span>
+                <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{item.reason}</span>
+                <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{item.confidence}% confidence</span>
               </div>
             </div>
-            <button onClick={() => onReview(item.roomId)} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline shrink-0" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+            <button onClick={() => onReview(item.roomId)} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline shrink-0" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
               Review →
             </button>
           </li>
@@ -701,14 +701,14 @@ function NeedsReview({ result, onReview, className }: { result: PlanMeasurementR
 
 function MeasurementSourceCard({ result, className }: { result: PlanMeasurementResult; className?: string }) {
   return (
-    <div className={['flex flex-wrap items-center gap-x-6 gap-y-2 rounded-[12px] p-4', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F4F0EC' }}>
-      <span className="text-[10px] uppercase tracking-[0.06em] font-semibold text-[#68636D] shrink-0" style={{ fontFamily: FONT_MONO }}>Source</span>
-      <span className="flex items-center gap-1.5 text-[12px] text-[#242326]" style={{ fontFamily: FONT_BODY }}><IcoFile /> {result.source.documentName}</span>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Pages: {result.source.pages}</span>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Method: {result.source.method}</span>
-      <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Scale: {result.source.scaleDetected ? 'Detected' : 'Not detected'}</span>
+    <div className={['flex flex-wrap items-center gap-x-6 gap-y-2 rounded-[12px] p-4', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-surface-muted)' }}>
+      <span className="text-[10px] uppercase tracking-[0.06em] font-semibold text-[var(--hz-ink-muted)] shrink-0" style={{ fontFamily: FONT_MONO }}>Source</span>
+      <span className="flex items-center gap-1.5 text-[12px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}><IcoFile /> {result.source.documentName}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Pages: {result.source.pages}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Method: {result.source.method}</span>
+      <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Scale: {result.source.scaleDetected ? 'Detected' : 'Not detected'}</span>
       {!result.source.scaleDetected && (
-        <p className="text-[11px] text-[#9A949D] leading-[1.6] m-0 basis-full" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[11px] text-[var(--hz-ink-subtle)] leading-[1.6] m-0 basis-full" style={{ fontFamily: FONT_BODY }}>
           Measurements are based on visible dimensions and proportional interpretation.
         </p>
       )}
@@ -721,22 +721,22 @@ function MeasurementSourceCard({ result, className }: { result: PlanMeasurementR
 function HozieInsight({ result, onCompare, onContinueToEstimate, className }: { result: PlanMeasurementResult; onCompare: () => void; onContinueToEstimate: () => void; className?: string }) {
   const { deltaValue } = calculateMeasurementDifference(result.currentProjectAreaSqft, result.builtUpArea.value)
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
-        <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-        <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Measurement Note</span>
+        <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Hozie Measurement Note</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0 italic" style={{ fontFamily: FONT_BODY }}>
         "I found a built-up area of approximately {result.builtUpArea.value.toLocaleString('en-IN')} sq ft, which is {deltaValue} sq ft higher than the {result.currentProjectAreaSqft.toLocaleString('en-IN')} sq ft currently used in your project estimate."
       </p>
       <div className="flex items-center gap-3 flex-wrap">
-        <button onClick={onCompare} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onCompare} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           Compare with BOQ →
         </button>
-        <button onClick={onContinueToEstimate} className="h-11 px-6 rounded-[12px] text-[#722ED1] text-[13px] font-semibold cursor-pointer border border-[#722ED1] bg-transparent hover:bg-white transition-colors" style={{ fontFamily: FONT_BODY }}>
+        <button onClick={onContinueToEstimate} className="h-11 px-6 rounded-[12px] text-[var(--hz-primary)] text-[13px] font-semibold cursor-pointer border border-[var(--hz-primary)] bg-transparent hover:bg-[var(--hz-surface)] transition-colors" style={{ fontFamily: FONT_BODY }}>
           Continue to Estimate →
         </button>
-        <span className="text-[11px] text-[#722ED1] opacity-70" style={{ fontFamily: FONT_BODY }}>Nothing has changed in your estimate or BOQ yet.</span>
+        <span className="text-[11px] text-[var(--hz-primary)] opacity-70" style={{ fontFamily: FONT_BODY }}>Nothing has changed in your estimate or BOQ yet.</span>
       </div>
     </div>
   )
@@ -746,12 +746,12 @@ function HozieInsight({ result, onCompare, onContinueToEstimate, className }: { 
 
 function MeasurementError({ onRetry, onUploadClearer }: { onRetry: () => void; onUploadClearer: () => void }) {
   return (
-    <div role="alert" className="w-full max-w-[560px] mx-auto bg-white rounded-[24px] border border-[#E3DDD7] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}><IcoWarning /></span>
-      <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn't extract reliable measurements from this plan.</h2>
+    <div role="alert" className="w-full max-w-[560px] mx-auto bg-[var(--hz-surface)] rounded-[24px] border border-[var(--hz-border)] px-6 py-10 sm:py-12 flex flex-col items-center text-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+      <span className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: 'var(--hz-danger)' }}><IcoWarning /></span>
+      <h2 className="text-[19px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>We couldn't extract reliable measurements from this plan.</h2>
       <div className="flex flex-col sm:flex-row gap-2.5 pt-1 w-full sm:w-auto">
-        <button onClick={onUploadClearer} className="h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Upload clearer plan</button>
-        <button onClick={onRetry} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Retry</button>
+        <button onClick={onUploadClearer} className="h-11 px-6 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Upload clearer plan</button>
+        <button onClick={onRetry} className="h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Retry</button>
       </div>
     </div>
   )
@@ -760,10 +760,10 @@ function MeasurementError({ onRetry, onUploadClearer }: { onRetry: () => void; o
 function MeasurementLoading() {
   return (
     <div className="w-full max-w-[420px] mx-auto flex flex-col items-center text-center gap-4 py-16">
-      <div className="w-14 h-14 rounded-[16px] flex items-center justify-center" style={{ backgroundColor: '#F3EAFF', animation: 'estimatePulse 2s ease-in-out infinite' }}>
+      <div className="w-14 h-14 rounded-[16px] flex items-center justify-center" style={{ backgroundColor: 'var(--hz-primary-soft)', animation: 'estimatePulse 2s ease-in-out infinite' }}>
         <HIcon size={32} />
       </div>
-      <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Extracting measurements…</span>
+      <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>Extracting measurements…</span>
     </div>
   )
 }
@@ -873,7 +873,7 @@ export default function PlanMeasurementScreen({
 
   if (result.status === 'error') {
  return (
-      <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+      <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
         <div className="flex flex-1 min-h-0 relative z-10">
           <Sidebar active="plan" onNavigate={onNavigate} />
           <div className="flex flex-col flex-1 min-h-0">
@@ -887,24 +887,24 @@ export default function PlanMeasurementScreen({
   }
 
   return (
-    <div className="flex flex-col" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Plan Measurements</span>
-        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>AI MEASURED</span>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Plan Measurements</span>
+        <span className="text-[10px] px-2 py-1 rounded-full" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>AI MEASURED</span>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="plan" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Plan Measurements</h1>
-              <span className="text-[13px] text-[#68636D] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+              <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Plan Measurements</h1>
+              <span className="text-[13px] text-[var(--hz-ink-muted)] truncate" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
+            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>
               AI Measured
             </span>
           </header>
@@ -914,22 +914,22 @@ export default function PlanMeasurementScreen({
 
               {/* Page header */}
               <div className="flex flex-col gap-3">
-                <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Measurements</span>
-                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Let's measure your plan.</h1>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Plan Measurements</span>
+                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Let's measure your plan.</h1>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
                   Hozie extracted these measurements from your uploaded drawing. Review them before using them to update your estimate.
                 </p>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1">
-                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-                    <span className="shrink-0" style={{ color: '#722ED1' }}><IcoFile /></span> {result.source.documentName}
+                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+                    <span className="shrink-0" style={{ color: 'var(--hz-primary)' }}><IcoFile /></span> {result.source.documentName}
                   </span>
-                  <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
+                  <span className="text-[12px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>{projectName} · {location}</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2.5 pt-1">
-                  <button onClick={backToAnalysis} className="h-9 px-4 rounded-[10px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] cursor-pointer bg-white hover:bg-[#F4F0EC] transition-colors inline-flex items-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
+                  <button onClick={backToAnalysis} className="h-9 px-4 rounded-[10px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] cursor-pointer bg-[var(--hz-surface)] hover:bg-[var(--hz-surface-muted)] transition-colors inline-flex items-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
                     <IcoBack /> Back to Analysis
                   </button>
-                  <button onClick={() => downloadMeasurements(result, builtUpAdjustment)} className="h-9 px-4 rounded-[10px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] cursor-pointer bg-white hover:bg-[#F4F0EC] transition-colors inline-flex items-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
+                  <button onClick={() => downloadMeasurements(result, builtUpAdjustment)} className="h-9 px-4 rounded-[10px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] cursor-pointer bg-[var(--hz-surface)] hover:bg-[var(--hz-surface-muted)] transition-colors inline-flex items-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
                     <IcoDownload /> Download Measurements
                   </button>
                 </div>
@@ -983,11 +983,11 @@ export default function PlanMeasurementScreen({
 
           {/* Sticky actions (mobile) */}
           {result.status !== 'loading' && (
-            <div className="lg:hidden sticky bottom-0 z-20 bg-white border-t border-[#E3DDD7] px-4 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
-              <button onClick={askHozie} className="h-11 px-5 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors shrink-0" style={{ fontFamily: FONT_BODY }}>
+            <div className="lg:hidden sticky bottom-0 z-20 bg-[var(--hz-surface)] border-t border-[var(--hz-border)] px-4 py-3 flex items-center gap-2.5" style={{ boxShadow: '0 -4px 20px rgba(36,35,38,0.06)' }}>
+              <button onClick={askHozie} className="h-11 px-5 rounded-[12px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors shrink-0" style={{ fontFamily: FONT_BODY }}>
                 Ask Hozie
               </button>
-              <button onClick={compareWithBOQ} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+              <button onClick={compareWithBOQ} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
                 Compare with BOQ →
               </button>
             </div>

@@ -189,7 +189,7 @@ function NavItem({ icon, label, active, onClick }: {
         'w-full flex items-center border-0 cursor-pointer rounded-[12px] transition-all duration-150 outline-none',
         'md:justify-center md:w-[40px] md:h-[40px] md:mx-auto md:p-0',
         'lg:justify-start lg:w-full lg:h-auto lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        active ? 'bg-[#F3EAFF] text-[#722ED1]' : 'bg-transparent text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326]',
+        active ? 'bg-[var(--hz-primary-soft)] text-[var(--hz-primary)]' : 'bg-transparent text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] hover:text-[var(--hz-ink)]',
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
@@ -208,9 +208,9 @@ function NavItem({ icon, label, active, onClick }: {
 
 function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; tag?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
-    <div className={['bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <div className={['bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-ink-subtle)] uppercase" style={{ fontFamily: FONT_MONO }}>{eyebrow}</span>
         {tag}
       </div>
       {children}
@@ -220,8 +220,8 @@ function SectionCard({ eyebrow, tag, children, className }: { eyebrow: string; t
 
 function VerifiedBadge() {
   return (
-    <span className="inline-flex items-center gap-1 text-[11px] font-medium" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>
-      <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#16A34A' }}><IcoCheck /></span>
+    <span className="inline-flex items-center gap-1 text-[11px] font-medium" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>
+      <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-success)' }}><IcoCheck /></span>
       Verified
     </span>
   )
@@ -236,7 +236,7 @@ function Avatar({ profile, size = 72 }: { profile: HomeownerProfile; size?: numb
   return (
     <div
       className="rounded-full flex items-center justify-center text-white font-bold shrink-0"
-      style={{ width: size, height: size, backgroundColor: '#722ED1', fontFamily: '"Geist Variable", sans-serif', fontSize: size * 0.32 }}
+      style={{ width: size, height: size, backgroundColor: 'var(--hz-primary)', fontFamily: '"Geist Variable", sans-serif', fontSize: size * 0.32 }}
       aria-hidden="true"
     >
       {initials(profile.fullName)}
@@ -248,10 +248,10 @@ function Avatar({ profile, size = 72 }: { profile: HomeownerProfile; size?: numb
 
 function Notice({ message, onDismiss }: { message: string; onDismiss: () => void }) {
   return (
-    <div role="status" className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-[12px] px-4 py-3 bg-white border border-[#E3DDD7]" style={{ boxShadow: '0 8px 30px rgba(36,35,38,0.14)' }}>
-      <span style={{ color: '#722ED1' }}><IcoInfo /></span>
-      <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>{message}</span>
-      <button onClick={onDismiss} aria-label="Dismiss" className="w-6 h-6 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
+    <div role="status" className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-[12px] px-4 py-3 bg-[var(--hz-surface)] border border-[var(--hz-border)]" style={{ boxShadow: '0 8px 30px rgba(36,35,38,0.14)' }}>
+      <span style={{ color: 'var(--hz-primary)' }}><IcoInfo /></span>
+      <span className="text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{message}</span>
+      <button onClick={onDismiss} aria-label="Dismiss" className="w-6 h-6 rounded-full flex items-center justify-center text-[var(--hz-ink-muted)] hover:bg-[var(--hz-surface-muted)] cursor-pointer border-0 bg-transparent transition-colors"><IcoClose /></button>
     </div>
   )
 }
@@ -268,14 +268,14 @@ function ProfileHero({ profile, onEdit, onUploadPhoto, onRemovePhoto, avatarErro
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   return (
-    <div className={['bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <div className={['bg-[var(--hz-surface)] rounded-[16px] border border-[var(--hz-border)] p-5 sm:p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}>
       <div className="flex items-start gap-4">
         <div className="relative shrink-0">
           <Avatar profile={profile} size={72} />
           <button
             onClick={() => fileInputRef.current?.click()}
             aria-label="Upload profile photo"
-            className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-white border border-[#E3DDD7] flex items-center justify-center text-[#68636D] hover:text-[#722ED1] hover:border-[#722ED1] cursor-pointer transition-colors"
+            className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] flex items-center justify-center text-[var(--hz-ink-muted)] hover:text-[var(--hz-primary)] hover:border-[var(--hz-primary)] cursor-pointer transition-colors"
           >
             <IcoCamera />
           </button>
@@ -288,8 +288,8 @@ function ProfileHero({ profile, onEdit, onUploadPhoto, onRemovePhoto, avatarErro
           />
         </div>
         <div className="flex flex-col gap-1.5 min-w-0 flex-1">
-          <span className="text-[19px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{profile.fullName}</span>
-          <span className="inline-flex items-center gap-1.5 w-fit text-[10px] px-2 py-1 rounded-full font-semibold uppercase tracking-[0.04em]" style={{ backgroundColor: '#F3EAFF', color: '#722ED1', fontFamily: FONT_MONO }}>
+          <span className="text-[19px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{profile.fullName}</span>
+          <span className="inline-flex items-center gap-1.5 w-fit text-[10px] px-2 py-1 rounded-full font-semibold uppercase tracking-[0.04em]" style={{ backgroundColor: 'var(--hz-primary-soft)', color: 'var(--hz-primary)', fontFamily: FONT_MONO }}>
             {profile.role}
           </span>
           {/* Customer Implementation 08B: no real account-created timestamp
@@ -297,18 +297,18 @@ function ProfileHero({ profile, onEdit, onUploadPhoto, onRemovePhoto, avatarErro
               08A/08B inspection) — "Member since {date}" was always the
               hardcoded demo fixture's createdAt, never a genuine one, so it
               no longer renders rather than keep showing a fabricated date. */}
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
             <span>{profile.location}</span>
           </div>
         </div>
       </div>
       {avatarError && <p role="alert" className="text-[12px] m-0" style={{ color: '#D97706', fontFamily: FONT_BODY }}>{avatarError}</p>}
       <div className="flex flex-wrap items-center gap-2.5">
-        <button onClick={onEdit} className="h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>
+        <button onClick={onEdit} className="h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
           Edit profile
         </button>
         {profile.avatarUrl && (
-          <button onClick={onRemovePhoto} className="h-9 px-3.5 rounded-[10px] text-[12px] font-medium cursor-pointer border border-[#E3DDD7] bg-transparent hover:bg-[#F4F0EC] transition-colors inline-flex items-center gap-1.5" style={{ color: '#242326', fontFamily: FONT_BODY }}>
+          <button onClick={onRemovePhoto} className="h-9 px-3.5 rounded-[10px] text-[12px] font-medium cursor-pointer border border-[var(--hz-border)] bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors inline-flex items-center gap-1.5" style={{ color: 'var(--hz-ink)', fontFamily: FONT_BODY }}>
             <IcoTrash /> Remove photo
           </button>
         )}
@@ -337,10 +337,10 @@ function PersonalDetails({ profile, editing, draft, onDraftChange, onSave, onCan
   ]
   return (
     <SectionCard eyebrow="Personal Details" className={className}>
-      <div className="flex flex-col divide-y" style={{ borderColor: '#FFFFFF' }}>
+      <div className="flex flex-col divide-y" style={{ borderColor: 'var(--hz-surface)' }}>
         {rows.map(r => (
           <div key={r.key} className="flex items-center justify-between gap-3 py-2.5">
-            <label htmlFor={editing ? `pd-${r.key}` : undefined} className="text-[13px] text-[#68636D] shrink-0" style={{ fontFamily: FONT_BODY }}>{r.label}</label>
+            <label htmlFor={editing ? `pd-${r.key}` : undefined} className="text-[13px] text-[var(--hz-ink-muted)] shrink-0" style={{ fontFamily: FONT_BODY }}>{r.label}</label>
             {editing ? (
               <input
                 id={`pd-${r.key}`}
@@ -348,11 +348,11 @@ function PersonalDetails({ profile, editing, draft, onDraftChange, onSave, onCan
                 value={draft[r.key]}
                 onChange={e => onDraftChange(r.key, e.target.value)}
                 disabled={saving}
-                className="h-9 px-2.5 rounded-[8px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] text-right outline-none focus:border-[#722ED1] transition-colors w-[55%] disabled:opacity-60"
+                className="h-9 px-2.5 rounded-[8px] border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[13px] text-[var(--hz-ink)] text-right outline-none focus:border-[var(--hz-primary)] transition-colors w-[55%] disabled:opacity-60"
                 style={{ fontFamily: FONT_BODY }}
               />
             ) : (
-              <span className="text-[13px] font-medium text-[#242326] text-right" style={{ fontFamily: FONT_BODY }}>{profile[r.key]}</span>
+              <span className="text-[13px] font-medium text-[var(--hz-ink)] text-right" style={{ fontFamily: FONT_BODY }}>{profile[r.key]}</span>
             )}
           </div>
         ))}
@@ -363,7 +363,7 @@ function PersonalDetails({ profile, editing, draft, onDraftChange, onSave, onCan
             onClick={onSave}
             disabled={saving}
             className="h-9 px-4 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all disabled:cursor-wait inline-flex items-center gap-1.5"
-            style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+            style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}
           >
             {saving && (
               <svg className="animate-spin" width="12" height="12" viewBox="0 0 16 16" fill="none">
@@ -376,8 +376,8 @@ function PersonalDetails({ profile, editing, draft, onDraftChange, onSave, onCan
           <button
             onClick={onCancel}
             disabled={saving}
-            className="h-9 px-4 rounded-[10px] text-[12px] font-medium cursor-pointer border border-[#E3DDD7] bg-transparent hover:bg-[#F4F0EC] transition-colors disabled:opacity-60"
-            style={{ color: '#242326', fontFamily: FONT_BODY }}
+            className="h-9 px-4 rounded-[10px] text-[12px] font-medium cursor-pointer border border-[var(--hz-border)] bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors disabled:opacity-60"
+            style={{ color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
           >
             Cancel
           </button>
@@ -397,24 +397,24 @@ function AccountInformation({ profile, onChangeEmail, onChangeMobile, className 
 }) {
   return (
     <SectionCard eyebrow="Account Information" className={className}>
-      <div className="flex flex-col divide-y" style={{ borderColor: '#FFFFFF' }}>
+      <div className="flex flex-col divide-y" style={{ borderColor: 'var(--hz-surface)' }}>
         <div className="flex items-center justify-between gap-3 py-2.5">
           <div className="flex flex-col gap-0.5 min-w-0">
-            <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Email</span>
-            <span className="text-[13px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{profile.email}</span>
+            <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Email</span>
+            <span className="text-[13px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{profile.email}</span>
             {profile.emailVerified && <VerifiedBadge />}
           </div>
-          <button onClick={onChangeEmail} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline shrink-0" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+          <button onClick={onChangeEmail} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline shrink-0" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
             Change email
           </button>
         </div>
         <div className="flex items-center justify-between gap-3 py-2.5">
           <div className="flex flex-col gap-0.5 min-w-0">
-            <span className="text-[10px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Mobile</span>
-            <span className="text-[13px] font-medium text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{profile.mobile}</span>
+            <span className="text-[10px] uppercase tracking-[0.06em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Mobile</span>
+            <span className="text-[13px] font-medium text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{profile.mobile}</span>
             {profile.mobileVerified && <VerifiedBadge />}
           </div>
-          <button onClick={onChangeMobile} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline shrink-0" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>
+          <button onClick={onChangeMobile} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline shrink-0" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>
             Change mobile
           </button>
         </div>
@@ -428,15 +428,15 @@ function AccountInformation({ profile, onChangeEmail, onChangeMobile, className 
 function RoleCard({ onChangeRole, className }: { onChangeRole: () => void; className?: string }) {
   return (
     <SectionCard eyebrow="Your Role" className={className}>
-      <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Homeowner</span>
-      <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Homeowner</span>
+      <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
         You&apos;re using Houzeify to follow shared construction progress on linked projects.
       </p>
       <button
         type="button"
         onClick={onChangeRole}
-        className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
-        style={{ color: '#722ED1', fontFamily: FONT_BODY }}
+        className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
+        style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         Change role
       </button>
@@ -456,16 +456,16 @@ function ChangeRoleModal({ onCancel, onConfirm }: { onCancel: () => void; onConf
     <>
       <div className="fixed inset-0 bg-black opacity-30 z-40" aria-hidden="true" onClick={onCancel} />
       <div role="dialog" aria-modal="true" aria-labelledby="role-modal-title" aria-describedby="role-modal-desc"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[420px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
-        <h2 id="role-modal-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Change your role?</h2>
-        <p id="role-modal-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <h2 id="role-modal-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Change your role?</h2>
+        <p id="role-modal-desc" className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           Changing your role may change the tools and workspace available to you.
         </p>
         <div className="flex gap-2.5 justify-end">
-          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}>Continue</button>
+          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Continue</button>
         </div>
       </div>
     </>
@@ -488,7 +488,7 @@ function ProjectSummary({ onViewProject, className }: {
   if (loading) {
     return (
       <SectionCard eyebrow="Current Project" className={className}>
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" role="status" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" role="status" style={{ fontFamily: FONT_BODY }}>
           Loading linked projects…
         </p>
       </SectionCard>
@@ -498,14 +498,14 @@ function ProjectSummary({ onViewProject, className }: {
   if (status === 'error') {
     return (
       <SectionCard eyebrow="Current Project" className={className}>
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" role="alert" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" role="alert" style={{ fontFamily: FONT_BODY }}>
           {errorMessage ?? "Couldn't load linked projects right now."}
         </p>
         <button
           type="button"
           onClick={() => { void refresh() }}
-          className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
-          style={{ color: '#722ED1', fontFamily: FONT_BODY }}
+          className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
+          style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}
         >
           Try again
         </button>
@@ -516,7 +516,7 @@ function ProjectSummary({ onViewProject, className }: {
   if (!current) {
     return (
       <SectionCard eyebrow="Current Project" className={className}>
-        <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+        <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
           No linked projects yet. When a builder shares a project with you, it&apos;ll show up here.
         </p>
       </SectionCard>
@@ -534,20 +534,20 @@ function ProjectSummary({ onViewProject, className }: {
 
   return (
     <SectionCard eyebrow="Current Project" className={className}>
-      <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>{current.name}</span>
-      <div className="flex flex-col divide-y" style={{ borderColor: '#FFFFFF' }}>
+      <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>{current.name}</span>
+      <div className="flex flex-col divide-y" style={{ borderColor: 'var(--hz-surface)' }}>
         {rows.map(r => (
           <div key={r.label} className="flex items-center justify-between gap-3 py-2">
-            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{r.label}</span>
-            <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{r.value}</span>
+            <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{r.label}</span>
+            <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{r.value}</span>
           </div>
         ))}
       </div>
       <button
         type="button"
         onClick={() => onViewProject(current)}
-        className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
-        style={{ color: '#722ED1', fontFamily: FONT_BODY }}
+        className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
+        style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         {current.customerStatus === 'invited' ? 'Review invite →' : 'View project →'}
       </button>
@@ -560,10 +560,10 @@ function ProjectSummary({ onViewProject, className }: {
 function PreferenceRow({ label, value, onClick }: { label: string; value: string; onClick: () => void }) {
   return (
     <button onClick={onClick} className="w-full flex items-center justify-between gap-3 py-2.5 cursor-pointer border-0 bg-transparent text-left">
-      <span className="text-[13px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>{label}</span>
+      <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{label}</span>
       <span className="flex items-center gap-1.5">
-        <span className="text-[13px] font-medium text-[#242326]" style={{ fontFamily: FONT_BODY }}>{value}</span>
-        <span className="text-[#9A949D]"><IcoChevronRight /></span>
+        <span className="text-[13px] font-medium text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>{value}</span>
+        <span className="text-[var(--hz-ink-subtle)]"><IcoChevronRight /></span>
       </span>
     </button>
   )
@@ -572,7 +572,7 @@ function PreferenceRow({ label, value, onClick }: { label: string; value: string
 function Preferences({ profile, onOpenPreference, className }: { profile: HomeownerProfile; onOpenPreference: () => void; className?: string }) {
   return (
     <SectionCard eyebrow="Preferences" className={className}>
-      <div className="flex flex-col divide-y" style={{ borderColor: '#FFFFFF' }}>
+      <div className="flex flex-col divide-y" style={{ borderColor: 'var(--hz-surface)' }}>
         <PreferenceRow label="Language" value={profile.language} onClick={onOpenPreference} />
         <PreferenceRow label="Units" value={profile.unitPreference === 'sq ft' ? 'Square feet' : 'Square metres'} onClick={onOpenPreference} />
         <PreferenceRow label="Currency" value={`${profile.currency} ₹`} onClick={onOpenPreference} />
@@ -588,22 +588,22 @@ const HOZIE_USES = CUSTOMER_PROFILE_HOZIE_USES
 
 function HoziePersonalization({ onManage, className }: { onManage: () => void; className?: string }) {
   return (
-    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
+    <div className={['rounded-[16px] p-5 sm:p-6 flex flex-col gap-3', className].filter(Boolean).join(' ')} style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid var(--hz-primary-soft)' }}>
       <div className="flex items-center gap-2.5">
-        <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
-        <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Your Hozie Experience</span>
+        <span className="w-8 h-8 rounded-[10px] bg-[var(--hz-surface)] flex items-center justify-center shrink-0"><HIcon size={20} /></span>
+        <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Your Hozie Experience</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Hozie uses your linked project information to help with:</p>
+      <p className="text-[13px] text-[var(--hz-ink)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>Hozie uses your linked project information to help with:</p>
       <div className="flex flex-wrap gap-1.5">
         {HOZIE_USES.map(u => (
-          <span key={u} className="px-2.5 py-1 rounded-full text-[11px] font-medium text-[#242326]" style={{ backgroundColor: '#FFFFFF', fontFamily: FONT_BODY }}>{u}</span>
+          <span key={u} className="px-2.5 py-1 rounded-full text-[11px] font-medium text-[var(--hz-ink)]" style={{ backgroundColor: 'var(--hz-surface)', fontFamily: FONT_BODY }}>{u}</span>
         ))}
       </div>
       <button
         type="button"
         onClick={onManage}
-        className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
-        style={{ color: '#722ED1', fontFamily: FONT_BODY }}
+        className="self-start min-h-11 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-[var(--hz-primary)] focus-visible:ring-offset-2"
+        style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}
       >
         Manage AI preferences →
       </button>
@@ -628,17 +628,17 @@ function AccountActions({ onOpenAccountSettings, onAction, onSignOut, className 
 }) {
   return (
     <SectionCard eyebrow="Account" className={className}>
-      <div className="flex flex-col divide-y" style={{ borderColor: '#FFFFFF' }}>
+      <div className="flex flex-col divide-y" style={{ borderColor: 'var(--hz-surface)' }}>
         {/* Customer Implementation 08E — real destination (App.tsx's
             account-settings route, homeowner branch via role={resolvedRole}).
             The three rows below stay honest "coming soon" notices: no
             password / security / privacy controls exist anywhere in this
             codebase, and Account Settings itself shows none either. */}
         <button onClick={onOpenAccountSettings} className="w-full flex items-center justify-between gap-3 py-2.5 cursor-pointer border-0 bg-transparent text-left">
-          <span className="flex items-center gap-2.5 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-            <span style={{ color: '#68636D' }}><IcoCog /></span> Account Settings
+          <span className="flex items-center gap-2.5 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+            <span style={{ color: 'var(--hz-ink-muted)' }}><IcoCog /></span> Account Settings
           </span>
-          <span className="text-[#9A949D]"><IcoChevronRight /></span>
+          <span className="text-[var(--hz-ink-subtle)]"><IcoChevronRight /></span>
         </button>
         {[
           { label: 'Change password', icon: <IcoLock /> },
@@ -646,15 +646,15 @@ function AccountActions({ onOpenAccountSettings, onAction, onSignOut, className 
           { label: 'Privacy', icon: <IcoEye /> },
         ].map(a => (
           <button key={a.label} onClick={() => onAction(a.label)} className="w-full flex items-center justify-between gap-3 py-2.5 cursor-pointer border-0 bg-transparent text-left">
-            <span className="flex items-center gap-2.5 text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
-              <span style={{ color: '#68636D' }}>{a.icon}</span> {a.label}
+            <span className="flex items-center gap-2.5 text-[13px] text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>
+              <span style={{ color: 'var(--hz-ink-muted)' }}>{a.icon}</span> {a.label}
             </span>
-            <span className="text-[#9A949D]"><IcoChevronRight /></span>
+            <span className="text-[var(--hz-ink-subtle)]"><IcoChevronRight /></span>
           </button>
         ))}
       </div>
-      <div className="pt-2 mt-1 border-t border-[#FFFFFF]">
-        <button onClick={onSignOut} className="w-full flex items-center gap-2.5 py-2 cursor-pointer border-0 bg-transparent text-left" style={{ color: '#DC2626' }}>
+      <div className="pt-2 mt-1 border-t border-[var(--hz-surface)]">
+        <button onClick={onSignOut} className="w-full flex items-center gap-2.5 py-2 cursor-pointer border-0 bg-transparent text-left" style={{ color: 'var(--hz-danger)' }}>
           <IcoLogout />
           <span className="text-[13px] font-medium" style={{ fontFamily: FONT_BODY }}>Sign out</span>
         </button>
@@ -675,14 +675,14 @@ function SignOutModal({ onCancel, onConfirm }: { onCancel: () => void; onConfirm
     <>
       <div className="fixed inset-0 bg-black opacity-30 z-40" aria-hidden="true" onClick={onCancel} />
       <div role="dialog" aria-modal="true" aria-labelledby="signout-title" aria-describedby="signout-desc"
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-white rounded-[16px] z-50 p-6 flex flex-col gap-4"
+        className="fixed inset-x-4 top-1/2 -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[400px] bg-[var(--hz-surface)] rounded-[16px] z-50 p-6 flex flex-col gap-4"
         style={{ boxShadow: '0 20px 60px rgba(36,35,38,0.25)' }}
       >
-        <h2 id="signout-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Sign out of Houzeify?</h2>
-        <p id="signout-desc" className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can sign back in anytime to access your projects.</p>
+        <h2 id="signout-title" className="text-[16px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Sign out of Houzeify?</h2>
+        <p id="signout-desc" className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>You can sign back in anytime to access your projects.</p>
         <div className="flex gap-2.5 justify-end">
-          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
-          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#DC2626', fontFamily: FONT_BODY }}>Sign out</button>
+          <button onClick={onCancel} className="h-10 px-4 rounded-[10px] border border-[var(--hz-border)] text-[var(--hz-ink)] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>Cancel</button>
+          <button ref={confirmRef} onClick={onConfirm} className="h-10 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: 'var(--hz-danger)', fontFamily: FONT_BODY }}>Sign out</button>
         </div>
       </div>
     </>
@@ -702,8 +702,8 @@ function OnboardingAmbientBg() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
       <div className="absolute rounded-full" style={{ top: '-160px', right: '-160px', width: 620, height: 620, backgroundColor: 'rgba(243,234,255,0.07)', filter: 'blur(110px)' }} />
-      <div className="absolute rounded-full" style={{ bottom: '-200px', left: '-160px', width: 700, height: 700, backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(130px)' }} />
-      <div className="absolute rounded-full" style={{ top: '45%', left: '50%', transform: 'translate(-50%,-50%)', width: 480, height: 480, backgroundColor: 'rgba(243,234,255,0.10)', filter: 'blur(90px)' }} />
+      <div className="absolute rounded-full" style={{ bottom: '-200px', left: '-160px', width: 700, height: 700, backgroundColor: 'var(--hz-primary-soft)', filter: 'blur(130px)' }} />
+      <div className="absolute rounded-full" style={{ top: '45%', left: '50%', transform: 'translate(-50%,-50%)', width: 480, height: 480, backgroundColor: 'var(--hz-primary-soft)', filter: 'blur(90px)' }} />
     </div>
   )
 }
@@ -799,17 +799,17 @@ function OnboardingProfileView({
   }
 
   return (
-    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="min-h-full flex flex-col relative" style={{ backgroundColor: 'var(--hz-surface)' }}>
       <OnboardingAmbientBg />
 
       {/* Header */}
       <header className="shrink-0 relative z-10">
         <div className="flex items-center justify-between h-14 lg:h-[64px] px-5 sm:px-8 lg:px-12">
           <img src={logoHorizontal} alt="Houzeify" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
-          <span className="text-[12px] tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Step 2 of 4</span>
+          <span className="text-[12px] tracking-[0.08em] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Step 2 of 4</span>
         </div>
-        <div className="h-[2px] bg-[#F4F0EC] w-full">
-          <div className="h-full bg-[#722ED1] transition-all duration-500" style={{ width: '50%' }} />
+        <div className="h-[2px] bg-[var(--hz-surface-muted)] w-full">
+          <div className="h-full bg-[var(--hz-primary)] transition-all duration-500" style={{ width: '50%' }} />
         </div>
       </header>
 
@@ -819,33 +819,33 @@ function OnboardingProfileView({
 
           {/* Intro */}
           <div className="flex flex-col items-center text-center gap-3">
-            <span className="text-[12px] tracking-[0.12em] uppercase text-[#722ED1] font-semibold" style={{ fontFamily: FONT_MONO }}>Your Profile</span>
-            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
+            <span className="text-[12px] tracking-[0.12em] uppercase text-[var(--hz-primary)] font-semibold" style={{ fontFamily: FONT_MONO }}>Your Profile</span>
+            <h1 className="text-[28px] sm:text-[36px] font-semibold text-[var(--hz-ink)] leading-[1.08] tracking-[-0.02em] m-0" style={{ fontFamily: FONT_HEAD }}>
               Tell us a little about you.
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
+            <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[540px]" style={{ fontFamily: FONT_BODY }}>
               Your profile helps Houzeify personalize your experience and connect you with the right professionals.
             </p>
           </div>
 
           {/* Hozie intro */}
-          <div className="w-full flex items-center gap-3 bg-white border border-[#E3DDD7] rounded-[16px] px-5 py-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="w-full flex items-center gap-3 bg-[var(--hz-surface)] border border-[var(--hz-border)] rounded-[16px] px-5 py-3.5" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="shrink-0"><HIcon size={32} /></div>
-            <p className="text-[13px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
-              <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>Nice to meet you.</span>{' '}
+            <p className="text-[13px] text-[var(--hz-ink-muted)] leading-[1.55] m-0" style={{ fontFamily: FONT_BODY }}>
+              <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>Nice to meet you.</span>{' '}
               I&apos;ll use your profile and project preferences to make Houzeify more useful for you.
             </p>
           </div>
 
           {/* Avatar + form */}
-          <div className="flex flex-col gap-5 rounded-[16px] bg-white border border-[#E3DDD7] p-5 sm:p-6" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+          <div className="flex flex-col gap-5 rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 sm:p-6" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
             <div className="flex items-center gap-4">
               <div className="relative shrink-0">
                 <Avatar profile={previewProfile} size={64} />
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   aria-label="Upload profile photo"
-                  className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-white border border-[#E3DDD7] flex items-center justify-center text-[#68636D] hover:text-[#722ED1] hover:border-[#722ED1] cursor-pointer transition-colors"
+                  className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[var(--hz-surface)] border border-[var(--hz-border)] flex items-center justify-center text-[var(--hz-ink-muted)] hover:text-[var(--hz-primary)] hover:border-[var(--hz-primary)] cursor-pointer transition-colors"
                 >
                   <IcoCamera />
                 </button>
@@ -858,15 +858,15 @@ function OnboardingProfileView({
                 />
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Profile photo</span>
-                <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Optional — JPG or PNG, up to 5 MB.</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Profile photo</span>
+                <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Optional — JPG or PNG, up to 5 MB.</span>
               </div>
             </div>
             {avatarError && <p role="alert" className="text-[12px] m-0 -mt-2" style={{ color: '#D97706', fontFamily: FONT_BODY }}>{avatarError}</p>}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label htmlFor="ob-first-name" className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>First name</label>
+                <label htmlFor="ob-first-name" className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>First name</label>
                 <input
                   id="ob-first-name"
                   type="text"
@@ -874,12 +874,12 @@ function OnboardingProfileView({
                   onChange={e => setFirstName(e.target.value)}
                   placeholder="First name"
                   aria-invalid={touched && firstName.trim().length === 0}
-                  className={['w-full h-[46px] px-3.5 rounded-[10px] border bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', touched && firstName.trim().length === 0 ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                  className={['w-full h-[46px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', touched && firstName.trim().length === 0 ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
               </div>
               <div>
-                <label htmlFor="ob-last-name" className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>Last name</label>
+                <label htmlFor="ob-last-name" className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>Last name</label>
                 <input
                   id="ob-last-name"
                   type="text"
@@ -887,7 +887,7 @@ function OnboardingProfileView({
                   onChange={e => setLastName(e.target.value)}
                   placeholder="Last name"
                   aria-invalid={touched && lastName.trim().length === 0}
-                  className={['w-full h-[46px] px-3.5 rounded-[10px] border bg-white text-[14px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors', touched && lastName.trim().length === 0 ? 'border-[#D97706]' : 'border-[#E3DDD7] focus:border-[#722ED1]'].join(' ')}
+                  className={['w-full h-[46px] px-3.5 rounded-[10px] border bg-[var(--hz-surface)] text-[14px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors', touched && lastName.trim().length === 0 ? 'border-[#D97706]' : 'border-[var(--hz-border)] focus:border-[var(--hz-primary)]'].join(' ')}
                   style={{ fontFamily: FONT_BODY }}
                 />
               </div>
@@ -907,23 +907,23 @@ function OnboardingProfileView({
                 anywhere in onboarding. */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <span className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>Email</span>
-                <div className="h-[46px] px-3.5 rounded-[10px] border border-[#E3DDD7] bg-[#F4F0EC] flex items-center justify-between gap-2">
-                  <span className="text-[13.5px] text-[#9A949D] truncate" style={{ fontFamily: FONT_BODY }}>{customerProfile.profile?.email || 'Not added yet'}</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>Email</span>
+                <div className="h-[46px] px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface-muted)] flex items-center justify-between gap-2">
+                  <span className="text-[13.5px] text-[var(--hz-ink-subtle)] truncate" style={{ fontFamily: FONT_BODY }}>{customerProfile.profile?.email || 'Not added yet'}</span>
                 </div>
               </div>
               <div>
-                <span className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>Phone number</span>
-                <div className="h-[46px] px-3.5 rounded-[10px] border border-[#E3DDD7] bg-[#F4F0EC] flex items-center justify-between gap-2">
-                  <span className="text-[13.5px] text-[#242326] truncate" style={{ fontFamily: FONT_BODY }}>{auth.user?.phoneNumber || 'Not available'}</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>Phone number</span>
+                <div className="h-[46px] px-3.5 rounded-[10px] border border-[var(--hz-border)] bg-[var(--hz-surface-muted)] flex items-center justify-between gap-2">
+                  <span className="text-[13.5px] text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_BODY }}>{auth.user?.phoneNumber || 'Not available'}</span>
                   {Boolean(auth.user?.phoneVerifiedAt) && <VerifiedBadge />}
                 </div>
               </div>
             </div>
-            <p className="text-[11px] text-[#9A949D] -mt-2 m-0" style={{ fontFamily: FONT_BODY }}>Your phone is verified from your Houzeify account — no need to enter it again.</p>
+            <p className="text-[11px] text-[var(--hz-ink-subtle)] -mt-2 m-0" style={{ fontFamily: FONT_BODY }}>Your phone is verified from your Houzeify account — no need to enter it again.</p>
 
             <div>
-              <span className="text-[13px] font-semibold text-[#242326] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>How should we address you?</span>
+              <span className="text-[13px] font-semibold text-[var(--hz-ink)] mb-1.5 block" style={{ fontFamily: FONT_BODY }}>How should we address you?</span>
               <div role="radiogroup" aria-label="How should we address you?" className="flex flex-wrap gap-2">
                 {([
                   { mode: 'first' as AddressMode, label: firstName.trim() || 'First name' },
@@ -938,17 +938,17 @@ function OnboardingProfileView({
                     className="flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[12.5px] font-semibold cursor-pointer transition-all border"
                     style={{
                       fontFamily: FONT_BODY,
-                      backgroundColor: addressMode === opt.mode ? '#F3EAFF' : '#FFFFFF',
-                      borderColor: addressMode === opt.mode ? '#722ED1' : '#CAC7C6',
-                      color: addressMode === opt.mode ? '#722ED1' : '#1E1E1E',
+                      backgroundColor: addressMode === opt.mode ? 'var(--hz-primary-soft)' : 'var(--hz-surface)',
+                      borderColor: addressMode === opt.mode ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
+                      color: addressMode === opt.mode ? 'var(--hz-primary)' : 'var(--hz-black)',
                     }}
                   >
-                    {addressMode === opt.mode && <span className="w-[14px] h-[14px] rounded-full bg-[#722ED1] flex items-center justify-center shrink-0" aria-hidden="true"><IcoCheck /></span>}
+                    {addressMode === opt.mode && <span className="w-[14px] h-[14px] rounded-full bg-[var(--hz-primary)] flex items-center justify-center shrink-0" aria-hidden="true"><IcoCheck /></span>}
                     {opt.label}
                   </button>
                 ))}
               </div>
-              <p className="text-[11px] text-[#9A949D] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>
+              <p className="text-[11px] text-[var(--hz-ink-subtle)] mt-1.5 m-0" style={{ fontFamily: FONT_BODY }}>
                 {/* Customer Implementation 10F — neutral "there" fallback
                     (matches the same-screen chip labels' own "First name" /
                     "Full name" placeholder convention just above) instead of
@@ -959,36 +959,36 @@ function OnboardingProfileView({
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: FONT_BODY }}>About me</span>
-                <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Optional</span>
+                <span className="text-[13px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_BODY }}>About me</span>
+                <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Optional</span>
               </div>
               <textarea
                 value={aboutMe}
                 onChange={e => setAboutMe(truncateToWords(e.target.value, ABOUT_ME_MAX_WORDS))}
                 placeholder="Tell Hozie a bit about yourself and what you're hoping to build — a couple of sentences is plenty."
                 rows={5}
-                className="w-full px-3.5 py-2.5 rounded-[10px] border border-[#E3DDD7] focus:border-[#722ED1] bg-white text-[13.5px] text-[#242326] placeholder:text-[#CAC7C6] outline-none transition-colors resize-none"
+                className="w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--hz-border)] focus:border-[var(--hz-primary)] bg-[var(--hz-surface)] text-[13.5px] text-[var(--hz-ink)] placeholder:text-[var(--hz-border-strong)] outline-none transition-colors resize-none"
                 style={{ fontFamily: FONT_BODY }}
               />
               <div className="flex items-center justify-between mt-1.5">
-                <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Aim for around 200–300 words.</span>
-                <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{wordCount(aboutMe)}/{ABOUT_ME_MAX_WORDS} words</span>
+                <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Aim for around 200–300 words.</span>
+                <span className="text-[11px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{wordCount(aboutMe)}/{ABOUT_ME_MAX_WORDS} words</span>
               </div>
             </div>
           </div>
 
           {/* Profile summary */}
-          <div className="w-full rounded-[16px] bg-white border border-[#E3DDD7] p-5 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-            <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D] sr-only">Your Profile</span>
+          <div className="w-full rounded-[16px] bg-[var(--hz-surface)] border border-[var(--hz-border)] p-5 flex items-center gap-4" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+            <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)] sr-only">Your Profile</span>
             <Avatar profile={previewProfile} size={48} />
             <div className="flex flex-col gap-0.5 min-w-0">
-              <span className="text-[10px] tracking-[0.10em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>Your Profile</span>
-              <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: FONT_HEAD }}>{fullName.trim() || 'Your name'}</span>
-              <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
+              <span className="text-[10px] tracking-[0.10em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>Your Profile</span>
+              <span className="text-[15px] font-semibold text-[var(--hz-ink)] truncate" style={{ fontFamily: FONT_HEAD }}>{fullName.trim() || 'Your name'}</span>
+              <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
                 Homeowner{location && location.trim() ? ` · ${location.trim()}` : ''}
               </span>
               {!(location && location.trim()) && (
-                <span className="text-[11.5px] text-[#9A949D]" style={{ fontFamily: FONT_BODY }}>Location not set — you&apos;ll complete this in the next step.</span>
+                <span className="text-[11.5px] text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_BODY }}>Location not set — you&apos;ll complete this in the next step.</span>
               )}
             </div>
           </div>
@@ -1007,7 +1007,7 @@ function OnboardingProfileView({
                   'h-[52px] text-[14px] font-semibold rounded-[12px] transition-all duration-200 w-full sm:w-[220px]',
                   'flex items-center justify-center gap-2',
                   saving ? 'cursor-wait' : 'cursor-pointer',
-                  canContinue ? 'bg-[#722ED1] text-white hover:brightness-90 active:scale-[0.99]' : 'bg-[#F4F0EC] text-[#9A949D]',
+                  canContinue ? 'bg-[var(--hz-primary)] text-white hover:brightness-90 active:scale-[0.99]' : 'bg-[var(--hz-surface-muted)] text-[var(--hz-ink-subtle)]',
                 ].join(' ')}
                 style={{ fontFamily: FONT_BODY }}
               >
@@ -1026,7 +1026,7 @@ function OnboardingProfileView({
               <button
                 onClick={handleBack}
                 disabled={saving}
-                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[#E3DDD7] bg-white text-[#68636D] hover:border-[#A1A1A1] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                className="h-[52px] text-[13.5px] font-medium rounded-[12px] w-full sm:w-auto px-5 cursor-pointer border border-[var(--hz-border)] bg-[var(--hz-surface)] text-[var(--hz-ink-muted)] hover:border-[#A1A1A1] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 style={{ fontFamily: FONT_BODY }}
               >
                 ← Back
@@ -1040,8 +1040,8 @@ function OnboardingProfileView({
       <footer className="shrink-0 flex justify-center items-center gap-2.5 pb-5 relative z-10">
         {(['PLAN', 'BUILD', 'IMPROVE', 'CARE'] as const).map((item, i, arr) => (
           <span key={item} className="flex items-center gap-2.5">
-            <span className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>{item}</span>
-            {i < arr.length - 1 && <span className="text-[12px] text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>/</span>}
+            <span className="text-[12px] tracking-[0.08em] uppercase text-[var(--hz-ink-subtle)]" style={{ fontFamily: FONT_MONO }}>{item}</span>
+            {i < arr.length - 1 && <span className="text-[12px] text-[var(--hz-primary)]" style={{ fontFamily: FONT_MONO }}>/</span>}
           </span>
         ))}
       </footer>
@@ -1282,21 +1282,21 @@ function FullSettingsProfileView({
   const openAccountSettings = () => onNavigate('account-settings')
   const signOutConfirmed = () => { setShowSignOutModal(false); onNavigate('welcome') }
 return (
-    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
+    <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: 'var(--hz-surface)' }}>
 
       {/* Mobile top bar */}
-      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>Profile</span>
-        <button onClick={startEdit} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0" style={{ color: '#722ED1', fontFamily: FONT_BODY }}>Edit</button>
+      <div className="flex md:hidden h-14 items-center justify-between px-4 bg-[var(--hz-surface)] border-b border-[var(--hz-border)] shrink-0 z-10">
+        <span className="text-[15px] font-semibold text-[var(--hz-ink)]" style={{ fontFamily: FONT_HEAD }}>Profile</span>
+        <button onClick={startEdit} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0" style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}>Edit</button>
       </div>
 
       <div className="flex flex-1 min-h-0 relative z-10">
         <Sidebar active="profile" onNavigate={onNavigate} />
 
         <div className="flex flex-col flex-1 min-h-0">
-          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
-            <h1 className="text-[20px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Profile</h1>
-            <button onClick={startEdit} className="h-9 px-4 rounded-[10px] border border-[#E3DDD7] text-[12px] font-medium text-[#242326] cursor-pointer bg-white hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: FONT_BODY }}>
+          <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[var(--hz-surface)] border-b border-[var(--hz-border)]">
+            <h1 className="text-[20px] font-semibold text-[var(--hz-ink)] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>Profile</h1>
+            <button onClick={startEdit} className="h-9 px-4 rounded-[10px] border border-[var(--hz-border)] text-[12px] font-medium text-[var(--hz-ink)] cursor-pointer bg-[var(--hz-surface)] hover:bg-[var(--hz-surface-muted)] transition-colors" style={{ fontFamily: FONT_BODY }}>
               Edit profile
             </button>
           </header>
@@ -1306,17 +1306,17 @@ return (
 
               {/* Page header */}
               <div className="flex flex-col gap-3">
-                <span className="text-[10px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: FONT_MONO }}>Profile</span>
-                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Your profile.</h1>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
+                <span className="text-[10px] tracking-[0.10em] text-[var(--hz-primary)] uppercase" style={{ fontFamily: FONT_MONO }}>Profile</span>
+                <h1 className="text-[28px] sm:text-[34px] font-semibold text-[var(--hz-ink)] m-0 leading-[1.08]" style={{ fontFamily: FONT_HEAD }}>Your profile.</h1>
+                <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[560px]" style={{ fontFamily: FONT_BODY }}>
                   Manage your account information and homeowner preferences.
                 </p>
               </div>
 
               {savedNotice && !editing && (
                 <div role="status" className="flex items-center gap-2 rounded-[12px] px-4 py-3" style={{ backgroundColor: '#DCFCE7' }}>
-                  <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#16A34A' }}><IcoCheck /></span>
-                  <span className="text-[13px] font-medium" style={{ color: '#16A34A', fontFamily: FONT_BODY }}>Profile updated ✓</span>
+                  <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'var(--hz-success)' }}><IcoCheck /></span>
+                  <span className="text-[13px] font-medium" style={{ color: 'var(--hz-success)', fontFamily: FONT_BODY }}>Profile updated ✓</span>
                 </div>
               )}
 

@@ -63,19 +63,19 @@ export default function EntitlementUpgradePrompt(props: EntitlementUpgradePrompt
   const plan = props.audience === 'homeowner' ? getHomeownerPlan(props.requiredPlanId) : getPartnerPlan(props.requiredPlanId)
 
   return (
-    <div role="note" className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-[10px]" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(114,46,209,0.14)' }}>
-      <span className="shrink-0" style={{ color: '#722ED1' }}><IcoLock /></span>
-      <span className="text-[12.5px] text-[#68636D] flex-1 leading-snug" style={{ fontFamily: FONT_BODY }}>
-        <span className="text-[#242326] font-semibold" style={{ fontFamily: FONT_HEAD }}>{props.capabilityLabel}</span>
-        {' '}is available on <span className="font-semibold text-[#242326]">{plan.name}</span>.
+    <div role="note" className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-[10px]" style={{ backgroundColor: 'var(--hz-primary-wash)', border: '1px solid rgba(114,46,209,0.14)' }}>
+      <span className="shrink-0" style={{ color: 'var(--hz-primary)' }}><IcoLock /></span>
+      <span className="text-[12.5px] text-[var(--hz-ink-muted)] flex-1 leading-snug" style={{ fontFamily: FONT_BODY }}>
+        <span className="text-[var(--hz-ink)] font-semibold" style={{ fontFamily: FONT_HEAD }}>{props.capabilityLabel}</span>
+        {' '}is available on <span className="font-semibold text-[var(--hz-ink)]">{plan.name}</span>.
       </span>
       {props.onViewPlans && (
         <button
           type="button"
           onClick={props.onViewPlans}
           aria-label={`View plans — ${props.capabilityLabel} is available on ${plan.name}`}
-          className="shrink-0 flex items-center gap-1 text-[12px] font-semibold cursor-pointer border-0 bg-transparent px-2 py-1 rounded-[6px] hover:bg-[#F3EAFF] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          style={{ color: '#722ED1', fontFamily: FONT_BODY, outlineColor: '#722ED1' }}
+          className="shrink-0 flex items-center gap-1 text-[12px] font-semibold cursor-pointer border-0 bg-transparent px-2 py-1 rounded-[6px] hover:bg-[var(--hz-primary-soft)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY, outlineColor: 'var(--hz-primary)' }}
         >
           View plans <IcoArrowRight />
         </button>
