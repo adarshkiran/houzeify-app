@@ -1,8 +1,9 @@
-// ─── Screen 03 / C23 — Company Site Operations (KEEP polish) ────────────────
+// ─── Screen 03 / C23 / S14 — Company Site Operations ────────────────────────
 // PartnerNavRail Site Operations — organization index of open tasks & issues.
-// Read-only — no attendance, checklists, or Live Site. Filters deferred to S14.
+// S14: client filters (project / type / status / overdue) + project jump UX.
+// Read-only — no attendance, checklists, GPS, or Live Site. C23 API unchanged.
 
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
 import { useOrganizations } from '@/data/organizationState'
 import { constructionStages } from '@/data/constructionStages'
@@ -15,7 +16,18 @@ import {
   formatOpsStatus,
   getOrganizationOpsSummary,
   type OrganizationOpsProject,
+  type OrganizationOpsTask,
 } from '@/data/organizationOpsApi'
+import {
+  collectOpsStatuses,
+  countFilteredOpenWork,
+  DEFAULT_OPS_FILTERS,
+  filterOpsProjects,
+  isTaskOverdue,
+  type FilteredOpsProject,
+  type OpsFilterState,
+  type OpsWorkTypeFilter,
+} from '@/data/companySiteOpsFilters'
 import {
   COMPANY_ROLLUP_CANVAS,
   CompanyRollupEmptyProjects,
@@ -48,13 +60,146 @@ function Stat({ label, value }: { label: string; value: number | string }) {
   )
 }
 
+function selectClassName() {
+  return 'min-h-11 h-11 px-3 rounded-[10px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] cursor-pointer'
+}
+
+function OpsFiltersBar({
+  projects,
+  statuses,
+  filters,
+  onChange,
+  resultCount,
+}: {
+  projects: OrganizationOpsProject[]
+  statuses: string[]
+  filters: OpsFilterState
+  onChange: (next: OpsFilterState) => void
+  resultCount: { tasks: number; issues: number; overdue: number }
+}) {
+  const hasActive =
+    filters.projectId !== 'all'
+    || filters.type !== 'all'
+    || filters.status !== 'all'
+    || filters.overdueOnly
+
+  return (
+    <section
+      className="rounded-[14px] bg-white p-4 sm:p-5 flex flex-col gap-3"
+      style={{ border: '1px solid #E3DDD7' }}
+      aria-label="Filter open work"
+    >
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <p className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>
+          Filters
+        </p>
+        {hasActive && (
+          <button
+            type="button"
+            onClick={() => onChange(DEFAULT_OPS_FILTERS)}
+            className="min-h-11 px-3 rounded-[10px] border-0 bg-transparent text-[13px] font-medium text-[#722ED1] cursor-pointer hover:underline"
+            style={{ fontFamily: FONT_BODY }}
+          >
+            Clear filters
+          </button>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <label className="flex flex-col gap-1.5 min-w-0">
+          <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Project</span>
+          <select
+            className={selectClassName()}
+            style={{ fontFamily: FONT_BODY }}
+            value={filters.projectId}
+            onChange={e => onChange({ ...filters, projectId: e.target.value as OpsFilterState['projectId'] })}
+            aria-label="Filter by project"
+          >
+            <option value="all">All projects</option>
+            {projects.map(p => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex flex-col gap-1.5 min-w-0">
+          <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Type</span>
+          <select
+            className={selectClassName()}
+            style={{ fontFamily: FONT_BODY }}
+            value={filters.type}
+            onChange={e => onChange({ ...filters, type: e.target.value as OpsWorkTypeFilter })}
+            aria-label="Filter by work type"
+          >
+            <option value="all">Tasks &amp; issues</option>
+            <option value="tasks">Tasks only</option>
+            <option value="issues">Issues only</option>
+          </select>
+        </label>
+
+        <label className="flex flex-col gap-1.5 min-w-0">
+          <span className="text-[12px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>Status</span>
+          <select
+            className={selectClassName()}
+            style={{ fontFamily: FONT_BODY }}
+            value={filters.status}
+            onChange={e => onChange({ ...filters, status: e.target.value as OpsFilterState['status'] })}
+            aria-label="Filter by status"
+          >
+            <option value="all">All statuses</option>
+            {statuses.map(s => (
+              <option key={s} value={s}>{formatOpsStatus(s)}</option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex items-center gap-3 min-h-11 mt-auto cursor-pointer">
+          <input
+            type="checkbox"
+            className="size-5 accent-[#722ED1] cursor-pointer"
+            checked={filters.overdueOnly}
+            onChange={e => onChange({ ...filters, overdueOnly: e.target.checked })}
+            aria-label="Show overdue tasks only"
+          />
+          <span className="text-[13px] text-[#242326]" style={{ fontFamily: FONT_BODY }}>
+            Overdue tasks only
+          </span>
+        </label>
+      </div>
+
+      <p className="text-[12.5px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }} aria-live="polite">
+        Showing {resultCount.tasks} task{resultCount.tasks === 1 ? '' : 's'}
+        {' · '}
+        {resultCount.issues} issue{resultCount.issues === 1 ? '' : 's'}
+        {resultCount.overdue > 0 ? ` · ${resultCount.overdue} overdue` : ''}
+      </p>
+    </section>
+  )
+}
+
+function TaskMeta({ task }: { task: OrganizationOpsTask }) {
+  const overdue = isTaskOverdue(task)
+  return (
+    <span className="text-[12px] text-[#68636D] shrink-0 flex flex-wrap items-center gap-1.5" style={{ fontFamily: FONT_BODY }}>
+      <span>{formatOpsStatus(task.status)} · {formatOpsPriority(task.priority)}</span>
+      {task.dueDate && (
+        <span className={overdue ? 'font-semibold text-[#DC2626]' : ''}>
+          · Due {task.dueDate}{overdue ? ' · Overdue' : ''}
+        </span>
+      )}
+    </span>
+  )
+}
+
 function ProjectOpsCard({
   project,
+  onOpenProject,
   onOpenTasks,
   onOpenIssues,
   onOpenRecord,
 }: {
-  project: OrganizationOpsProject
+  project: FilteredOpsProject
+  onOpenProject: () => void
   onOpenTasks: () => void
   onOpenIssues: () => void
   onOpenRecord: () => void
@@ -66,12 +211,27 @@ function ProjectOpsCard({
     <article className="rounded-[14px] bg-white p-4 sm:p-5 flex flex-col gap-4" style={{ border: '1px solid #E3DDD7' }}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex flex-col gap-1">
-          <h2 className="text-[16px] sm:text-[17px] font-semibold text-[#242326] m-0 break-words" style={{ fontFamily: FONT_HEAD }}>
-            {project.name}
-          </h2>
+          <button
+            type="button"
+            onClick={onOpenProject}
+            className="text-left border-0 bg-transparent p-0 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] rounded-[6px]"
+            aria-label={`Open project ${project.name}`}
+          >
+            <h2
+              className="text-[16px] sm:text-[17px] font-semibold text-[#242326] m-0 break-words hover:text-[#722ED1] transition-colors"
+              style={{ fontFamily: FONT_HEAD }}
+            >
+              {project.name}
+            </h2>
+          </button>
           <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
             <span>{stageLabel(project.stage)}</span>
             {project.location && <span className="break-words">· {project.location}</span>}
+            {project.overdueTaskCount > 0 && (
+              <span className="font-semibold text-[#DC2626]">
+                · {project.overdueTaskCount} overdue
+              </span>
+            )}
           </div>
         </div>
         <div className="flex flex-col items-end gap-2 shrink-0">
@@ -95,42 +255,43 @@ function ProjectOpsCard({
         <Stat label="High issues" value={project.highOpenIssueCount} />
       </div>
 
-      {project.openTasks.length === 0 && project.openIssues.length === 0 ? (
+      {project.filteredTasks.length === 0 && project.filteredIssues.length === 0 ? (
         <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>
-          No open tasks or issues on this project.
+          No open tasks or issues match the current filters on this project.
         </p>
       ) : (
         <div className="flex flex-col gap-4">
-          {project.openTasks.length > 0 && (
+          {project.filteredTasks.length > 0 && (
             <div className="flex flex-col gap-2">
               <h3 className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>
                 Open tasks
               </h3>
               <ul className="m-0 p-0 list-none flex flex-col gap-2" aria-label={`Open tasks on ${project.name}`}>
-                {project.openTasks.map(task => (
+                {project.filteredTasks.map(task => (
                   <li
                     key={task.id}
                     className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3 rounded-[12px] px-3 py-3 min-h-[44px]"
-                    style={{ backgroundColor: '#FAF8F6' }}
+                    style={{
+                      backgroundColor: isTaskOverdue(task) ? '#FEF2F2' : '#FAF8F6',
+                      border: isTaskOverdue(task) ? '1px solid #FECACA' : undefined,
+                    }}
                   >
                     <span className="text-[14px] font-semibold text-[#242326] break-words min-w-0" style={{ fontFamily: FONT_HEAD }}>
                       {task.title}
                     </span>
-                    <span className="text-[12px] text-[#68636D] shrink-0" style={{ fontFamily: FONT_BODY }}>
-                      {formatOpsStatus(task.status)} · {formatOpsPriority(task.priority)}
-                    </span>
+                    <TaskMeta task={task} />
                   </li>
                 ))}
               </ul>
             </div>
           )}
-          {project.openIssues.length > 0 && (
+          {project.filteredIssues.length > 0 && (
             <div className="flex flex-col gap-2">
               <h3 className="text-[12px] tracking-[0.06em] uppercase text-[#9A949D] m-0" style={{ fontFamily: FONT_MONO }}>
                 Open issues
               </h3>
               <ul className="m-0 p-0 list-none flex flex-col gap-2" aria-label={`Open issues on ${project.name}`}>
-                {project.openIssues.map(issue => (
+                {project.filteredIssues.map(issue => (
                   <li
                     key={issue.id}
                     className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3 rounded-[12px] px-3 py-3 min-h-[44px]"
@@ -153,9 +314,17 @@ function ProjectOpsCard({
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
-          onClick={onOpenTasks}
+          onClick={onOpenProject}
           className={companyRollupPrimaryBtnClass}
           style={{ backgroundColor: '#722ED1', fontFamily: FONT_BODY }}
+        >
+          Open Project
+        </button>
+        <button
+          type="button"
+          onClick={onOpenTasks}
+          className={companyRollupSecondaryBtnClass}
+          style={{ backgroundColor: 'white', color: '#722ED1', border: '1px solid #D4C4F0', fontFamily: FONT_BODY }}
         >
           Open Tasks
         </button>
@@ -202,6 +371,23 @@ export default function CompanyOpenWorkScreen({
     describeOrganizationOpsError,
   )
 
+  const [filters, setFilters] = useState<OpsFilterState>(DEFAULT_OPS_FILTERS)
+
+  const statuses = useMemo(
+    () => (summary ? collectOpsStatuses(summary.projects) : []),
+    [summary],
+  )
+
+  const filteredProjects = useMemo(
+    () => (summary ? filterOpsProjects(summary, filters) : []),
+    [summary, filters],
+  )
+
+  const resultCount = useMemo(
+    () => countFilteredOpenWork(filteredProjects),
+    [filteredProjects],
+  )
+
   if (!isProfessional) return null
 
   const phase = resolveCompanyRollupPhase({
@@ -213,7 +399,7 @@ export default function CompanyOpenWorkScreen({
 
   function openProject(
     project: OrganizationOpsProject,
-    screen: 'project-tasks' | 'project-issues' | 'project-reports',
+    screen: 'project-overview' | 'project-tasks' | 'project-issues' | 'project-reports',
   ) {
     onNavigate(screen, {
       project_id: project.id,
@@ -248,7 +434,7 @@ export default function CompanyOpenWorkScreen({
                 {currentOrganization?.name ?? 'Your company'}
               </h2>
               <p className="text-[13.5px] text-[#68636D] m-0 max-w-[580px]" style={{ fontFamily: FONT_BODY }}>
-                Open tasks and issues across every project in this organization. Attendance, checklists, and Live Site are not part of this view.
+                Open tasks and issues across every project in this organization. Filter by project, type, status, or overdue due dates. Attendance, checklists, and Live Site are not part of this view.
               </p>
             </div>
 
@@ -286,6 +472,14 @@ export default function CompanyOpenWorkScreen({
                   <Stat label="High issues" value={summary.totals.highOpenIssues} />
                 </section>
 
+                <OpsFiltersBar
+                  projects={summary.projects}
+                  statuses={statuses}
+                  filters={filters}
+                  onChange={setFilters}
+                  resultCount={resultCount}
+                />
+
                 {summary.totals.openTasks + summary.totals.openIssues === 0 ? (
                   <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-8" style={{ border: '1px solid #E3DDD7' }}>
                     <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
@@ -295,13 +489,31 @@ export default function CompanyOpenWorkScreen({
                       Open a project’s Tasks or Issues screen to create work items. Open items will appear here across the company.
                     </p>
                   </div>
+                ) : filteredProjects.length === 0 ? (
+                  <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-8" style={{ border: '1px solid #E3DDD7' }}>
+                    <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+                      No matching open work.
+                    </p>
+                    <p className="text-[13px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: FONT_BODY }}>
+                      Try clearing filters or choosing a different project, type, or status.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setFilters(DEFAULT_OPS_FILTERS)}
+                      className={companyRollupSecondaryBtnClass}
+                      style={{ backgroundColor: 'white', color: '#722ED1', border: '1px solid #D4C4F0', fontFamily: FONT_BODY }}
+                    >
+                      Clear filters
+                    </button>
+                  </div>
                 ) : null}
 
                 <div className="flex flex-col gap-4">
-                  {summary.projects.map(project => (
+                  {filteredProjects.map(project => (
                     <ProjectOpsCard
                       key={project.id}
                       project={project}
+                      onOpenProject={() => openProject(project, 'project-overview')}
                       onOpenTasks={() => openProject(project, 'project-tasks')}
                       onOpenIssues={() => openProject(project, 'project-issues')}
                       onOpenRecord={() => openProject(project, 'project-reports')}
