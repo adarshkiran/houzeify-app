@@ -75,4 +75,4 @@ Not S23. Not legacy REMOVE.
 ## 5. Final commit / origin
 
 Implementation commit: `6558747`  
-**Final `main` / `origin/main`:** *(filled after FF-merge + push)*
+**Final `main` / `origin/main`:** `060f7e2` (FF-merge + push; local and origin synchronized)
