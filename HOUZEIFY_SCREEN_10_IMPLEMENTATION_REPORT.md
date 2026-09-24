@@ -127,5 +127,5 @@ No server assembler changes.
 
 ## 18–19. Final commit / origin
 
-Final commit: _(after commit)_  
+Final commit: `106dba3`  
 **origin/main:** not updated — stop after commit per task instruction.
