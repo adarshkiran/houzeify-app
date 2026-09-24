@@ -1918,6 +1918,7 @@ export default function App() {
       )}
       {screen === 'live-site' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
+          {/* S18 — KEEP COMING SOON until camera/storage architecture exists. */}
           <ComingSoonScreen
             placeholderId={screen}
             shell="company"
@@ -2375,6 +2376,7 @@ export default function App() {
           the customer Sidebar's new Timeline/Live Site items. */}
       {screen === 'project-live-site' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
+          {/* S18 — KEEP COMING SOON; Daily Progress photos ≠ Live Site. */}
           <ComingSoonScreen
             placeholderId="project-live-site"
             shell="project"

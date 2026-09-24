@@ -29,7 +29,7 @@ export const COMPANY_NAV_ROUTES = {
   progress: 'company-progress', // C19 — Company Progress Rollup (real)
   siteOperations: 'site-operations', // C23 — Company Site Operations (real)
   workforce: 'workforce', // NEW placeholder
-  liveSite: 'live-site', // NEW placeholder
+  liveSite: 'live-site', // S18 — KEEP COMING SOON until camera/storage infra
   documents: 'company-documents', // NEW placeholder
   reports: 'company-reports', // C20 — Construction Record index (real)
   // Module 02 fix — these two previously pointed at the wrong screens
@@ -69,7 +69,7 @@ export const PROJECT_NAV_ROUTES = {
   tasks: 'project-tasks', // existing
   issues: 'project-issues', // NEW placeholder
   workforce: 'project-workforce', // NEW placeholder
-  liveSite: 'project-live-site', // NEW placeholder
+  liveSite: 'project-live-site', // S18 — KEEP COMING SOON until camera/storage infra
   documents: 'project-documents', // existing
   boq: 'project-boq', // renders ProjectBoqScreen — deliberately distinct from the homeowner New-Build BOQ flow (boq-overview/detailed-boq/...), which is estimate-authoring, not a project-workspace record
   team: 'project-team', // existing
@@ -93,7 +93,7 @@ export const CUSTOMER_NAV_ROUTES = {
   progress: 'project-progress', // existing — reused
   timeline: 'project-timeline', // NEW placeholder — shared with the project-nav Timeline tab
   photos: 'project-photos', // NEW placeholder
-  liveSite: 'project-live-site', // NEW placeholder — shared with the project-nav Live Site tab
+  liveSite: 'project-live-site', // S18 — KEEP COMING SOON (shared with project-nav Live Site tab)
   documents: 'project-documents', // existing — reused
   questions: 'project-messages', // S16 — honest empty shell until message persistence exists
   notifications: 'notifications', // S17 — honest empty shell until notification events exist
@@ -102,6 +102,8 @@ export const CUSTOMER_NAV_ROUTES = {
 // ─── Placeholder content — one shared ComingSoonScreen renders all of the
 // NEW ids above; this map is its only per-id content. Keep entries terse —
 // this is a nav-architecture placeholder, not real feature copy. ──────────
+
+import { LIVE_SITE_COMING_SOON } from './liveSiteShell'
 
 export interface NavPlaceholderContent {
   title: string
@@ -112,12 +114,12 @@ export const NAV_PLACEHOLDER_CONTENT: Record<string, NavPlaceholderContent> = {
   'company-progress': { title: 'Progress', description: 'Daily progress and construction evidence across every project in your company.' },
   'site-operations': { title: 'Site Operations', description: 'Open tasks and issues across your company’s projects — operational site work from the Digital Construction Record.' },
   'workforce': { title: 'Workforce', description: 'Active site-team assignments across your company’s projects.' },
-  'live-site': { title: 'Live Site', description: 'Live site cameras and real-time site status will appear here.' },
+  'live-site': LIVE_SITE_COMING_SOON.company,
   'company-documents': { title: 'Documents', description: 'Active construction documents across your company’s projects — plans, contracts, and approvals.' },
   'company-reports': { title: 'Reports', description: 'Construction Record index across your company’s projects — stage, progress, documents, and operations.' },
   'project-timeline': { title: 'Timeline', description: 'Construction stage journey and chronological project activity from the Digital Construction Record.' },
   'project-workforce': { title: 'Workforce', description: "This project's on-site crew will appear here." },
-  'project-live-site': { title: 'Live Site', description: 'Live camera feeds and real-time status for this project site.' },
+  'project-live-site': LIVE_SITE_COMING_SOON.project,
   'project-boq': { title: 'Bill of Quantities', description: "This project's Bill of Quantities — sections, quantities and amounts — lives here." },
   'project-customer': { title: 'Customer', description: "Invite the homeowner and manage what they can see on this project." },
   'project-reports': { title: 'Construction Record', description: 'Assembled progress, evidence, documents, and stage for this project.' },
