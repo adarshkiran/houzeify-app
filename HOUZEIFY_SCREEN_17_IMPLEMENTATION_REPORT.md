@@ -71,5 +71,5 @@ Roadmap: Phase 6 + `### S16 / S17 — Messages & Notifications — MODIFY (gated
 
 ## 5. Final commit / origin
 
-Implementation commit: _(filled after commit)_  
+Implementation commit: `a6ca2c8`  
 **Final `main` / `origin/main`:** _(filled after FF-merge + push)_
