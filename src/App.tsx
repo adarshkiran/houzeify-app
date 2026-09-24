@@ -91,55 +91,12 @@ import CompanyDocumentsScreen from '@/partner/projects/CompanyDocumentsScreen'
 import CompanyOpenWorkScreen from '@/partner/projects/CompanyOpenWorkScreen'
 import ProjectSettingsScreen from '@/user/projects/ProjectSettingsScreen'
 import AIAdvisorScreen from '@/user/dashboard/AIAdvisorScreen'
-import HomeServicesScreen from '@/user/home-services/HomeServicesScreen'
-import HoziehelperGoldScreen from '@/user/home-services/categories/HoziehelperGoldScreen'
-import SalonLuxeScreen from '@/user/home-services/categories/SalonLuxeScreen'
-import PrimeScreen from '@/user/home-services/categories/PrimeScreen'
-import SpaLuxeScreen from '@/user/home-services/categories/SpaLuxeScreen'
-import SpaPrimeScreen from '@/user/home-services/categories/SpaPrimeScreen'
-import SpaAyurvedaScreen from '@/user/home-services/categories/SpaAyurvedaScreen'
-import HairStudioForWomenScreen from '@/user/home-services/categories/HairStudioForWomenScreen'
-import MakeupSareeStylingScreen from '@/user/home-services/categories/MakeupSareeStylingScreen'
-import SalonRoyaleScreen from '@/user/home-services/categories/SalonRoyaleScreen'
-import SalonPrimeScreen from '@/user/home-services/categories/SalonPrimeScreen'
-import MassageRoyaleScreen from '@/user/home-services/categories/MassageRoyaleScreen'
-import MassagePrimeScreen from '@/user/home-services/categories/MassagePrimeScreen'
-import MassageAyurvedaScreen from '@/user/home-services/categories/MassageAyurvedaScreen'
-import BathroomCleaningScreen from '@/user/home-services/categories/BathroomCleaningScreen'
-import KitchenCleaningScreen from '@/user/home-services/categories/KitchenCleaningScreen'
-import LivingBedroomCleaningScreen from '@/user/home-services/categories/LivingBedroomCleaningScreen'
-import FullHomeCleaningScreen from '@/user/home-services/categories/FullHomeCleaningScreen'
-import CockroachControlScreen from '@/user/home-services/categories/CockroachControlScreen'
-import TermiteControlScreen from '@/user/home-services/categories/TermiteControlScreen'
-import AntsBedBugsControlScreen from '@/user/home-services/categories/AntsBedBugsControlScreen'
-import WallPanelsScreen from '@/user/home-services/categories/WallPanelsScreen'
-import PaintingFewWallsRoomsScreen from '@/user/home-services/categories/PaintingFewWallsRoomsScreen'
-import ElectricianScreen from '@/user/home-services/categories/ElectricianScreen'
-import PlumbingScreen from '@/user/home-services/categories/PlumbingScreen'
-import CarpentryScreen from '@/user/home-services/categories/CarpentryScreen'
-import CivilWorkScreen from '@/user/home-services/categories/CivilWorkScreen'
-import FurnitureAssemblyScreen from '@/user/home-services/categories/FurnitureAssemblyScreen'
-import GeyserServiceRepairScreen from '@/user/home-services/categories/GeyserServiceRepairScreen'
-import TileGroutingScreen from '@/user/home-services/categories/TileGroutingScreen'
-import LightsInstallationScreen from '@/user/home-services/categories/LightsInstallationScreen'
-import HoziehelperStandardScreen from '@/user/home-services/categories/HoziehelperStandardScreen'
-import CheckoutScreen from '@/user/home-services/CheckoutScreen'
-import BookingDetailsScreen from '@/user/home-services/BookingDetailsScreen'
-import AddressScreen from '@/user/home-services/AddressScreen'
-import SavedAddressesScreen from '@/user/home-services/SavedAddressesScreen'
-import DateTimeScreen from '@/user/home-services/DateTimeScreen'
-import BookingConfirmationScreen from '@/user/home-services/BookingConfirmationScreen'
-import MyBookingsScreen from '@/user/home-services/MyBookingsScreen'
-import BookingDetailScreen from '@/user/home-services/BookingDetailScreen'
-import { CustomerCartProvider } from '@/data/customerCart'
-import { CustomerAddressProvider } from '@/data/customerAddress'
 import { SubscriptionProvider } from '@/data/subscriptionState'
 import { useAuth } from '@/data/authState'
 import { useCustomerProfile } from '@/data/customerProfileState'
 import { usePartnerProfile } from '@/data/partnerProfileState'
 import { useOrganizations } from '@/data/organizationState'
 import { useHouseRequirements } from '@/data/houseRequirementsState'
-import ServiceCategoryDetailScreen from '@/user/home-services/categories/ServiceCategoryDetailScreen'
 import CreateProjectScreen from '@/user/new-build/CreateProjectScreen'
 import HouseRequirementsScreen from '@/user/new-build/HouseRequirementsScreen'
 import { getHouseRequirementsForProject } from '@/data/houseRequirements'
@@ -258,47 +215,6 @@ type AppScreen =
   | 'project-tasks'
   | 'project-progress'
   | 'ai-advisor'
-  | 'home-services'
-  | 'hoziehelper-gold'
-  | 'hoziehelper-standard'
-  | 'salon-luxe'
-  | 'prime'
-  | 'spa-luxe'
-  | 'spa-prime'
-  | 'spa-ayurveda'
-  | 'hair-studio-for-women'
-  | 'makeup-saree-styling'
-  | 'salon-royale'
-  | 'salon-prime'
-  | 'massage-royale'
-  | 'massage-prime'
-  | 'massage-ayurveda'
-  | 'bathroom-cleaning'
-  | 'kitchen-cleaning'
-  | 'living-bedroom-cleaning'
-  | 'full-home-cleaning'
-  | 'cockroach-control'
-  | 'termite-control'
-  | 'ants-bedbugs-control'
-  | 'wall-panels-installation'
-  | 'painting-few-walls-rooms'
-  | 'electrician'
-  | 'plumbing'
-  | 'carpentry'
-  | 'civil-work'
-  | 'furniture-assembly'
-  | 'geyser-service-repair'
-  | 'tile-grouting'
-  | 'lights-installation'
-  | 'booking-details'
-  | 'address'
-  | 'saved-addresses'
-  | 'date-time'
-  | 'checkout'
-  | 'booking-confirmation'
-  | 'my-bookings'
-  | 'booking-detail'
-  | 'service-category-detail'
   | 'create-project'
   | 'house-requirements'
   | 'review-requirements'
@@ -460,47 +376,6 @@ const SCREEN_GROUPS: { label: string; screens: { id: AppScreen; label: string }[
       { id: 'project-tasks', label: 'Project Tasks' },
       { id: 'project-progress', label: 'Project Progress' },
       { id: 'ai-advisor', label: 'AI Advisor' },
-      { id: 'home-services', label: 'Home Services' },
-      { id: 'hoziehelper-gold', label: 'HozieHelp Gold' },
-      { id: 'hoziehelper-standard', label: 'HozieHelp Standard' },
-      { id: 'salon-luxe', label: 'Salon Luxe' },
-      { id: 'prime', label: 'Prime' },
-      { id: 'spa-luxe', label: 'Spa Luxe' },
-      { id: 'spa-prime', label: 'Spa Prime' },
-      { id: 'spa-ayurveda', label: 'Spa Ayurveda' },
-      { id: 'hair-studio-for-women', label: 'Hair Studio for Women' },
-      { id: 'makeup-saree-styling', label: 'Makeup, Saree & Styling' },
-      { id: 'salon-royale', label: 'Salon Royale' },
-      { id: 'salon-prime', label: 'Salon Prime' },
-      { id: 'massage-royale', label: 'Massage Royale' },
-      { id: 'massage-prime', label: 'Massage Prime' },
-      { id: 'massage-ayurveda', label: 'Massage Ayurveda' },
-      { id: 'bathroom-cleaning', label: 'Bathroom Cleaning' },
-      { id: 'kitchen-cleaning', label: 'Kitchen Cleaning' },
-      { id: 'living-bedroom-cleaning', label: 'Living & Bedroom Cleaning' },
-      { id: 'full-home-cleaning', label: 'Full Home/ By Room Cleaning' },
-      { id: 'cockroach-control', label: 'Cockroach Control' },
-      { id: 'termite-control', label: 'Termite Control' },
-      { id: 'ants-bedbugs-control', label: 'Ants & Bed Bugs Control' },
-      { id: 'wall-panels-installation', label: 'Wall Panels' },
-      { id: 'painting-few-walls-rooms', label: 'Painting — Few Walls & Rooms' },
-      { id: 'electrician', label: 'Electrician' },
-      { id: 'plumbing', label: 'Plumbing' },
-      { id: 'carpentry', label: 'Carpentry' },
-      { id: 'civil-work', label: 'Civil Work' },
-      { id: 'furniture-assembly', label: 'Furniture Assembly' },
-      { id: 'geyser-service-repair', label: 'Geyser Service & Repair' },
-      { id: 'tile-grouting', label: 'Tile Grouting' },
-      { id: 'lights-installation', label: 'Lights Installation' },
-      { id: 'booking-details', label: 'Booking Details' },
-      { id: 'address', label: 'Address' },
-      { id: 'saved-addresses', label: 'Saved Addresses' },
-      { id: 'date-time', label: 'Date & Time' },
-      { id: 'checkout', label: 'Checkout' },
-      { id: 'booking-confirmation', label: 'Booking Confirmation' },
-      { id: 'my-bookings', label: 'My Bookings' },
-      { id: 'booking-detail', label: 'Booking Detail' },
-      { id: 'service-category-detail', label: 'Service Category Detail' },
       { id: 'create-project', label: 'Create Project' },
       { id: 'house-requirements', label: 'House Requirements' },
       { id: 'review-requirements', label: 'Review Requirements' },
@@ -1149,8 +1024,6 @@ export default function App() {
   }
 
   return (
-    <CustomerCartProvider>
-    <CustomerAddressProvider>
     <SubscriptionProvider role={resolvedRole}>
     <div style={{ height: '100%', position: 'relative', overflow: 'hidden' }}>
       {screen === 'splash' && (
@@ -2437,10 +2310,8 @@ export default function App() {
           />
         </div>
       )}
-      {/* Houzeify 2.0 Module 02 — Home Services hidden-navigation
-          placeholder. The one unavoidable entry point left (Sidebar's
-          demoted "Services" item) lands here instead of the real booking
-          flow — see homeownerDashboard.ts's DASHBOARD_ROUTES.homeServices. */}
+      {/* S21 — Home Services catalogue/booking REMOVED. Demoted Coming Soon
+          remains the Services entry (DASHBOARD_ROUTES.homeServices). */}
       {screen === 'home-services-coming-soon' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ComingSoonScreen placeholderId="home-services-coming-soon" shell="customer" activeCustomerId="services" onNavigate={navigateTo} />
@@ -2463,257 +2334,6 @@ export default function App() {
             projectLocation={projectData.location}
             projectStage={projectData.project_stage}
             initialQuery={projectData.ai_query}
-          />
-        </div>
-      )}
-      {screen === 'home-services' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <HomeServicesScreen
-            onNavigate={navigateTo}
-            city={projectData.city}
-            state={projectData.state}
-            serviceEntry={projectData.service_entry}
-            serviceGroup={projectData.service_group}
-            openPicker={projectData.open_picker}
-            initialQuery={projectData.search_query}
-            fullName={projectData.full_name}
-            preferredName={projectData.preferred_name}
-          />
-        </div>
-      )}
-      {screen === 'hoziehelper-gold' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <HoziehelperGoldScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'hoziehelper-standard' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <HoziehelperStandardScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'salon-luxe' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <SalonLuxeScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'prime' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <PrimeScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'spa-luxe' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <SpaLuxeScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'spa-prime' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <SpaPrimeScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'spa-ayurveda' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <SpaAyurvedaScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'hair-studio-for-women' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <HairStudioForWomenScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'makeup-saree-styling' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <MakeupSareeStylingScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'salon-royale' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <SalonRoyaleScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'salon-prime' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <SalonPrimeScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'massage-royale' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <MassageRoyaleScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'massage-prime' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <MassagePrimeScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'massage-ayurveda' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <MassageAyurvedaScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'bathroom-cleaning' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <BathroomCleaningScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'kitchen-cleaning' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <KitchenCleaningScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'living-bedroom-cleaning' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <LivingBedroomCleaningScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'full-home-cleaning' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <FullHomeCleaningScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'cockroach-control' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <CockroachControlScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'termite-control' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <TermiteControlScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'ants-bedbugs-control' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <AntsBedBugsControlScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'wall-panels-installation' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <WallPanelsScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'painting-few-walls-rooms' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <PaintingFewWallsRoomsScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'electrician' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <ElectricianScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'plumbing' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <PlumbingScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'carpentry' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <CarpentryScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'civil-work' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <CivilWorkScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'furniture-assembly' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <FurnitureAssemblyScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'geyser-service-repair' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <GeyserServiceRepairScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'tile-grouting' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <TileGroutingScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'lights-installation' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <LightsInstallationScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'booking-details' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <BookingDetailsScreen
-            onNavigate={navigateTo}
-            origin={projectData.hoziehelper_checkout_origin}
-          />
-        </div>
-      )}
-      {screen === 'address' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <AddressScreen
-            onNavigate={navigateTo}
-            origin={projectData.hoziehelper_checkout_origin}
-            city={projectData.city}
-            state={projectData.state}
-          />
-        </div>
-      )}
-      {screen === 'saved-addresses' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <SavedAddressesScreen
-            onNavigate={navigateTo}
-            city={projectData.city}
-            state={projectData.state}
-          />
-        </div>
-      )}
-      {screen === 'date-time' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <DateTimeScreen
-            onNavigate={navigateTo}
-            origin={projectData.hoziehelper_checkout_origin}
-          />
-        </div>
-      )}
-      {screen === 'checkout' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <CheckoutScreen
-            onNavigate={navigateTo}
-            origin={projectData.hoziehelper_checkout_origin}
-            phone={phone}
-            city={projectData.city}
-            state={projectData.state}
-          />
-        </div>
-      )}
-      {screen === 'booking-confirmation' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <BookingConfirmationScreen
-            onNavigate={navigateTo}
-            taxesAndFee={projectData.taxes_and_fee}
-            tip={projectData.tip}
-            amountToPay={projectData.amount_to_pay}
-          />
-        </div>
-      )}
-      {screen === 'my-bookings' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <MyBookingsScreen onNavigate={navigateTo} />
-        </div>
-      )}
-      {screen === 'booking-detail' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <BookingDetailScreen onNavigate={navigateTo} bookingId={projectData.booking_id} />
-        </div>
-      )}
-      {screen === 'service-category-detail' && (
-        <div style={{ ...slide, overflowY: 'auto' }}>
-          <ServiceCategoryDetailScreen
-            onNavigate={navigateTo}
-            serviceCategoryId={projectData.service_category_id}
-            city={projectData.city}
-            state={projectData.state}
-            primaryIntent={projectData.primary_intent}
-            serviceEntry={projectData.service_entry}
-            locationId={projectData.location_id}
-            fullName={projectData.full_name}
-            preferredName={projectData.preferred_name}
           />
         </div>
       )}
@@ -3046,7 +2666,5 @@ export default function App() {
       )}
     </div>
     </SubscriptionProvider>
-    </CustomerAddressProvider>
-    </CustomerCartProvider>
   )
 }

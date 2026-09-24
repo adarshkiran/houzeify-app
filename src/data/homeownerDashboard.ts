@@ -37,21 +37,14 @@ export const DASHBOARD_ROUTES = {
   renovate: 'renovate-select-area', // Flow 03 — the dedicated Renovate journey's own first screen
   createProject: 'create-project', // 035 — existing
   aiAdvisor: 'ai-advisor', // S19 — mock Hozie with honest copy until LLM seam exists
-  // Houzeify 2.0 Module 02 — Home Services is no longer part of the active
-  // product experience (see constructionNav.ts's NAV_PLACEHOLDER_CONTENT
-  // header comment). Redirected to the shared "Coming Soon" placeholder;
-  // the real 'home-services' screen id and its whole booking flow are
-  // untouched in the codebase, just no longer linked to from here.
+  // S21 — Home Services catalogue/booking REMOVED. Product Services entry
+  // stays on the demoted Coming Soon placeholder (see constructionNav.ts).
   homeServices: 'home-services-coming-soon',
   findContractors: 'find-contractors', // 060 — existing
   bidsReceived: 'bids-received', // 063 — existing
   estimateDashboard: 'estimate-dashboard', // 042 — existing
   boqOverview: 'boq-overview', // 047 — existing
   uploadPlan: 'upload-plan', // 037 — existing
-  // uploadPhotos intentionally has no entry here (11C) — 'upload-photos' was never a real AppScreen
-  // route and this constant had zero consumers anywhere in the codebase. Service/booking photo
-  // capture is real and live, just via a different, already-built seam: servicePhotoUpload.ts,
-  // used inline by BookingDetailsScreen — never this dangling dashboard route.
   locationSetup: 'location-setup', // existing
   professionalDashboard: 'professional-dashboard', // 029 — existing (ProfessionalDashboardScreen.tsx)
 } as const
