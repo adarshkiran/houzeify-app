@@ -141,4 +141,4 @@ C19–C24: no server changes; suite green.
 ## 18–19. Final commit / origin
 
 Final commit: `be3e2d4`  
-origin/main: _(pending merge)_
+origin/main: synchronized at `6675f00`
