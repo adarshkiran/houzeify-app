@@ -21,14 +21,14 @@ export default function HozieInsightCard({ message, actionLabel, onAction }: Hoz
           Hozie Insight
         </span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.7] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[13px] text-[#242326] leading-[1.7] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         {message}
       </p>
       {actionLabel && (
         <button
           onClick={onAction}
           className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-          style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
         >
           {actionLabel}
         </button>

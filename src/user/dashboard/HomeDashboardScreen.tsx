@@ -14,8 +14,8 @@ import {
 } from '@/data/customerHomeProjects'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
@@ -60,7 +60,7 @@ function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNa
         <button type="button" onClick={() => onNavigate('notifications')} aria-label="Notifications" className="min-w-11 min-h-11 w-11 h-11 flex items-center justify-center text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent rounded-[10px] outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
           <IcoBell />
         </button>
-        <button type="button" onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="min-w-11 min-h-11 w-11 h-11 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>
+        <button type="button" onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="min-w-11 min-h-11 w-11 h-11 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           {userInitials}
         </button>
       </div>
@@ -82,7 +82,7 @@ function TopHeader({ userInitials, onNavigate }: { userInitials: string; onNavig
           <IcoCircleHelp />
         </button>
         <button type="button" onClick={() => onNavigate('homeowner-profile')} aria-label="Open profile" className="flex items-center gap-2 ml-1 min-h-11 px-2 py-1 rounded-[10px] hover:bg-[#F4F0EC] transition-all cursor-pointer border-0 bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2">
-          <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>
+          <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
             {userInitials}
           </div>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#808080" strokeWidth="1.5" strokeLinecap="round">
@@ -153,7 +153,7 @@ function HozieHeroCard({ onAsk }: { onAsk: () => void }) {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <h2 className="text-[20px] sm:text-[24px] font-medium text-[#242326] leading-tight m-0" style={{ fontFamily: '"Google Sans Flex:Medium", sans-serif' }}>
+        <h2 className="text-[20px] sm:text-[24px] font-medium text-[#242326] leading-tight m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Questions about your construction record?
         </h2>
         <p className="text-[14px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>

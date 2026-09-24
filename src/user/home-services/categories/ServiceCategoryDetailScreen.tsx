@@ -20,8 +20,8 @@ import { initials } from '@/data/homeownerProfile'
 import Sidebar from '@/shared/components/Sidebar'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Service category icons — same set as Screen 014 ───────────────────────
 
@@ -291,7 +291,7 @@ function TopHeader({ title, userInitials, onNavigate }: { title: string; userIni
           {/* Customer Implementation 09G — real onboarding initials
               (initials(full_name ‖ preferred_name)); "?" when no name.
               Was a literal hardcoded "AK". */}
-          <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>{userInitials}</div>
+          <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{userInitials}</div>
         </button>
       </div>
     </header>

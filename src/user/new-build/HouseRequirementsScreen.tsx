@@ -57,8 +57,8 @@ import { useHouseRequirements } from '@/data/houseRequirementsState'
 import { describeHouseRequirementsError } from '@/data/houseRequirementsApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 const FLOORS_OPTIONS: FloorsOption[] = ['G', 'G+1', 'G+2', 'G+3']
 const BHK_OPTIONS = ['1', '2', '3', '4', '5+']

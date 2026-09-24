@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 090 — Team Member Detail ────────────────────────────────────────
 // A PROFESSIONAL screen reached from 089. Per the completed diagnostic: no

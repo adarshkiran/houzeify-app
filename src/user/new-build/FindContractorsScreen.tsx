@@ -19,8 +19,8 @@ import {
 import Sidebar from '@/shared/components/Sidebar'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 060 — Find Contractors ──────────────────────────────────────────
 // A HOMEOWNER marketplace screen — the reverse of the professional-side

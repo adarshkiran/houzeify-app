@@ -10,8 +10,8 @@ import { useProjectAudience } from '@/data/customerProjectsState'
 import { listCustomerViewWorkforce, type CustomerViewWorkforceMember } from '@/data/customerViewApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen — Project Workforce (Module 06 / Task 5) ────────────────────────
 // A HOMEOWNER/professional screen reached from Project Workspace's sub-nav

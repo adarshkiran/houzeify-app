@@ -53,7 +53,7 @@ function CircularConfidence({ value }: { value: number }) {
       <div className="absolute inset-0 flex items-center justify-center">
         <span
           className="text-[12px] font-bold text-[#722ED1] leading-none"
-          style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}
+          style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           {value}%
         </span>
@@ -81,7 +81,7 @@ function CostRow({ label, amount, pct }: { label: string; amount: string; pct: n
       </div>
       <div
         className="w-[46px] text-right text-[11px] font-semibold text-[#242326]"
-        style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+        style={{ fontFamily: '"Geist Variable", sans-serif' }}
       >
         {amount}
       </div>
@@ -225,7 +225,7 @@ function ProductCard() {
           <div>
             <div
               className="text-[14px] font-bold text-[#242326] tracking-[-0.01em]"
-              style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}
+              style={{ fontFamily: '"Geist Variable", sans-serif' }}
             >
               HOZIE
             </div>
@@ -267,7 +267,7 @@ function ProductCard() {
               </div>
               <div
                 className="text-[13px] font-bold text-[#242326]"
-                style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}
+                style={{ fontFamily: '"Geist Variable", sans-serif' }}
               >
                 3 BHK G+1 HOME
               </div>
@@ -287,7 +287,7 @@ function ProductCard() {
               </div>
               <div
                 className="text-[22px] font-bold text-[#722ED1] tracking-[-0.02em] leading-tight"
-                style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}
+                style={{ fontFamily: '"Geist Variable", sans-serif' }}
               >
                 ₹29.8L – ₹35.2L
               </div>
@@ -322,7 +322,7 @@ function ProductCard() {
           </div>
           <div
             className="text-[12px] text-[#242326]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Your initial estimate is ready.
           </div>
@@ -375,13 +375,13 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
         </div>
         <h1
           className="text-[36px] sm:text-[40px] font-semibold text-[#242326] leading-[1.05] tracking-[-0.02em] m-0"
-          style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+          style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           Welcome back.
         </h1>
         <p
           className="text-[15px] text-[#68636D] leading-[1.65] m-0 max-w-[340px]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Continue planning your build with Hozie.
         </p>
@@ -391,7 +391,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
       <div className="flex flex-col gap-3.5">
         <label
           className="text-[13px] font-semibold text-[#242326]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Mobile number
         </label>
@@ -410,7 +410,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
             <span className="text-[16px] leading-none">🇮🇳</span>
             <span
               className="text-[13px] font-medium text-[#242326]"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               +91
             </span>
@@ -431,7 +431,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
             onBlur={() => setTouched(true)}
             placeholder="98765 43210"
             className="flex-1 px-3 text-[15px] text-[#242326] placeholder:text-[#CAC7C6] bg-transparent outline-none border-none"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           />
 
           {/* Valid checkmark */}
@@ -449,7 +449,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
         {showError && (
           <div
             className="flex items-center gap-1.5 text-[#DC2626] text-[12px]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <circle cx="7" cy="7" r="5.5" stroke="#DC2626" strokeWidth="1.2"/>
@@ -464,7 +464,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
         {submitError && (
           <div
             className="flex items-center gap-1.5 text-[#DC2626] text-[12px]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <circle cx="7" cy="7" r="5.5" stroke="#DC2626" strokeWidth="1.2"/>
@@ -484,7 +484,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
             loading ? 'cursor-wait' : 'cursor-pointer hover:brightness-90 active:scale-[0.99]',
             !isValid && !loading ? 'opacity-60' : '',
           ].join(' ')}
-          style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
         >
           {loading ? (
             <>
@@ -502,7 +502,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
         {/* Helper text */}
         <p
           className="text-[12px] text-[#9A949D] text-center m-0 leading-[1.6]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           We&apos;ll send a one-time verification code to your mobile number.
         </p>
@@ -523,7 +523,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
       {/* Google button */}
       <button
         className="h-[48px] w-full flex items-center justify-center gap-2.5 bg-white border border-[#E3DDD7] rounded-[12px] text-[14px] font-medium text-[#242326] cursor-pointer transition-all duration-200 hover:border-[#722ED1] hover:bg-[#F3EAFF]"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         <GoogleIcon />
         Continue with Google
@@ -532,12 +532,12 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
       {/* Create account */}
       <p
         className="text-center text-[13px] text-[#68636D] m-0"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         Don&apos;t have a Houzeify account?{' '}
         <button
           className="text-[#722ED1] font-semibold cursor-pointer bg-transparent border-none p-0 hover:underline"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Create account →
         </button>
@@ -546,7 +546,7 @@ function LoginForm({ onNavigate }: { onNavigate: (screen: string, data?: Record<
       {/* Terms */}
       <p
         className="text-center text-[11px] text-[#9A949D] m-0 leading-[1.65]"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         By continuing, you agree to our{' '}
         <a href="#" className="text-[#722ED1] hover:underline" onClick={e => e.preventDefault()}>
@@ -585,13 +585,13 @@ export default function LoginScreen({ onNavigate }: { onNavigate: (screen: strin
         <div className="flex items-center gap-2 sm:gap-3">
           <span
             className="hidden sm:block text-[13px] text-[#68636D]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Already have an account?
           </span>
           <button
             className="h-9 px-4 border border-[#E3DDD7] rounded-[10px] bg-transparent text-[13px] font-medium text-[#242326] cursor-pointer transition-all duration-200 hover:border-[#722ED1] hover:bg-[#F3EAFF]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Log in
           </button>

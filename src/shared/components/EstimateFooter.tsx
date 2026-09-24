@@ -18,7 +18,7 @@ export default function EstimateFooter({ label, value, range, primaryLabel, onPr
       <div className="flex items-center gap-4">
         <div className="flex flex-col">
           <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{label}</span>
-          <span className="text-[20px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#242326' }}>{value}</span>
+          <span className="text-[20px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#242326' }}>{value}</span>
         </div>
         {range && (
           <span className="hidden sm:block text-[12px] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{range}</span>
@@ -29,7 +29,7 @@ export default function EstimateFooter({ label, value, range, primaryLabel, onPr
           <button
             onClick={onSecondary}
             className="flex-1 sm:flex-none h-11 px-5 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             {secondaryLabel}
           </button>
@@ -37,7 +37,7 @@ export default function EstimateFooter({ label, value, range, primaryLabel, onPr
         <button
           onClick={onPrimary}
           className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-          style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
         >
           {primaryLabel}
         </button>

@@ -21,8 +21,8 @@ import { usePartnerProfile } from '@/data/partnerProfileState'
 import { describePartnerProfileError } from '@/data/partnerProfileApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 const DEMO_PHONE = '+91 98765 43210'
 const DEFAULT_COMPANY_NAME = 'Mantoor Developers'

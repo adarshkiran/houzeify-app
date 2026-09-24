@@ -17,8 +17,8 @@ import { type RequirementTag } from './RenovateRequirementsScreen'
 import { RENOVATION_FINISH_LABELS, type RenovationFinish } from '@/data/renovationEstimate'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 const IcoCalendar = () => (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="3" width="13" height="12" rx="1.5" /><path d="M2.5 7h13M6 1.5v3M12 1.5v3" /></svg>

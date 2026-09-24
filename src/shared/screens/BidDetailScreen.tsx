@@ -9,8 +9,8 @@ import { getBidById, getBidsForOpportunity, formatBidAmount, formatBidDuration, 
 import { formatFileSize, isPreviewableImage, isPdf, DOCUMENT_TYPE_LABELS } from '@/data/documentUpload'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 064 — Bid Detail ─────────────────────────────────────────────
 // A HOMEOWNER, READ-ONLY screen — reviews ONE submitted bid in full before

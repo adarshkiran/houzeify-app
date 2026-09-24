@@ -27,8 +27,8 @@ import { projectWorkspaceSectionVisibility } from '@/data/projectWorkspaceSectio
 import ConstructionStageProgression from '@/shared/components/ConstructionStageProgression'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 const CANVAS = '#FBF9F7'
 const focusRing =
   'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'

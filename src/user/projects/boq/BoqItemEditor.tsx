@@ -3,8 +3,8 @@ import { createPortal } from 'react-dom'
 import type { BoqItemDto, CreateBoqItemInput, UpdateBoqItemInput } from '@/data/projectBoqApi'
 import { UNIT_SUGGESTIONS, formatInr, parseDecimalInput, previewAmount, stageOptions } from '@/data/boqFormat'
 
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 const FOCUS_RING =
   'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'

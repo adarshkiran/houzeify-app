@@ -3,8 +3,8 @@ import Sidebar from '@/shared/components/Sidebar'
 import { useCustomerProfile } from '@/data/customerProfileState'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 097 — Preferences ────────────────────────────────────────────────
 // A HOMEOWNER screen. `language`/`unitPreference`/`currencyPreference` are

@@ -45,8 +45,8 @@ import { constructionStages } from '@/data/constructionStages'
 import { COMPANY_NAV_ROUTES } from '@/data/constructionNav'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 /** Demo identity used only for local identity-verification gating of BD. */
 const IDENTITY_USER_ID = 'user-demo-001'
@@ -87,7 +87,7 @@ function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNa
         onClick={() => onNavigate(COMPANY_NAV_ROUTES.profile)}
         aria-label="Open company profile"
         className="min-w-11 min-h-11 w-11 h-11 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[11px] font-bold cursor-pointer border-0"
-        style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}
+        style={{ fontFamily: '"Geist Variable", sans-serif' }}
       >
         {userInitials}
       </button>

@@ -16,8 +16,8 @@ import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import Sidebar, { type SidebarNavId } from '@/shared/components/Sidebar'
 import { NAV_PLACEHOLDER_CONTENT, type ProjectNavId } from '@/data/constructionNav'
 
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 const ClockIcon = () => (
   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#722ED1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">

@@ -6,8 +6,8 @@ import { getVerificationStatus } from '@/data/businessVerification'
 import { VERIFICATION_STATUS_LABELS, parseVerificationStatus } from '@/data/organizationSetup'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 088 — Organization Settings ─────────────────────────────────────
 // A PROFESSIONAL screen — an ADMINISTRATIVE SETTINGS HUB, not another

@@ -9,8 +9,8 @@ import { getContractorListingById, type ContractorDirectoryInput, type Contracto
 import { getBidsForOpportunity, formatBidAmount, formatBidDuration, BID_STATUS_LABELS, type Bid, type BidDurationUnit } from '@/data/bids'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 065 — Compare Bids ──────────────────────────────────────────────
 // A HOMEOWNER, decision-SUPPORT screen — compares TWO OR MORE real submitted

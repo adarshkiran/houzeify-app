@@ -177,7 +177,7 @@ function NavItem({ icon, label, active, onClick }: {
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
-      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         {label}
       </span>
     </button>
@@ -209,7 +209,7 @@ function AIAdvisorHeader({ onBack, onNew }: { onBack: () => void; onNew: () => v
           <HIcon size={26} />
         </div>
         <div className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-[15px] font-semibold text-[#242326] leading-none truncate" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Hozie</span>
+          <span className="text-[15px] font-semibold text-[#242326] leading-none truncate" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hozie</span>
           <span className="text-[11px] tracking-[0.08em] text-[#722ED1] leading-none" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI HOME ADVISOR</span>
         </div>
       </div>
@@ -218,7 +218,7 @@ function AIAdvisorHeader({ onBack, onNew }: { onBack: () => void; onNew: () => v
         <button
           onClick={onNew}
           className="flex items-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] hover:text-[#242326] transition-all cursor-pointer bg-transparent"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoPlus />
           <span className="hidden sm:inline">New conversation</span>
@@ -233,11 +233,11 @@ function AIAdvisorHeader({ onBack, onNew }: { onBack: () => void; onNew: () => v
 function ContextBar({ primaryLabel, locationLabel, intentLabel }: { primaryLabel: string; locationLabel?: string; intentLabel: string }) {
   return (
     <div className="shrink-0 border-b border-[#E3DDD7] bg-[#FFFFFF] px-4 sm:px-5 lg:px-8 py-2.5 flex items-center gap-2 flex-wrap">
-      <span className="flex items-center gap-1.5 text-[12.5px] text-[#242326] font-medium" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <span className="flex items-center gap-1.5 text-[12.5px] text-[#242326] font-medium" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         <IcoHomePin /> {primaryLabel}
         {locationLabel && <span className="text-[#9A949D] font-normal"> · {locationLabel}</span>}
       </span>
-      <span className="text-[11.5px] font-semibold text-[#722ED1] bg-[#F3EAFF] px-2.5 py-1 rounded-full" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <span className="text-[11.5px] font-semibold text-[#722ED1] bg-[#F3EAFF] px-2.5 py-1 rounded-full" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         {intentLabel}
       </span>
     </div>
@@ -251,7 +251,7 @@ function SuggestedPrompt({ label, onClick }: { label: string; onClick: () => voi
     <button
       onClick={onClick}
       className="text-left px-4 py-3 rounded-[12px] border border-[#E3DDD7] bg-white text-[13.5px] text-[#242326] hover:bg-[#F9F5FF] hover:border-[#722ED1] cursor-pointer transition-all outline-none"
-      style={{ fontFamily: '"Open Sans:Regular", sans-serif', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
+      style={{ fontFamily: '"Inter Variable", sans-serif', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
     >
       {label}
     </button>
@@ -301,7 +301,7 @@ function HozieMessage({ content, actions, onAction }: {
       <div className="flex flex-col gap-3 flex-1 min-w-0">
         <div className="flex flex-col gap-1.5">
           <span className="sr-only">Hozie:</span>
-          <div className="text-[15px] text-[#242326] leading-[1.7]" style={{ fontFamily: '"Google Sans Flex:Medium", sans-serif' }}>
+          <div className="text-[15px] text-[#242326] leading-[1.7]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
             {renderMessageContent(content)}
           </div>
         </div>
@@ -312,7 +312,7 @@ function HozieMessage({ content, actions, onAction }: {
                 key={a.label}
                 onClick={() => onAction(a)}
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F3EAFF] hover:border-[#722ED1] hover:text-[#722ED1] transition-all cursor-pointer bg-white"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 {a.label}
               </button>
@@ -332,7 +332,7 @@ function UserMessage({ content }: { content: string }) {
       <span className="sr-only">You:</span>
       <div
         className="max-w-[75%] px-4 py-3 rounded-[16px] rounded-br-[4px] text-[14px] text-[#242326] leading-[1.65] whitespace-pre-wrap"
-        style={{ backgroundColor: '#F9F5FF', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ backgroundColor: '#F9F5FF', fontFamily: '"Inter Variable", sans-serif' }}
       >
         {content}
       </div>
@@ -367,13 +367,13 @@ function ErrorBubble({ onRetry }: { onRetry: () => void }) {
         <HIcon size={20} />
       </div>
       <div className="flex flex-col gap-2.5 py-2.5 px-4 rounded-[14px] bg-white border border-[#E3DDD7]">
-        <p className="m-0 text-[14px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <p className="m-0 text-[14px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           I couldn&apos;t complete that response.<br />Please try again.
         </p>
         <button
           onClick={onRetry}
           className="self-start h-8 px-3 rounded-[8px] bg-[#722ED1] text-white text-[12px] font-medium cursor-pointer hover:brightness-90 border-0"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Try again
         </button>
@@ -411,7 +411,7 @@ function ChatComposer({ value, onChange, onSubmit, onAttach, disabled }: {
           placeholder="Ask Hozie anything about your home..."
           aria-label="Ask Hozie anything about your home"
           className="flex-1 bg-transparent outline-none resize-none text-[14px] text-[#242326] placeholder-[#9A949D] py-2 leading-[1.5]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif', maxHeight: 120 }}
+          style={{ fontFamily: '"Inter Variable", sans-serif', maxHeight: 120 }}
           value={value}
           onChange={e => onChange(e.target.value)}
           onKeyDown={handleKey}
@@ -456,24 +456,24 @@ function NewConversationModal({ onConfirm, onCancel }: { onConfirm: () => void; 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-5" style={{ backgroundColor: 'rgba(36,35,38,0.4)' }} role="dialog" aria-modal="true" aria-labelledby="new-convo-title">
       <div className="w-full max-w-[380px] bg-white rounded-[18px] p-6 flex flex-col gap-4" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
-        <h3 id="new-convo-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+        <h3 id="new-convo-title" className="text-[16px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Start a new conversation?
         </h3>
-        <p className="text-[13.5px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <p className="text-[13.5px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           Starting a new conversation won&apos;t affect your projects or data.
         </p>
         <div className="flex gap-2.5 justify-end mt-1">
           <button
             onClick={onCancel}
             className="h-10 px-4 rounded-[10px] border border-[#E3DDD7] bg-white text-[#68636D] text-[13px] font-medium cursor-pointer hover:bg-[#F4F0EC] transition-all"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
             className="h-10 px-4 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Start new
           </button>
@@ -510,7 +510,7 @@ function RightContextPanel({
             </span>
           </div>
           <div className="px-4 py-3.5 flex flex-col gap-2.5">
-            <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+            <p className="text-[14px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
               {state.hasProject ? state.projectName : 'No project yet'}
             </p>
             {[
@@ -518,10 +518,10 @@ function RightContextPanel({
               state.hasProject ? ['Status', projectStageLabel(state.projectStage) ?? '—'] : null,
             ].filter((r): r is [string, string] => Boolean(r)).map(([k, v]) => (
               <div key={k} className="flex items-center justify-between gap-2">
-                <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{k}</span>
+                <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{k}</span>
                 <span
                   className={k === 'Status' ? 'text-[11px] text-[#722ED1] bg-[#F3EAFF] px-2 py-0.5 rounded-full font-medium' : 'text-[11px] text-[#242326]'}
-                  style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                  style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   {v}
                 </span>
@@ -537,7 +537,7 @@ function RightContextPanel({
           {known.map(item => (
             <div key={item} className="flex items-center gap-2.5">
               <div className="w-5 h-5 rounded-full bg-[#F3EAFF] flex items-center justify-center shrink-0"><IcoCheck /></div>
-              <span className="text-[12px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item}</span>
+              <span className="text-[12px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item}</span>
             </div>
           ))}
         </div>
@@ -556,7 +556,7 @@ function MobileTopBar({ onBack, onNew }: { onBack: () => void; onNew: () => void
           <IcoBack />
         </button>
         <div className="w-8 h-8 rounded-[10px] bg-[#F3EAFF] flex items-center justify-center shrink-0"><HIcon size={22} /></div>
-        <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Hozie</span>
+        <span className="text-[15px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hozie</span>
       </div>
       <button onClick={onNew} aria-label="New conversation" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer shrink-0"><IcoPlus /></button>
     </div>
@@ -736,13 +736,13 @@ export default function AIAdvisorScreen({
                         <HIcon size={28} />
                       </div>
                       <div className="flex flex-col gap-2 max-w-[440px]">
-                        <h2 className="text-[24px] sm:text-[26px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+                        <h2 className="text-[24px] sm:text-[26px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                           Hi, I&apos;m Hozie.
                         </h2>
-                        <p className="text-[14.5px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                        <p className="text-[14.5px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           Your AI advisor for everything home and construction.
                         </p>
-                        <p className="text-[13.5px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                        <p className="text-[13.5px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           Ask me about costs, plans, materials, contractors, services or your next step.
                         </p>
                       </div>

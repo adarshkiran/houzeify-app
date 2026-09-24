@@ -55,8 +55,8 @@ import { DASHBOARD_ROUTES } from '@/data/homeownerDashboard'
 import { useCustomerCart, type CustomerCartItem } from '@/data/customerCart'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Icons ──────────────────────────────────────────────────────────────
 
@@ -1155,7 +1155,7 @@ function HeroBanner() {
       style={{ maxWidth: 990, background: 'linear-gradient(120deg, #F9F5FF 0%, #F3EAFF 45%, #FFF3EA 100%)' }}
     >
       <div className="absolute inset-0 flex items-center px-5 sm:px-10 lg:px-12">
-        <h2 className="text-[20px] sm:text-[28px] lg:text-[32px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0 max-w-[150px] sm:max-w-[380px]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+        <h2 className="text-[20px] sm:text-[28px] lg:text-[32px] font-semibold text-[#242326] leading-[1.15] tracking-[-0.01em] m-0 max-w-[150px] sm:max-w-[380px]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Top-rated care,<br />tailored for you
         </h2>
       </div>

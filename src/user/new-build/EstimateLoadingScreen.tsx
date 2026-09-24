@@ -237,13 +237,13 @@ return (
         >
           <h1
             className="text-[32px] sm:text-[44px] font-semibold text-[#242326] m-0 leading-[1.08]"
-            style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+            style={{ fontFamily: '"Geist Variable", sans-serif' }}
           >
             {complete ? 'Estimate ready.' : 'Building your estimate.'}
           </h1>
           <p
             className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif', maxWidth: 480 }}
+            style={{ fontFamily: '"Inter Variable", sans-serif', maxWidth: 480 }}
           >
             {complete
               ? 'Hozie has finished analysing your project. Your initial construction estimate is ready to view.'
@@ -259,13 +259,13 @@ return (
           <div className="flex flex-col gap-1">
             <span
               className="text-[13px] font-semibold text-[#242326]"
-              style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+              style={{ fontFamily: '"Geist Variable", sans-serif' }}
             >
               {projectName}
             </span>
             <span
               className="text-[11px] text-[#68636D]"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               {location} · {area}
             </span>
@@ -297,7 +297,7 @@ return (
                 <span
                   className="text-[13px] leading-none"
                   style={{
-                    fontFamily: '"Open Sans:Regular", sans-serif',
+                    fontFamily: '"Inter Variable", sans-serif',
                     color: status === 'pending' ? '#A1A1A1' : '#1E1E1E',
                     transition: 'color 0.4s ease',
                   }}
@@ -326,7 +326,7 @@ return (
           </span>
           <span
             className="text-[12px] text-[#9A949D]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             {phase.statusSub}
           </span>
@@ -346,7 +346,7 @@ return (
             onClick={() => onNavigate('estimate-dashboard', { project_stage: 'estimate-ready' })}
             className="h-[52px] px-8 rounded-[12px] bg-[#722ED1] text-white text-[15px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.98] transition-all border-0"
             style={{
-              fontFamily: '"Google Sans Flex:SemiBold", sans-serif',
+              fontFamily: '"Geist Variable", sans-serif',
               animation: 'estimateButtonPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both',
               minWidth: 220,
             }}
@@ -365,7 +365,7 @@ return (
           </div>
           <p
             className="text-[13px] text-[#242326] leading-[1.6] m-0"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Your estimate will include materials, labour, finishing and contingency — covering all major cost categories.
           </p>

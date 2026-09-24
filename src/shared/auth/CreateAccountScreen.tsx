@@ -34,7 +34,7 @@ function VerifiedPhone({ phone }: { phone: string }) {
       </div>
       <span
         className="text-[14px] font-semibold text-[#242326]"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         +91 {phone}
       </span>
@@ -73,14 +73,14 @@ function InputField({
       <div className="flex items-center gap-2">
         <label
           className="text-[13px] font-semibold text-[#242326]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           {label}
         </label>
         {optional && (
           <span
             className="text-[11px] text-[#9A949D]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Optional
           </span>
@@ -100,12 +100,12 @@ function InputField({
             ? 'border-[#DC2626] ring-2 ring-[#DC2626]/10'
             : 'border-[#E3DDD7] focus:border-[#722ED1] focus:ring-2 focus:ring-[#722ED1]/10',
         ].join(' ')}
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ fontFamily: '"Inter Variable", sans-serif' }}
       />
       {showError && error && (
         <div
           className="flex items-center gap-1.5 text-[#DC2626] text-[12px]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <circle cx="7" cy="7" r="5.5" stroke="#DC2626" strokeWidth="1.2"/>
@@ -118,7 +118,7 @@ function InputField({
       {helper && !showError && (
         <p
           className="text-[11px] text-[#9A949D] m-0 leading-[1.5]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           {helper}
         </p>
@@ -207,7 +207,7 @@ export default function CreateAccountScreen({
         {/* Headline */}
         <h1
           className="text-center text-[28px] sm:text-[38px] font-semibold text-[#242326] leading-[1.06] tracking-[-0.02em] m-0 mb-2"
-          style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+          style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           Let&apos;s get started.
         </h1>
@@ -215,7 +215,7 @@ export default function CreateAccountScreen({
         {/* Description */}
         <p
           className="text-center text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mb-5"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Create your Houzeify workspace in a few seconds.
         </p>
@@ -263,7 +263,7 @@ export default function CreateAccountScreen({
           ].join(' ')}
           style={{
             backgroundColor: stage === 'success' ? '#16A34A' : '#722ED1',
-            fontFamily: '"Open Sans:Regular", sans-serif',
+            fontFamily: '"Inter Variable", sans-serif',
           }}
         >
           {stage === 'creating' ? (
@@ -282,7 +282,7 @@ export default function CreateAccountScreen({
         {/* Terms */}
         <p
           className="text-center text-[11px] text-[#9A949D] leading-[1.65] m-0"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           By continuing, you agree to our{' '}
           <a href="#" className="text-[#722ED1] hover:underline" onClick={e => e.preventDefault()}>

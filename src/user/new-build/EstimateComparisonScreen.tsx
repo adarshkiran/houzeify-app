@@ -153,7 +153,7 @@ function NavItem({ icon, label, active, onClick }: {
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
-      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
+      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
     </button>
   )
 }
@@ -183,7 +183,7 @@ function FeatureList({ features }: { features: string[] }) {
   return (
     <ul className="flex flex-col gap-2 m-0 p-0" style={{ listStyle: 'none' }}>
       {features.map(f => (
-        <li key={f} className="flex items-start gap-2 text-[13px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <li key={f} className="flex items-start gap-2 text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           <span className="shrink-0 mt-0.5" style={{ color: '#722ED1' }}><IcoCheckSmall /></span>
           {f}
         </li>
@@ -221,18 +221,18 @@ function ScenarioCard({
         </span>
         {scenario.recommended && <RecommendedBadge />}
         {selected && !scenario.recommended && (
-          <span className="inline-flex items-center gap-1 h-6 px-2 rounded-full text-[10px] font-semibold" style={{ backgroundColor: '#722ED1', color: '#fff', fontFamily: '"Open Sans:Regular", sans-serif' }}>
+          <span className="inline-flex items-center gap-1 h-6 px-2 rounded-full text-[10px] font-semibold" style={{ backgroundColor: '#722ED1', color: '#fff', fontFamily: '"Inter Variable", sans-serif' }}>
             <IcoCheck /> Selected
           </span>
         )}
       </div>
 
-      <p className="text-[13px] text-[#68636D] leading-[1.55] m-0 min-h-[54px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[13px] text-[#68636D] leading-[1.55] m-0 min-h-[54px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         {scenario.description}
       </p>
 
       <div className="flex flex-col gap-1">
-        <span className="text-[22px] sm:text-[24px] font-semibold leading-tight" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#242326' }}>
+        <span className="text-[22px] sm:text-[24px] font-semibold leading-tight" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#242326' }}>
           {formatINR(scenario.minCost)} — {formatINR(scenario.maxCost)}
         </span>
         <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
@@ -247,14 +247,14 @@ function ScenarioCard({
       <div className="mt-auto flex flex-col gap-3 pt-1">
         <div className="flex flex-col gap-0.5">
           <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Best For</span>
-          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{scenario.bestFor}</span>
+          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{scenario.bestFor}</span>
         </div>
         <button
           onClick={onSelect}
           aria-pressed={selected}
           className="h-11 rounded-[12px] text-[13px] font-semibold cursor-pointer transition-all active:scale-[0.99]"
           style={{
-            fontFamily: '"Open Sans:Regular", sans-serif',
+            fontFamily: '"Inter Variable", sans-serif',
             ...(selected
               ? { backgroundColor: '#16A34A', color: '#FFFFFF', border: 'none' }
               : emphasized
@@ -287,7 +287,7 @@ function CostImpact({ scenarios }: { scenarios: EstimateScenario[] }) {
             <div key={s.id} className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-[12px] font-semibold uppercase tracking-[0.04em]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: '#242326' }}>{s.name}</span>
-                <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{formatINR(s.minCost)} — {formatINR(s.maxCost)}</span>
+                <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(s.minCost)} — {formatINR(s.maxCost)}</span>
               </div>
               <div className="relative h-2.5 rounded-full" style={{ backgroundColor: '#F4F0EC' }}>
                 <div
@@ -308,7 +308,7 @@ function CostImpact({ scenarios }: { scenarios: EstimateScenario[] }) {
 function RecommendationBar({ label, percent }: { label: string; percent: number }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="text-[12px] text-[#242326] w-[92px] shrink-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
+      <span className="text-[12px] text-[#242326] w-[92px] shrink-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
       <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
         <div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: '#722ED1' }} />
       </div>
@@ -329,9 +329,9 @@ function HozieRecommendationCard({ scenarios, onAskWhy }: { scenarios: EstimateS
         <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Recommends</span>
       </div>
 
-      <span className="text-[26px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#242326' }}>{rec?.name}</span>
+      <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#242326' }}>{rec?.name}</span>
 
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>“{hozieRecommendation.note}”</p>
+      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>“{hozieRecommendation.note}”</p>
 
       <div className="flex flex-col gap-2.5">
         <RecommendationBar label="Cost balance" percent={hozieRecommendation.costBalance} />
@@ -342,7 +342,7 @@ function HozieRecommendationCard({ scenarios, onAskWhy }: { scenarios: EstimateS
       <button
         onClick={onAskWhy}
         className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-        style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Ask Hozie why →
       </button>
@@ -371,11 +371,11 @@ function ComparisonTableDesktop() {
             {comparisonRows.map((row, i) => (
               <tr key={row.label} style={{ borderTop: i === 0 ? 'none' : '1px solid #FFFFFF' }}>
                 <td className="px-4 py-3.5">
-                  <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{row.label}</span>
+                  <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.label}</span>
                 </td>
                 {(['basic', 'standard', 'premium'] as QualityLevel[]).map(key => (
                   <td key={key} className="px-4 py-3.5">
-                    <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{row.values[key]}</span>
+                    <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.values[key]}</span>
                   </td>
                 ))}
               </tr>
@@ -401,7 +401,7 @@ function ComparisonAccordionMobile() {
               aria-label={`${open ? 'Collapse' : 'Expand'} ${row.label} comparison`}
               className="w-full flex items-center justify-between px-4 py-3 text-left cursor-pointer border-0 bg-transparent"
             >
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{row.label}</span>
+              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.label}</span>
               <span className="shrink-0 transition-transform duration-200" style={{ color: '#68636D', transform: open ? 'rotate(180deg)' : 'none' }}><IcoChevronDown /></span>
             </button>
             {open && (
@@ -409,7 +409,7 @@ function ComparisonAccordionMobile() {
                 {(['basic', 'standard', 'premium'] as QualityLevel[]).map(key => (
                   <div key={key} className="flex flex-col gap-1">
                     <span className="text-[12px] uppercase tracking-[0.06em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{key}</span>
-                    <span className="text-[12px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{row.values[key]}</span>
+                    <span className="text-[12px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{row.values[key]}</span>
                   </div>
                 ))}
               </div>
@@ -428,7 +428,7 @@ function DisclaimerCard() {
   return (
     <div className="rounded-[14px] p-4 sm:p-5 flex gap-3" style={{ backgroundColor: '#F4F0EC' }}>
       <span className="shrink-0 text-[#9A949D] mt-0.5"><IcoInfo /></span>
-      <p className="text-[11px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[11px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         These are planning scenarios, not final quotations. Final costs can change based on {factors.join(', ')}.
       </p>
     </div>
@@ -454,13 +454,13 @@ function ErrorState({ onRetry }: { onRetry: () => void }) {
       <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}>
         <IcoAlert />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Unable to generate construction options. Try again.
       </p>
       <button
         onClick={onRetry}
         className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0"
-        style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Retry
       </button>
@@ -530,11 +530,11 @@ return (
           onClick={() => onNavigate('cost-assumptions')}
           aria-label="Back to estimate"
           className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoChevronLeft /> Estimate
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Estimate Options</span>
+        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Estimate Options</span>
         <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
@@ -545,10 +545,10 @@ return (
           {/* Desktop header */}
           <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Estimate Options
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
@@ -556,14 +556,14 @@ return (
               <button
                 onClick={() => onNavigate('cost-assumptions')}
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoChevronLeft /> Back to estimate
               </button>
               <button
                 aria-label="Download PDF"
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
               </button>
@@ -580,16 +580,16 @@ return (
                   <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                     Estimate Options
                   </span>
-                  <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+                  <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                     Choose your construction level.
                   </h2>
-                  <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[560px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                  <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[560px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     Compare material quality, finishes and estimated costs before you finalize your project estimate.
                   </p>
                 </div>
                 <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#F3EAFF] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[#722ED1]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
-                  <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>86% AI confidence</span>
+                  <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>86% AI confidence</span>
                 </div>
               </div>
 
@@ -650,27 +650,27 @@ return (
                 <>
                   <div className="flex flex-col">
                     <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Selected</span>
-                    <span className="text-[16px] font-semibold uppercase" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>{selectedScenario.name}</span>
+                    <span className="text-[16px] font-semibold uppercase" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{selectedScenario.name}</span>
                   </div>
                   <div className="flex items-center gap-2.5 w-full sm:w-auto">
                     <button
                       onClick={() => setSelectedId(null)}
                       className="flex-1 sm:flex-none h-11 px-5 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-                      style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                      style={{ fontFamily: '"Inter Variable", sans-serif' }}
                     >
                       Change selection
                     </button>
                     <button
                       onClick={() => onNavigate('estimate-revision', { project_name: projectName, location, quality_level: selectedScenario.id, ...(projectId ? { project_id: projectId } : {}) })}
                       className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                      style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                      style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
                     >
                       Continue with {selectedScenario.name} →
                     </button>
                   </div>
                 </>
               ) : (
-                <span className="text-[13px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                <span className="text-[13px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   Select a construction level to continue.
                 </span>
               )}

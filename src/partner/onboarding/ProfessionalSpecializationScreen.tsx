@@ -25,8 +25,8 @@ import {
 } from '@/data/professionalSpecialization'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Icons — a small, reused-by-theme set (not one bespoke icon per
 // specialization) matching this screen's own "one icon per option" pattern

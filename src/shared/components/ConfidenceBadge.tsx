@@ -12,7 +12,7 @@ export default function ConfidenceBadge({ level }: { level: ConfidenceLevel }) {
   return (
     <span
       className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap"
-      style={{ backgroundColor: s.bg, color: s.color, fontFamily: '"Open Sans:Regular", sans-serif' }}
+      style={{ backgroundColor: s.bg, color: s.color, fontFamily: '"Inter Variable", sans-serif' }}
     >
       <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: s.color }} aria-hidden="true" />
       {s.label}

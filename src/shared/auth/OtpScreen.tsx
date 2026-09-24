@@ -104,7 +104,7 @@ function OtpInput({ otp, onChange, stage, disabled }: OtpInputProps) {
             disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-text',
             boxStyle(i),
           ].join(' ')}
-          style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}
+          style={{ fontFamily: '"Geist Variable", sans-serif' }}
         />
       ))}
     </div>
@@ -260,7 +260,7 @@ export default function OtpScreen({
         {/* Headline */}
         <h1
           className="text-center text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.06] tracking-[-0.02em] m-0 mb-3"
-          style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+          style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           Enter your verification code
         </h1>
@@ -269,21 +269,21 @@ export default function OtpScreen({
         <div className="flex flex-col items-center gap-1 mb-7">
           <p
             className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 text-center"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             We sent a 6-digit code to
           </p>
           <div className="flex items-center gap-2">
             <span
               className="text-[14px] sm:text-[15px] font-semibold text-[#242326]"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               +91 {phone}
             </span>
             <button
               onClick={() => onNavigate('login')}
               className="text-[13px] text-[#722ED1] font-medium cursor-pointer bg-transparent border-none p-0 hover:underline transition-opacity hover:opacity-80"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               Change
             </button>
@@ -304,7 +304,7 @@ export default function OtpScreen({
         {errorMsg && (
           <div
             className="flex items-center justify-center gap-1.5 text-[#DC2626] text-[12px] mb-3"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <circle cx="7" cy="7" r="5.5" stroke="#DC2626" strokeWidth="1.2"/>
@@ -333,7 +333,7 @@ export default function OtpScreen({
               ? 'cursor-default'
               : 'cursor-pointer hover:brightness-90 active:scale-[0.99]',
           ].join(' ')}
-          style={{ backgroundColor: buttonBg, fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ backgroundColor: buttonBg, fontFamily: '"Inter Variable", sans-serif' }}
         >
           {stage === 'verifying' ? (
             <>
@@ -351,7 +351,7 @@ export default function OtpScreen({
         {/* Security microcopy */}
         <p
           className="text-center text-[11px] text-[#9A949D] leading-[1.6] m-0"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           Your number is used to securely access your Houzeify workspace.
         </p>

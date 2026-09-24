@@ -20,8 +20,8 @@ import { useProjectAudience } from '@/data/customerProjectsState'
 import { listCustomerViewDocuments, type CustomerViewDocument } from '@/data/customerViewApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 072 — Project Documents ─────────────────────────────────────────
 // A HOMEOWNER screen reached from 068/069/070/071. Project-scoped document

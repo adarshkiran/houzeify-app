@@ -175,7 +175,7 @@ function NavItem({ icon, label, active, onClick }: {
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
-      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
+      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
     </button>
   )
 }
@@ -202,14 +202,14 @@ function TotalCard({ categories, heroRange, avgLabel, confidence }: { categories
           <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
             Total Estimated Cost
           </span>
-          <div className="text-[34px] sm:text-[40px] font-semibold leading-none" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>
+          <div className="text-[34px] sm:text-[40px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>
             {heroRange}
           </div>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
               Estimated average:
             </span>
-            <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+            <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
               {avgLabel}
             </span>
           </div>
@@ -217,7 +217,7 @@ function TotalCard({ categories, heroRange, avgLabel, confidence }: { categories
         <div className="flex flex-col items-end gap-2 shrink-0">
           <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#F3EAFF]" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
             <span className="w-1.5 h-1.5 rounded-full bg-[#722ED1]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
-            <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{confidence}% confidence</span>
+            <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{confidence}% confidence</span>
           </div>
           <div className="flex flex-col gap-1 w-[140px]">
             <div className="h-1.5 bg-[#F3EAFF] rounded-full overflow-hidden">
@@ -239,7 +239,7 @@ function TotalCard({ categories, heroRange, avgLabel, confidence }: { categories
           {categories.map(c => (
             <div key={c.id} className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-sm" style={{ backgroundColor: c.color }} />
-              <span className="text-[11px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{c.label}</span>
+              <span className="text-[11px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{c.label}</span>
             </div>
           ))}
         </div>
@@ -268,7 +268,7 @@ function CategoryCard({ cat, onNavigate }: { cat: Category; onNavigate: (s: stri
               </div>
               <span
                 className="text-[14px] font-semibold text-[#242326]"
-                style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+                style={{ fontFamily: '"Geist Variable", sans-serif' }}
               >
                 {cat.label}
               </span>
@@ -276,7 +276,7 @@ function CategoryCard({ cat, onNavigate }: { cat: Category; onNavigate: (s: stri
             <div className="flex items-center gap-3 shrink-0">
               <span
                 className="text-[18px] sm:text-[20px] font-semibold text-[#242326]"
-                style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+                style={{ fontFamily: '"Geist Variable", sans-serif' }}
               >
                 {cat.amount}
               </span>
@@ -301,14 +301,14 @@ function CategoryCard({ cat, onNavigate }: { cat: Category; onNavigate: (s: stri
           <div className="flex items-center justify-between gap-3">
             <span
               className="text-[12px] text-[#9A949D] leading-[1.5]"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               {cat.detail}
             </span>
             <button
               onClick={() => cat.dest && onNavigate(cat.dest)}
               className="shrink-0 text-[12px] hover:underline cursor-pointer border-0 bg-transparent p-0 whitespace-nowrap"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif', color: cat.color }}
+              style={{ fontFamily: '"Inter Variable", sans-serif', color: cat.color }}
             >
               View details →
             </button>
@@ -332,7 +332,7 @@ function HozieInsightPanel() {
           Hozie Insight
         </span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.7] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[13px] text-[#242326] leading-[1.7] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         &ldquo;Materials are currently the largest cost driver. Changes in steel, cement and finishing specifications can significantly affect your final estimate.&rdquo;
       </p>
     </div>
@@ -350,17 +350,17 @@ function EstimateSummaryPanel({ categories }: { categories: Category[] }) {
           <div key={cat.id} className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: cat.color }} />
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{cat.label}</span>
+              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{cat.label}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{cat.amount}</span>
+              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{cat.amount}</span>
               <span className="text-[12px] w-[28px] text-right" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: cat.color }}>{cat.pct}%</span>
             </div>
           </div>
         ))}
         <div className="border-t border-[#E3DDD7] pt-2.5 flex items-center justify-between">
-          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Total (avg)</span>
-          <span className="text-[14px] font-semibold text-[#722ED1]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>₹32.5L</span>
+          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Total (avg)</span>
+          <span className="text-[14px] font-semibold text-[#722ED1]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>₹32.5L</span>
         </div>
       </div>
     </div>
@@ -407,11 +407,11 @@ export default function CostBreakdownScreen({
       {/* Mobile top bar */}
       <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
         <div className="flex items-center gap-2">
-          <button onClick={() => onNavigate('estimate-dashboard')} className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+          <button onClick={() => onNavigate('estimate-dashboard')} className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             <IcoChevronLeft /> Estimate
           </button>
         </div>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Cost Breakdown</span>
+        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Cost Breakdown</span>
         <button className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
@@ -422,24 +422,24 @@ export default function CostBreakdownScreen({
           {/* Desktop header */}
           <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Cost Breakdown
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <button className="hidden sm:flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button className="hidden sm:flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 <IcoEdit /> Edit estimate
               </button>
-              <button className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
               </button>
               <button
                 onClick={() => onNavigate('estimate-dashboard')}
                 className="hidden sm:flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoChevronLeft /> Back to Estimate
               </button>
@@ -455,10 +455,10 @@ export default function CostBreakdownScreen({
                 <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                   Estimate Breakdown
                 </span>
-                <h2 className="text-[32px] sm:text-[40px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+                <h2 className="text-[32px] sm:text-[40px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                   Where your money goes.
                 </h2>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   Hozie has grouped your estimated construction cost into the major areas of work.
                 </p>
               </div>
@@ -500,13 +500,13 @@ export default function CostBreakdownScreen({
                     <button
                       onClick={() => onNavigate('material-estimate')}
                       className="w-full h-[46px] rounded-[12px] bg-[#722ED1] text-white text-[13px] font-semibold cursor-pointer hover:brightness-90 transition-all border-0"
-                      style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                      style={{ fontFamily: '"Inter Variable", sans-serif' }}
                     >
                       View Material Estimate →
                     </button>
                     <button
                       className="w-full h-[46px] rounded-[12px] bg-white border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer hover:bg-[#F4F0EC] transition-all"
-                      style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                      style={{ fontFamily: '"Inter Variable", sans-serif' }}
                     >
                       View BOQ →
                     </button>
@@ -515,7 +515,7 @@ export default function CostBreakdownScreen({
                   {/* Disclaimer */}
                   <p
                     className="text-[10px] text-[#9A949D] leading-[1.7] m-0"
-                    style={{ fontFamily: '"Open Sans:Regular", sans-serif', animation: 'welcomeFadeUp 0.4s ease-out 0.36s both' }}
+                    style={{ fontFamily: '"Inter Variable", sans-serif', animation: 'welcomeFadeUp 0.4s ease-out 0.36s both' }}
                   >
                     AI-generated estimate based on the information provided. Actual costs may vary based on design, specifications, site conditions and contractor pricing.
                   </p>

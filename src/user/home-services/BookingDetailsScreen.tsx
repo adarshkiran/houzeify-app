@@ -24,8 +24,8 @@ import { useCustomerCart, type CustomerCartItem } from '@/data/customerCart'
 import { useCustomerAddress } from '@/data/customerAddress'
 import { validateServicePhotoFile, uploadServicePhoto, MAX_SERVICE_PHOTOS, type ServiceRequestPhoto } from '@/data/servicePhotoUpload'
 
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Icons (same inline-SVG convention as CheckoutScreen.tsx) ─────────────
 

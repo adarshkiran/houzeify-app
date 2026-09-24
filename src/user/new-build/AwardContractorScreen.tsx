@@ -9,8 +9,8 @@ import { getContractorListingById, type ContractorDirectoryInput } from '@/data/
 import { getBidById, formatBidAmount, formatBidDuration, isProjectAwarded, awardBid } from '@/data/bids'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 066 — Award Contractor (confirm) ────────────────────────────────
 // A HOMEOWNER screen — the actual award decision. Reuses bids.ts (032) for

@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { ROLE_LABELS, ROLE_DESCRIPTIONS, ROLE_PERMISSIONS, type MemberRole } from '@/data/teamSetup'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 091 — Roles & Permissions ───────────────────────────────────────
 // A PROFESSIONAL screen reached from 088/089. READ-ONLY reference screen —

@@ -31,8 +31,8 @@ import { createCustomerBooking, type CustomerBooking } from '@/data/customerBook
 const DEMO_USER_ID = 'user-demo-001'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Icons — same shapes as ServiceRequestSubmittedScreen.tsx's own, for
 // the same "you just completed something" visual language. ────────────────

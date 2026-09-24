@@ -15,8 +15,8 @@ import { useState } from 'react'
 import HIcon from '@/shared/components/HIcon'
 import { useCustomerCart, type SelectedSlot } from '@/data/customerCart'
 
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Icons (same inline-SVG convention as every other screen in this flow) ─
 

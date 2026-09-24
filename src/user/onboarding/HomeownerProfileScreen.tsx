@@ -155,8 +155,8 @@ const IcoInfo = () => (
 )
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // "About me" — onboarding-only, optional. 200-300 words is a target the
 // copy nudges toward, not a hard gate (short intros are still real intros)
@@ -236,7 +236,7 @@ function Avatar({ profile, size = 72 }: { profile: HomeownerProfile; size?: numb
   return (
     <div
       className="rounded-full flex items-center justify-center text-white font-bold shrink-0"
-      style={{ width: size, height: size, backgroundColor: '#722ED1', fontFamily: '"Google Sans Flex:Bold", sans-serif', fontSize: size * 0.32 }}
+      style={{ width: size, height: size, backgroundColor: '#722ED1', fontFamily: '"Geist Variable", sans-serif', fontSize: size * 0.32 }}
       aria-hidden="true"
     >
       {initials(profile.fullName)}

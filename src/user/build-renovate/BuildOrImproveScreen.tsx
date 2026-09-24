@@ -46,8 +46,8 @@ import improveMyHomeBg from '@/imports/Services icons/Improve-My-Home-bg.png'
 import { INTENT_CONTENT, nextScreenForIntent, roleForIntent, type PrimaryIntent } from '@/data/primaryIntent'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Icons — same marks as Screen 007's own Build/Improve cards ───────────
 

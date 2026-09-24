@@ -107,7 +107,7 @@ export default function AccountCreatedScreen({
         <h1
           className="text-[34px] sm:text-[48px] font-semibold text-[#242326] leading-[1.04] tracking-[-0.025em] m-0"
           style={{
-            fontFamily: '"Google Sans Flex:SemiBold", sans-serif',
+            fontFamily: '"Geist Variable", sans-serif',
             animation: 'welcomeFadeUp 0.4s ease-out 0.50s both',
           }}
         >
@@ -118,7 +118,7 @@ export default function AccountCreatedScreen({
         <p
           className="text-[15px] sm:text-[16px] text-[#68636D] leading-[1.7] m-0 max-w-[320px]"
           style={{
-            fontFamily: '"Open Sans:Regular", sans-serif',
+            fontFamily: '"Inter Variable", sans-serif',
             animation: 'welcomeFadeUp 0.4s ease-out 0.56s both',
           }}
         >
@@ -141,7 +141,7 @@ export default function AccountCreatedScreen({
           </div>
           <span
             className="text-[13px] font-medium text-[#722ED1]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Account created successfully
           </span>
@@ -166,7 +166,7 @@ export default function AccountCreatedScreen({
           <button
             onClick={() => onNavigate('homeowner-profile', { onboarding_flow: 'true', full_name: fullName ?? '' })}
             className="h-[52px] bg-[#722ED1] text-white text-[14px] font-semibold rounded-[12px] cursor-pointer transition-all duration-200 hover:brightness-90 active:scale-[0.99] flex items-center justify-center w-full sm:w-[260px]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Go to Houzeify →
           </button>
@@ -174,7 +174,7 @@ export default function AccountCreatedScreen({
           <button
             onClick={() => onNavigate('dashboard-home')}
             className="text-[13px] text-[#9A949D] bg-transparent border-none cursor-pointer hover:text-[#68636D] transition-colors duration-200"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Skip
           </button>
@@ -193,7 +193,7 @@ export default function AccountCreatedScreen({
           <button
             onClick={() => onNavigate(nextScreenForIntent('professional'), { role: roleForIntent('professional') })}
             className="text-[12.5px] text-[#722ED1] font-medium bg-transparent border-none cursor-pointer hover:underline transition-colors duration-200"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             I&apos;m a professional / business →
           </button>

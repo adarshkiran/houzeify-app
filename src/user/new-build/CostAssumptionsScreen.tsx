@@ -133,7 +133,7 @@ function NavItem({ icon, label, active, onClick }: {
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
-      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
+      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
     </button>
   )
 }
@@ -195,14 +195,14 @@ function ProjectInputsCard({ onEdit }: { onEdit: (dest: string) => void }) {
             style={{ borderTop: i === 0 ? 'none' : '1px solid #FFFFFF' }}
           >
             <div className="flex flex-col gap-0.5 min-w-0">
-              <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{input.label}</span>
-              <span className="text-[14px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{input.value}</span>
+              <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{input.label}</span>
+              <span className="text-[14px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{input.value}</span>
             </div>
             <button
               onClick={() => onEdit(input.editDestination)}
               aria-label={`Edit ${input.label}`}
               className="shrink-0 inline-flex items-center gap-1 h-7 px-2.5 rounded-[8px] border border-[#E3DDD7] text-[11px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-              style={{ color: '#68636D', fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ color: '#68636D', fontFamily: '"Inter Variable", sans-serif' }}
             >
               <IcoEdit /> Edit
             </button>
@@ -236,10 +236,10 @@ function AssumptionCard({
       >
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-2 mb-1.5">
-            <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{assumption.name}</span>
+            <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{assumption.name}</span>
             <ImpactBadge impact={assumption.impact} label={assumption.impactLabel} />
           </div>
-          <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+          <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             {assumption.id === 'construction-quality' ? selectedQuality : assumption.value}
           </p>
         </div>
@@ -253,27 +253,27 @@ function AssumptionCard({
 
       {expanded && (
         <div id={`assumption-panel-${assumption.id}`} className="px-4 sm:px-5 pb-5 flex flex-col gap-4 border-t border-[#FFFFFF] pt-4">
-          <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{assumption.description}</p>
+          <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{assumption.description}</p>
 
           <div className="grid sm:grid-cols-3 gap-3">
             <div className="flex flex-col gap-1">
               <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Why it matters</span>
-              <p className="text-[12px] text-[#242326] leading-[1.55] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{assumption.whyItMatters}</p>
+              <p className="text-[12px] text-[#242326] leading-[1.55] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{assumption.whyItMatters}</p>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>How it affects the estimate</span>
-              <p className="text-[12px] text-[#242326] leading-[1.55] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{assumption.howItAffectsEstimate}</p>
+              <p className="text-[12px] text-[#242326] leading-[1.55] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{assumption.howItAffectsEstimate}</p>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>What can change it</span>
-              <p className="text-[12px] text-[#242326] leading-[1.55] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{assumption.whatCanChangeIt}</p>
+              <p className="text-[12px] text-[#242326] leading-[1.55] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{assumption.whatCanChangeIt}</p>
             </div>
           </div>
 
           {assumption.items && assumption.items.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {assumption.items.map(item => (
-                <span key={item} className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                <span key={item} className="px-2.5 py-1 rounded-full text-[11px]" style={{ backgroundColor: '#F4F0EC', color: '#242326', fontFamily: '"Inter Variable", sans-serif' }}>
                   {item}
                 </span>
               ))}
@@ -291,7 +291,7 @@ function AssumptionCard({
                     aria-pressed={selectedQuality === opt}
                     className="h-8 px-3.5 rounded-full text-[12px] font-semibold cursor-pointer border transition-colors"
                     style={{
-                      fontFamily: '"Open Sans:Regular", sans-serif',
+                      fontFamily: '"Inter Variable", sans-serif',
                       backgroundColor: selectedQuality === opt ? '#F3EAFF' : '#FFFFFF',
                       color: selectedQuality === opt ? '#722ED1' : '#808080',
                       borderColor: selectedQuality === opt ? '#722ED1' : '#CAC7C6',
@@ -306,7 +306,7 @@ function AssumptionCard({
             <button
               onClick={onAskHozie}
               className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-              style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
             >
               Ask Hozie about this →
             </button>
@@ -324,7 +324,7 @@ function SensitivityRow({ factor }: { factor: { name: string; impact: ImpactLeve
   const meta = IMPACT_META[factor.impact]
   return (
     <div className="flex items-center gap-3">
-      <span className="text-[13px] text-[#242326] w-[150px] shrink-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{factor.name}</span>
+      <span className="text-[13px] text-[#242326] w-[150px] shrink-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{factor.name}</span>
       <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
         <div className="h-full rounded-full" style={{ width: `${fillPct}%`, backgroundColor: factor.impact === 'high' ? '#722ED1' : '#F3EAFF' }} />
       </div>
@@ -363,18 +363,18 @@ function ConfidenceCard({ onImprove }: { onImprove: () => void }) {
       </div>
 
       <div className="flex items-end gap-2">
-        <span className="text-[40px] font-semibold leading-none" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>{estimateConfidence.score}%</span>
-        <span className="text-[13px] text-[#68636D] mb-1" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{estimateConfidence.level}</span>
+        <span className="text-[40px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{estimateConfidence.score}%</span>
+        <span className="text-[13px] text-[#68636D] mb-1" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{estimateConfidence.level}</span>
       </div>
       <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(243,234,255,0.10)' }}>
         <div className="h-full rounded-full" style={{ width: `${estimateConfidence.score}%`, backgroundColor: '#722ED1' }} />
       </div>
 
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{estimateConfidence.summary}</p>
+      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{estimateConfidence.summary}</p>
 
       <ul className="flex flex-col gap-1.5 m-0 p-0" style={{ listStyle: 'none' }}>
         {estimateConfidence.factors.map(f => (
-          <li key={f} className="flex items-center gap-2 text-[13px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+          <li key={f} className="flex items-center gap-2 text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             <span aria-hidden="true" style={{ color: '#722ED1' }}>✓</span> {f}
           </li>
         ))}
@@ -383,7 +383,7 @@ function ConfidenceCard({ onImprove }: { onImprove: () => void }) {
       <button
         onClick={onImprove}
         className="h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-        style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Improve my estimate →
       </button>
@@ -404,8 +404,8 @@ function MissingInfoCard({ onAddNow }: { onAddNow: (id: string) => void }) {
         {missingInformation.map((item, i) => (
           <div key={item.id} className="flex items-center justify-between gap-3 py-3" style={{ borderTop: i === 0 ? 'none' : '1px solid #FFFFFF' }}>
             <div className="flex flex-col gap-0.5 min-w-0">
-              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.label}</span>
-              <span className="inline-flex items-center gap-1.5 text-[11px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif', color: '#9A949D' }}>
+              <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.label}</span>
+              <span className="inline-flex items-center gap-1.5 text-[11px]" style={{ fontFamily: '"Inter Variable", sans-serif', color: '#9A949D' }}>
                 <span className="w-1.5 h-1.5 rounded-full border shrink-0" style={{ borderColor: '#A1A1A1' }} />
                 {item.statusText}
               </span>
@@ -413,7 +413,7 @@ function MissingInfoCard({ onAddNow }: { onAddNow: (id: string) => void }) {
             <button
               onClick={() => onAddNow(item.id)}
               className="shrink-0 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-              style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
             >
               {item.actionLabel}
             </button>
@@ -433,7 +433,7 @@ function DisclaimerCard() {
       <span className="shrink-0 text-[#9A949D] mt-0.5"><IcoInfo /></span>
       <div>
         <span className="text-[12px] tracking-[0.08em] uppercase block mb-1.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: '#68636D' }}>Important</span>
-        <p className="text-[11px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <p className="text-[11px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           This is an AI-generated preliminary estimate, not a final construction quotation. Actual cost may vary because of {factors.join(', ')}.
         </p>
       </div>
@@ -472,11 +472,11 @@ return (
           onClick={() => onNavigate('estimate-dashboard')}
           aria-label="Back to estimate"
           className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoChevronLeft /> Estimate
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Cost Assumptions</span>
+        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Cost Assumptions</span>
         <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
@@ -487,10 +487,10 @@ return (
           {/* Desktop header */}
           <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Cost Assumptions
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
@@ -498,14 +498,14 @@ return (
               <button
                 onClick={() => onNavigate('estimate-dashboard')}
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoChevronLeft /> Back to estimate
               </button>
               <button
                 aria-label="Download PDF"
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
               </button>
@@ -522,16 +522,16 @@ return (
                   <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                     Estimate Transparency
                   </span>
-                  <h2 className="text-[26px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.1]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+                  <h2 className="text-[26px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.1]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                     What is this estimate based on?
                   </h2>
-                  <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[600px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                  <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[600px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     Hozie uses your project details, construction assumptions and regional cost data to create an estimated range. Review these assumptions before using the estimate for decisions.
                   </p>
                 </div>
                 <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#F3EAFF] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[#722ED1]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
-                  <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>86% AI confidence</span>
+                  <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>86% AI confidence</span>
                 </div>
               </div>
 
@@ -608,14 +608,14 @@ return (
             <button
               onClick={() => onNavigate('estimate-dashboard')}
               className="flex-1 sm:flex-none h-11 px-5 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               Back to estimate
             </button>
             <button
               onClick={improveEstimate}
               className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-              style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
             >
               Improve estimate →
             </button>

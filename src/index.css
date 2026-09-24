@@ -143,32 +143,48 @@ html, body, #root {
   height: 100%;
 }
 
+/*
+ * Legacy Figma face names are still set inline across ~180 screens
+ * (Google Sans Flex / Open Sans). Remap those family names onto the
+ * applied shadcn preset fonts so headlines render Geist Variable and
+ * body copy renders Inter Variable without rewriting every screen.
+ */
 @font-face {
   font-family: 'Google Sans Flex:Bold';
   font-style: normal;
+  font-display: swap;
   font-weight: 100 900;
-  src: url('https://static.figma.com/font/GoogleSansFlex-VariableFont_GRAD_ROND_opsz_slnt_wdth_wght_1') format('woff2');
+  src: url('../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2-variations');
 }
-
 @font-face {
   font-family: 'Google Sans Flex:Medium';
   font-style: normal;
+  font-display: swap;
   font-weight: 100 900;
-  src: url('https://static.figma.com/font/GoogleSansFlex-VariableFont_GRAD_ROND_opsz_slnt_wdth_wght_1') format('woff2');
+  src: url('../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2-variations');
 }
-
 @font-face {
   font-family: 'Google Sans Flex:SemiBold';
   font-style: normal;
+  font-display: swap;
   font-weight: 100 900;
-  src: url('https://static.figma.com/font/GoogleSansFlex-VariableFont_GRAD_ROND_opsz_slnt_wdth_wght_1') format('woff2');
+  src: url('../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2-variations');
 }
 
 @font-face {
   font-family: 'Geist:Medium';
   font-style: normal;
+  font-display: swap;
   font-weight: 100 900;
-  src: url('https://static.figma.com/font/Geist_wght__1') format('woff2');
+  src: url('../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Open Sans:Regular';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2-variations');
 }
 
 @font-face {
@@ -176,13 +192,6 @@ html, body, #root {
   font-style: normal;
   font-weight: 100 900;
   src: url('https://static.figma.com/font/SometypeMono_wght__1') format('woff2');
-}
-
-@font-face {
-  font-family: 'Open Sans:Regular';
-  font-style: normal;
-  font-weight: 100 900;
-  src: url('https://static.figma.com/font/OpenSans_wdth_wght__2') format('woff2');
 }
 
 @font-face {

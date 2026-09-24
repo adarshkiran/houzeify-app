@@ -176,7 +176,7 @@ function QuickCard({ icon, label, sublabel, selected, onClick }: QuickCardProps)
     >
       <div className={selected ? 'text-[#722ED1]' : 'text-[#68636D] group-hover:text-[#722ED1]'}>{icon}</div>
       <div className="text-[12px] font-semibold tracking-[0.08em] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', color: selected ? '#722ED1' : '#1E1E1E' }}>{label}</div>
-      <div className="text-[11px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif', color: selected ? '#722ED1' : '#808080' }}>{sublabel}</div>
+      <div className="text-[11px]" style={{ fontFamily: '"Inter Variable", sans-serif', color: selected ? '#722ED1' : '#808080' }}>{sublabel}</div>
     </button>
   )
 }
@@ -207,8 +207,8 @@ function EstimateInsightCard({ inline = false }: { inline?: boolean }) {
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="10" rx="1" stroke="#722ED1" strokeWidth="1.2" /><line x1="4" y1="1" x2="4" y2="5" stroke="#722ED1" strokeWidth="1.2" strokeLinecap="round" /><line x1="10" y1="1" x2="10" y2="5" stroke="#722ED1" strokeWidth="1.2" strokeLinecap="round" /></svg>
           <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Project Estimate</span>
         </div>
-        <div className="text-[20px] xl:text-[22px] font-bold text-[#722ED1] tracking-[-0.02em]" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>₹29.8L – ₹35.2L</div>
-        <div className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>Estimated Construction Cost</div>
+        <div className="text-[20px] xl:text-[22px] font-bold text-[#722ED1] tracking-[-0.02em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>₹29.8L – ₹35.2L</div>
+        <div className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Estimated Construction Cost</div>
       </div>
       <div className="h-px bg-[#F4F0EC]" />
       <div className="flex flex-col gap-1">
@@ -216,8 +216,8 @@ function EstimateInsightCard({ inline = false }: { inline?: boolean }) {
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><polyline points="1,10 4,6 7,8 10,3 13,5" stroke="#722ED1" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>
           <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI Confidence</span>
         </div>
-        <div className="text-[24px] xl:text-[28px] font-bold text-[#722ED1] tracking-[-0.02em]" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>86%</div>
-        <div className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>High Confidence</div>
+        <div className="text-[24px] xl:text-[28px] font-bold text-[#722ED1] tracking-[-0.02em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>86%</div>
+        <div className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>High Confidence</div>
       </div>
     </div>
   )
@@ -259,8 +259,8 @@ function FloatingSolutionCard({ icon, label, main, caption, accent, positionClas
         {icon}
         <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{label}</span>
       </div>
-      <div className="text-[16px] font-bold tracking-[-0.01em]" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif', color: accentHex }}>{main}</div>
-      <div className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{caption}</div>
+      <div className="text-[16px] font-bold tracking-[-0.01em]" style={{ fontFamily: '"Geist Variable", sans-serif', color: accentHex }}>{main}</div>
+      <div className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{caption}</div>
     </button>
   )
 }
@@ -288,26 +288,26 @@ function HozieCard() {
         <div className="flex items-center gap-3">
           <HIcon size={36} />
           <div>
-            <div className="text-[15px] font-bold text-[#242326] tracking-[-0.01em]" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>HOZIE</div>
+            <div className="text-[15px] font-bold text-[#242326] tracking-[-0.01em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>HOZIE</div>
             <div className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#722ED1] mt-0.5" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>AI Construction Advisor</div>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="size-2 rounded-full bg-green-600" />
-          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>Online</span>
+          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Online</span>
         </div>
       </div>
 
       {/* Welcome bubble */}
       <div className="bg-[#F9F5FF] border border-[#722ED1]/30 rounded-[14px] p-4 sm:p-5">
-        <div className="text-[18px] sm:text-[20px] font-bold text-[#242326] tracking-[-0.02em] mb-2" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>Hi, I&apos;m Hozie.</div>
-        <div className="text-[13px] sm:text-[14px] text-[#68636D] leading-relaxed" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <div className="text-[18px] sm:text-[20px] font-bold text-[#242326] tracking-[-0.02em] mb-2" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Hi, I&apos;m Hozie.</div>
+        <div className="text-[13px] sm:text-[14px] text-[#68636D] leading-relaxed" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           I can help you plan your construction, estimate costs and understand what it takes to build your project.
         </div>
       </div>
 
       {/* Quick-start label */}
-      <div className="text-[13px] sm:text-[14px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <div className="text-[13px] sm:text-[14px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         What are you planning to build?
       </div>
 
@@ -327,7 +327,7 @@ function HozieCard() {
           onChange={e => setInputValue(e.target.value)}
           placeholder="Tell Hozie what you want to build..."
           className="flex-1 border-none outline-none bg-transparent text-[13px] sm:text-[14px] text-[#242326] placeholder:text-[#9A949D]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         />
         <button
           className="size-9 sm:size-10 rounded-full bg-[#722ED1] border-none cursor-pointer flex items-center justify-center shrink-0 transition-all duration-150 hover:brightness-90 hover:scale-105"
@@ -387,19 +387,19 @@ function SolutionCard({ icon, title, body, examples, ctaLabel, accent, featured,
         {icon}
       </span>
       <div className="flex flex-col gap-1.5">
-        <span className={featured ? 'text-[18px] font-semibold text-[#242326]' : 'text-[15px] font-semibold text-[#242326]'} style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+        <span className={featured ? 'text-[18px] font-semibold text-[#242326]' : 'text-[15px] font-semibold text-[#242326]'} style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           {title}
         </span>
-        <span className={featured ? 'text-[13.5px] text-[#68636D] leading-[1.55]' : 'text-[13px] text-[#68636D] leading-[1.5]'} style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <span className={featured ? 'text-[13.5px] text-[#68636D] leading-[1.55]' : 'text-[13px] text-[#68636D] leading-[1.5]'} style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           {body}
         </span>
         {examples && (
-          <span className="text-[11.5px] text-[#9A949D] tracking-[0.01em]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+          <span className="text-[11.5px] text-[#9A949D] tracking-[0.01em]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             {examples}
           </span>
         )}
       </div>
-      <span className="text-[13px] font-semibold mt-1" style={{ fontFamily: '"Open Sans:Regular", sans-serif', color: accentHex }}>
+      <span className="text-[13px] font-semibold mt-1" style={{ fontFamily: '"Inter Variable", sans-serif', color: accentHex }}>
         {ctaLabel}
       </span>
     </button>
@@ -422,13 +422,13 @@ export default function WelcomeScreen({ onNavigate }: { onNavigate: (screen: str
       >
         <img src={logoHorizontal} alt="Houzeify" className="h-7 lg:h-8 w-auto" style={{ mixBlendMode: 'multiply' }} />
         <div className="flex items-center gap-2 sm:gap-3">
-          <span className="hidden sm:block text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+          <span className="hidden sm:block text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             Already have an account?
           </span>
           <button
             onClick={() => onNavigate('login')}
             className="h-9 lg:h-10 px-4 lg:px-5 border border-[#E3DDD7] rounded-[10px] bg-transparent text-[13px] lg:text-[14px] font-medium text-[#242326] cursor-pointer transition-all duration-200 hover:border-[#722ED1] hover:bg-[#F3EAFF]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Log in
           </button>
@@ -454,7 +454,7 @@ export default function WelcomeScreen({ onNavigate }: { onNavigate: (screen: str
           {/* Headline */}
           <h1
             className="text-[36px] sm:text-[46px] lg:text-[52px] xl:text-[56px] font-semibold text-[#242326] leading-[1.08] tracking-[-0.02em] m-0"
-            style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+            style={{ fontFamily: '"Geist Variable", sans-serif' }}
           >
             Your AI Construction<br />
             <span className="text-[#722ED1]">Advisor for Everything Home.</span>
@@ -463,7 +463,7 @@ export default function WelcomeScreen({ onNavigate }: { onNavigate: (screen: str
           {/* Description */}
           <p
             className="text-[15px] sm:text-[16px] lg:text-[17px] leading-[1.7] text-[#68636D] m-0 max-w-[460px]"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            style={{ fontFamily: '"Inter Variable", sans-serif' }}
           >
             Estimate construction costs, make better decisions,<br className="hidden sm:block" />{' '}
             and find the right solutions for your home<br className="hidden sm:block" />{' '}
@@ -475,13 +475,13 @@ export default function WelcomeScreen({ onNavigate }: { onNavigate: (screen: str
             <button
               onClick={() => onNavigate('login')}
               className="h-12 sm:h-[52px] px-6 sm:px-7 bg-[#722ED1] text-white border-none rounded-[12px] text-[14px] font-semibold cursor-pointer flex items-center gap-2 transition-all duration-200 hover:brightness-90 w-full sm:w-auto justify-center"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               Start with Hozie →
             </button>
             <button
               className="bg-transparent border-none text-[14px] font-medium text-[#242326] cursor-pointer p-0 flex items-center gap-1.5 transition-colors duration-200 hover:text-[#722ED1]"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               I already have a project →
             </button>

@@ -18,8 +18,8 @@ import { useOrganizations } from '@/data/organizationState'
 import { describeOrganizationError } from '@/data/organizationApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // Demo defaults — same established persona used throughout the professional
 // flow (companyInformation.ts / businessVerification.ts), so the form is

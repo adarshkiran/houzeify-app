@@ -25,8 +25,8 @@ import { projectTypeLabel } from '@/data/projectOverviewRecord'
 import type { Project } from '@/data/projectApi'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 const FOCUS_RING =
   'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#722ED1]'
 const TEXT_ACTION = `inline-flex items-center min-h-11 cursor-pointer border-0 bg-transparent p-0 rounded-[6px] text-[13px] font-semibold text-[#722ED1] ${FOCUS_RING}`

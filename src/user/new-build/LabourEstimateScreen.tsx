@@ -151,7 +151,7 @@ function NavItem({ icon, label, active, onClick }: {
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
-      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
+      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
     </button>
   )
 }
@@ -180,7 +180,7 @@ function SelectField({ label, value, onChange, options, minWidth = 132 }: {
         value={value}
         onChange={e => onChange(e.target.value)}
         className="appearance-none w-full h-9 pl-3 pr-8 rounded-[10px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] cursor-pointer outline-none hover:border-[#E3DDD7] focus:border-[#722ED1] transition-colors"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
       </select>
@@ -207,7 +207,7 @@ function LabourFilters({
           onChange={e => onSearch(e.target.value)}
           placeholder="Search workers..."
           className="w-full h-9 pl-9 pr-3 rounded-[10px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] placeholder:text-[#9A949D] outline-none focus:border-[#722ED1] transition-colors"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         />
       </label>
 
@@ -258,21 +258,21 @@ function LabourTableRow({ item, onOpen }: { item: LabourEstimate; onOpen: (m: La
     >
       <td className="px-4 py-4">
         <div className="flex flex-col gap-0.5">
-          <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.trade}</span>
-          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.categoryLabel ?? item.category}</span>
+          <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.trade}</span>
+          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.categoryLabel ?? item.category}</span>
         </div>
       </td>
       <td className="px-4 py-4">
-        <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.workers}</span>
+        <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.workers}</span>
       </td>
       <td className="px-4 py-4">
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.estimatedDays} days</span>
+        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.estimatedDays} days</span>
       </td>
       <td className="px-4 py-4">
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{formatINR(item.dailyRate)}</span>
+        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(item.dailyRate)}</span>
       </td>
       <td className="px-4 py-4">
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(item.estimatedCost)}</span>
+        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.estimatedCost)}</span>
       </td>
       <td className="px-4 py-4 hidden lg:table-cell">
         <ConfidenceBadge level={item.confidence} />
@@ -282,7 +282,7 @@ function LabourTableRow({ item, onOpen }: { item: LabourEstimate; onOpen: (m: La
           onClick={e => { e.stopPropagation(); onOpen(item) }}
           aria-label={`View details for ${item.trade}`}
           className="inline-flex items-center gap-1 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-          style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
         >
           <span className="hidden lg:inline">View details →</span>
           <span className="lg:hidden" aria-hidden="true">→</span>
@@ -329,36 +329,36 @@ function LabourCard({ item, onOpen }: { item: LabourEstimate; onOpen: (m: Labour
     <div className="bg-white rounded-[14px] border border-[#E3DDD7] p-4 flex flex-col gap-3">
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-[14px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.trade}</span>
-          <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.categoryLabel ?? item.category}</span>
+          <span className="text-[14px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.trade}</span>
+          <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.categoryLabel ?? item.category}</span>
         </div>
         <ConfidenceBadge level={item.confidence} />
       </div>
       <div className="flex items-center justify-between gap-3">
         <div className="flex flex-col gap-0.5">
           <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Workers</span>
-          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.workers}</span>
+          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.workers}</span>
         </div>
         <div className="flex flex-col gap-0.5">
           <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Duration</span>
-          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.estimatedDays} days</span>
+          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.estimatedDays} days</span>
         </div>
         <div className="flex flex-col gap-0.5">
           <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Rate/day</span>
-          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{formatINR(item.dailyRate)}</span>
+          <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(item.dailyRate)}</span>
         </div>
       </div>
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-0.5">
           <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Cost</span>
-          <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(item.estimatedCost)}</span>
+          <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.estimatedCost)}</span>
         </div>
       </div>
       <button
         onClick={() => onOpen(item)}
         aria-label={`View details for ${item.trade}`}
         className="h-9 rounded-[10px] border border-[#E3DDD7] text-[12px] font-semibold cursor-pointer bg-transparent hover:bg-[#FFFFFF] transition-colors"
-        style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
       >
         View details →
       </button>
@@ -384,7 +384,7 @@ function EmptyState() {
       <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F4F0EC', color: '#9A949D' }}>
         <IcoEmptyBox />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         No labour trades match your filters.
       </p>
     </div>
@@ -397,13 +397,13 @@ function ErrorState({ onRetry }: { onRetry: () => void }) {
       <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}>
         <IcoAlert />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Unable to load labour estimate. Try again.
       </p>
       <button
         onClick={onRetry}
         className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0"
-        style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Retry
       </button>
@@ -461,28 +461,28 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
 
             <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-5">
               <div>
-                <h2 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{item.trade}</h2>
-                <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>Trade: {item.categoryLabel ?? item.category}</span>
+                <h2 className="text-[22px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.trade}</h2>
+                <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Trade: {item.categoryLabel ?? item.category}</span>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
                   <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Workers</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{item.workers}</span>
+                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.workers}</span>
                 </div>
                 <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
                   <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Duration</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{item.estimatedDays} working days</span>
+                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.estimatedDays} working days</span>
                 </div>
                 <div className="flex flex-col gap-1 p-3 rounded-[12px] col-span-2" style={{ backgroundColor: '#FFFFFF' }}>
                   <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Rate</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(item.dailyRate)} / day</span>
+                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.dailyRate)} / day</span>
                 </div>
               </div>
 
               <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: '#F9F5FF' }}>
                 <span className="text-[12px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Cost</span>
-                <span className="text-[26px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>{formatINR(item.estimatedCost)}</span>
+                <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{formatINR(item.estimatedCost)}</span>
                 <span className="text-[12px] text-[#722ED1]/70" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                   {item.workers} workers × {item.estimatedDays} days × {formatINR(item.dailyRate)}
                 </span>
@@ -490,7 +490,7 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
 
               <div className="flex flex-col gap-1.5">
                 <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Calculation basis</span>
-                <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.calculationBasis}</p>
+                <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.calculationBasis}</p>
               </div>
 
               <div className="flex items-center justify-between">
@@ -506,14 +506,14 @@ function LabourDetailDrawer({ item, onClose, onAskHozie }: { item: LabourEstimat
             <div className="shrink-0 px-5 py-4 border-t border-[#E3DDD7] flex gap-2.5">
               <button
                 className="flex-1 h-10 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 Edit assumption
               </button>
               <button
                 onClick={onAskHozie}
                 className="flex-1 h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
               >
                 Ask Hozie
               </button>
@@ -541,17 +541,17 @@ function LabourCostSummary({ total, range, sharePct }: { total: string; range: s
           <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
             Estimated Labour Cost
           </span>
-          <div className="text-[34px] sm:text-[40px] font-semibold leading-none" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#242326' }}>
+          <div className="text-[34px] sm:text-[40px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#242326' }}>
             {total}
           </div>
-          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
             Expected range: {range}
           </span>
         </div>
         <div className="flex flex-col gap-1 items-end">
           <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Labour Share</span>
-          <span className="text-[20px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>{sharePct}%</span>
-          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>of total construction estimate</span>
+          <span className="text-[20px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{sharePct}%</span>
+          <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>of total construction estimate</span>
         </div>
       </div>
       <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: '#F3EAFF' }}>
@@ -629,11 +629,11 @@ return (
           onClick={() => onNavigate('estimate-dashboard')}
           aria-label="Back to estimate"
           className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoChevronLeft /> Estimate
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Labour Estimate</span>
+        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Labour Estimate</span>
         <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
@@ -644,10 +644,10 @@ return (
           {/* Desktop header */}
           <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Labour Estimate
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
@@ -655,14 +655,14 @@ return (
               <button
                 onClick={() => onNavigate('estimate-dashboard')}
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoChevronLeft /> Back to estimate
               </button>
               <button
                 aria-label="Download PDF"
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
               </button>
@@ -679,16 +679,16 @@ return (
                   <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                     Labour Estimate
                   </span>
-                  <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+                  <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                     Who will build it.
                   </h2>
-                  <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[520px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                  <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[520px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     Hozie estimates the workers, working days and labour cost required for your project.
                   </p>
                 </div>
                 <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#F3EAFF] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[#722ED1]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
-                  <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>82% AI confidence</span>
+                  <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>82% AI confidence</span>
                 </div>
               </div>
 

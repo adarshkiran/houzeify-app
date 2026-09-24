@@ -5,8 +5,8 @@ import HIcon from '@/shared/components/HIcon'
 import { useProjectAudience } from '@/data/customerProjectsState'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 071 — Project Messages (C12) ────────────────────────────────────
 // Project-scoped conversation overview. There is still no human-to-human

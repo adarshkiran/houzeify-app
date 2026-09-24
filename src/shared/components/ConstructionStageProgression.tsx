@@ -14,8 +14,8 @@ import { useAuth } from '@/data/authState'
 import { useProjects } from '@/data/projectState'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 const BTN =
   'inline-flex items-center justify-center min-h-[44px] px-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 disabled:opacity-50 disabled:cursor-not-allowed'

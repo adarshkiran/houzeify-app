@@ -27,8 +27,8 @@ import {
 } from '@/partner/projects/companyRollupShell'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 function stageLabel(stage: string | null): string {
   if (!stage) return 'Stage not set'

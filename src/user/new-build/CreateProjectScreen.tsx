@@ -177,7 +177,7 @@ function NavItem({ icon, label, active, onClick }: {
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
-      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
+      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
     </button>
   )
 }
@@ -280,13 +280,13 @@ function StageCard({ stage, selected, onSelect }: { stage: StageOption; selected
       <div className="flex flex-col gap-0.5">
         <span
           className={`text-[13px] font-semibold leading-tight ${selected ? 'text-[#722ED1]' : 'text-[#242326]'}`}
-          style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+          style={{ fontFamily: '"Geist Variable", sans-serif' }}
         >
           {stage.title}
         </span>
         <span
           className="text-[12px] text-[#68636D] leading-[1.5]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           {stage.desc}
         </span>
@@ -315,11 +315,11 @@ function MobileTopBar({ onCancel }: { onCancel: () => void }) {
     <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
           Create project
         </span>
       </div>
-      <button onClick={onCancel} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <button onClick={onCancel} className="text-[13px] text-[#68636D] border-0 bg-transparent cursor-pointer" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Cancel
       </button>
     </div>
@@ -442,14 +442,14 @@ return (
           <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-10 bg-white border-b border-[#E3DDD7]">
             <h1
               className="text-[20px] font-semibold text-[#242326] m-0"
-              style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+              style={{ fontFamily: '"Geist Variable", sans-serif' }}
             >
               Create project
             </h1>
             <button
               onClick={() => onNavigate('ai-advisor')}
               className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               Cancel
             </button>
@@ -482,13 +482,13 @@ return (
                 </span>
                 <h2
                   className="text-[30px] sm:text-[40px] font-semibold text-[#242326] m-0 leading-[1.08]"
-                  style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+                  style={{ fontFamily: '"Geist Variable", sans-serif' }}
                 >
                   Let&apos;s create your project.
                 </h2>
                 <p
                   className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0"
-                  style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                  style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   Hozie will use these details to build your construction estimate.
                 </p>
@@ -509,12 +509,12 @@ return (
                     onChange={e => setProjectName(e.target.value)}
                     className="w-full h-[52px] px-4 rounded-[12px] border border-[#E3DDD7] bg-white text-[15px] text-[#242326] outline-none transition-all placeholder-[#CAC7C6]"
                     style={{
-                      fontFamily: '"Open Sans:Regular", sans-serif',
+                      fontFamily: '"Inter Variable", sans-serif',
                     }}
                     onFocus={e => { e.currentTarget.style.borderColor = '#722ED1'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(114,46,209,0.08)' }}
                     onBlur={e => { e.currentTarget.style.borderColor = '#CAC7C6'; e.currentTarget.style.boxShadow = 'none' }}
                   />
-                  <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                  <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     Give your project a name you&apos;ll recognize later.
                   </span>
                 </div>
@@ -528,7 +528,7 @@ return (
                   <div className="flex flex-col rounded-[12px] border border-[#E3DDD7] bg-[#FFFFFF] overflow-hidden">
                     <div className="flex items-center justify-between px-4 h-[52px]">
                       <div className="flex items-center gap-3">
-                        <span className="text-[15px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                        <span className="text-[15px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           {propertyType}
                         </span>
                         <span
@@ -541,7 +541,7 @@ return (
                       <button
                         onClick={() => setChangingType(v => !v)}
                         className="text-[13px] text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent"
-                        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                        style={{ fontFamily: '"Inter Variable", sans-serif' }}
                       >
                         {changingType ? 'Done' : 'Change'}
                       </button>
@@ -561,18 +561,18 @@ return (
                           From your Home details
                         </span>
                         {homeStageBhkLine && (
-                          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{homeStageBhkLine}</span>
+                          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{homeStageBhkLine}</span>
                         )}
                         {homeAreaFloorLine && (
-                          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{homeAreaFloorLine}</span>
+                          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{homeAreaFloorLine}</span>
                         )}
-                        <span className="flex items-center gap-1 text-[12px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                        <span className="flex items-center gap-1 text-[12px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           <IcoLocation /> {location}
                         </span>
                         <button
                           onClick={() => onNavigate('home-intent')}
                           className="self-start mt-1 text-[12.5px] text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent p-0"
-                          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                          style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Edit in Your Home →
                         </button>
@@ -593,7 +593,7 @@ return (
                               ? 'bg-[#722ED1] border-[#722ED1] text-white'
                               : 'bg-white border-[#E3DDD7] text-[#68636D] hover:border-[#722ED1] hover:text-[#722ED1]',
                           ].join(' ')}
-                          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                          style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           {pt}
                         </button>
@@ -622,21 +622,21 @@ return (
                         onBlur={() => setEditingLocation(false)}
                         onKeyDown={e => { if (e.key === 'Enter') setEditingLocation(false) }}
                         className="flex-1 bg-transparent outline-none text-[15px] text-[#242326]"
-                        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                        style={{ fontFamily: '"Inter Variable", sans-serif' }}
                       />
                     </div>
                   ) : (
                     <div className="flex items-center justify-between px-4 h-[52px] rounded-[12px] border border-[#E3DDD7] bg-[#FFFFFF]">
                       <div className="flex items-center gap-3">
                         <span className="text-[#9A949D] shrink-0"><IcoLocation /></span>
-                        <span className="text-[15px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                        <span className="text-[15px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           {location}
                         </span>
                       </div>
                       <button
                         onClick={() => setEditingLocation(true)}
                         className="text-[13px] text-[#722ED1] hover:underline cursor-pointer border-0 bg-transparent"
-                        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                        style={{ fontFamily: '"Inter Variable", sans-serif' }}
                       >
                         Change
                       </button>
@@ -675,7 +675,7 @@ return (
                   <span className="text-[12px] tracking-[0.08em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                     Hozie Tip
                   </span>
-                  <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                  <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     You don&apos;t need everything ready. We can start with what you know and fill in the details later.
                   </p>
                 </div>
@@ -695,7 +695,7 @@ return (
                       ? 'bg-[#722ED1] text-white cursor-pointer hover:brightness-90 active:scale-[0.99]'
                       : 'bg-[#F4F0EC] text-[#9A949D] cursor-not-allowed',
                   ].join(' ')}
-                  style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                  style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   Continue to project details →
                 </button>
@@ -709,7 +709,7 @@ return (
                       ? 'border-[#E3DDD7] bg-white text-[#242326] cursor-pointer hover:bg-[#F4F0EC]'
                       : 'border-[#E3DDD7] bg-[#FFFFFF] text-[#9A949D] cursor-not-allowed',
                   ].join(' ')}
-                  style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                  style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   Have a plan? Upload it →
                 </button>
@@ -717,7 +717,7 @@ return (
                 <button
                   onClick={() => onNavigate('ai-advisor')}
                   className="text-[13px] text-[#68636D] hover:text-[#242326] transition-colors cursor-pointer border-0 bg-transparent"
-                  style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                  style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   ← Back to Hozie
                 </button>

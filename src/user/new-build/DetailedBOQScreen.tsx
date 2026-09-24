@@ -155,7 +155,7 @@ function NavItem({ icon, label, active, onClick }: {
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
-      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
+      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
     </button>
   )
 }
@@ -183,7 +183,7 @@ function SelectField({ label, value, onChange, options, minWidth = 140 }: {
         value={value}
         onChange={e => onChange(e.target.value)}
         className="appearance-none w-full h-9 pl-3 pr-8 rounded-[10px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] cursor-pointer outline-none hover:border-[#E3DDD7] focus:border-[#722ED1] transition-colors"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ fontFamily: '"Inter Variable", sans-serif' }}
       >
         {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
@@ -213,7 +213,7 @@ function BOQToolbar({
           onChange={e => onSearch(e.target.value)}
           placeholder="Search BOQ items..."
           className="w-full h-9 pl-9 pr-3 rounded-[10px] border border-[#E3DDD7] bg-white text-[13px] text-[#242326] placeholder:text-[#9A949D] outline-none focus:border-[#722ED1] transition-colors"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         />
       </label>
       <div className="flex items-center gap-2 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
@@ -238,7 +238,7 @@ function BOQToolbar({
               key={v} role="tab" aria-selected={view === v} onClick={() => onView(v)}
               className="h-8 px-3 rounded-[8px] text-[12px] font-semibold cursor-pointer border-0 capitalize"
               style={{
-                fontFamily: '"Open Sans:Regular", sans-serif',
+                fontFamily: '"Inter Variable", sans-serif',
                 backgroundColor: view === v ? '#FFFFFF' : 'transparent',
                 color: view === v ? '#722ED1' : '#808080',
                 boxShadow: view === v ? '0 1px 4px rgba(0,0,0,0.06)' : 'none',
@@ -263,27 +263,27 @@ function ItemRow({ item, costFilter, compact, onOpen }: { item: BOQItem; costFil
         <span className="text-[12px] font-semibold text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{String(item.itemNumber).padStart(2, '0')}</span>
       </td>
       <td className={`px-4 ${py}`}>
-        <span className="text-[13px] font-semibold text-[#242326] block" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.name}</span>
-        {!compact && <span className="hidden lg:block text-[11px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.description}</span>}
+        <span className="text-[13px] font-semibold text-[#242326] block" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.name}</span>
+        {!compact && <span className="hidden lg:block text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.description}</span>}
       </td>
       <td className={`px-4 ${py}`}>
-        <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.quantity.toLocaleString('en-IN')}</span>
+        <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.quantity.toLocaleString('en-IN')}</span>
       </td>
       <td className={`px-4 ${py}`}>
         <span className="text-[12px] uppercase tracking-[0.04em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{item.unit}</span>
       </td>
       {costFilter !== 'labour' && (
         <td className={`px-4 ${py}`}>
-          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{formatINR(item.materialCost)}</span>
+          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(item.materialCost)}</span>
         </td>
       )}
       {costFilter !== 'materials' && (
         <td className={`px-4 ${py}`}>
-          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{formatINR(item.labourCost)}</span>
+          <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(item.labourCost)}</span>
         </td>
       )}
       <td className={`px-4 ${py} text-right`}>
-        <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(item.totalCost)}</span>
+        <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.totalCost)}</span>
       </td>
     </tr>
   )
@@ -297,11 +297,11 @@ function ItemCard({ item, onOpen }: { item: BOQItem; onOpen: () => void }) {
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <span className="text-[12px] font-semibold text-[#9A949D] block" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{String(item.itemNumber).padStart(2, '0')}</span>
-          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.name}</span>
+          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.name}</span>
         </div>
-        <span className="text-[14px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(item.totalCost)}</span>
+        <span className="text-[14px] font-semibold text-[#242326] shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.totalCost)}</span>
       </div>
-      <div className="flex items-center gap-4 text-[12px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif', color: '#68636D' }}>
+      <div className="flex items-center gap-4 text-[12px]" style={{ fontFamily: '"Inter Variable", sans-serif', color: '#68636D' }}>
         <span>{item.quantity.toLocaleString('en-IN')} {item.unit}</span>
         <span>Mat. {formatINR(item.materialCost)}</span>
         <span>Lab. {formatINR(item.labourCost)}</span>
@@ -309,7 +309,7 @@ function ItemCard({ item, onOpen }: { item: BOQItem; onOpen: () => void }) {
       <button
         onClick={onOpen}
         className="h-8 rounded-[8px] border border-[#E3DDD7] text-[12px] font-semibold cursor-pointer bg-transparent hover:bg-[#FFFFFF] transition-colors"
-        style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
       >
         View details →
       </button>
@@ -356,11 +356,11 @@ function CategorySection({
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="text-[12px] font-semibold text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{String(category.order).padStart(2, '0')}</span>
-          <span className="text-[14px] font-semibold text-[#242326] uppercase tracking-[0.02em]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{category.name}</span>
+          <span className="text-[14px] font-semibold text-[#242326] uppercase tracking-[0.02em]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{category.name}</span>
         </div>
         <div className="flex items-center gap-3 shrink-0">
-          <span className="text-[11px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{items.length} items</span>
-          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(category.totalCost)}</span>
+          <span className="text-[11px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{items.length} items</span>
+          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(category.totalCost)}</span>
           <span className="text-[#68636D] transition-transform duration-200" style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}><IcoChevronDown /></span>
         </div>
       </button>
@@ -368,7 +368,7 @@ function CategorySection({
       {expanded && (
         <div id={`boq-cat-${category.id}`}>
           {items.length === 0 ? (
-            <p className="text-[13px] text-[#9A949D] text-center py-8 m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>No items in this category.</p>
+            <p className="text-[13px] text-[#9A949D] text-center py-8 m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>No items in this category.</p>
           ) : view === 'table' ? (
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full border-collapse" style={{ minWidth: 680 }}>
@@ -456,52 +456,52 @@ function ItemDetailDrawer({ item, categoryName, onClose, onAskHozie, onViewFullD
             <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-5">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h2 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{item.name}</h2>
-                  <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>Category: {categoryName}</span>
+                  <h2 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.name}</h2>
+                  <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Category: {categoryName}</span>
                 </div>
                 <button
                   onClick={onViewFullDetails}
                   className="shrink-0 text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline whitespace-nowrap"
-                  style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                  style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   View full details →
                 </button>
               </div>
 
-              <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.description}</p>
+              <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.description}</p>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
                   <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Quantity</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{item.quantity.toLocaleString('en-IN')} {item.unit}</span>
+                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{item.quantity.toLocaleString('en-IN')} {item.unit}</span>
                 </div>
                 <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
                   <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Material Rate</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>₹{item.materialRate.toLocaleString('en-IN')} / {item.unit}</span>
+                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>₹{item.materialRate.toLocaleString('en-IN')} / {item.unit}</span>
                 </div>
                 <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
                   <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Material Cost</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(item.materialCost)}</span>
+                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.materialCost)}</span>
                 </div>
                 <div className="flex flex-col gap-1 p-3 rounded-[12px]" style={{ backgroundColor: '#FFFFFF' }}>
                   <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Labour Cost</span>
-                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(item.labourCost)}</span>
+                  <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(item.labourCost)}</span>
                 </div>
               </div>
 
               <div className="flex flex-col gap-1 p-4 rounded-[12px]" style={{ backgroundColor: '#F9F5FF' }}>
                 <span className="text-[12px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Total</span>
-                <span className="text-[26px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>{formatINR(item.totalCost)}</span>
+                <span className="text-[26px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{formatINR(item.totalCost)}</span>
               </div>
 
               <div className="flex flex-col gap-1.5">
                 <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Specification</span>
-                <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.specification}</p>
+                <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.specification}</p>
               </div>
 
               <div className="flex flex-col gap-1.5">
                 <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Calculation basis</span>
-                <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{item.calculationBasis}</p>
+                <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{item.calculationBasis}</p>
               </div>
 
               <div className="flex flex-col gap-1">
@@ -514,17 +514,17 @@ function ItemDetailDrawer({ item, categoryName, onClose, onAskHozie, onViewFullD
                   <span className="w-6 h-6 rounded-[8px] bg-white flex items-center justify-center shrink-0"><HIcon size={14} /></span>
                   <span className="text-[12px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Note</span>
                 </div>
-                <p className="text-[12px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                <p className="text-[12px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   “Final {item.name.toLowerCase()} quantity must be confirmed against structural drawings.”
                 </p>
               </div>
             </div>
 
             <div className="shrink-0 px-5 py-4 border-t border-[#E3DDD7] flex gap-2.5">
-              <button onClick={onEditItem} className="flex-1 h-10 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={onEditItem} className="flex-1 h-10 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 Edit item
               </button>
-              <button onClick={onAskHozie} className="flex-1 h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={onAskHozie} className="flex-1 h-10 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>
                 Ask Hozie
               </button>
             </div>
@@ -544,12 +544,12 @@ function HozieCheckCard({ onAskHozie, onAnalyzePlan }: { onAskHozie: () => void;
         <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
         <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Check</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         “Your BOQ is ready for review. Structural quantities should be validated against the final structural drawings before contractor bidding.”
       </p>
       <div className="flex items-center gap-4">
-        <button onClick={onAskHozie} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}>Ask Hozie</button>
-        <button onClick={onAnalyzePlan} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}>Analyze Plan →</button>
+        <button onClick={onAskHozie} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>Ask Hozie</button>
+        <button onClick={onAnalyzePlan} className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>Analyze Plan →</button>
       </div>
     </div>
   )
@@ -571,7 +571,7 @@ function ReadinessStrip() {
       <div className="flex flex-col gap-2">
         {items.map(i => (
           <div key={i.label} className="flex items-center justify-between">
-            <span className="text-[13px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif', color: i.done ? '#1E1E1E' : '#A1A1A1' }}>{i.label}</span>
+            <span className="text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif', color: i.done ? '#1E1E1E' : '#A1A1A1' }}>{i.label}</span>
             {i.done ? (
               <span className="w-[18px] h-[18px] rounded-full flex items-center justify-center" style={{ backgroundColor: '#722ED1' }}><IcoCheck /></span>
             ) : (
@@ -580,7 +580,7 @@ function ReadinessStrip() {
           </div>
         ))}
       </div>
-      <p className="text-[12px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[12px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Complete plan analysis before sending this BOQ to contractors.
       </p>
     </div>
@@ -613,8 +613,8 @@ function ErrorPanel({ onRetry }: { onRetry: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-white rounded-[16px] border border-[#E3DDD7]">
       <span style={{ color: '#DC2626' }}><IcoAlert /></span>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>Unable to load the BOQ. Try again.</p>
-      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}>Try again</button>
+      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Unable to load the BOQ. Try again.</p>
+      <button onClick={onRetry} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>Try again</button>
     </div>
   )
 }
@@ -625,8 +625,8 @@ function NoBOQPanel({ onGoBOQOverview }: { onGoBOQOverview: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center text-center gap-3 py-16 bg-white rounded-[16px] border border-[#E3DDD7]">
       <span style={{ color: '#9A949D' }}><IcoAlert /></span>
-      <p className="text-[14px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>This project doesn&apos;t have an Estimate yet — a BOQ is generated from your Estimate.</p>
-      <button onClick={onGoBOQOverview} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}>Back to BOQ</button>
+      <p className="text-[14px] text-[#68636D] m-0 max-w-[360px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>This project doesn&apos;t have an Estimate yet — a BOQ is generated from your Estimate.</p>
+      <button onClick={onGoBOQOverview} className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>Back to BOQ</button>
     </div>
   )
 }
@@ -718,10 +718,10 @@ return (
 
       {/* Mobile top bar */}
       <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
-        <button onClick={() => onNavigate('boq-overview')} aria-label="Back to BOQ overview" className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <button onClick={() => onNavigate('boq-overview')} aria-label="Back to BOQ overview" className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           <IcoChevronLeft /> BOQ
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Detailed BOQ</span>
+        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Detailed BOQ</span>
         <div className="flex items-center gap-1">
           <button onClick={() => onNavigate('boq-version-history')} aria-label="Version history" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoHistory /></button>
           <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
@@ -735,21 +735,21 @@ return (
           {/* Desktop header */}
           <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Detailed BOQ</h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{projectName} · {location} · {area}</span>
+              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Detailed BOQ</h1>
+              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{projectName} · {location} · {area}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[12px] px-2.5 py-1.5 rounded-full" style={{ backgroundColor: '#F4F0EC', color: '#68636D', fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{estimateVersion ? `ESTIMATE V${estimateVersion.versionNumber} · ${estimateVersion.status.toUpperCase()}` : 'ESTIMATE'}</span>
-              <button onClick={() => onNavigate('boq-overview')} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={() => onNavigate('boq-overview')} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 <IcoChevronLeft /> BOQ Overview
               </button>
-              <button onClick={() => onNavigate('boq-version-history')} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={() => onNavigate('boq-version-history')} className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 <IcoHistory /> <span className="hidden lg:inline">Version History</span>
               </button>
-              <button aria-label="Download PDF" className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button aria-label="Download PDF" className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 <IcoDownload /> <span className="hidden lg:inline">PDF</span>
               </button>
-              <button aria-label="Export BOQ" className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button aria-label="Export BOQ" className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 <IcoExport /> <span className="hidden lg:inline">Export</span>
               </button>
             </div>
@@ -761,8 +761,8 @@ return (
               {/* Intro */}
               <div style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}>
                 <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Bill of Quantities</span>
-                <h2 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Detailed BOQ</h2>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[600px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                <h2 className="text-[28px] sm:text-[34px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Detailed BOQ</h2>
+                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[600px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   Review every material, labour and construction activity included in your current estimate.
                 </p>
               </div>
@@ -792,10 +792,10 @@ return (
 
                   {/* BOQ status */}
                   <div className="flex flex-wrap items-center gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.12s both' }}>
-                    <span className="inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-[11px] font-semibold" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                    <span className="inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-[11px] font-semibold" style={{ backgroundColor: '#DCFCE7', color: '#16A34A', fontFamily: '"Inter Variable", sans-serif' }}>
                       <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#16A34A' }} /> Ready for review
                     </span>
-                    <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>Based on {estimateVersion ? `Estimate Version ${estimateVersion.versionNumber}` : 'your Estimate'}</span>
+                    <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Based on {estimateVersion ? `Estimate Version ${estimateVersion.versionNumber}` : 'your Estimate'}</span>
                   </div>
 
                   {/* Toolbar */}
@@ -814,7 +814,7 @@ return (
                   {isSearching && totalVisibleItems === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-3 py-14 text-center bg-white rounded-[16px] border border-[#E3DDD7]">
                       <span style={{ color: '#9A949D' }}><IcoEmptyBox /></span>
-                      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>No BOQ items match your search.</p>
+                      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>No BOQ items match your search.</p>
                     </div>
                   ) : (
                     <div className="flex flex-col gap-3" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.18s both' }}>
@@ -853,13 +853,13 @@ return (
                           ['Labour subtotal', estimateVersion?.costBreakdown.labourCost ?? 0],
                         ].map(([label, val], i) => (
                           <div key={label as string} className="flex items-center justify-between py-2" style={{ borderTop: i === 0 ? 'none' : '1px solid #FFFFFF' }}>
-                            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
-                            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(val as number)}</span>
+                            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
+                            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(val as number)}</span>
                           </div>
                         ))}
                         <div className="flex items-center justify-between py-2" style={{ borderTop: '1px solid #F4F0EC' }}>
-                          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>BOQ subtotal</span>
-                          <span className="text-[13px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>{formatINR(boqSubtotal)}</span>
+                          <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>BOQ subtotal</span>
+                          <span className="text-[13px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{formatINR(boqSubtotal)}</span>
                         </div>
                         {[
                           ['Finishing', finishingCost],
@@ -867,14 +867,14 @@ return (
                           ['Contingency', contingencyCost],
                         ].map(([label, val]) => (
                           <div key={label as string} className="flex items-center justify-between py-2" style={{ borderTop: '1px solid #FFFFFF' }}>
-                            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
-                            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(val as number)}</span>
+                            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
+                            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(val as number)}</span>
                           </div>
                         ))}
                       </div>
                       <div className="rounded-[12px] p-4 flex flex-col gap-1 mt-1" style={{ backgroundColor: '#F9F5FF' }}>
                         <span className="text-[12px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimated Project Total</span>
-                        <span className="text-[22px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>{estimateVersion ? `${formatINR(estimateVersion.minCost)} — ${formatINR(estimateVersion.maxCost)}` : formatINR(overview.totalValue)}</span>
+                        <span className="text-[22px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{estimateVersion ? `${formatINR(estimateVersion.minCost)} — ${formatINR(estimateVersion.maxCost)}` : formatINR(overview.totalValue)}</span>
                       </div>
                     </div>
 
@@ -885,13 +885,13 @@ return (
 
                   {/* Primary actions */}
                   <div className="flex flex-col sm:flex-row gap-2.5" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.34s both' }}>
-                    <button onClick={analyzePlan} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                    <button onClick={analyzePlan} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>
                       Continue to Plan Analysis →
                     </button>
-                    <button className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                    <button className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                       Download BOQ PDF
                     </button>
-                    <button onClick={viewDetailed} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                    <button onClick={viewDetailed} className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                       Back to BOQ Overview
                     </button>
                   </div>

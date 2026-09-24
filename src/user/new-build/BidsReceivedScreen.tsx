@@ -10,8 +10,8 @@ import { getBidsForOpportunity, formatBidAmount, formatBidDuration, type Bid } f
 import { getInvitationsForProject, type ProjectInvitation } from '@/data/invitations'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 063 — Bids Received ─────────────────────────────────────────────
 // A HOMEOWNER screen — the central place to track contractor invitations and

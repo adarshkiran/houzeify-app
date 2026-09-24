@@ -149,7 +149,7 @@ function NavItem({ icon, label, active, onClick }: {
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
-      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
+      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
     </button>
   )
 }
@@ -173,7 +173,7 @@ function StageStatusBadge({ status }: { status: StageStatus }) {
   return (
     <span
       className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap"
-      style={{ backgroundColor: meta.bg, color: meta.fg, fontFamily: '"Open Sans:Regular", sans-serif' }}
+      style={{ backgroundColor: meta.bg, color: meta.fg, fontFamily: '"Inter Variable", sans-serif' }}
     >
       {status === 'completed' && (
         <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: meta.dot }}><IcoCheck /></span>
@@ -196,7 +196,7 @@ function ProjectProgress({ percent }: { percent: number }) {
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Project Progress</span>
-        <span className="text-[13px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>{percent}%</span>
+        <span className="text-[13px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{percent}%</span>
       </div>
       <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: '#F4F0EC' }}>
         <div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: '#722ED1', transition: 'width 0.9s cubic-bezier(0.4,0,0.2,1)' }} />
@@ -218,7 +218,7 @@ function ViewToggle({ view, onChange }: { view: 'timeline' | 'list'; onChange: (
           onClick={() => onChange(v)}
           className="h-8 px-3 rounded-[8px] text-[12px] font-semibold cursor-pointer border-0 flex items-center gap-1.5 transition-colors"
           style={{
-            fontFamily: '"Open Sans:Regular", sans-serif',
+            fontFamily: '"Inter Variable", sans-serif',
             backgroundColor: view === v ? '#FFFFFF' : 'transparent',
             color: view === v ? '#722ED1' : '#808080',
             boxShadow: view === v ? '0 1px 4px rgba(0,0,0,0.06)' : 'none',
@@ -248,7 +248,7 @@ function FilterChips({ value, onChange }: { value: 'all' | StageStatus; onChange
           aria-pressed={value === opt.value}
           className="h-8 px-3.5 rounded-full text-[12px] font-semibold cursor-pointer border shrink-0 transition-colors"
           style={{
-            fontFamily: '"Open Sans:Regular", sans-serif',
+            fontFamily: '"Inter Variable", sans-serif',
             backgroundColor: value === opt.value ? '#F3EAFF' : '#FFFFFF',
             color: value === opt.value ? '#722ED1' : '#808080',
             borderColor: value === opt.value ? '#722ED1' : '#CAC7C6',
@@ -266,7 +266,7 @@ function FilterChips({ value, onChange }: { value: 'all' | StageStatus; onChange
 function DependencyIndicator({ stage }: { stage: ConstructionStage }) {
   if (stage.dependencies.length === 0) {
     return (
-      <p className="text-[12px] text-[#9A949D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[12px] text-[#9A949D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         No dependencies — this is the first stage.
       </p>
     )
@@ -279,7 +279,7 @@ function DependencyIndicator({ stage }: { stage: ConstructionStage }) {
         if (!dep) return null
         return (
           <div key={depId} className="flex flex-col items-start gap-1">
-            <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{dep.name}</span>
+            <span className="text-[13px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{dep.name}</span>
             <span
               aria-hidden="true"
               className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
@@ -287,7 +287,7 @@ function DependencyIndicator({ stage }: { stage: ConstructionStage }) {
             >
               <IcoArrowDown />
             </span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{stage.name}</span>
+            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{stage.name}</span>
           </div>
         )
       })}
@@ -302,14 +302,14 @@ function TagList({ label, items, empty }: { label: string; items: string[]; empt
     <div className="flex flex-col gap-2">
       <span className="text-[12px] uppercase tracking-[0.08em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{label}</span>
       {items.length === 0 ? (
-        <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{empty ?? 'None'}</span>
+        <span className="text-[12px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{empty ?? 'None'}</span>
       ) : (
         <div className="flex flex-wrap gap-1.5">
           {items.map(item => (
             <span
               key={item}
               className="px-2.5 py-1 rounded-full text-[11px]"
-              style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7', color: '#242326', fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7', color: '#242326', fontFamily: '"Inter Variable", sans-serif' }}
             >
               {item}
             </span>
@@ -352,15 +352,15 @@ function StageCard({ stage, expanded, onToggle, onAskHozie }: {
             </span>
             <StageStatusBadge status={stage.status} />
           </div>
-          <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#242326] m-0 mb-1" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#242326] m-0 mb-1" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
             {stage.name}
           </h3>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{stageDurationLabel(stage)}</span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(stage.estimatedCost)}</span>
+            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(stage.estimatedCost)}</span>
           </div>
           {!expanded && (
-            <p className="text-[12px] text-[#9A949D] m-0 mt-2 line-clamp-1" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+            <p className="text-[12px] text-[#9A949D] m-0 mt-2 line-clamp-1" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
               {stage.activities.join(' · ')}
             </p>
           )}
@@ -386,19 +386,19 @@ function StageCard({ stage, expanded, onToggle, onAskHozie }: {
               <span className="w-5 h-5 rounded-[6px] bg-white flex items-center justify-center shrink-0"><HIcon size={14} /></span>
               <span className="text-[12px] uppercase tracking-[0.08em] text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Note</span>
             </div>
-            <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{stage.note}</p>
+            <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{stage.note}</p>
           </div>
           <div className="flex gap-2.5">
             <button
               className="flex-1 h-9 rounded-[10px] border border-[#E3DDD7] text-[#242326] text-[12px] font-medium cursor-pointer bg-white hover:bg-[#F4F0EC] transition-colors"
-              style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ fontFamily: '"Inter Variable", sans-serif' }}
             >
               Edit assumption
             </button>
             <button
               onClick={onAskHozie}
               className="flex-1 h-9 rounded-[10px] text-white text-[12px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-              style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+              style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
             >
               Ask Hozie
             </button>
@@ -443,21 +443,21 @@ function StageListRow({ stage, onOpen }: { stage: ConstructionStage; onOpen: () 
         <span className="text-[12px] font-semibold text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{String(stage.order).padStart(2, '0')}</span>
       </td>
       <td className="px-4 py-3.5">
-        <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{stage.name}</span>
+        <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{stage.name}</span>
       </td>
       <td className="px-4 py-3.5"><StageStatusBadge status={stage.status} /></td>
       <td className="px-4 py-3.5 hidden sm:table-cell">
         <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{stageDurationLabel(stage)}</span>
       </td>
       <td className="px-4 py-3.5">
-        <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(stage.estimatedCost)}</span>
+        <span className="text-[14px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(stage.estimatedCost)}</span>
       </td>
       <td className="px-4 py-3.5 text-right">
         <button
           onClick={e => { e.stopPropagation(); onOpen() }}
           aria-label={`View details for ${stage.name}`}
           className="text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-          style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
         >
           View details →
         </button>
@@ -484,7 +484,7 @@ function NoProjectState() {
       <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F4F0EC', color: '#9A949D' }}>
         <IcoNoProject />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Create a project to generate your construction roadmap.
       </p>
     </div>
@@ -497,13 +497,13 @@ function ErrorState({ onRetry }: { onRetry: () => void }) {
       <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}>
         <IcoAlert />
       </div>
-      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         Unable to load construction stages.
       </p>
       <button
         onClick={onRetry}
         className="h-9 px-4 rounded-[10px] text-white text-[13px] font-semibold cursor-pointer border-0"
-        style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Retry
       </button>
@@ -560,11 +560,11 @@ return (
           onClick={() => onNavigate('estimate-dashboard')}
           aria-label="Back to estimate"
           className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoChevronLeft /> Estimate
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Construction Stages</span>
+        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Construction Stages</span>
         <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
@@ -575,10 +575,10 @@ return (
           {/* Desktop header */}
           <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Construction Stages
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
@@ -586,14 +586,14 @@ return (
               <button
                 onClick={() => onNavigate('estimate-dashboard')}
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoChevronLeft /> Back to estimate
               </button>
               <button
                 aria-label="Download PDF"
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
               </button>
@@ -614,16 +614,16 @@ return (
                       <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                         Construction Roadmap
                       </span>
-                      <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+                      <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                         How your home will be built.
                       </h2>
-                      <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[560px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                      <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[560px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                         Hozie has organized your project into construction stages so you can understand the sequence, time and major costs involved.
                       </p>
                     </div>
                     <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#F3EAFF] self-start shrink-0" style={{ border: '1px solid rgba(243,234,255,0.10)' }}>
                       <span className="w-1.5 h-1.5 rounded-full bg-[#722ED1]" style={{ animation: 'hozieStatusPulse 2.5s ease-in-out infinite' }} />
-                      <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>78% AI confidence</span>
+                      <span className="text-[11px] font-medium text-[#722ED1]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>78% AI confidence</span>
                     </div>
                   </div>
 
@@ -664,7 +664,7 @@ return (
                       </div>
                     ) : filteredStages.length === 0 ? (
                       <div className="flex flex-col items-center justify-center gap-2 py-14 text-center bg-white rounded-[16px] border border-[#E3DDD7]">
-                        <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>No stages match this filter.</p>
+                        <p className="text-[14px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>No stages match this filter.</p>
                       </div>
                     ) : view === 'timeline' ? (
                       <div className="flex flex-col gap-4 sm:gap-3">
@@ -724,14 +724,14 @@ return (
                 <button
                   onClick={() => onNavigate('labour-estimate', { project_name: projectName, location })}
                   className="flex-1 sm:flex-none h-11 px-5 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-                  style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                  style={{ fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   Back to Labour
                 </button>
                 <button
                   onClick={() => onNavigate('cost-assumptions', { project_name: projectName, location })}
                   className="flex-1 sm:flex-none h-11 px-6 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                  style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                  style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
                 >
                   Continue to Cost Assumptions →
                 </button>

@@ -664,7 +664,7 @@ function DevScreenSwitcher({ current, onJump }: { current: AppScreen; onJump: (s
   })).filter(g => g.screens.length > 0)
 
   return (
-    <div style={{ position: 'fixed', bottom: 88, right: 16, zIndex: 9999, fontFamily: '"Open Sans:Regular", sans-serif' }}>
+    <div style={{ position: 'fixed', bottom: 88, right: 16, zIndex: 9999, fontFamily: '"Inter Variable", sans-serif' }}>
       {open && (
         <div
           style={{

@@ -179,7 +179,7 @@ function NavItem({ icon, label, active, onClick }: {
       ].join(' ')}
     >
       <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{icon}</span>
-      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
+      <span className="hidden lg:block text-[13px] leading-none" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
     </button>
   )
 }
@@ -196,7 +196,7 @@ function MiniCard({ eyebrow, value }: { eyebrow: string; value: string }) {
   return (
     <div className="bg-white rounded-[14px] border border-[#E3DDD7] p-4 flex flex-col gap-1.5 min-w-0">
       <span className="text-[12px] tracking-[0.08em] text-[#9A949D] uppercase truncate" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>{eyebrow}</span>
-      <span className="text-[16px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{value}</span>
+      <span className="text-[16px] font-semibold text-[#242326] truncate" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{value}</span>
     </div>
   )
 }
@@ -223,17 +223,17 @@ function EstimateHero({ locked, v2 }: { locked: boolean; v2: EstimateVersion }) 
           {locked ? 'Locked' : 'Ready for review'}
         </span>
       </div>
-      <span className="text-[36px] sm:text-[46px] font-semibold leading-none" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>
+      <span className="text-[36px] sm:text-[46px] font-semibold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>
         {formatINR(v2.minCost)} — {formatINR(v2.maxCost)}
       </span>
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           Estimated average: <strong style={{ color: '#242326' }}>{formatINR(v2.averageCost)}</strong>
         </span>
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           Cost per sq ft: <strong style={{ color: '#242326' }}>₹{v2.costPerSqFtMin.toLocaleString('en-IN')} — ₹{v2.costPerSqFtMax.toLocaleString('en-IN')}</strong>
         </span>
-        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           AI confidence: <strong style={{ color: '#242326' }}>{v2.confidence}%</strong>
         </span>
       </div>
@@ -257,14 +257,14 @@ function CostSummary({ v2 }: { v2: EstimateVersion }) {
       <div className="flex flex-col">
         {rows.map(([label, val], i) => (
           <div key={label} className="flex items-center justify-between py-2.5" style={{ borderTop: i === 0 ? 'none' : '1px solid #FFFFFF' }}>
-            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{label}</span>
-            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{formatINR(val)}</span>
+            <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{label}</span>
+            <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{formatINR(val)}</span>
           </div>
         ))}
       </div>
       <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid #F4F0EC' }}>
-        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Total</span>
-        <span className="text-[15px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>
+        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Total</span>
+        <span className="text-[15px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>
           {formatINR(v2.minCost)} — {formatINR(v2.maxCost)}
         </span>
       </div>
@@ -281,13 +281,13 @@ function RevisionSummary({ v1, v2, changes, onViewRevision }: { v1: EstimateVers
     <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Estimate Revision</span>
-        <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>vs. Version {v1.versionNumber}</span>
+        <span className="text-[11px] text-[#9A949D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>vs. Version {v1.versionNumber}</span>
       </div>
       <div className="flex flex-col gap-2.5">
         {changes.map(c => (
           <div key={c.label} className="flex items-center justify-between gap-3">
-            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{c.label}</span>
-            <span className="flex items-center gap-1.5 text-[12px] font-semibold text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+            <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{c.label}</span>
+            <span className="flex items-center gap-1.5 text-[12px] font-semibold text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
               {c.from} <IcoArrowRight /> <span style={{ color: '#722ED1' }}>{c.to}</span>
             </span>
           </div>
@@ -295,7 +295,7 @@ function RevisionSummary({ v1, v2, changes, onViewRevision }: { v1: EstimateVers
       </div>
       <div className="h-px bg-[#FFFFFF]" />
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-2 text-[13px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <div className="flex items-center gap-2 text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           <span className="text-[#9A949D]">{formatINR(v1.minCost)}–{formatINR(v1.maxCost)}</span>
           <IcoArrowRight />
           <span className="font-semibold" style={{ color: '#722ED1' }}>{formatINR(v2.minCost)}–{formatINR(v2.maxCost)}</span>
@@ -310,7 +310,7 @@ function RevisionSummary({ v1, v2, changes, onViewRevision }: { v1: EstimateVers
       <button
         onClick={onViewRevision}
         className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-        style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
       >
         View revision →
       </button>
@@ -328,15 +328,15 @@ function HozieReview({ v2, onAskHozie }: { v2: EstimateVersion; onAskHozie: () =
           <span className="w-8 h-8 rounded-[10px] bg-white flex items-center justify-center shrink-0"><HIcon size={20} /></span>
           <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Hozie Review</span>
         </div>
-        <span className="text-[13px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>{v2.confidence}%</span>
+        <span className="text-[13px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>{v2.confidence}%</span>
       </div>
-      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[13px] text-[#242326] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         “Your estimate is ready to use as a planning baseline. For better accuracy, upload the final floor plan and structural drawings before requesting contractor bids.”
       </p>
       <button
         onClick={onAskHozie}
         className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-        style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+        style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
       >
         Ask Hozie →
       </button>
@@ -359,7 +359,7 @@ function ReviewChecklist() {
             >
               {item.done && <IcoCheck />}
             </span>
-            <span className="text-[13px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif', color: item.done ? '#1E1E1E' : '#A1A1A1' }}>{item.label}</span>
+            <span className="text-[13px]" style={{ fontFamily: '"Inter Variable", sans-serif', color: item.done ? '#1E1E1E' : '#A1A1A1' }}>{item.label}</span>
           </div>
         ))}
       </div>
@@ -397,11 +397,11 @@ function VersionHistory({ locked, versions, onCompare }: { locked: boolean; vers
                 className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left cursor-pointer border-0 bg-transparent"
               >
                 <div className="flex items-center gap-2.5">
-                  <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Version {v.versionNumber}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ backgroundColor: badgeBg, color: badgeFg, fontFamily: '"Open Sans:Regular", sans-serif' }}>{statusLabel}</span>
+                  <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Version {v.versionNumber}</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ backgroundColor: badgeBg, color: badgeFg, fontFamily: '"Inter Variable", sans-serif' }}>{statusLabel}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{formatINR(v.minCost)} — {formatINR(v.maxCost)}</span>
+                  <span className="text-[12px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{formatINR(v.minCost)} — {formatINR(v.maxCost)}</span>
                   <span className="text-[#9A949D] transition-transform duration-200" style={{ transform: open ? 'rotate(180deg)' : 'none' }}><IcoChevronDown /></span>
                 </div>
               </button>
@@ -415,7 +415,7 @@ function VersionHistory({ locked, versions, onCompare }: { locked: boolean; vers
                   <button
                     onClick={onCompare}
                     className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
-                    style={{ color: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                    style={{ color: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
                   >
                     Compare →
                   </button>
@@ -436,7 +436,7 @@ function DisclaimerCard() {
   return (
     <div className="rounded-[14px] p-4 sm:p-5 flex gap-3" style={{ backgroundColor: '#F4F0EC' }}>
       <span className="shrink-0 text-[#9A949D] mt-0.5"><IcoInfo /></span>
-      <p className="text-[11px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+      <p className="text-[11px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
         AI-generated planning estimate. Actual project costs may vary based on {factors.join(', ')}.
       </p>
     </div>
@@ -492,20 +492,20 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
               <span className="text-[12px] uppercase tracking-[0.10em] text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Confirm</span>
               <button ref={closeRef} onClick={onCancel} aria-label="Cancel locking" className="w-8 h-8 rounded-full flex items-center justify-center text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer border-0 bg-transparent"><IcoClose /></button>
             </div>
-            <h2 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Lock Estimate Version {v2.versionNumber}?</h2>
-            <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+            <h2 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Lock Estimate Version {v2.versionNumber}?</h2>
+            <p className="text-[13px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
               This version will become your active planning estimate and will be used for BOQ generation and contractor comparisons.
             </p>
             <div className="rounded-[12px] p-4" style={{ backgroundColor: '#F9F5FF' }}>
-              <span className="text-[22px] font-semibold" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif', color: '#722ED1' }}>
+              <span className="text-[22px] font-semibold" style={{ fontFamily: '"Geist Variable", sans-serif', color: '#722ED1' }}>
                 {formatINR(v2.minCost)} — {formatINR(v2.maxCost)}
               </span>
             </div>
             <div className="flex gap-2.5 mt-1">
-              <button onClick={onCancel} className="flex-1 h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={onCancel} className="flex-1 h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 Cancel
               </button>
-              <button onClick={onConfirm} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={onConfirm} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>
                 Lock estimate
               </button>
             </div>
@@ -527,14 +527,14 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
               <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: '#DCFCE7', animation: 'successIconReveal 0.4s ease-out both' }}>
                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#16A34A" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13.5l5.5 5.5L21 7"/></svg>
               </div>
-              <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Estimate locked ✓</h2>
-              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>Version {v2.versionNumber} is now your active estimate.</p>
+              <h2 className="text-[19px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Estimate locked ✓</h2>
+              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Version {v2.versionNumber} is now your active estimate.</p>
             </div>
             <div className="flex flex-col gap-2.5">
-              <button onClick={onContinueToBoq} className="h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={onContinueToBoq} className="h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>
                 Continue to BOQ →
               </button>
-              <button onClick={onCancel} className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={onCancel} className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 Stay on this page
               </button>
             </div>
@@ -545,13 +545,13 @@ function LockModal({ stage, v2, onCancel, onConfirm, onContinueToBoq, onRetry }:
           <div className="flex flex-col gap-5 p-6">
             <div className="flex flex-col items-center text-center gap-3 pt-4">
               <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FEE2E2', color: '#DC2626' }}><IcoAlert /></div>
-              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>Unable to lock this estimate. Your estimate has not changed.</p>
+              <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>Unable to lock this estimate. Your estimate has not changed.</p>
             </div>
             <div className="flex gap-2.5">
-              <button onClick={onCancel} className="flex-1 h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={onCancel} className="flex-1 h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 Close
               </button>
-              <button onClick={onRetry} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <button onClick={onRetry} className="flex-1 h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all" style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}>
                 Try again
               </button>
             </div>
@@ -655,11 +655,11 @@ return (
           onClick={() => onNavigate('estimate-revision')}
           aria-label="Back to revision"
           className="flex items-center gap-1 text-[#68636D] border-0 bg-transparent cursor-pointer text-[13px]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: '"Inter Variable", sans-serif' }}
         >
           <IcoChevronLeft /> Revision
         </button>
-        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Final Estimate</span>
+        <span className="text-[15px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Final Estimate</span>
         <button aria-label="Download PDF" className="w-8 h-8 flex items-center justify-center text-[#68636D] border-0 bg-transparent cursor-pointer"><IcoDownload /></button>
       </div>
 
@@ -670,10 +670,10 @@ return (
           {/* Desktop header */}
           <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-white border-b border-[#E3DDD7]">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+              <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 Final Estimate
               </h1>
-              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <span className="text-[13px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 {projectName} · {location} · {area}
               </span>
             </div>
@@ -684,7 +684,7 @@ return (
               <button
                 aria-label="Download PDF"
                 className="flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-[#E3DDD7] text-[12px] text-[#68636D] hover:bg-[#F4F0EC] cursor-pointer bg-transparent transition-all"
-                style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                style={{ fontFamily: '"Inter Variable", sans-serif' }}
               >
                 <IcoDownload /> <span className="hidden sm:inline">Download PDF</span>
               </button>
@@ -700,10 +700,10 @@ return (
                 <span className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase block mb-3" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
                   Final Estimate
                 </span>
-                <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+                <h2 className="text-[28px] sm:text-[36px] font-semibold text-[#242326] m-0 leading-[1.08]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                   {locked ? 'Your estimate is locked.' : 'Your estimate is ready.'}
                 </h2>
-                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[600px]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                <p className="text-[14px] sm:text-[15px] text-[#68636D] leading-[1.65] m-0 mt-2 max-w-[600px]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   {locked
                     ? 'This estimate is currently being used as the planning baseline for your project.'
                     : 'Review your current estimate before using it to generate the BOQ and compare contractor bids.'}
@@ -716,7 +716,7 @@ return (
               </div>
 
               {locked && lockedAt && (
-                <div className="flex items-center gap-2 text-[12px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                <div className="flex items-center gap-2 text-[12px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                   <IcoLock /> Locked on {formatDateLabel(lockedAt)}
                 </div>
               )}
@@ -748,8 +748,8 @@ return (
                   {!locked ? (
                     <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-4" style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}>
                       <div>
-                        <h3 className="text-[16px] font-semibold text-[#242326] m-0 mb-1.5" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Ready to lock this estimate?</h3>
-                        <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                        <h3 className="text-[16px] font-semibold text-[#242326] m-0 mb-1.5" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Ready to lock this estimate?</h3>
+                        <p className="text-[12px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                           Locking creates Estimate Version {v2.versionNumber} as your current project estimate. You can still revise it later and create a new version.
                         </p>
                       </div>
@@ -757,14 +757,14 @@ return (
                         <button
                           onClick={() => setModalStage('confirm')}
                           className="h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                          style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                          style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Lock &amp; Continue →
                         </button>
                         <button
                           onClick={() => { const m = document.querySelector('main'); m?.scrollTo({ top: 0, behavior: 'smooth' }) }}
                           className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-                          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                          style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Review again
                         </button>
@@ -774,33 +774,33 @@ return (
                     <div className="rounded-[16px] p-5 sm:p-6 flex flex-col gap-3" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E3DDD7' }}>
                       <div className="flex items-center gap-2">
                         <span className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#722ED1' }}><IcoCheck /></span>
-                        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Active Estimate — Version {v2.versionNumber}</span>
+                        <span className="text-[13px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>Active Estimate — Version {v2.versionNumber}</span>
                       </div>
                       <div className="flex flex-col gap-2.5">
                         <button
                           onClick={goFindContractors}
                           className="h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
-                          style={{ backgroundColor: '#722ED1', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                          style={{ backgroundColor: '#722ED1', fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Find Contractors →
                         </button>
                         <button
                           onClick={continueToBoq}
                           className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-                          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                          style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           View BOQ →
                         </button>
                         <button
                           onClick={viewRevision}
                           className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-                          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                          style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Revise estimate
                         </button>
                         <button
                           className="h-11 rounded-[12px] border border-[#E3DDD7] text-[#242326] text-[13px] font-medium cursor-pointer bg-transparent hover:bg-[#F4F0EC] transition-colors"
-                          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+                          style={{ fontFamily: '"Inter Variable", sans-serif' }}
                         >
                           Download PDF
                         </button>

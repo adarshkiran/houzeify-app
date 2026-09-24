@@ -4,8 +4,8 @@ import { getBidById, formatBidAmount, formatBidDuration, BID_STATUS_LABELS } fro
 import { getOpportunityById, OPPORTUNITY_PROJECT_TYPE_LABELS } from '@/data/projectOpportunities'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Screen 033 — Bid Submitted ─────────────────────────────────────────────
 // Pure confirmation screen — no bid form here. Loads the actual Bid (and its

@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react'
 import { apiUrl } from '@/data/apiClient'
 
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
 
 export default function AuthenticatedVideo({
   contentUrl,

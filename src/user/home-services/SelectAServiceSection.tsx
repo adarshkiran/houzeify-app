@@ -13,8 +13,8 @@ import type { ReactNode } from 'react'
 // the same "no fake photography" convention every other surface here uses.
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
 
 export interface SelectAServiceTile {
   id: string

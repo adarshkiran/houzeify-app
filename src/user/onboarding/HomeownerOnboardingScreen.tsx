@@ -25,8 +25,8 @@ import { getCleaningCategories, getCategoriesForEntry, type ServiceCategoryMeta 
 import { resolveServiceEntry, type ServiceEntry } from '@/data/serviceEntry'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 const INTENT_LABELS: Record<PrimaryIntent, string> = {
   'build-home': 'Build a new home',

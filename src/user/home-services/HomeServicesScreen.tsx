@@ -47,8 +47,8 @@ import Sidebar from '@/shared/components/Sidebar'
 import SelectAServiceSection from './SelectAServiceSection'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
-const FONT_BODY = '"Open Sans:Regular", sans-serif'
-const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
+const FONT_BODY = '"Inter Variable", sans-serif'
+const FONT_HEAD = '"Geist Variable", sans-serif'
 
 // ─── Service category icons — line icons, one per homeowner category ───────
 
@@ -440,7 +440,7 @@ function TopHeader({ title, userInitials, onNavigate }: { title: string; userIni
           {/* Customer Implementation 10D — real onboarding initials
               (initials(full_name ‖ preferred_name)); "?" when no name.
               Was a literal hardcoded "AK". */}
-          <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>{userInitials}</div>
+          <div className="w-8 h-8 rounded-full bg-[#722ED1] flex items-center justify-center text-white text-[12px] font-bold shrink-0" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{userInitials}</div>
         </button>
       </div>
     </header>
@@ -1266,10 +1266,10 @@ function HoziehelperModal({ onClose, onSelectTier }: { onClose: () => void; onSe
             <div className="absolute -top-1 -right-1 opacity-90" style={{ transform: 'rotate(12deg)' }}><IcoHozieBroom /></div>
             <div className="absolute bottom-3 -left-2 opacity-90" style={{ transform: 'rotate(-18deg)' }}><IcoHozieBroom size={26} /></div>
             <div className="relative flex flex-col gap-2 items-start pt-2">
-              <span className="text-white text-[32px] font-bold leading-none" style={{ fontFamily: '"Google Sans Flex:Bold", sans-serif' }}>
+              <span className="text-white text-[32px] font-bold leading-none" style={{ fontFamily: '"Geist Variable", sans-serif' }}>
                 HozieHelp
               </span>
-              <span className="flex items-center gap-1.5 text-white text-[13px] font-semibold" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+              <span className="flex items-center gap-1.5 text-white text-[13px] font-semibold" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                 <IcoHozieBolt /> Arriving in minutes
               </span>
             </div>
@@ -1290,19 +1290,19 @@ function HoziehelperModal({ onClose, onSelectTier }: { onClose: () => void; onSe
                   {tier.topRated && (
                     <span
                       className="absolute -top-2 -left-2 flex items-center gap-1 px-2 py-[3px] rounded-full text-[10px] font-semibold text-white"
-                      style={{ backgroundColor: '#D4A017', fontFamily: '"Open Sans:Regular", sans-serif' }}
+                      style={{ backgroundColor: '#D4A017', fontFamily: '"Inter Variable", sans-serif' }}
                     >
                       ★ Top rated
                     </span>
                   )}
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col gap-1">
-                  <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{tier.title}</span>
-                  <span className="text-[13.5px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{tier.price}</span>
-                  <span className="flex items-center gap-1.5 text-[12.5px] text-[#68636D] font-semibold" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+                  <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: '"Geist Variable", sans-serif' }}>{tier.title}</span>
+                  <span className="text-[13.5px] text-[#242326]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{tier.price}</span>
+                  <span className="flex items-center gap-1.5 text-[12.5px] text-[#68636D] font-semibold" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
                     <IcoHozieClock /> {tier.earliest}
                   </span>
-                  <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>{tier.description}</span>
+                  <span className="text-[12.5px] text-[#68636D]" style={{ fontFamily: '"Inter Variable", sans-serif' }}>{tier.description}</span>
                 </div>
                 <span className="shrink-0 text-[#9A949D]"><IcoHozieChevron /></span>
               </button>

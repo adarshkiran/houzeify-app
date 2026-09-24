@@ -25,12 +25,12 @@ export default function MetricCard({ eyebrow, value, sublabel, icon }: MetricCar
       </div>
       <span
         className="text-[20px] sm:text-[24px] font-semibold text-[#242326] leading-none truncate"
-        style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+        style={{ fontFamily: '"Geist Variable", sans-serif' }}
       >
         {value}
       </span>
       {sublabel && (
-        <span className="text-[12px] text-[#68636D] leading-snug" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+        <span className="text-[12px] text-[#68636D] leading-snug" style={{ fontFamily: '"Inter Variable", sans-serif' }}>
           {sublabel}
         </span>
       )}
