@@ -6,6 +6,7 @@ import { useCustomerProfile } from '@/data/customerProfileState'
 import { usePartnerProfile } from '@/data/partnerProfileState'
 import { PROFESSIONAL_TYPE_CONTENT, type ProfessionalType } from '@/data/professionalType'
 import { customerSidebarSettingsActive } from '@/data/customerProfileSettings'
+import { useTheme, type ThemePreference } from '@/shared/theme/ThemeProvider'
 
 const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
 const FONT_BODY = '"Inter Variable", sans-serif'
@@ -118,6 +119,12 @@ export default function AccountSettingsScreen({
   const customerProfile = useCustomerProfile()
   const partnerProfile = usePartnerProfile()
   const { currentOrganization } = useOrganizations()
+  const { preference, setPreference } = useTheme()
+  const themeOptions: Array<{ id: ThemePreference; label: string }> = [
+    { id: 'light', label: 'Light' },
+    { id: 'dark', label: 'Dark' },
+    { id: 'system', label: 'System' },
+  ]
 
   const professionalTypeLabel = professionalType === 'other'
     ? (professionalTypeOther || 'Other')
@@ -200,6 +207,35 @@ export default function AccountSettingsScreen({
                   <NavRow label="Preferences →" onClick={goToPreferences} />
                 </SectionCard>
               )}
+
+              <SectionCard eyebrow="Appearance">
+                <p className="text-[13px] text-[#68636D] m-0 mb-3" style={{ fontFamily: FONT_BODY }}>
+                  Choose light, dark, or follow your device setting.
+                </p>
+                <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Theme">
+                  {themeOptions.map(opt => {
+                    const selected = preference === opt.id
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        role="radio"
+                        aria-checked={selected}
+                        onClick={() => setPreference(opt.id)}
+                        className={[
+                          'min-h-11 px-4 rounded-[10px] text-[13px] font-medium cursor-pointer border transition-colors',
+                          selected
+                            ? 'border-[#722ED1] bg-[#F3EAFF] text-[#722ED1]'
+                            : 'border-[#E3DDD7] bg-transparent text-[#242326] hover:bg-[#F4F0EC]',
+                        ].join(' ')}
+                        style={{ fontFamily: FONT_BODY }}
+                      >
+                        {opt.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </SectionCard>
 
               {/* Sign out — reuses the one real sign-out action already
                   established elsewhere in this codebase. */}

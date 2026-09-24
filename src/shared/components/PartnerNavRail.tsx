@@ -1,23 +1,12 @@
 // ─── Shared company/partner Nav Rail ────────────────────────────────────────
-// Houzeify 2.0 Module 01 — the construction-platform primary nav for
-// company/partner users. Before this module, ProfessionalDashboardScreen,
-// DiscoverProjectsScreen and MyBidsScreen each carried their own
-// byte-different local `Sidebar`/`NavItem` pair (confirmed by inspection —
-// same drift risk shared/components/Sidebar.tsx's own header comment
-// documents for the homeowner side, which is exactly why that one was
-// centralized). This is the same fix, applied here: one item list, one set
-// of destinations, used by all three screens.
-//
-// IA: Home / Projects / Progress / Site Operations / Workforce / Live Site /
-// Documents / Reports / Team / Profile as primary nav, Hozie / Settings at
-// the tail — matching the Module 01 brief's company-side navigation. Bids/
-// Opportunities marketplace items ("Business Development") are demoted into
-// their own secondary section, never deleted — still one click away.
+// Construction-platform primary nav for company/partner users. Destinations
+// unchanged; chrome comes from AppNavShell.
 
 import { COMPANY_NAV_ROUTES } from '@/data/constructionNav'
-import logoHorizontal from '@/imports/Logo/Houzeify HLogo.svg'
-import HIcon from './HIcon'
-import { MobilePrimaryNav, type MobilePrimaryNavItemId } from './MobilePrimaryNav'
+import { useOrganizations } from '@/data/organizationState'
+import { usePartnerProfile } from '@/data/partnerProfileState'
+import AppNavShell, { type AppNavSection } from './AppNavShell'
+import { type MobilePrimaryNavItemId } from './MobilePrimaryNav'
 
 export type PartnerNavId =
   | 'home' | 'projects' | 'progress' | 'site-operations' | 'workforce' | 'live-site'
@@ -69,47 +58,11 @@ const IcoBids = () => (
 const IcoBilling = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="14" height="10.5" rx="1.5" /><line x1="2" y1="7.5" x2="16" y2="7.5" /><line x1="4.5" y1="11.5" x2="8" y2="11.5" /></svg>
 )
-const LockIcon = ({ size = 10 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="6.5" width="8" height="6" rx="1.2" /><path d="M4.7 6.5V4.5a2.3 2.3 0 0 1 4.6 0v2" /></svg>
-)
 
 function toMobileActive(active: PartnerNavId): MobilePrimaryNavItemId {
   if (active === 'home') return 'home'
   if (active === 'profile') return 'profile'
   return 'projects'
-}
-
-function NavItem({
-  icon, label, active, disabled, locked, onClick,
-}: {
-  icon: React.ReactNode; label: string; active?: boolean; disabled?: boolean; locked?: boolean; onClick?: () => void
-}) {
-  return (
-    <button
-      type="button"
-      title={locked ? `${label} — locked until your identity is verified` : label}
-      aria-label={locked ? `${label} — locked until your identity is verified` : label}
-      aria-current={active ? 'page' : undefined}
-      onClick={onClick}
-      disabled={disabled}
-      className={[
-        'w-full flex items-center border-0 cursor-pointer rounded-xl transition-all duration-150 text-left',
-        'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        'md:justify-center md:min-w-11 md:min-h-11 md:w-11 md:h-11 md:mx-auto md:p-0',
-        'lg:justify-start lg:w-full lg:h-auto lg:min-w-0 lg:min-h-0 lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        disabled ? 'cursor-not-allowed opacity-40' : '',
-        active
-          ? 'bg-sidebar-accent text-sidebar-primary'
-          : disabled ? 'bg-transparent text-muted-foreground/70' : 'bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground',
-      ].join(' ')}
-    >
-      <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center" aria-hidden="true">{icon}</span>
-      <span className="hidden lg:flex items-center gap-1.5 text-[13px] leading-none font-sans">
-        {label}
-        {locked && <LockIcon />}
-      </span>
-    </button>
-  )
 }
 
 export default function PartnerNavRail({
@@ -121,45 +74,64 @@ export default function PartnerNavRail({
 }: {
   active: PartnerNavId
   onNavigate: (s: string, data?: Record<string, string>) => void
-  /** Threaded into Opportunities/My Bids so the marketplace surfaces keep
-   *  the organization context they already relied on from the old local
-   *  sidebars (ProfessionalDashboardScreen passed `{organization_id}` on
-   *  every navMain click). */
   organizationId?: string
-  /** True while identity verification hasn't reached 'verified' — locks
-   *  the Opportunities item, same gating ProfessionalDashboardScreen's old
-   *  local sidebar already had (identityVerification.ts's
-   *  resolvePartnerAccessLevel). Undefined/false everywhere else. */
   opportunitiesLocked?: boolean
-  /** Only ProfessionalDashboardScreen has a real Sign Out modal today;
-   *  DiscoverProjectsScreen/MyBidsScreen render the rail without this and
-   *  simply don't show the Sign Out row, unchanged from their prior
-   *  behavior (neither had one before). */
   onSignOut?: () => void
 }) {
-  const navMain = [
-    { id: 'home' as const, icon: <IcoHome />, label: 'Home', dest: COMPANY_NAV_ROUTES.home },
-    { id: 'projects' as const, icon: <IcoProjects />, label: 'Projects', dest: COMPANY_NAV_ROUTES.projects },
-    { id: 'progress' as const, icon: <IcoProgress />, label: 'Progress', dest: COMPANY_NAV_ROUTES.progress },
-    { id: 'site-operations' as const, icon: <IcoSiteOps />, label: 'Site Operations', dest: COMPANY_NAV_ROUTES.siteOperations },
-    { id: 'workforce' as const, icon: <IcoWorkforce />, label: 'Workforce', dest: COMPANY_NAV_ROUTES.workforce },
-    { id: 'live-site' as const, icon: <IcoLiveSite />, label: 'Live Site', dest: COMPANY_NAV_ROUTES.liveSite },
-    { id: 'documents' as const, icon: <IcoDocuments />, label: 'Documents', dest: COMPANY_NAV_ROUTES.documents },
-    { id: 'reports' as const, icon: <IcoReports />, label: 'Reports', dest: COMPANY_NAV_ROUTES.reports },
-    { id: 'team' as const, icon: <IcoTeam />, label: 'Team', dest: COMPANY_NAV_ROUTES.team },
-    { id: 'profile' as const, icon: <IcoProfile />, label: 'Profile', dest: COMPANY_NAV_ROUTES.profile },
-  ]
-  const navBusiness = [
-    { id: 'opportunities' as const, icon: <IcoOpportunities />, label: 'Opportunities', dest: COMPANY_NAV_ROUTES.discoverProjects, locked: opportunitiesLocked },
-    { id: 'bids' as const, icon: <IcoBids />, label: 'My Bids', dest: COMPANY_NAV_ROUTES.myBids },
-  ]
-  const navBottom = [
-    { id: 'advisor' as const, icon: <IcoAdvisor />, label: 'Hozie', dest: COMPANY_NAV_ROUTES.aiAdvisor },
-    { id: 'billing' as const, icon: <IcoBilling />, label: 'Plans & Billing', dest: COMPANY_NAV_ROUTES.plansBilling },
-    { id: 'settings' as const, icon: <IcoSettings />, label: 'Settings', dest: COMPANY_NAV_ROUTES.settings },
-  ]
+  const { currentOrganization } = useOrganizations()
+  const partnerProfile = usePartnerProfile()
 
   const go = (dest: string) => onNavigate(dest, organizationId ? { organization_id: organizationId } : undefined)
+
+  const sections: AppNavSection[] = [
+    {
+      id: 'company',
+      items: [
+        { id: 'home', icon: <IcoHome />, label: 'Home', active: active === 'home', onClick: () => go(COMPANY_NAV_ROUTES.home) },
+        { id: 'projects', icon: <IcoProjects />, label: 'Projects', active: active === 'projects', onClick: () => go(COMPANY_NAV_ROUTES.projects) },
+        { id: 'progress', icon: <IcoProgress />, label: 'Progress', active: active === 'progress', onClick: () => go(COMPANY_NAV_ROUTES.progress) },
+        { id: 'site-operations', icon: <IcoSiteOps />, label: 'Site Operations', active: active === 'site-operations', onClick: () => go(COMPANY_NAV_ROUTES.siteOperations) },
+        { id: 'workforce', icon: <IcoWorkforce />, label: 'Workforce', active: active === 'workforce', onClick: () => go(COMPANY_NAV_ROUTES.workforce) },
+        { id: 'live-site', icon: <IcoLiveSite />, label: 'Live Site', active: active === 'live-site', onClick: () => go(COMPANY_NAV_ROUTES.liveSite) },
+        { id: 'documents', icon: <IcoDocuments />, label: 'Documents', active: active === 'documents', onClick: () => go(COMPANY_NAV_ROUTES.documents) },
+        { id: 'reports', icon: <IcoReports />, label: 'Reports', active: active === 'reports', onClick: () => go(COMPANY_NAV_ROUTES.reports) },
+        { id: 'team', icon: <IcoTeam />, label: 'Team', active: active === 'team', onClick: () => go(COMPANY_NAV_ROUTES.team) },
+        { id: 'profile', icon: <IcoProfile />, label: 'Profile', active: active === 'profile', onClick: () => go(COMPANY_NAV_ROUTES.profile) },
+      ],
+    },
+    {
+      id: 'business',
+      label: 'Business Development',
+      defaultOpen: true,
+      items: [
+        {
+          id: 'opportunities',
+          icon: <IcoOpportunities />,
+          label: 'Opportunities',
+          active: active === 'opportunities',
+          locked: opportunitiesLocked,
+          onClick: opportunitiesLocked ? undefined : () => go(COMPANY_NAV_ROUTES.discoverProjects),
+        },
+        { id: 'bids', icon: <IcoBids />, label: 'My Bids', active: active === 'bids', onClick: () => go(COMPANY_NAV_ROUTES.myBids) },
+      ],
+    },
+  ]
+
+  const footerItems = [
+    { id: 'advisor', icon: <IcoAdvisor />, label: 'Hozie', active: active === 'advisor', onClick: () => go(COMPANY_NAV_ROUTES.aiAdvisor) },
+    { id: 'billing', icon: <IcoBilling />, label: 'Plans & Billing', active: active === 'billing', onClick: () => go(COMPANY_NAV_ROUTES.plansBilling) },
+    { id: 'settings', icon: <IcoSettings />, label: 'Settings', active: active === 'settings', onClick: () => go(COMPANY_NAV_ROUTES.settings) },
+  ]
+
+  const orgName = currentOrganization?.name
+  const displayName =
+    orgName ||
+    partnerProfile.profile?.displayName ||
+    partnerProfile.profile?.fullName ||
+    'Your company'
+  const subtitle =
+    partnerProfile.profile?.contactEmail ||
+    (orgName ? 'Organization' : undefined)
 
   const onMobileNavigate = (id: MobilePrimaryNavItemId) => {
     if (id === 'home') go(COMPANY_NAV_ROUTES.home)
@@ -168,53 +140,18 @@ export default function PartnerNavRail({
   }
 
   return (
-    <>
-      <aside className="hidden md:flex flex-col shrink-0 bg-sidebar text-sidebar-foreground z-10 border-r border-sidebar-border">
-        <div className="flex flex-col h-full md:w-[72px] lg:w-[240px]">
-          <div className="h-[64px] shrink-0 flex items-center border-b border-sidebar-border md:justify-center lg:justify-start lg:px-5">
-            <img src={logoHorizontal} alt="Houzeify" className="hidden lg:block w-[150px] h-auto" style={{ mixBlendMode: 'multiply' }} />
-            <div className="flex lg:hidden"><HIcon size={31} /></div>
-          </div>
-
-          <nav className="flex-1 overflow-y-auto md:p-2 lg:p-3 flex flex-col gap-0.5 scrollbar-hide" aria-label="Company">
-            <div className="flex flex-col gap-0.5">
-              {navMain.map(item => (
-                <NavItem key={item.id} icon={item.icon} label={item.label} active={active === item.id} onClick={() => go(item.dest)} />
-              ))}
-            </div>
-
-            <div className="my-3 border-t border-sidebar-border" />
-            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-muted-foreground px-3 mb-1.5 font-mono">
-              Business Development
-            </p>
-            <div className="flex flex-col gap-0.5">
-              {navBusiness.map(item => (
-                <NavItem key={item.id} icon={item.icon} label={item.label} active={active === item.id} locked={item.locked} onClick={() => { if (item.locked) return; go(item.dest) }} />
-              ))}
-            </div>
-          </nav>
-
-          <div className="shrink-0 border-t border-sidebar-border md:p-2 lg:p-3 flex flex-col gap-0.5">
-            {navBottom.map(item => (
-              <NavItem key={item.id} icon={item.icon} label={item.label} active={active === item.id} onClick={() => go(item.dest)} />
-            ))}
-            {onSignOut && (
-              <button
-                type="button"
-                onClick={onSignOut}
-                aria-label="Sign out"
-                className="w-full flex items-center border-0 cursor-pointer rounded-xl transition-all duration-150 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:justify-center md:min-w-11 md:min-h-11 md:w-11 md:h-11 md:mx-auto md:p-0 lg:justify-start lg:w-full lg:h-auto lg:min-w-0 lg:min-h-0 lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3 bg-transparent text-muted-foreground hover:bg-muted hover:text-destructive"
-              >
-                <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 15.5H4a1.5 1.5 0 01-1.5-1.5V4A1.5 1.5 0 014 2.5h3" /><path d="M12 12.5l4-3.5-4-3.5" /><line x1="16" y1="9" x2="6.5" y2="9" /></svg>
-                </span>
-                <span className="hidden lg:block text-[13px] leading-none font-sans">Sign out</span>
-              </button>
-            )}
-          </div>
-        </div>
-      </aside>
-      <MobilePrimaryNav active={toMobileActive(active)} onNavigate={onMobileNavigate} />
-    </>
+    <AppNavShell
+      ariaLabel="Company"
+      sections={sections}
+      footerItems={footerItems}
+      profile={{
+        name: displayName,
+        subtitle,
+        onClick: () => go(COMPANY_NAV_ROUTES.profile),
+      }}
+      onSignOut={onSignOut}
+      mobileActive={toMobileActive(active)}
+      onMobileNavigate={onMobileNavigate}
+    />
   )
 }

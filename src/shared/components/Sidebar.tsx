@@ -1,36 +1,16 @@
 // ─── Shared homeowner Sidebar ───────────────────────────────────────────────
 // Single source of truth for the left nav rail on every homeowner-facing
-// screen. Previously each screen kept its own local copy of this component
-// (this codebase's usual per-screen duplication convention) and they had
-// drifted out of sync — different item sets, different labels ("Hozie" vs
-// "AI Advisor"), some destinations wired and some dead (dest: '') — so the
-// rail visibly changed shape as you navigated between screens (e.g. it
-// looked like it was "changing" when you asked Hozie something and landed
-// on AI Advisor). Centralizing it here is the fix: one item list, one set
-// of destinations, used everywhere, so the rail never changes shape across
-// a homeowner's screens — only which item is highlighted changes.
-//
-// IA (customer transparency): Home / Projects / Profile as primary nav, the
-// Project group (Progress / Timeline / Photos / Live Site / Documents /
-// Questions), and Hozie under "Assistant". The pre-2.0 Build / Contractors /
-// Bids / BOQ / Plan Analysis / Material Calculator / Services entries were
-// removed from this rail (their screens still exist, reachable only through
-// the dev screen switcher).
-//
-// Company (professional-role) users: this component is mounted by every
-// project sub-screen, so for the 'partner' subscription audience (the same
-// app-wide role App.tsx resolves via resolveUserRole and hands to
-// SubscriptionProvider) it renders the shared PartnerNavRail instead, so
-// company users keep the construction-platform nav while inside a project.
+// screen. Company (professional-role) users: for the 'partner' subscription
+// audience this renders PartnerNavRail instead.
 
 import { DASHBOARD_ROUTES } from '@/data/homeownerDashboard'
 import { CUSTOMER_NAV_ROUTES } from '@/data/constructionNav'
 import { useSoleActiveCustomerProjectId } from '@/data/customerProjectsState'
+import { useCustomerProfile } from '@/data/customerProfileState'
 import { useSubscription } from '@/data/subscriptionState'
 import { useOrganizations } from '@/data/organizationState'
-import logoHorizontal from '@/imports/Logo/Houzeify HLogo.svg'
-import HIcon from './HIcon'
-import { MobilePrimaryNav, type MobilePrimaryNavItemId } from './MobilePrimaryNav'
+import AppNavShell, { type AppNavSection } from './AppNavShell'
+import { type MobilePrimaryNavItemId } from './MobilePrimaryNav'
 import PartnerNavRail, { type PartnerNavId } from './PartnerNavRail'
 
 export type SidebarNavId =
@@ -47,8 +27,6 @@ export type SidebarNavId =
   | 'calc'
   | 'billing'
   | 'settings'
-  // Houzeify 2.0 Module 01 — construction-progress-transparency items, new
-  // for the customer-facing nav (see constructionNav.ts's CUSTOMER_NAV_ROUTES).
   | 'progress'
   | 'timeline'
   | 'photos'
@@ -93,7 +71,6 @@ const IcoBilling = () => (
     <line x1="4.5" y1="11.5" x2="8" y2="11.5" />
   </svg>
 )
-// ─── Houzeify 2.0 Module 01 — new construction-progress-transparency icons ──
 const IcoProgress = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="9" cy="9" r="7" />
@@ -145,45 +122,6 @@ function toMobileActive(active: SidebarNavId): MobilePrimaryNavItemId {
   return 'projects'
 }
 
-function NavItem({
-  icon, label, active, onClick, disabled,
-}: {
-  icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void; disabled?: boolean
-}) {
-  return (
-    <button
-      type="button"
-      title={label}
-      aria-label={label}
-      aria-current={active ? 'page' : undefined}
-      onClick={onClick}
-      disabled={disabled || !onClick}
-      className={[
-        'w-full flex items-center border-0 cursor-pointer rounded-xl transition-all duration-150',
-        'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        'md:justify-center md:min-w-11 md:min-h-11 md:w-11 md:h-11 md:mx-auto md:p-0',
-        'lg:justify-start lg:w-full lg:h-auto lg:min-w-0 lg:min-h-0 lg:mx-0 lg:px-3 lg:py-[9px] lg:gap-3',
-        disabled || !onClick ? 'cursor-not-allowed opacity-40' : '',
-        active
-          ? 'bg-sidebar-accent text-sidebar-primary'
-          : 'bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground',
-      ].join(' ')}
-    >
-      <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center" aria-hidden="true">
-        {icon}
-      </span>
-      <span
-        className="hidden lg:block text-[13px] leading-none font-sans"
-      >
-        {label}
-      </span>
-    </button>
-  )
-}
-
-// Maps this rail's active ids onto the company rail's. Anything without a
-// direct equivalent (project sub-screens, Photos, Timeline, ...) is
-// highlighted as 'projects', since the company user is inside a project.
 function toPartnerActive(active: SidebarNavId): PartnerNavId {
   switch (active) {
     case 'home': return 'home'
@@ -205,41 +143,69 @@ export default function Sidebar({
   const soleCustomerProjectId = useSoleActiveCustomerProjectId()
   const { audience } = useSubscription()
   const { currentOrganization } = useOrganizations()
+  const customerProfile = useCustomerProfile()
+
   if (audience === 'partner') {
-    return <PartnerNavRail active={toPartnerActive(active)} onNavigate={onNavigate} organizationId={currentOrganization?.id} />
+    return (
+      <PartnerNavRail
+        active={toPartnerActive(active)}
+        onNavigate={onNavigate}
+        organizationId={currentOrganization?.id}
+      />
+    )
   }
-  const navMain = [
-    { id: 'home' as const, icon: <IcoHome />, label: 'Home', dest: 'dashboard-home' },
-    { id: 'projects' as const, icon: <IcoProjects />, label: 'Projects', dest: 'projects-list' },
-    { id: 'profile' as const, icon: <IcoProfile />, label: 'Profile', dest: 'homeowner-profile' },
+
+  const goProject = (dest: string, id: SidebarNavId) => {
+    const needsProject =
+      id === 'progress' || id === 'timeline' || id === 'photos' || id === 'documents' || id === 'live-site'
+    if (needsProject && soleCustomerProjectId) onNavigate(dest, { project_id: soleCustomerProjectId })
+    else if (needsProject) onNavigate('projects-list')
+    else onNavigate(dest)
+  }
+
+  const sections: AppNavSection[] = [
+    {
+      id: 'primary',
+      items: [
+        { id: 'home', icon: <IcoHome />, label: 'Home', active: active === 'home', onClick: () => onNavigate('dashboard-home') },
+        { id: 'projects', icon: <IcoProjects />, label: 'Projects', active: active === 'projects', onClick: () => onNavigate('projects-list') },
+        { id: 'profile', icon: <IcoProfile />, label: 'Profile', active: active === 'profile', onClick: () => onNavigate('homeowner-profile') },
+      ],
+    },
+    {
+      id: 'project',
+      label: 'Project',
+      defaultOpen: true,
+      items: [
+        { id: 'progress', icon: <IcoProgress />, label: 'Progress', active: active === 'progress', onClick: () => goProject(CUSTOMER_NAV_ROUTES.progress, 'progress') },
+        { id: 'timeline', icon: <IcoTimeline />, label: 'Timeline', active: active === 'timeline', onClick: () => goProject(CUSTOMER_NAV_ROUTES.timeline, 'timeline') },
+        { id: 'photos', icon: <IcoPhotos />, label: 'Photos', active: active === 'photos', onClick: () => goProject(CUSTOMER_NAV_ROUTES.photos, 'photos') },
+        { id: 'live-site', icon: <IcoLiveSite />, label: 'Live Site', active: active === 'live-site', onClick: () => goProject(CUSTOMER_NAV_ROUTES.liveSite, 'live-site') },
+        { id: 'documents', icon: <IcoDocuments />, label: 'Documents', active: active === 'documents', onClick: () => goProject(CUSTOMER_NAV_ROUTES.documents, 'documents') },
+        { id: 'questions', icon: <IcoQuestions />, label: 'Questions', active: active === 'questions', onClick: () => onNavigate(CUSTOMER_NAV_ROUTES.questions) },
+      ],
+    },
+    {
+      id: 'assistant',
+      label: 'Assistant',
+      defaultOpen: true,
+      items: [
+        { id: 'advisor', icon: <IcoAdvisor />, label: 'Hozie', active: active === 'advisor', onClick: () => onNavigate(DASHBOARD_ROUTES.aiAdvisor) },
+      ],
+    },
   ]
-  // Houzeify 2.0 Module 01 — construction-progress-transparency items, new
-  // for the customer-facing nav (constructionNav.ts's CUSTOMER_NAV_ROUTES).
-  // Progress/Documents/Questions reuse the real, existing project screens
-  // (which now also carry the new ProjectSubNav tab strip); Timeline/Photos/
-  // Live Site route to the shared ComingSoonScreen placeholder.
-  const navProject = [
-    { id: 'progress' as const, icon: <IcoProgress />, label: 'Progress', dest: CUSTOMER_NAV_ROUTES.progress },
-    { id: 'timeline' as const, icon: <IcoTimeline />, label: 'Timeline', dest: CUSTOMER_NAV_ROUTES.timeline },
-    { id: 'photos' as const, icon: <IcoPhotos />, label: 'Photos', dest: CUSTOMER_NAV_ROUTES.photos },
-    { id: 'live-site' as const, icon: <IcoLiveSite />, label: 'Live Site', dest: CUSTOMER_NAV_ROUTES.liveSite },
-    { id: 'documents' as const, icon: <IcoDocuments />, label: 'Documents', dest: CUSTOMER_NAV_ROUTES.documents },
-    { id: 'questions' as const, icon: <IcoQuestions />, label: 'Questions', dest: CUSTOMER_NAV_ROUTES.questions },
+
+  const footerItems = [
+    { id: 'billing', icon: <IcoBilling />, label: 'Plans & Billing', active: active === 'billing', onClick: () => onNavigate('plans-billing') },
+    { id: 'notifications', icon: <IcoNotifications />, label: 'Notifications', active: active === 'notifications', onClick: () => onNavigate(CUSTOMER_NAV_ROUTES.notifications) },
+    { id: 'settings', icon: <IcoSettings />, label: 'Settings', active: active === 'settings', onClick: () => onNavigate('account-settings') },
   ]
-  const navTools = [
-    { id: 'advisor' as const, icon: <IcoAdvisor />, label: 'Hozie', dest: DASHBOARD_ROUTES.aiAdvisor },
-  ]
-  const navBottom = [
-    // Customer Implementation 08E — Settings reaches shared Account Settings
-    // (App.tsx role={resolvedRole}). S13 — navBottom now highlights billing /
-    // settings / notifications like the rest of this rail.
-    { id: 'billing' as const, icon: <IcoBilling />, label: 'Plans & Billing', dest: 'plans-billing' },
-    // Houzeify 2.0 Module 01 — new customer nav item; routes to the
-    // existing, already-built NotificationsScreen (previously reachable
-    // only via a bell icon elsewhere, never from this rail).
-    { id: 'notifications' as const, icon: <IcoNotifications />, label: 'Notifications', dest: CUSTOMER_NAV_ROUTES.notifications },
-    { id: 'settings' as const, icon: <IcoSettings />, label: 'Settings', dest: 'account-settings' },
-  ]
+
+  const displayName =
+    customerProfile.profile?.preferredName ||
+    customerProfile.profile?.fullName ||
+    'Homeowner'
+  const subtitle = customerProfile.profile?.email ?? undefined
 
   const onMobileNavigate = (id: MobilePrimaryNavItemId) => {
     if (id === 'home') onNavigate('dashboard-home')
@@ -248,90 +214,17 @@ export default function Sidebar({
   }
 
   return (
-    <>
-      <aside
-        className="hidden md:flex flex-col shrink-0 bg-sidebar text-sidebar-foreground z-10 border-r border-sidebar-border"
-      >
-        <div className="flex flex-col h-full md:w-[72px] lg:w-[240px]">
-          {/* Logo */}
-          <div className="h-[64px] shrink-0 flex items-center border-b border-sidebar-border md:justify-center lg:justify-start lg:px-5">
-            <img
-              src={logoHorizontal}
-              alt="Houzeify"
-              className="hidden lg:block w-[150px] h-auto"
-              style={{ mixBlendMode: 'multiply' }}
-            />
-            <div className="flex lg:hidden">
-              <HIcon size={31} />
-            </div>
-          </div>
-
-          {/* Main nav */}
-          <nav className="flex-1 overflow-y-auto md:p-2 lg:p-3 flex flex-col gap-0.5 scrollbar-hide" aria-label="Customer">
-            <div className="flex flex-col gap-0.5">
-              {navMain.map(item => (
-                <NavItem
-                  key={item.id}
-                  icon={item.icon}
-                  label={item.label}
-                  active={active === item.id}
-                  onClick={() => onNavigate(item.dest)}
-                />
-              ))}
-            </div>
-
-            <div className="my-3 border-t border-sidebar-border" />
-            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-muted-foreground px-3 mb-1.5 font-mono">
-              Project
-            </p>
-            <div className="flex flex-col gap-0.5">
-              {navProject.map(item => (
-                <NavItem
-                  key={item.id}
-                  icon={item.icon}
-                  label={item.label}
-                  active={active === item.id}
-                  onClick={() => {
-                    const needsProject = item.id === 'progress' || item.id === 'timeline' || item.id === 'photos' || item.id === 'documents' || item.id === 'live-site'
-                    if (needsProject && soleCustomerProjectId) onNavigate(item.dest, { project_id: soleCustomerProjectId })
-                    else if (needsProject) onNavigate('projects-list')
-                    else onNavigate(item.dest)
-                  }}
-                />
-              ))}
-            </div>
-
-            <div className="my-3 border-t border-sidebar-border" />
-            <p className="hidden lg:block text-[12px] tracking-[0.08em] uppercase text-muted-foreground px-3 mb-1.5 font-mono">
-              Assistant
-            </p>
-            <div className="flex flex-col gap-0.5">
-              {navTools.map(item => (
-                <NavItem
-                  key={item.id}
-                  icon={item.icon}
-                  label={item.label}
-                  active={active === item.id}
-                  onClick={() => onNavigate(item.dest)}
-                />
-              ))}
-            </div>
-          </nav>
-
-          <div className="shrink-0 border-t border-sidebar-border md:p-2 lg:p-3 flex flex-col gap-0.5">
-            {navBottom.map(item => (
-              <NavItem
-                key={item.id}
-                icon={item.icon}
-                label={item.label}
-                active={active === item.id}
-                onClick={item.dest ? () => onNavigate(item.dest) : undefined}
-              />
-            ))}
-          </div>
-        </div>
-      </aside>
-      <MobilePrimaryNav active={toMobileActive(active)} onNavigate={onMobileNavigate} />
-    </>
+    <AppNavShell
+      ariaLabel="Customer"
+      sections={sections}
+      footerItems={footerItems}
+      profile={{
+        name: displayName,
+        subtitle,
+        onClick: () => onNavigate('homeowner-profile'),
+      }}
+      mobileActive={toMobileActive(active)}
+      onMobileNavigate={onMobileNavigate}
+    />
   )
 }
