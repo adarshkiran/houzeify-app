@@ -68,4 +68,6 @@ Roadmap: Phase 3 one-liner + §6 SHARED + inventory KEEP + §10 gates. No detail
 
 ## 5. Final commit / origin
 
-**Do not merge** — stop after commit per task instruction.
+Final commit: `154e459`
+
+**origin/main:** not updated — stop after commit per task instruction.
