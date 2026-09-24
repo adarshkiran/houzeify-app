@@ -95,12 +95,6 @@ const IcoCollapse = ({ collapsed }: { collapsed: boolean }) => (
   </svg>
 )
 
-const IcoMenu = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-    <path d="M3 5h12M3 9h12M3 13h12" />
-  </svg>
-)
-
 const IcoSignOut = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M7 15.5H4a1.5 1.5 0 01-1.5-1.5V4A1.5 1.5 0 014 2.5h3" />
@@ -438,16 +432,7 @@ export default function AppNavShell({
         />
       </aside>
 
-      {/* Mobile menu trigger */}
-      <button
-        type="button"
-        className="fixed top-3 left-3 z-50 md:hidden inline-flex size-11 items-center justify-center rounded-xl border border-border bg-background/95 text-foreground shadow-sm backdrop-blur cursor-pointer"
-        aria-label="Open navigation"
-        onClick={() => setMobileOpen(true)}
-      >
-        <IcoMenu />
-      </button>
-
+      {/* Mobile: Menu lives in the footer bar (left of Home), not a floating FAB */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="p-0">
           <SheetTitle>Navigation</SheetTitle>
@@ -473,7 +458,11 @@ export default function AppNavShell({
         </SheetContent>
       </Sheet>
 
-      <MobilePrimaryNav active={mobileActive} onNavigate={onMobileNavigate} />
+      <MobilePrimaryNav
+        active={mobileActive}
+        onNavigate={onMobileNavigate}
+        onOpenMenu={() => setMobileOpen(true)}
+      />
     </TooltipProvider>
   )
 }
