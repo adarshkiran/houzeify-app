@@ -114,4 +114,5 @@ Customer session; project access via `project_customers` (unchanged).
 
 ## 18–19. Final commit / origin
 
-**Do not merge** — stop after commit per task instruction.
+Final commit: `e6b0f1a`  
+**origin/main:** not updated — stop after commit per task instruction.
