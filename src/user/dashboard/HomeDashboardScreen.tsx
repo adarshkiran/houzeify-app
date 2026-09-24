@@ -1,39 +1,23 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import HIcon from '@/shared/components/HIcon'
-import HozieInsightCard from '@/shared/components/HozieInsightCard'
 import Sidebar from '@/shared/components/Sidebar'
-import logoHorizontal from '@/imports/Logo/Houzeify HLogo.svg'
 import { initials } from '@/data/homeownerProfile'
-import {
-  isHomeownerIntent,
-  getHomeownerDashboardConfiguration,
-  getServiceEntryHeroContent,
-  projectStageLabel,
-  greetingWord,
-  DASHBOARD_ROUTES,
-  type HomeownerDashboardState,
-} from '@/data/homeownerDashboard'
-import { resolveServiceEntry } from '@/data/serviceEntry'
-// Customer Implementation 09C — Home's project + estimate state reads the
-// canonical stores (same ones Projects / Project Workspace / 08C Profile
-// card use), never the ambient projectData bag.
-import { resolveProjectStatus } from '@/data/projects'
-import { useProjects } from '@/data/projectState'
+import { greetingWord, DASHBOARD_ROUTES } from '@/data/homeownerDashboard'
+import { useAuth } from '@/data/authState'
 import { useCustomerProjects } from '@/data/customerProjectsState'
 import { acceptProjectCustomerInvite, describeCustomerError } from '@/data/projectCustomerApi'
-import { getEstimateVersionsForProject } from '@/data/estimateVersions'
+import {
+  CUSTOMER_HOME_AI_PROMPT_EXAMPLES,
+  customerHomeProjectNavData,
+  partitionCustomerHomeProjects,
+  type CustomerHomeProject,
+} from '@/data/customerHomeProjects'
 
-// Destinations the customer Home may still link to from its config-driven
-// CTAs. Everything else in homeownerDashboard.ts's DASHBOARD_ROUTES is a
-// pre-2.0 product area (Build/Renovate, estimates, BOQ, contractors, bids,
-// plan upload, Home Services) and is not offered from the active Home.
-const ACTIVE_DASHBOARD_DESTS: ReadonlySet<string> = new Set([
-  DASHBOARD_ROUTES.aiAdvisor,
-  'projects-list',
-  'notifications',
-])
+const FONT_MONO = '"Sometype Mono:SemiBold", monospace'
+const FONT_BODY = '"Open Sans:Regular", sans-serif'
+const FONT_HEAD = '"Google Sans Flex:SemiBold", sans-serif'
 
-// ─── Sidebar Icons ─────────────────────────────────────────────────────────────
+// ─── Icons ────────────────────────────────────────────────────────────────────
 
 const IcoBell = () => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -61,21 +45,14 @@ const IcoMapPin = () => (
   </svg>
 )
 
-// Sidebar (desktop left rail) now lives in ../components/Sidebar — a single
-// shared component used by every homeowner screen so the rail never drifts
-// or changes shape as you navigate (see that file's header comment for why).
-// C14 — mobile primary nav is MobilePrimaryNav inside Sidebar (not a
-// Home-only bottom bar).
-
-// ─── Mobile Top Bar ────────────────────────────────────────────────────────────
-// Mobile header per brief: Logo, Notifications, Profile.
+// ─── Chrome ───────────────────────────────────────────────────────────────────
 
 function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNavigate: (s: string) => void }) {
   return (
     <div className="flex md:hidden h-14 items-center justify-between px-4 bg-white border-b border-[#E3DDD7] shrink-0 z-10">
       <div className="flex items-center gap-2.5">
         <HIcon size={26} />
-        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+        <span className="text-[16px] font-semibold text-[#242326]" style={{ fontFamily: FONT_HEAD }}>
           Home
         </span>
       </div>
@@ -91,15 +68,10 @@ function MobileTopBar({ userInitials, onNavigate }: { userInitials: string; onNa
   )
 }
 
-// ─── Top Header ───────────────────────────────────────────────────────────────
-
 function TopHeader({ userInitials, onNavigate }: { userInitials: string; onNavigate: (s: string) => void }) {
   return (
     <header className="hidden md:flex h-[64px] shrink-0 items-center justify-between px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#E3DDD7]">
-      <h1
-        className="text-[20px] font-semibold text-[#242326] m-0"
-        style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
-      >
+      <h1 className="text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
         Home
       </h1>
       <div className="flex items-center gap-3">
@@ -122,41 +94,32 @@ function TopHeader({ userInitials, onNavigate }: { userInitials: string; onNavig
   )
 }
 
-// ─── Greeting + location ────────────────────────────────────────────────────
-
-function GreetingSection({ preferredName, city, state, onNavigate }: { preferredName: string; city?: string; state?: string; onNavigate: (s: string) => void }) {
-  const secondary: Record<string, string> = {
-    'build-home': "Here's what's happening with your home today.",
-    'improve-home': "Here's what's happening with your home today.",
-    'home-service': "Here's what's happening with your home today.",
-  }
+function GreetingSection({ preferredName, city, state }: { preferredName: string; city?: string; state?: string }) {
   return (
     <div className="flex flex-col gap-2 mb-6">
       <span
         className="text-[12px] tracking-[0.10em] text-[#722ED1] uppercase"
-        style={{ fontFamily: '"Sometype Mono:SemiBold", monospace', animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}
+        style={{ fontFamily: FONT_MONO, animation: 'welcomeFadeUp 0.4s ease-out 0.05s both' }}
       >
         Your Construction Workspace
       </span>
       <div style={{ animation: 'welcomeFadeUp 0.45s ease-out 0.12s both' }}>
         <h1
           className="text-[28px] sm:text-[36px] font-semibold text-[#242326] leading-[1.1] m-0"
-          style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}
+          style={{ fontFamily: FONT_HEAD }}
         >
-          {/* Customer Implementation 09B — name only when a real one exists;
-              otherwise an honest "Good evening." with no fabricated name. */}
           {greetingWord()}{preferredName ? `, ${preferredName}` : ''}.
         </h1>
       </div>
       <p
         className="text-[14px] text-[#68636D] leading-[1.6] m-0"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif', animation: 'welcomeFadeUp 0.45s ease-out 0.2s both' }}
+        style={{ fontFamily: FONT_BODY, animation: 'welcomeFadeUp 0.45s ease-out 0.2s both' }}
       >
-        {secondary['build-home']}
+        Linked projects and shared construction progress show up here.
       </p>
       {city && (
         <div className="flex items-center gap-2 mt-1" style={{ animation: 'welcomeFadeUp 0.45s ease-out 0.24s both' }}>
-          <span className="flex items-center gap-1 text-[12.5px] text-[#68636D]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
+          <span className="flex items-center gap-1 text-[12.5px] text-[#68636D]" style={{ fontFamily: FONT_BODY }}>
             <IcoMapPin /> {[city, state].filter(Boolean).join(', ')}
           </span>
         </div>
@@ -165,19 +128,7 @@ function GreetingSection({ preferredName, city, state, onNavigate }: { preferred
   )
 }
 
-// ─── Hozie hero — compact, intent-aware; NOT a full chat experience ───────────
-
-function HozieHeroCard({
-  title,
-  message,
-  ctaLabel,
-  onCta,
-}: {
-  title: string
-  message: string
-  ctaLabel?: string
-  onCta?: () => void
-}) {
+function HozieHeroCard({ onAsk }: { onAsk: () => void }) {
   return (
     <div
       className="w-full bg-white rounded-[24px] border border-[#E3DDD7] p-5 sm:p-6 flex flex-col gap-4"
@@ -188,52 +139,42 @@ function HozieHeroCard({
           <HIcon size={28} />
         </div>
         <div className="flex flex-col gap-0.5">
-          <span className="text-[15px] font-semibold text-[#242326] leading-none" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
+          <span className="text-[15px] font-semibold text-[#242326] leading-none" style={{ fontFamily: FONT_HEAD }}>
             HOZIE
           </span>
-          <span className="text-[11px] tracking-[0.08em] text-[#722ED1] leading-none" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+          <span className="text-[11px] tracking-[0.08em] text-[#722ED1] leading-none" style={{ fontFamily: FONT_MONO }}>
             AI CONSTRUCTION ADVISOR
           </span>
         </div>
         <div className="ml-auto flex items-center gap-1.5">
           <span className="w-[7px] h-[7px] rounded-full bg-[#722ED1] shrink-0" style={{ animation: 'hozieStatusPulse 2.2s ease-in-out infinite' }} />
-          <span className="text-[12px] text-[#722ED1] tracking-[0.06em]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>READY</span>
+          <span className="text-[12px] text-[#722ED1] tracking-[0.06em]" style={{ fontFamily: FONT_MONO }}>READY</span>
         </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
         <h2 className="text-[20px] sm:text-[24px] font-medium text-[#242326] leading-tight m-0" style={{ fontFamily: '"Google Sans Flex:Medium", sans-serif' }}>
-          {title}
+          Questions about your construction record?
         </h2>
-        <p className="text-[14px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
-          {message}
+        <p className="text-[14px] text-[#68636D] leading-[1.6] m-0" style={{ fontFamily: FONT_BODY }}>
+          Ask about shared progress, project stages, or what to review next on a linked project.
         </p>
       </div>
 
-      {ctaLabel && onCta && (
-        <button
-          onClick={onCta}
-          className="self-start h-[42px] px-5 rounded-[12px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
-        >
-          {ctaLabel}
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={onAsk}
+        className="self-start min-h-11 px-5 rounded-[12px] bg-[#722ED1] text-white text-[13.5px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+        style={{ fontFamily: FONT_BODY }}
+      >
+        Ask Hozie
+      </button>
     </div>
   )
 }
 
-// ─── AI conversation entry — opens 013 AI Advisor, no inline chat here ────────
-
-const AI_PROMPT_EXAMPLES = [
-  'How much will my house cost?',
-  'Find flooring professionals near me',
-  'Is this contractor quote reasonable?',
-]
-
 function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
   const [value, setValue] = useState('')
-  const inputRef = useRef<HTMLInputElement>(null)
 
   const submit = (query: string) => {
     const trimmed = query.trim()
@@ -243,7 +184,7 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
 
   return (
     <div className="w-full bg-white rounded-[20px] border border-[#E3DDD7] p-4 sm:p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <label htmlFor="ai-prompt-input" className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
+      <label htmlFor="ai-prompt-input" className="text-[12px] tracking-[0.08em] uppercase text-[#9A949D]" style={{ fontFamily: FONT_MONO }}>
         Ask Hozie
       </label>
       <div className="flex items-center gap-3 bg-[#FFFFFF] border border-[#E3DDD7] rounded-[14px] px-4 h-[52px] focus-within:border-[#722ED1] focus-within:shadow-[0_0_0_3px_rgba(114,46,209,0.08)] transition-all">
@@ -251,23 +192,23 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
           <HIcon size={16} />
         </div>
         <input
-          ref={inputRef}
           id="ai-prompt-input"
           type="text"
-          placeholder="Ask Hozie anything about your home..."
-          aria-label="Ask Hozie anything about your home"
+          placeholder="Ask about your construction progress…"
+          aria-label="Ask Hozie about your construction progress"
           className="flex-1 bg-transparent outline-none text-[14px] text-[#242326] placeholder-[#9A949D]"
-          style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+          style={{ fontFamily: FONT_BODY }}
           value={value}
           onChange={e => setValue(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') submit(value) }}
         />
         <button
+          type="button"
           onClick={() => submit(value)}
           disabled={!value.trim()}
           aria-label="Send to Hozie"
           className={[
-            'w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 transition-all duration-150',
+            'min-w-9 min-h-9 w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 transition-all duration-150 border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2',
             value.trim() ? 'bg-[#722ED1] cursor-pointer hover:brightness-90 active:scale-95' : 'bg-[#F4F0EC] cursor-not-allowed',
           ].join(' ')}
         >
@@ -275,12 +216,13 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
         </button>
       </div>
       <div className="flex flex-wrap gap-1.5">
-        {AI_PROMPT_EXAMPLES.map(example => (
+        {CUSTOMER_HOME_AI_PROMPT_EXAMPLES.map(example => (
           <button
             key={example}
+            type="button"
             onClick={() => submit(example)}
-            className="text-[11.5px] text-[#68636D] bg-[#FFFFFF] border border-[#E3DDD7] rounded-full px-3 py-1.5 hover:border-[#722ED1] hover:text-[#722ED1] transition-colors cursor-pointer"
-            style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+            className="text-[11.5px] text-[#68636D] bg-[#FFFFFF] border border-[#E3DDD7] rounded-full px-3 py-1.5 min-h-11 hover:border-[#722ED1] hover:text-[#722ED1] transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+            style={{ fontFamily: FONT_BODY }}
           >
             {example}
           </button>
@@ -290,87 +232,27 @@ function AiPromptEntry({ onSubmit }: { onSubmit: (query: string) => void }) {
   )
 }
 
-// ─── Next best action — the single primary CTA ────────────────────────────────
-
-function NextActionCard({ eyebrow, title, body, ctaLabel, onCta }: { eyebrow: string; title: string; body: string; ctaLabel: string; onCta: () => void }) {
+function ProjectsLoadingState() {
   return (
-    <div
-      className="w-full rounded-[20px] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6"
-      style={{ backgroundColor: '#F9F5FF', border: '1px solid rgba(243,234,255,0.10)' }}
-    >
-      <div className="flex flex-col gap-1.5 flex-1 min-w-0">
-        <span className="text-[11.5px] tracking-[0.10em] uppercase text-[#722ED1]" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
-          {eyebrow}
-        </span>
-        <h3 className="text-[19px] sm:text-[21px] font-semibold text-[#242326] leading-snug m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>
-          {title}
-        </h3>
-        <p className="text-[13.5px] text-[#68636D] leading-[1.55] m-0" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
-          {body}
-        </p>
-      </div>
-      <button
-        onClick={onCta}
-        className="shrink-0 h-[46px] px-6 rounded-[12px] bg-[#722ED1] text-white text-[14px] font-semibold cursor-pointer hover:brightness-90 active:scale-[0.99] transition-all border-0 w-full sm:w-auto"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
-      >
-        {ctaLabel}
-      </button>
+    <div className="flex flex-col items-center text-center gap-3 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} role="status" aria-live="polite">
+      <p className="text-[13px] text-[#68636D] m-0" style={{ fontFamily: FONT_BODY }}>Loading your linked projects…</p>
     </div>
   )
 }
 
-// ─── Quick actions — secondary; Next Step remains the primary CTA ────────────
-
-function QuickActionsCard({ actions, onNavigate }: { actions: { label: string; dest: string }[]; onNavigate: (s: string) => void }) {
+function ProjectsErrorState({ message, onRetry }: { message: string | null; onRetry: () => void }) {
   return (
-    <div className="bg-white rounded-[16px] border border-[#E3DDD7] p-5 flex flex-col gap-4 h-full" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
-      <span className="text-[12px] tracking-[0.10em] text-[#9A949D] uppercase" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>
-        Quick Actions
-      </span>
-      <div className="grid grid-cols-2 gap-2">
-        {actions.map(action => (
-          <button
-            key={action.label}
-            onClick={() => onNavigate(action.dest)}
-            className="flex flex-col items-center justify-center gap-1.5 py-3.5 px-2 rounded-[12px] border border-[#E3DDD7] bg-[#FFFFFF] hover:bg-[#F9F5FF] hover:border-[#722ED1] hover:text-[#722ED1] text-[#68636D] transition-all cursor-pointer text-center"
-          >
-            <span className="text-[12px] leading-tight" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
-              {action.label}
-            </span>
-          </button>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// ─── Loading skeleton — lightweight, never fake data ──────────────────────────
-
-function DashboardSkeleton() {
-  const bar = (w: string, h = 14) => <div className="rounded-full bg-[#F4F0EC]" style={{ width: w, height: h, animation: 'hozieStatusPulse 1.6s ease-in-out infinite' }} />
-  return (
-    <div className="flex flex-col gap-6" style={{ maxWidth: 1200, margin: '0 auto' }}>
-      <div className="flex flex-col gap-2">{bar('40%', 12)}{bar('55%', 30)}{bar('35%', 14)}</div>
-      <div className="rounded-[24px] border border-[#E3DDD7] p-6 flex flex-col gap-3">{bar('30%')}{bar('60%', 24)}{bar('80%')}</div>
-      <div className="rounded-[20px] border border-[#E3DDD7] p-6 flex flex-col gap-3">{bar('25%')}{bar('50%', 20)}</div>
-      <div className="rounded-[16px] border border-[#E3DDD7] p-5 flex flex-col gap-3">{bar('20%')}{bar('70%')}</div>
-    </div>
-  )
-}
-
-// ─── Error state ────────────────────────────────────────────────────────────
-
-function DashboardErrorState({ onRetry }: { onRetry: () => void }) {
-  return (
-    <div className="flex flex-col items-center text-center gap-4 py-20" style={{ maxWidth: 420, margin: '0 auto' }}>
-      <p className="text-[15px] text-[#242326]" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
-        We couldn&apos;t load your workspace.
+    <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }} role="alert">
+      <HIcon size={36} />
+      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>Couldn’t load projects</p>
+      <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+        {message ?? 'Something went wrong loading your linked projects. Please try again.'}
       </p>
       <button
+        type="button"
         onClick={onRetry}
-        className="h-10 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0"
-        style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}
+        className="min-h-11 px-5 rounded-[10px] bg-[#722ED1] text-white text-[13px] font-medium cursor-pointer hover:brightness-90 transition-all border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+        style={{ fontFamily: FONT_BODY }}
       >
         Try again
       </button>
@@ -378,36 +260,155 @@ function DashboardErrorState({ onRetry }: { onRetry: () => void }) {
   )
 }
 
+function ProjectsEmptyState() {
+  return (
+    <div className="flex flex-col items-center text-center gap-4 rounded-[16px] bg-white p-10" style={{ border: '1px solid #E3DDD7' }}>
+      <HIcon size={36} />
+      <p className="text-[15px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>No linked projects yet</p>
+      <p className="text-[13px] text-[#68636D] m-0 max-w-[320px]" style={{ fontFamily: FONT_BODY }}>
+        When a builder shares a project with you, it will appear here with Overview and Progress.
+      </p>
+    </div>
+  )
+}
+
+function InviteProjectCard({
+  project,
+  busy,
+  error,
+  onAccept,
+}: {
+  project: CustomerHomeProject
+  busy: boolean
+  error: string | null
+  onAccept: () => void
+}) {
+  return (
+    <div className="rounded-[14px] bg-white p-4 sm:p-5" style={{ border: '1px solid #E3DDD7' }}>
+      <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-2" style={{ fontFamily: FONT_MONO }}>Invite</p>
+      <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+        Join {project.name}
+      </h3>
+      <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+        {project.organizationName ?? 'Your builder'} invited you to follow this project.
+      </p>
+      {error && <p className="text-[13px] text-[#B91C1C] m-0 mt-2" role="alert">{error}</p>}
+      <button
+        type="button"
+        disabled={busy}
+        onClick={onAccept}
+        className="min-h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 disabled:opacity-60 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+        style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+      >
+        {busy ? 'Joining…' : 'Join this project'}
+      </button>
+    </div>
+  )
+}
+
+function ActiveProjectCard({
+  project,
+  onNavigate,
+}: {
+  project: CustomerHomeProject
+  onNavigate: (s: string, data?: Record<string, string>) => void
+}) {
+  const nav = customerHomeProjectNavData(project)
+  return (
+    <div className="rounded-[14px] bg-white p-4 sm:p-5 flex flex-col gap-3" style={{ border: '1px solid #E3DDD7' }}>
+      <div className="min-w-0">
+        <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#242326] m-0 truncate" style={{ fontFamily: FONT_HEAD }}>
+          {project.name}
+        </h3>
+        <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+          {project.stage ?? 'Construction in progress'}
+          {project.organizationName ? ` · ${project.organizationName}` : ''}
+        </p>
+        {project.location && (
+          <span className="flex items-center gap-1 text-[12.5px] text-[#68636D] mt-1.5" style={{ fontFamily: FONT_BODY }}>
+            <IcoMapPin /> {project.location}
+          </span>
+        )}
+      </div>
+      <div className="flex flex-col sm:flex-row gap-2">
+        <button
+          type="button"
+          onClick={() => onNavigate('project-overview', nav)}
+          className="min-h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0 outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+          style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: FONT_BODY }}
+        >
+          Overview
+        </button>
+        <button
+          type="button"
+          onClick={() => onNavigate('project-progress', nav)}
+          className="min-h-11 px-5 rounded-[12px] text-[13.5px] font-semibold cursor-pointer bg-white outline-none focus-visible:ring-2 focus-visible:ring-[#722ED1] focus-visible:ring-offset-2"
+          style={{ border: '1px solid #E3DDD7', color: '#68636D', fontFamily: FONT_BODY }}
+        >
+          Progress
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function LinkedProjectsSection({
+  invited,
+  active,
+  inviteBusyId,
+  inviteError,
+  onAcceptInvite,
+  onNavigate,
+}: {
+  invited: CustomerHomeProject[]
+  active: CustomerHomeProject[]
+  inviteBusyId: string | null
+  inviteError: { id: string; message: string } | null
+  onAcceptInvite: (projectId: string) => void
+  onNavigate: (s: string, data?: Record<string, string>) => void
+}) {
+  const total = invited.length + active.length
+  return (
+    <section className="flex flex-col gap-4" aria-labelledby="linked-projects-heading" style={{ animation: 'welcomeFadeUp 0.45s ease-out 0.18s both' }}>
+      <div className="flex flex-col gap-1">
+        <span className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1]" style={{ fontFamily: FONT_MONO }}>
+          Construction
+        </span>
+        <h2 id="linked-projects-heading" className="text-[18px] sm:text-[20px] font-semibold text-[#242326] m-0" style={{ fontFamily: FONT_HEAD }}>
+          {total === 1 ? '1 linked project' : `${total} linked projects`}
+        </h2>
+      </div>
+      <div className="flex flex-col gap-3">
+        {invited.map(project => (
+          <InviteProjectCard
+            key={project.id}
+            project={project}
+            busy={inviteBusyId === project.id}
+            error={inviteError?.id === project.id ? inviteError.message : null}
+            onAccept={() => onAcceptInvite(project.id)}
+          />
+        ))}
+        {active.map(project => (
+          <ActiveProjectCard key={project.id} project={project} onNavigate={onNavigate} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
 // ─── Main Screen ──────────────────────────────────────────────────────────────
-// Screen 012 — Homeowner AI Dashboard. One reusable dashboard, dynamic per
-// primaryIntent (build-home / improve-home / home-service) — never three
-// separate dashboards. Reads exclusively from getHomeownerDashboardConfiguration().
+// S11 — Customer Home is a construction-record landing for linked projects.
+// Legacy Build / Estimate / Home Services ladder content is not rendered here.
 
 export default function HomeDashboardScreen({
   onNavigate,
   role,
-  primaryIntent,
   preferredName,
   fullName,
   city,
   state,
-  projectName,
-  projectLocation,
-  projectStage,
-  projectId,
-  homeType,
-  constructionStage,
-  homeBHK,
-  homeBuiltUpArea,
-  homeFloorCount,
-  serviceEntry,
 }: {
   onNavigate: (s: string, data?: Record<string, string>) => void
-  /** The canonical top-level persona ('homeowner' | 'professional'),
-   *  resolved once on Screen 007 and passed down by App.tsx — the sole
-   *  source of truth for the role-safety check below. primaryIntent is
-   *  still used further down to shape which homeowner intent is shown; it
-   *  is never the top-level role decision. */
   role?: string
   primaryIntent?: string
   preferredName?: string
@@ -417,154 +418,50 @@ export default function HomeDashboardScreen({
   projectName?: string
   projectLocation?: string
   projectStage?: string
-  /** Batch C — real project_id, set only once Screen 035 (Create Project)
-   *  has actually run. Never minted here; only read. */
   projectId?: string
-  /** Batch C — real Screen 011 "Your Home" fields, read as-is from
-   *  projectData. All optional; none are fabricated when absent. */
   homeType?: string
   constructionStage?: string
   homeBHK?: string
   homeBuiltUpArea?: string
   homeFloorCount?: string
-  /** Which of the two service destinations (Screen 007) this session
-   *  entered through — only meaningful when resolvedIntent === 'home-service'. */
   serviceEntry?: string
 }) {
-  const [loading, setLoading] = useState(true)
-  const [loadError, setLoadError] = useState(false)
-  const [attempt, setAttempt] = useState(0)
-
-  // ROLE SAFETY: a professional must never see homeowner dashboard content.
-  // Redirect via the existing navigation mechanism, not a duplicated
-  // professional-dashboard implementation. Driven by the canonical `role`
-  // only — never primaryIntent, which is a secondary, homeowner-shaped
-  // field that can be blank even for a genuine professional.
   const isProfessional = role === 'professional'
+  const { status: authStatus } = useAuth()
+  const sharedProjects = useCustomerProjects()
+  const { invited, active, hasAny } = partitionCustomerHomeProjects(sharedProjects.projects)
+  const [inviteBusyId, setInviteBusyId] = useState<string | null>(null)
+  const [inviteError, setInviteError] = useState<{ id: string; message: string } | null>(null)
+
   useEffect(() => {
     if (isProfessional) onNavigate(DASHBOARD_ROUTES.professionalDashboard)
   }, [isProfessional, onNavigate])
-  // 12H-B — real, owner-scoped backend project list (see
-  // src/data/projectState.tsx), replacing getAllProjects(). Always called
-  // (rules of hooks), only consulted below for the build-home canonical
-  // project shortcut.
-  const projectsCtx = useProjects()
-  const sharedProjects = useCustomerProjects()
-  const [inviteBusy, setInviteBusy] = useState(false)
-  const [inviteError, setInviteError] = useState<string | null>(null)
-  const pendingInvite = sharedProjects.projects.find(p => p.customerStatus === 'invited')
-  const activeShared = sharedProjects.projects.find(p => p.customerStatus === 'active')
-
-  // Lightweight simulated workspace load — skeleton only, never fake data.
-  useEffect(() => {
-    setLoading(true)
-    setLoadError(false)
-    const t = setTimeout(() => setLoading(false), 450)
-    return () => clearTimeout(t)
-  }, [attempt])
 
   if (isProfessional) return null
 
-  // No valid homeowner intent yet (e.g. a direct jump before onboarding) —
-  // default to build-home rather than showing a dead-end, matching the rest
-  // of the app's existing "House / Hyderabad" default project data.
-  const resolvedIntent = isHomeownerIntent(primaryIntent) ? primaryIntent : 'build-home'
-
-  // improve-home / home-service used to surface the most-recent RFQ
-  // ServiceRequest here; that flow has been removed, so these branches have
-  // no project name / stage to show.
-
-  // ─── Customer Implementation 09C — canonical project + estimate state ────
-  // build-home project + estimate info now comes from the same canonical
-  // stores Projects, Project Workspace and the 08C Profile card read —
-  // projects.ts (getAllProjects / resolveProjectStatus) and
-  // estimateVersions.ts (getEstimateVersionsForProject) — never the ambient
-  // projectData bag, and never "a project name exists ⇒ an estimate is
-  // ready". Current project = the most recently updated one, the same
-  // selection ProjectsListScreen and the 08C Profile card make. Only
-  // consulted for build-home; the improve-home / home-service branches keep
-  // reading the real ServiceRequest exactly as before.
-  // 12H-B — projectsCtx.projects is already sorted most-recently-updated
-  // first by the real backend (matches the old getAllProjects() ordering
-  // exactly), so [0] is still the same "canonical project" this dashboard
-  // card has always meant — never reinterpreted as "the user's only
-  // project" (12H-A's own explicit warning).
-  const canonicalProject = resolvedIntent === 'build-home' ? projectsCtx.projects[0] : undefined
-  const canonicalProjectStatus = canonicalProject
-    ? resolveProjectStatus(canonicalProject.status, canonicalProject.stage)
-    : undefined
-  const hasRealEstimate = Boolean(
-    canonicalProject && getEstimateVersionsForProject(canonicalProject.id).length > 0,
-  )
-
-  const state_: HomeownerDashboardState = {
-    primaryIntent: resolvedIntent,
-    // Customer Implementation 09B — real onboarding identity only; never the
-    // hardcoded homeownerProfile demo person. (This field is currently unread
-    // by getHomeownerDashboardConfiguration, but it stays honest regardless.)
-    preferredName: preferredName || fullName || '',
-    city,
-    state,
-    hasProject: resolvedIntent === 'build-home' ? Boolean(canonicalProject) : Boolean(projectName),
-    projectName: resolvedIntent === 'build-home' ? canonicalProject?.name : undefined,
-    projectLocation: resolvedIntent === 'build-home' ? (canonicalProject?.location ?? undefined) : undefined,
-    // Live resolved status id (resolveProjectStatus), consistent with
-    // Projects / Project Workspace — never the raw stage stored at creation.
-    projectStage: resolvedIntent === 'build-home' ? canonicalProjectStatus : undefined,
-    hasPlan: false,
-    hasEstimate: resolvedIntent === 'build-home' && hasRealEstimate,
-    hasBoq: false,
-    hasBids: false,
-  }
-
-  let config
-  try {
-    config = getHomeownerDashboardConfiguration(state_)
-    // Home Services / Cleaning Services: swap in the real, service_entry-
-    // specific hero copy — minimum change necessary, everything else about
-    // the configuration (next action, empty state, insight) stays exactly
-    // as getHomeownerDashboardConfiguration() already computed it.
-    if (config && resolvedIntent === 'home-service') {
-      config = { ...config, hero: getServiceEntryHeroContent(resolveServiceEntry(serviceEntry)) }
-    }
-  } catch {
-    config = null
-  }
-
-  // Customer Implementation 09H — the config-driven Home CTAs (Next Action,
-  // Hozie Insight, Quick Actions) carry only a route string. When that route
-  // is the Estimate flow and a canonical Build-Home project exists (09C),
-  // attach its real id — the same `canonicalProject.id` the main
-  // EstimateSnapshot CTA already passes — so estimate-dashboard renders the
-  // genuine version data rather than its no-id demo fallback. Every other
-  // destination navigates unchanged.
-  const navFromConfig = (dest: string) => {
-    if (dest === DASHBOARD_ROUTES.estimateDashboard && canonicalProject) {
-      onNavigate(dest, { project_id: canonicalProject.id })
-      return
-    }
-    onNavigate(dest)
-  }
-
-  // Customer Implementation 09B — greeting + avatar derive from the real
-  // onboarding identity (projectData.preferred_name / full_name). When
-  // neither exists the greeting drops the name entirely ("Good evening.")
-  // and initials() returns its own neutral "?" — never "Adarsh" / "AK".
   const userInitials = initials(fullName?.trim() || preferredName?.trim() || '')
   const displayName = preferredName?.trim() || fullName?.trim().split(' ')[0] || ''
 
   const handleAiPromptSubmit = (query: string) => {
     onNavigate(DASHBOARD_ROUTES.aiAdvisor, { ai_query: query })
   }
-  // Table B navigation cleanup — the config-driven CTAs (hero, next step,
-  // quick actions, Hozie insight) still carry pre-2.0 destinations
-  // (create-project, estimate-dashboard, upload-plan, find-contractors,
-  // bids-received, renovate, Home Services, ...). Only destinations that
-  // belong to the active product are rendered; the rest are hidden here so
-  // homeownerDashboard.ts (and every legacy screen that reads it) stays
-  // untouched.
-  const isActiveDest = (dest: string) => ACTIVE_DASHBOARD_DESTS.has(dest)
-  const visibleQuickActions = config ? config.quickActions.filter(a => isActiveDest(a.dest)) : []
+
+  const acceptInvite = (projectId: string) => {
+    setInviteBusyId(projectId)
+    setInviteError(null)
+    acceptProjectCustomerInvite(projectId)
+      .then(() => sharedProjects.refresh())
+      .catch(err => setInviteError({ id: projectId, message: describeCustomerError(err) }))
+      .finally(() => setInviteBusyId(null))
+  }
+
+  // Auth still resolving, or authenticated and customer projects still idle/loading.
+  // Unauthenticated → honest empty (not an infinite skeleton).
+  const projectsLoading =
+    authStatus === 'loading'
+    || sharedProjects.status === 'loading'
+    || (authStatus === 'authenticated' && sharedProjects.status === 'idle')
+  const projectsError = sharedProjects.status === 'error'
 
   return (
     <div className="flex flex-col relative" style={{ height: '100%', backgroundColor: '#FFFFFF' }}>
@@ -576,113 +473,34 @@ export default function HomeDashboardScreen({
         <div className="flex flex-col flex-1 min-w-0">
           <TopHeader userInitials={userInitials} onNavigate={onNavigate} />
 
-          <main className="flex-1 overflow-y-auto px-6 py-7" style={{ scrollbarWidth: 'none' }}>
-            {loading && <DashboardSkeleton />}
+          <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-7 pb-24" style={{ scrollbarWidth: 'none' }}>
+            <div className="flex flex-col gap-6" style={{ maxWidth: 1200, margin: '0 auto' }}>
+              <GreetingSection preferredName={displayName} city={city} state={state} />
 
-            {!loading && (loadError || !config) && (
-              <DashboardErrorState onRetry={() => setAttempt(a => a + 1)} />
-            )}
-
-            {!loading && !loadError && config && (
-              <div className="flex flex-col gap-6" style={{ maxWidth: 1200, margin: '0 auto' }}>
-                {/* 1. Header — greeting + location (notifications live in
-                    MobileTopBar/TopHeader above, unchanged) */}
-                <GreetingSection preferredName={displayName} city={city} state={state} onNavigate={onNavigate} />
-
-                {/* 3. Ask Hozie — reuses the existing Hozie hero + AI
-                    conversation entry components unchanged; moved up to sit
-                    directly below Search per request. AiPromptEntry sits
-                    above HozieHeroCard per follow-up request. */}
-                <div className="flex flex-col gap-4" style={{ animation: 'welcomeFadeUp 0.5s ease-out 0.16s both' }}>
-                  <AiPromptEntry onSubmit={handleAiPromptSubmit} />
-                  <HozieHeroCard
-                    title={config.hero.title}
-                    message={config.hero.message}
-                    ctaLabel={isActiveDest(config.hero.ctaDest) ? config.hero.ctaLabel : undefined}
-                    onCta={isActiveDest(config.hero.ctaDest) ? () => onNavigate(config.hero.ctaDest) : undefined}
-                  />
-                </div>
-
-                {(pendingInvite || activeShared) && (
-                  <div className="rounded-[16px] bg-white p-5 min-w-0" style={{ border: '1px solid #E3DDD7', animation: 'welcomeFadeUp 0.45s ease-out 0.18s both' }}>
-                    <p className="text-[11px] tracking-[0.08em] uppercase text-[#722ED1] m-0 mb-2" style={{ fontFamily: '"Sometype Mono:SemiBold", monospace' }}>Construction</p>
-                    {pendingInvite ? (
-                      <>
-                        <h2 className="text-[18px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>Join {pendingInvite.name}</h2>
-                        <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
-                          {pendingInvite.organizationName ?? 'Your builder'} invited you to follow this project.
-                        </p>
-                        {inviteError && <p className="text-[13px] text-[#B91C1C] m-0 mt-2">{inviteError}</p>}
-                        <button
-                          type="button"
-                          disabled={inviteBusy}
-                          onClick={() => {
-                            setInviteBusy(true)
-                            setInviteError(null)
-                            acceptProjectCustomerInvite(pendingInvite.id)
-                              .then(() => sharedProjects.refresh())
-                              .catch(err => setInviteError(describeCustomerError(err)))
-                              .finally(() => setInviteBusy(false))
-                          }}
-                          className="h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
-                          style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: '"Open Sans:Regular", sans-serif' }}
-                        >
-                          Join this project
-                        </button>
-                      </>
-                    ) : activeShared ? (
-                      <>
-                        <h2 className="text-[18px] font-semibold text-[#242326] m-0" style={{ fontFamily: '"Google Sans Flex:SemiBold", sans-serif' }}>{activeShared.name}</h2>
-                        <p className="text-[13.5px] text-[#68636D] m-0 mt-2" style={{ fontFamily: '"Open Sans:Regular", sans-serif' }}>
-                          {activeShared.stage ?? 'Construction in progress'}
-                          {activeShared.organizationName ? ` · ${activeShared.organizationName}` : ''}
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() => onNavigate('project-progress', { project_id: activeShared.id, project_name: activeShared.name })}
-                          className="h-11 px-5 mt-4 rounded-[12px] text-[13.5px] font-semibold cursor-pointer border-0"
-                          style={{ backgroundColor: '#722ED1', color: 'white', fontFamily: '"Open Sans:Regular", sans-serif' }}
-                        >
-                          View progress
-                        </button>
-                      </>
-                    ) : null}
-                  </div>
-                )}
-
-                {/* Next best action — config-driven; hidden unless its
-                    destination belongs to the active product. */}
-                {isActiveDest(config.nextAction.ctaDest) && (
-                  <NextActionCard
-                    eyebrow={config.nextAction.eyebrow}
-                    title={config.nextAction.title}
-                    body={config.nextAction.body}
-                    ctaLabel={config.nextAction.ctaLabel}
-                    onCta={() => navFromConfig(config.nextAction.ctaDest)}
-                  />
-                )}
-
-                {/* Quick actions — only the active-product destinations */}
-                {visibleQuickActions.length > 0 && (
-                  <div className="grid grid-cols-1 gap-4">
-                    <QuickActionsCard actions={visibleQuickActions} onNavigate={navFromConfig} />
-                  </div>
-                )}
-
-                {/* Hozie insight (Estimate / BOQ / Marketplace snapshot cards
-                    removed — they led to the pre-2.0 estimate / BOQ /
-                    contractor screens). */}
-                <div className="flex flex-col sm:flex-row flex-wrap gap-4">
-                  <div className="flex-1 min-w-[240px]">
-                    <HozieInsightCard
-                      message={config.insight.message}
-                      actionLabel={isActiveDest(config.insight.actionDest) ? config.insight.actionLabel : undefined}
-                      onAction={isActiveDest(config.insight.actionDest) ? () => navFromConfig(config.insight.actionDest) : undefined}
-                    />
-                  </div>
-                </div>
+              <div className="flex flex-col gap-4" style={{ animation: 'welcomeFadeUp 0.5s ease-out 0.16s both' }}>
+                <AiPromptEntry onSubmit={handleAiPromptSubmit} />
+                <HozieHeroCard onAsk={() => onNavigate(DASHBOARD_ROUTES.aiAdvisor)} />
               </div>
-            )}
+
+              {projectsLoading && <ProjectsLoadingState />}
+              {projectsError && (
+                <ProjectsErrorState
+                  message={sharedProjects.errorMessage}
+                  onRetry={() => { void sharedProjects.refresh() }}
+                />
+              )}
+              {!projectsLoading && !projectsError && !hasAny && <ProjectsEmptyState />}
+              {!projectsLoading && !projectsError && hasAny && (
+                <LinkedProjectsSection
+                  invited={invited}
+                  active={active}
+                  inviteBusyId={inviteBusyId}
+                  inviteError={inviteError}
+                  onAcceptInvite={acceptInvite}
+                  onNavigate={onNavigate}
+                />
+              )}
+            </div>
           </main>
         </div>
       </div>
