@@ -41,5 +41,5 @@ export const ESTIMATION_HOUSE_PLAN_COPY = {
   analyzerUnavailable:
     'Plan uploaded successfully. Analysis will be available when the document analysis service is connected.',
   futureHandoff:
-    'Saved plan analysis will later feed Material Calculator and Estimate Builder. Those integrations are not part of this step.',
+    'Use plan values in the Material Calculator when ready. Estimate Builder pricing remains a later step.',
 } as const

@@ -8,4 +8,4 @@ export const ESTIMATE_ROUTES = {
 } as const
 
 export const ESTIMATE_FOUNDATION_NOTE =
-  'Foundation: list/create/workspace + guided Advisor (S23) + house plan upload/analyzer seam (S24). Estimation is a main Side Nav module. No live OCR, pricing, or customer share.'
+  'Foundation: list/create/workspace + guided Advisor (S23) + house plan upload/analyzer seam (S24) + Material Calculator plan handoff (S25). Estimation is a main Side Nav module. No live OCR, Price Intelligence, or customer share.'

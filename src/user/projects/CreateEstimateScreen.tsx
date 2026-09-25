@@ -24,11 +24,16 @@ export default function CreateEstimateScreen({
   projectId,
   projectName,
   organizationId,
+  initialAreaSqft,
+  initialLocation,
   onNavigate,
 }: {
   projectId?: string
   projectName?: string
   organizationId?: string
+  /** Optional handoff from Material Calculator (S25) — area only, no pricing. */
+  initialAreaSqft?: string
+  initialLocation?: string
   onNavigate: (screen: string, data?: Record<string, string>) => void
 }) {
   const { getProject } = useProjects()
@@ -40,8 +45,8 @@ export default function CreateEstimateScreen({
 
   const [name, setName] = useState('')
   const [pricingMethod, setPricingMethod] = useState<EstimatePricingMethod>('detailed_boq')
-  const [location, setLocation] = useState(project?.location ?? '')
-  const [areaSqft, setAreaSqft] = useState('')
+  const [location, setLocation] = useState(initialLocation || project?.location || '')
+  const [areaSqft, setAreaSqft] = useState(initialAreaSqft || '')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

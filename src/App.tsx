@@ -536,12 +536,33 @@ function screenNeedsDevPartner(s: AppScreen): boolean {
  */
 function getDevDeepLinkSeed(screen: AppScreen): Record<string, string> {
   if (!DEV_SCREEN_TOOLS) return {}
-  if (!screenNeedsDevPartner(screen) && !screenNeedsDevProject(screen)) return {}
-  const seed: Record<string, string> = {
-    role: 'professional',
-    account_type: 'organization',
-    professional_type: 'general-contractor',
+  const seed: Record<string, string> = {}
+  // S25 — Material Calculator plan-handoff params from deep-link / refresh.
+  // Runs even when the calculator is opened without partner chrome seed.
+  if (typeof window !== 'undefined' && screen === 'material-calculator') {
+    const q = new URLSearchParams(window.location.search)
+    for (const key of [
+      'calc_from_plan',
+      'calc_built_up_area',
+      'calc_floors',
+      'calc_area_source',
+      'calc_floors_source',
+      'plan_analysis_id',
+      'return_screen',
+      'project_name',
+      'organization_id',
+      'project_id',
+      'area_sqft',
+      'location',
+    ] as const) {
+      const v = q.get(key)
+      if (v) seed[key] = v
+    }
   }
+  if (!screenNeedsDevPartner(screen) && !screenNeedsDevProject(screen)) return seed
+  seed.role = 'professional'
+  seed.account_type = 'organization'
+  seed.professional_type = 'general-contractor'
   if (screenNeedsDevProject(screen)) {
     const uuid =
       typeof window !== 'undefined'
@@ -550,11 +571,11 @@ function getDevDeepLinkSeed(screen: AppScreen): Record<string, string> {
     const isUuid =
       !!uuid &&
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uuid)
-    seed.project_id = isUuid ? uuid : 'demo-project-preview'
-    seed.project_name = isUuid ? 'Project' : 'Sample Construction Project'
+    if (!seed.project_id) seed.project_id = isUuid ? uuid! : 'demo-project-preview'
+    if (!seed.project_name) seed.project_name = isUuid ? 'Project' : 'Sample Construction Project'
     seed.project_stage = 'foundation'
     seed.property_type = 'House'
-    seed.location = 'Hyderabad, Telangana'
+    if (!seed.location) seed.location = 'Hyderabad, Telangana'
   }
   return seed
 }
@@ -2206,6 +2227,8 @@ export default function App() {
             projectId={projectData.project_id}
             projectName={projectData.project_name}
             organizationId={projectData.organization_id}
+            initialAreaSqft={projectData.area_sqft}
+            initialLocation={projectData.location}
             onNavigate={navigateTo}
           />
         </div>
@@ -2649,6 +2672,14 @@ export default function App() {
             projectName={projectData.project_name ?? '3 BHK G+1 House'}
             location={resolvedLocation ?? 'Hyderabad'}
             projectId={projectData.project_id}
+            organizationId={projectData.organization_id}
+            planAnalysisId={projectData.plan_analysis_id}
+            calcFromPlan={projectData.calc_from_plan}
+            calcBuiltUpArea={projectData.calc_built_up_area}
+            calcFloors={projectData.calc_floors}
+            calcAreaSource={projectData.calc_area_source}
+            calcFloorsSource={projectData.calc_floors_source}
+            returnScreen={projectData.return_screen}
           />
         </div>
       )}

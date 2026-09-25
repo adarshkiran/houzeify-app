@@ -20,6 +20,13 @@ import {
 } from '@/data/materialCalculator'
 import { boqActiveVersion } from '@/data/boqVersionHistory'
 import Sidebar from '@/shared/components/Sidebar'
+import {
+  fieldSourceLabel,
+  parseMaterialCalculatorNavSeed,
+  type MaterialCalculatorFieldSources,
+} from '@/data/planToMaterialCalculator'
+import { buildMaterialCalcEstimateHandoff } from '@/data/materialCalcEstimateHandoff'
+import { ESTIMATE_ROUTES } from '@/data/estimationFoundationShell'
 
 // ─── Sidebar & shell icons (kept local — matches existing screen convention) ──
 
@@ -257,7 +264,17 @@ function ProjectInputsPanel({ location }: { location: string }) {
   )
 }
 
-function CustomInputsPanel({ input, onChange }: { input: ProjectCalcInput; onChange: (i: ProjectCalcInput) => void }) {
+function CustomInputsPanel({
+  input,
+  onChange,
+  fieldSources,
+  onFieldEdited,
+}: {
+  input: ProjectCalcInput
+  onChange: (i: ProjectCalcInput) => void
+  fieldSources?: MaterialCalculatorFieldSources
+  onFieldEdited?: (field: keyof MaterialCalculatorFieldSources) => void
+}) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
@@ -269,12 +286,20 @@ function CustomInputsPanel({ input, onChange }: { input: ProjectCalcInput; onCha
             inputMode="numeric"
             min="0"
             value={input.builtUpArea}
-            onChange={e => onChange({ ...input, builtUpArea: e.target.value === '' ? 0 : Number(e.target.value) })}
+            onChange={e => {
+              onFieldEdited?.('builtUpArea')
+              onChange({ ...input, builtUpArea: e.target.value === '' ? 0 : Number(e.target.value) })
+            }}
             className="h-10 px-3 rounded-[10px] border border-[var(--hz-border)] text-[13px] text-[var(--hz-ink)] outline-none focus:border-[var(--hz-primary)] transition-colors bg-[var(--hz-surface)]"
             style={{ maxWidth: 160 }}
           />
           <span className="text-[13px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>sq ft</span>
         </div>
+        {fieldSources && fieldSourceLabel(fieldSources.builtUpArea) && (
+          <span className="text-[11px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+            {fieldSourceLabel(fieldSources.builtUpArea)}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-col gap-1.5">
@@ -285,10 +310,18 @@ function CustomInputsPanel({ input, onChange }: { input: ProjectCalcInput; onCha
           inputMode="numeric"
           min="1"
           value={input.floors}
-          onChange={e => onChange({ ...input, floors: e.target.value === '' ? 1 : Number(e.target.value) })}
+          onChange={e => {
+            onFieldEdited?.('floors')
+            onChange({ ...input, floors: e.target.value === '' ? 1 : Number(e.target.value) })
+          }}
           className="h-10 px-3 rounded-[10px] border border-[var(--hz-border)] text-[13px] text-[var(--hz-ink)] outline-none focus:border-[var(--hz-primary)] transition-colors bg-[var(--hz-surface)]"
           style={{ maxWidth: 160 }}
         />
+        {fieldSources && fieldSourceLabel(fieldSources.floors) && (
+          <span className="text-[11px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>
+            {fieldSourceLabel(fieldSources.floors)}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-col gap-1.5">
@@ -657,6 +690,14 @@ export default function MaterialCalculatorScreen({
   projectName = '3 BHK G+1 House',
   location = 'Hyderabad',
   projectId,
+  planAnalysisId,
+  calcFromPlan,
+  calcBuiltUpArea,
+  calcFloors,
+  calcAreaSource,
+  calcFloorsSource,
+  returnScreen,
+  organizationId,
 }: {
   onNavigate: (s: string, data?: Record<string, string>) => void
   projectName?: string
@@ -664,15 +705,41 @@ export default function MaterialCalculatorScreen({
   /** Real id from projectData.project_id, if one already exists in this
    *  session. Always preferred over boqActiveVersion.projectId ('proj-001'). */
   projectId?: string
+  planAnalysisId?: string
+  calcFromPlan?: string
+  calcBuiltUpArea?: string
+  calcFloors?: string
+  calcAreaSource?: string
+  calcFloorsSource?: string
+  returnScreen?: string
+  organizationId?: string
 }) {
-  const [mode, setMode] = useState<CalculatorMode>('project')
-  const [customInput, setCustomInput] = useState<ProjectCalcInput>({ ...defaultProjectInput })
+  const navSeed = parseMaterialCalculatorNavSeed({
+    calc_from_plan: calcFromPlan,
+    calc_built_up_area: calcBuiltUpArea,
+    calc_floors: calcFloors,
+    calc_area_source: calcAreaSource,
+    calc_floors_source: calcFloorsSource,
+    plan_analysis_id: planAnalysisId,
+    project_id: projectId,
+    location,
+  })
+
+  const [mode, setMode] = useState<CalculatorMode>(navSeed ? 'custom' : 'project')
+  const [customInput, setCustomInput] = useState<ProjectCalcInput>(() =>
+    navSeed ? { ...navSeed.input, location: location || navSeed.input.location } : { ...defaultProjectInput, location },
+  )
+  const [fieldSources, setFieldSources] = useState<MaterialCalculatorFieldSources | undefined>(
+    () => navSeed?.fieldSources,
+  )
+  const [missingPlanFields] = useState(() => navSeed?.missingPlanFields ?? [])
   const [status, setStatus] = useState<ScreenStatus>('initial')
   const [selectedId, setSelectedId] = useState<MaterialCalcId | null>(null)
   const [assumptionsById, setAssumptionsById] = useState<Record<string, MaterialAssumptions>>({})
   const [sheetOpen, setSheetOpen] = useState(false)
+  const resolvedPlanAnalysisId = planAnalysisId || navSeed?.planAnalysisId
 
-  const activeProject: ProjectCalcInput = mode === 'project' ? defaultProjectInput : customInput
+  const activeProject: ProjectCalcInput = mode === 'project' ? { ...defaultProjectInput, location } : customInput
 
   const getAssumptions = (m: MaterialCalcDefinition): MaterialAssumptions => assumptionsById[m.id] ?? defaultAssumptionsFor(m)
 
@@ -698,6 +765,40 @@ export default function MaterialCalculatorScreen({
     setSelectedId(null)
     setAssumptionsById({})
     setSheetOpen(false)
+  }
+
+  function markFieldEdited(field: keyof MaterialCalculatorFieldSources) {
+    setFieldSources(prev => (prev ? { ...prev, [field]: 'user' } : prev))
+  }
+
+  function navContext(extra?: Record<string, string>): Record<string, string> | undefined {
+    if (!projectId && !organizationId && !extra) return undefined
+    const s: Record<string, string> = {}
+    if (projectId) s.project_id = projectId
+    if (projectName) s.project_name = projectName
+    if (organizationId) s.organization_id = organizationId
+    if (location) s.location = location
+    if (resolvedPlanAnalysisId) s.plan_analysis_id = resolvedPlanAnalysisId
+    if (extra) Object.assign(s, extra)
+    return s
+  }
+
+  function returnToCaller() {
+    if (!returnScreen) return
+    onNavigate(returnScreen, navContext())
+  }
+
+  function prepareEstimateHandoff() {
+    const handoff = buildMaterialCalcEstimateHandoff({
+      project: activeProject,
+      projectId,
+      planAnalysisId: resolvedPlanAnalysisId,
+    })
+    // Soft handoff into existing create-estimate screen — area/location only.
+    onNavigate(ESTIMATE_ROUTES.create, navContext({
+      area_sqft: String(handoff.input.builtUpArea),
+      location: handoff.input.location,
+    }))
   }
 
   const selectMaterial = (id: MaterialCalcId) => {
@@ -759,7 +860,25 @@ return (
                 <p className="text-[14px] sm:text-[15px] text-[var(--hz-ink-muted)] leading-[1.65] m-0 max-w-[620px]" style={{ fontFamily: FONT_BODY }}>
                   Estimate the major construction materials required for your project. Hozie uses your project details and construction assumptions to provide approximate quantities.
                 </p>
-                <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{projectName} · {defaultProjectInput.builtUpArea.toLocaleString('en-IN')} sq ft</span>
+                <span className="text-[12px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }}>{projectName} · {activeProject.builtUpArea.toLocaleString('en-IN')} sq ft</span>
+                {navSeed && (
+                  <p className="text-[12.5px] text-[var(--hz-ink)] m-0 rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface-muted)] px-3 py-2 max-w-[620px]" style={{ fontFamily: FONT_BODY }} role="status">
+                    Opened from Plan Analysis. Plan-derived fields are labelled below — edit freely before calculating.
+                    {missingPlanFields.length > 0
+                      ? ` Missing from plan: ${missingPlanFields.join(', ')} (using defaults until you edit).`
+                      : null}
+                  </p>
+                )}
+                {returnScreen && (
+                  <button
+                    type="button"
+                    onClick={returnToCaller}
+                    className="self-start text-[12.5px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
+                    style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}
+                  >
+                    ← Return to previous screen
+                  </button>
+                )}
               </div>
 
               <div className="flex flex-col lg:flex-row gap-6 items-start">
@@ -767,7 +886,16 @@ return (
                 <div className="w-full lg:w-[360px] shrink-0 flex flex-col gap-4" style={{ animation: 'welcomeFadeUp 0.4s ease-out 0.08s both' }}>
                   <CalculatorMode mode={mode} onChange={m => { setMode(m); reset() }} />
                   <SectionCard eyebrow={mode === 'project' ? 'Project Details' : 'Custom Inputs'}>
-                    {mode === 'project' ? <ProjectInputsPanel location={location} /> : <CustomInputsPanel input={customInput} onChange={setCustomInput} />}
+                    {mode === 'project' ? (
+                      <ProjectInputsPanel location={location} />
+                    ) : (
+                      <CustomInputsPanel
+                        input={customInput}
+                        onChange={setCustomInput}
+                        fieldSources={fieldSources}
+                        onFieldEdited={markFieldEdited}
+                      />
+                    )}
                     <button
                       onClick={calculate}
                       className="hidden lg:block w-full h-11 rounded-[12px] text-white text-[13px] font-semibold cursor-pointer border-0 hover:brightness-90 transition-all"
@@ -777,9 +905,21 @@ return (
                     </button>
                   </SectionCard>
                   {status === 'results' && (
-                    <button onClick={reset} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
-                      Reset calculation
-                    </button>
+                    <>
+                      <button onClick={reset} className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline" style={{ color: 'var(--hz-ink-muted)', fontFamily: FONT_BODY }}>
+                        Reset calculation
+                      </button>
+                      {projectId && (
+                        <button
+                          type="button"
+                          onClick={prepareEstimateHandoff}
+                          className="self-start text-[12px] font-semibold cursor-pointer border-0 bg-transparent p-0 hover:underline"
+                          style={{ color: 'var(--hz-primary)', fontFamily: FONT_BODY }}
+                        >
+                          Use area in new estimate →
+                        </button>
+                      )}
+                    </>
                   )}
                   <div className="hidden lg:block"><ImportantNote /></div>
                 </div>

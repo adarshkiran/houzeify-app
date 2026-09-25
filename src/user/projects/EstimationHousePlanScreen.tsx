@@ -18,6 +18,10 @@ import {
   housePlanFileRejectReason,
 } from '@/data/estimationHousePlanShell'
 import {
+  materialCalculatorSeedToNavData,
+  planAnalysisToMaterialCalculatorSeed,
+} from '@/data/planToMaterialCalculator'
+import {
   createPlanAnalysis,
   describePlanAnalysisError,
   emptyPlanExtractedData,
@@ -665,6 +669,34 @@ export default function EstimationHousePlanScreen({
                         onClick={() => void saveReview()}
                       >
                         {saving ? 'Saving…' : 'Save analysis'}
+                      </button>
+                      <button
+                        type="button"
+                        className={`min-h-11 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 cursor-pointer ${FOCUS}`}
+                        style={{
+                          backgroundColor: 'var(--hz-surface-muted)',
+                          color: 'var(--hz-ink)',
+                          fontFamily: FONT_BODY,
+                        }}
+                        onClick={() => {
+                          const seed = planAnalysisToMaterialCalculatorSeed(
+                            {
+                              id: analysis.id,
+                              projectId: analysis.projectId,
+                              extractedData: draft,
+                            },
+                            { location: project?.location || undefined },
+                          )
+                          onNavigate(
+                            'material-calculator',
+                            materialCalculatorSeedToNavData(seed, {
+                              ...(navSeed({ return_screen: 'estimation-house-plan' }) ?? {}),
+                              ...(project?.location ? { location: project.location } : {}),
+                            }),
+                          )
+                        }}
+                      >
+                        Use in Material Calculator
                       </button>
                       <button
                         type="button"
