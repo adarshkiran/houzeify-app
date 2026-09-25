@@ -10,7 +10,7 @@ import { type MobilePrimaryNavItemId } from './MobilePrimaryNav'
 
 export type PartnerNavId =
   | 'home' | 'projects' | 'progress' | 'site-operations' | 'workforce' | 'live-site'
-  | 'documents' | 'reports' | 'team' | 'profile' | 'advisor' | 'settings'
+  | 'documents' | 'reports' | 'team' | 'estimation' | 'profile' | 'advisor' | 'settings'
   | 'opportunities' | 'bids' | 'billing'
 
 const IcoHome = () => (
@@ -42,6 +42,9 @@ const IcoTeam = () => (
 )
 const IcoProfile = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="6" r="3" /><path d="M3.5 15.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" /></svg>
+)
+const IcoEstimation = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 3.5h10v11H4z" /><path d="M6.5 7h5M6.5 10h5M6.5 13h3" /></svg>
 )
 const IcoAdvisor = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 1.5L10.6 5.4L14.5 7 10.6 8.6 9 12.5 7.4 8.6 3.5 7l3.9-1.6L9 1.5z" /></svg>
@@ -96,6 +99,7 @@ export default function PartnerNavRail({
         { id: 'documents', icon: <IcoDocuments />, label: 'Documents', active: active === 'documents', onClick: () => go(COMPANY_NAV_ROUTES.documents) },
         { id: 'reports', icon: <IcoReports />, label: 'Reports', active: active === 'reports', onClick: () => go(COMPANY_NAV_ROUTES.reports) },
         { id: 'team', icon: <IcoTeam />, label: 'Team', active: active === 'team', onClick: () => go(COMPANY_NAV_ROUTES.team) },
+        { id: 'estimation', icon: <IcoEstimation />, label: 'Estimation', active: active === 'estimation', onClick: () => go(COMPANY_NAV_ROUTES.estimation) },
         { id: 'profile', icon: <IcoProfile />, label: 'Profile', active: active === 'profile', onClick: () => go(COMPANY_NAV_ROUTES.profile) },
       ],
     },

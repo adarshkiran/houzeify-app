@@ -18,6 +18,11 @@ describe('estimationAdvisorShell', () => {
     assert.notEqual(ESTIMATION_ADVISOR_ROUTE, ESTIMATE_ROUTES.list)
   })
 
+  it('points Overview at Estimation module overview', () => {
+    const overview = ESTIMATION_SUB_NAV_ITEMS.find(i => i.id === 'overview')
+    assert.equal(overview?.dest, ESTIMATE_ROUTES.overview)
+  })
+
   it('lists required Estimation Sub Nav destinations', () => {
     const ids = ESTIMATION_SUB_NAV_ITEMS.map(i => i.id)
     assert.deepEqual(ids, [

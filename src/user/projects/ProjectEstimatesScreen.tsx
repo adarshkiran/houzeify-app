@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
-import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import EstimationSubNav from '@/shared/components/EstimationSubNav'
 import {
   describeEstimateError,
@@ -72,24 +71,8 @@ export default function ProjectEstimatesScreen({
   return (
     <div className="min-h-full flex flex-col" style={{ backgroundColor: 'var(--hz-page)' }}>
       <div className="flex flex-1 min-h-0">
-        <PartnerNavRail active="projects" organizationId={organizationId} onNavigate={onNavigate} />
+        <PartnerNavRail active="estimation" organizationId={organizationId} onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
-          <ProjectSubNav
-            active="estimates"
-            projectId={projectId}
-            projectName={projectName}
-            onNavigate={onNavigate}
-            action={
-              <button
-                type="button"
-                className={PRIMARY_BTN}
-                style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
-                onClick={() => onNavigate('project-estimate-create', seed)}
-              >
-                Create Estimate
-              </button>
-            }
-          />
           <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6">
             <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>
               Estimates
@@ -100,6 +83,17 @@ export default function ProjectEstimatesScreen({
             <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 mt-1 max-w-xl" style={{ fontFamily: FONT_BODY }}>
               Create and manage construction estimates for this project. Totals appear after items are added.
             </p>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              <button
+                type="button"
+                className={PRIMARY_BTN}
+                style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
+                onClick={() => onNavigate('project-estimate-create', seed)}
+              >
+                Create Estimate
+              </button>
+            </div>
 
             <EstimationSubNav
               active="estimates"

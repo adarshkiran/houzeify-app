@@ -3,7 +3,6 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
-import ProjectSubNav from '@/shared/components/ProjectSubNav'
 import EstimationSubNav from '@/shared/components/EstimationSubNav'
 import {
   ESTIMATION_ADVISOR_COPY,
@@ -74,24 +73,8 @@ export default function EstimateWorkspaceScreen({
   return (
     <div className="min-h-full flex flex-col" style={{ backgroundColor: 'var(--hz-page)' }}>
       <div className="flex flex-1 min-h-0">
-        <PartnerNavRail active="projects" organizationId={organizationId} onNavigate={onNavigate} />
+        <PartnerNavRail active="estimation" organizationId={organizationId} onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
-          <ProjectSubNav
-            active="estimates"
-            projectId={projectId}
-            projectName={estimate?.projectName || projectName}
-            onNavigate={onNavigate}
-            action={
-              <button
-                type="button"
-                className={`min-h-11 px-3 rounded-[10px] text-[13px] font-semibold border-0 cursor-pointer ${FOCUS}`}
-                style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
-                onClick={() => onNavigate('project-estimates', seed)}
-              >
-                All estimates
-              </button>
-            }
-          />
           <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6">
             {loading && (
               <p className="text-[14px] text-[var(--hz-ink-muted)]" role="status" style={{ fontFamily: FONT_BODY }}>
@@ -130,10 +113,18 @@ export default function EstimateWorkspaceScreen({
                       </span>
                     </div>
                   </div>
+                  <button
+                    type="button"
+                    className={`min-h-11 px-3 rounded-[10px] text-[13px] font-semibold border-0 cursor-pointer ${FOCUS}`}
+                    style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
+                    onClick={() => onNavigate('project-estimates', seed)}
+                  >
+                    All estimates
+                  </button>
                 </div>
 
                 <EstimationSubNav
-                  active="overview"
+                  active="estimates"
                   projectId={projectId}
                   projectName={estimate.projectName || projectName}
                   organizationId={organizationId}

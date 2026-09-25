@@ -36,11 +36,6 @@ export default function EstimationSubNav({
 
   function onItem(item: EstimationSubNavItem) {
     if (item.kind === 'soon' || !item.dest) return
-    // Overview needs an estimate; fall back to Estimates list until one exists.
-    if (item.id === 'overview' && !estimateId) {
-      onNavigate(ESTIMATION_SUB_NAV_ITEMS.find(i => i.id === 'estimates')!.dest!, seed())
-      return
-    }
     onNavigate(item.dest, seed())
   }
 

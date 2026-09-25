@@ -15,7 +15,7 @@ export interface EstimationSubNavItem {
 }
 
 export const ESTIMATION_SUB_NAV_ITEMS: EstimationSubNavItem[] = [
-  { id: 'overview', label: 'Overview', kind: 'route', dest: ESTIMATE_ROUTES.workspace },
+  { id: 'overview', label: 'Overview', kind: 'route', dest: ESTIMATE_ROUTES.overview },
   { id: 'advisor', label: 'AI Estimation Advisor', kind: 'route', dest: ESTIMATION_ADVISOR_ROUTE },
   { id: 'upload-plan', label: 'Upload House Plan', kind: 'soon' },
   {

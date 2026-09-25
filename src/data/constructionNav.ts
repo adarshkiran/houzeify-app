@@ -41,6 +41,8 @@ export const COMPANY_NAV_ROUTES = {
   // own header comment for the full reasoning).
   team: 'team-management',
   profile: 'company-profile',
+  /** S23 correction — Estimation is a top-level company module (not a Project Workspace tab). */
+  estimation: 'estimation-overview',
   aiAdvisor: 'ai-advisor', // S19 — mock Hozie with honest copy until LLM seam exists
   settings: 'account-settings', // existing — already branches on role; not previously wired from the partner dashboard's own sidebar (its old Settings item was a dead '' stub)
   // Business Development — moved out of the primary rail into its own
@@ -52,7 +54,7 @@ export const COMPANY_NAV_ROUTES = {
 
 export type CompanyNavId =
   | 'home' | 'projects' | 'progress' | 'site-operations' | 'workforce' | 'live-site'
-  | 'documents' | 'reports' | 'team' | 'profile' | 'advisor'
+  | 'documents' | 'reports' | 'team' | 'profile' | 'estimation' | 'advisor'
 
 // ─── Project-context navigation ─────────────────────────────────────────────
 // No shared project-level sub-nav existed before this module — every
@@ -72,7 +74,7 @@ export const PROJECT_NAV_ROUTES = {
   liveSite: 'project-live-site', // S18 — KEEP COMING SOON until camera/storage infra
   documents: 'project-documents', // existing
   boq: 'project-boq', // renders ProjectBoqScreen — deliberately distinct from the homeowner New-Build BOQ flow (boq-overview/detailed-boq/...), which is estimate-authoring, not a project-workspace record
-  estimates: 'project-estimates', // Estimation foundation — list/create/workspace; not BOQ
+  // estimates removed from Project Workspace — Estimation is a main Side Nav module (COMPANY_NAV_ROUTES.estimation)
   team: 'project-team', // existing
   customer: 'project-customer',
   photos: 'project-photos',

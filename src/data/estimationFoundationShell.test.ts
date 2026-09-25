@@ -3,20 +3,21 @@ import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { describe, it } from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { PROJECT_NAV_ROUTES } from './constructionNav.ts'
+import { COMPANY_NAV_ROUTES, PROJECT_NAV_ROUTES } from './constructionNav.ts'
 import { ESTIMATE_FOUNDATION_NOTE, ESTIMATE_ROUTES } from './estimationFoundationShell.ts'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..')
 
 describe('estimation foundation shell', () => {
-  it('registers Estimates on ProjectSubNav via constructionNav', () => {
-    assert.equal(PROJECT_NAV_ROUTES.estimates, ESTIMATE_ROUTES.list)
+  it('registers Estimation on company Side Nav, not Project Workspace', () => {
+    assert.equal(COMPANY_NAV_ROUTES.estimation, ESTIMATE_ROUTES.overview)
+    assert.equal('estimates' in PROJECT_NAV_ROUTES, false)
     assert.match(ESTIMATE_FOUNDATION_NOTE, /Foundation only/)
   })
 
-  it('keeps BOQ route separate from Estimates', () => {
+  it('keeps BOQ on Project Workspace separate from Estimation module', () => {
     assert.equal(PROJECT_NAV_ROUTES.boq, 'project-boq')
-    assert.notEqual(PROJECT_NAV_ROUTES.boq, PROJECT_NAV_ROUTES.estimates)
+    assert.notEqual(PROJECT_NAV_ROUTES.boq, ESTIMATE_ROUTES.list)
   })
 
   it('wires estimate screens in App.tsx', () => {

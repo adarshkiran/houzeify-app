@@ -2,7 +2,7 @@
 
 import { useId, useState } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
-import ProjectSubNav from '@/shared/components/ProjectSubNav'
+import EstimationSubNav from '@/shared/components/EstimationSubNav'
 import { useProjects } from '@/data/projectState'
 import {
   createProjectEstimate,
@@ -83,9 +83,8 @@ export default function CreateEstimateScreen({
   return (
     <div className="min-h-full flex flex-col" style={{ backgroundColor: 'var(--hz-page)' }}>
       <div className="flex flex-1 min-h-0">
-        <PartnerNavRail active="projects" organizationId={organizationId || project?.organizationId || undefined} onNavigate={onNavigate} />
+        <PartnerNavRail active="estimation" organizationId={organizationId || project?.organizationId || undefined} onNavigate={onNavigate} />
         <div className="flex flex-col flex-1 min-h-0 min-w-0">
-          <ProjectSubNav active="estimates" projectId={projectId} projectName={displayProjectName === '—' ? projectName : displayProjectName} onNavigate={onNavigate} />
           <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6">
             <p className="text-[11px] tracking-[0.08em] uppercase text-[var(--hz-primary)] m-0 mb-1.5" style={{ fontFamily: FONT_MONO }}>
               New Estimate
@@ -96,6 +95,14 @@ export default function CreateEstimateScreen({
             <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 mt-1 max-w-xl" style={{ fontFamily: FONT_BODY }}>
               Linked to this project. You will start on Version 1 as Draft. No totals until items are added.
             </p>
+
+            <EstimationSubNav
+              active="estimates"
+              projectId={projectId}
+              projectName={displayProjectName === '—' ? projectName : displayProjectName}
+              organizationId={organizationId || project?.organizationId || undefined}
+              onNavigate={onNavigate}
+            />
 
             {!projectId && (
               <p className="mt-6 text-[14px] text-[var(--hz-danger)]" role="alert">Missing project context.</p>
