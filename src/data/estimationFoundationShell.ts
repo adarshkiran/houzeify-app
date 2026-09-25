@@ -8,4 +8,4 @@ export const ESTIMATE_ROUTES = {
 } as const
 
 export const ESTIMATE_FOUNDATION_NOTE =
-  'Foundation only: list/create/workspace. S23 adds a guided Estimation Advisor (no LLM). Estimation is a main Side Nav module. No live pricing or customer share.'
+  'Foundation: list/create/workspace + guided Advisor (S23) + house plan upload/analyzer seam (S24). Estimation is a main Side Nav module. No live OCR, pricing, or customer share.'

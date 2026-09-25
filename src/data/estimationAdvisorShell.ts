@@ -1,6 +1,7 @@
 /** S23 — AI Estimation Advisor shell (guided inputs; no LLM). */
 
 import { ESTIMATE_ROUTES } from './estimationFoundationShell.ts'
+import { ESTIMATION_HOUSE_PLAN_ROUTE } from './estimationHousePlanShell.ts'
 
 export const ESTIMATION_ADVISOR_ROUTE = 'project-estimate-advisor' as const
 
@@ -17,7 +18,7 @@ export interface EstimationSubNavItem {
 export const ESTIMATION_SUB_NAV_ITEMS: EstimationSubNavItem[] = [
   { id: 'overview', label: 'Overview', kind: 'route', dest: ESTIMATE_ROUTES.overview },
   { id: 'advisor', label: 'AI Estimation Advisor', kind: 'route', dest: ESTIMATION_ADVISOR_ROUTE },
-  { id: 'upload-plan', label: 'Upload House Plan', kind: 'soon' },
+  { id: 'upload-plan', label: 'Upload House Plan', kind: 'route', dest: ESTIMATION_HOUSE_PLAN_ROUTE },
   {
     id: 'material-calculator',
     label: 'Material Calculator',

@@ -12,7 +12,8 @@ describe('estimation foundation shell', () => {
   it('registers Estimation on company Side Nav, not Project Workspace', () => {
     assert.equal(COMPANY_NAV_ROUTES.estimation, ESTIMATE_ROUTES.overview)
     assert.equal('estimates' in PROJECT_NAV_ROUTES, false)
-    assert.match(ESTIMATE_FOUNDATION_NOTE, /Foundation only/)
+    assert.match(ESTIMATE_FOUNDATION_NOTE, /Foundation/)
+    assert.match(ESTIMATE_FOUNDATION_NOTE, /S24|house plan|analyzer/i)
   })
 
   it('keeps BOQ on Project Workspace separate from Estimation module', () => {

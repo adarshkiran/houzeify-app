@@ -80,6 +80,7 @@ import ProjectEstimatesScreen from '@/user/projects/ProjectEstimatesScreen'
 import CreateEstimateScreen from '@/user/projects/CreateEstimateScreen'
 import EstimateWorkspaceScreen from '@/user/projects/EstimateWorkspaceScreen'
 import EstimationAdvisorScreen from '@/user/projects/EstimationAdvisorScreen'
+import EstimationHousePlanScreen from '@/user/projects/EstimationHousePlanScreen'
 import EstimationOverviewScreen from '@/user/projects/EstimationOverviewScreen'
 import ProjectTasksScreen from '@/user/projects/ProjectTasksScreen'
 import ProjectIssuesScreen from '@/user/projects/ProjectIssuesScreen'
@@ -270,6 +271,7 @@ type AppScreen =
   | 'project-estimate-workspace'
   | 'project-estimate-advisor'
   | 'estimation-overview'
+  | 'estimation-house-plan'
   | 'project-customer'
   | 'project-reports'
   | 'project-settings'
@@ -453,6 +455,7 @@ const SCREEN_GROUPS: { label: string; screens: { id: AppScreen; label: string }[
       { id: 'project-estimate-workspace', label: 'Project — Estimate Workspace' },
       { id: 'project-estimate-advisor', label: 'Project — Estimation Advisor' },
       { id: 'estimation-overview', label: 'Estimation — Overview' },
+      { id: 'estimation-house-plan', label: 'Estimation — Upload House Plan' },
       { id: 'project-customer', label: 'Project — Customer' },
       { id: 'project-reports', label: 'Project — Reports' },
       { id: 'project-settings', label: 'Project — Settings' },
@@ -493,6 +496,7 @@ function screenNeedsDevProject(s: AppScreen): boolean {
     s === 'project-estimate-workspace' ||
     s === 'project-estimate-advisor' ||
     s === 'estimation-overview' ||
+    s === 'estimation-house-plan' ||
     s === 'project-team' ||
     s === 'project-customer' ||
     s === 'project-reports' ||
@@ -2231,6 +2235,16 @@ export default function App() {
       {screen === 'estimation-overview' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <EstimationOverviewScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            organizationId={projectData.organization_id}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'estimation-house-plan' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <EstimationHousePlanScreen
             projectId={projectData.project_id}
             projectName={projectData.project_name}
             organizationId={projectData.organization_id}

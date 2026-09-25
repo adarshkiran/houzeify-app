@@ -16,6 +16,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   pgTable,
   text,
   timestamp,
@@ -964,3 +965,45 @@ export const organizationRateEntries = pgTable(
 
 export type OrganizationRateEntryRow = typeof organizationRateEntries.$inferSelect
 export type NewOrganizationRateEntryRow = typeof organizationRateEntries.$inferInsert
+
+// ─── plan_analyses — S24 Plan Analyzer foundation ─────────────────────────
+// Linked to project_documents (house plans). Document vision/OCR is NOT
+// wired; create path sets status 'unavailable' with an honest engine
+// message. extracted_data holds empty structure + optional user edits.
+
+export const planAnalyses = pgTable(
+  'plan_analyses',
+  {
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    organizationId: text('organization_id')
+      .notNull()
+      .references(() => organizations.id, { onDelete: 'cascade' }),
+    projectId: text('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    sourceDocumentId: text('source_document_id')
+      .notNull()
+      .references(() => projectDocuments.id, { onDelete: 'cascade' }),
+    // uploaded | pending | processing | completed | failed | unavailable
+    status: text('status').notNull().default('uploaded'),
+    engineMessage: text('engine_message'),
+    extractedData: jsonb('extracted_data')
+      .notNull()
+      .default(sql`'{}'::jsonb`),
+    createdBy: text('created_by')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  table => [
+    index('plan_analyses_project_id_idx').on(table.projectId),
+    index('plan_analyses_project_id_status_idx').on(table.projectId, table.status),
+    index('plan_analyses_source_document_id_idx').on(table.sourceDocumentId),
+  ],
+)
+
+export type PlanAnalysisRow = typeof planAnalyses.$inferSelect
+export type NewPlanAnalysisRow = typeof planAnalyses.$inferInsert
