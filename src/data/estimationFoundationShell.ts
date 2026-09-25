@@ -7,4 +7,4 @@ export const ESTIMATE_ROUTES = {
 } as const
 
 export const ESTIMATE_FOUNDATION_NOTE =
-  'Foundation only: list/create/workspace. No AI engine, live pricing, or customer share.'
+  'Foundation only: list/create/workspace. S23 adds a guided Estimation Advisor (no LLM). No live pricing or customer share.'

@@ -79,6 +79,7 @@ import ProjectBoqScreen from '@/user/projects/ProjectBoqScreen'
 import ProjectEstimatesScreen from '@/user/projects/ProjectEstimatesScreen'
 import CreateEstimateScreen from '@/user/projects/CreateEstimateScreen'
 import EstimateWorkspaceScreen from '@/user/projects/EstimateWorkspaceScreen'
+import EstimationAdvisorScreen from '@/user/projects/EstimationAdvisorScreen'
 import ProjectTasksScreen from '@/user/projects/ProjectTasksScreen'
 import ProjectIssuesScreen from '@/user/projects/ProjectIssuesScreen'
 import ProjectProgressScreen from '@/user/projects/ProjectProgressScreen'
@@ -266,6 +267,7 @@ type AppScreen =
   | 'project-estimates'
   | 'project-estimate-create'
   | 'project-estimate-workspace'
+  | 'project-estimate-advisor'
   | 'project-customer'
   | 'project-reports'
   | 'project-settings'
@@ -447,6 +449,7 @@ const SCREEN_GROUPS: { label: string; screens: { id: AppScreen; label: string }[
       { id: 'project-estimates', label: 'Project — Estimates' },
       { id: 'project-estimate-create', label: 'Project — Create Estimate' },
       { id: 'project-estimate-workspace', label: 'Project — Estimate Workspace' },
+      { id: 'project-estimate-advisor', label: 'Project — Estimation Advisor' },
       { id: 'project-customer', label: 'Project — Customer' },
       { id: 'project-reports', label: 'Project — Reports' },
       { id: 'project-settings', label: 'Project — Settings' },
@@ -485,6 +488,7 @@ function screenNeedsDevProject(s: AppScreen): boolean {
     s === 'project-estimates' ||
     s === 'project-estimate-create' ||
     s === 'project-estimate-workspace' ||
+    s === 'project-estimate-advisor' ||
     s === 'project-team' ||
     s === 'project-customer' ||
     s === 'project-reports' ||
@@ -517,6 +521,10 @@ function screenNeedsDevPartner(s: AppScreen): boolean {
  * DEV deep-link seed — `?screen=` bypasses onboarding, but project SubNav and
  * partner rails still need role / project_id. Without this, refreshing
  * project-overview or professional-dashboard look blank or bounce to homeowner Home.
+ *
+ * Optional `?project_id=<uuid>` overrides the placeholder id so API-backed
+ * screens (Estimates, BOQ, …) hit a real project instead of rejecting
+ * `demo-project-preview` as INVALID_ID.
  */
 function getDevDeepLinkSeed(screen: AppScreen): Record<string, string> {
   if (!DEV_SCREEN_TOOLS) return {}
@@ -527,8 +535,15 @@ function getDevDeepLinkSeed(screen: AppScreen): Record<string, string> {
     professional_type: 'general-contractor',
   }
   if (screenNeedsDevProject(screen)) {
-    seed.project_id = 'demo-project-preview'
-    seed.project_name = 'Sample Construction Project'
+    const uuid =
+      typeof window !== 'undefined'
+        ? new URLSearchParams(window.location.search).get('project_id')
+        : null
+    const isUuid =
+      !!uuid &&
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uuid)
+    seed.project_id = isUuid ? uuid : 'demo-project-preview'
+    seed.project_name = isUuid ? 'Project' : 'Sample Construction Project'
     seed.project_stage = 'foundation'
     seed.property_type = 'House'
     seed.location = 'Hyderabad, Telangana'
@@ -2190,6 +2205,17 @@ export default function App() {
       {screen === 'project-estimate-workspace' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <EstimateWorkspaceScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            organizationId={projectData.organization_id}
+            estimateId={projectData.estimate_id}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'project-estimate-advisor' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <EstimationAdvisorScreen
             projectId={projectData.project_id}
             projectName={projectData.project_name}
             organizationId={projectData.organization_id}

@@ -1,9 +1,14 @@
 // ─── Estimate workspace overview — estimation foundation ───────────────────
-// Hozie entry is a seam only — no LLM calls.
+// Advisor CTA opens S23 guided flow — no LLM calls from this screen.
 
 import { useCallback, useEffect, useState } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
+import EstimationSubNav from '@/shared/components/EstimationSubNav'
+import {
+  ESTIMATION_ADVISOR_COPY,
+  ESTIMATION_ADVISOR_ROUTE,
+} from '@/data/estimationAdvisorShell'
 import {
   describeEstimateError,
   ESTIMATE_PRICING_METHOD_LABELS,
@@ -127,32 +132,14 @@ export default function EstimateWorkspaceScreen({
                   </div>
                 </div>
 
-                <div className="mt-6 flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Estimate sections">
-                  {[
-                    { id: 'overview', label: 'Overview', active: true },
-                    { id: 'advisor', label: 'AI Advisor', comingSoon: true },
-                    { id: 'items', label: 'Items', comingSoon: true },
-                    { id: 'versions', label: 'Versions', comingSoon: true },
-                  ].map(tab => (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={tab.active}
-                      disabled={tab.comingSoon}
-                      className={`min-h-11 px-3.5 rounded-full text-[12.5px] font-semibold border-0 shrink-0 ${FOCUS} ${tab.comingSoon ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
-                      style={{
-                        fontFamily: FONT_BODY,
-                        backgroundColor: tab.active ? 'var(--hz-primary)' : 'var(--hz-border-strong)',
-                        color: tab.active ? 'white' : 'var(--hz-ink-muted)',
-                      }}
-                      title={tab.comingSoon ? 'Coming soon' : undefined}
-                    >
-                      {tab.label}
-                      {tab.comingSoon ? ' · Soon' : ''}
-                    </button>
-                  ))}
-                </div>
+                <EstimationSubNav
+                  active="overview"
+                  projectId={projectId}
+                  projectName={estimate.projectName || projectName}
+                  organizationId={organizationId}
+                  estimateId={estimateId}
+                  onNavigate={onNavigate}
+                />
 
                 <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
                   <section className="rounded-[16px] border border-[var(--hz-border)] bg-[var(--hz-surface)] p-5">
@@ -186,28 +173,30 @@ export default function EstimateWorkspaceScreen({
                   <section className="rounded-[16px] border border-[var(--hz-border)] bg-[var(--hz-surface)] p-5">
                     <h2 className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>Next Steps</h2>
                     <ol className="mt-3 m-0 pl-5 text-[14px] text-[var(--hz-ink-muted)] space-y-2" style={{ fontFamily: FONT_BODY }}>
-                      <li>Define project requirements</li>
-                      <li>Add estimate items</li>
-                      <li>Review pricing</li>
-                      <li>Generate estimate</li>
+                      <li>Define project requirements via AI Estimation Advisor</li>
+                      <li>Add estimate items (builder — later)</li>
+                      <li>Review pricing (S26)</li>
+                      <li>Share with customer (S27)</li>
                     </ol>
                   </section>
 
                   <section className="rounded-[16px] border border-[var(--hz-border)] bg-[var(--hz-surface)] p-5 lg:col-span-2">
                     <h2 className="text-[15px] font-semibold text-[var(--hz-ink)] m-0" style={{ fontFamily: FONT_HEAD }}>
-                      Build estimate with Hozie
+                      {ESTIMATION_ADVISOR_COPY.title}
                     </h2>
-                    <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 mt-2 max-w-2xl" style={{ fontFamily: FONT_BODY }}>
-                      Answer a few questions and Hozie will help structure the estimate. The AI Estimation Advisor is not connected yet — no model is called from this screen.
+                    <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 mt-1" style={{ fontFamily: FONT_BODY }}>
+                      {ESTIMATION_ADVISOR_COPY.subtitle}
+                    </p>
+                    <p className="text-[13px] text-[var(--hz-ink-subtle)] m-0 mt-2 max-w-2xl" style={{ fontFamily: FONT_BODY }}>
+                      {ESTIMATION_ADVISOR_COPY.disclaimer}
                     </p>
                     <button
                       type="button"
-                      disabled
-                      className={`min-h-11 mt-4 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 opacity-60 cursor-not-allowed ${FOCUS}`}
+                      className={`min-h-11 mt-4 px-5 rounded-[12px] text-[13.5px] font-semibold border-0 cursor-pointer ${FOCUS}`}
                       style={{ backgroundColor: 'var(--hz-primary)', color: 'white', fontFamily: FONT_BODY }}
-                      title="Coming soon"
+                      onClick={() => onNavigate(ESTIMATION_ADVISOR_ROUTE, seed)}
                     >
-                      Coming soon
+                      Start Advisor
                     </button>
                   </section>
                 </div>

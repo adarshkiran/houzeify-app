@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
 import ProjectSubNav from '@/shared/components/ProjectSubNav'
+import EstimationSubNav from '@/shared/components/EstimationSubNav'
 import {
   describeEstimateError,
   ESTIMATE_PRICING_METHOD_LABELS,
@@ -99,6 +100,14 @@ export default function ProjectEstimatesScreen({
             <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 mt-1 max-w-xl" style={{ fontFamily: FONT_BODY }}>
               Create and manage construction estimates for this project. Totals appear after items are added.
             </p>
+
+            <EstimationSubNav
+              active="estimates"
+              projectId={projectId}
+              projectName={projectName}
+              organizationId={organizationId}
+              onNavigate={onNavigate}
+            />
 
             {loading && (
               <p className="mt-8 text-[14px] text-[var(--hz-ink-muted)]" style={{ fontFamily: FONT_BODY }} role="status">
