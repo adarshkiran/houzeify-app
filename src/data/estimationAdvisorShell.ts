@@ -2,6 +2,7 @@
 
 import { ESTIMATE_ROUTES } from './estimationFoundationShell.ts'
 import { ESTIMATION_HOUSE_PLAN_ROUTE } from './estimationHousePlanShell.ts'
+import { ESTIMATION_PRICE_INTELLIGENCE_ROUTE } from './priceIntelligenceShell.ts'
 
 export const ESTIMATION_ADVISOR_ROUTE = 'project-estimate-advisor' as const
 
@@ -26,7 +27,12 @@ export const ESTIMATION_SUB_NAV_ITEMS: EstimationSubNavItem[] = [
     dest: 'material-calculator',
   },
   { id: 'estimates', label: 'Estimates', kind: 'route', dest: ESTIMATE_ROUTES.list },
-  { id: 'price-intelligence', label: 'Price Intelligence', kind: 'soon' },
+  {
+    id: 'price-intelligence',
+    label: 'Price Intelligence',
+    kind: 'route',
+    dest: ESTIMATION_PRICE_INTELLIGENCE_ROUTE,
+  },
   { id: 'price-book', label: 'Price Book', kind: 'soon' },
 ]
 

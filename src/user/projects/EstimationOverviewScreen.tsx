@@ -60,7 +60,7 @@ export default function EstimationOverviewScreen({
               Overview
             </h1>
             <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 mt-1 max-w-xl" style={{ fontFamily: FONT_BODY }}>
-              Structure project inputs, upload house plans for analysis, open estimates, and use tools like the Material Calculator. Price Intelligence and Price Book arrive in later slices.
+              Structure project inputs, upload house plans for analysis, open estimates, and use tools like the Material Calculator. Price Intelligence resolves organization and project rates; a full Price Book product arrives later.
             </p>
 
             <EstimationSubNav

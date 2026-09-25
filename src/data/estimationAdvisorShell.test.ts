@@ -36,6 +36,14 @@ describe('estimationAdvisorShell', () => {
     ])
   })
 
+  it('activates Price Intelligence route and keeps Price Book soon', () => {
+    const pi = ESTIMATION_SUB_NAV_ITEMS.find(i => i.id === 'price-intelligence')
+    const book = ESTIMATION_SUB_NAV_ITEMS.find(i => i.id === 'price-book')
+    assert.equal(pi?.kind, 'route')
+    assert.equal(pi?.dest, 'estimation-price-intelligence')
+    assert.equal(book?.kind, 'soon')
+  })
+
   it('disclaimer does not claim a live vendor model', () => {
     const d = ESTIMATION_ADVISOR_COPY.disclaimer.toLowerCase()
     assert.match(d, /guided estimation|future release/)

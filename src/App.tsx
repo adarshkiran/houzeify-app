@@ -82,6 +82,7 @@ import EstimateWorkspaceScreen from '@/user/projects/EstimateWorkspaceScreen'
 import EstimationAdvisorScreen from '@/user/projects/EstimationAdvisorScreen'
 import EstimationHousePlanScreen from '@/user/projects/EstimationHousePlanScreen'
 import EstimationOverviewScreen from '@/user/projects/EstimationOverviewScreen'
+import PriceIntelligenceScreen from '@/user/projects/PriceIntelligenceScreen'
 import ProjectTasksScreen from '@/user/projects/ProjectTasksScreen'
 import ProjectIssuesScreen from '@/user/projects/ProjectIssuesScreen'
 import ProjectProgressScreen from '@/user/projects/ProjectProgressScreen'
@@ -272,6 +273,7 @@ type AppScreen =
   | 'project-estimate-advisor'
   | 'estimation-overview'
   | 'estimation-house-plan'
+  | 'estimation-price-intelligence'
   | 'project-customer'
   | 'project-reports'
   | 'project-settings'
@@ -456,6 +458,7 @@ const SCREEN_GROUPS: { label: string; screens: { id: AppScreen; label: string }[
       { id: 'project-estimate-advisor', label: 'Project — Estimation Advisor' },
       { id: 'estimation-overview', label: 'Estimation — Overview' },
       { id: 'estimation-house-plan', label: 'Estimation — Upload House Plan' },
+      { id: 'estimation-price-intelligence', label: 'Estimation — Price Intelligence' },
       { id: 'project-customer', label: 'Project — Customer' },
       { id: 'project-reports', label: 'Project — Reports' },
       { id: 'project-settings', label: 'Project — Settings' },
@@ -497,6 +500,7 @@ function screenNeedsDevProject(s: AppScreen): boolean {
     s === 'project-estimate-advisor' ||
     s === 'estimation-overview' ||
     s === 'estimation-house-plan' ||
+    s === 'estimation-price-intelligence' ||
     s === 'project-team' ||
     s === 'project-customer' ||
     s === 'project-reports' ||
@@ -576,6 +580,14 @@ function getDevDeepLinkSeed(screen: AppScreen): Record<string, string> {
     seed.project_stage = 'foundation'
     seed.property_type = 'House'
     if (!seed.location) seed.location = 'Hyderabad, Telangana'
+    // S26 — allow ?organization_id= so Price Intelligence / estimation
+    // deep links can resolve org rates without waiting for projects list.
+    if (typeof window !== 'undefined' && !seed.organization_id) {
+      const orgId = new URLSearchParams(window.location.search).get('organization_id')
+      if (orgId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(orgId)) {
+        seed.organization_id = orgId
+      }
+    }
   }
   return seed
 }
@@ -2268,6 +2280,16 @@ export default function App() {
       {screen === 'estimation-house-plan' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <EstimationHousePlanScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            organizationId={projectData.organization_id}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'estimation-price-intelligence' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <PriceIntelligenceScreen
             projectId={projectData.project_id}
             projectName={projectData.project_name}
             organizationId={projectData.organization_id}

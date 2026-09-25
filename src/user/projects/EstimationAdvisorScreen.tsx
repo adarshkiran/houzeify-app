@@ -454,9 +454,9 @@ export default function EstimationAdvisorScreen({
                       Guided suggestion
                     </p>
                     <ul className="mt-2 m-0 pl-4 text-[13px] text-[var(--hz-ink-muted)] space-y-1.5" style={{ fontFamily: FONT_BODY }}>
-                      <li>Upload House Plan (S24) when drawings are ready — separate from this Advisor.</li>
-                      <li>Open Material Calculator anytime for quantities — full estimate link arrives in S25.</li>
-                      <li>Pricing and Price Book stay deferred until S26.</li>
+                      <li>Upload House Plan when drawings are ready — separate from this Advisor.</li>
+                      <li>Open Material Calculator anytime for quantities.</li>
+                      <li>Use Price Intelligence for organization and project rates — Estimate Builder comes later.</li>
                     </ul>
                   </section>
                 </aside>

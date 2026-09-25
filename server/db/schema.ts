@@ -935,7 +935,10 @@ export const estimateItems = pgTable(
 export type EstimateItemRow = typeof estimateItems.$inferSelect
 export type NewEstimateItemRow = typeof estimateItems.$inferInsert
 
-// Future Organization Price Book — table only; no UI in this foundation.
+// Organization Price Book / Price Intelligence rates (S22 table + S26 columns).
+// History is preserved via effective_from / effective_to — never mutate past
+// estimate_items snapshots when adding a newer rate.
+
 export const organizationRateEntries = pgTable(
   'organization_rate_entries',
   {
@@ -945,12 +948,21 @@ export const organizationRateEntries = pgTable(
     organizationId: text('organization_id')
       .notNull()
       .references(() => organizations.id, { onDelete: 'cascade' }),
-    kind: text('kind').notNull(), // material | labour
+    projectId: text('project_id').references(() => projects.id, { onDelete: 'cascade' }),
+    // material | labour
+    kind: text('kind').notNull(),
     name: text('name').notNull(),
     unit: text('unit').notNull(),
     ratePaise: bigint('rate_paise', { mode: 'number' }).notNull(),
+    currency: text('currency').notNull().default('INR'),
+    // project_specific | organization_price_book | organization_historical |
+    // market_reference | ai_reference | supplier
+    sourceType: text('source_type').notNull().default('organization_price_book'),
+    sourceReference: text('source_reference'),
+    location: text('location'),
     effectiveFrom: text('effective_from').notNull(),
     effectiveTo: text('effective_to'),
+    confidence: text('confidence'),
     createdBy: text('created_by')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
@@ -960,6 +972,9 @@ export const organizationRateEntries = pgTable(
   table => [
     index('organization_rate_entries_org_id_idx').on(table.organizationId),
     index('organization_rate_entries_org_name_idx').on(table.organizationId, table.name),
+    index('organization_rate_entries_org_name_unit_idx').on(table.organizationId, table.name, table.unit),
+    index('organization_rate_entries_project_id_idx').on(table.projectId),
+    index('organization_rate_entries_org_source_idx').on(table.organizationId, table.sourceType),
   ],
 )
 
