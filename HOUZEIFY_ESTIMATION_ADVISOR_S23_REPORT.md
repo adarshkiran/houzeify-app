@@ -37,7 +37,7 @@ No new server endpoints or migrations. Reuses S22 estimate create/list/get.
 - `pnpm build` + `server:build`: PASS
 - Browser: Advisor Start → fill → Generate → workspace **S23 Advisor Draft** Version 1 Draft (honest null total)
 
-**Commit:** (filled after git)
+**Commit:** `2d955de`
 
 ## Remaining limitations
 
