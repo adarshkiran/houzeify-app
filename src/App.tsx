@@ -79,6 +79,8 @@ import ProjectBoqScreen from '@/user/projects/ProjectBoqScreen'
 import ProjectEstimatesScreen from '@/user/projects/ProjectEstimatesScreen'
 import CreateEstimateScreen from '@/user/projects/CreateEstimateScreen'
 import EstimateWorkspaceScreen from '@/user/projects/EstimateWorkspaceScreen'
+import ProjectEstimateDashboardScreen from '@/user/projects/ProjectEstimateDashboardScreen'
+import ProjectEstimateLoadingScreen from '@/user/projects/ProjectEstimateLoadingScreen'
 import EstimationAdvisorScreen from '@/user/projects/EstimationAdvisorScreen'
 import EstimationHousePlanScreen from '@/user/projects/EstimationHousePlanScreen'
 import EstimationOverviewScreen from '@/user/projects/EstimationOverviewScreen'
@@ -271,6 +273,8 @@ type AppScreen =
   | 'project-estimates'
   | 'project-estimate-create'
   | 'project-estimate-workspace'
+  | 'project-estimate-dashboard'
+  | 'project-estimate-loading'
   | 'project-estimate-advisor'
   | 'estimation-overview'
   | 'estimation-house-plan'
@@ -457,6 +461,8 @@ const SCREEN_GROUPS: { label: string; screens: { id: AppScreen; label: string }[
       { id: 'project-estimates', label: 'Project — Estimates' },
       { id: 'project-estimate-create', label: 'Project — Create Estimate' },
       { id: 'project-estimate-workspace', label: 'Project — Estimate Workspace' },
+      { id: 'project-estimate-dashboard', label: 'Project — Estimate Dashboard' },
+      { id: 'project-estimate-loading', label: 'Project — Estimate Loading' },
       { id: 'project-estimate-advisor', label: 'Project — Estimation Advisor' },
       { id: 'estimation-overview', label: 'Estimation — Overview' },
       { id: 'estimation-house-plan', label: 'Estimation — Upload House Plan' },
@@ -500,6 +506,8 @@ function screenNeedsDevProject(s: AppScreen): boolean {
     s === 'project-estimates' ||
     s === 'project-estimate-create' ||
     s === 'project-estimate-workspace' ||
+    s === 'project-estimate-dashboard' ||
+    s === 'project-estimate-loading' ||
     s === 'project-estimate-advisor' ||
     s === 'estimation-overview' ||
     s === 'estimation-house-plan' ||
@@ -2267,6 +2275,32 @@ export default function App() {
             projectName={projectData.project_name}
             organizationId={projectData.organization_id}
             estimateId={projectData.estimate_id}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'project-estimate-dashboard' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <ProjectEstimateDashboardScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            organizationId={projectData.organization_id}
+            estimateId={projectData.estimate_id}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'project-estimate-loading' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <ProjectEstimateLoadingScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            organizationId={projectData.organization_id}
+            estimateId={projectData.estimate_id}
+            builtUpArea={projectData.built_up_area}
+            floors={projectData.floors}
+            constructionLevel={projectData.construction_level}
+            location={projectData.location}
             onNavigate={navigateTo}
           />
         </div>

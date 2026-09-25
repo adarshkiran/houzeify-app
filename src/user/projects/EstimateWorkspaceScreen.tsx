@@ -1,6 +1,6 @@
-// ─── Estimate Builder workspace — S27 ──────────────────────────────────────
-// Extends the S22 workspace into editable items, S26 rate resolve, versions,
-// and customer share. Does not implement BOQ / lock / acceptance.
+// ─── Estimate Builder workspace — S27 + Slice 1 lock awareness ─────────────
+// Editable items, S26 rate resolve, versions, customer share.
+// Locked estimates are read-only here; create a new version to revise.
 
 import { useCallback, useEffect, useId, useState } from 'react'
 import PartnerNavRail from '@/shared/components/PartnerNavRail'
@@ -8,6 +8,7 @@ import EstimationSubNav from '@/shared/components/EstimationSubNav'
 import {
   ESTIMATION_ADVISOR_ROUTE,
 } from '@/data/estimationAdvisorShell'
+import { ESTIMATE_ROUTES } from '@/data/estimationFoundationShell'
 import {
   createEstimateItem,
   createEstimateVersion,
@@ -161,6 +162,7 @@ export default function EstimateWorkspaceScreen({
     summary != null
       ? summary.missingQuantityCount + summary.missingRateCount
       : 0
+  const locked = estimate?.status === 'locked'
 
   return (
     <div className="min-h-full flex flex-col" style={{ backgroundColor: 'var(--hz-page)' }}>
@@ -214,6 +216,9 @@ export default function EstimateWorkspaceScreen({
                     <button type="button" className={`min-h-11 px-3 rounded-[10px] text-[13px] font-semibold border-0 cursor-pointer ${FOCUS}`} style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }} onClick={() => onNavigate('project-estimates', seed)}>
                       All estimates
                     </button>
+                    <button type="button" className={`min-h-11 px-3 rounded-[10px] text-[13px] font-semibold border-0 cursor-pointer ${FOCUS}`} style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }} onClick={() => seed && onNavigate(ESTIMATE_ROUTES.dashboard, seed)}>
+                      Dashboard
+                    </button>
                     <button type="button" className={`min-h-11 px-3 rounded-[10px] text-[13px] font-semibold border-0 cursor-pointer ${FOCUS}`} style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }} onClick={() => onNavigate(ESTIMATION_ADVISOR_ROUTE, seed)}>
                       Advisor
                     </button>
@@ -229,13 +234,19 @@ export default function EstimateWorkspaceScreen({
                   onNavigate={onNavigate}
                 />
 
+                {locked && (
+                  <p className="mt-4 text-[13.5px] text-[var(--hz-ink-muted)]" role="status" style={{ fontFamily: FONT_BODY }}>
+                    This estimate is locked. Item edits are disabled — create a new version to revise.
+                  </p>
+                )}
+
                 {actionError && (
                   <p className="mt-4 text-[13px] text-[var(--hz-danger,#b42318)]" role="alert" style={{ fontFamily: FONT_BODY }}>
                     {actionError}
                   </p>
                 )}
 
-                {incomplete > 0 && (
+                {incomplete > 0 && !locked && (
                   <p className="mt-4 text-[13.5px] text-[var(--hz-ink-muted)]" role="status" style={{ fontFamily: FONT_BODY }}>
                     {incomplete} item{incomplete === 1 ? '' : 's'} need pricing or quantities before this estimate can be shared.
                   </p>
@@ -318,7 +329,11 @@ export default function EstimateWorkspaceScreen({
                                   style={inputStyle}
                                   defaultValue={item.quantity ?? ''}
                                   key={`${item.id}-q-${item.updatedAt}`}
-                                  onBlur={e => void onQtyBlur(item, e.target.value)}
+                                  readOnly={locked}
+                                  onBlur={e => {
+                                    if (locked) return
+                                    void onQtyBlur(item, e.target.value)
+                                  }}
                                   aria-label={`${item.name} quantity`}
                                 />
                               </td>
@@ -329,7 +344,11 @@ export default function EstimateWorkspaceScreen({
                                   style={inputStyle}
                                   defaultValue={item.rate ?? ''}
                                   key={`${item.id}-r-${item.updatedAt}`}
-                                  onBlur={e => void onRateBlur(item, e.target.value)}
+                                  readOnly={locked}
+                                  onBlur={e => {
+                                    if (locked) return
+                                    void onRateBlur(item, e.target.value)
+                                  }}
                                   aria-label={`${item.name} rate`}
                                 />
                               </td>
@@ -341,6 +360,7 @@ export default function EstimateWorkspaceScreen({
                                 ) : null}
                               </td>
                               <td className="py-2.5">
+                                {!locked ? (
                                 <div className="flex flex-col gap-1">
                                   {item.needsRate && (
                                     <button
@@ -369,6 +389,9 @@ export default function EstimateWorkspaceScreen({
                                     Remove
                                   </button>
                                 </div>
+                                ) : (
+                                  <span className="text-[11.5px] text-[var(--hz-ink-muted)]">Locked</span>
+                                )}
                               </td>
                             </tr>
                           ))}
@@ -385,6 +408,12 @@ export default function EstimateWorkspaceScreen({
 
                     <div className="mt-5 rounded-[12px] border border-[var(--hz-border)] bg-[var(--hz-surface-muted)] p-4">
                       <h3 className="text-[13.5px] font-semibold m-0" style={{ fontFamily: FONT_HEAD }}>Add item</h3>
+                      {locked ? (
+                        <p className="text-[13px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
+                          Locked — create a new version to add items.
+                        </p>
+                      ) : (
+                      <>
                       <div className="mt-3 grid sm:grid-cols-5 gap-2">
                         <div className="sm:col-span-2">
                           <label htmlFor={nameId} className="block text-[12px] font-semibold mb-1">Name</label>
@@ -424,6 +453,8 @@ export default function EstimateWorkspaceScreen({
                           </button>
                         </div>
                       </div>
+                      </>
+                      )}
                     </div>
                   </section>
 

@@ -5,6 +5,8 @@ export const ESTIMATE_ROUTES = {
   list: 'project-estimates',
   create: 'project-estimate-create',
   workspace: 'project-estimate-workspace',
+  dashboard: 'project-estimate-dashboard',
+  loading: 'project-estimate-loading',
 } as const
 
 export const ESTIMATE_FOUNDATION_NOTE =

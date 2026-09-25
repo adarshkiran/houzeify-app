@@ -106,7 +106,19 @@ export default function EstimationAdvisorScreen({
     setError(null)
     try {
       const estimate = await createProjectEstimate(projectId, advisorInputsToCreateBody(inputs))
-      onNavigate('project-estimate-workspace', navSeed({ estimate_id: estimate.id }))
+      const level =
+        inputs.constructionScope.toLowerCase().includes('premium')
+          ? 'Premium'
+          : inputs.constructionScope.toLowerCase().includes('basic')
+            ? 'Basic'
+            : 'Standard'
+      onNavigate('project-estimate-loading', {
+        ...navSeed({ estimate_id: estimate.id })!,
+        ...(inputs.areaSqft != null ? { built_up_area: String(inputs.areaSqft) } : {}),
+        ...(inputs.floors != null ? { floors: String(inputs.floors) } : {}),
+        construction_level: level,
+        ...(inputs.location ? { location: inputs.location } : {}),
+      })
     } catch (err) {
       setError(describeEstimateError(err) || "We couldn't create the estimate. Please try again.")
     } finally {

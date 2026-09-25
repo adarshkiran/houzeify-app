@@ -177,7 +177,7 @@ export default function ProjectEstimatesScreen({
                             className={`min-h-11 px-3 rounded-[10px] text-[13px] font-semibold border-0 cursor-pointer ${FOCUS}`}
                             style={{ backgroundColor: 'var(--hz-surface-muted)', color: 'var(--hz-ink)', fontFamily: FONT_BODY }}
                             onClick={() =>
-                              onNavigate('project-estimate-workspace', {
+                              onNavigate('project-estimate-dashboard', {
                                 ...seed!,
                                 estimate_id: est.id,
                               })
