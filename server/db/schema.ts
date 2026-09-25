@@ -861,6 +861,9 @@ export const estimates = pgTable(
     // Points at estimate_versions.id — set after Version 1 insert (no FK to
     // avoid circular create order; service-validated).
     currentVersionId: text('current_version_id'),
+    // S27 — version pinned for customer share. Independent of currentVersionId
+    // so later builder versions do not move the customer-visible snapshot.
+    sharedVersionId: text('shared_version_id'),
     createdBy: text('created_by')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
@@ -871,6 +874,7 @@ export const estimates = pgTable(
     index('estimates_project_id_idx').on(table.projectId),
     index('estimates_organization_id_idx').on(table.organizationId),
     index('estimates_project_id_updated_at_idx').on(table.projectId, table.updatedAt),
+    index('estimates_shared_version_id_idx').on(table.sharedVersionId),
   ],
 )
 
@@ -919,11 +923,12 @@ export const estimateItems = pgTable(
     unit: text('unit'),
     ratePaise: bigint('rate_paise', { mode: 'number' }),
     amountPaise: bigint('amount_paise', { mode: 'number' }),
-    // manual_override | organization_price_book | project_rate |
-    // market_reference | ai_reference — contract only; no live engines yet.
+    // Snapshot from S26 resolver or manual_override — see ESTIMATE_RATE_SOURCES.
     rateSource: text('rate_source'),
     effectiveDate: text('effective_date'),
     confidence: text('confidence'),
+    // S26 sourceReference snapshot (supplier quote id, etc.).
+    sourceReference: text('source_reference'),
     notes: text('notes'),
     sortOrder: integer('sort_order').notNull().default(0),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),

@@ -98,6 +98,7 @@ export const CUSTOMER_NAV_ROUTES = {
   photos: 'project-photos', // NEW placeholder
   liveSite: 'project-live-site', // S18 — KEEP COMING SOON (shared with project-nav Live Site tab)
   documents: 'project-documents', // existing — reused
+  estimate: 'customer-estimate', // S27 — shared estimate version view
   questions: 'project-messages', // S16 — honest empty shell until message persistence exists
   notifications: 'notifications', // S17 — honest empty shell until notification events exist
 } as const

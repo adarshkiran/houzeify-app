@@ -89,6 +89,7 @@ import ProjectProgressScreen from '@/user/projects/ProjectProgressScreen'
 import ProjectWorkforceScreen from '@/user/projects/ProjectWorkforceScreen'
 import ProjectCustomerScreen from '@/user/projects/ProjectCustomerScreen'
 import ProjectPhotosScreen from '@/user/projects/ProjectPhotosScreen'
+import CustomerEstimateScreen from '@/user/projects/CustomerEstimateScreen'
 import ProjectTimelineScreen from '@/user/projects/ProjectTimelineScreen'
 import ProjectConstructionRecordScreen from '@/user/projects/ProjectConstructionRecordScreen'
 import CompanyProgressScreen from '@/partner/projects/CompanyProgressScreen'
@@ -279,6 +280,7 @@ type AppScreen =
   | 'project-settings'
   // Customer-only nav placeholder (CUSTOMER_NAV_ROUTES):
   | 'project-photos'
+  | 'customer-estimate'
   // Module 02 — Home Services hidden-navigation placeholder (see
   // homeownerDashboard.ts's DASHBOARD_ROUTES.homeServices):
   | 'home-services-coming-soon'
@@ -463,6 +465,7 @@ const SCREEN_GROUPS: { label: string; screens: { id: AppScreen; label: string }[
       { id: 'project-reports', label: 'Project — Reports' },
       { id: 'project-settings', label: 'Project — Settings' },
       { id: 'project-photos', label: 'Customer — Photos' },
+      { id: 'customer-estimate', label: 'Customer — Shared Estimate' },
       { id: 'home-services-coming-soon', label: 'Home Services (hidden — Coming Soon)' },
     ],
   },
@@ -508,6 +511,7 @@ function screenNeedsDevProject(s: AppScreen): boolean {
     s === 'project-settings' ||
     s === 'project-messages' ||
     s === 'project-photos' ||
+    s === 'customer-estimate' ||
     s === 'create-daily-progress'
   )
 }
@@ -580,12 +584,23 @@ function getDevDeepLinkSeed(screen: AppScreen): Record<string, string> {
     seed.project_stage = 'foundation'
     seed.property_type = 'House'
     if (!seed.location) seed.location = 'Hyderabad, Telangana'
-    // S26 — allow ?organization_id= so Price Intelligence / estimation
-    // deep links can resolve org rates without waiting for projects list.
-    if (typeof window !== 'undefined' && !seed.organization_id) {
-      const orgId = new URLSearchParams(window.location.search).get('organization_id')
-      if (orgId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(orgId)) {
-        seed.organization_id = orgId
+    // Deep-link org + estimate ids for Estimation / Price Intelligence / Builder.
+    if (typeof window !== 'undefined') {
+      const q = new URLSearchParams(window.location.search)
+      if (!seed.organization_id) {
+        const orgId = q.get('organization_id')
+        if (orgId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(orgId)) {
+          seed.organization_id = orgId
+        }
+      }
+      if (!seed.estimate_id) {
+        const estimateId = q.get('estimate_id')
+        if (
+          estimateId &&
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(estimateId)
+        ) {
+          seed.estimate_id = estimateId
+        }
       }
     }
   }
@@ -2447,6 +2462,15 @@ export default function App() {
       {screen === 'project-photos' && (
         <div style={{ ...slide, overflowY: 'auto' }}>
           <ProjectPhotosScreen
+            projectId={projectData.project_id}
+            projectName={projectData.project_name}
+            onNavigate={navigateTo}
+          />
+        </div>
+      )}
+      {screen === 'customer-estimate' && (
+        <div style={{ ...slide, overflowY: 'auto' }}>
+          <CustomerEstimateScreen
             projectId={projectData.project_id}
             projectName={projectData.project_name}
             onNavigate={navigateTo}

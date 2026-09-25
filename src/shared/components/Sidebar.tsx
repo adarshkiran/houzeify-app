@@ -32,6 +32,7 @@ export type SidebarNavId =
   | 'photos'
   | 'live-site'
   | 'documents'
+  | 'estimate'
   | 'questions'
   | 'notifications'
 
@@ -157,7 +158,12 @@ export default function Sidebar({
 
   const goProject = (dest: string, id: SidebarNavId) => {
     const needsProject =
-      id === 'progress' || id === 'timeline' || id === 'photos' || id === 'documents' || id === 'live-site'
+      id === 'progress' ||
+      id === 'timeline' ||
+      id === 'photos' ||
+      id === 'documents' ||
+      id === 'live-site' ||
+      id === 'estimate'
     if (needsProject && soleCustomerProjectId) onNavigate(dest, { project_id: soleCustomerProjectId })
     else if (needsProject) onNavigate('projects-list')
     else onNavigate(dest)
@@ -182,6 +188,7 @@ export default function Sidebar({
         { id: 'photos', icon: <IcoPhotos />, label: 'Photos', active: active === 'photos', onClick: () => goProject(CUSTOMER_NAV_ROUTES.photos, 'photos') },
         { id: 'live-site', icon: <IcoLiveSite />, label: 'Live Site', active: active === 'live-site', onClick: () => goProject(CUSTOMER_NAV_ROUTES.liveSite, 'live-site') },
         { id: 'documents', icon: <IcoDocuments />, label: 'Documents', active: active === 'documents', onClick: () => goProject(CUSTOMER_NAV_ROUTES.documents, 'documents') },
+        { id: 'estimate', icon: <IcoBilling />, label: 'Estimate', active: active === 'estimate', onClick: () => goProject(CUSTOMER_NAV_ROUTES.estimate, 'estimate') },
         { id: 'questions', icon: <IcoQuestions />, label: 'Questions', active: active === 'questions', onClick: () => onNavigate(CUSTOMER_NAV_ROUTES.questions) },
       ],
     },

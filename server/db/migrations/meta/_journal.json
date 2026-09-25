@@ -99,6 +99,13 @@
       "when": 1790500000000,
       "tag": "0013_price_intelligence_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1790600000000,
+      "tag": "0014_estimate_builder_sharing",
+      "breakpoints": true
     }
   ]
 }

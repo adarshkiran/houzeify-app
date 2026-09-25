@@ -9,6 +9,7 @@ import type { Env } from '../config/env.js'
 import { getDb } from '../db/client.js'
 import {
   customerProfiles,
+  estimateItems,
   estimateVersions,
   estimates,
   projectCustomers,
@@ -18,6 +19,8 @@ import {
 import { HttpError } from '../errors/httpError.js'
 import { requireProjectAccess, requireProjectMutation } from './projectAccess.js'
 import {
+  buildEstimateSummary,
+  serializeEstimateItem,
   serializeEstimateListItem,
   serializeEstimateVersion,
   type CreateEstimateInput,
@@ -47,7 +50,7 @@ async function resolveCustomerUserId(env: Env, projectId: string): Promise<strin
   return rows[0]?.userId ?? null
 }
 
-async function customerLabelForUser(env: Env, userId: string | null): Promise<string | null> {
+export async function customerLabelForUser(env: Env, userId: string | null): Promise<string | null> {
   if (!userId) return null
   const db = getDb(env)
   const profiles = await db
@@ -66,7 +69,7 @@ async function customerLabelForUser(env: Env, userId: string | null): Promise<st
   return phoneRows[0]?.phoneNumber ?? null
 }
 
-async function versionNumberFor(env: Env, estimate: EstimateRow): Promise<number | null> {
+export async function versionNumberFor(env: Env, estimate: EstimateRow): Promise<number | null> {
   if (!estimate.currentVersionId) return null
   const db = getDb(env)
   const rows = await db
@@ -123,26 +126,70 @@ export async function getEstimateForProject(
 
   const customerLabel = await customerLabelForUser(env, row.customerUserId)
   const currentVersionNumber = await versionNumberFor(env, row)
-  const base = serializeEstimateListItem(row, {
-    projectName: project.name,
-    customerLabel,
-    currentVersionNumber,
-  })
+
+  let sharedVersionNumber: number | null = null
+  if (row.sharedVersionId) {
+    const srows = await db
+      .select({ versionNumber: estimateVersions.versionNumber })
+      .from(estimateVersions)
+      .where(eq(estimateVersions.id, row.sharedVersionId))
+      .limit(1)
+    sharedVersionNumber = srows[0]?.versionNumber ?? null
+  }
 
   let currentVersion = null
+  let items: ReturnType<typeof serializeEstimateItem>[] = []
   if (row.currentVersionId) {
     const vrows = await db
       .select()
       .from(estimateVersions)
       .where(and(eq(estimateVersions.id, row.currentVersionId), eq(estimateVersions.estimateId, row.id)))
       .limit(1)
-    if (vrows[0]) currentVersion = serializeEstimateVersion(vrows[0])
+    if (vrows[0]) {
+      const itemRows = await db
+        .select()
+        .from(estimateItems)
+        .where(eq(estimateItems.estimateVersionId, vrows[0].id))
+      items = itemRows.map(serializeEstimateItem)
+      const summary = buildEstimateSummary(items, row.areaSqft)
+      currentVersion = serializeEstimateVersion(vrows[0], {
+        itemCount: summary.itemCount,
+        totalAmountPaise: summary.grandTotalPaise,
+      })
+      const base = serializeEstimateListItem(row, {
+        projectName: project.name,
+        customerLabel,
+        currentVersionNumber,
+        sharedVersionNumber,
+        totalAmountPaise: summary.grandTotalPaise,
+      })
+      return {
+        ...base,
+        currentVersion,
+        itemCount: summary.itemCount,
+        items,
+        summary,
+        versions: [],
+      }
+    }
   }
+
+  const emptySummary = buildEstimateSummary([], row.areaSqft)
+  const base = serializeEstimateListItem(row, {
+    projectName: project.name,
+    customerLabel,
+    currentVersionNumber,
+    sharedVersionNumber,
+    totalAmountPaise: null,
+  })
 
   return {
     ...base,
     currentVersion,
     itemCount: 0,
+    items: [],
+    summary: emptySummary,
+    versions: [],
   }
 }
 
