@@ -7,6 +7,7 @@ import { HttpError } from '../errors/httpError.js'
 import {
   createEstimateBodySchema,
   createEstimateItemBodySchema,
+  generateEstimateBodySchema,
   patchEstimateItemBodySchema,
   shareEstimateBodySchema,
 } from './projectEstimates.schemas.js'
@@ -18,11 +19,14 @@ import {
   createEstimateItem,
   createEstimateVersion,
   deleteEstimateItem,
+  finalizeEstimate,
   getCompanyCustomerPreview,
   getCustomerSharedEstimate,
+  lockEstimate,
   shareEstimateWithCustomer,
   updateEstimateItem,
 } from './projectEstimateBuilder.service.js'
+import { generateEstimateItems } from './estimateGeneration.service.js'
 import {
   createEstimateForProject,
   listEstimatesForProject,
@@ -30,6 +34,7 @@ import {
 import type {
   CreateEstimateInput,
   CreateEstimateItemInput,
+  GenerateEstimateInput,
   PatchEstimateItemInput,
   ShareEstimateInput,
 } from './projectEstimates.types.js'
@@ -118,6 +123,46 @@ export async function projectEstimatesRoutes(app: FastifyInstance, opts: { env: 
       const estimateId = requireValidId(request.params.estimateId, 'estimate')
       const estimate = await createEstimateVersion(env, projectId, estimateId, request.user!.id)
       reply.code(201)
+      return { data: { estimate } }
+    },
+  )
+
+  app.post<{ Params: { projectId: string; estimateId: string } }>(
+    '/:projectId/estimates/:estimateId/generate',
+    { schema: { body: generateEstimateBodySchema }, preHandler: requireAuth },
+    async request => {
+      const projectId = requireValidId(request.params.projectId, 'project')
+      const estimateId = requireValidId(request.params.estimateId, 'estimate')
+      const body = (request.body as GenerateEstimateInput | null | undefined) ?? {}
+      const result = await generateEstimateItems(
+        env,
+        projectId,
+        estimateId,
+        request.user!.id,
+        body,
+      )
+      return { data: result }
+    },
+  )
+
+  app.post<{ Params: { projectId: string; estimateId: string } }>(
+    '/:projectId/estimates/:estimateId/finalize',
+    { preHandler: requireAuth },
+    async request => {
+      const projectId = requireValidId(request.params.projectId, 'project')
+      const estimateId = requireValidId(request.params.estimateId, 'estimate')
+      const estimate = await finalizeEstimate(env, projectId, estimateId, request.user!.id)
+      return { data: { estimate } }
+    },
+  )
+
+  app.post<{ Params: { projectId: string; estimateId: string } }>(
+    '/:projectId/estimates/:estimateId/lock',
+    { preHandler: requireAuth },
+    async request => {
+      const projectId = requireValidId(request.params.projectId, 'project')
+      const estimateId = requireValidId(request.params.estimateId, 'estimate')
+      const estimate = await lockEstimate(env, projectId, estimateId, request.user!.id)
       return { data: { estimate } }
     },
   )

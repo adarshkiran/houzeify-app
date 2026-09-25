@@ -10,9 +10,22 @@ export const ESTIMATE_STATUSES = [
   'approved',
   'changes_requested',
   'final',
+  'locked',
   'archived',
 ] as const
 export type EstimateStatus = (typeof ESTIMATE_STATUSES)[number]
+
+export const ESTIMATE_CONSTRUCTION_LEVELS = ['Basic', 'Standard', 'Premium'] as const
+export type EstimateConstructionLevel = (typeof ESTIMATE_CONSTRUCTION_LEVELS)[number]
+
+/** Honest generation stages — only real backend work, never fabricated AI. */
+export const ESTIMATE_GENERATE_STAGES = [
+  'requirements',
+  'quantities',
+  'rates',
+  'summary',
+] as const
+export type EstimateGenerateStage = (typeof ESTIMATE_GENERATE_STAGES)[number]
 
 export const ESTIMATE_PRICING_METHODS = ['detailed_boq', 'rate_per_sqft', 'hybrid'] as const
 export type EstimatePricingMethod = (typeof ESTIMATE_PRICING_METHODS)[number]
@@ -101,6 +114,8 @@ export interface EstimateDto {
   sharedVersionNumber: number | null
   /** Grand total in rupees for current version, or null when no priced items. */
   totalAmount: number | null
+  lockedAt: string | null
+  lockedBy: string | null
   createdBy: string
   createdAt: string
   updatedAt: string
@@ -154,6 +169,24 @@ export interface CreateEstimateInput {
   currency?: string
   location?: string
   areaSqft?: number
+}
+
+export interface GenerateEstimateInput {
+  /** Override built-up area; defaults to estimate.areaSqft. */
+  builtUpArea?: number
+  floors?: number
+  constructionLevel?: EstimateConstructionLevel
+  location?: string
+  /** When true, replace existing current-version items. Default true if empty, false if items exist unless set. */
+  replaceItems?: boolean
+}
+
+export interface GenerateEstimateResult {
+  estimate: EstimateDetailDto
+  stagesCompleted: EstimateGenerateStage[]
+  quantitiesSeeded: number
+  ratesResolved: number
+  ratesUnresolved: number
 }
 
 export interface CreateEstimateItemInput {
@@ -318,6 +351,8 @@ export function serializeEstimateListItem(
     sharedVersionNumber: extras.sharedVersionNumber ?? null,
     totalAmount:
       extras.totalAmountPaise == null ? null : paiseToRupees(extras.totalAmountPaise),
+    lockedAt: row.lockedAt ? row.lockedAt.toISOString() : null,
+    lockedBy: row.lockedBy ?? null,
     createdBy: row.createdBy,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),

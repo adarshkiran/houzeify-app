@@ -864,6 +864,9 @@ export const estimates = pgTable(
     // S27 — version pinned for customer share. Independent of currentVersionId
     // so later builder versions do not move the customer-visible snapshot.
     sharedVersionId: text('shared_version_id'),
+    // Post-S27 Slice 1 — lock freezes current version rates/qty from silent change.
+    lockedAt: timestamp('locked_at', { withTimezone: true }),
+    lockedBy: text('locked_by').references(() => users.id, { onDelete: 'set null' }),
     createdBy: text('created_by')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),

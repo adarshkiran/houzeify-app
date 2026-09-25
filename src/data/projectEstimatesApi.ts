@@ -9,9 +9,12 @@ export type EstimateStatus =
   | 'approved'
   | 'changes_requested'
   | 'final'
+  | 'locked'
   | 'archived'
 
 export type EstimatePricingMethod = 'detailed_boq' | 'rate_per_sqft' | 'hybrid'
+
+export type EstimateConstructionLevel = 'Basic' | 'Standard' | 'Premium'
 
 export const ESTIMATE_PRICING_METHODS: EstimatePricingMethod[] = [
   'detailed_boq',
@@ -32,6 +35,7 @@ export const ESTIMATE_STATUS_LABELS: Record<EstimateStatus, string> = {
   approved: 'Approved',
   changes_requested: 'Changes Requested',
   final: 'Final',
+  locked: 'Locked',
   archived: 'Archived',
 }
 
@@ -102,6 +106,8 @@ export interface ProjectEstimate {
   sharedVersionId: string | null
   sharedVersionNumber: number | null
   totalAmount: number | null
+  lockedAt: string | null
+  lockedBy: string | null
   createdBy: string
   createdAt: string
   updatedAt: string
@@ -153,6 +159,22 @@ export interface CreateEstimateInput {
   areaSqft?: number
 }
 
+export interface GenerateEstimateInput {
+  builtUpArea?: number
+  floors?: number
+  constructionLevel?: EstimateConstructionLevel
+  location?: string
+  replaceItems?: boolean
+}
+
+export interface GenerateEstimateResult {
+  estimate: ProjectEstimate
+  stagesCompleted: Array<'requirements' | 'quantities' | 'rates' | 'summary'>
+  quantitiesSeeded: number
+  ratesResolved: number
+  ratesUnresolved: number
+}
+
 export interface CreateEstimateItemInput {
   name: string
   category?: string | null
@@ -179,6 +201,9 @@ interface ListEnvelope {
 }
 interface DetailEnvelope {
   data: { estimate: ProjectEstimate }
+}
+interface GenerateEnvelope {
+  data: GenerateEstimateResult
 }
 interface ItemEnvelope {
   data: { item: EstimateItem }
@@ -268,6 +293,31 @@ export async function createEstimateVersion(
   return res.data.estimate
 }
 
+export async function generateProjectEstimate(
+  projectId: string,
+  estimateId: string,
+  input: GenerateEstimateInput = {},
+): Promise<GenerateEstimateResult> {
+  const res = await apiPost<GenerateEnvelope>(`${base(projectId)}/${estimateId}/generate`, input)
+  return res.data
+}
+
+export async function finalizeProjectEstimate(
+  projectId: string,
+  estimateId: string,
+): Promise<ProjectEstimate> {
+  const res = await apiPost<DetailEnvelope>(`${base(projectId)}/${estimateId}/finalize`)
+  return res.data.estimate
+}
+
+export async function lockProjectEstimate(
+  projectId: string,
+  estimateId: string,
+): Promise<ProjectEstimate> {
+  const res = await apiPost<DetailEnvelope>(`${base(projectId)}/${estimateId}/lock`)
+  return res.data.estimate
+}
+
 export async function shareProjectEstimate(
   projectId: string,
   estimateId: string,
@@ -302,8 +352,20 @@ export function describeEstimateError(err: unknown): string {
     if (err.code === 'RATE_UNAVAILABLE') {
       return err.message || 'Rate unavailable — add an organization rate or enter a manual rate.'
     }
+    if (err.code === 'ESTIMATE_LOCKED') {
+      return 'This estimate is locked. Create a new version to make changes.'
+    }
+    if (err.code === 'ESTIMATE_EMPTY') {
+      return err.message || 'Add estimate items before marking final.'
+    }
+    if (err.code === 'MISSING_AREA') {
+      return 'Built-up area is required to generate material quantities.'
+    }
+    if (err.code === 'ITEMS_EXIST') {
+      return err.message || 'Estimate already has items.'
+    }
     if (err.code === 'ESTIMATE_INCOMPLETE') {
-      return err.message || 'Complete all quantities and rates before sharing.'
+      return err.message || 'Complete all quantities and rates before continuing.'
     }
     if (err.code === 'NO_CUSTOMER') {
       return 'Link a project customer before sharing an estimate.'

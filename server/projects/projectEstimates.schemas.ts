@@ -65,3 +65,15 @@ export const shareEstimateBodySchema = {
     versionId: { type: 'string', format: 'uuid' },
   },
 } as const
+
+export const generateEstimateBodySchema = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    builtUpArea: { type: 'number', exclusiveMinimum: 0, maximum: 10_000_000 },
+    floors: { type: 'integer', minimum: 1, maximum: 100 },
+    constructionLevel: { type: 'string', enum: ['Basic', 'Standard', 'Premium'] },
+    location: { type: 'string', maxLength: 300 },
+    replaceItems: { type: 'boolean' },
+  },
+} as const

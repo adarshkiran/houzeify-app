@@ -88,6 +88,13 @@ async function requireMutableCurrentVersion(
   const project = await requireProjectAccess(env, projectId, userId)
   await requireProjectMutation(env, project, userId)
   const estimate = await loadEstimateRow(env, projectId, estimateId)
+  if (estimate.status === 'locked') {
+    throw new HttpError(
+      'ESTIMATE_LOCKED',
+      'This estimate is locked. Create a new version to make changes.',
+      409,
+    )
+  }
   if (!estimate.currentVersionId) {
     throw new HttpError('NO_CURRENT_VERSION', 'Estimate has no current version.', 400)
   }
@@ -473,6 +480,8 @@ export async function applyResolvedRateToEstimateItem(
 /**
  * Fork the current version into a new version (copy items). Prior version
  * rows and items remain untouched — immutability by append-only copies.
+ * Allowed on locked estimates: unlocks the parent to draft and clears lock
+ * metadata while preserving the previous version row as status=locked.
  */
 export async function createEstimateVersion(
   env: Env,
@@ -480,12 +489,13 @@ export async function createEstimateVersion(
   estimateId: string,
   userId: string,
 ): Promise<EstimateDetailDto> {
-  const { estimate, versionId } = await requireMutableCurrentVersion(
-    env,
-    projectId,
-    estimateId,
-    userId,
-  )
+  const project = await requireProjectAccess(env, projectId, userId)
+  await requireProjectMutation(env, project, userId)
+  const estimate = await loadEstimateRow(env, projectId, estimateId)
+  if (!estimate.currentVersionId) {
+    throw new HttpError('NO_CURRENT_VERSION', 'Estimate has no current version.', 400)
+  }
+  const versionId = estimate.currentVersionId
   const db = getDb(env)
   const maxRows = await db
     .select({ n: max(estimateVersions.versionNumber) })
@@ -526,14 +536,110 @@ export async function createEstimateVersion(
     })
   }
 
+  if (estimate.status === 'locked') {
+    // Preserve locked snapshot status on the prior version row.
+    await db
+      .update(estimateVersions)
+      .set({ status: 'locked' })
+      .where(eq(estimateVersions.id, versionId))
+  }
+
   await db
     .update(estimates)
     .set({
       currentVersionId: newVersionId,
+      // Unlock parent when forking from a locked snapshot.
+      status: estimate.status === 'locked' ? 'draft' : estimate.status,
+      lockedAt: estimate.status === 'locked' ? null : estimate.lockedAt,
+      lockedBy: estimate.status === 'locked' ? null : estimate.lockedBy,
       // Keep customer-visible share pinned; do not demote 'shared' when forking.
       updatedAt: now,
     })
     .where(eq(estimates.id, estimate.id))
+
+  return getEstimateBuilderDetail(env, projectId, estimateId, userId)
+}
+
+/** Mark estimate as final — still editable until lock. */
+export async function finalizeEstimate(
+  env: Env,
+  projectId: string,
+  estimateId: string,
+  userId: string,
+): Promise<EstimateDetailDto> {
+  const project = await requireProjectAccess(env, projectId, userId)
+  await requireProjectMutation(env, project, userId)
+  const estimate = await loadEstimateRow(env, projectId, estimateId)
+  if (estimate.status === 'locked') {
+    throw new HttpError('ESTIMATE_LOCKED', 'Locked estimates cannot be marked final again.', 409)
+  }
+  if (!estimate.currentVersionId) {
+    throw new HttpError('NO_CURRENT_VERSION', 'Estimate has no current version.', 400)
+  }
+
+  const detail = await getEstimateBuilderDetail(env, projectId, estimateId, userId)
+  if (detail.summary.itemCount === 0) {
+    throw new HttpError('ESTIMATE_EMPTY', 'Add estimate items before marking final.', 400)
+  }
+
+  const db = getDb(env)
+  const now = new Date()
+  await db
+    .update(estimates)
+    .set({ status: 'final', updatedAt: now })
+    .where(eq(estimates.id, estimate.id))
+  await db
+    .update(estimateVersions)
+    .set({ status: 'final' })
+    .where(eq(estimateVersions.id, estimate.currentVersionId))
+
+  return getEstimateBuilderDetail(env, projectId, estimateId, userId)
+}
+
+/**
+ * Lock current estimate version. Rates/quantities become immutable via mutate APIs.
+ * Requires readyToShare (all qty + rates present).
+ */
+export async function lockEstimate(
+  env: Env,
+  projectId: string,
+  estimateId: string,
+  userId: string,
+): Promise<EstimateDetailDto> {
+  const project = await requireProjectAccess(env, projectId, userId)
+  await requireProjectMutation(env, project, userId)
+  const estimate = await loadEstimateRow(env, projectId, estimateId)
+  if (estimate.status === 'locked') {
+    throw new HttpError('ESTIMATE_LOCKED', 'Estimate is already locked.', 409)
+  }
+  if (!estimate.currentVersionId) {
+    throw new HttpError('NO_CURRENT_VERSION', 'Estimate has no current version.', 400)
+  }
+
+  const detail = await getEstimateBuilderDetail(env, projectId, estimateId, userId)
+  if (!detail.summary.readyToShare) {
+    throw new HttpError(
+      'ESTIMATE_INCOMPLETE',
+      `${detail.summary.missingQuantityCount + detail.summary.missingRateCount} items need pricing or quantities before this estimate can be locked.`,
+      400,
+    )
+  }
+
+  const db = getDb(env)
+  const now = new Date()
+  await db
+    .update(estimates)
+    .set({
+      status: 'locked',
+      lockedAt: now,
+      lockedBy: userId,
+      updatedAt: now,
+    })
+    .where(eq(estimates.id, estimate.id))
+  await db
+    .update(estimateVersions)
+    .set({ status: 'locked' })
+    .where(eq(estimateVersions.id, estimate.currentVersionId))
 
   return getEstimateBuilderDetail(env, projectId, estimateId, userId)
 }
@@ -581,16 +687,20 @@ export async function shareEstimateWithCustomer(
   await db
     .update(estimates)
     .set({
-      status: 'shared',
+      // Keep locked estimates locked; otherwise mark shared for customer visibility.
+      status: estimate.status === 'locked' ? 'locked' : 'shared',
       sharedVersionId: versionId,
       updatedAt: now,
     })
     .where(eq(estimates.id, estimate.id))
 
-  await db
-    .update(estimateVersions)
-    .set({ status: 'shared' })
-    .where(eq(estimateVersions.id, versionId))
+  // Do not demote a locked version row to 'shared'.
+  if (estimate.status !== 'locked') {
+    await db
+      .update(estimateVersions)
+      .set({ status: 'shared' })
+      .where(eq(estimateVersions.id, versionId))
+  }
 
   return getEstimateBuilderDetail(env, projectId, estimateId, userId)
 }
@@ -613,7 +723,10 @@ export async function getCustomerSharedEstimate(
     .where(eq(estimates.projectId, projectId))
     .orderBy(desc(estimates.updatedAt))
 
-  const estimate = rows.find(r => r.sharedVersionId != null && r.status === 'shared')
+  const estimate = rows.find(
+    r =>
+      r.sharedVersionId != null && (r.status === 'shared' || r.status === 'locked'),
+  )
   if (!estimate?.sharedVersionId) {
     throw new HttpError('NOT_FOUND', 'Shared estimate not found.', 404)
   }
