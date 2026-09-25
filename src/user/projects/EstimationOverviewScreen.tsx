@@ -115,7 +115,7 @@ export default function EstimationOverviewScreen({
                     {displayName || 'Selected project'}
                   </h2>
                   <p className="text-[14px] text-[var(--hz-ink-muted)] m-0 mt-2" style={{ fontFamily: FONT_BODY }}>
-                    New Estimation opens the AI Estimation Advisor. No fabricated totals.
+                    New Estimation collects build details for your estimate. No fabricated totals.
                   </p>
                   <div className="mt-4 flex flex-wrap gap-3">
                     <button

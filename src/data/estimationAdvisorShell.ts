@@ -42,10 +42,10 @@ export function isEstimationAdvisorLlmReady(): boolean {
 }
 
 export const ESTIMATION_ADVISOR_COPY = {
-  eyebrow: 'AI Estimation Advisor',
-  title: 'AI Estimation Advisor',
-  subtitle: 'Guided estimation workflow',
-  body: 'Answer a few questions to structure project inputs for an estimate.',
+  eyebrow: 'Estimation',
+  title: 'New Estimation',
+  subtitle: 'Tell us about your build',
+  body: 'These details drive your construction estimate — the more specific, the more accurate your numbers will be.',
   disclaimer:
     'Guided estimation flow — AI-powered analysis will be available in a future release. No market prices or fabricated totals are generated here.',
 } as const

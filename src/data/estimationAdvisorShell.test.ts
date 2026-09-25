@@ -44,6 +44,17 @@ describe('estimationAdvisorShell', () => {
     assert.equal(book?.kind, 'soon')
   })
 
+  it('frames the screen as New Estimation, not advisor-first', () => {
+    assert.equal(ESTIMATION_ADVISOR_COPY.eyebrow, 'Estimation')
+    assert.equal(ESTIMATION_ADVISOR_COPY.title, 'New Estimation')
+    assert.equal(ESTIMATION_ADVISOR_COPY.subtitle, 'Tell us about your build')
+    assert.equal(
+      ESTIMATION_ADVISOR_COPY.body,
+      'These details drive your construction estimate — the more specific, the more accurate your numbers will be.',
+    )
+    assert.ok(!ESTIMATION_ADVISOR_COPY.title.toLowerCase().includes('advisor'))
+  })
+
   it('disclaimer does not claim a live vendor model', () => {
     const d = ESTIMATION_ADVISOR_COPY.disclaimer.toLowerCase()
     assert.match(d, /guided estimation|future release/)
